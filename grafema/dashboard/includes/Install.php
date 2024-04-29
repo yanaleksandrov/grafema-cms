@@ -112,7 +112,7 @@ final class Install extends Grafema\App\App {
 			'memory'     => 128,
 		];
 
-		DB::init(
+		Db::init(
 			[
 				'database' => trim( strval( $_POST['name'] ?? '' ) ),
 				'username' => trim( strval( $_POST['user'] ?? '' ) ),
@@ -174,7 +174,7 @@ final class Install extends Grafema\App\App {
 
 		require_once $config;
 
-		DB::init();
+		Db::init();
 
 		/**
 		 * Creating the necessary tables in the database

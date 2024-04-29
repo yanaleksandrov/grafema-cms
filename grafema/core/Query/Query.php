@@ -1,7 +1,7 @@
 <?php
 namespace Grafema\Query;
 
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\Debug;
 use Grafema\Errors;
 use Grafema\Esc;
@@ -366,14 +366,14 @@ class Query {
 			$query .= sprintf( ' LIMIT %s', $limit );
 		}
 
-		$query = DB::query( $query )->fetchAll( \PDO::FETCH_ASSOC );
+		$query = Db::query( $query )->fetchAll( \PDO::FETCH_ASSOC );
 
-		//      var_dump( DB::last() );
-		//      var_dump( DB::error );
+		//      var_dump( Db::last() );
+		//      var_dump( Db::error );
 
-		//$this->request = DB::last();
+		//$this->request = Db::last();
 
-		$found_posts = DB::query( 'SELECT FOUND_ROWS()' )->fetchAll( \PDO::FETCH_NUM );
+		$found_posts = Db::query( 'SELECT FOUND_ROWS()' )->fetchAll( \PDO::FETCH_NUM );
 		if ( $found_posts ) {
 			//$this->found_posts = intval( $found_posts[0][0] ?? 0 );
 		}
@@ -436,7 +436,7 @@ class Query {
 
 		$date        = new \DateTime();
 		$table       = DB_PREFIX . $table;
-		$schema      = DB::schema();
+		$schema      = Db::schema();
 		$relation    = 'OR' === strtoupper( $date_query['relation'] ?? 'AND' ) ? 'OR' : 'AND';
 		$comparisons = [ '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ];
 

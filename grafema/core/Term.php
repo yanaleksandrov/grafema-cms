@@ -51,7 +51,7 @@ class Term
 			$charset_collate .= ' COLLATE ' . DB_COLLATE;
 		}
 
-		DB::query(
+		Db::query(
 			'CREATE TABLE IF NOT EXISTS ' . $table . " (
 			term_id    bigint(20) unsigned NOT NULL auto_increment,
 			name       varchar(200) NOT NULL default '',
@@ -63,7 +63,7 @@ class Term
 		) ' . $charset_collate . ';'
 		)->fetchAll();
 
-		DB::query(
+		Db::query(
 			'CREATE TABLE IF NOT EXISTS ' . $table . "_fields (
 			meta_id    bigint(20) unsigned NOT NULL auto_increment,
 			term_id    bigint(20) unsigned NOT NULL default '0',
@@ -75,6 +75,6 @@ class Term
 		) ' . $charset_collate . ';'
 		)->fetchAll();
 
-		DB::updateSchema();
+		Db::updateSchema();
 	}
 }

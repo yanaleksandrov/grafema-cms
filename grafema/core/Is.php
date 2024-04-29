@@ -168,9 +168,9 @@ final class Is
 			return false;
 		}
 
-		DB::init();
+		Db::init();
 
-		$schema = DB::schema();
+		$schema = Db::schema();
 		if ( empty( $schema ) ) {
 			return false;
 		}

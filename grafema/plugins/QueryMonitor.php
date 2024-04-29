@@ -45,7 +45,7 @@ class QueryMonitor implements Grafema\Plugins\Skeleton
 				?>
 				<template x-teleport="#query">
 					<a class="menu__link" x-show="query" href="#">
-						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Grafema\Debug::timer( 'getall' ), Grafema\Debug::memory_peak(), DB::queries() ); ?>
+						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Grafema\Debug::timer( 'getall' ), Grafema\Debug::memory_peak(), Db::queries() ); ?>
 					</a>
 				</template>
 				<?php

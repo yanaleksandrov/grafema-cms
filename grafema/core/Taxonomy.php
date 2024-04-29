@@ -69,7 +69,7 @@ class Taxonomy {
 			$charset_collate .= ' COLLATE ' . DB_COLLATE;
 		}
 
-		DB::query(
+		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS $table (
 				term_taxonomy_id  bigint(20) unsigned NOT NULL auto_increment,
@@ -84,6 +84,6 @@ class Taxonomy {
 			) $charset_collate;"
 		)->fetchAll();
 
-		DB::updateSchema();
+		Db::updateSchema();
 	}
 }

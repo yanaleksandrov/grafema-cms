@@ -45,7 +45,7 @@ class Option extends Options {
 	 */
 	public static function fetch(): array {
 		if ( empty( self::$options ) ) {
-			$options = DB::select( self::$table, '*' );
+			$options = Db::select( self::$table, '*' );
 			if ( $options ) {
 				$options = array_column( $options, 'value', 'name' );
 				foreach ( $options as $name => $value ) {
@@ -105,7 +105,7 @@ class Option extends Options {
 			$value = Json::encode( $value );
 		}
 
-		return DB::insert(
+		return Db::insert(
 			self::$table,
 			[
 				'name'  => $option,
@@ -169,7 +169,7 @@ class Option extends Options {
 			$value = Json::encode( $value );
 		}
 
-		return DB::update( self::$table, [ 'value' => $value ], [ 'name[=]' => $option ] )->rowCount();
+		return Db::update( self::$table, [ 'value' => $value ], [ 'name[=]' => $option ] )->rowCount();
 	}
 
 	/**
@@ -238,7 +238,7 @@ class Option extends Options {
 			unset( self::$options[ $option ] );
 		}
 
-		return DB::delete(
+		return Db::delete(
 			self::$table,
 			[
 				'name' => $option,
@@ -295,7 +295,7 @@ class Option extends Options {
 	 */
 	public function suspend_addition( bool $suspend ): bool {
 		if ( false === $suspend ) {
-			$options = DB::select( self::$table, '*' );
+			$options = Db::select( self::$table, '*' );
 			if ( $options ) {
 				self::$options = array_column( $options, 'value', 'name' );
 			}

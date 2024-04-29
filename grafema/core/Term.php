@@ -9,7 +9,7 @@
 
 namespace Grafema;
 
-use DB\DB;
+use Grafema\Db;
 
 /**
  * Core class for managing plugins.

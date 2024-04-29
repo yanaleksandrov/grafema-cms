@@ -1,0 +1,20 @@
+{
+    "name": "grafema-team/grafema",
+    "description": "Grafema CMS",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "grafema/Yan",
+            "email": "yanalexandrov@gmail.com"
+        }
+    ],
+    "scripts": {
+        "fix": "php-cs-fixer fix grafema/core/Asset.php && del /F .php-cs-fixer.cache"
+    },
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "grafema-team/grafema-phpcs": "^1.0"
+    }
+}

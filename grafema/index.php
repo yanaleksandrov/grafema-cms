@@ -97,7 +97,7 @@ new Db();
 })();
 
 /**
- * Launch debug mode & run benchmark
+ * Launch debug mode & run benchmark.
  *
  * @since 1.0.0
  */
@@ -171,7 +171,7 @@ $route->run();
 User::current();
 
 /**
- * Load and launch installed and active plugins.
+ * Load installed and launch active plugins.
  *
  * @since 1.0.0
  */
@@ -197,7 +197,8 @@ $plugins->launch();
 Hook::apply( 'grafema_plugins_loaded' );
 
 /**
- * Set up default post types: "pages" & "media"
+ * Set up default post types: "pages" & "media".
+ * TODO: move to dashboard
  *
  * @since 1.0.0
  */
@@ -284,6 +285,7 @@ Hook::apply( 'grafema_loaded' );
 /**
  * Load private administrative panel.
  * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
+ * TODO: move routers to dashboard.
  *
  * @since 1.0.0
  */
@@ -363,13 +365,13 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 $route->run();
 
 // ready for test
-// $count      = 10;
-// $start_time = microtime( true );
-// for ( $i = 1; $i <= $count; $i++ ) {
+//$count      = 10;
+//$start_time = microtime( true );
+//for ( $i = 1; $i <= $count; $i++ ) {
 //	if ( $i === $count ) {
 //
 //	} else {
 //
 //	}
-// }
-// echo 'Time:  ' . number_format( ( microtime( true ) - $start_time ), 6 ) . " Seconds\n";
+//}
+//echo 'Time:  ' . number_format( ( microtime( true ) - $start_time ), 6 ) . " Seconds\n";

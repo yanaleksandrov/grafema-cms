@@ -12,7 +12,8 @@
         "fix": "php-cs-fixer fix grafema/core/Asset.php && del /F .php-cs-fixer.cache"
     },
     "require": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "grafema-team/grafema-phpcs": "^1.0"

@@ -7,7 +7,7 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Grafema\DB;
+namespace Grafema\Db;
 
 use Exception;
 use InvalidArgumentException;

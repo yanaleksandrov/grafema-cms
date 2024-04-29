@@ -47,9 +47,9 @@ class Post {
 			}
 		}
 
-		DB::insert( $type, $args );
+		Db::insert( $type, $args );
 
-		return DB::id();
+		return Db::id();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Post {
 			return [];
 		}
 
-		$post = DB::get( $type, '*', [ $by => $value ] );
+		$post = Db::get( $type, '*', [ $by => $value ] );
 
 		// add data for media files
 		$sizes = Registry::get( 'jb.images' );
@@ -99,6 +99,6 @@ class Post {
 	 * @since 1.0.0
 	 */
 	public static function delete( $type, $value, string $by = 'ID' ): PDOStatement {
-		return DB::delete( $type, [ $by => $value ] );
+		return Db::delete( $type, [ $by => $value ] );
 	}
 }

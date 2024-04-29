@@ -48,7 +48,7 @@ class Field {
 			return $fields->fields;
 		}
 
-		$fields->fields = DB::select( $type, [ 'name', 'value' ], [ 'post[=]' => $post ] );
+		$fields->fields = Db::select( $type, [ 'name', 'value' ], [ 'post[=]' => $post ] );
 
 		return $fields->fields;
 	}
@@ -90,7 +90,7 @@ class Field {
 		}
 
 		// TODO: update 'fields' parameter & add hook
-		return DB::insert(
+		return Db::insert(
 			$type,
 			[
 				'post'  => $post,
@@ -129,7 +129,7 @@ class Field {
 			if ( ! empty( $the_fields ) ) {
 				$type = sprintf( '%s%s_fields', DB_PREFIX, $type );
 
-				return DB::insert( $type, $the_fields )->rowCount();
+				return Db::insert( $type, $the_fields )->rowCount();
 			}
 		}
 
@@ -206,7 +206,7 @@ class Field {
 		}
 
 		// TODO: update 'fields' parameter & add hook
-		return DB::update( $type, [ 'value' => $new_value ], $args )->rowCount();
+		return Db::update( $type, [ 'value' => $new_value ], $args )->rowCount();
 	}
 
 	/**
@@ -243,6 +243,6 @@ class Field {
 			$args['value[=]'] = $value;
 		}
 
-		return DB::delete( $type, $args )->rowCount();
+		return Db::delete( $type, $args )->rowCount();
 	}
 }

@@ -278,15 +278,15 @@ class Type
 		 *
 		 * @var array
 		 */
-		$schema = DB::schema();
+		$schema = Db::schema();
 
 		$db_post_type  = DB_PREFIX . $post_type;
 		$update_schema = false;
 		if ( empty( $schema[$db_post_type] ) ) {
-			$update_schema = DB::query( self::migrate( $post_type ) )->fetchAll();
+			$update_schema = Db::query( self::migrate( $post_type ) )->fetchAll();
 		}
 		if ( empty( $schema[$db_post_type . 'fields'] ) && in_array( 'fields', $args['supports'], true ) ) {
-			$update_schema = DB::query( self::metaQuery( $post_type ) )->fetchAll();
+			$update_schema = Db::query( self::metaQuery( $post_type ) )->fetchAll();
 		}
 	}
 

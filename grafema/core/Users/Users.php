@@ -40,7 +40,7 @@ class Users
 			$charset_collate .= ' COLLATE ' . DB_COLLATE;
 		}
 
-		DB::query(
+		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$table} (
 				ID            bigint(20)   unsigned NOT NULL auto_increment,
@@ -59,7 +59,7 @@ class Users
 			) {$charset_collate};"
 		)->fetchAll();
 
-		DB::query(
+		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$table}_fields (
 				meta_id     bigint(20)   unsigned NOT NULL auto_increment,
@@ -72,6 +72,6 @@ class Users
 			) {$charset_collate};"
 		)->fetchAll();
 
-		DB::updateSchema();
+		Db::updateSchema();
 	}
 }

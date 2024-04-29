@@ -2,14 +2,15 @@
 
 namespace Grafema;
 
+use Grafema\Db\Medoo;
 use PDO, PDOException, PDOStatement, Raw;
 
-final class DB {
+final class Db {
 
-	use \Grafema\Patterns\Singleton;
+	use Patterns\Singleton;
 
 	/**
-	 * DB structure
+	 * Db structure
 	 *
 	 * @var array
 	 * @since 1.0.0
@@ -17,7 +18,7 @@ final class DB {
 	public static array $schema = [];
 
 	/**
-	 * DB queries count
+	 * Db queries count
 	 *
 	 * @var int
 	 * @since 1.0.0
@@ -25,12 +26,12 @@ final class DB {
 	public static int $queries = 0;
 
 	/**
-	 * DB queries count
+	 * Db queries count
 	 *
-	 * @var null|DB\Medoo
+	 * @var null|Db\Medoo
 	 * @since 1.0.0
 	 */
-	public static ?DB\Medoo $connection = null;
+	public static ?Db\Medoo $connection = null;
 
 	/**
 	 * Init database connection
@@ -52,7 +53,7 @@ final class DB {
 		);
 
 		try {
-			self::$connection = new DB\Medoo( $options );
+			self::$connection = new Medoo( $options );
 		} catch ( PDOException $e ) {
 			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
 		}
@@ -259,9 +260,9 @@ final class DB {
 	 * Enable debug mode and output readable statement string.
 	 *
 	 * @codeCoverageIgnore
-	 * @return DB\Medoo
+	 * @return Db\Medoo
 	 */
-	public static function debug(): DB\Medoo {
+	public static function debug(): Db\Medoo {
 		return self::$connection->debug();
 	}
 
@@ -289,7 +290,7 @@ final class DB {
 	 * @since 1.0.0
 	 */
 	public static function info(): ?array {
-		if ( self::$connection instanceof DB\Medoo ) {
+		if ( self::$connection instanceof Db\Medoo ) {
 			return self::$connection->info();
 		}
 		return null;
@@ -368,10 +369,11 @@ final class DB {
 	/**
 	 * Try to check database connection
 	 *
-	 * @return DB\Medoo|Errors
+	 * @return Errors|Medoo|null
 	 * @since 1.0.0
 	 */
-	public static function check() {
+	public static function check(): Errors|Medoo|null
+	{
 		try {
 			return self::$connection;
 		} catch ( PDOException $e ) {

@@ -40,7 +40,7 @@ class Options
 			$charset_collate .= ' COLLATE ' . DB_COLLATE;
 		}
 
-		DB::query(
+		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$table} (
 				ID          bigint(20)   unsigned NOT NULL auto_increment,
@@ -51,6 +51,6 @@ class Options
 			) {$charset_collate};"
 		)->fetchAll();
 
-		DB::updateSchema();
+		Db::updateSchema();
 	}
 }

@@ -59,7 +59,7 @@ class User extends Users {
 	 * @since 1.0.0
 	 */
 	private static function data_sanitize( array $userdata ) {
-		$schema    = DB::schema( DB_PREFIX . self::$table );
+		$schema    = Db::schema( DB_PREFIX . self::$table );
 		$_userdata = [];
 		foreach ( $userdata as $column => $value ) {
 			if ( isset( $schema[ $column ] ) ) {
@@ -141,12 +141,12 @@ class User extends Users {
 			$userdata['showname'] = ucfirst( Esc::slug( $login ) );
 		}
 
-		$nicename_check = DB::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] ] );
+		$nicename_check = Db::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] ] );
 		if ( $nicename_check ) {
 			$suffix = 1;
 			while ( $nicename_check ) {
 				$suffix++;
-				$nicename_check = DB::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] . "-$suffix" ] );
+				$nicename_check = Db::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] . "-$suffix" ] );
 			}
 			$userdata['nicename'] = $userdata['nicename'] . "-$suffix";
 		}
@@ -160,7 +160,7 @@ class User extends Users {
 		// TODO:: add a check for the rights of creating a user with rights older than subscriber
 		$userdata['roles'] = $roles ?? [ Option::get( 'users.roles' ) ];
 
-		$user_count = DB::insert( self::$table, $userdata )->rowCount();
+		$user_count = Db::insert( self::$table, $userdata )->rowCount();
 		if ( $user_count === 1 ) {
 			$user = self::get( $login, 'login' );
 			if ( $user instanceof User ) {
@@ -191,7 +191,7 @@ class User extends Users {
 			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
-		$user = DB::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
+		$user = Db::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
 		if ( isset( $user[0] ) && is_array( $user[0] ) ) {
 			$_user = new self();
 			foreach ( $user[0] as $field => $value ) {
@@ -217,7 +217,7 @@ class User extends Users {
 		// login is the unchanged parameter of the user
 		unset( $userdata['login'] );
 
-		$user = DB::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
+		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
 			return new Errors( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
 		}
@@ -225,7 +225,7 @@ class User extends Users {
 		// sanitize incoming data and exclusion of extraneous data
 		$userdata = self::data_sanitize( $userdata );
 
-		return DB::update( self::$table, $userdata )->rowCount();
+		return Db::update( self::$table, $userdata )->rowCount();
 	}
 
 	/**
@@ -255,7 +255,7 @@ class User extends Users {
 		if ( $reassign ) {
 
 		}
-		return DB::delete( self::$table, $fields )->rowCount();
+		return Db::delete( self::$table, $fields )->rowCount();
 	}
 
 	/**
@@ -266,7 +266,7 @@ class User extends Users {
 	 * @return bool Array of fields and values to search for users.
 	 */
 	public static function exists( array $fields ) {
-		$users = DB::select( self::$table, '*', [ 'OR' => $fields ] );
+		$users = Db::select( self::$table, '*', [ 'OR' => $fields ] );
 		if ( $users ) {
 			return true;
 		}

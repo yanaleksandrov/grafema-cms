@@ -2,8 +2,8 @@
 
 namespace Grafema\App;
 
-use DB\DB;
-use Medoo\Medoo;
+use Grafema\Db;
+use Grafema\Db\Medoo;
 
 /**
  * The main class for working with the application system.
@@ -33,8 +33,8 @@ class App {
 	public static function check( string $parameter, string|int $value ): bool {
 		return match ( $parameter ) {
 			'php'        => version_compare( $value, strval( phpversion() ), '<=' ),
-			'mysql'      => version_compare( $value, strval( DB::version() ), '<=' ),
-			'connection' => DB::check() instanceof Medoo,
+			'mysql'      => version_compare( $value, strval( Db::version() ), '<=' ),
+			'connection' => Db::check() instanceof Medoo,
 			'memory'     => intval( ini_get( 'memory_limit' ) ) >= intval( $value ),
 			default      => false,
 		};

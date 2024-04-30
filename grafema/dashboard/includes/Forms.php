@@ -17,7 +17,7 @@ final class Forms
 	 */
 	public function __construct()
 	{
-		/*
+		/**
 		 * Form for build custom fields
 		 *
 		 * @since 1.0.0
@@ -41,7 +41,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -84,7 +84,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -146,7 +146,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -233,7 +233,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -331,7 +331,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -379,7 +379,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -453,7 +453,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -520,7 +520,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -592,7 +592,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for build new posts
 		 *
 		 * @since 1.0.0
@@ -734,7 +734,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Profile page
 		 *
 		 * @since 1.0.0
@@ -1114,7 +1114,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Website settings in dashboard
 		 *
 		 * @since 1.0.0

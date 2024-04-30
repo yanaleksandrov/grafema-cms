@@ -6,6 +6,7 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
+
 use Grafema\Csrf;
 use Grafema\Api;
 use Grafema\Asset;
@@ -18,14 +19,17 @@ use Grafema\User;
 use Grafema\Debug;
 use Grafema\Json;
 use Grafema\View;
+use Grafema\File\Csv;
+use Grafema\Patterns\Singleton;
 
 /**
- * Bootstrap file for setting the constants and loading the config.php file.
- * At this point, we initialize autoload of the application core classes.
+ *
+ *
+ * @since 1.0.0
  */
 class Dashboard extends Grafema\App\App
 {
-	use Grafema\Patterns\Singleton;
+	use Singleton;
 
 	/**
 	 * Class constructor.
@@ -56,6 +60,7 @@ class Dashboard extends Grafema\App\App
 		Hook::add(
 			'grafema_api_response',
 			function ( $json, $slug, $data ) {
+				var_dump( $slug );
 				switch ( $slug ) {
 					case 'sign/in':
 						if ( $data instanceof User ) {
@@ -68,7 +73,7 @@ class Dashboard extends Grafema\App\App
 							];
 						}
 						break;
-					case 'sign/up':
+					case 'sign-up':
 						$isUser = $data instanceof User;
 						$data   = [
 							[
@@ -114,7 +119,7 @@ class Dashboard extends Grafema\App\App
 					case 'upload/file':
 						$filepath = $data->path ?? '';
 						if ( $filepath ) {
-							$rows    = \File\Csv::import( $filepath );
+							$rows    = Csv::import( $filepath );
 							$samples = $rows[0] ?? [];
 
 							$fields = [

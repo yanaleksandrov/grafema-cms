@@ -23,53 +23,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $slug       = Sanitizer::trim( $args['slug'] ?? '' );
 $start_time = microtime( true );
-// $randoms    = [
-//	'price',
-//	'height',
-//	'width',
-//	'length',
-//	'dimension',
-//	'test',
-//	'last',
-//	'hello',
-//	'world',
-//	'can',
-//	'use',
-//	'date',
-//	'list',
-//	'arrow',
-//	'jetpack',
-//	'allow',
-//	'color',
-//	'type',
-// ];
-// $fields     = [];
-// $count      = 200000;
-// $count      = 1;
-// $post       = 1;
-// for ( $i = 1; $i <= $count; $i++ ) {
-//	$fields[] = [
-//		'post'  => $post,
-//		'name'  => $randoms[ array_rand( $randoms ) ],
-//		'value' => $i,
-//	];
-//
-//	if ( $post === 10000 ) {
-//		$post = 0;
-//	} else {
-//		$post = $post + 1;
-//	}
-//
-//	if ( $i === $count ) {
-//
-//	} else {
-//
-//	}
-// }
-// print_r( Field::get( 'pages', 3 ) );
-// echo 'Time:  ' . number_format( ( microtime( true ) - $start_time ), 5 ) . " Seconds\n";
-// exit;
-
 // print_r(
 //	Query::apply(
 //		[

@@ -1,8 +1,10 @@
 <?php
-
-use Post\Post;
-use File\Image;
+use Grafema\File\File;
 use Grafema\Sanitizer;
+use Grafema\Errors;
+use Grafema\Post\Post;
+use Grafema\File\Image;
+use Grafema\Patterns;
 
 /**
  *
@@ -14,13 +16,13 @@ class Upload {
 	/**
 	 * Check the compliance of the server with the minimum requirements
 	 *
-	 * @return array|File\File|Errors
+	 * @return array|File|Errors
 	 */
-	public static function file(): array|File\File|Errors {
+	public static function file(): array|File|Errors {
 		$files = $_FILES ?? [];
 		if ( $files ) {
 			foreach ( $files as $file ) {
-				return ( new File\File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+				return ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
 			}
 		}
 		return [];
@@ -41,7 +43,7 @@ class Upload {
 
 		foreach ( $_FILES as $file ) {
 			$sizes    = Patterns\Registry::get( 'images' );
-			$file     = ( new File\File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+			$file     = ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
 			$basename = $file->data['basename'] ?? '';
 
 			if ( ! file_exists( $file->path ) || ! is_array( $sizes ) ) {

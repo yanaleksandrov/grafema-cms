@@ -8,7 +8,7 @@
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
  */
 
-namespace Mail;
+namespace Grafema\Mail;
 
 /**
  * @since 1.0.0

@@ -8,13 +8,14 @@
  */
 use Grafema\I18n;
 use Grafema\Patterns\Registry;
+use Grafema\Patterns\Singleton;
 
 /**
  * Set dashboard constants.
  */
 final class Constants
 {
-	use \Grafema\Patterns\Singleton;
+	use Singleton;
 
 	/**
 	 * Class constructor.

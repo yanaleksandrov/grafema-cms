@@ -11,6 +11,11 @@ namespace Dashboard\Api;
 
 use Grafema\Sanitizer;
 use Grafema\Validator;
+use Grafema\Json;
+use Grafema\Debug;
+use Grafema\View;
+use Grafema\Mail\Mail;
+use Grafema\I18n;
 
 class User extends \Grafema\Api\Handler
 {
@@ -114,9 +119,107 @@ class User extends \Grafema\Api\Handler
 
 	/**
 	 * Sign up user.
+	 *
+	 * @since 1.0.0
 	 */
 	public static function signUp(): array
 	{
 		return (array) \Grafema\User::add( $_REQUEST ?? [] );
+	}
+
+	/**
+	 * Reset user password.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function resetPassword(): array
+	{
+		$email = trim( strval( $_REQUEST['email'] ?? '' ) );
+
+		if ( empty( $email ) ) {
+			echo Json::encode(
+				[
+					'status'    => 200,
+					'benchmark' => Debug::timer( 'getall' ),
+					'data'      => [
+						[
+							'delay'    => 0,
+							'fragment' => I18n::__( 'Field can\'t be empty' ),
+							'method'   => 'update',
+							'target'   => '.email-error',
+						],
+						[
+							'delay'    => 0,
+							'fragment' => 'is-invalid',
+							'method'   => 'addClass',
+							'target'   => '[name="email"]',
+						],
+						[
+							'delay'    => 4000,
+							'fragment' => '',
+							'method'   => 'update',
+							'target'   => '.email-error',
+						],
+						[
+							'delay'    => 4000,
+							'fragment' => 'is-invalid',
+							'method'   => 'removeClass',
+							'target'   => '[name="email"]',
+						],
+					],
+				]
+			);
+
+			die;
+		}
+
+		$user = \Grafema\User::get( $email, 'email' );
+		if ( ! $user instanceof User ) {
+			echo Json::encode(
+				[
+					'status'    => 200,
+					'benchmark' => Debug::timer( 'getall' ),
+					'data'      => [
+						[
+							'delay'    => 0,
+							'fragment' => I18n::__( 'The user with this email was not found' ),
+							'method'   => 'update',
+							'target'   => '.email-error',
+						],
+						[
+							'delay'    => 4000,
+							'fragment' => '',
+							'method'   => 'update',
+							'target'   => '.email-error',
+						],
+					],
+				]
+			);
+		} else {
+			$mail_is_sent = Mail::send(
+				$email,
+				'Instructions for reset password',
+				View::include(
+					GRFM_DASHBOARD . 'templates/mails/wrapper.php',
+					[
+						'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
+					]
+				)
+			);
+			if ( $mail_is_sent ) {
+				echo Json::encode(
+					[
+						'status'    => 200,
+						'benchmark' => Debug::timer( 'getall' ),
+						'alpine'    => [
+							[
+								'fragment' => true,
+								'target'   => 'sent',
+							],
+						],
+					]
+				);
+			}
+		}
 	}
 }

@@ -38,12 +38,76 @@ class Dashboard extends Grafema\App\App
 	 */
 	public function __construct()
 	{
-		/*
-		 * Define a constants
+		/**
+		 * Set up default post types: "pages" & "media".
 		 *
 		 * @since 1.0.0
 		 */
-		$this->define( 'GRFM_IS_DASHBOARD', true );
+		Type::register(
+			'pages',
+			[
+				'labels' => [
+					'name'        => I18n::__( 'Page' ),
+					'name_plural' => I18n::__( 'Pages' ),
+					'add'         => I18n::__( 'Add New' ),
+					'edit'        => I18n::__( 'Edit Page' ),
+					'update'      => I18n::__( 'Update Page' ),
+					'view'        => I18n::__( 'View Page' ),
+					'view_plural' => I18n::__( 'View Pages' ),
+					'search'      => I18n::__( 'Search Pages' ),
+					'all_items'   => I18n::__( 'All Pages' ),
+					'published'   => I18n::__( 'Page published' ),
+					'scheduled'   => I18n::__( 'Page scheduled' ),
+					'updated'     => I18n::__( 'Page updated' ),
+				],
+				'description'  => '',
+				'public'       => true,
+				'hierarchical' => true,
+				'searchable'   => true,
+				'show_ui'      => true,
+				'show_in_menu' => true,
+				'show_in_bar'  => true,
+				'position'     => 20,
+				'menu_icon'    => 'ph ph-folders',
+				'capabilities' => ['types_edit'],
+				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
+				'taxonomies'   => [],
+				'can_export'   => true,
+			]
+		);
+
+		Type::register(
+			'media',
+			[
+				'labels' => [
+					'name'        => I18n::__( 'Storage' ),
+					'name_plural' => I18n::__( 'Storage' ),
+					'add'         => I18n::__( 'Upload' ),
+					'edit'        => I18n::__( 'Edit Media' ),
+					'update'      => I18n::__( 'Update Attachment' ),
+					'view'        => I18n::__( 'View Attachment' ),
+					'view_plural' => I18n::__( 'View Attachments' ),
+					'search'      => I18n::__( 'Search Attachments' ),
+					'all_items'   => I18n::__( 'Library' ),
+					'published'   => I18n::__( 'Attachment published.' ),
+					'scheduled'   => I18n::__( 'Attachment scheduled.' ),
+					'updated'     => I18n::__( 'Attachment updated.' ),
+				],
+				'description'  => '',
+				'public'       => true,
+				'hierarchical' => true,
+				'searchable'   => 0,
+				'show_ui'      => true,
+				'show_in_menu' => true,
+				'show_in_bar'  => true,
+				'position'     => 30,
+				'menu_icon'    => 'ph ph-dropbox-logo',
+				'capabilities' => ['types_edit'],
+				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
+				'taxonomies'   => [],
+				'can_export'   => true,
+			]
+		);
 
 		/*
 		 * Add core api endpoints
@@ -51,6 +115,13 @@ class Dashboard extends Grafema\App\App
 		 * @since 1.0.0
 		 */
 		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
+
+		/**
+		 * Define a constants
+		 *
+		 * @since 1.0.0
+		 */
+		$this->define( 'GRFM_IS_DASHBOARD', true );
 
 		/*
 		 * Override response

@@ -60,7 +60,7 @@ final class Install extends Grafema\App\App {
 		 */
 		Hook::add(
 			'grafema_api_response',
-			function( $json, $slug, $data ) {
+			function ( $data, $slug ) {
 				switch ( $slug ) {
 					case 'install/test':
 						$json = Json::encode(

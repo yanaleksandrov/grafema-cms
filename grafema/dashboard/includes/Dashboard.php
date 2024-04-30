@@ -109,29 +109,16 @@ class Dashboard extends Grafema\App\App
 			]
 		);
 
-		/*
-		 * Add core api endpoints
-		 *
-		 * @since 1.0.0
-		 */
-		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
-
 		/**
-		 * Define a constants
-		 *
-		 * @since 1.0.0
-		 */
-		$this->define( 'GRFM_IS_DASHBOARD', true );
-
-		/*
 		 * Override response
 		 *
 		 * @since 1.0.0
 		 */
 		Hook::add(
 			'grafema_api_response',
-			function ( $json, $slug, $data ) {
+			function ( $data, $slug ) {
 				var_dump( $slug );
+				var_dump( $data );
 				switch ( $slug ) {
 					case 'sign/in':
 						if ( $data instanceof User ) {
@@ -317,8 +304,24 @@ class Dashboard extends Grafema\App\App
 				);
 			},
 			10,
-			3
+			2
 		);
+
+		/**
+		 * Add core API endpoints.
+		 * Important! If current request is request to API, stop code execution after Api::create().
+		 *
+		 * @since 1.0.0
+		 */
+		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
+
+		/**
+		 * Now the code is exclusively for the administrative panel.
+		 * Define a constants.
+		 *
+		 * @since 1.0.0
+		 */
+		$this->define( 'GRFM_IS_DASHBOARD', true );
 
 		/**
 		 * Include CSS styles & JS scripts.
@@ -328,7 +331,7 @@ class Dashboard extends Grafema\App\App
 		$styles = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
 
 		foreach ( $styles as $style ) {
-			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], '1.5.0' );
+			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], GRFM_VERSION );
 		}
 
 
@@ -352,7 +355,7 @@ class Dashboard extends Grafema\App\App
 			Asset::enqueue( $script, '/dashboard/assets/js/' . $script . '.js', $data );
 		}
 
-		/*
+		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 1.0.0
@@ -371,21 +374,21 @@ class Dashboard extends Grafema\App\App
 			}
 		);
 
-		/*
+		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 1.0.0
 		 */
 		Menu::init();
 
-		/*
+		/**
 		 * Register new forms
 		 *
 		 * @since 1.0.0
 		 */
 		Forms::init();
 
-		/*
+		/**
 		 * Register new routes
 		 *
 		 * @since 1.0.0

@@ -9,11 +9,9 @@
 
 namespace Grafema;
 
-use Exception;
 use Grafema\Csrf\Csrf;
 use Grafema\Csrf\Exceptions\InvalidCsrfTokenException;
 use Grafema\Csrf\Providers\NativeHttpOnlyCookieProvider;
-use ReflectionClass;
 use ReflectionException;
 
 /**
@@ -21,6 +19,9 @@ use ReflectionException;
  */
 final class Api
 {
+	/**
+	 * @var array
+	 */
 	public static array $resources = [];
 
 	/**
@@ -82,7 +83,7 @@ final class Api
 		}
 		$csrf->generate( 'token' );
 
-		$reflector   = new ReflectionClass( $class );
+		$reflector   = new \ReflectionClass( $class );
 		$classMethod = $reflector->getMethod( $method );
 		$data        = $classMethod->isStatic() ? $class::$method() : $class->{$method}();
 

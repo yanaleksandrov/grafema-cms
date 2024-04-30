@@ -169,11 +169,11 @@ $plugins = Plugins\Manager::init( function ( $plugins ) {
 	}
 	$plugins->register( $paths );
 } );
-$plugins->launch();
-// $plugins->install();
-// $plugins->uninstall();
-// $plugins->activate();
-// $plugins->deactivate();
+//$plugins->launch();
+//$plugins->install();
+//$plugins->uninstall();
+//$plugins->activate();
+//$plugins->deactivate();
 
 /**
  * Triggered after Grafema plugins is loaded & ready for use.
@@ -183,7 +183,7 @@ $plugins->launch();
 Hook::apply( 'grafema_plugins_loaded' );
 
 /**
- * Include all dashboard functions.
+ * Include all dashboard functions & launch API.
  *
  * @since 1.0.0
  */

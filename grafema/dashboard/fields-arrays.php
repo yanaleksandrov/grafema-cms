@@ -1,6 +1,6 @@
 <?php
 [ $label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options ] = ( new Grafema\Sanitizer(
-	$args,
+	$args ?? [],
 	[
 		'label'       => 'trim',
 		'name'        => 'key',

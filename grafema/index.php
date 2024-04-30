@@ -7,7 +7,6 @@ use Grafema\{
 	Html,
 	I18n,
 	Is,
-	Part,
 	Plugins,
 	Route,
 	Url,
@@ -350,15 +349,3 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	exit;
 } );
 $route->run();
-
-// ready for test
-//$count      = 10;
-//$start_time = microtime( true );
-//for ( $i = 1; $i <= $count; $i++ ) {
-//	if ( $i === $count ) {
-//
-//	} else {
-//
-//	}
-//}
-//echo 'Time:  ' . number_format( ( microtime( true ) - $start_time ), 6 ) . " Seconds\n";

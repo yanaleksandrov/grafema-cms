@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args ?? [],
-		[
+[$label, $name, $value, $placeholder, $class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = (
+    new Grafema\Sanitizer(
+        $args ?? [],
+        [
 			'label'       => 'trim',
 			'name'        => 'key',
 			'value'       => 'attribute|trim',
@@ -33,9 +33,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'indicator'   => 'bool:false',
 			'generator'   => 'bool:false',
 			'characters'  => 'array',
-		]
-	)
-);
+        ]
+    )
+)->values();
 
 $attributes = [
 	...$attributes,

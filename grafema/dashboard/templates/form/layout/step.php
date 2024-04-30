@@ -1,5 +1,6 @@
 <?php
 use Grafema\Helpers\Arr;
+use Grafema\Sanitizer;
 
 /**
  * Form step
@@ -13,9 +14,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$attributes = $args['attributes'] ?? [];
-$content    = trim( strval( $args['content'] ?? '' ) );
-$step       = trim( strval( $args['step'] ?? 1 ) );
+[ $attributes, $content, $step ] = (
+    new Sanitizer(
+        $args ?? [],
+        [
+            'attributes' => 'array',
+            'content'    => 'trim',
+            'step'       => 'absint:1',
+        ]
+    )
+)->values();
 ?>
 <!-- step <?php echo $step; ?> -->
 <div <?php echo Arr::toHtmlAtts( $attributes ); ?>>

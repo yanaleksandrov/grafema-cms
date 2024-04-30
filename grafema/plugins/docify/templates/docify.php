@@ -83,8 +83,8 @@ Form::register(
 							'name'        => 'title',
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
-							'label'       => I18n::__( 'Select the project you want to export to documentation' ),
-							'instruction' => I18n::__( 'This tool allows you to convert docblock comments into documentation pages. You can also use markdown.' ),
+							'label'       => I18n::__( 'Select the project you want to export to docs' ),
+							'instruction' => I18n::__( 'This tool allows you to convert docblock comments into docs pages. You can also use markdown.' ),
 						],
 						[
 							'type'        => 'select',

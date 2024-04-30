@@ -118,7 +118,7 @@ Part::register(
 );
 
 /**
- * Run the installer if Grafema is not installed.
+ * Launch the installer if Grafema is not installed.
  *
  * @since 1.0.0
  */

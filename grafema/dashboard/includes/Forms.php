@@ -239,11 +239,11 @@ final class Forms
 		 * @since 1.0.0
 		 */
 		Form::register(
-			'sign/up',
+			'sign-up',
 			[
 				'class'           => 'card card-border g-6 p-8',
 				'x-data'          => '',
-				'@submit.prevent' => "\$ajax('sign/up')",
+				'@submit.prevent' => "\$ajax('user/sign-up')",
 			],
 			function ( $form ) {
 				$form->addFields(

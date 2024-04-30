@@ -13,17 +13,15 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $instruction, $class, $content] = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'html',
-			'instruction' => 'html',
-			'class'       => 'class:df',
-			'content'     => 'trim',
-		]
-	)
-);
+[$label, $instruction, $class, $content] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'label'       => 'html',
+		'instruction' => 'html',
+		'class'       => 'class:df',
+		'content'     => 'trim',
+	]
+) )->values();
 
 if ( empty( $label ) ) {
 	return;

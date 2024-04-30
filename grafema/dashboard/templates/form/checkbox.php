@@ -2,6 +2,7 @@
 use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
+use Grafema\Sanitizer;
 
 /*
  * Checkbox
@@ -15,10 +16,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args ?? [],
-		[
+[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = (
+    new Sanitizer(
+        $args ?? [],
+        [
 			'label'       => 'trim',
 			'name'        => 'key',
 			'value'       => 'attribute',
@@ -33,9 +34,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'attributes'  => 'array',
 			'conditions'  => 'array',
 			'options'     => 'array',
-		]
-	)
-);
+        ]
+    )
+)->values();
 ?>
 <div class="dg g-1" x-data="{<?php echo $name; ?>: []}">
 	<?php if ( $label ) { ?>

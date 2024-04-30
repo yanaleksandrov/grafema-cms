@@ -2,6 +2,7 @@
 
 use Post\Post;
 use File\Image;
+use Grafema\Sanitizer;
 
 /**
  *
@@ -50,7 +51,7 @@ class Upload {
 			// crop image to different sizes
 			foreach ( $sizes as $size ) {
 				[ 'mime' => $mime, 'width' => $width, 'height' => $height ] = (
-					new \Sanitizer\Sanitizer(
+					new Sanitizer(
 						$size,
 						[
 							'name'   => 'text',

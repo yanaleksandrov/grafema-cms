@@ -13,18 +13,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $key, $cell, $title, $sortable, $filterable ) = array_values(
-	( new Sanitizer() )->apply(
-		$args['column'] ?? [],
-		[
+[ $key, $cell, $title, $sortable, $filterable ] = (
+    new Sanitizer(
+        $args['column'] ?? [],
+        [
 			'key'        => 'key',
 			'cell'       => 'key',
 			'title'      => 'trim',
 			'sortable'   => 'bool',
 			'filterable' => 'bool',
-		]
-	)
-);
+        ]
+    )
+)->values();
 ?>
 <div class="<?php echo $key; ?>">
 	<div x-text="item.<?php echo $key; ?>"></div>

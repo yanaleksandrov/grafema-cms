@@ -1,4 +1,6 @@
 <?php
+use Grafema\Sanitizer;
+
 /**
  * Form title.
  *
@@ -10,17 +12,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $class, $instruction] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'trim',
-			'name'        => 'key',
-			'class'       => 'class:t-center',
-			'instruction' => 'trim',
-		]
-	)
-);
+[$label, $name, $class, $instruction] = (
+    new Sanitizer(
+        $args ?? [],
+        [
+            'label'       => 'trim',
+            'name'        => 'key',
+            'class'       => 'class:t-center',
+            'instruction' => 'trim',
+        ]
+    )
+)->values();
 ?>
 <header class="<?php echo $class; ?>">
 	<h4><?php echo $label; ?></h4>

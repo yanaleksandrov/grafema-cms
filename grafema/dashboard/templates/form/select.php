@@ -13,23 +13,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $class, $reset, $instruction, $tooltip, $attributes, $conditions, $options] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'trim',
-			'name'        => 'key',
-			'value'       => 'attribute',
-			'class'       => 'class:df aic jcsb fw-600',
-			'reset'       => 'bool:false',
-			'instruction' => 'trim',
-			'tooltip'     => 'attribute',
-			'attributes'  => 'array',
-			'conditions'  => 'array',
-			'options'     => 'array',
-		]
-	)
-);
+[$label, $name, $value, $class, $reset, $instruction, $tooltip, $attributes, $conditions, $options] = (
+    new Grafema\Sanitizer(
+        $args ?? [],
+        [
+            'label'       => 'trim',
+            'name'        => 'key',
+            'value'       => 'attribute',
+            'class'       => 'class:df aic jcsb fw-600',
+            'reset'       => 'bool:false',
+            'instruction' => 'trim',
+            'tooltip'     => 'attribute',
+            'attributes'  => 'array',
+            'conditions'  => 'array',
+            'options'     => 'array',
+        ]
+    )
+)->values();
 
 $reset_value = sprintf( "'%s'", $value ?? '' );
 ?>

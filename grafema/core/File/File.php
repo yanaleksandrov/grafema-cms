@@ -422,7 +422,7 @@ class File
 	}
 
 	/**
-	 * Sanitize & normalize file name: remove special chars & spaces.
+	 * Sanitizer & normalize file name: remove special chars & spaces.
 	 * Check for a file with the same name, add a prefix until we find a free name.
 	 *
 	 * @since 1.0.0

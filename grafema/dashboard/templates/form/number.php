@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $uniqid, $type, $name, $label, $label_class, $class, $reset, $description, $attributes ) = array_values(
-	( new Sanitizer() )->apply(
-		$args ?? [],
-		[
+[$uniqid, $type, $name, $label, $label_class, $class, $reset, $description, $attributes] = (
+    new Grafema\Sanitizer(
+        $args ?? [],
+        [
 			'uniqid'      => 'key:' . substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz' ), 0, 6 ),
 			'type'        => 'key:number',
 			'name'        => 'attribute|key',
@@ -28,9 +28,9 @@ list( $uniqid, $type, $name, $label, $label_class, $class, $reset, $description,
 			'reset'       => 'bool:false',
 			'description' => 'trim',
 			'attributes'  => 'array',
-		]
-	)
-);
+        ]
+    )
+)->values();
 
 $attributes = [
 	...$attributes,

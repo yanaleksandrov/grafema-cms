@@ -25,7 +25,7 @@ class Docify implements Grafema\Plugins\Skeleton
 	{
 		return [
 			'name'         => I18n::__( 'Docify' ),
-			'description'  => I18n::__( 'Simple way to create documentation for your plugins' ),
+			'description'  => I18n::__( 'Simple way to create docs for your plugins' ),
 			'author'       => 'Grafema Team',
 			'email'        => '',
 			'url'          => '',

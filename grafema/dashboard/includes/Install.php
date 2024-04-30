@@ -77,7 +77,7 @@ final class Install extends Grafema\App\App {
 							]
 						);
 						break;
-					case 'sign/up':
+					case 'sign-up':
 						break;
 				}
 				return $json;

@@ -14,16 +14,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$name, $label, $attributes] = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
-			'name'       => 'key|camelcase',
-			'label'      => 'html',
-			'attributes' => 'array',
-		]
-	)
-);
+[$name, $label, $attributes] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'name'       => 'key|camelcase',
+		'label'      => 'html',
+		'attributes' => 'array',
+	]
+) )->values();
 ?>
 <div class="dg g-1">
 	<button type="submit"<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>

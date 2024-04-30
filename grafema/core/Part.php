@@ -16,7 +16,7 @@ namespace Grafema;
  */
 class Part
 {
-	use \Grafema\Patterns\Singleton;
+	use Patterns\Singleton;
 
 	/**
 	 * List of sources for include files.
@@ -27,6 +27,10 @@ class Part
 	 */
 	private static array $paths = [];
 
+	/**
+	 * @param string $source
+	 * @param array $paths
+	 */
 	public static function register( string $source, array $paths ): void
 	{
 		self::$paths[$source] = $paths;

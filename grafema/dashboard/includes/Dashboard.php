@@ -13,6 +13,7 @@ use Grafema\Hook;
 use Grafema\I18n;
 use Grafema\Post\Status;
 use Grafema\Post\Type;
+use Grafema\Url;
 use Grafema\User;
 use Grafema\Debug;
 use Grafema\Json;
@@ -68,6 +69,15 @@ class Dashboard extends Grafema\App\App
 						}
 						break;
 					case 'sign/up':
+						$isUser = $data instanceof User;
+						$data   = [
+							[
+								'target'   => $isUser ? 'body' : '',
+								'fragment' => $isUser ? Url::sign_in() : '',
+								'method'   => $isUser ? 'redirect' : '',
+								'data'     => $data,
+							],
+						];
 						break;
 					case 'grab/files':
 						$data = [

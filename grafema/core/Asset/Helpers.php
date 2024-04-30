@@ -21,7 +21,7 @@ class Helpers
 	}
 
 	/**
-	 * Sanitize id of asset.
+	 * Sanitizer id of asset.
 	 */
 	public function sanitizeID( string $uuid ): string
 	{
@@ -31,7 +31,7 @@ class Helpers
 	}
 
 	/**
-	 * Sanitize key of asset.
+	 * Sanitizer key of asset.
 	 */
 	public function sanitizeKey( string $key ): string
 	{
@@ -41,7 +41,7 @@ class Helpers
 	}
 
 	/**
-	 * Sanitize url.
+	 * Sanitizer url.
 	 */
 	public function sanitizeUrl( string $url ): string
 	{

@@ -13,17 +13,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $label, $class, $content, $columns ] = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
+[ $label, $class, $content, $columns ] = (
+    new Sanitizer(
+        $args ?? [],
+        [
 			'label'   => 'trim',
 			'class'   => 'class:ga-1 fw-600',
 			'content' => 'trim',
 			'columns' => 'absint:1',
-		]
-	)
-);
+        ]
+    )
+)->values();
 ?>
 <div class="dg g-7 gtc-5">
 	<?php if ( $label ) : ?>

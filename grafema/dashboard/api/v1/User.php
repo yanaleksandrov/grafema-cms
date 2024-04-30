@@ -9,10 +9,7 @@
 
 namespace Dashboard\Api\V1;
 
-use Grafema\Debug;
-use Grafema\Json;
 use Grafema\Sanitizer;
-use Grafema\Url;
 use Grafema\Validator;
 
 class User extends \Grafema\Api\Handler
@@ -84,17 +81,19 @@ class User extends \Grafema\Api\Handler
 
 	/**
 	 * Check the compliance of the server with the minimum requirements.
+	 *
+	 * @url    GET api/v1/user/sign-in
 	 */
 	public static function signIn(): array
 	{
-		$request = ( new Sanitizer() )->apply(
+		$request = ( new Sanitizer(
 			$_REQUEST,
 			[
 				'login'    => 'trim',
 				'password' => 'trim',
 				'remember' => 'bool',
 			]
-		);
+		) )->apply();
 
 		$validator = ( new Validator(
 			$request,
@@ -114,34 +113,10 @@ class User extends \Grafema\Api\Handler
 	}
 
 	/**
-	 * @throws JsonException
+	 * Sign up user.
 	 */
-	public static function signUp(): string
+	public static function signUp(): array
 	{
-		$user = \Grafema\User::add( $_REQUEST ?? [] );
-
-		if ( $user instanceof User ) {
-			echo Json::encode(
-				[
-					'status'    => 200,
-					'benchmark' => Debug::timer( 'getall' ),
-					'data'      => [
-						[
-							'target'   => 'body',
-							'fragment' => Url::sign_in(),
-							'method'   => 'redirect',
-						],
-					],
-				]
-			);
-		} else {
-			echo Json::encode(
-				[
-					'status'    => 200,
-					'benchmark' => Debug::timer( 'getall' ),
-					'data'      => $user,
-				]
-			);
-		}
+		return (array) \Grafema\User::add( $_REQUEST ?? [] );
 	}
 }

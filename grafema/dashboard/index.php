@@ -3,7 +3,7 @@ use Grafema\Hook;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Option;
-use Grafema\Part;
+use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\User;
 
@@ -102,7 +102,7 @@ $start_time = microtime( true );
 			<div class="grafema-panel">
 				<div class="grafema-sidebar">
 					<img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
-					<?php Part::view( 'templates/menu-panel' ); ?>
+					<?php View::part( 'templates/menu-panel' ); ?>
 					<div class="mt-auto df fdc aic">
 						<div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
 							<i class="badge bg-herbal" title="Online"></i>
@@ -135,9 +135,9 @@ $start_time = microtime( true );
 				</div>
 
 				<?php
-				Part::view( 'templates/menu' );
+				View::part( 'templates/menu' );
 
-				Part::view( 'templates/' . $slug );
+				View::part( 'templates/' . $slug );
 				?>
 			</div>
 		</div>
@@ -152,7 +152,7 @@ $start_time = microtime( true );
 		</div>
 	<?php } else { ?>
 		<div class="df aic jcc p-8">
-			<?php Part::view( 'templates/' . $slug ); ?>
+			<?php View::part( 'templates/' . $slug ); ?>
 		</div>
 		<?php
 	}

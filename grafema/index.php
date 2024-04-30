@@ -105,19 +105,6 @@ Debug::check();
 Debug::timer();
 
 /**
- *
- *
- * @since 1.0.0
- */
-Part::register(
-	'dashboard',
-	[
-		GRFM_DASHBOARD,
-		...(new Dir\Dir( GRFM_PLUGINS ))->getFolders(),
-	]
-);
-
-/**
  * Launch the installer if Grafema is not installed.
  *
  * @since 1.0.0

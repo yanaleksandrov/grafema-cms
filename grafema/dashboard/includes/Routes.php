@@ -41,10 +41,6 @@ final class Routes {
 				);
 			}
 		);
-		$route->run(
-			function() {
-				die();
-			}
-		);
+		$route->run( fn() => die() );
 	}
 }

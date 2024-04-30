@@ -105,28 +105,30 @@ class Media extends \Grafema\Api\Handler
 
 				// now make smaller copies
 				$file_path = $original_file['path'] ?? '';
-				if ( $file_path ) {
-					$image = new Image();
-					$sizes = Patterns\Registry::get( 'jb.images' );
-					if ( is_array( $sizes ) && $sizes !== [] ) {
-						foreach ( $sizes as $size ) {
-							$mime   = $size['mime'] ?? null;
-							$width  = intval( $size['width'] ?? 0 );
-							$height = intval( $size['height'] ?? 0 );
-
-							if ( ! $width || ! $height ) {
-								continue;
-							}
-
-							$file_resized = sprintf( '/i/%s/', implode( 'x', [ $width, $height ] ) );
-							$file_resized = str_replace( '/i/original/', $file_resized, $file_path );
-
-							$image->fromFile( $file_path )->thumbnail( $width, $height )->toFile( $file_resized, $mime );
-						}
-					}
-
-					$files[] = $original_file;
+				if ( ! $file_path ) {
+					continue;
 				}
+
+				$image = new Image();
+				$sizes = Patterns\Registry::get( 'jb.images' );
+				if ( is_array( $sizes ) && $sizes !== [] ) {
+					foreach ( $sizes as $size ) {
+						$mime   = $size['mime'] ?? null;
+						$width  = intval( $size['width'] ?? 0 );
+						$height = intval( $size['height'] ?? 0 );
+
+						if ( ! $width || ! $height ) {
+							continue;
+						}
+
+						$file_resized = sprintf( '/i/%s/', implode( 'x', [ $width, $height ] ) );
+						$file_resized = str_replace( '/i/original/', $file_resized, $file_path );
+
+						$image->fromFile( $file_path )->thumbnail( $width, $height )->toFile( $file_resized, $mime );
+					}
+				}
+
+				$files[] = $original_file;
 			}
 		}
 

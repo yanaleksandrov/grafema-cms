@@ -14,21 +14,6 @@ use Grafema\Patterns;
 class Upload {
 
 	/**
-	 * Check the compliance of the server with the minimum requirements
-	 *
-	 * @return array|File|Errors
-	 */
-	public static function file(): array|File|Errors {
-		$files = $_FILES ?? [];
-		if ( $files ) {
-			foreach ( $files as $file ) {
-				return ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
-			}
-		}
-		return [];
-	}
-
-	/**
 	 * Upload ne files to media storage
 	 *
 	 * @return array

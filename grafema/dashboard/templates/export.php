@@ -18,7 +18,7 @@ Form::register(
 	'jb-exporter',
 	[
 		'class'  => 'card card-border p-8 pt-0 g-8',
-		'action' => '/api/v1/export-posts',
+		'action' => '/api/export-posts',
 		'x-data' => '{posts:[]}',
 	],
 	function ( $form ) {

@@ -27,7 +27,7 @@ final class Routes {
 	public function __construct() {
 		$route = new Route();
 		$route->mount(
-			'/api/v1',
+			'/api',
 			function() use ( $route ) {
 				$route->before(
 					'GET|POST|DELETE',

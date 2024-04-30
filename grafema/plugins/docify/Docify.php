@@ -59,7 +59,7 @@ class Docify implements Grafema\Plugins\Skeleton
 			}
 		);
 
-		//Api::create( sprintf( '%s%sapi', __DIR__, DIRECTORY_SEPARATOR ), '/api/v1/' );
+		//Api::create( sprintf( '%s%sapi', __DIR__, DIRECTORY_SEPARATOR ), '/api/' );
 
 		Post\Type::register(
 			'documents',

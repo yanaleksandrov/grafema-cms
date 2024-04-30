@@ -680,7 +680,7 @@ final class Forms
 									'instruction' => I18n::__( 'Templates define the way content is displayed when viewing your site' ),
 									'attributes'  => [
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Just Another Grafema Website' ),
+										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
 									],
 								],
 								[
@@ -1160,7 +1160,7 @@ final class Forms
 											'attributes'  => [
 												'value'       => Option::get( 'site.tagline' ),
 												'required'    => true,
-												'placeholder' => I18n::__( 'e.g. Just Another Grafema Website' ),
+												'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
 											],
 										],
 										[

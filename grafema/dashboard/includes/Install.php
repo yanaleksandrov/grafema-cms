@@ -358,8 +358,7 @@ final class Install extends Grafema\App\App {
 					if ( $script === 'index' ) {
 						$data = [
 							'data' => [
-								'apiurl' => 'https://cms.codyshop.ru/api/v1/',
-								'nonce'  => Grafema\User::addNonce(),
+								'apiurl' => 'https://cms.codyshop.ru/api/',
 							],
 						];
 					}
@@ -435,7 +434,7 @@ final class Install extends Grafema\App\App {
 									'class'       => 'pl-8 pr-8 pt-6',
 									'attributes'  => [
 										'required'       => true,
-										'placeholder'    => I18n::__( 'Example: Just Another Website' ),
+										'placeholder'    => I18n::__( 'Example: Just another Grafema site' ),
 										'x-autocomplete' => '',
 									],
 								],

@@ -206,7 +206,7 @@ class Type
 			$pattern = ( $args['route'] ?? $post_type ) . '/([a-z0-9-]+)/';
 			$route   = new Route();
 			$route->get(
-				'/api/v1/page/(\d+)',
+				'/api/page/(\d+)',
 				function () {
 					header( 'Content-Type: application/json' );
 					echo json_encode(

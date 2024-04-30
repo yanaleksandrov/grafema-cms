@@ -18,7 +18,7 @@ class Projects extends Grafema\Api\Handler
 	/**
 	 * Get all items.
 	 *
-	 * @url    GET api/v1/projects
+	 * @url    GET api/projects
 	 */
 	public function index(): array
 	{
@@ -30,7 +30,7 @@ class Projects extends Grafema\Api\Handler
 	/**
 	 * Get item by ID.
 	 *
-	 * @url    GET api/v1/projects/$id
+	 * @url    GET api/projects/$id
 	 */
 	public function view(): array
 	{
@@ -42,7 +42,7 @@ class Projects extends Grafema\Api\Handler
 	/**
 	 * Create item.
 	 *
-	 * @url    POST api/v1/projects
+	 * @url    POST api/projects
 	 */
 	public function create(): array
 	{
@@ -54,7 +54,7 @@ class Projects extends Grafema\Api\Handler
 	/**
 	 * Update item by ID.
 	 *
-	 * @url    POST api/v1/projects/$id
+	 * @url    POST api/projects/$id
 	 */
 	public function update(): array
 	{
@@ -66,7 +66,7 @@ class Projects extends Grafema\Api\Handler
 	/**
 	 * Remove item by ID.
 	 *
-	 * @url    DELETE api/v1/projects/$id
+	 * @url    DELETE api/projects/$id
 	 */
 	public function delete(): array
 	{

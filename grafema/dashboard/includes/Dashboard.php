@@ -46,7 +46,7 @@ class Dashboard extends Grafema\App\App
 		 *
 		 * @since 1.0.0
 		 */
-		Api::create( sprintf( '%sapi/v1', GRFM_DASHBOARD ), '/api/v1' );
+		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
 
 		/*
 		 * Override response
@@ -265,7 +265,7 @@ class Dashboard extends Grafema\App\App
 			$data = [];
 			if ( $script === 'index' ) {
 				$data['data'] = [
-					'apiurl' => 'https://cms.codyshop.ru/api/v1/',
+					'apiurl' => 'https://cms.codyshop.ru/api/',
 					'nonce'  => $token,
 				];
 			}

@@ -91,11 +91,11 @@ class User extends Users {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
-				'login'      => 'login',
-				'email'      => 'email',
-				'password'   => 'trim',
-				'showname'   => 'ucfirst:$login',
-				'nicename'   => 'slug:$login|unique',
+				'login'    => 'login',
+				'email'    => 'email',
+				'password' => 'trim',
+				'showname' => 'ucfirst:$login',
+				'nicename' => 'slug:$login|unique',
 			]
 		) )->extend(
 			'unique',
@@ -165,8 +165,7 @@ class User extends Users {
 	 * @since 1.0.0
 	 */
 	public static function get( $value, string $get_by = 'ID' ): Errors|User|bool {
-		$allowed_fields = [ 'ID', 'login', 'email', 'nicename' ];
-		if ( ! in_array( $get_by, $allowed_fields, true ) ) {
+		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
 			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
@@ -222,7 +221,6 @@ class User extends Users {
 	 * @return Errors|int      The number of remote users or false.
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
-
 		$fields = [
 			'ID' => abs( $user_id ),
 		];
@@ -389,10 +387,5 @@ class User extends Users {
 			);
 		}
 		Session::set( self::$session_id, null );
-	}
-
-	public static function addNonce( $action = -1 ) {
-		$user_id = 0;
-		return substr( hash_hmac( 'ripemd160', $action . '|' . $user_id, 'nonce' ), -12, 10 );
 	}
 }

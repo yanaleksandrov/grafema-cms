@@ -7,7 +7,7 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Dashboard\Api\V1;
+namespace Dashboard\Api;
 
 use Grafema\Sanitizer;
 use Grafema\Validator;
@@ -22,7 +22,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Get all items.
 	 *
-	 * @url    GET api/v1/user
+	 * @url    GET api/user
 	 */
 	public function index(): array
 	{
@@ -34,7 +34,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Get item by ID.
 	 *
-	 * @url    GET api/v1/user/$id
+	 * @url    GET api/user/$id
 	 */
 	public function view(): array
 	{
@@ -46,7 +46,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Create item.
 	 *
-	 * @url    POST api/v1/user
+	 * @url    POST api/user
 	 */
 	public function create(): array
 	{
@@ -58,7 +58,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Update item by ID.
 	 *
-	 * @url    PUT api/v1/user/$id
+	 * @url    PUT api/user/$id
 	 */
 	public function update(): array
 	{
@@ -70,7 +70,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Remove item by ID.
 	 *
-	 * @url    DELETE api/v1/user/$id
+	 * @url    DELETE api/user/$id
 	 */
 	public function delete(): array
 	{
@@ -82,7 +82,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Check the compliance of the server with the minimum requirements.
 	 *
-	 * @url    GET api/v1/user/sign-in
+	 * @url    GET api/user/sign-in
 	 */
 	public static function signIn(): array
 	{

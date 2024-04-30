@@ -37,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="dg g-1">
 					<label class="dg g-1">
 						<span class="df aic jcsb fw-600">Site description</span>
-						<input type="text" x-model="description" name="description" placeholder="Example: Just Another Website" x-autocomplete>
+						<input type="text" x-model="description" name="description" placeholder="Example: Just another Grafema site" x-autocomplete>
 					</label>
 					<div class="fs-13 t-muted"><?php I18n::e( 'Don\'t worry, you can always change these settings later.' ); ?></div>
 				</div>

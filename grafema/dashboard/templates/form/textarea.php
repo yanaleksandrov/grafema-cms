@@ -15,27 +15,25 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'trim',
-			'name'        => 'key',
-			'value'       => 'attribute|trim',
-			'placeholder' => 'trim',
-			'class'       => 'class:df aic jcsb fw-600',
-			'reset'       => 'bool:false',
-			'before'      => 'trim',
-			'after'       => 'trim',
-			'instruction' => 'trim',
-			'tooltip'     => 'trim|attribute',
-			'copy'        => 'bool:false',
-			'attributes'  => 'array',
-			'conditions'  => 'array',
-			'options'     => 'array',
-		]
-	)
-);
+[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = ( new Grafema\Sanitizer(
+	$args ?? [],
+	[
+		'label'       => 'trim',
+		'name'        => 'key',
+		'value'       => 'attribute|trim',
+		'placeholder' => 'trim',
+		'class'       => 'class:df aic jcsb fw-600',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'trim|attribute',
+		'copy'        => 'bool:false',
+		'attributes'  => 'array',
+		'conditions'  => 'array',
+		'options'     => 'array',
+	]
+) )->values();
 ?>
 <div class="dg g-1"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<label class="dg g-1">

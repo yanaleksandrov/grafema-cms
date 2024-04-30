@@ -13,18 +13,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $key, $cell, $title, $sortable, $filterable ) = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
-			'key'        => 'key',
-			'cell'       => 'key',
-			'title'      => 'trim',
-			'sortable'   => 'bool',
-			'filterable' => 'bool',
-		]
-	)
-);
+[ $key, $cell, $title, $sortable, $filterable ] = (
+    new Sanitizer(
+        $args['column'] ?? [],
+        [
+            'key'        => 'key',
+            'cell'       => 'key',
+            'title'      => 'trim',
+            'sortable'   => 'bool',
+            'filterable' => 'bool',
+        ]
+    )
+)->values();
 ?>
 <div class="<?php echo $key; ?> df aic g-1">
 	<div class="df aic g-1">

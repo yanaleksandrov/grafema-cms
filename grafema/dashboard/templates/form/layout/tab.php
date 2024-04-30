@@ -13,19 +13,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $name, $property, $caption, $description, $content, $class_content ] = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
+[ $name, $property, $caption, $description, $content, $class_content ] = (
+    new Sanitizer(
+        $args ?? [],
+        [
 			'name'          => 'key',
 			'property'      => 'key:tab',
 			'caption'       => 'trim',
 			'description'   => 'trim',
 			'content'       => 'trim',
 			'class_content' => 'class',
-		]
-	)
-);
+        ]
+    )
+)->values();
 
 if ( empty( $content ) ) {
 	return;

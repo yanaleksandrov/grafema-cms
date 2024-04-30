@@ -1,4 +1,6 @@
 <?php
+use Grafema\Sanitizer;
+
 /**
  * Form divider
  *
@@ -11,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$label = Sanitizer\Sanitizer::trim( $args['label'] ?? '' );
+$label = Sanitizer::trim( $args['label'] ?? '' );
 ?>
 <div class="card-hr"><?php echo $label; ?></div>

@@ -325,6 +325,7 @@ class Option extends Options {
 			'owner'          => [
 				'email' => '',
 			],
+			'users-default-role' => 'subscriber',
 			'users'          => [
 				'roles'      => [],
 				'role'       => 'subscriber',

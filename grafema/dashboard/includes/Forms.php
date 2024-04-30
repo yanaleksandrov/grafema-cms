@@ -17,7 +17,7 @@ final class Forms
 	 */
 	public function __construct()
 	{
-		/*
+		/**
 		 * Form for build custom fields
 		 *
 		 * @since 1.0.0
@@ -41,7 +41,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -84,7 +84,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -146,7 +146,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -233,17 +233,17 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
 		 */
 		Form::register(
-			'sign/up',
+			'sign-up',
 			[
 				'class'           => 'card card-border g-6 p-8',
 				'x-data'          => '',
-				'@submit.prevent' => "\$ajax('sign/up')",
+				'@submit.prevent' => "\$ajax('user/sign-up')",
 			],
 			function ( $form ) {
 				$form->addFields(
@@ -331,7 +331,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Sign In form
 		 *
 		 * @since 1.0.0
@@ -379,7 +379,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -453,7 +453,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -520,7 +520,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for create new emails
 		 *
 		 * @since 1.0.0
@@ -592,7 +592,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Form for build new posts
 		 *
 		 * @since 1.0.0
@@ -680,7 +680,7 @@ final class Forms
 									'instruction' => I18n::__( 'Templates define the way content is displayed when viewing your site' ),
 									'attributes'  => [
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Just Another Grafema Website' ),
+										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
 									],
 								],
 								[
@@ -734,7 +734,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Profile page
 		 *
 		 * @since 1.0.0
@@ -1114,7 +1114,7 @@ final class Forms
 			}
 		);
 
-		/*
+		/**
 		 * Website settings in dashboard
 		 *
 		 * @since 1.0.0
@@ -1160,7 +1160,7 @@ final class Forms
 											'attributes'  => [
 												'value'       => Option::get( 'site.tagline' ),
 												'required'    => true,
-												'placeholder' => I18n::__( 'e.g. Just Another Grafema Website' ),
+												'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
 											],
 										],
 										[

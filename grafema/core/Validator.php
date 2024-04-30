@@ -114,21 +114,21 @@ class Validator {
 	 *
 	 * @var array
 	 */
-	protected array $fields = [];
+	public array $fields = [];
 
 	/**
 	 * Validation rules list
 	 *
 	 * @var array
 	 */
-	protected array $rules = [];
+	public array $rules = [];
 
 	/**
 	 * Error messages list
 	 *
 	 * @var array
 	 */
-	protected array $messages = [];
+	public array $messages = [];
 
 	/**
 	 * List for custom rules for extend validation
@@ -142,7 +142,7 @@ class Validator {
 	 *
 	 * @var bool
 	 */
-	protected bool $break = false;
+	public bool $break = false;
 
 	/**
 	 * Errors list for return
@@ -216,13 +216,13 @@ class Validator {
 	/**
 	 * Apply validation
 	 *
-	 * @return bool|Validator
+	 * @return array|Validator
 	 */
-	public function apply(): bool|Validator {
+	public function apply(): array|Validator {
 		foreach ( $this->rules as $field => $rules ) {
 			$rules = explode( '|', $rules );
 			foreach ( $rules as $rule ) {
-				[ $method, $comparison_value ] = array_pad( explode( ':', $rule, 2 ), 2, null );
+				[ $method, $comparison_value ] = explode( ':', $rule, 2 ) + [ null, null ];
 
 				// checking the value for compliance with the condition
 				$value      = $this->fields[ $field ] ?? '';
@@ -236,17 +236,17 @@ class Validator {
 				}
 
 				// run class methods
+				$key = sprintf( '%s:%s', $field, $method );
 				if ( method_exists( $this, $method ) ) {
 					$error = call_user_func( [ $this, $method ], $value, $comparison );
 				} else {
-					$function = $this->extensions[ $method ] ?? null;
+					$function = $this->extensions[ $method ] ?? ( $this->extensions[ $key ] ?? null );
 					if ( is_callable( $function ) ) {
-						$error = call_user_func( $function, $this, $value, $comparison );
+						$error = call_user_func( $function, $this, $value, $comparison, $field );
 					}
 				}
 
 				// fetch error message
-				$key     = sprintf( '%s:%s', $field, $method );
 				$message = $this->messages[ $key ] ?? ( $this->messages[ $method ] ?? '' );
 				if ( isset( $error ) && ! $error && $message ) {
 					$this->errors[ $field ][] = sprintf( $message, $comparison_value );
@@ -260,7 +260,7 @@ class Validator {
 		}
 
 		if ( empty( $this->errors ) ) {
-			return false;
+			return $this->fields;
 		}
 
 		return $this;

@@ -1,6 +1,7 @@
 <?php
 use Grafema\Helpers\Arr;
 use Grafema\Esc;
+use Grafema\Sanitizer;
 
 /*
  * Media field
@@ -14,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$uniqid, $type, $name, $label, $label_class, $class, $description, $attributes, $tooltip] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args ?? [],
-		[
+[$uniqid, $type, $name, $label, $label_class, $class, $description, $attributes, $tooltip] = (
+    new Sanitizer(
+        $args ?? [],
+        [
 			'uniqid'      => 'key:' . substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz' ), 0, 6 ),
 			'type'        => 'key:text',
 			'name'        => 'attribute|key',
@@ -27,9 +28,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'description' => 'trim',
 			'attributes'  => 'array',
 			'tooltip'     => 'trim|attribute',
-		]
-	)
-);
+        ]
+    )
+)->values();
 ?>
 <div x-data="{<?php echo $name; ?>: []}" class="<?php echo $class; ?>">
 	<div class="dg g-1" x-media>

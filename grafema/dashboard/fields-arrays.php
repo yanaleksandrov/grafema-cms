@@ -1,25 +1,24 @@
 <?php
-list( $label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options ) = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'trim',
-			'name'        => 'key',
-			'value'       => 'attribute',
-			'placeholder' => 'trim',
-			'class'       => 'class:df aic jcsb fw-600',
-			'reset'       => 'bool:false',
-			'before'      => 'trim',
-			'after'       => 'trim',
-			'instruction' => 'trim',
-			'tooltip'     => 'attribute',
-			'copy'        => 'bool:false',
-			'attributes'  => 'array',
-			'conditions'  => 'array',
-			'options'     => 'array',
-		]
-	)
-);
+[ $label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options ] = ( new Grafema\Sanitizer(
+	$args ?? [],
+	[
+		'label'       => 'trim',
+		'name'        => 'key',
+		'value'       => 'attribute',
+		'placeholder' => 'trim',
+		'class'       => 'class:df aic jcsb fw-600',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'attributes'  => 'array',
+		'conditions'  => 'array',
+		'options'     => 'array',
+	]
+) )->values();
+
 // field array
 [
 	'type'        => 'textarea',

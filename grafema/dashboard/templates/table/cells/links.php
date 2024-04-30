@@ -13,14 +13,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $key ) = array_values(
-	( new Sanitizer() )->apply(
-		$args['column'] ?? [],
-		[
-			'key' => 'key',
-		]
-	)
-);
+[ $key ] = (
+    new Sanitizer(
+        $args['column'] ?? [],
+        [
+            'key' => 'key',
+        ]
+    )
+)->values();
 ?>
 <div class="<?php echo $key; ?>" x-data="{show: false}">
 	<template x-for="(link, index) in item.<?php echo $key; ?>.slice(0, show ? item.<?php echo $key; ?>.length : 3)">

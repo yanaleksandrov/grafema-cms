@@ -112,7 +112,7 @@ class Csrf
 	}
 
 	/**
-	 * Sanitize the session key.
+	 * Sanitizer the session key.
 	 */
 	protected function sanitizeKey( string $key ): string
 	{

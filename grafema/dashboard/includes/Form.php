@@ -193,11 +193,12 @@ class Form {
 	}
 
 	/**
-	 * Get fields html from array
+	 * Get fields html from array.
 	 *
 	 * @param array $fields
 	 * @param int $step
 	 * @return string
+	 * @throws JsonException
 	 */
 	public function parseFields( array $fields, int $step = 1 ): string {
 		ob_start();
@@ -333,7 +334,6 @@ class Form {
 	/**
 	 * @param $conditions_list
 	 * @return string
-	 * @throws JsonException
 	 */
 	public function parseConditions( $conditions_list ) {
 		$jsString = '';

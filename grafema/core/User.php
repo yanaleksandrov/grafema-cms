@@ -1,8 +1,7 @@
 <?php
 namespace Grafema;
 
-use Hook\Hook;
-
+use Grafema\Users\Roles;
 use Grafema\Users\Users;
 use Grafema\Helpers\Hash;
 
@@ -38,22 +37,13 @@ class User extends Users {
 	public int $ID;
 	public string $login;
 	public string $password;
-	public string $nicename;
 	public string $showname;
 	public string $email;
-
-	/**
-	 * The user roles.
-	 *
-	 * @since 1.0.0
-	 * @var   array
-	 */
-	public array $roles;
 	public string $registered;
-	public bool $online;
+	public string $visited;
 
 	/**
-	 * Sanitize user data before inserting into the database.
+	 * Sanitizer user data before inserting into the database.
 	 *
 	 * @return array
 	 * @since 1.0.0
@@ -76,7 +66,11 @@ class User extends Users {
 	/**
 	 * Insert a user into the database.
 	 *
-	 * @since 1.0.0
+	 * The showname & nickname fields should not be left empty, because nickname
+	 * is part of the URL of the user's page, and showname is displayed as the name.
+	 * Therefore, we generate it based on the login.
+	 *
+	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Errors
 	 *
 	 * @param array $userdata {
 	 *     @type int    $ID           User ID. If supplied, the user will be updated.
@@ -85,98 +79,83 @@ class User extends Users {
 	 *     @type string $nicename     The URL-friendly username.
 	 *     @type string $showname     The user's display name.
 	 *     @type string $email        The user email address.
-	 *     @type string $url          The user URL.
 	 *     @type string $registered   Date the user registered. Format is 'Y-m-d H:i:s'.
-	 *     @type string $status       User's status.
-	 *     @type string $roles        User's roles.
+	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
 	 * }
+	 *
 	 * @return array|User|bool The newly created user's ID or an Errors object if the user could not be created.
+	 * @throws \Exception
+	 * @since 1.0.0
 	 */
 	public static function add( array $userdata ) {
-		// leave only the allowed fields
-		$userdata = array_filter(
+		$userdata = ( new Sanitizer(
 			$userdata,
-			function( $key ) use ( $userdata ) {
-				return in_array( $key, [ 'ID', 'login', 'password', 'nicename', 'showname', 'email', 'roles', 'registered', 'online' ], true );
-			},
-			ARRAY_FILTER_USE_KEY
-		);
-
-		$login    = trim( (string) ( $userdata['login'] ?? '' ) );
-		$email    = trim( (string) ( $userdata['email'] ?? '' ) );
-		$password = trim( (string) ( $userdata['password'] ?? '' ) );
-		$roles    = is_string( $userdata['roles'] ) && ! empty( $userdata['roles'] ) ? [ $userdata['roles'] ] : $userdata['roles'];
-
-		$errors = new Errors();
-		if ( empty( $login ) ) {
-			$errors->add( __METHOD__, I18n::__( 'Cannot create a user with an empty login name.' ) );
-		}
-
-		if ( mb_strlen( $login ) > 60 ) {
-			$errors->add( __METHOD__, I18n::__( 'Login may not be longer than 60 characters.' ) );
-		}
-		// check user by email or login
-		$users = self::exists(
 			[
-				'login' => $login,
-				'email' => $email,
+				'login'    => 'login',
+				'email'    => 'email',
+				'password' => 'trim',
+				'showname' => 'ucfirst:$login',
+				'nicename' => 'slug:$login|unique',
 			]
-		);
-		if ( $users ) {
-			$errors->add( __METHOD__, I18n::__( 'Sorry, that email address or login is already used!' ) );
-		}
-
-		$all_errors = $errors->get_error_messages( __METHOD__ );
-		if ( ! empty( $all_errors ) ) {
-			return $all_errors;
-		}
-
-		/**
-		 * Otherwise build a nicename and showname from the login.
-		 */
-		if ( empty( $userdata['nicename'] ) ) {
-			$userdata['nicename'] = Esc::slug( $login );
-		}
-		if ( empty( $userdata['showname'] ) ) {
-			$userdata['showname'] = ucfirst( Esc::slug( $login ) );
-		}
-
-		$nicename_check = Db::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] ] );
-		if ( $nicename_check ) {
-			$suffix = 1;
-			while ( $nicename_check ) {
-				$suffix++;
-				$nicename_check = Db::select( self::$table, 'ID', [ 'nicename' => $userdata['nicename'] . "-$suffix" ] );
+		) )->extend(
+			'unique',
+			function( $value ) {
+				$suffix = 1;
+				while (Db::select(self::$table, 'ID', ['nicename' => $value . ($suffix > 1 ? "-$suffix" : '')])) {
+					$suffix++;
+				}
+				return sprintf( '%s%s', $value, $suffix > 1 ? "-$suffix" : '' );
 			}
-			$userdata['nicename'] = $userdata['nicename'] . "-$suffix";
+		)->apply();
+
+		// validate incoming user data
+		$userdata = (
+			new Validator(
+				$userdata,
+				[
+					'login'    => 'lengthMin:3|lengthMax:60',
+					'password' => 'required',
+					'email'    => 'email|unique',
+				]
+			)
+		)->extend(
+			'email:unique',
+			I18n::__( 'Sorry, that email address or login is already used!' ),
+			fn( $validator ) => ! self::exists(
+				[
+					'login' => $validator->fields['login'],
+					'email' => $validator->fields['email'],
+				]
+			)
+		)->apply();
+
+		if ( $userdata instanceof Validator ) {
+			return $userdata->errors;
 		}
 
-		if ( ! empty( $password ) ) {
-			$userdata['password'] = password_hash( $password, PASSWORD_DEFAULT );
-		} else {
-			$userdata['password'] = Hash::generate();
-		}
-
-		// TODO:: add a check for the rights of creating a user with rights older than subscriber
-		$userdata['roles'] = $roles ?? [ Option::get( 'users.roles' ) ];
+		[ $login, $password ] = array_values( $userdata );
+		$userdata['password'] = $password ? password_hash($password, PASSWORD_DEFAULT) : Hash::generate();
 
 		$user_count = Db::insert( self::$table, $userdata )->rowCount();
-		if ( $user_count === 1 ) {
-			$user = self::get( $login, 'login' );
-			if ( $user instanceof User ) {
-
-				/**
-				 * Fires immediately after a new user is registered.
-				 *
-				 * @since 1.0.0
-				 *
-				 * @param User $user data of created user
-				 */
-				Hook::apply( 'grafema_user_added', $user );
-
-				return $user;
-			}
+		if ( $user_count !== 1 ) {
+			return false;
 		}
+
+		$user = self::get( $login, 'login' );
+		if ( $user instanceof User ) {
+
+			/**
+			 * Fires immediately after a new user is registered.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param User $user data of created user
+			 */
+			Hook::apply( 'grafema_user_added', $user );
+
+			return $user;
+		}
+
 		return false;
 	}
 
@@ -186,8 +165,7 @@ class User extends Users {
 	 * @since 1.0.0
 	 */
 	public static function get( $value, string $get_by = 'ID' ): Errors|User|bool {
-		$allowed_fields = [ 'ID', 'login', 'email', 'nicename' ];
-		if ( ! in_array( $get_by, $allowed_fields, true ) ) {
+		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
 			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
@@ -195,7 +173,7 @@ class User extends Users {
 		if ( isset( $user[0] ) && is_array( $user[0] ) ) {
 			$_user = new self();
 			foreach ( $user[0] as $field => $value ) {
-				$_user->$field = $field === 'roles' ? unserialize( $value ) : $value;
+				$_user->$field = $value;
 			}
 			return $_user;
 		}
@@ -243,7 +221,6 @@ class User extends Users {
 	 * @return Errors|int      The number of remote users or false.
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
-
 		$fields = [
 			'ID' => abs( $user_id ),
 		];
@@ -261,11 +238,10 @@ class User extends Users {
 	/**
 	 * Searches for users by the specified parameters
 	 *
-	 * @since 1.0.0
-	 *
+	 * @since  1.0.0
 	 * @return bool Array of fields and values to search for users.
 	 */
-	public static function exists( array $fields ) {
+	public static function exists( array $fields ): bool {
 		$users = Db::select( self::$table, '*', [ 'OR' => $fields ] );
 		if ( $users ) {
 			return true;
@@ -296,7 +272,7 @@ class User extends Users {
 
 		if ( is_array( $roles ) ) {
 			foreach ( $roles as $role ) {
-				return Users\Roles::has_cap( $role, $capabilities );
+				return Roles::has_cap( $role, $capabilities );
 			}
 		}
 		return false;
@@ -411,10 +387,5 @@ class User extends Users {
 			);
 		}
 		Session::set( self::$session_id, null );
-	}
-
-	public static function addNonce( $action = -1 ) {
-		$user_id = 0;
-		return substr( hash_hmac( 'ripemd160', $action . '|' . $user_id, 'nonce' ), -12, 10 );
 	}
 }

@@ -6,6 +6,7 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
+
 use Grafema\Csrf;
 use Grafema\Api;
 use Grafema\Asset;
@@ -13,18 +14,22 @@ use Grafema\Hook;
 use Grafema\I18n;
 use Grafema\Post\Status;
 use Grafema\Post\Type;
+use Grafema\Url;
 use Grafema\User;
 use Grafema\Debug;
 use Grafema\Json;
 use Grafema\View;
+use Grafema\File\Csv;
+use Grafema\Patterns\Singleton;
 
 /**
- * Bootstrap file for setting the constants and loading the config.php file.
- * At this point, we initialize autoload of the application core classes.
+ *
+ *
+ * @since 1.0.0
  */
 class Dashboard extends Grafema\App\App
 {
-	use Grafema\Patterns\Singleton;
+	use Singleton;
 
 	/**
 	 * Class constructor.
@@ -33,28 +38,87 @@ class Dashboard extends Grafema\App\App
 	 */
 	public function __construct()
 	{
-		/*
-		 * Define a constants
+		/**
+		 * Set up default post types: "pages" & "media".
 		 *
 		 * @since 1.0.0
 		 */
-		$this->define( 'GRFM_IS_DASHBOARD', true );
+		Type::register(
+			'pages',
+			[
+				'labels' => [
+					'name'        => I18n::__( 'Page' ),
+					'name_plural' => I18n::__( 'Pages' ),
+					'add'         => I18n::__( 'Add New' ),
+					'edit'        => I18n::__( 'Edit Page' ),
+					'update'      => I18n::__( 'Update Page' ),
+					'view'        => I18n::__( 'View Page' ),
+					'view_plural' => I18n::__( 'View Pages' ),
+					'search'      => I18n::__( 'Search Pages' ),
+					'all_items'   => I18n::__( 'All Pages' ),
+					'published'   => I18n::__( 'Page published' ),
+					'scheduled'   => I18n::__( 'Page scheduled' ),
+					'updated'     => I18n::__( 'Page updated' ),
+				],
+				'description'  => '',
+				'public'       => true,
+				'hierarchical' => true,
+				'searchable'   => true,
+				'show_ui'      => true,
+				'show_in_menu' => true,
+				'show_in_bar'  => true,
+				'position'     => 20,
+				'menu_icon'    => 'ph ph-folders',
+				'capabilities' => ['types_edit'],
+				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
+				'taxonomies'   => [],
+				'can_export'   => true,
+			]
+		);
 
-		/*
-		 * Add core api endpoints
-		 *
-		 * @since 1.0.0
-		 */
-		Api::create( sprintf( '%sapi/v1', GRFM_DASHBOARD ), '/api/v1' );
+		Type::register(
+			'media',
+			[
+				'labels' => [
+					'name'        => I18n::__( 'Storage' ),
+					'name_plural' => I18n::__( 'Storage' ),
+					'add'         => I18n::__( 'Upload' ),
+					'edit'        => I18n::__( 'Edit Media' ),
+					'update'      => I18n::__( 'Update Attachment' ),
+					'view'        => I18n::__( 'View Attachment' ),
+					'view_plural' => I18n::__( 'View Attachments' ),
+					'search'      => I18n::__( 'Search Attachments' ),
+					'all_items'   => I18n::__( 'Library' ),
+					'published'   => I18n::__( 'Attachment published.' ),
+					'scheduled'   => I18n::__( 'Attachment scheduled.' ),
+					'updated'     => I18n::__( 'Attachment updated.' ),
+				],
+				'description'  => '',
+				'public'       => true,
+				'hierarchical' => true,
+				'searchable'   => 0,
+				'show_ui'      => true,
+				'show_in_menu' => true,
+				'show_in_bar'  => true,
+				'position'     => 30,
+				'menu_icon'    => 'ph ph-dropbox-logo',
+				'capabilities' => ['types_edit'],
+				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
+				'taxonomies'   => [],
+				'can_export'   => true,
+			]
+		);
 
-		/*
+		/**
 		 * Override response
 		 *
 		 * @since 1.0.0
 		 */
 		Hook::add(
 			'grafema_api_response',
-			function ( $json, $slug, $data ) {
+			function ( $data, $slug ) {
+				var_dump( $slug );
+				var_dump( $data );
 				switch ( $slug ) {
 					case 'sign/in':
 						if ( $data instanceof User ) {
@@ -67,7 +131,16 @@ class Dashboard extends Grafema\App\App
 							];
 						}
 						break;
-					case 'sign/up':
+					case 'sign-up':
+						$isUser = $data instanceof User;
+						$data   = [
+							[
+								'target'   => $isUser ? 'body' : '',
+								'fragment' => $isUser ? Url::sign_in() : '',
+								'method'   => $isUser ? 'redirect' : '',
+								'data'     => $data,
+							],
+						];
 						break;
 					case 'grab/files':
 						$data = [
@@ -104,7 +177,7 @@ class Dashboard extends Grafema\App\App
 					case 'upload/file':
 						$filepath = $data->path ?? '';
 						if ( $filepath ) {
-							$rows    = \File\Csv::import( $filepath );
+							$rows    = Csv::import( $filepath );
 							$samples = $rows[0] ?? [];
 
 							$fields = [
@@ -231,8 +304,24 @@ class Dashboard extends Grafema\App\App
 				);
 			},
 			10,
-			3
+			2
 		);
+
+		/**
+		 * Add core API endpoints.
+		 * Important! If current request is request to API, stop code execution after Api::create().
+		 *
+		 * @since 1.0.0
+		 */
+		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
+
+		/**
+		 * Now the code is exclusively for the administrative panel.
+		 * Define a constants.
+		 *
+		 * @since 1.0.0
+		 */
+		$this->define( 'GRFM_IS_DASHBOARD', true );
 
 		/**
 		 * Include CSS styles & JS scripts.
@@ -242,7 +331,7 @@ class Dashboard extends Grafema\App\App
 		$styles = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
 
 		foreach ( $styles as $style ) {
-			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], '1.5.0' );
+			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], GRFM_VERSION );
 		}
 
 
@@ -255,7 +344,7 @@ class Dashboard extends Grafema\App\App
 			$data = [];
 			if ( $script === 'index' ) {
 				$data['data'] = [
-					'apiurl' => 'https://cms.codyshop.ru/api/v1/',
+					'apiurl' => 'https://cms.codyshop.ru/api/',
 					'nonce'  => $token,
 				];
 			}
@@ -266,7 +355,7 @@ class Dashboard extends Grafema\App\App
 			Asset::enqueue( $script, '/dashboard/assets/js/' . $script . '.js', $data );
 		}
 
-		/*
+		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 1.0.0
@@ -285,21 +374,21 @@ class Dashboard extends Grafema\App\App
 			}
 		);
 
-		/*
+		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 1.0.0
 		 */
 		Menu::init();
 
-		/*
+		/**
 		 * Register new forms
 		 *
 		 * @since 1.0.0
 		 */
 		Forms::init();
 
-		/*
+		/**
 		 * Register new routes
 		 *
 		 * @since 1.0.0

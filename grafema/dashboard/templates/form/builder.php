@@ -33,7 +33,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<label class="dg g-1">
 				<span class="df aic jcsb fw-600">Label</span>
 				<span class="field ff-code">
-					<input name="permalinks[post]" placeholder="e.g. Just Another Grafema Website" required>
+					<input name="permalinks[post]" placeholder="e.g. Just another Grafema site" required>
 				</span>
 			</label>
 		</div>
@@ -41,7 +41,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<label class="dg g-1">
 				<span class="df aic jcsb fw-600">Name</span>
 				<span class="field ff-code">
-					<input name="permalinks[post]" placeholder="e.g. Just Another Grafema Website" required>
+					<input name="permalinks[post]" placeholder="e.g. Just another Grafema site" required>
 					<i class="ph ph-info" x-tooltip.click.prevent="'Single word, no spaces. Underscores and dashes allowed'"></i>
 				</span>
 			</label>
@@ -50,7 +50,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<label class="dg g-1">
 				<span class="df aic jcsb fw-600">Default value</span>
 				<span class="field ff-code">
-					<input name="permalinks[post]" placeholder="e.g. Just Another Grafema Website" required>
+					<input name="permalinks[post]" placeholder="e.g. Just another Grafema site" required>
 				</span>
 			</label>
 		</div>

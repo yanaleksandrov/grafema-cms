@@ -16,75 +16,104 @@ class Sanitizer
 {
 	/**
 	 * Sanitized data.
+	 *
+	 * @var array
 	 */
 	public array $data = [];
 
 	/**
 	 * Incoming fields and their values.
+	 *
+	 * @var array
 	 */
 	protected array $fields = [];
 
 	/**
-	 * Sanitizer methods list.
+	 * Sanitizer rules list.
+	 *
+	 * @var array
 	 */
-	protected array $methods = [];
+	protected array $rules = [];
 
 	/**
-	 * List for custom methods for extend sanitize.
+	 * List for custom rules for extend sanitizer.
+	 *
+	 * @var array
 	 */
 	protected array $extensions = [];
 
 	/**
-	 * Setup validation.
+	 * Setup sanitizer rules.
+	 *
+	 * @param array $data  Data for sanitizing.
+	 * @param array $rules Sanitizer rules list. Example: 'kebabcase'
 	 */
-	public function __construct()
+	public function __construct( array $data = [], array $rules = [] )
 	{
+		$this->fields = $data;
+		$this->rules  = $rules;
+
+		return $this;
+	}
+
+	/**
+	 * Add custom sanitizing rule or override exist.
+	 *
+	 * @param string    $rule     New sanitize rule name.
+	 * @param callable  $callback Callback for sanitizing.
+	 * @return Sanitizer
+	 */
+	public function extend( string $rule, callable $callback ): Sanitizer {
+		if ( is_callable( $callback ) ) {
+			$this->extensions[ $rule ] = $callback;
+		}
 		return $this;
 	}
 
 	/**
 	 * Apply sanitizer.
-	 * @param array $data    Data for sanitizing.
-	 * @param array $methods Sanitize methods. E.g.: 'trim|kebabcase'
+	 *
 	 * @return array
 	 */
-	public function apply( array $data = [], array $methods = [] ): array
+	public function apply(): array
 	{
-		if ( ! empty( $data ) ) {
-			$this->fields = $data;
-		}
+		foreach ( $this->rules as $field => $rules_list ) {
+			$rules = explode( '|', $rules_list );
 
-		if ( ! empty( $methods ) ) {
-			$this->methods = $methods;
-		}
+			foreach ( $rules as $rule ) {
+				[$method, $default_value] = explode(':', $rule, 2) + [null, null];
 
-		foreach ( $this->methods as $field => $methods_list ) {
-			$methods = explode( '|', $methods_list );
+				$extension = isset( $this->extensions[$method] ) ? $this->extensions[$method] : null;
+				$value     = $this->data[$field] ?? ( $this->fields[$field] ?? '' );
 
-			foreach ( $methods as $rules ) {
-				[$method, $default_or_comparison_value] = array_pad( explode( ':', $rules, 2 ), 2, null );
+				// set default value if incoming is empty & default is not empty
+				if ( empty( $value ) && ! empty( $default_value ) ) {
+					$value = $default_value;
 
-				if ( ! is_callable( [$this, $method] ) ) {
-					continue;
-				}
-
-				$incoming_value = $this->data[$field] ?? ( $this->fields[$field] ?? '' );
-				$value          = call_user_func( [$this, $method], $incoming_value, $default_or_comparison_value );
-
-				// set default value
-				if ( $method !== 'bool' ) {
-					if ( empty( $value ) ) {
-						$value = call_user_func( [$this, $method], $default_or_comparison_value, null );
+					// substring "$" at the beginning, means that the default value must be taken from another field
+					if ( str_starts_with( $default_value, '$' ) ) {
+						$value = $this->data[ trim( $default_value, '$' ) ] ?? '';
 					}
-				} elseif ( $incoming_value === '' ) {
-					$value = call_user_func( [$this, $method], $default_or_comparison_value, null );
 				}
 
-				$this->data[$field] = $value;
+				$this->data[$field] = match (true) {
+					is_callable( $extension )       => call_user_func( $extension, $value, $this ),
+					is_callable( [$this, $method] ) => call_user_func( [$this, $method], $value ),
+					default                         => null
+				};
 			}
 		}
 
 		return $this->data;
+	}
+
+	/**
+	 * Get values list.
+	 *
+	 * @return array
+	 */
+	public function values(): array {
+		return array_values( $this->apply() );
 	}
 
 	/**
@@ -185,7 +214,7 @@ class Sanitizer
 	}
 
 	/**
-	 * Sanitize html.
+	 * Sanitizer html.
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
@@ -196,7 +225,7 @@ class Sanitizer
 	}
 
 	/**
-	 * Sanitize attribute.
+	 * Sanitizer attribute.
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
@@ -234,10 +263,9 @@ class Sanitizer
 	 * - Strips percent-encoded characters
 	 *
 	 * @param mixed $value Value to change
-	 * @param bool $keep_newlines
 	 * @return string
 	 */
-	public static function text( mixed $value, $keep_newlines = false ): string
+	public static function text( mixed $value ): string
 	{
 		$sanitized = '';
 		if ( is_scalar( $value ) ) {
@@ -275,7 +303,7 @@ class Sanitizer
 	}
 
 	/**
-	 * Remove whitespaces from string.
+	 * Strip whitespaces, tabs, NUL-byte & new line from the beginning & end of a string.
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
@@ -316,6 +344,17 @@ class Sanitizer
 	public static function capitalize( mixed $value ): string
 	{
 		return ucwords( self::trim( $value ) );
+	}
+
+	/**
+	 * Capitalize first letter.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 */
+	public static function ucfirst( mixed $value ): string
+	{
+		return ucfirst( self::trim( $value ) );
 	}
 
 	/**
@@ -402,6 +441,17 @@ class Sanitizer
 	}
 
 	/**
+	 * Password hash.
+	 *
+	 * @param  string $value
+	 * @return string
+	 */
+	public static function hash( mixed $value ): string
+	{
+		return password_hash( self::trim( $value ), PASSWORD_DEFAULT );
+	}
+
+	/**
 	 * Filters string for valid email characters.
 	 *
 	 * @param string $value
@@ -409,7 +459,7 @@ class Sanitizer
 	 */
 	public static function email( mixed $value ): string
 	{
-		return filter_var( self::trim( $value ), FILTER_SANITIZE_EMAIL );
+		return strval( filter_var( self::trim( $value ), FILTER_SANITIZE_EMAIL ) );
 	}
 
 	/**
@@ -420,7 +470,7 @@ class Sanitizer
 	 */
 	public static function url( mixed $value ): string
 	{
-		return filter_var( self::trim( $value ), FILTER_SANITIZE_URL );
+		return strval( filter_var( self::trim( $value ), FILTER_SANITIZE_URL ) );
 	}
 
 	/**
@@ -492,29 +542,24 @@ class Sanitizer
 	 *
 	 * This differs from strip_tags() because it removes the contents of
 	 * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
-	 * will return 'something'. `Sanitize::tags()` will return ''
+	 * will return 'something'. `Sanitizer::tags()` will return ''
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param string $string        string containing HTML tags
-	 * @param bool   $remove_breaks Optional. Whether to remove left over line breaks and white space chars
-	 *
-	 * @return string the processed string
+	 * @param  string $value String containing HTML tags.
+	 * @return string        The processed string.
 	 */
-	public static function tags( string $string, bool $remove_breaks = false ): string
+	public static function tags( string $value ): string
 	{
-		$string = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $string );
-		$string = strip_tags( $string );
+		$value = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $value );
+		$value = strip_tags( $value );
+		$value = preg_replace( '/[\r\n\t ]+/', ' ', $value );
 
-		if ( $remove_breaks ) {
-			$string = preg_replace( '/[\r\n\t ]+/', ' ', $string );
-		}
-
-		return self::trim( $string );
+		return self::trim( $value );
 	}
 
 	/**
-	 * Sanitize a mime type.
+	 * Sanitizer a mime type.
 	 *
 	 * @since  1.0.0
 	 *
@@ -532,148 +577,112 @@ class Sanitizer
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param string $color     color in HEX format
-	 * @param bool   $with_hash return with hash or not
-	 *
-	 * @return string|null 3 or 6 digit hex color with or without #
+	 * @param string $value Color in HEX format
+	 * @return string|null  3 or 6 digit hex color with or without #
 	 */
-	public static function hex( string $color, bool $with_hash = true ): ?string
+	public static function hex( string $value ): ?string
 	{
-		$color = self::trim( $color );
-		if ( ! str_contains( $color, '#' ) ) {
-			$color = '#' . $color;
+		$value = self::trim( $value );
+		if ( ! str_contains( $value, '#' ) ) {
+			$value = '#' . $value;
 		}
 
 		// 3 or 6 hex digits, or the empty string.
-		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $color ) ) {
-			if ( $with_hash ) {
-				return $color;
-			}
-
-			return ltrim( $color, '#' );
+		if ( preg_match( '|^#([A-Fa-f0-9]{3}){1,2}$|', $value ) ) {
+			return $value;
 		}
 
-		return null;
+		return '';
 	}
 
 	/**
 	 * Clearing the slug that is used as part of the url.
 	 *
-	 * @param string $slug Value of slug
-	 * @param string $context Context
+	 * @param string  $value Value of slug.
 	 * @return string
 	 */
-	public static function slug( string $slug, string $context = 'display' ): string
+	public static function slug( string $value ): string
 	{
-		$slug = strip_tags( $slug );
+		$value = strip_tags( $value );
 		// Preserve escaped octets.
-		$slug = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $slug );
+		$value = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '---$1---', $value );
 		// Remove percent signs that are not part of an octet.
-		$slug = str_replace( '%', '', $slug );
+		$value = str_replace( '%', '', $value );
 		// Restore octets.
-		$slug = preg_replace( '|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $slug );
+		$value = preg_replace( '|---([a-fA-F0-9][a-fA-F0-9])---|', '%$1', $value );
 
-		$slug = strtolower( $slug );
-
-		if ( $context === 'save' ) {
-			// Convert &nbsp, &ndash, and &mdash to hyphens.
-			$slug = str_replace( ['%c2%a0', '%e2%80%93', '%e2%80%94'], '-', $slug );
-			// Convert &nbsp, &ndash, and &mdash HTML entities to hyphens.
-			$slug = str_replace( ['&nbsp;', '&#160;', '&ndash;', '&#8211;', '&mdash;', '&#8212;'], '-', $slug );
-			// Convert forward slash to hyphen.
-			$slug = str_replace( '/', '-', $slug );
-
-			// Strip these characters entirely.
-			$slug = str_replace(
-				[
-					// Soft hyphens.
-					'%c2%ad',
-					// &iexcl and &iquest.
-					'%c2%a1',
-					'%c2%bf',
-					// Angle quotes.
-					'%c2%ab',
-					'%c2%bb',
-					'%e2%80%b9',
-					'%e2%80%ba',
-					// Curly quotes.
-					'%e2%80%98',
-					'%e2%80%99',
-					'%e2%80%9c',
-					'%e2%80%9d',
-					'%e2%80%9a',
-					'%e2%80%9b',
-					'%e2%80%9e',
-					'%e2%80%9f',
-					// Bullet.
-					'%e2%80%a2',
-					// &copy, &reg, &deg, &hellip, and &trade.
-					'%c2%a9',
-					'%c2%ae',
-					'%c2%b0',
-					'%e2%80%a6',
-					'%e2%84%a2',
-					// Acute accents.
-					'%c2%b4',
-					'%cb%8a',
-					'%cc%81',
-					'%cd%81',
-					// Grave accent, macron, caron.
-					'%cc%80',
-					'%cc%84',
-					'%cc%8c',
-					// Non-visible characters that display without a width.
-					'%e2%80%8b', // Zero width space.
-					'%e2%80%8c', // Zero width non-joiner.
-					'%e2%80%8d', // Zero width joiner.
-					'%e2%80%8e', // Left-to-right mark.
-					'%e2%80%8f', // Right-to-left mark.
-					'%e2%80%aa', // Left-to-right embedding.
-					'%e2%80%ab', // Right-to-left embedding.
-					'%e2%80%ac', // Pop directional formatting.
-					'%e2%80%ad', // Left-to-right override.
-					'%e2%80%ae', // Right-to-left override.
-					'%ef%bb%bf', // Byte order mark.
-					'%ef%bf%bc', // Object replacement character.
-				],
-				'',
-				$slug
-			);
-
-			// Convert non-visible characters that display with a width to hyphen.
-			$slug = str_replace(
-				[
-					'%e2%80%80', // En quad.
-					'%e2%80%81', // Em quad.
-					'%e2%80%82', // En space.
-					'%e2%80%83', // Em space.
-					'%e2%80%84', // Three-per-em space.
-					'%e2%80%85', // Four-per-em space.
-					'%e2%80%86', // Six-per-em space.
-					'%e2%80%87', // Figure space.
-					'%e2%80%88', // Punctuation space.
-					'%e2%80%89', // Thin space.
-					'%e2%80%8a', // Hair space.
-					'%e2%80%a8', // Line separator.
-					'%e2%80%a9', // Paragraph separator.
-					'%e2%80%af', // Narrow no-break space.
-				],
-				'-',
-				$slug
-			);
-
-			// Convert &times to 'x'.
-			$slug = str_replace( '%c3%97', 'x', $slug );
-		}
+		$value = strtolower( $value );
 
 		// Remove HTML entities.
-		$slug = preg_replace( '/&.+?;/', '', $slug );
-		$slug = str_replace( '.', '-', $slug );
+		$value = preg_replace( '/&.+?;/', '', $value );
+		$value = str_replace( '.', '-', $value );
 
-		$slug = preg_replace( '/[^%a-z0-9 _-]/', '', $slug );
-		$slug = preg_replace( '/\s+/', '-', $slug );
-		$slug = preg_replace( '|-+|', '-', $slug );
+		$value = preg_replace( '/[^%a-z0-9 _-]/', '', $value );
+		$value = preg_replace( '/\s+/', '-', $value );
+		$value = preg_replace( '|-+|', '-', $value );
 
-		return self::trim( $slug, '-' );
+		return self::trim( $value );
+	}
+
+	/**
+	 * Sanitize a login.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  mixed  $value Incoming login.
+	 * @return string
+	 */
+	public static function login( string $value ): string
+	{
+		$value = self::trim( $value );
+
+		// Strip all tags.
+		$value = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $value );
+		$value = strip_tags( $value );
+		$value = preg_replace( '/[\r\n\t ]+/', ' ', $value );
+
+		$value = self::accents( $value );
+		// Remove percent-encoded characters.
+		$value = preg_replace( '|%([a-fA-F0-9][a-fA-F0-9])|', '', $value );
+		// Remove HTML entities.
+		$value = preg_replace( '/&.+?;/', '', $value );
+
+		// Consolidate contiguous whitespace.
+		return preg_replace( '|\s+|', '', $value );
+	}
+
+	/**
+	 * Removes accent from strings.
+	 *
+	 * Esc::accents("ªºÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿØ");
+	 *         echo: ooAAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyyO.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  mixed  $value Incoming login.
+	 * @return string
+	 */
+	public static function accents( string $value ): string
+	{
+		if ( ! preg_match( '/[\x80-\xff]/', $value ) ) {
+			return $value;
+		}
+
+		// converting accents in HTML entities
+		$value = htmlentities( $value, ENT_NOQUOTES, 'utf-8' );
+
+		// replacing the HTML entities to extract the first letter
+		// examples: "&ecute;" => "e", "&Ecute;" => "E", "à" => "a" ...
+		$value = preg_replace(
+			'#&([A-za-z])(?:acute|grave|cedil|circ|orn|ring|slash|th|tilde|uml|caron|lig|rdf|rdm);#',
+			'\1',
+			$value
+		);
+
+		// replacing ligatures, e.g.: "œ" => "oe", "Æ" => "AE"
+		$value = preg_replace( '#&([A-za-z]{2})(?:lig);#', '\1', $value );
+
+		// removing the remaining bits
+		return preg_replace( '#&[^;]+;#', '', $value );
 	}
 }

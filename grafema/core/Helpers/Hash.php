@@ -29,9 +29,7 @@ class Hash
      * @param bool $extra_special_chars Optional. Whether to include other special characters.
      *                                  Used when generating secret keys and salts. Default false.
      *
-     * @return string the random password
-     *
-     * @throws Exception
+     * @return string The random password
      *
      * @since 1.0.0
      */
@@ -52,7 +50,7 @@ class Hash
             $password .= substr($chars, random_int(0, strlen($chars) - 1), 1);
         }
 
-        return password_hash($password, PASSWORD_DEFAULT);
+        return $password;
     }
 
     /**

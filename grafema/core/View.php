@@ -94,28 +94,49 @@ class View
 	}
 
 	/**
-	 * Load template
+	 * Loads a template part into a template.
+	 *
 	 * Using: View::part( 'templates/content', [
 	 *          'key' => 'value'
 	 *        ] );.
 	 *
+	 * Provides a simple mechanism to overload reusable sections of code.
+	 * The template is included using require, not require_once, so you
+	 * may include the same template part multiple times.
+	 *
+	 * TODO: add object cache
+	 * TODO: include 404 error part if nothing found (possible no needs)
+	 * TODO: potential problem, - if the same file override several different plugins, which one should I use?
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $template The path to the view file.
+	 * @param array  $args     Optional. Additional arguments passed to the template. Default empty array.
+	 *
 	 * @since 1.0.0
 	 */
-	public static function part( string $template_file, array $args = [], $require_once = false )
+	public static function part( string $template, array $args = [] )
 	{
+		$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		if ( Is::dashboard() || Is::install() ) {
-			$template_file = sprintf( '%s/dashboard/%s.php', dirname( __DIR__ ), $template_file );
-		} else {
-			$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template_file;
+			$template_file = sprintf( '%s%s.php', GRFM_DASHBOARD, $template );
 		}
 
+		$template_file = Sanitizer::path( $template_file );
 		if ( file_exists( $template_file ) ) {
+
+			/**
+			 * Override template file.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $find_filepath the application doing the redirect
+			 */
+			$template_file = Hook::apply( 'grafema_view_part', $template_file, $template, $args );
+
 			extract( $args, EXTR_SKIP );
-			if ( $require_once ) {
-				require_once $template_file;
-			} else {
-				require $template_file;
-			}
+
+			require $template_file;
 		}
 	}
 }

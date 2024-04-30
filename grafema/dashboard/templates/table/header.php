@@ -15,14 +15,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $title ) = array_values(
-	( new Sanitizer() )->apply(
-		$args,
-		[
-			'title' => 'trim',
-		]
-	)
-);
+[ $title ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'title' => 'trim',
+	]
+) )->values();
 ?>
 <!-- table head start -->
 <div class="table__header">

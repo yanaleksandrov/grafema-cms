@@ -3,7 +3,7 @@ use Grafema\Hook;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Option;
-use Grafema\Part;
+use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\User;
 
@@ -23,53 +23,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $slug       = Sanitizer::trim( $args['slug'] ?? '' );
 $start_time = microtime( true );
-// $randoms    = [
-//	'price',
-//	'height',
-//	'width',
-//	'length',
-//	'dimension',
-//	'test',
-//	'last',
-//	'hello',
-//	'world',
-//	'can',
-//	'use',
-//	'date',
-//	'list',
-//	'arrow',
-//	'jetpack',
-//	'allow',
-//	'color',
-//	'type',
-// ];
-// $fields     = [];
-// $count      = 200000;
-// $count      = 1;
-// $post       = 1;
-// for ( $i = 1; $i <= $count; $i++ ) {
-//	$fields[] = [
-//		'post'  => $post,
-//		'name'  => $randoms[ array_rand( $randoms ) ],
-//		'value' => $i,
-//	];
-//
-//	if ( $post === 10000 ) {
-//		$post = 0;
-//	} else {
-//		$post = $post + 1;
-//	}
-//
-//	if ( $i === $count ) {
-//
-//	} else {
-//
-//	}
-// }
-// print_r( Field::get( 'pages', 3 ) );
-// echo 'Time:  ' . number_format( ( microtime( true ) - $start_time ), 5 ) . " Seconds\n";
-// exit;
-
 // print_r(
 //	Query::apply(
 //		[
@@ -149,7 +102,7 @@ $start_time = microtime( true );
 			<div class="grafema-panel">
 				<div class="grafema-sidebar">
 					<img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
-					<?php Part::view( 'templates/menu-panel' ); ?>
+					<?php View::part( 'templates/menu-panel' ); ?>
 					<div class="mt-auto df fdc aic">
 						<div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
 							<i class="badge bg-herbal" title="Online"></i>
@@ -182,9 +135,9 @@ $start_time = microtime( true );
 				</div>
 
 				<?php
-				Part::view( 'templates/menu' );
+				View::part( 'templates/menu' );
 
-				Part::view( 'templates/' . $slug );
+				View::part( 'templates/' . $slug );
 				?>
 			</div>
 		</div>
@@ -199,7 +152,7 @@ $start_time = microtime( true );
 		</div>
 	<?php } else { ?>
 		<div class="df aic jcc p-8">
-			<?php Part::view( 'templates/' . $slug ); ?>
+			<?php View::part( 'templates/' . $slug ); ?>
 		</div>
 		<?php
 	}

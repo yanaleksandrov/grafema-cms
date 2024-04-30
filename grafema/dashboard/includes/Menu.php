@@ -8,10 +8,11 @@
  */
 use Grafema\Tree;
 use Grafema\I18n;
+use Grafema\Patterns\Singleton;
 
 final class Menu
 {
-	use \Grafema\Patterns\Singleton;
+	use Singleton;
 
 	/**
 	 * Class constructor.

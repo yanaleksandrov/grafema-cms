@@ -1215,7 +1215,7 @@ if (typeof global !== 'undefined') {
 	global.Prism = Prism;
 }
 
-// some additional documentation/types
+// some additional docs/types
 
 /**
  * The expansion of a simple `RegExp` literal to support additional properties.
@@ -2379,7 +2379,7 @@ Prism.languages.csv = {
 	}
 
 	/**
-	 * Adds doc-comment support to the given languages for the given documentation language.
+	 * Adds doc-comment support to the given languages for the given docs language.
 	 *
 	 * @param {string[]|string} languages
 	 * @param {Object} docLanguage

@@ -4,7 +4,7 @@ use Grafema\Json;
 use Grafema\View;
 
 /*
- * Extensions list for install.
+ * Addons list for install.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/plugins-install.php
  *

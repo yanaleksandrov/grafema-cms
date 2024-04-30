@@ -12,8 +12,8 @@ namespace Grafema;
 use JsonException;
 
 /**
- *  Session class
- *  Удобная оберка для стандартных сессий.
+ * Session class
+ * Удобная оберка для стандартных сессий.
  *
  * TODO: migrate to https://github.com/odan/session/tree/c7afc83519a109dd45039662ea8dd8aea7675761
  */

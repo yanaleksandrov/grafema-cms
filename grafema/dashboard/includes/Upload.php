@@ -1,7 +1,10 @@
 <?php
-
-use Post\Post;
-use File\Image;
+use Grafema\File\File;
+use Grafema\Sanitizer;
+use Grafema\Errors;
+use Grafema\Post\Post;
+use Grafema\File\Image;
+use Grafema\Patterns;
 
 /**
  *
@@ -9,21 +12,6 @@ use File\Image;
  * @package Grafema
  */
 class Upload {
-
-	/**
-	 * Check the compliance of the server with the minimum requirements
-	 *
-	 * @return array|File\File|Errors
-	 */
-	public static function file(): array|File\File|Errors {
-		$files = $_FILES ?? [];
-		if ( $files ) {
-			foreach ( $files as $file ) {
-				return ( new File\File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
-			}
-		}
-		return [];
-	}
 
 	/**
 	 * Upload ne files to media storage
@@ -40,7 +28,7 @@ class Upload {
 
 		foreach ( $_FILES as $file ) {
 			$sizes    = Patterns\Registry::get( 'images' );
-			$file     = ( new File\File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+			$file     = ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
 			$basename = $file->data['basename'] ?? '';
 
 			if ( ! file_exists( $file->path ) || ! is_array( $sizes ) ) {
@@ -50,7 +38,7 @@ class Upload {
 			// crop image to different sizes
 			foreach ( $sizes as $size ) {
 				[ 'mime' => $mime, 'width' => $width, 'height' => $height ] = (
-					new \Sanitizer\Sanitizer(
+					new Sanitizer(
 						$size,
 						[
 							'name'   => 'text',

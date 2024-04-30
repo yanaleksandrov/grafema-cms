@@ -65,7 +65,7 @@ class Esc
 	}
 
 	/**
-	 * Sanitize the value according to the column data type when inserting data into the database.
+	 * Sanitizer the value according to the column data type when inserting data into the database.
 	 *
 	 * @since 1.0.0
 	 */

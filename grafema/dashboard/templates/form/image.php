@@ -1,4 +1,6 @@
 <?php
+use Grafema\Sanitizer;
+
 /**
  * Single image uploader.
  *
@@ -12,16 +14,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $label_class, $class] = array_values(
-	( new Grafema\Sanitizer() )->apply(
-		$args,
-		[
-			'label'       => 'trim',
-			'label_class' => 'class:dg ga-1 fw-600',
-			'class'       => 'class:dg',
-		]
-	)
-);
+[$label, $label_class, $class] = (
+    new Sanitizer(
+        $args ?? [],
+        [
+            'label'       => 'trim',
+            'label_class' => 'class:dg ga-1 fw-600',
+            'class'       => 'class:dg',
+        ]
+    )
+)->values();
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="df aife g-4">

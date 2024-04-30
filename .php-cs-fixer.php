@@ -122,7 +122,7 @@ return (new PhpCsFixer\Config())
 	->setIndent( '	' )
 	->setFinder(
 		PhpCsFixer\Finder::create()
-			->exclude( 'documentation' )
+			->exclude( 'docs' )
 			->exclude( 'vendor' )
 			->exclude( 'src' )
 			->in( __DIR__ )

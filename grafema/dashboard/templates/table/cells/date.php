@@ -13,14 +13,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-list( $key ) = array_values(
-	( new Sanitizer() )->apply(
-		$args['column'] ?? [],
-		[
-			'key' => 'key',
-		]
-	)
-);
+[ $key ] = (
+    new Sanitizer(
+        $args['column'] ?? [],
+        [
+            'key' => 'key',
+        ]
+    )
+)->values();
 ?>
 <div class="<?php echo $key; ?>">
 	Published

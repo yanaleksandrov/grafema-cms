@@ -1,0 +1,1 @@
+document.addEventListener("system/test",(({detail:e})=>{const{el:o,event:t,data:l}=e;console.log(o),console.log(t),console.log(l)}));

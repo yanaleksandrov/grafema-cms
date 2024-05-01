@@ -39,6 +39,16 @@ class I18n
         return $string;
     }
 
+	/**
+	 * Translation.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function e(string $string): void
+	{
+		echo self::__($string);
+	}
+
     /**
      * Get local from HTTP.
      *
@@ -55,15 +65,5 @@ class I18n
     public static function locale(string $default = 'en_US')
     {
         echo self::getLocale($default);
-    }
-
-    /**
-     * Translation.
-     *
-     * @since 1.0.0
-     */
-    public static function e(string $string): void
-    {
-        echo self::__($string);
     }
 }

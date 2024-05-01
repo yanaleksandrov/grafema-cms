@@ -9,41 +9,18 @@
 
 namespace Dashboard\Api;
 
+use Grafema\Api\Crud;
 use Grafema\Helpers\Arr;
-use Grafema\Json;
-use Grafema\Debug;
 use Grafema\I18n;
 
 class Options extends \Grafema\Api\Handler
 {
+	use Crud;
+
 	/**
 	 * Endpoint name.
 	 */
 	public string $endpoint = 'posts';
-
-	/**
-	 * Get all items.
-	 *
-	 * @url    GET api/user
-	 */
-	public function index(): array
-	{
-		return [
-			'method' => 'GET user list',
-		];
-	}
-
-	/**
-	 * Get item by ID.
-	 *
-	 * @url    GET api/user/$id
-	 */
-	public function view(): array
-	{
-		return [
-			'method' => 'GET user by ID',
-		];
-	}
 
 	/**
 	 * Create item.
@@ -54,6 +31,18 @@ class Options extends \Grafema\Api\Handler
 	{
 		return [
 			'method' => 'POST create user',
+		];
+	}
+
+	/**
+	 * Get all items.
+	 *
+	 * @url    GET api/user
+	 */
+	public function index(): array
+	{
+		return [
+			'method' => 'GET user list',
 		];
 	}
 
@@ -97,22 +86,16 @@ class Options extends \Grafema\Api\Handler
 			}
 		}
 
-		echo Json::encode(
+		return [
 			[
-				'status'    => 200,
-				'benchmark' => Debug::timer( 'getall' ),
-				'data'      => [
-					[
-						'fragment' => I18n::__( 'Options is updated successfully' ),
-						'target'   => 'body',
-						'method'   => 'notify',
-						'custom'   => [
-							'type'     => 'success',
-							'duration' => 5000,
-						],
-					],
+				'fragment' => I18n::__( 'Options is updated successfully' ),
+				'target'   => 'body',
+				'method'   => 'notify',
+				'custom'   => [
+					'type'     => 'success',
+					'duration' => 5000,
 				],
-			]
-		);
+			],
+		];
 	}
 }

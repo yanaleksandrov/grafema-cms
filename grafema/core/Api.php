@@ -25,8 +25,13 @@ final class Api
 	public static array $resources = [];
 
 	/**
-	 * @param string $path Path to controls with endpoints
-	 * @param string $root Root of the api
+	 * Register new API.
+	 *
+	 * TODO: в качестве переменной $path добавить возможность указывать путь не только к папке, но и к файлу.
+	 * Это позволит при необъодимости подключать эндпоинты выборочно, а не пакетно.
+	 *
+	 * @param string $path Path to controls with endpoints.
+	 * @param string $root Root of the API.
 	 */
 	public static function create( string $path, string $root ): void
 	{
@@ -93,7 +98,13 @@ final class Api
 		 * @since 1.0.0
 		 */
 		$data = Hook::apply( 'grafema_api_response', $data, $slug );
-		$data = Json::encode( $data );
+		$data = Json::encode(
+			[
+				'status'    => 200,
+				'benchmark' => Debug::timer( 'getall' ),
+				'data'      => $data,
+			]
+		);
 
 		header( 'Content-Type: application/json' );
 		exit( $data );

@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		 *
 		 * @since 1.0.0
 		 */
-		Hook::apply( 'dashboard_dashboard_head' );
+		Hook::apply( 'grafema_dashboard_header' );
 		?>
 	</head>
 	<body>
@@ -51,7 +51,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</defs>
 					</svg>
 				</div>
-				<?php echo Form::view( 'install/core' ); ?>
+				<?php echo Form::view( 'system-install' ); ?>
 			</div>
 		</div>
 		<?php

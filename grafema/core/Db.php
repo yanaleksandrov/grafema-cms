@@ -42,7 +42,7 @@ final class Db {
 		$options = array_merge(
 			[
 				'database' => defined( 'DB_NAME' ) ? DB_NAME : '',
-				'username' => defined( 'DB_USER' ) ? DB_USER : '',
+				'username' => defined( 'DB_USERNAME' ) ? DB_USERNAME : '',
 				'password' => defined( 'DB_PASSWORD' ) ? DB_PASSWORD : '',
 				'host'     => defined( 'DB_HOST' ) ? DB_HOST : 'localhost',
 				'prefix'   => defined( 'DB_PREFIX' ) ? DB_PREFIX : 'grafema_',

@@ -9,6 +9,7 @@
 
 namespace Dashboard\Api;
 
+use Grafema\Api\Crud;
 use Grafema\Query\Query;
 use Grafema\Json;
 use Grafema\File\Csv;
@@ -16,10 +17,24 @@ use Grafema\Post\Post;
 
 class Posts extends \Grafema\Api\Handler
 {
+	use Crud;
+
 	/**
 	 * Endpoint name.
 	 */
 	public string $endpoint = 'posts';
+
+	/**
+	 * Create item.
+	 *
+	 * @url    POST api/user
+	 */
+	public function create(): array
+	{
+		return [
+			'method' => 'POST create user',
+		];
+	}
 
 	/**
 	 * Get all items.
@@ -41,30 +56,6 @@ class Posts extends \Grafema\Api\Handler
 				return str_replace( '"', "'", json_encode( $posts ) );
 			}
 		);
-	}
-
-	/**
-	 * Get item by ID.
-	 *
-	 * @url    GET api/user/$id
-	 */
-	public function view(): array
-	{
-		return [
-			'method' => 'GET user by ID',
-		];
-	}
-
-	/**
-	 * Create item.
-	 *
-	 * @url    POST api/user
-	 */
-	public function create(): array
-	{
-		return [
-			'method' => 'POST create user',
-		];
 	}
 
 	/**

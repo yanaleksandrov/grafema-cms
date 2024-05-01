@@ -14,10 +14,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 
 Form::register(
-	'import/posts',
+	'posts/import',
 	[
 		'class'           => 'card card-border',
-		'@submit.prevent' => '$ajax(\'import/posts\').then(response => {completed = response;$wizard.goNext()})',
+		'@submit.prevent' => '$ajax(\'posts/import\').then(response => {completed = response;$wizard.goNext()})',
 		'x-data'          => '{fields:"",completed:""}',
 	],
 	function ( $form ) {
@@ -124,6 +124,6 @@ Form::register(
 ?>
 <div class="grafema-main p-8 bg-telegrey-lt t-dark">
 	<div class="mw-600 m-auto">
-		<?php echo Form::view( 'import/posts' ); ?>
+		<?php echo Form::view( 'posts/import' ); ?>
 	</div>
 </div>

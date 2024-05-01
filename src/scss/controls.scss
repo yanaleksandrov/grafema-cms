@@ -1037,6 +1037,10 @@
     border-radius: 2rem;
   }
 
+  &--icon {
+    aspect-ratio: 1 / 1;
+  }
+
   &--load {
     pointer-events: none;
     color: transparent !important;

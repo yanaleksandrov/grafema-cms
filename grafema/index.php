@@ -19,17 +19,13 @@ use Grafema\{
 	Route,
 	Url,
 	User,
-	View
+	View,
+	Csrf,
 };
 
 if ( ! defined( 'GRFM_PATH' ) ) {
 	define( 'GRFM_PATH', __DIR__ . '/' );
 }
-
-// TODO: move to Debug class
-ini_set( 'error_reporting', E_ALL );
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
 
 /**
  * Include required files: app configuration & autoloader.
@@ -41,14 +37,62 @@ array_map(function ($include) {
 	if (file_exists($include_path)) {
 		require_once $include_path;
 	}
-}, ['config', 'autoloader']);
+}, ['config', 'config-sample', 'autoloader']);
 
 /**
- * Launch new database connection.
+ * Create a single entry point to the website.
+ *
+ * @since 1.0.0
+ */
+(function() {
+	// save as .htaccess
+	if ( ! file_exists( GRFM_PATH . '.htaccess' ) ) {
+		file_put_contents(
+			GRFM_PATH . '.htaccess',
+			'<<<HTACCESS
+			<IfModule mod_rewrite.c>
+				RewriteEngine On
+				RewriteBase /
+
+				RewriteCond %{REQUEST_FILENAME} !-f
+				RewriteCond %{REQUEST_FILENAME} !-d
+				RewriteRule ^(.*)$ index.php?/$1 [L]
+			</IfModule>
+            HTACCESS'
+		);
+	}
+})();
+
+/**
+ * Launch debug mode & run benchmark.
+ *
+ * @since 1.0.0
+ */
+Debug::launch();
+Debug::timer();
+
+/**
+ * Generate CSRF token.
+ *
+ * @since 1.0.0
+ */
+( new Csrf\Csrf(
+	new Csrf\Providers\NativeHttpOnlyCookieProvider()
+) )->generate( 'token' );
+
+/**
+ * Launch the installer if Grafema is not installed.
+ *
+ * @since 1.0.0
+ */
+Install::init();
+
+/**
+ * Launch database connection.
  *
  * @since  1.0.0
  */
-new Db();
+Db::init();
 
 /**
  * Check for the required PHP version, and the MySQL extension or a database drop-in.
@@ -96,43 +140,11 @@ new Db();
 })();
 
 /**
- * Launch debug mode & run benchmark.
- *
- * @since 1.0.0
- */
-Debug::check();
-Debug::timer();
-
-/**
  * Launch the installer if Grafema is not installed.
  *
  * @since 1.0.0
  */
 Install::init();
-
-/**
- * Create a single entry point to the website.
- *
- * @since 1.0.0
- */
-(function() {
-	// save as .htaccess
-	if ( ! file_exists( GRFM_PATH . '.htaccess' ) ) {
-		file_put_contents(
-			GRFM_PATH . '.htaccess',
-			'<<<HTACCESS
-			<IfModule mod_rewrite.c>
-				RewriteEngine On
-				RewriteBase /
-
-				RewriteCond %{REQUEST_FILENAME} !-f
-				RewriteCond %{REQUEST_FILENAME} !-d
-				RewriteRule ^(.*)$ index.php?/$1 [L]
-			</IfModule>
-            HTACCESS'
-		);
-	}
-})();
 
 /**
  * Define auxiliary constants necessary for the application and make them available in any part.
@@ -198,6 +210,7 @@ Hook::apply( 'grafema_loaded' );
 
 /**
  * Load private administrative panel.
+ *
  * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
  * TODO: move routers to dashboard.
  *

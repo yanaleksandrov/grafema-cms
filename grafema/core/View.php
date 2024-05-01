@@ -117,9 +117,10 @@ class View
 	 */
 	public static function part( string $template, array $args = [] )
 	{
-		$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		if ( Is::dashboard() || Is::install() ) {
 			$template_file = sprintf( '%s%s.php', GRFM_DASHBOARD, $template );
+		} else {
+			$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		}
 
 		$template_file = Sanitizer::path( $template_file );

@@ -1,8 +1,3 @@
-/**
- * jb.js v1.0.0
- * https://codyshop.ru (c) 2023 jb.js
- * Released under the MIT License
- */
 document.addEventListener( 'alpine:init', () => {
 
 	/**
@@ -774,7 +769,7 @@ document.addEventListener( 'alpine:init', () => {
 				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
 			}
 
-			request.onreadystatechange = () => {
+			request.onreadystatechange = event => {
 				let data = request.response?.data;
 				if (request.status === 200 && data) {
 					data.map(({ method, target, fragment, delay, custom }) => {
@@ -821,9 +816,6 @@ document.addEventListener( 'alpine:init', () => {
 									case "beforebegin":
 										target.insertAdjacentHTML(method, fragment || '');
 										break;
-									case "dispatchEvent":
-										target.dispatchEvent(new CustomEvent(fragment, {detail: custom}));
-										break;
 									case "classList.remove":
 										target.classList.remove(fragment || '');
 										break;
@@ -846,6 +838,16 @@ document.addEventListener( 'alpine:init', () => {
 							}, delay || 0);
 						})
 					});
+
+					document.dispatchEvent(
+						new CustomEvent(route, {
+							detail: { data, event, el },
+							bubbles: true,
+							// Allows events to pass the shadow DOM barrier.
+							composed: true,
+							cancelable: true
+						})
+					);
 				}
 
 				submitBtn ? submitBtn.removeAttribute('style') : null;

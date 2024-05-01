@@ -11,7 +11,7 @@ namespace Grafema;
 
 class Debug
 {
-	public static function check(): void
+	public static function launch(): void
 	{
 		if ( defined( 'GRFM_DEBUG' ) && GRFM_DEBUG ) {
 			ini_set( 'error_reporting', E_ALL );
@@ -36,7 +36,7 @@ class Debug
 	 *
 	 * @ver: 3.4.3
 	 */
-	public static function timer( string $phase = 'run', int $round = 2, string $txt = 's' )
+	public static function timer( string $phase = 'run', int $round = 3, string $txt = 's' )
 	{
 		static $prev_time, $collect;
 

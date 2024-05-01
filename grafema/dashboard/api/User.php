@@ -9,44 +9,21 @@
 
 namespace Dashboard\Api;
 
+use Grafema\Api\Crud;
 use Grafema\Sanitizer;
 use Grafema\Validator;
-use Grafema\Json;
-use Grafema\Debug;
 use Grafema\View;
 use Grafema\Mail\Mail;
 use Grafema\I18n;
 
 class User extends \Grafema\Api\Handler
 {
+	use Crud;
+
 	/**
 	 * Endpoint name.
 	 */
 	public string $endpoint = 'user';
-
-	/**
-	 * Get all items.
-	 *
-	 * @url    GET api/user
-	 */
-	public function index(): array
-	{
-		return [
-			'method' => 'GET user list',
-		];
-	}
-
-	/**
-	 * Get item by ID.
-	 *
-	 * @url    GET api/user/$id
-	 */
-	public function view(): array
-	{
-		return [
-			'method' => 'GET user by ID',
-		];
-	}
 
 	/**
 	 * Create item.
@@ -57,6 +34,18 @@ class User extends \Grafema\Api\Handler
 	{
 		return [
 			'method' => 'POST create user',
+		];
+	}
+
+	/**
+	 * Get all items.
+	 *
+	 * @url    GET api/user
+	 */
+	public function index(): array
+	{
+		return [
+			'method' => 'GET user list',
 		];
 	}
 
@@ -137,64 +126,50 @@ class User extends \Grafema\Api\Handler
 		$email = trim( strval( $_REQUEST['email'] ?? '' ) );
 
 		if ( empty( $email ) ) {
-			echo Json::encode(
+			return [
 				[
-					'status'    => 200,
-					'benchmark' => Debug::timer( 'getall' ),
-					'data'      => [
-						[
-							'delay'    => 0,
-							'fragment' => I18n::__( 'Field can\'t be empty' ),
-							'method'   => 'update',
-							'target'   => '.email-error',
-						],
-						[
-							'delay'    => 0,
-							'fragment' => 'is-invalid',
-							'method'   => 'addClass',
-							'target'   => '[name="email"]',
-						],
-						[
-							'delay'    => 4000,
-							'fragment' => '',
-							'method'   => 'update',
-							'target'   => '.email-error',
-						],
-						[
-							'delay'    => 4000,
-							'fragment' => 'is-invalid',
-							'method'   => 'removeClass',
-							'target'   => '[name="email"]',
-						],
-					],
-				]
-			);
-
-			die;
+					'delay'    => 0,
+					'fragment' => I18n::__( 'Field can\'t be empty' ),
+					'method'   => 'update',
+					'target'   => '.email-error',
+				],
+				[
+					'delay'    => 0,
+					'fragment' => 'is-invalid',
+					'method'   => 'addClass',
+					'target'   => '[name="email"]',
+				],
+				[
+					'delay'    => 4000,
+					'fragment' => '',
+					'method'   => 'update',
+					'target'   => '.email-error',
+				],
+				[
+					'delay'    => 4000,
+					'fragment' => 'is-invalid',
+					'method'   => 'removeClass',
+					'target'   => '[name="email"]',
+				],
+			];
 		}
 
 		$user = \Grafema\User::get( $email, 'email' );
 		if ( ! $user instanceof User ) {
-			echo Json::encode(
+			return [
 				[
-					'status'    => 200,
-					'benchmark' => Debug::timer( 'getall' ),
-					'data'      => [
-						[
-							'delay'    => 0,
-							'fragment' => I18n::__( 'The user with this email was not found' ),
-							'method'   => 'update',
-							'target'   => '.email-error',
-						],
-						[
-							'delay'    => 4000,
-							'fragment' => '',
-							'method'   => 'update',
-							'target'   => '.email-error',
-						],
-					],
-				]
-			);
+					'delay'    => 0,
+					'fragment' => I18n::__( 'The user with this email was not found' ),
+					'method'   => 'update',
+					'target'   => '.email-error',
+				],
+				[
+					'delay'    => 4000,
+					'fragment' => '',
+					'method'   => 'update',
+					'target'   => '.email-error',
+				],
+			];
 		} else {
 			$mail_is_sent = Mail::send(
 				$email,
@@ -207,18 +182,12 @@ class User extends \Grafema\Api\Handler
 				)
 			);
 			if ( $mail_is_sent ) {
-				echo Json::encode(
+				return [
 					[
-						'status'    => 200,
-						'benchmark' => Debug::timer( 'getall' ),
-						'alpine'    => [
-							[
-								'fragment' => true,
-								'target'   => 'sent',
-							],
-						],
-					]
-				);
+						'fragment' => true,
+						'target'   => 'sent',
+					],
+				];
 			}
 		}
 	}

@@ -16,7 +16,7 @@
  * @since 1.0.0
  */
 const DB_NAME             = 'db.name';
-const DB_USER             = 'db.user';
+const DB_USERNAME         = 'db.username';
 const DB_PASSWORD         = 'db.password';
 const DB_HOST             = 'db.host';
 const DB_PREFIX           = 'db.prefix';

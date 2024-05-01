@@ -94,7 +94,15 @@ $start_time = microtime( true );
 	<meta charset="<?php Option::attr( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Menu</title>
-	<?php Hook::apply( 'grafema_dashboard_header' ); ?>
+	<?php
+
+	/**
+	 * Prints scripts or data before the closing body tag on the dashboard.
+	 *
+	 * @since 1.0.0
+	 */
+	Hook::apply( 'grafema_dashboard_header' );
+	?>
 </head>
 <body x-data="{query:false}">
 	<?php if ( Is::installed() && User::logged() ) { ?>

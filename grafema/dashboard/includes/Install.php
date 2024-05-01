@@ -54,7 +54,7 @@ final class Install extends Grafema\App\App {
 			'grafema_api_response',
 			function ( $data, $slug ) {
 				return match($slug) {
-					'system/test' => [
+					'system/tests' => [
 						[
 							'fragment' => $data,
 							'target'   => 'body',
@@ -310,7 +310,7 @@ final class Install extends Grafema\App\App {
 							'attributes' => [
 								'class'           => 'dg g-7 pt-8 px-8',
 								'x-wizard:step'   => 'Object.values(approved).every(Boolean) === true',
-								'x-wizard:action' => 'approved = {};$ajax("system/test",db).then(response => approved = response)',
+								'x-wizard:action' => '$ajax("system/test", db).then(response => approved = response)',
 								'x-cloak'         => true,
 							],
 							'fields'     => [
@@ -330,8 +330,8 @@ final class Install extends Grafema\App\App {
 									'type'     => 'custom',
 									'callback' => function() {
 										$checks = [
-											'pdo'        => I18n::__( 'PDO PHP Extension' ),
 											'connection' => I18n::__( 'Testing the database connection' ),
+											'pdo'        => I18n::__( 'PDO PHP Extension' ),
 											'curl'       => I18n::__( 'cURL PHP Extension' ),
 											'mbstring'   => I18n::__( 'Mbstring PHP Extension' ),
 											'gd'         => I18n::__( 'GD PHP Extension' ),
@@ -390,7 +390,7 @@ final class Install extends Grafema\App\App {
 									],
 								],
 								[
-									'name'        => 'user[email]',
+									'name'        => 'user.email',
 									'type'        => 'text',
 									'label'       => I18n::__( 'Email address' ),
 									'instruction' => I18n::__( 'Double-check your email address before continuing' ),
@@ -402,19 +402,34 @@ final class Install extends Grafema\App\App {
 										'x-model'        => 'user.email',
 									],
 								],
-								[
-									'name'        => 'user[password]',
-									'type'        => 'text',
+                                [
+									'type'        => 'password',
 									'label'       => I18n::__( 'Password' ),
-									'instruction' => I18n::__( 'You will need this password to sign-in. Please store it in a secure location' ),
+									'name'        => 'user.password',
+									'value'       => '',
+									'placeholder' => I18n::__( 'Password' ),
 									'class'       => '',
+									'required'    => 1,
+									'tooltip'     => '',
+									'instruction' => I18n::__( 'You will need this password to sign-in. Please store it in a secure location' ),
 									'attributes'  => [
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Password' ),
 										'x-autocomplete' => '',
 										'x-model'        => 'user.password',
 									],
-								],
+									'conditions' => [],
+									'switcher'   => 1,
+									'generator'  => 1,
+									'indicator'  => 0,
+									'characters' => [
+										'lowercase' => 2,
+										'uppercase' => 2,
+										'special'   => 2,
+										'length'    => 12,
+										'digit'     => 2,
+									],
+                                ]
 							],
 						],
 						[

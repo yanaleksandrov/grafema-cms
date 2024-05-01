@@ -80,6 +80,7 @@ final class Api
 			$data = [
 				'status'    => 200,
 				'benchmark' => Debug::timer( 'getall' ),
+				'memory'    => Debug::memory_peak(),
 				'error'     => I18n::__( 'Ajax queries not allows without nonce!' ),
 			];
 			var_dump( $e->getMessage() );
@@ -102,6 +103,7 @@ final class Api
 			[
 				'status'    => 200,
 				'benchmark' => Debug::timer( 'getall' ),
+				'memory'    => Debug::memory_peak(),
 				'data'      => $data,
 			]
 		);

@@ -734,8 +734,6 @@ document.addEventListener( 'alpine:init', () => {
 				}
 			}
 
-			formData.append('nonce', index.nonce);
-
 			if (submitBtn) {
 				Object.assign(submitBtn.style, {
 					"background-image": "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Z' stroke='%23fff' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M15 8a7 7 0 0 0-7-7' stroke='%23fff' stroke-width='2'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E\")",
@@ -771,77 +769,10 @@ document.addEventListener( 'alpine:init', () => {
 
 			request.onreadystatechange = event => {
 				let data = request.response?.data;
-				if (request.status === 200 && data) {
-					data.map(({ method, target, fragment, delay, custom }) => {
-						let targets = document.querySelectorAll(target) || [];
-						targets.forEach(target => {
-							setTimeout(() => {
-								switch (method) {
-									case "redirect":
-										window.location = fragment || '';
-										break;
-									case "location":
-										window.history.replaceState(null, null, fragment || '');
-										break;
-									case "reload":
-										window.location.reload();
-										break;
-									case "download":
-										// TODO
-										break;
-									case "console":
-										console.log(fragment || '');
-										break;
-									case "scrollTo":
-										window.scrollBy({
-											top: target.getBoundingClientRect().top,
-											behavior: 'smooth'
-										});
-										break;
-									case "value":
-										target.value = fragment || ''
-										break;
-									case "update":
-										target.innerHTML = fragment || '';
-										break;
-									case "replace":
-										target.outerHTML = fragment || '';
-										break;
-									case "remove":
-										target.remove();
-										break;
-									case "afterend":
-									case "beforeend":
-									case "afterbegin":
-									case "beforebegin":
-										target.insertAdjacentHTML(method, fragment || '');
-										break;
-									case "classList.remove":
-										target.classList.remove(fragment || '');
-										break;
-									case "classList.add":
-										target.classList.add(fragment || '');
-										break;
-									case "notify":
-										if (fragment) {
-											Alpine.store('notice').setDuration(custom.duration ?? 4000);
-											Alpine.store('notice').notify(fragment, custom.type ?? 'info');
-										}
-										break;
-									case "alpine":
-										resolve(fragment);
-										break;
-									default:
-										// use "prepend, append, replaceWith, removeAttribute or scrollIntoView" methods
-										target[method](fragment || '');
-								}
-							}, delay || 0);
-						})
-					});
-
+				if (data) {
 					document.dispatchEvent(
 						new CustomEvent(route, {
-							detail: { data, event, el },
+							detail: { data, event, el, resolve },
 							bubbles: true,
 							// Allows events to pass the shadow DOM barrier.
 							composed: true,
@@ -849,8 +780,7 @@ document.addEventListener( 'alpine:init', () => {
 						})
 					);
 				}
-
-				submitBtn ? submitBtn.removeAttribute('style') : null;
+				submitBtn && submitBtn.removeAttribute('style');
 			};
 		});
 	});

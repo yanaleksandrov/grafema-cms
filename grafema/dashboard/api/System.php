@@ -40,8 +40,8 @@ class System extends \Grafema\Api\Handler
 	public static function test(): array
 	{
 		$checks = [
-			'pdo'        => false,
 			'connection' => false,
+			'pdo'        => false,
 			'curl'       => false,
 			'mbstring'   => false,
 			'gd'         => false,
@@ -81,8 +81,12 @@ class System extends \Grafema\Api\Handler
 	 *
 	 * @since 1.0.0
 	 */
-	public function install(): array
+	public static function install(): array
 	{
+		echo '<pre>';
+		print_r( $_REQUEST );
+		echo '</pre>';
+		exit;
 		$site        = $_REQUEST['site'] ?? [];
 		$database    = $_REQUEST['db'] ?? [];
 		$user        = $_REQUEST['user'] ?? [];

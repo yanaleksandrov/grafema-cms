@@ -199,7 +199,6 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Example: My Blog' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'site.name',
 									],
 								],
 								[
@@ -219,9 +218,10 @@ final class Install extends Grafema\App\App {
 						[
 							'type'       => 'step',
 							'attributes' => [
-								'class'         => 'dg g-7 pt-8 px-8',
-								'x-cloak'       => true,
-								'x-wizard:step' => '[db.database, db.username, db.password, db.host, db.prefix].every(value => value !== undefined && value.trim())',
+								'class'           => 'dg g-7 pt-8 px-8',
+								'x-cloak'         => true,
+								'x-wizard:step'   => '[db.database, db.username, db.password, db.host, db.prefix].every(value => value !== undefined && value.trim())',
+								'x-wizard:action' => 'approved = {}',
 							],
 							'fields'     => [
 								[
@@ -245,7 +245,6 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'database_name' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'db.database',
 									],
 								],
 								[
@@ -258,7 +257,6 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'user_name' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'db.username',
 									],
 								],
 								[
@@ -271,7 +269,6 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Password' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'db.password',
 									],
 								],
 								[
@@ -287,7 +284,6 @@ final class Install extends Grafema\App\App {
 												'required' => true,
 												'placeholder' => I18n::__( 'Hostname' ),
 												'x-autocomplete' => '',
-												'x-model'  => 'db.host',
 											],
 										],
 										[
@@ -298,7 +294,6 @@ final class Install extends Grafema\App\App {
 												'required' => true,
 												'placeholder' => I18n::__( 'Prefix' ),
 												'x-autocomplete' => '',
-												'x-model'  => 'db.prefix',
 											],
 										],
 									],
@@ -386,11 +381,10 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Enter login' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'user.login',
 									],
 								],
 								[
-									'name'        => 'user.email',
+									'name'        => 'user[email]',
 									'type'        => 'text',
 									'label'       => I18n::__( 'Email address' ),
 									'instruction' => I18n::__( 'Double-check your email address before continuing' ),
@@ -399,13 +393,12 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Enter email' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'user.email',
 									],
 								],
                                 [
 									'type'        => 'password',
 									'label'       => I18n::__( 'Password' ),
-									'name'        => 'user.password',
+									'name'        => 'user[password]',
 									'value'       => '',
 									'placeholder' => I18n::__( 'Password' ),
 									'class'       => '',
@@ -416,7 +409,6 @@ final class Install extends Grafema\App\App {
 										'required'       => true,
 										'placeholder'    => I18n::__( 'Password' ),
 										'x-autocomplete' => '',
-										'x-model'        => 'user.password',
 									],
 									'conditions' => [],
 									'switcher'   => 1,

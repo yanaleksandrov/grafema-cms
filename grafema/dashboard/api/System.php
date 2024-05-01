@@ -84,12 +84,12 @@ class System extends \Grafema\Api\Handler
 	public static function install(): array
 	{
 		echo '<pre>';
-		print_r( $_REQUEST );
+		print_r( $_POST );
 		echo '</pre>';
 		exit;
-		$site        = $_REQUEST['site'] ?? [];
-		$database    = $_REQUEST['db'] ?? [];
-		$user        = $_REQUEST['user'] ?? [];
+		$site        = $_POST['site'] ?? [];
+		$database    = $_POST['db'] ?? [];
+		$user        = $_POST['user'] ?? [];
 		$name        = trim( strval( $site['name'] ?? '' ) );
 		$description = trim( strval( $site['instruction'] ?? '' ) );
 		$login       = trim( strval( $user['login'] ?? '' ) );

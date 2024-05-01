@@ -296,10 +296,36 @@ class Sanitizer
 	/**
 	 * Clears the string to use it as a key. The keys are used as different internal IDs.
 	 * Removes everything from the string except a-z0-9_- and converts the string to lowercase.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
 	 */
 	public static function key( mixed $value ): string
 	{
 		return preg_replace( '/[^a-z0-9_\-]/', '', self::lowercase( $value ) );
+	}
+
+	/**
+	 * Clears the string to use it as a name attribute. Removes everything
+	 * from the string except a-zA-Z0-9_[] and converts the string to lowercase.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 */
+	public static function name( mixed $value ): string
+	{
+		return preg_replace( '/[^a-zA-Z0-9_\[\]]/', '', self::lowercase( $value ) );
+	}
+
+	/**
+	 * Convert name attribute as "db[username]" to "db.username".
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 */
+	public static function dot( mixed $value ): string
+	{
+		return trim( str_replace( [ ']', '[' ], [ '', '.' ], self::lowercase( $value ) ), '.' );
 	}
 
 	/**

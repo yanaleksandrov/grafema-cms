@@ -207,7 +207,7 @@ class Form {
 
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$name     = Sanitizer::key( $field['name'] ?? '' );
+			$name     = Sanitizer::name( $field['name'] ?? '' );
 			$callback = $field['callback'] ?? null;
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
@@ -226,7 +226,7 @@ class Form {
 				$field['attributes'] = array_merge(
 					[
 						'name'         => $name,
-						'x-model.fill' => $name,
+						'x-model.fill' => Sanitizer::dot( $name ),
 					],
 					$field['attributes']
 				);

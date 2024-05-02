@@ -146,12 +146,12 @@ class Type
 		$post_type = trim( $post_type );
 
 		if ( empty( $post_type ) || strlen( $post_type ) > 20 ) {
-			// TODO:: add error to Errors
+			// TODO:: add error to Error
 			return false;
 		}
 
 		if ( ! is_array( $args ) ) {
-			// TODO:: add error to Errors
+			// TODO:: add error to Error
 			return false;
 		}
 

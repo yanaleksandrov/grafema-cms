@@ -42,7 +42,7 @@ class View
 		}
 
 		if ( $status < 300 || 399 < $status ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
 		}
 
 		/**

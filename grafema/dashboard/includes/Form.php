@@ -6,7 +6,7 @@ use Grafema\{
 	View,
 	Debug,
 	Hook,
-	Errors,
+	Error,
 	Sanitizer,
 	Helpers\Arr
 };
@@ -82,7 +82,7 @@ class Form {
 		// TODO:: wrong escaping, use sanitize
 		$uniqid = Esc::html( $uniqid, false );
 		if ( empty( $uniqid ) ) {
-			new Errors(
+			new Error(
 				Debug::get_backtrace(),
 				sprintf( I18n::__( 'The $uniqid of the form is empty.' ), $uniqid )
 			);
@@ -92,7 +92,7 @@ class Form {
 
 		$form = self::init( $uniqid );
 		if ( isset( $form->uniqid ) ) {
-			new Errors(
+			new Error(
 				Debug::get_backtrace(),
 				sprintf( I18n::__( 'The form identified by %s already exists! Potential conflicts detected!' ), $uniqid )
 			);
@@ -130,9 +130,9 @@ class Form {
 	 *
 	 * @param string $uniqid
 	 * @param bool $without_form_wrapper
-	 * @return string|Errors
+	 * @return string|Error
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false ): Errors|string {
+	public static function view( string $uniqid, bool $without_form_wrapper = false ): Error|string {
 		$form   = self::init( $uniqid );
 		$fields = $form->fields ?? [];
 
@@ -145,7 +145,7 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Form fields is incorrect.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'Form fields is incorrect.' ) );
 		}
 
 		/**
@@ -298,13 +298,13 @@ class Form {
 	 * Adding a new field to the end of the array with all fields.
 	 *
 	 * @param array $field
-	 * @return void|Errors
+	 * @return void|Error
 	 */
 	public function addField( array $field ) {
 		$fields   = $this->fields ?? [];
 		$field_id = trim( strval( $field['ID'] ?? '' ) );
 		if ( empty( $field_id ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'It is not possible to add a field with an empty ID.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'It is not possible to add a field with an empty ID.' ) );
 		}
 
 		$insert_places = array_filter( [ $this->after, $this->before, $this->instead ] );

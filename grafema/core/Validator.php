@@ -145,7 +145,7 @@ class Validator {
 	public bool $break = false;
 
 	/**
-	 * Errors list for return
+	 * Error list for return
 	 *
 	 * @var array
 	 */

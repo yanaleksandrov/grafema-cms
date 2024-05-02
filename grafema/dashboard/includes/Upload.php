@@ -1,7 +1,6 @@
 <?php
 use Grafema\File\File;
 use Grafema\Sanitizer;
-use Grafema\Errors;
 use Grafema\Post\Post;
 use Grafema\File\Image;
 use Grafema\Patterns;

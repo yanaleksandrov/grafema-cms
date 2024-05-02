@@ -113,19 +113,19 @@ final class Is
 	}
 
 	/**
-	 * Checks whether the given variable is a Grafema Errors.
+	 * Checks whether the given variable is a Grafema Error.
 	 *
-	 * Returns whether `$thing` is an instance of the `Errors` class.
+	 * Returns whether `$thing` is an instance of the `Error` class.
 	 *
 	 * @since  1.0.0
 	 *
 	 * @param mixed $thing the variable to check
 	 *
-	 * @return bool whether the variable is an instance of Errors
+	 * @return bool whether the variable is an instance of Error
 	 */
 	public static function error( $thing ): bool
 	{
-		return $thing instanceof Errors;
+		return $thing instanceof Error;
 	}
 
 	/**
@@ -209,8 +209,8 @@ final class Is
 	{
 		if ( strlen( (int) $thing ) === 10 ) {
 			try {
-				new DateTime( '@' . $thing );
-			} catch ( Exception $e ) {
+				new \DateTime( '@' . $thing );
+			} catch ( \Exception $e ) {
 				return false;
 			}
 

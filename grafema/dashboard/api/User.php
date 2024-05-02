@@ -15,6 +15,7 @@ use Grafema\Validator;
 use Grafema\View;
 use Grafema\Mail\Mail;
 use Grafema\I18n;
+use Grafema\Error;
 
 class User extends \Grafema\Api\Handler
 {
@@ -78,7 +79,7 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @url    GET api/user/sign-in
 	 */
-	public static function signIn(): array
+	public static function signIn(): Error|\Grafema\User|array
 	{
 		$request = ( new Sanitizer(
 			$_REQUEST,
@@ -103,7 +104,7 @@ class User extends \Grafema\Api\Handler
 
 		[$login, $password, $remember] = array_values( $request );
 
-		return (array) \Grafema\User::login( $login, $password, $remember );
+		return \Grafema\User::login( $login, $password, $remember );
 	}
 
 	/**

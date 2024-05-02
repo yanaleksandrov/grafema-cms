@@ -10,7 +10,7 @@
 namespace Grafema\Plugins;
 
 use Grafema\Debug;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 use Grafema\Sanitizer;
 
@@ -68,7 +68,7 @@ final class Manager
 				$data    = $plugin->manifest();
 				$missing = array_diff( ['name', 'description', 'version', 'php', 'mysql'], array_keys( $data ) );
 				if ( ! empty( $missing ) ) {
-					new Errors( Debug::get_backtrace(), sprintf( I18n::__( 'Plugin "%s" parameters "%s" are required' ), $class, implode( ' ', $missing ) ) );
+					new Error( Debug::get_backtrace(), sprintf( I18n::__( 'Plugin "%s" parameters "%s" are required' ), $class, implode( ' ', $missing ) ) );
 
 					continue;
 				}

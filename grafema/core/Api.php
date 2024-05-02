@@ -92,6 +92,9 @@ final class Api
 		$reflector   = new \ReflectionClass( $class );
 		$classMethod = $reflector->getMethod( $method );
 		$data        = $classMethod->isStatic() ? $class::$method() : $class->{$method}();
+		var_dump( $class );
+		var_dump( $method );
+		var_dump( $data );
 
 		/**
 		 * Interceptor for overriding the server response.
@@ -99,6 +102,9 @@ final class Api
 		 * @since 1.0.0
 		 */
 		$data = Hook::apply( 'grafema_api_response', $data, $slug );
+		echo '<pre>';
+		print_r( $data );
+		echo '</pre>';
 		$data = Json::encode(
 			[
 				'status'    => 200,

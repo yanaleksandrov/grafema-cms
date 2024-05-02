@@ -70,7 +70,7 @@ class User extends Users {
 	 * is part of the URL of the user's page, and showname is displayed as the name.
 	 * Therefore, we generate it based on the login.
 	 *
-	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Errors
+	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Error
 	 *
 	 * @param array $userdata {
 	 *     @type int    $ID           User ID. If supplied, the user will be updated.
@@ -83,7 +83,7 @@ class User extends Users {
 	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
 	 * }
 	 *
-	 * @return array|User|bool The newly created user's ID or an Errors object if the user could not be created.
+	 * @return array|User|bool The newly created user's ID or an Error object if the user could not be created.
 	 * @throws \Exception
 	 * @since 1.0.0
 	 */
@@ -164,9 +164,9 @@ class User extends Users {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get( $value, string $get_by = 'ID' ): Errors|User|bool {
+	public static function get( $value, string $get_by = 'ID' ): Error|User|bool {
 		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
 		$user = Db::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
@@ -197,7 +197,7 @@ class User extends Users {
 
 		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
 		}
 
 		// sanitize incoming data and exclusion of extraneous data
@@ -214,11 +214,10 @@ class User extends Users {
 	 * being deleted will be run after the posts are either reassigned or deleted.
 	 * The user meta will also be deleted that are for that User ID.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param  int   $user_id  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
-	 * @return Errors|int      The number of remote users or false.
+	 * @return Error|int      The number of remote users or false.
+	 * @since 1.0.0
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
 		$fields = [
@@ -226,7 +225,7 @@ class User extends Users {
 		];
 
 		if ( ! self::exists( $fields ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'The user you are trying to delete does not exist.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'The user you are trying to delete does not exist.' ) );
 		}
 
 		if ( $reassign ) {
@@ -304,7 +303,7 @@ class User extends Users {
 	/**
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
-	 * @return Errors|false|User
+	 * @return Error|false|User
 	 * @since   1.0.0
 	 */
 	public static function current() {
@@ -341,10 +340,10 @@ class User extends Users {
 	 * @param  string      $login_or_email
 	 * @param  string      $password
 	 * @param  bool        $remember
-	 * @return Errors|User
+	 * @return Error|User
 	 * @since  1.0.0
 	 */
-	public static function login( string $login_or_email, string $password, bool $remember = true ): Errors|User {
+	public static function login( string $login_or_email, string $password, bool $remember = true ): Error|User {
 		$field = Is::email( $login_or_email ) ? 'email' : 'login';
 		if ( $remember ) {
 			Session::start();
@@ -366,7 +365,7 @@ class User extends Users {
 			return $user;
 		}
 
-		return new Errors( Debug::get_backtrace(), I18n::__( 'User not found: invalid login/email or incorrect password.' ) );
+		return new Error( Debug::get_backtrace(), I18n::__( 'User not found: invalid login/email or incorrect password.' ) );
 	}
 
 	/**

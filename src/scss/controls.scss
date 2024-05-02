@@ -134,6 +134,11 @@
     }
   }
 
+  &--full {
+    width: 100%;
+    min-width: 100%;
+  }
+
   &--load {
     position: relative;
     color: transparent !important;

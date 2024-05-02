@@ -30,7 +30,7 @@ const DB_MAX_INDEX_LENGTH = 191;
  *
  * @since 1.0.0
  */
-const GRFM_CORE      = __DIR__ . '/grafema/';
+const GRFM_CORE      = __DIR__ . '/core/';
 const GRFM_DASHBOARD = __DIR__ . '/dashboard/';
 const GRFM_PLUGINS   = __DIR__ . '/plugins/';
 const GRFM_THEMES    = __DIR__ . '/themes/';
@@ -44,9 +44,9 @@ const GRFM_UPLOADS   = __DIR__ . '/uploads/';
  *
  * @since 1.0.0
  */
-const GRFM_AUTH_KEY  = 'put your unique phrase here';
-const GRFM_NONCE_KEY = 'put your unique phrase here';
-const GRFM_HASH_KEY  = 'put your unique phrase here';
+const GRFM_AUTH_KEY  = 'authkey';
+const GRFM_NONCE_KEY = 'noncekey';
+const GRFM_HASH_KEY  = 'hashkey';
 
 /**
  * Debug mode.
@@ -55,15 +55,6 @@ const GRFM_HASH_KEY  = 'put your unique phrase here';
  */
 const GRFM_DEBUG     = true;
 const GRFM_DEBUG_LOG = true;
-
-/**
- * System versions.
- *
- * @since 1.0.0
- */
-const GRFM_VERSION                = '1.0.0';
-const GRFM_REQUIRED_PHP_VERSION   = '8.1';
-const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
 
 /**
  * Cron intervals.

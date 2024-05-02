@@ -14,11 +14,11 @@ use Grafema\Debug;
 use Grafema\Dir;
 use Grafema\Errors;
 use Grafema\Esc;
-use Grafema\Helpers\Humanize;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Url;
 use Grafema\Validator;
+use Grafema\Helpers\Humanize;
 
 /**
  * The File class is a PHP class that provides a convenient and
@@ -39,7 +39,7 @@ class File
 	/**
 	 * Path to target directory.
 	 */
-	public string $dirpath = GRFM_UPLOADS;
+	public string $dirpath = '';
 
 	/**
 	 * Data about file.

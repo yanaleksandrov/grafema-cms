@@ -210,10 +210,6 @@ class Form {
 			$name     = Sanitizer::name( $field['name'] ?? '' );
 			$callback = $field['callback'] ?? null;
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
-				$type = 'input';
-			}
-
 			// add required attributes & other manipulations
 			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
 			if ( ! in_array( $type, [ 'tab', 'group' ], true ) ) {
@@ -223,13 +219,17 @@ class Form {
 					'select'   => $field['attributes']['x-select']      ??= '',
 					default    => '',
 				};
-				$field['attributes'] = array_merge(
-					[
-						'name'         => $name,
-						'x-model.fill' => Sanitizer::dot( $name ),
-					],
-					$field['attributes']
-				);
+
+				if ( ! in_array( $type, [ 'submit' ], true ) ) {
+					$field['attributes'] = array_merge(
+						[
+							'type'         => $type,
+							'name'         => $name,
+							'x-model.fill' => Sanitizer::dot( $name ),
+						],
+						$field['attributes']
+					);
+				}
 
 				if ( $type === 'step' ) {
 					unset( $field['attributes']['x-model.fill'] );
@@ -239,6 +239,10 @@ class Form {
 			// parse conditions
 			if ( ! empty( $field['conditions'] ) ) {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
+			}
+
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+				$type = 'input';
 			}
 
 			ob_start();

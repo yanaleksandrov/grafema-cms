@@ -80,11 +80,20 @@ class Sanitizer
 		foreach ( $this->rules as $field => $rules_list ) {
 			$rules = explode( '|', $rules_list );
 
+			// add support dot notation
+			if (str_contains($field, '.')) {
+				[$field, $key] = explode('.', $field, 2) + [null, null];
+			}
+
 			foreach ( $rules as $rule ) {
 				[$method, $default_value] = explode(':', $rule, 2) + [null, null];
 
 				$extension = isset( $this->extensions[$method] ) ? $this->extensions[$method] : null;
-				$value     = $this->data[$field] ?? ( $this->fields[$field] ?? '' );
+				if ( ! empty( $key ) ) {
+					$value = $this->data[$field][$key] ?? ( $this->fields[$field][$key] ?? '' );
+				} else {
+					$value = $this->data[$field] ?? ( $this->fields[$field] ?? '' );
+				}
 
 				// set default value if incoming is empty & default is not empty
 				if ( empty( $value ) && ! empty( $default_value ) ) {
@@ -96,12 +105,19 @@ class Sanitizer
 					}
 				}
 
-				$this->data[$field] = match (true) {
+				$data = match (true) {
 					is_callable( $extension )       => call_user_func( $extension, $value, $this ),
 					is_callable( [$this, $method] ) => call_user_func( [$this, $method], $value ),
 					default                         => null
 				};
+
+				if ( ! empty( $key ) ) {
+					$this->data[$field][$key] = $data;
+				} else {
+					$this->data[$field] = $data;
+				}
 			}
+			unset( $key );
 		}
 
 		return $this->data;

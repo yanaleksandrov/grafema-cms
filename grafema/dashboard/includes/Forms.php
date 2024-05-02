@@ -155,8 +155,8 @@ final class Forms
 			'user/sign-in',
 			[
 				'class'           => 'card card-border g-6 p-8',
-				'x-data'          => '{close: false}',
-				'@submit.prevent' => '$ajax("user/sign-in")',
+				'x-data'          => '{login: "", password: "", errors: {}}',
+				'@submit.prevent' => '$ajax("user/sign-in").then(response => console.log(response))',
 			],
 			function ( $form ) {
 				$form->addFields(
@@ -219,7 +219,7 @@ final class Forms
 							],
 						],
 						[
-							'name'       => 'signIn',
+							'name'       => 'sign-in',
 							'type'       => 'submit',
 							'label'      => I18n::__( 'Sign In' ),
 							'attributes' => [

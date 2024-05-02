@@ -23,9 +23,15 @@ use Grafema\{
 	Csrf,
 };
 
-if ( ! defined( 'GRFM_PATH' ) ) {
-	define( 'GRFM_PATH', __DIR__ . '/' );
-}
+/**
+ * Setup system core constants.
+ *
+ * @since 1.0.0
+ */
+const GRFM_PATH                   = __DIR__ . '/';
+const GRFM_VERSION                = '1.0.0';
+const GRFM_REQUIRED_PHP_VERSION   = '8.1';
+const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
 
 /**
  * Include required files: app configuration & autoloader.
@@ -37,7 +43,7 @@ array_map(function ($include) {
 	if (file_exists($include_path)) {
 		require_once $include_path;
 	}
-}, ['config', 'config-sample', 'autoloader']);
+}, ['config', 'autoloader']);
 
 /**
  * Create a single entry point to the website.
@@ -85,7 +91,10 @@ Debug::timer();
  *
  * @since 1.0.0
  */
-Install::init();
+if ( ! Is::installed() ) {
+	Install::init();
+	exit;
+}
 
 /**
  * Launch database connection.
@@ -140,25 +149,14 @@ Db::init();
 })();
 
 /**
- * Launch the installer if Grafema is not installed.
- *
- * @since 1.0.0
- */
-Install::init();
-
-/**
  * Define auxiliary constants necessary for the application and make them available in any part.
  *
  * @since 1.0.0
  */
 $route = new Route();
-$route->before(
-	'GET|POST|PUT|DELETE',
-	'/.*',
-	function () {
-		Constants::init();
-	}
-);
+$route->before( 'GET|POST|PUT|DELETE', '/.*', function () {
+	Constants::init();
+});
 $route->run();
 
 /**
@@ -202,13 +200,6 @@ Hook::apply( 'grafema_plugins_loaded' );
 Dashboard::init();
 
 /**
- * Grafema is fully loaded, but before any headers are sent.
- *
- * @since 1.0.0
- */
-Hook::apply( 'grafema_loaded' );
-
-/**
  * Load private administrative panel.
  *
  * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
@@ -218,7 +209,6 @@ Hook::apply( 'grafema_loaded' );
  */
 $dashboard = str_replace( GRFM_PATH, '/', GRFM_DASHBOARD );
 $route     = new Route();
-
 $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) {
 	http_response_code( 200 );
 
@@ -255,7 +245,6 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 * @since 1.0.0
 	 */
 	$black_list_slugs = ['install', 'sign-in', 'sign-up', 'reset-password'];
-
 	if ( in_array( $slug, $black_list_slugs, true ) && User::logged() ) {
 		View::redirect(
 			Url::site( 'dashboard' )
@@ -289,4 +278,19 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 
 	exit;
 } );
+
+$route->get( '(.*)', function ( $slug ) use ( $route ) {
+	http_response_code( 200 );
+
+	/**
+	 * Run the installer if Grafema is not installed.
+	 *
+	 * @since 1.0.0
+	 */
+	if ( Is::installed() && $slug === 'install' ) {
+		View::redirect( Url::site( 'dashboard' ) );
+		exit;
+	}
+} );
+
 $route->run();

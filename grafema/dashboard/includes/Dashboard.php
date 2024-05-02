@@ -18,6 +18,7 @@ use Grafema\Url;
 use Grafema\User;
 use Grafema\Debug;
 use Grafema\Json;
+use Grafema\Users\Roles;
 use Grafema\View;
 use Grafema\File\Csv;
 use Grafema\Patterns\Singleton;
@@ -38,6 +39,88 @@ class Dashboard extends Grafema\App\App
 	 */
 	public function __construct()
 	{
+		/**
+		 * Add roles and users.
+		 *
+		 * @since 1.0.0
+		 */
+		Roles::register(
+			'admin',
+			I18n::__( 'Administrator' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+				'other_types_publish',
+				'other_types_edit',
+				'other_types_delete',
+				'private_types_publish',
+				'private_types_edit',
+				'private_types_delete',
+				'manage_comments',
+				'manage_options',
+				'manage_update',
+				'manage_import',
+				'manage_export',
+				'themes_install',
+				'themes_switch',
+				'themes_delete',
+				'plugins_install',
+				'plugins_activate',
+				'plugins_delete',
+				'users_create',
+				'users_edit',
+				'users_delete',
+			]
+		);
+
+		Roles::register(
+			'editor',
+			I18n::__( 'Editor' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+				'other_types_publish',
+				'other_types_edit',
+				'other_types_delete',
+				'private_types_publish',
+				'private_types_edit',
+				'private_types_delete',
+				'manage_comments',
+			]
+		);
+
+		Roles::register(
+			'author',
+			I18n::__( 'Author' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+			]
+		);
+
+		Roles::register(
+			'subscriber',
+			I18n::__( 'Subscriber' ),
+			[
+				'read',
+			]
+		);
+
 		/**
 		 * Set up default post types: "pages" & "media".
 		 *

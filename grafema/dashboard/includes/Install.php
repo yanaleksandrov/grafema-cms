@@ -1,9 +1,6 @@
 <?php
 use Grafema\Hook;
 use Grafema\Route;
-use Grafema\Is;
-use Grafema\Json;
-use Grafema\Debug;
 use Grafema\I18n;
 use Grafema\Asset;
 use Grafema\View;
@@ -28,15 +25,6 @@ final class Install extends Grafema\App\App {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-
-		/**
-		 * Do nothing if Grafema is installed
-		 *
-		 * @since 1.0.0
-		 */
-		if ( Is::installed() ) {
-			return false;
-		}
 
 		/**
 		 * Define declare the necessary constants
@@ -74,7 +62,7 @@ final class Install extends Grafema\App\App {
 		 *
 		 * @since 1.0.0
 		 */
-		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
+		Api::create( sprintf( '%sdashboard/api', GRFM_PATH ), '/api' );
 
 		/**
 		 * Register new form for install wizard
@@ -96,6 +84,7 @@ final class Install extends Grafema\App\App {
 		$route->get(
 			'(.*)',
 			function( $slug ) use ( $route ) {
+				http_response_code( 200 );
 
 				/**
 				 * Redirect to installer wizard if Grafema is not installed.
@@ -165,8 +154,9 @@ final class Install extends Grafema\App\App {
 			$name,
 			[
 				'class'           => 'card card-border',
-				'@submit.prevent' => '$ajax("system/install")',
-				'x-data'          => "{approved: {}, site: {name: ''}, db: {host: 'localhost', prefix: 'grafema_'}, user: {}}",
+				'@submit.prevent' => '$ajax("system/install").then(response => installed = response)',
+				'x-data'          => '{approved: {}, site: {}, db: {}, user: {}, installed: false}',
+                'x-init'          => '$watch("installed", () => $wizard.goNext())'
 			],
 			function( $form ) {
 				$form->addFields(
@@ -175,7 +165,7 @@ final class Install extends Grafema\App\App {
 							'type'       => 'step',
 							'attributes' => [
 							    'class'         => 'dg g-7 pt-8 px-8',
-								'x-wizard:step' => 'site.name.trim()',
+								'x-wizard:step' => 'site.name?.trim()',
 							],
 							'fields'     => [
 								[
@@ -202,9 +192,9 @@ final class Install extends Grafema\App\App {
 									],
 								],
 								[
-									'name'        => 'site[description]',
+									'name'        => 'site[tagline]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Site description' ),
+									'label'       => I18n::__( 'Site tagline' ),
 									'instruction' => I18n::__( 'Don\'t worry, you can always change these settings later' ),
 									'class'       => '',
 									'attributes'  => [
@@ -281,6 +271,7 @@ final class Install extends Grafema\App\App {
 											'type'       => 'text',
 											'label'      => I18n::__( 'Hostname' ),
 											'attributes' => [
+												'value'      => 'localhost',
 												'required' => true,
 												'placeholder' => I18n::__( 'Hostname' ),
 												'x-autocomplete' => '',
@@ -291,6 +282,7 @@ final class Install extends Grafema\App\App {
 											'type'       => 'text',
 											'label'      => I18n::__( 'Prefix' ),
 											'attributes' => [
+												'value'      => 'grafema_',
 												'required' => true,
 												'placeholder' => I18n::__( 'Prefix' ),
 												'x-autocomplete' => '',
@@ -312,7 +304,7 @@ final class Install extends Grafema\App\App {
 								[
 									'name'        => 'title',
 									'type'        => 'header',
-									'label'       => I18n::__( 'Step3: System check' ),
+									'label'       => I18n::__( 'Step 2: System check' ),
 									'instruction' => I18n::__( 'This is an important step that will help make sure that your server is ready for installation and properly configured.' ),
 								],
 								[
@@ -363,8 +355,8 @@ final class Install extends Grafema\App\App {
 								[
 									'name'        => 'title',
 									'type'        => 'header',
-									'label'       => I18n::__( 'Step 4: Create account' ),
-									'instruction' => I18n::__( 'Almost everything is ready! The last step. Add website owner information.' ),
+									'label'       => I18n::__( 'Step 3: Create account' ),
+									'instruction' => I18n::__( 'Almost everything is ready! The last step: add website owner information.' ),
 								],
 								[
 									'name'  => 'user-credits',
@@ -385,14 +377,14 @@ final class Install extends Grafema\App\App {
 								],
 								[
 									'name'        => 'user[email]',
-									'type'        => 'text',
+									'type'        => 'email',
 									'label'       => I18n::__( 'Email address' ),
 									'instruction' => I18n::__( 'Double-check your email address before continuing' ),
 									'class'       => '',
 									'attributes'  => [
-										'required'       => true,
 										'placeholder'    => I18n::__( 'Enter email' ),
 										'x-autocomplete' => '',
+										'required'       => true,
 									],
 								],
                                 [
@@ -425,15 +417,35 @@ final class Install extends Grafema\App\App {
 							],
 						],
 						[
+							'type'       => 'step',
+							'attributes' => [
+								'class'   => 'dg g-7 pt-8 px-8',
+								'x-cloak' => true,
+							],
+							'fields'     => [
+								[
+									'type'     => 'custom',
+									'callback' => fn() => View::include(
+										GRFM_PATH . 'dashboard/templates/states/completed.php',
+										[
+											'title'       => I18n::__( 'Woo-hoo, Grafema has been successfully installed!' ),
+											'description' => I18n::__( 'We hope the installation process was easy. Thank you, and enjoy.' ),
+										]
+									),
+								],
+							],
+						],
+						[
 							'type'     => 'custom',
 							'callback' => function() {
 								ob_start();
 								?>
 								<!-- buttons -->
 								<div class="p-8 df jcsb g-2">
-									<button type="button" class="btn btn--outline" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::e( 'Back' ); ?></button>
-									<button type="button" class="btn btn--primary" :disabled="$wizard.cannotGoNext()" x-show="$wizard.isNotLast()" @click="$wizard.goNext()" disabled><?php I18n::e( 'Continue' ); ?></button>
-									<button type="submit" class="btn btn--primary" :disabled="$wizard.isUncompleted()" x-show="$wizard.isLast()" x-cloak disabled><?php I18n::e( 'Install Grafema' ); ?></button>
+									<button type="button" class="btn btn--outline" x-show="$wizard.isNotLast()" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::e( 'Back' ); ?></button>
+									<button type="button" class="btn btn--primary" x-show="$wizard.isNotLast() && !$wizard.isStep(3)" :disabled="$wizard.cannotGoNext()" @click="$wizard.goNext()" disabled><?php I18n::e( 'Continue' ); ?></button>
+									<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(3)" :disabled="![user.login, user.email, user.password].every(value => value.trim())" x-cloak disabled><?php I18n::e( 'Install Grafema' ); ?></button>
+                                    <a href="/dashboard/" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::e( 'Go to dashboard' ); ?></a>
 								</div>
 								<?php
 								return ob_get_clean();

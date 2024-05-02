@@ -118,7 +118,7 @@ class View
 	public static function part( string $template, array $args = [] )
 	{
 		if ( Is::dashboard() || Is::install() ) {
-			$template_file = sprintf( '%s%s.php', GRFM_DASHBOARD, $template );
+			$template_file = sprintf( '%sdashboard/%s.php', GRFM_PATH, $template );
 		} else {
 			$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		}

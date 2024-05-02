@@ -149,21 +149,22 @@ $start_time = microtime( true );
 				?>
 			</div>
 		</div>
-
-		<div class="notice" x-data>
-			<template x-for="(item, id) in $store.notice.items">
-				<div class="notice__item" :class="item.classes()">
-					<div class="notice__msg" x-html="item.message"></div>
-					<div class="notice__close" x-show="item.closable" :style="`--anim:${item.anim}`" @click="$store.notice.close(id)"></div>
-				</div>
-			</template>
-		</div>
 	<?php } else { ?>
 		<div class="df aic jcc p-8">
 			<?php View::part( 'templates/' . $slug ); ?>
 		</div>
 		<?php
 	}
+	?>
+    <div class="notice" x-data>
+        <template x-for="(item, id) in $store.notice.items">
+            <div class="notice__item" :class="item.classes()">
+                <div class="notice__msg" x-html="item.message"></div>
+                <div class="notice__close" x-show="item.closable" :style="`--anim:${item.anim}`" @click="$store.notice.close(id)"></div>
+            </div>
+        </template>
+    </div>
+    <?php
 
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.

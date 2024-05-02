@@ -641,7 +641,7 @@ document.addEventListener( 'alpine:init', () => {
 				return !this.isCompleted();
 			},
 			goNext() {
-				this.goto(this.nextIndex());
+				this.goTo(this.nextIndex());
 			},
 			canGoNext() {
 				return this.current().is_complete && this.nextIndex() !== null;
@@ -650,7 +650,7 @@ document.addEventListener( 'alpine:init', () => {
 				return !this.canGoNext();
 			},
 			goBack() {
-				this.goto(this.previousIndex());
+				this.goTo(this.previousIndex());
 			},
 			canGoBack() {
 				return this.previousIndex() !== null;
@@ -658,7 +658,7 @@ document.addEventListener( 'alpine:init', () => {
 			cannotGoBack() {
 				return !this.canGoBack();
 			},
-			goto(index) {
+			goTo(index) {
 				if (index !== null && this.steps[index] !== void 0) {
 					this.current_index = index;
 

@@ -97,11 +97,11 @@ if ( $copy ) {
 				'digit'     => I18n::__( '%d numbers' ),
 			];
 
-		foreach ( $characters as $character => $count ) {
-			if ( empty( $character ) || empty( $messages[$character] ) || $count <= 0 ) {
-				continue;
-			}
-			?>
+            foreach ( $characters as $character => $count ) {
+                if ( empty( $character ) || empty( $messages[$character] ) || $count <= 0 ) {
+                    continue;
+                }
+                ?>
 				<div class="df aic g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
 					<i class="ph" :class="data.<?php echo $character; ?> ? 'ph-check' : 'ph-x'"></i> <span><?php printf( $messages[$character], $count ); ?></span>
 				</div>

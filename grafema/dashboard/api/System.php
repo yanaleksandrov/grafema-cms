@@ -11,7 +11,6 @@ namespace Dashboard\Api;
 
 use Grafema\Db;
 use Grafema\App\App;
-use Grafema\View;
 Use Grafema\I18n;
 use Grafema\Users\Roles;
 use Grafema\Users\Users;
@@ -83,19 +82,26 @@ class System extends \Grafema\Api\Handler
 	 */
 	public static function install(): array
 	{
-		echo '<pre>';
-		print_r( $_POST );
-		echo '</pre>';
-		exit;
-		$site        = $_POST['site'] ?? [];
-		$database    = $_POST['db'] ?? [];
-		$user        = $_POST['user'] ?? [];
-		$name        = trim( strval( $site['name'] ?? '' ) );
-		$description = trim( strval( $site['instruction'] ?? '' ) );
-		$login       = trim( strval( $user['login'] ?? '' ) );
-		$email       = trim( strval( $user['email'] ?? '' ) );
-		$password    = trim( strval( $user['password'] ?? '' ) );
-		$protocol    = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== strtolower( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' );
+		$protocol = ( ! empty( $_SERVER['HTTPS'] ) && 'off' !== strtolower( $_SERVER['HTTPS'] ) ? 'https://' : 'http://' );
+		$siteurl  = $protocol . $_SERVER['SERVER_NAME'];
+
+		// TODO: check sanitize rules & add validator
+		[ $site, $userdata, $database ] = (new Sanitizer(
+			$_POST,
+			[
+				'site.name'     => 'trim',
+				'site.tagline'  => 'trim',
+				'site.url'      => "trim:{$siteurl}|url",
+				'user.login'    => 'trim',
+				'user.email'    => 'email',
+				'user.password' => 'trim',
+				'db.database'   => 'trim',
+				'db.username'   => 'trim',
+				'db.password'   => 'trim',
+				'db.host'       => 'trim',
+				'db.prefix'     => 'snakecase',
+			]
+		))->values();
 
 		/**
 		 * The check for connection to the database should have already been passed by this point.
@@ -105,15 +111,17 @@ class System extends \Grafema\Api\Handler
 		 */
 		$config = GRFM_PATH . 'config.php';
 		if ( ! file_exists( $config ) ) {
-			$file = new File( GRFM_PATH . 'config-sample.php' );
-			$file->copy( 'config' )->rewrite(
-				[
-					'db.name'     => trim( strval( $database['name'] ?? '' ) ),
-					'db.username' => trim( strval( $database['username'] ?? '' ) ),
-					'db.password' => trim( strval( $database['password'] ?? '' ) ),
-					'db.host'     => trim( strval( $database['host'] ?? 'localhost' ) ),
-					'db.prefix'   => trim( strval( $database['prefix'] ?? 'grafema_' ) ),
-				]
+			(new File( GRFM_PATH . 'config-sample.php' ))->copy( 'config' )->rewrite(
+				array_combine(
+					[
+						'db.name',
+						'db.username',
+						'db.password',
+						'db.host',
+						'db.prefix'
+					],
+					$database
+				)
 			);
 		}
 
@@ -137,124 +145,20 @@ class System extends \Grafema\Api\Handler
 		 *
 		 * @since 1.0.0
 		 */
-		Option::update(
-			'site',
-			[
-				'url'     => $protocol . $_SERVER['SERVER_NAME'],
-				'name'    => $name,
-				'tagline' => $description,
-			]
-		);
+		Option::update( 'site', $site );
 
-		/**
-		 * Add roles and users.
-		 *
-		 * @since 1.0.0
-		 */
-		Roles::add(
-			'admin',
-			I18n::__( 'Administrator' ),
-			[
-				'read',
-				'files_upload',
-				'files_edit',
-				'files_delete',
-				'types_publish',
-				'types_edit',
-				'types_delete',
-				'other_types_publish',
-				'other_types_edit',
-				'other_types_delete',
-				'private_types_publish',
-				'private_types_edit',
-				'private_types_delete',
-				'manage_comments',
-				'manage_options',
-				'manage_update',
-				'manage_import',
-				'manage_export',
-				'themes_install',
-				'themes_switch',
-				'themes_delete',
-				'plugins_install',
-				'plugins_activate',
-				'plugins_delete',
-				'users_create',
-				'users_edit',
-				'users_delete',
-			]
-		);
-
-		Roles::add(
-			'editor',
-			I18n::__( 'Editor' ),
-			[
-				'read',
-				'files_upload',
-				'files_edit',
-				'files_delete',
-				'types_publish',
-				'types_edit',
-				'types_delete',
-				'other_types_publish',
-				'other_types_edit',
-				'other_types_delete',
-				'private_types_publish',
-				'private_types_edit',
-				'private_types_delete',
-				'manage_comments',
-			]
-		);
-
-		Roles::add(
-			'author',
-			I18n::__( 'Author' ),
-			[
-				'read',
-				'files_upload',
-				'files_edit',
-				'files_delete',
-				'types_publish',
-				'types_edit',
-				'types_delete',
-			]
-		);
-
-		Roles::add(
-			'subscriber',
-			I18n::__( 'Subscriber' ),
-			[
-				'read',
-			]
-		);
-
-		$user = User::add(
+		$user = User::add( $userdata );
+		if ( $user instanceof User ) {
 			[
 				'login'    => $login,
-				'email'    => $email,
-				'password' => $password,
-				'roles'    => [ 'admin' ],
-			]
-		);
+				'password' => $password
+			] = $userdata;
 
-		if ( $user instanceof User ) {
 			User::login( $login, $password );
-
-			return [
-				[
-					'delay'    => 100,
-					'fragment' => View::include(
-						GRFM_PATH . 'dashboard/templates/installed.php',
-						[
-							'title'       => I18n::__( 'Grafema is installed' ),
-							'instruction' => I18n::__( 'Grafema has been installed. Thank you, and enjoy!' ),
-						]
-					),
-					'method'   => 'update',
-					'target'   => 'form.card',
-				],
-			];
 		}
-		return $user;
+
+		return [
+			'installed' => $user instanceof User,
+		];
 	}
 }

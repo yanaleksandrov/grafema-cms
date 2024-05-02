@@ -755,10 +755,6 @@ document.addEventListener( 'alpine:init', () => {
 			request.open(method, index.apiurl + route);
 			request.send(formData);
 
-			request.onload = () => {
-
-			}
-
 			request.upload.onprogress = event => {
 				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
 			}

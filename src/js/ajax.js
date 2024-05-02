@@ -90,6 +90,6 @@ document.addEventListener('system/install', ({detail: { data, resolve }}) => res
 
 document.addEventListener('user/sign-in', ({detail}) => {
 	const {data, resolve} = detail;
-	console.log(data)
+	console.log(data);
 	resolve(data);
 });

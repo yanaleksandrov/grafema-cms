@@ -408,7 +408,7 @@ class Dashboard extends Grafema\App\App
 			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], GRFM_VERSION );
 		}
 
-		$scripts = ['index', 'slimselect', 'drooltip', 'alpine.min', 'dragula.min', 'croppr.min', 'prism.min'];
+		$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine.min', 'dragula.min', 'croppr.min', 'prism.min'];
 		foreach ( $scripts as $script ) {
 			$data = [];
 			if ( $script === 'index' ) {

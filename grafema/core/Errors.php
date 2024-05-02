@@ -192,23 +192,6 @@ class Errors {
 	}
 
 	/**
-	 * Add data for error code.
-	 *
-	 * The error code can only contain one error data.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param mixed      $data Error data.
-	 * @param string|int $code Error code.
-	 */
-	public function add_data( $data, $code = '' ) {
-		if ( empty( $code ) ) {
-			$code = $this->get_error_code();
-		}
-		$this->error_data[ $code ] = $data;
-	}
-
-	/**
 	 * Removes the specified error.
 	 *
 	 * This function removes all error messages associated with the specified

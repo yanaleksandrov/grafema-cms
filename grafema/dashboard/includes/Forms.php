@@ -156,7 +156,7 @@ final class Forms
 			[
 				'class'           => 'card card-border g-6 p-8',
 				'x-data'          => '{login: "", password: "", errors: {}}',
-				'@submit.prevent' => '$ajax("user/sign-in").then(response => console.log(response))',
+				'@submit.prevent' => '$ajax("user/sign-in").then()',
 			],
 			function ( $form ) {
 				$form->addFields(

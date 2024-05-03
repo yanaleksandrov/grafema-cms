@@ -43,7 +43,7 @@ $attributes = [
 	...$attributes,
 	'name'          => $name,
 	':type'         => "show ? 'password' : 'text'",
-	'@input.window' => 'data = $password.check(' . $variable . ')',
+	'@input.window' => $generator ? 'data = $password.check(' . $variable . ')' : '',
 ];
 ?>
 <div class="dg g-1" x-data="{show: true, data: {}}">
@@ -51,21 +51,21 @@ $attributes = [
 		<div class="<?php echo $class; ?>">
 			<?php
 			Esc::html( $label );
-if ( $generator ) {
-	?>
+            if ( $generator ) {
+                ?>
 				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::e( 'Generate' ); ?></span>
 			<?php } ?>
 		</div>
 		<div class="field">
 			<?php
 			printf( '<input%s>', Arr::toHtmlAtts( $attributes ) );
-if ( $switcher ) {
-	?>
+            if ( $switcher ) {
+                ?>
 				<i class="ph" :class="show ? 'ph-eye-closed' : 'ph-eye'" @click="show = $password.switch(show)"></i>
 				<?php
-}
-if ( $copy ) {
-	?>
+            }
+            if ( $copy ) {
+                ?>
 				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" x-copy="<?php Esc::attr( $variable ); ?>"></i>
 			<?php } ?>
 		</div>
@@ -102,7 +102,7 @@ if ( $copy ) {
                     continue;
                 }
                 ?>
-				<div class="df aic g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
+				<div class="df aifs g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
 					<i class="ph" :class="data.<?php echo $character; ?> ? 'ph-check' : 'ph-x'"></i> <span><?php printf( $messages[$character], $count ); ?></span>
 				</div>
 			<?php } ?>

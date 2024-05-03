@@ -220,6 +220,16 @@ class Form {
 					default    => '',
 				};
 
+				if ( in_array( $type, [ 'toggle' ], true ) ) {
+					$field['attributes'] = array_merge(
+						[
+							'type'         => 'checkbox',
+							'x-model.fill' => Sanitizer::dot( $name ),
+						],
+						$field['attributes']
+					);
+				}
+
 				if ( ! in_array( $type, [ 'submit' ], true ) ) {
 					$field['attributes'] = array_merge(
 						[

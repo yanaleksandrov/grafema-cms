@@ -39,6 +39,7 @@ class User extends Users {
 	public string $login;
 	public string $password;
 	public string $showname;
+	public string $nicename;
 	public string $email;
 	public string $registered;
 	public string $visited;

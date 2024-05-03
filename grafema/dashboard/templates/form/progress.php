@@ -14,20 +14,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$uniqid, $name, $label, $label_class, $class, $description, $max, $min, $value, $speed] = (
+[$name, $label, $label_class, $class, $description, $max, $min, $value, $speed] = (
     new Grafema\Sanitizer(
         $args ?? [],
         [
-            'uniqid'      => 'key:' . substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz' ), 0, 6 ),
             'name'        => 'attribute|key',
             'label'       => 'trim',
             'label_class' => 'class:df aic jcsb fw-600 mb-1',
             'class'       => 'class:dg g-1',
             'description' => 'trim',
-            'max'         => 'absint',
+            'max'         => 'absint:0',
             'min'         => 'absint:0',
-            'value'       => 'absint',
-            'speed'       => 'absint',
+            'value'       => 'absint:100',
+            'speed'       => 'absint:1000',
         ]
     )
 )->values();

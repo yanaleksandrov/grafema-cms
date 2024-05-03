@@ -703,12 +703,15 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.magic( 'ajax', el => (route, appendage) => {
+	Alpine.magic( 'ajax', el => (route, data) => {
 		let formData  = new FormData(),
 			submitBtn = el.querySelector("[type='submit']");
 
 		return new Promise(resolve => {
 			switch (el.tagName) {
+				case 'BUTTON':
+					el.classList.add('btn--load');
+					break;
 				case 'FORM':
 					formData = new FormData(el);
 					let inputs = el.querySelectorAll("input[type='file']");
@@ -728,8 +731,25 @@ document.addEventListener( 'alpine:init', () => {
 					break;
 			}
 
-			if (appendage) {
-				for (const [key, value] of Object.entries(appendage)) {
+			if (data) {
+				const keys = Reflect.ownKeys(data);
+				if (keys) {
+					function proxyToObj(proxy) {
+						if (typeof proxy !== 'object' || proxy === null) {
+							return proxy;
+						}
+						const obj = Array.isArray(proxy) ? [] : {};
+
+						Reflect.ownKeys(proxy).forEach(key => {
+							obj[key] = proxyToObj(proxy[key]);
+						});
+
+						return obj;
+					}
+					data = proxyToObj(data);
+				}
+
+				for (const [key, value] of Object.entries(data)) {
 					formData.append(key, value);
 				}
 			}
@@ -764,18 +784,18 @@ document.addEventListener( 'alpine:init', () => {
 			}
 
 			request.onreadystatechange = event => {
-				let data = request.response?.data;
-				if (data) {
-					document.dispatchEvent(
-						new CustomEvent(route, {
-							detail: { data, event, el, resolve },
-							bubbles: true,
-							// Allows events to pass the shadow DOM barrier.
-							composed: true,
-							cancelable: true
-						})
-					);
-				}
+				document.dispatchEvent(
+					new CustomEvent(route, {
+						detail: { data: request.response?.data, event, el, resolve },
+						bubbles: true,
+						// Allows events to pass the shadow DOM barrier.
+						composed: true,
+						cancelable: true
+					})
+				);
+
+				el.classList.remove('btn--load');
+
 				submitBtn && submitBtn.removeAttribute('style');
 			};
 		});

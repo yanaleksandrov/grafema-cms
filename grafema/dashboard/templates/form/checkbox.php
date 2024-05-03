@@ -38,21 +38,29 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 ?>
-<div class="dg g-1" x-data="{<?php echo $name; ?>: []}">
+<div class="dg g-1" x-data="{<?php echo $name; ?>: {}}">
 	<?php if ( $label ) { ?>
 		<div class="<?php echo $class; ?>">
 			<?php
 			Esc::html( $label );
-		if ( $reset ) {
-			?>
+            if ( $reset ) {
+                ?>
 				<span class="ml-auto t-reddish" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::e( 'Reset' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
 	}
-
+	echo '<pre>';
+	print_r( $options );
+	print_r( $attributes );
+	echo '</pre>';
 	foreach ( $options as $option => $text ) {
-		$attributes += ['value' => $option];
+	    $optionName = sprintf( '%s.%s', $name, $option );
+		$attributes = [
+		    'value'        => $option,
+            'name'         => $optionName,
+			'x-model.fill' => $optionName,
+        ];
 		?>
 		<label class="df aic">
 			<input type="checkbox"<?php echo Arr::toHtmlAtts( $attributes ); ?>>
@@ -60,8 +68,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		</label>
 		<?php
 	}
-?>
-	<?php if ( $instruction ) { ?>
+
+	if ( $instruction ) :
+	    ?>
 		<div class="fs-13 t-muted lh-xs ml-7"><?php Esc::html( $instruction ); ?></div>
-	<?php } ?>
+	<?php endif; ?>
 </div>

@@ -149,7 +149,7 @@
       content: '';
       display: inline-block;
       vertical-align: text-bottom;
-      border: 1px solid currentColor;
+      border: 1.5px solid currentColor;
       border-right-color: transparent;
       border-radius: 50%;
       color: var(--grafema-secondary);
@@ -1692,10 +1692,8 @@
 
         img {
           border-radius: 18px;
-          margin-left: -1px;
           min-width: 18px;
           width: 18px;
-          margin-inline-end: 0.5rem;
         }
       }
 

@@ -2827,6 +2827,22 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
 			setValue(getInputValue(el, modifiers, e, getValue()));
 		});
 		if (modifiers.includes("fill")) {
+			// autofill x-data object
+			if (typeof expression === 'string') {
+				let value = '',
+					xData = Alpine.$data(el);
+
+				const [key, ...rest] = expression.split('.');
+				if (el.type === 'checkbox') {
+					value = typeof xData[key] === 'undefined' ? '' : Array.from(xData[key]);
+				} else if (el.type === 'radio') {
+					value = el.checked ? el.value : '';
+				} else {
+					value = xData[key] ?? '';
+				}
+				xData[key] = rest.length > 0 ? rest.reduceRight((acc, key) => ({[key]: acc}), value) : value;
+			}
+
 			if ([void 0, null, ""].includes(getValue()) || el.type === "checkbox" && Array.isArray(getValue()) || el.tagName.toLowerCase() === "select" && el.multiple) {
 				setValue(
 					getInputValue(el, modifiers, { target: el }, getValue())

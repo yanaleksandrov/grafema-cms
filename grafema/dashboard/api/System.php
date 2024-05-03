@@ -11,8 +11,7 @@ namespace Dashboard\Api;
 
 use Grafema\Db;
 use Grafema\App\App;
-Use Grafema\I18n;
-use Grafema\Users\Roles;
+use Grafema\Errors;
 use Grafema\Users\Users;
 use Grafema\User;
 use Grafema\Option;
@@ -149,16 +148,13 @@ class System extends \Grafema\Api\Handler
 
 		$user = User::add( $userdata );
 		if ( $user instanceof User ) {
-			[
-				'login'    => $login,
-				'password' => $password
-			] = $userdata;
+			User::login( $userdata );
 
-			User::login( $login, $password );
+			return [
+				'installed' => $user instanceof User,
+			];
 		}
 
-		return [
-			'installed' => $user instanceof User,
-		];
+		return Errors::get();
 	}
 }

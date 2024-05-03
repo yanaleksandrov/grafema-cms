@@ -118,7 +118,7 @@ Db::init();
 	$php_version               = strval( phpversion() );
 	$php_version_is_compatible = version_compare( GRFM_REQUIRED_PHP_VERSION, $php_version, '<=' );
 	if ( ! $php_version_is_compatible ) {
-		header( sprintf( '%s 500 Internal Server Error', $serverProtocol ), true, 500 );
+		header( sprintf( '%s 500 Internal Server Errors', $serverProtocol ), true, 500 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		printf(
@@ -134,7 +134,7 @@ Db::init();
 	$db_version               = strval( Db::version() );
 	$db_version_is_compatible = version_compare( GRFM_REQUIRED_MYSQL_VERSION, $db_version, '<=' );
 	if ( ! $db_version_is_compatible ) {
-		header( sprintf( '%s 500 Internal Server Error', $serverProtocol ), true, 500 );
+		header( sprintf( '%s 500 Internal Server Errors', $serverProtocol ), true, 500 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		printf(

@@ -113,15 +113,15 @@ final class Is
 	}
 
 	/**
-	 * Checks whether the given variable is a Grafema Error.
+	 * Checks whether the given variable is a Grafema Errors.
 	 *
-	 * Returns whether `$thing` is an instance of the `Error` class.
+	 * Returns whether `$thing` is an instance of the `Errors` class.
 	 *
 	 * @since  1.0.0
 	 *
 	 * @param mixed $thing the variable to check
 	 *
-	 * @return bool whether the variable is an instance of Error
+	 * @return bool whether the variable is an instance of Errors
 	 */
 	public static function error( $thing ): bool
 	{

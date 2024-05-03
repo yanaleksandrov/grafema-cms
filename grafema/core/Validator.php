@@ -124,7 +124,7 @@ class Validator {
 	public array $rules = [];
 
 	/**
-	 * Error messages list
+	 * Errors messages list
 	 *
 	 * @var array
 	 */
@@ -145,7 +145,7 @@ class Validator {
 	public bool $break = false;
 
 	/**
-	 * Error list for return
+	 * Errors list for return
 	 *
 	 * @var array
 	 */

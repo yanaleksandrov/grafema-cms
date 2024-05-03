@@ -88,8 +88,8 @@ document.addEventListener('system/test', ({detail}) => {
 
 document.addEventListener('system/install', ({detail: { data, resolve }}) => resolve(data));
 
-document.addEventListener('user/sign-in', ({detail}) => {
-	const {data, resolve} = detail;
-	console.log(data);
-	resolve(data);
+document.addEventListener('user/sign-in', ({ detail: { data } }) => {
+	if (data.logged && data.redirect) {
+		window.location.href = data.redirect;
+	}
 });

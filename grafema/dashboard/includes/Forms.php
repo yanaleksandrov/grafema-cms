@@ -155,8 +155,8 @@ final class Forms
 			'user/sign-in',
 			[
 				'class'           => 'card card-border g-6 p-8',
-				'x-data'          => '{login: "", password: "", errors: {}}',
 				'@submit.prevent' => '$ajax("user/sign-in").then()',
+				'x-data'          => '',
 			],
 			function ( $form ) {
 				$form->addFields(
@@ -740,7 +740,7 @@ final class Forms
 		 * @since 1.0.0
 		 */
 		Form::register(
-			'jb-profile',
+			'grafema-profile',
 			[
 				'class'  => 'tab',
 				'x-data' => "{tab:'profile'}",
@@ -764,14 +764,24 @@ final class Forms
 									'label'  => I18n::__( 'Email (required)' ),
 									'fields' => [
 										[
-											'name'        => 'email',
 											'type'        => 'email',
-											'instruction' => I18n::__( 'Is not displayed anywhere. It is used to work with the account and system notifications' ),
+											'label'       => I18n::__( 'User Email' ),
+											'name'        => 'email',
+											'value'       => '',
+											'placeholder' => I18n::__( 'Enter user email' ),
+											'class'       => '',
+											'reset'       => 0,
+											'required'    => 1,
 											'before'      => '<i class="ph ph-at"></i>',
+											'after'       => '',
+											'tooltip'     => '',
+											'instruction' => I18n::__( 'Is not displayed anywhere. It is used to work with the account and system notifications' ),
 											'attributes'  => [
-												'required'    => true,
-												'placeholder' => I18n::__( 'e.g. user@gmail.com' ),
+												'x-autocomplete' => '',
+												'placeholder'    => I18n::__( 'e.g. user@gmail.com' ),
+												'required'       => true,
 											],
+											'conditions' => [],
 										],
 									],
 								],

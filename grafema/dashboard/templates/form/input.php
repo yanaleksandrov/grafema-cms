@@ -37,6 +37,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         ]
     )
 )->values();
+
+$attributes['value'] = $value;
 ?>
 <div class="dg g-1">
 	<label class="dg g-1">

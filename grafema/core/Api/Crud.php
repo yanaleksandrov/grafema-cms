@@ -1,6 +1,7 @@
 <?php
 namespace Grafema\Api;
 
+// TODO: rewrite to interface
 trait Crud {
 
 	/**

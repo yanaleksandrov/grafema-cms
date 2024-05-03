@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<?php echo $label; ?>
 		</div>
 	<?php endif; ?>
-	<div class="dg ga-5 g-7 gtc-<?php echo $columns; ?>">
+	<div class="dg ga-4 g-7 gtc-<?php echo $columns; ?>">
 		<?php echo $content; ?>
 	</div>
 </div>

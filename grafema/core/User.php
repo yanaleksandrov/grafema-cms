@@ -1,6 +1,7 @@
 <?php
 namespace Grafema;
 
+use Grafema\Errors;
 use Grafema\Users\Roles;
 use Grafema\Users\Users;
 use Grafema\Helpers\Hash;
@@ -23,7 +24,7 @@ class User extends Users {
 	 *
 	 * @since 1.0.0
 	 */
-	private static $current = null;
+	private static $current;
 
 	/**
 	 * Capabilities that the individual user has been granted outside those inherited from their role.
@@ -32,7 +33,7 @@ class User extends Users {
 	 *              and boolean values represent whether the user has that capability.
 	 * @since 1.0.0
 	 */
-	private static array $caps = [];
+	public array $caps = [];
 
 	public int $ID;
 	public string $login;
@@ -41,6 +42,7 @@ class User extends Users {
 	public string $email;
 	public string $registered;
 	public string $visited;
+	public array $fields;
 
 	/**
 	 * Sanitizer user data before inserting into the database.
@@ -70,7 +72,7 @@ class User extends Users {
 	 * is part of the URL of the user's page, and showname is displayed as the name.
 	 * Therefore, we generate it based on the login.
 	 *
-	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Error
+	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Errors
 	 *
 	 * @param array $userdata {
 	 *     @type int    $ID           User ID. If supplied, the user will be updated.
@@ -83,7 +85,7 @@ class User extends Users {
 	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
 	 * }
 	 *
-	 * @return array|User|bool The newly created user's ID or an Error object if the user could not be created.
+	 * @return array|User|bool The newly created user's ID or an Errors object if the user could not be created.
 	 * @throws \Exception
 	 * @since 1.0.0
 	 */
@@ -92,8 +94,8 @@ class User extends Users {
 			$userdata,
 			[
 				'login'    => 'login',
-				'email'    => 'email',
 				'password' => 'trim',
+				'email'    => 'email',
 				'showname' => 'ucfirst:$login',
 				'nicename' => 'slug:$login|unique',
 			]
@@ -166,7 +168,7 @@ class User extends Users {
 	 */
 	public static function get( $value, string $get_by = 'ID' ): Error|User|bool {
 		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
+			return new Error( 'user-field', I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
 		$user = Db::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
@@ -335,37 +337,57 @@ class User extends Users {
 	}
 
 	/**
-	 * Авторизует пользователя по паролю и логину/email.
+	 * Authorizes the user by password and login/email.
 	 *
-	 * @param  string      $login_or_email
-	 * @param  string      $password
-	 * @param  bool        $remember
-	 * @return Error|User
+	 * @param array $userdata
+	 * @return Errors|User
 	 * @since  1.0.0
 	 */
-	public static function login( string $login_or_email, string $password, bool $remember = true ): Error|User {
+	public static function login( array $userdata ): Errors|User {
+		$userdata = ( new Sanitizer(
+			$userdata,
+			[
+				'login'    => 'login',
+				'password' => 'trim',
+				'remember' => 'bool',
+			]
+		) )->apply();
+
+		$userdata = ( new Validator(
+			$userdata,
+			[
+				'login'    => 'lengthMin:3|lengthMax:60',
+				'password' => 'required',
+			]
+		) )->apply();
+
+		if ( $userdata instanceof Validator ) {
+			// TODO: do not stop at the first element, return the full set of errors
+			foreach ( $userdata->errors as $key => $errors ) {
+				return new Errors( 'user-' . $key, $errors );
+			}
+		}
+
+		[ $login_or_email, $password, $remember ] = array_values( $userdata );
+
 		$field = Is::email( $login_or_email ) ? 'email' : 'login';
-		if ( $remember ) {
-			Session::start();
-		} else {
-			Session::start( 1 );
+		$user  = User::get( $login_or_email, $field );
+		if ( $user instanceof User ) {
+			if ( password_verify( $password, $user->password ) ) {
+				if ( $remember ) {
+					Session::start();
+				} else {
+					Session::start( 1 );
+				}
+				Session::set( self::$session_id, $user->ID );
+
+				return self::$current = $user;
+			}
+
+			return new Errors( 'user-login', I18n::__( 'User password is incorrect.' ) );
 		}
 
-		$user = self::get( trim( $login_or_email ), $field );
-		if ( $user instanceof User && password_verify( trim( $password ), $user->password ) ) {
-			Session::set( self::$session_id, $user->ID );
-
-			self::$current = self::update(
-				[
-					'ID'     => $user->ID,
-					'online' => true,
-				]
-			);
-
-			return $user;
-		}
-
-		return new Error( Debug::get_backtrace(), I18n::__( 'User not found: invalid login/email or incorrect password.' ) );
+		return new Errors( 'user-login', I18n::__( 'User not found: invalid login or email.' ) );
 	}
 
 	/**
@@ -380,8 +402,7 @@ class User extends Users {
 		if ( $user_id ) {
 			self::update(
 				[
-					'ID'     => $user_id,
-					'online' => false,
+					'ID' => $user_id,
 				]
 			);
 		}

@@ -2,7 +2,7 @@
 namespace Grafema;
 
 /**
- * Error class.
+ * Errors class.
  *
  * A class whose task is to simplify error handling (messages) when working with Grafema.
  * In order to start working with a class, you need to create an instance of it, and then add or remove errors (messages) to it.
@@ -35,8 +35,8 @@ class Error {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|int $code    Error code.
-	 * @param string     $message Error message.
+	 * @param string|int $code    Errors code.
+	 * @param string     $message Errors message.
 	 */
 	public function __construct( string|int $code = '', string $message = '' ) {
 		if ( empty( $code ) ) {
@@ -50,8 +50,8 @@ class Error {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|int $code    Error code.
-	 * @param string     $message Error message.
+	 * @param string|int $code    Errors code.
+	 * @param string     $message Errors message.
 	 */
 	public function add( string|int $code, string $message ): void {
 		$this->errors[ $code ][] = $message;
@@ -65,7 +65,7 @@ class Error {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|int $code Error code.
+	 * @param string|int $code Errors code.
 	 */
 	public function remove( string|int $code ): void {
 		if ( isset( $this->errors[ $code ] ) ) {
@@ -107,7 +107,7 @@ class Error {
 	 * @since 1.0.0
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
-	 * @return array Error strings on success, or empty array on failure (if using code parameter).
+	 * @return array Errors strings on success, or empty array on failure (if using code parameter).
 	 */
 	public function getErrorMessages( $code = '' ): array {
 		// Return all messages if no code specified.
@@ -130,7 +130,7 @@ class Error {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string|int $code Optional. Error code to retrieve message.
+	 * @param string|int $code Optional. Errors code to retrieve message.
 	 * @return string
 	 */
 	public function getErrorMessage( string|int $code = '' ): string {

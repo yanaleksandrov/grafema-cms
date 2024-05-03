@@ -1118,7 +1118,7 @@ document.addEventListener( 'alpine:init', () => {
 						mask: maskArr,
 					} );
 				} catch( e ) {
-					console.error( 'Error: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask' );
+					console.error( 'Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask' );
 				}
 			}
 		}

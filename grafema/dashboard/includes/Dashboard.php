@@ -201,17 +201,6 @@ class Dashboard extends Grafema\App\App
 			'grafema_api_response',
 			function ( $data, $slug ) {
 				switch ( $slug ) {
-					case 'user/sign-in':
-						if ( $data instanceof User ) {
-							$data = [
-								[
-									'target'   => 'body',
-									'fragment' => 'https://cms.codyshop.ru/dashboard/',
-									'method'   => 'redirect',
-								],
-							];
-						}
-						break;
 					case 'user/sign-up':
 						$isUser = $data instanceof User;
 						$data   = [

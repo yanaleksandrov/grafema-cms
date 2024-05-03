@@ -33,7 +33,7 @@ class Field {
 	 * @param string $type  Type of the post.
 	 * @param int    $post  Post ID.
 	 *
-	 * @return array|Error Array of metadata or an instance of Error if the post type is invalid.
+	 * @return array|Error Array of metadata or an instance of Errors if the post type is invalid.
 	 * @since 1.0.0
 	 */
 	public static function fetch( string $type, int $post ): Error|array {

@@ -11,11 +11,12 @@ namespace Dashboard\Api;
 
 use Grafema\Api\Crud;
 use Grafema\Sanitizer;
+use Grafema\Url;
 use Grafema\Validator;
 use Grafema\View;
 use Grafema\Mail\Mail;
 use Grafema\I18n;
-use Grafema\Error;
+use Grafema\Errors;
 
 class User extends \Grafema\Api\Handler
 {
@@ -79,32 +80,16 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @url    GET api/user/sign-in
 	 */
-	public static function signIn(): Error|\Grafema\User|array
+	public static function signIn(): Errors|\Grafema\User|array
 	{
-		$request = ( new Sanitizer(
-			$_REQUEST,
-			[
-				'login'    => 'trim',
-				'password' => 'trim',
-				'remember' => 'bool',
-			]
-		) )->apply();
-
-		$validator = ( new Validator(
-			$request,
-			[
-				'login'    => 'required',
-				'password' => 'required',
-			]
-		) )->apply();
-
-		if ( $validator instanceof Validator ) {
-			return $validator->errors;
+		$user = \Grafema\User::login( $_POST );
+		if ( $user instanceof \Grafema\User ) {
+			return [
+				'logged'   => true,
+				'redirect' => Url::site( 'dashboard' ),
+			];
 		}
-
-		[$login, $password, $remember] = array_values( $request );
-
-		return \Grafema\User::login( $login, $password, $remember );
+		return $user;
 	}
 
 	/**
@@ -114,7 +99,7 @@ class User extends \Grafema\Api\Handler
 	 */
 	public static function signUp(): array
 	{
-		return (array) \Grafema\User::add( $_REQUEST ?? [] );
+		return \Grafema\User::add( $_REQUEST ?? [] );
 	}
 
 	/**

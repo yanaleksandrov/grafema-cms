@@ -146,29 +146,4 @@ abstract class Handler {
 			default => sprintf( 'application/%s', $extension ),
 		};
 	}
-
-	/**
-	 * @return array
-	 */
-	abstract protected function index(): array;
-
-	/**
-	 * @return array
-	 */
-	abstract protected function view(): array;
-
-	/**
-	 * @return array
-	 */
-	abstract protected function create(): array;
-
-	/**
-	 * @return array
-	 */
-	abstract protected function update(): array;
-
-	/**
-	 * @return array
-	 */
-	abstract protected function delete(): array;
 }

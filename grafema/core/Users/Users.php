@@ -52,7 +52,6 @@ class Users
 				local         varchar(100) NOT NULL default '',
 				registered    datetime     NOT NULL default NOW(),
 				visited       datetime     NOT NULL default NOW(),
-				token         varchar(255) NOT NULL default '',
 				PRIMARY KEY   (ID),
 				KEY login_key (login),
 				KEY nicename  (nicename),

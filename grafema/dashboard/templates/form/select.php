@@ -31,7 +31,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 
-$reset_value = sprintf( "'%s'", $value ?? '' );
+$click = sprintf( "%s = '%s'", $name, $value );
+$show  = sprintf( "%s !== '%s'", $name, $value );
 ?>
 <div class="dg g-1">
 	<span class="<?php echo $class; ?>">
@@ -39,7 +40,7 @@ $reset_value = sprintf( "'%s'", $value ?? '' );
 		Grafema\Esc::html( $label );
 		if ( $reset ) {
 			?>
-			<span class="ml-auto t-reddish" @click="<?php echo $name; ?> = <?php echo $reset_value; ?>" x-show="<?php echo $name; ?> !== <?php echo $reset_value; ?>" x-cloak><?php I18n::e( 'Reset' ); ?></span>
+			<span class="ml-auto t-reddish" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::e( 'Reset' ); ?></span>
 		<?php } ?>
 	</span>
 	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>

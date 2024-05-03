@@ -19,17 +19,19 @@ use Grafema\{
 	Route,
 	Url,
 	User,
-	View
+	View,
+	Csrf,
 };
 
-if ( ! defined( 'GRFM_PATH' ) ) {
-	define( 'GRFM_PATH', __DIR__ . '/' );
-}
-
-// TODO: move to Debug class
-ini_set( 'error_reporting', E_ALL );
-ini_set( 'display_errors', 1 );
-ini_set( 'display_startup_errors', 1 );
+/**
+ * Setup system core constants.
+ *
+ * @since 1.0.0
+ */
+const GRFM_PATH                   = __DIR__ . '/';
+const GRFM_VERSION                = '1.0.0';
+const GRFM_REQUIRED_PHP_VERSION   = '8.1';
+const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
 
 /**
  * Include required files: app configuration & autoloader.
@@ -42,73 +44,6 @@ array_map(function ($include) {
 		require_once $include_path;
 	}
 }, ['config', 'autoloader']);
-
-/**
- * Launch new database connection.
- *
- * @since  1.0.0
- */
-new Db();
-
-/**
- * Check for the required PHP version, and the MySQL extension or a database drop-in.
- * Dies if requirements are not met.
- *
- * @since  1.0.0
- */
-(function() {
-	$serverProtocol = $_SERVER['SERVER_PROTOCOL'] ?? '';
-	if ( ! in_array( $serverProtocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'] ) ) {
-		$serverProtocol = 'HTTP/1.0';
-	}
-
-	$php_version               = strval( phpversion() );
-	$php_version_is_compatible = version_compare( GRFM_REQUIRED_PHP_VERSION, $php_version, '<=' );
-	if ( ! $php_version_is_compatible ) {
-		header( sprintf( '%s 500 Internal Server Error', $serverProtocol ), true, 500 );
-		header( 'Content-Type: text/html; charset=utf-8' );
-
-		printf(
-			I18n::__( 'Your server is running PHP version "%1$s" but Grafema %2$s requires at least %3$s.' ),
-			$php_version,
-			GRFM_VERSION,
-			GRFM_REQUIRED_PHP_VERSION
-		);
-
-		exit;
-	}
-
-	$db_version               = strval( Db::version() );
-	$db_version_is_compatible = version_compare( GRFM_REQUIRED_MYSQL_VERSION, $db_version, '<=' );
-	if ( ! $db_version_is_compatible ) {
-		header( sprintf( '%s 500 Internal Server Error', $serverProtocol ), true, 500 );
-		header( 'Content-Type: text/html; charset=utf-8' );
-
-		printf(
-			I18n::__( 'Your server is running DataBase version %1$s but Grafema %2$s requires at least %3$s.' ),
-			$db_version,
-			GRFM_VERSION,
-			GRFM_REQUIRED_MYSQL_VERSION
-		);
-
-		exit;
-	}
-})();
-
-/**
- * Launch debug mode & run benchmark.
- *
- * @since 1.0.0
- */
-Debug::check();
-Debug::timer();
-
-/**
- * Launch the installer if Grafema is not installed.
- *
- * @since 1.0.0
- */
-Install::init();
 
 /**
  * Create a single entry point to the website.
@@ -135,18 +70,93 @@ Install::init();
 })();
 
 /**
+ * Launch debug mode & run benchmark.
+ *
+ * @since 1.0.0
+ */
+Debug::launch();
+Debug::timer();
+
+/**
+ * Generate CSRF token.
+ *
+ * @since 1.0.0
+ */
+( new Csrf\Csrf(
+	new Csrf\Providers\NativeHttpOnlyCookieProvider()
+) )->generate( 'token' );
+
+/**
+ * Launch the installer if Grafema is not installed.
+ *
+ * @since 1.0.0
+ */
+if ( ! Is::installed() ) {
+	Install::init();
+	exit;
+}
+
+/**
+ * Launch database connection.
+ *
+ * @since  1.0.0
+ */
+Db::init();
+
+/**
+ * Check for the required PHP version, and the MySQL extension or a database drop-in.
+ * Dies if requirements are not met.
+ *
+ * @since  1.0.0
+ */
+(function() {
+	$serverProtocol = $_SERVER['SERVER_PROTOCOL'] ?? '';
+	if ( ! in_array( $serverProtocol, ['HTTP/1.1', 'HTTP/2', 'HTTP/2.0', 'HTTP/3'] ) ) {
+		$serverProtocol = 'HTTP/1.0';
+	}
+
+	$php_version               = strval( phpversion() );
+	$php_version_is_compatible = version_compare( GRFM_REQUIRED_PHP_VERSION, $php_version, '<=' );
+	if ( ! $php_version_is_compatible ) {
+		header( sprintf( '%s 500 Internal Server Errors', $serverProtocol ), true, 500 );
+		header( 'Content-Type: text/html; charset=utf-8' );
+
+		printf(
+			I18n::__( 'Your server is running PHP version "%1$s" but Grafema %2$s requires at least %3$s.' ),
+			$php_version,
+			GRFM_VERSION,
+			GRFM_REQUIRED_PHP_VERSION
+		);
+
+		exit;
+	}
+
+	$db_version               = strval( Db::version() );
+	$db_version_is_compatible = version_compare( GRFM_REQUIRED_MYSQL_VERSION, $db_version, '<=' );
+	if ( ! $db_version_is_compatible ) {
+		header( sprintf( '%s 500 Internal Server Errors', $serverProtocol ), true, 500 );
+		header( 'Content-Type: text/html; charset=utf-8' );
+
+		printf(
+			I18n::__( 'Your server is running DataBase version %1$s but Grafema %2$s requires at least %3$s.' ),
+			$db_version,
+			GRFM_VERSION,
+			GRFM_REQUIRED_MYSQL_VERSION
+		);
+
+		exit;
+	}
+})();
+
+/**
  * Define auxiliary constants necessary for the application and make them available in any part.
  *
  * @since 1.0.0
  */
 $route = new Route();
-$route->before(
-	'GET|POST|PUT|DELETE',
-	'/.*',
-	function () {
-		Constants::init();
-	}
-);
+$route->before( 'GET|POST|PUT|DELETE', '/.*', function () {
+	Constants::init();
+});
 $route->run();
 
 /**
@@ -190,14 +200,8 @@ Hook::apply( 'grafema_plugins_loaded' );
 Dashboard::init();
 
 /**
- * Grafema is fully loaded, but before any headers are sent.
- *
- * @since 1.0.0
- */
-Hook::apply( 'grafema_loaded' );
-
-/**
  * Load private administrative panel.
+ *
  * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
  * TODO: move routers to dashboard.
  *
@@ -205,7 +209,6 @@ Hook::apply( 'grafema_loaded' );
  */
 $dashboard = str_replace( GRFM_PATH, '/', GRFM_DASHBOARD );
 $route     = new Route();
-
 $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) {
 	http_response_code( 200 );
 
@@ -242,7 +245,6 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 * @since 1.0.0
 	 */
 	$black_list_slugs = ['install', 'sign-in', 'sign-up', 'reset-password'];
-
 	if ( in_array( $slug, $black_list_slugs, true ) && User::logged() ) {
 		View::redirect(
 			Url::site( 'dashboard' )
@@ -276,4 +278,19 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 
 	exit;
 } );
+
+$route->get( '(.*)', function ( $slug ) use ( $route ) {
+	http_response_code( 200 );
+
+	/**
+	 * Run the installer if Grafema is not installed.
+	 *
+	 * @since 1.0.0
+	 */
+	if ( Is::installed() && $slug === 'install' ) {
+		View::redirect( Url::site( 'dashboard' ) );
+		exit;
+	}
+} );
+
 $route->run();

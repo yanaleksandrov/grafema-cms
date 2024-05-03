@@ -36,13 +36,13 @@ final class Db {
 	/**
 	 * Init database connection
 	 *
-	 * @return void|Errors
+	 * @return void|Error
 	 */
 	public function __construct( array $options = [] ) {
 		$options = array_merge(
 			[
 				'database' => defined( 'DB_NAME' ) ? DB_NAME : '',
-				'username' => defined( 'DB_USER' ) ? DB_USER : '',
+				'username' => defined( 'DB_USERNAME' ) ? DB_USERNAME : '',
 				'password' => defined( 'DB_PASSWORD' ) ? DB_PASSWORD : '',
 				'host'     => defined( 'DB_HOST' ) ? DB_HOST : 'localhost',
 				'prefix'   => defined( 'DB_PREFIX' ) ? DB_PREFIX : 'grafema_',
@@ -55,7 +55,7 @@ final class Db {
 		try {
 			self::$connection = new Medoo( $options );
 		} catch ( PDOException $e ) {
-			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Error( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
 		}
 	}
 
@@ -369,15 +369,15 @@ final class Db {
 	/**
 	 * Try to check database connection
 	 *
-	 * @return Errors|Medoo|null
+	 * @return Error|Medoo|null
 	 * @since 1.0.0
 	 */
-	public static function check(): Errors|Medoo|null
+	public static function check(): Error|Medoo|null
 	{
 		try {
 			return self::$connection;
 		} catch ( PDOException $e ) {
-			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Error( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
 		}
 	}
 }

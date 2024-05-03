@@ -6,7 +6,7 @@ use Grafema\{
 	View,
 	Debug,
 	Hook,
-	Errors,
+	Error,
 	Sanitizer,
 	Helpers\Arr
 };
@@ -82,7 +82,7 @@ class Form {
 		// TODO:: wrong escaping, use sanitize
 		$uniqid = Esc::html( $uniqid, false );
 		if ( empty( $uniqid ) ) {
-			new Errors(
+			new Error(
 				Debug::get_backtrace(),
 				sprintf( I18n::__( 'The $uniqid of the form is empty.' ), $uniqid )
 			);
@@ -92,7 +92,7 @@ class Form {
 
 		$form = self::init( $uniqid );
 		if ( isset( $form->uniqid ) ) {
-			new Errors(
+			new Error(
 				Debug::get_backtrace(),
 				sprintf( I18n::__( 'The form identified by %s already exists! Potential conflicts detected!' ), $uniqid )
 			);
@@ -130,9 +130,9 @@ class Form {
 	 *
 	 * @param string $uniqid
 	 * @param bool $without_form_wrapper
-	 * @return string|Errors
+	 * @return string|Error
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false ): Errors|string {
+	public static function view( string $uniqid, bool $without_form_wrapper = false ): Error|string {
 		$form   = self::init( $uniqid );
 		$fields = $form->fields ?? [];
 
@@ -145,7 +145,7 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Form fields is incorrect.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'Form fields is incorrect.' ) );
 		}
 
 		/**
@@ -207,12 +207,8 @@ class Form {
 
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$name     = Sanitizer::key( $field['name'] ?? '' );
+			$name     = Sanitizer::name( $field['name'] ?? '' );
 			$callback = $field['callback'] ?? null;
-
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
-				$type = 'input';
-			}
 
 			// add required attributes & other manipulations
 			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
@@ -223,13 +219,27 @@ class Form {
 					'select'   => $field['attributes']['x-select']      ??= '',
 					default    => '',
 				};
-				$field['attributes'] = array_merge(
-					[
-						'name'         => $name,
-						'x-model.fill' => $name,
-					],
-					$field['attributes']
-				);
+
+				if ( in_array( $type, [ 'toggle' ], true ) ) {
+					$field['attributes'] = array_merge(
+						[
+							'type'         => 'checkbox',
+							'x-model.fill' => Sanitizer::dot( $name ),
+						],
+						$field['attributes']
+					);
+				}
+
+				if ( ! in_array( $type, [ 'submit' ], true ) ) {
+					$field['attributes'] = array_merge(
+						[
+							'type'         => $type,
+							'name'         => $name,
+							'x-model.fill' => Sanitizer::dot( $name ),
+						],
+						$field['attributes']
+					);
+				}
 
 				if ( $type === 'step' ) {
 					unset( $field['attributes']['x-model.fill'] );
@@ -239,6 +249,10 @@ class Form {
 			// parse conditions
 			if ( ! empty( $field['conditions'] ) ) {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
+			}
+
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+				$type = 'input';
 			}
 
 			ob_start();
@@ -294,13 +308,13 @@ class Form {
 	 * Adding a new field to the end of the array with all fields.
 	 *
 	 * @param array $field
-	 * @return void|Errors
+	 * @return void|Error
 	 */
 	public function addField( array $field ) {
 		$fields   = $this->fields ?? [];
 		$field_id = trim( strval( $field['ID'] ?? '' ) );
 		if ( empty( $field_id ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'It is not possible to add a field with an empty ID.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'It is not possible to add a field with an empty ID.' ) );
 		}
 
 		$insert_places = array_filter( [ $this->after, $this->before, $this->instead ] );

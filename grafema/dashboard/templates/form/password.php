@@ -2,6 +2,7 @@
 use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
+use Grafema\Sanitizer;
 
 /*
  * Password field
@@ -16,11 +17,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 
 [$label, $name, $value, $placeholder, $class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = (
-    new Grafema\Sanitizer(
+    new Sanitizer(
         $args ?? [],
         [
 			'label'       => 'trim',
-			'name'        => 'key',
+			'name'        => 'name',
 			'value'       => 'attribute|trim',
 			'placeholder' => 'trim',
 			'class'       => 'class:df aic jcsb fw-600',
@@ -37,11 +38,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 
+$variable   = Sanitizer::dot( $name );
 $attributes = [
 	...$attributes,
 	'name'          => $name,
 	':type'         => "show ? 'password' : 'text'",
-	'@input.window' => 'data = $password.check(' . $name . ')',
+	'@input.window' => $generator ? 'data = $password.check(' . $variable . ')' : '',
 ];
 ?>
 <div class="dg g-1" x-data="{show: true, data: {}}">
@@ -49,22 +51,22 @@ $attributes = [
 		<div class="<?php echo $class; ?>">
 			<?php
 			Esc::html( $label );
-if ( $generator ) {
-	?>
-				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $name ); ?> = $password.generate(); $dispatch('input')"><?php I18n::e( 'Generate' ); ?></span>
+            if ( $generator ) {
+                ?>
+				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::e( 'Generate' ); ?></span>
 			<?php } ?>
 		</div>
 		<div class="field">
 			<?php
 			printf( '<input%s>', Arr::toHtmlAtts( $attributes ) );
-if ( $switcher ) {
-	?>
+            if ( $switcher ) {
+                ?>
 				<i class="ph" :class="show ? 'ph-eye-closed' : 'ph-eye'" @click="show = $password.switch(show)"></i>
 				<?php
-}
-if ( $copy ) {
-	?>
-				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" x-copy="<?php Esc::attr( $name ); ?>"></i>
+            }
+            if ( $copy ) {
+                ?>
+				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" x-copy="<?php Esc::attr( $variable ); ?>"></i>
 			<?php } ?>
 		</div>
 	</div>
@@ -95,14 +97,14 @@ if ( $copy ) {
 				'digit'     => I18n::__( '%d numbers' ),
 			];
 
-		foreach ( $characters as $character => $count ) {
-			if ( empty( $character ) || empty( $messages[$character] ) || $count <= 0 ) {
-				continue;
-			}
-			?>
-				<span class="df aic g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
-					<i class="ph" :class="data.<?php echo $character; ?> ? 'ph-check' : 'ph-x'"></i> <?php printf( $messages[$character], $count ); ?>
-				</span>
+            foreach ( $characters as $character => $count ) {
+                if ( empty( $character ) || empty( $messages[$character] ) || $count <= 0 ) {
+                    continue;
+                }
+                ?>
+				<div class="df aifs g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
+					<i class="ph" :class="data.<?php echo $character; ?> ? 'ph-check' : 'ph-x'"></i> <span><?php printf( $messages[$character], $count ); ?></span>
+				</div>
 			<?php } ?>
 		</div>
 	<?php } ?>

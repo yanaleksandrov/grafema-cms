@@ -124,7 +124,7 @@ class Validator {
 	public array $rules = [];
 
 	/**
-	 * Error messages list
+	 * Errors messages list
 	 *
 	 * @var array
 	 */

@@ -1,17 +1,27 @@
 <?php
 /**
+ * This file is part of Grafema CMS.
  *
- *
- * @package Grafema
+ * @link     https://www.grafema.io
+ * @contact  team@core.io
+ * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
-class Extensions {
+
+namespace Dashboard\Api;
+
+class Extensions extends \Grafema\Api\Handler
+{
+	/**
+	 * Endpoint name.
+	 */
+	public string $endpoint = 'extensions';
 
 	/**
+	 * Get all items.
 	 *
-	 *
-	 * @return array
+	 * @url    GET api/extensions
 	 */
-	public static function get(): array {
+	public function index(): array {
 		return [
 			[
 				'title'           => 'Classic Editor 1 and very longadable and many more text',

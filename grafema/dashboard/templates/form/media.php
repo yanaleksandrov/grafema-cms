@@ -15,11 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$uniqid, $type, $name, $label, $label_class, $class, $description, $attributes, $tooltip] = (
+[$type, $name, $label, $label_class, $class, $description, $attributes, $tooltip] = (
     new Sanitizer(
         $args ?? [],
         [
-			'uniqid'      => 'key:' . substr( str_shuffle( 'abcdefghijklmnopqrstuvwxyz' ), 0, 6 ),
 			'type'        => 'key:text',
 			'name'        => 'attribute|key',
 			'label'       => 'trim',

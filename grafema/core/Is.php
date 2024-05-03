@@ -125,7 +125,7 @@ final class Is
 	 */
 	public static function error( $thing ): bool
 	{
-		return $thing instanceof Errors;
+		return $thing instanceof Error;
 	}
 
 	/**
@@ -209,8 +209,8 @@ final class Is
 	{
 		if ( strlen( (int) $thing ) === 10 ) {
 			try {
-				new DateTime( '@' . $thing );
-			} catch ( Exception $e ) {
+				new \DateTime( '@' . $thing );
+			} catch ( \Exception $e ) {
 				return false;
 			}
 

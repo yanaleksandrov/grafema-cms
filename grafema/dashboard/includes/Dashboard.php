@@ -18,6 +18,7 @@ use Grafema\Url;
 use Grafema\User;
 use Grafema\Debug;
 use Grafema\Json;
+use Grafema\Users\Roles;
 use Grafema\View;
 use Grafema\File\Csv;
 use Grafema\Patterns\Singleton;
@@ -38,6 +39,88 @@ class Dashboard extends Grafema\App\App
 	 */
 	public function __construct()
 	{
+		/**
+		 * Add roles and users.
+		 *
+		 * @since 1.0.0
+		 */
+		Roles::register(
+			'admin',
+			I18n::__( 'Administrator' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+				'other_types_publish',
+				'other_types_edit',
+				'other_types_delete',
+				'private_types_publish',
+				'private_types_edit',
+				'private_types_delete',
+				'manage_comments',
+				'manage_options',
+				'manage_update',
+				'manage_import',
+				'manage_export',
+				'themes_install',
+				'themes_switch',
+				'themes_delete',
+				'plugins_install',
+				'plugins_activate',
+				'plugins_delete',
+				'users_create',
+				'users_edit',
+				'users_delete',
+			]
+		);
+
+		Roles::register(
+			'editor',
+			I18n::__( 'Editor' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+				'other_types_publish',
+				'other_types_edit',
+				'other_types_delete',
+				'private_types_publish',
+				'private_types_edit',
+				'private_types_delete',
+				'manage_comments',
+			]
+		);
+
+		Roles::register(
+			'author',
+			I18n::__( 'Author' ),
+			[
+				'read',
+				'files_upload',
+				'files_edit',
+				'files_delete',
+				'types_publish',
+				'types_edit',
+				'types_delete',
+			]
+		);
+
+		Roles::register(
+			'subscriber',
+			I18n::__( 'Subscriber' ),
+			[
+				'read',
+			]
+		);
+
 		/**
 		 * Set up default post types: "pages" & "media".
 		 *
@@ -117,21 +200,8 @@ class Dashboard extends Grafema\App\App
 		Hook::add(
 			'grafema_api_response',
 			function ( $data, $slug ) {
-				var_dump( $slug );
-				var_dump( $data );
 				switch ( $slug ) {
-					case 'sign/in':
-						if ( $data instanceof User ) {
-							$data = [
-								[
-									'target'   => 'body',
-									'fragment' => 'https://cms.codyshop.ru/dashboard/',
-									'method'   => 'redirect',
-								],
-							];
-						}
-						break;
-					case 'sign-up':
+					case 'user/sign-up':
 						$isUser = $data instanceof User;
 						$data   = [
 							[
@@ -142,7 +212,7 @@ class Dashboard extends Grafema\App\App
 							],
 						];
 						break;
-					case 'grab/files':
+					case 'files/grab':
 						$data = [
 							[
 								'fragment' => sprintf( I18n::__( '%d files have been successfully uploaded to the library' ), count( $data ) ),
@@ -155,7 +225,7 @@ class Dashboard extends Grafema\App\App
 							],
 						];
 						break;
-					case 'import/posts':
+					case 'posts/import':
 						ob_start();
 						View::part(
 							'templates/states/completed',
@@ -282,7 +352,7 @@ class Dashboard extends Grafema\App\App
 							];
 						}
 						break;
-					case 'extensions/get':
+					case 'extensions':
 						$data = [
 							[
 								'fragment' => $data,
@@ -295,13 +365,7 @@ class Dashboard extends Grafema\App\App
 						break;
 				}
 
-				return Json::encode(
-					[
-						'status'    => 200,
-						'benchmark' => Debug::timer( 'getall' ),
-						'data'      => $data,
-					]
-				);
+				return $data;
 			},
 			10,
 			2
@@ -329,23 +393,16 @@ class Dashboard extends Grafema\App\App
 		 * @since 1.0.0
 		 */
 		$styles = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
-
 		foreach ( $styles as $style ) {
 			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], GRFM_VERSION );
 		}
 
-
-		$provider = new Csrf\Providers\NativeHttpOnlyCookieProvider();
-		$csrf     = new Csrf\Csrf( $provider );
-		$token    = $csrf->generate( 'token' );
-
-		$scripts = ['index', 'slimselect', 'drooltip', 'alpine.min', 'dragula.min', 'croppr.min', 'prism.min'];
+		$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine.min', 'dragula.min', 'croppr.min', 'prism.min'];
 		foreach ( $scripts as $script ) {
 			$data = [];
 			if ( $script === 'index' ) {
 				$data['data'] = [
 					'apiurl' => 'https://cms.codyshop.ru/api/',
-					'nonce'  => $token,
 				];
 			}
 
@@ -360,19 +417,8 @@ class Dashboard extends Grafema\App\App
 		 *
 		 * @since 1.0.0
 		 */
-		Hook::add(
-			'dashboard_dashboard_head',
-			function () {
-				Asset::plug( '*.css' );
-			}
-		);
-
-		Hook::add(
-			'grafema_dashboard_footer',
-			function () {
-				Asset::plug( '*.js' );
-			}
-		);
+		Hook::add( 'grafema_dashboard_header', fn () => Asset::plug( '*.css' ) );
+		Hook::add( 'grafema_dashboard_footer', fn () => Asset::plug( '*.js' ) );
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.
@@ -387,12 +433,5 @@ class Dashboard extends Grafema\App\App
 		 * @since 1.0.0
 		 */
 		Forms::init();
-
-		/**
-		 * Register new routes
-		 *
-		 * @since 1.0.0
-		 */
-		Routes::init();
 	}
 }

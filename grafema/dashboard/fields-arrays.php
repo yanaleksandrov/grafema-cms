@@ -48,7 +48,7 @@
 	],
 	// details: dropdown with button
 	'content'     => '',
-	// simple select/checkbox/radio options
+	// simple select/checkbox/radio options & toggle with 2 options
 	'options'     => [
 		'one' => I18n::__( '#1' ),
 		'two' => I18n::__( '#2' ),

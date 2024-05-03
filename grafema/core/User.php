@@ -1,6 +1,7 @@
 <?php
 namespace Grafema;
 
+use Grafema\Errors;
 use Grafema\Users\Roles;
 use Grafema\Users\Users;
 use Grafema\Helpers\Hash;
@@ -23,7 +24,7 @@ class User extends Users {
 	 *
 	 * @since 1.0.0
 	 */
-	private static $current = null;
+	private static $current;
 
 	/**
 	 * Capabilities that the individual user has been granted outside those inherited from their role.
@@ -32,15 +33,17 @@ class User extends Users {
 	 *              and boolean values represent whether the user has that capability.
 	 * @since 1.0.0
 	 */
-	private static array $caps = [];
+	public array $caps = [];
 
 	public int $ID;
 	public string $login;
 	public string $password;
 	public string $showname;
+	public string $nicename;
 	public string $email;
 	public string $registered;
 	public string $visited;
+	public array $fields;
 
 	/**
 	 * Sanitizer user data before inserting into the database.
@@ -92,8 +95,8 @@ class User extends Users {
 			$userdata,
 			[
 				'login'    => 'login',
-				'email'    => 'email',
 				'password' => 'trim',
+				'email'    => 'email',
 				'showname' => 'ucfirst:$login',
 				'nicename' => 'slug:$login|unique',
 			]
@@ -164,9 +167,9 @@ class User extends Users {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function get( $value, string $get_by = 'ID' ): Errors|User|bool {
+	public static function get( $value, string $get_by = 'ID' ): Error|User|bool {
 		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
+			return new Error( 'user-field', I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
 		}
 
 		$user = Db::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
@@ -197,7 +200,7 @@ class User extends Users {
 
 		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
 		}
 
 		// sanitize incoming data and exclusion of extraneous data
@@ -214,11 +217,10 @@ class User extends Users {
 	 * being deleted will be run after the posts are either reassigned or deleted.
 	 * The user meta will also be deleted that are for that User ID.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param  int   $user_id  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
-	 * @return Errors|int      The number of remote users or false.
+	 * @return Error|int      The number of remote users or false.
+	 * @since 1.0.0
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
 		$fields = [
@@ -226,7 +228,7 @@ class User extends Users {
 		];
 
 		if ( ! self::exists( $fields ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'The user you are trying to delete does not exist.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'The user you are trying to delete does not exist.' ) );
 		}
 
 		if ( $reassign ) {
@@ -304,7 +306,7 @@ class User extends Users {
 	/**
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
-	 * @return Errors|false|User
+	 * @return Error|false|User
 	 * @since   1.0.0
 	 */
 	public static function current() {
@@ -336,37 +338,57 @@ class User extends Users {
 	}
 
 	/**
-	 * Авторизует пользователя по паролю и логину/email.
+	 * Authorizes the user by password and login/email.
 	 *
-	 * @param  string      $login_or_email
-	 * @param  string      $password
-	 * @param  bool        $remember
+	 * @param array $userdata
 	 * @return Errors|User
 	 * @since  1.0.0
 	 */
-	public static function login( string $login_or_email, string $password, bool $remember = true ): Errors|User {
+	public static function login( array $userdata ): Errors|User {
+		$userdata = ( new Sanitizer(
+			$userdata,
+			[
+				'login'    => 'login',
+				'password' => 'trim',
+				'remember' => 'bool',
+			]
+		) )->apply();
+
+		$userdata = ( new Validator(
+			$userdata,
+			[
+				'login'    => 'lengthMin:3|lengthMax:60',
+				'password' => 'required',
+			]
+		) )->apply();
+
+		if ( $userdata instanceof Validator ) {
+			// TODO: do not stop at the first element, return the full set of errors
+			foreach ( $userdata->errors as $key => $errors ) {
+				return new Errors( 'user-' . $key, $errors );
+			}
+		}
+
+		[ $login_or_email, $password, $remember ] = array_values( $userdata );
+
 		$field = Is::email( $login_or_email ) ? 'email' : 'login';
-		if ( $remember ) {
-			Session::start();
-		} else {
-			Session::start( 1 );
+		$user  = User::get( $login_or_email, $field );
+		if ( $user instanceof User ) {
+			if ( password_verify( $password, $user->password ) ) {
+				if ( $remember ) {
+					Session::start();
+				} else {
+					Session::start( 1 );
+				}
+				Session::set( self::$session_id, $user->ID );
+
+				return self::$current = $user;
+			}
+
+			return new Errors( 'user-login', I18n::__( 'User password is incorrect.' ) );
 		}
 
-		$user = self::get( trim( $login_or_email ), $field );
-		if ( $user instanceof User && password_verify( trim( $password ), $user->password ) ) {
-			Session::set( self::$session_id, $user->ID );
-
-			self::$current = self::update(
-				[
-					'ID'     => $user->ID,
-					'online' => true,
-				]
-			);
-
-			return $user;
-		}
-
-		return new Errors( Debug::get_backtrace(), I18n::__( 'User not found: invalid login/email or incorrect password.' ) );
+		return new Errors( 'user-login', I18n::__( 'User not found: invalid login or email.' ) );
 	}
 
 	/**
@@ -381,8 +403,7 @@ class User extends Users {
 		if ( $user_id ) {
 			self::update(
 				[
-					'ID'     => $user_id,
-					'online' => false,
+					'ID' => $user_id,
 				]
 			);
 		}

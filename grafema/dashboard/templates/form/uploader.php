@@ -2,6 +2,7 @@
 use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Helpers\Arr;
+use Grafema\Sanitizer;
 
 /**
  * Files uploader.
@@ -15,10 +16,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$label       = trim( strval( $args['label'] ?? '' ) );
-$description = trim( strval( $args['description'] ?? '' ) );
-$attributes  = (array) ( $args['attributes'] ?? [] );
-$max_size    = ini_get( 'upload_max_filesize' );
+[$label, $description, $attributes, $max_size] = (
+    new Sanitizer(
+		$args ?? [],
+        [
+            'label'       => 'trim',
+            'instruction' => 'trim',
+            'attributes'  => 'array',
+            'max_size'    => 'trim:' . ini_get( 'upload_max_filesize' ),
+        ]
+    )
+)->values();
 ?>
 <div class="uploader dg g-3">
 	<label class="dg g-1">

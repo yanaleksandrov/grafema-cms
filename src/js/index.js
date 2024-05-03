@@ -1,8 +1,3 @@
-/**
- * jb.js v1.0.0
- * https://codyshop.ru (c) 2023 jb.js
- * Released under the MIT License
- */
 document.addEventListener( 'alpine:init', () => {
 
 	/**
@@ -646,7 +641,7 @@ document.addEventListener( 'alpine:init', () => {
 				return !this.isCompleted();
 			},
 			goNext() {
-				this.goto(this.nextIndex());
+				this.goTo(this.nextIndex());
 			},
 			canGoNext() {
 				return this.current().is_complete && this.nextIndex() !== null;
@@ -655,7 +650,7 @@ document.addEventListener( 'alpine:init', () => {
 				return !this.canGoNext();
 			},
 			goBack() {
-				this.goto(this.previousIndex());
+				this.goTo(this.previousIndex());
 			},
 			canGoBack() {
 				return this.previousIndex() !== null;
@@ -663,7 +658,7 @@ document.addEventListener( 'alpine:init', () => {
 			cannotGoBack() {
 				return !this.canGoBack();
 			},
-			goto(index) {
+			goTo(index) {
 				if (index !== null && this.steps[index] !== void 0) {
 					this.current_index = index;
 
@@ -708,12 +703,15 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.magic( 'ajax', el => (route, appendage) => {
+	Alpine.magic( 'ajax', el => (route, data) => {
 		let formData  = new FormData(),
 			submitBtn = el.querySelector("[type='submit']");
 
 		return new Promise(resolve => {
 			switch (el.tagName) {
+				case 'BUTTON':
+					el.classList.add('btn--load');
+					break;
 				case 'FORM':
 					formData = new FormData(el);
 					let inputs = el.querySelectorAll("input[type='file']");
@@ -733,13 +731,28 @@ document.addEventListener( 'alpine:init', () => {
 					break;
 			}
 
-			if (appendage) {
-				for (const [key, value] of Object.entries(appendage)) {
+			if (data) {
+				const keys = Reflect.ownKeys(data);
+				if (keys) {
+					function proxyToObj(proxy) {
+						if (typeof proxy !== 'object' || proxy === null) {
+							return proxy;
+						}
+						const obj = Array.isArray(proxy) ? [] : {};
+
+						Reflect.ownKeys(proxy).forEach(key => {
+							obj[key] = proxyToObj(proxy[key]);
+						});
+
+						return obj;
+					}
+					data = proxyToObj(data);
+				}
+
+				for (const [key, value] of Object.entries(data)) {
 					formData.append(key, value);
 				}
 			}
-
-			formData.append('nonce', index.nonce);
 
 			if (submitBtn) {
 				Object.assign(submitBtn.style, {
@@ -762,10 +775,6 @@ document.addEventListener( 'alpine:init', () => {
 			request.open(method, index.apiurl + route);
 			request.send(formData);
 
-			request.onload = () => {
-
-			}
-
 			request.upload.onprogress = event => {
 				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
 			}
@@ -774,81 +783,20 @@ document.addEventListener( 'alpine:init', () => {
 				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
 			}
 
-			request.onreadystatechange = () => {
-				let data = request.response?.data;
-				if (request.status === 200 && data) {
-					data.map(({ method, target, fragment, delay, custom }) => {
-						let targets = document.querySelectorAll(target) || [];
-						targets.forEach(target => {
-							setTimeout(() => {
-								switch (method) {
-									case "redirect":
-										window.location = fragment || '';
-										break;
-									case "location":
-										window.history.replaceState(null, null, fragment || '');
-										break;
-									case "reload":
-										window.location.reload();
-										break;
-									case "download":
-										// TODO
-										break;
-									case "console":
-										console.log(fragment || '');
-										break;
-									case "scrollTo":
-										window.scrollBy({
-											top: target.getBoundingClientRect().top,
-											behavior: 'smooth'
-										});
-										break;
-									case "value":
-										target.value = fragment || ''
-										break;
-									case "update":
-										target.innerHTML = fragment || '';
-										break;
-									case "replace":
-										target.outerHTML = fragment || '';
-										break;
-									case "remove":
-										target.remove();
-										break;
-									case "afterend":
-									case "beforeend":
-									case "afterbegin":
-									case "beforebegin":
-										target.insertAdjacentHTML(method, fragment || '');
-										break;
-									case "dispatchEvent":
-										target.dispatchEvent(new CustomEvent(fragment, {detail: custom}));
-										break;
-									case "classList.remove":
-										target.classList.remove(fragment || '');
-										break;
-									case "classList.add":
-										target.classList.add(fragment || '');
-										break;
-									case "notify":
-										if (fragment) {
-											Alpine.store('notice').setDuration(custom.duration ?? 4000);
-											Alpine.store('notice').notify(fragment, custom.type ?? 'info');
-										}
-										break;
-									case "alpine":
-										resolve(fragment);
-										break;
-									default:
-										// use "prepend, append, replaceWith, removeAttribute or scrollIntoView" methods
-										target[method](fragment || '');
-								}
-							}, delay || 0);
-						})
-					});
-				}
+			request.onreadystatechange = event => {
+				document.dispatchEvent(
+					new CustomEvent(route, {
+						detail: { data: request.response?.data, event, el, resolve },
+						bubbles: true,
+						// Allows events to pass the shadow DOM barrier.
+						composed: true,
+						cancelable: true
+					})
+				);
 
-				submitBtn ? submitBtn.removeAttribute('style') : null;
+				el.classList.remove('btn--load');
+
+				submitBtn && submitBtn.removeAttribute('style');
 			};
 		});
 	});
@@ -1190,7 +1138,7 @@ document.addEventListener( 'alpine:init', () => {
 						mask: maskArr,
 					} );
 				} catch( e ) {
-					console.error( 'Error: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask' );
+					console.error( 'Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask' );
 				}
 			}
 		}

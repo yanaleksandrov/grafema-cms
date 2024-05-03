@@ -11,12 +11,9 @@ namespace Dashboard\Api;
 
 use Grafema\I18n;
 use Grafema\Post\Post;
-use Grafema\Debug;
-use Grafema\Json;
 use Grafema\Patterns;
 use Grafema\File\File;
 use Grafema\File\Image;
-use Grafema\Url;
 
 class Media extends \Grafema\Api\Handler
 {
@@ -24,66 +21,6 @@ class Media extends \Grafema\Api\Handler
 	 * Endpoint name.
 	 */
 	public string $endpoint = 'media';
-
-	/**
-	 * Get all items.
-	 *
-	 * @url    GET api/user
-	 */
-	public function index(): array
-	{
-		return [
-			'method' => 'GET user list',
-		];
-	}
-
-	/**
-	 * Get item by ID.
-	 *
-	 * @url    GET api/user/$id
-	 */
-	public function view(): array
-	{
-		return [
-			'method' => 'GET user by ID',
-		];
-	}
-
-	/**
-	 * Create item.
-	 *
-	 * @url    POST api/user
-	 */
-	public function create(): array
-	{
-		return [
-			'method' => 'POST create user',
-		];
-	}
-
-	/**
-	 * Update item by ID.
-	 *
-	 * @url    PUT api/user/$id
-	 */
-	public function update(): array
-	{
-		return [
-			'method' => 'PUT update user by ID',
-		];
-	}
-
-	/**
-	 * Remove item by ID.
-	 *
-	 * @url    DELETE api/user/$id
-	 */
-	public function delete(): array
-	{
-		return [
-			'method' => 'DELETE remove user by ID',
-		];
-	}
 
 	/**
 	 * Upload new file to media.
@@ -152,43 +89,21 @@ class Media extends \Grafema\Api\Handler
 			}
 		}
 
-		echo Json::encode(
+		return [
 			[
-				'status'    => 200,
-				'benchmark' => Debug::timer( 'getall' ),
-				'data'      => [
-					[
-						'fragment' => sprintf( I18n::__( '%d files have been successfully uploaded to the library' ), count( $files ) ),
-						'target'   => 'body',
-						'method'   => 'notify',
-						'custom'   => [
-							'type'     => count( $posts ) > 0 ? 'success' : 'error',
-							'duration' => 5000,
-						],
-					],
-					[
-						'fragment' => $posts,
-						'target'   => 'body',
-						'method'   => 'alpine',
-					],
+				'fragment' => sprintf( I18n::__( '%d files have been successfully uploaded to the library' ), count( $files ) ),
+				'target'   => 'body',
+				'method'   => 'notify',
+				'custom'   => [
+					'type'     => count( $posts ) > 0 ? 'success' : 'error',
+					'duration' => 5000,
 				],
-			]
-		);
-	}
-
-	/**
-	 * Upload files from external url.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function grab(): array {
-		$files = [];
-		$urls  = Url::extract( $_POST['urls'] ?? '' );
-		if ( $urls ) {
-			foreach ( $urls as $url ) {
-				$files[] = ( new File() )->to( GRFM_UPLOADS . 'i/' )->grab( $url );
-			}
-		}
-		return $files;
+			],
+			[
+				'fragment' => $posts,
+				'target'   => 'body',
+				'method'   => 'alpine',
+			],
+		];
 	}
 }

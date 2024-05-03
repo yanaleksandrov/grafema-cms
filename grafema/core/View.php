@@ -42,7 +42,7 @@ class View
 		}
 
 		if ( $status < 300 || 399 < $status ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
 		}
 
 		/**
@@ -117,9 +117,10 @@ class View
 	 */
 	public static function part( string $template, array $args = [] )
 	{
-		$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		if ( Is::dashboard() || Is::install() ) {
-			$template_file = sprintf( '%s%s.php', GRFM_DASHBOARD, $template );
+			$template_file = sprintf( '%sdashboard/%s.php', GRFM_PATH, $template );
+		} else {
+			$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
 		}
 
 		$template_file = Sanitizer::path( $template_file );

@@ -2,8 +2,6 @@
 
 namespace Grafema;
 
-use DB\DB;
-
 /**
  * Core class for managing taxonomies.
  *

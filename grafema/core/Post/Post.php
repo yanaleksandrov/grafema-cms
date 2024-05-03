@@ -2,9 +2,9 @@
 namespace Grafema\Post;
 
 use Grafema\Patterns\Registry;
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\Debug;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 use Grafema\Esc;
 use Grafema\Url;
@@ -19,12 +19,12 @@ class Post {
 	 *
 	 * @param $type
 	 * @param $args
-	 * @return Errors|string|null
+	 * @return Error|string|null
 	 * @since 1.0.0
 	 */
-	public static function add( $type, $args ): Errors|string|null {
+	public static function add( $type, $args ): Error|string|null {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Post type is not registered.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'Post type is not registered.' ) );
 		}
 
 		$author  = trim( strval( $args['author'] ?? '' ) );
@@ -95,10 +95,11 @@ class Post {
 	 * @param $type
 	 * @param $value
 	 * @param string $by
-	 * @return PDOStatement
+	 * @return \PDOStatement
 	 * @since 1.0.0
 	 */
-	public static function delete( $type, $value, string $by = 'ID' ): PDOStatement {
+	public static function delete( $type, $value, string $by = 'ID' ): \PDOStatement
+	{
 		return Db::delete( $type, [ $by => $value ] );
 	}
 }

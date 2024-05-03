@@ -10,9 +10,8 @@
 namespace Grafema\Users;
 
 use Grafema\Debug;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
-use Grafema\Option;
 
 /**
  * Base class used to implement the API for user roles and their capabilities.
@@ -41,13 +40,6 @@ class Roles
 	private static array $roles = [];
 
 	/**
-	 * Option name for storing role list.
-	 *
-	 * @since 2.1.0
-	 */
-	private static string $option = 'users.roles';
-
-	/**
 	 * Add role name with list of capabilities.
 	 *
 	 * Updates the list of roles, if the role doesn't already exist.
@@ -62,18 +54,18 @@ class Roles
 	 *                             You can specify the ID of an existing role as the value.
 	 *                             In this case, the capabilities of the specified role are copied to the new one.
 	 */
-	public static function add( string $role, string $display_name, $capabilities )
+	public static function register( string $role, string $display_name, $capabilities )
 	{
 		$roles = self::fetch();
 		if ( empty( $role ) || isset( $roles[$role] ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Sorry, the role with this ID already exists.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'Sorry, the role with this ID already exists.' ) );
 		}
 
 		if ( is_string( $capabilities ) ) {
 			if ( isset( $roles[$capabilities] ) ) {
 				$capabilities = $roles[$capabilities]['capabilities'];
 			} else {
-				return new Errors( Debug::get_backtrace(), I18n::__( 'You are trying to copy capabilities from a non exists role.' ) );
+				return new Error( Debug::get_backtrace(), I18n::__( 'You are trying to copy capabilities from a non exists role.' ) );
 			}
 		}
 
@@ -81,10 +73,6 @@ class Roles
 			'name'         => $display_name,
 			'capabilities' => $capabilities,
 		];
-
-		if ( self::$option ) {
-			Option::update( self::$option, self::$roles );
-		}
 
 		return true;
 	}
@@ -120,25 +108,21 @@ class Roles
 
 		unset( self::$roles[$role] );
 
-		if ( self::$option ) {
-			Option::update( self::$option, self::$roles );
-		}
-
 		return true;
 	}
 
 	/**
 	 * Set capability to role.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param mixed $capability Single capability or capabilities array
+	 * @return bool|Error
+	 * @since 1.0.0
 	 */
 	public static function set( string $role, $capability )
 	{
 		$roles = self::fetch();
 		if ( ! isset( $roles[$role] ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'You are trying set capability for non exists role.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( 'You are trying set capability for non exists role.' ) );
 		}
 
 		if ( is_array( $capability ) ) {
@@ -147,32 +131,24 @@ class Roles
 			self::$roles[$role]['capabilities'][] = $capability;
 		}
 
-		if ( self::$option ) {
-			Option::update( self::$option, self::$roles );
-		}
-
 		return true;
 	}
 
 	/**
 	 * Remove capability from role.
 	 *
-	 * @return bool|Errors
+	 * @return bool|Error
 	 *
 	 * @since 1.0.0
 	 */
 	public static function unset( string $role, string $capability )
 	{
-		self::fetch();
-
-		if ( ! isset( self::$roles[$role] ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'You are trying unset capability for non exists role.' ) );
+		$roles = self::fetch();
+		if ( ! isset( $roles[$role] ) ) {
+			return new Error( Debug::get_backtrace(), I18n::__( 'You are trying unset capability for non exists role.' ) );
 		}
 
-		unset( self::$roles[$role]['capabilities'][$capability] );
-		if ( self::$option ) {
-			Option::update( self::$option, self::$roles );
-		}
+		unset( $roles[$role]['capabilities'][$capability] );
 
 		return true;
 	}
@@ -216,10 +192,6 @@ class Roles
 	 */
 	private static function fetch()
 	{
-		if ( empty( self::$roles ) && self::$option ) {
-			self::$roles = Option::get( self::$option );
-		}
-
 		return self::$roles;
 	}
 }

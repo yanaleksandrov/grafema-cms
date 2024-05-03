@@ -28,18 +28,6 @@ class Projects extends Grafema\Api\Handler
 	}
 
 	/**
-	 * Get item by ID.
-	 *
-	 * @url    GET api/projects/$id
-	 */
-	public function view(): array
-	{
-		return [
-			'method' => 'GET',
-		];
-	}
-
-	/**
 	 * Create item.
 	 *
 	 * @url    POST api/projects

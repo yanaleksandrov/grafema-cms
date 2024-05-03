@@ -3,12 +3,11 @@ namespace Grafema\Query;
 
 use Grafema\Db;
 use Grafema\Debug;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Post\Type;
 use Grafema\User;
-use Grafema\Query\Search;
 
 class Query {
 
@@ -160,7 +159,7 @@ class Query {
 		if ( ! empty( $args['type'] ) ) {
 			$types = array_map( 'Grafema\Sanitizer::key', is_array( $args['type'] ) ? $args['type'] : [ $args['type'] ] );
 		} else {
-			return new Errors( Debug::get_backtrace(), I18n::__( '"Type" parameter can not be empty.' ) );
+			return new Error( Debug::get_backtrace(), I18n::__( '"Type" parameter can not be empty.' ) );
 		}
 
 		/**

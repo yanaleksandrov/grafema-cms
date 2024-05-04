@@ -453,11 +453,11 @@ final class Forms
 							'attributes'  => [],
 							'conditions'  => [],
 							'options' => [
-								'svg'    => sprintf( '%s%s', I18n::__( 'SVG' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
-								'images' => sprintf( '%s%s', I18n::__( 'Images' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
-								'video'  => sprintf( '%s%s', I18n::__( 'Video' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
-								'audio'  => sprintf( '%s%s', I18n::__( 'Audio' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
-								'zip'    => sprintf( '%s%s', I18n::__( 'ZIP' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
+								'svg'    => sprintf( '%s%s', I18n::__( 'SVG' ), '<span class="badge badge--blue-lt ml-auto">56</span>' ),
+								'images' => sprintf( '%s%s', I18n::__( 'Images' ), '<span class="badge badge--blue-lt ml-auto">670</span>' ),
+								'video'  => sprintf( '%s%s', I18n::__( 'Video' ), '<span class="badge badge--blue-lt ml-auto">35</span>' ),
+								'audio'  => sprintf( '%s%s', I18n::__( 'Audio' ), '<span class="badge badge--blue-lt ml-auto">147</span>' ),
+								'zip'    => sprintf( '%s%s', I18n::__( 'ZIP' ), '<span class="badge badge--blue-lt ml-auto">74</span>' ),
 							],
 						],
 						[
@@ -522,11 +522,11 @@ final class Forms
 								'value' => true,
 							],
 							'options' => [
-								'commerce'  => sprintf( '%s%s', I18n::__( 'Commerce' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
-								'analytics' => sprintf( '%s%s', I18n::__( 'Analytics' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
-								'security'  => sprintf( '%s%s', I18n::__( 'Security' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
-								'seo'       => sprintf( '%s%s', I18n::__( 'SEO' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
-								'content'   => sprintf( '%s%s', I18n::__( 'Content' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
+								'commerce'  => sprintf( '%s%s', I18n::__( 'Commerce' ), '<span class="badge badge--blue-lt ml-auto">56</span>' ),
+								'analytics' => sprintf( '%s%s', I18n::__( 'Analytics' ), '<span class="badge badge--blue-lt ml-auto">670</span>' ),
+								'security'  => sprintf( '%s%s', I18n::__( 'Security' ), '<span class="badge badge--blue-lt ml-auto">35</span>' ),
+								'seo'       => sprintf( '%s%s', I18n::__( 'SEO' ), '<span class="badge badge--blue-lt ml-auto">147</span>' ),
+								'content'   => sprintf( '%s%s', I18n::__( 'Content' ), '<span class="badge badge--blue-lt ml-auto">74</span>' ),
 							],
 						],
 						[
@@ -541,11 +541,11 @@ final class Forms
 								'value' => true,
 							],
 							'options' => [
-								'commerce'  => sprintf( '%s%s', I18n::__( 'Show all' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
-								'analytics' => sprintf( '%s%s', I18n::__( '1 star and higher' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
-								'security'  => sprintf( '%s%s', I18n::__( '2 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
-								'seo'       => sprintf( '%s%s', I18n::__( '3 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
-								'content'   => sprintf( '%s%s', I18n::__( '4 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
+								'commerce'  => sprintf( '%s%s', I18n::__( 'Show all' ), '<span class="badge badge--blue-lt ml-auto">56</span>' ),
+								'analytics' => sprintf( '%s%s', I18n::__( '1 star and higher' ), '<span class="badge badge--blue-lt ml-auto">670</span>' ),
+								'security'  => sprintf( '%s%s', I18n::__( '2 stars and higher' ), '<span class="badge badge--blue-lt ml-auto">35</span>' ),
+								'seo'       => sprintf( '%s%s', I18n::__( '3 stars and higher' ), '<span class="badge badge--blue-lt ml-auto">147</span>' ),
+								'content'   => sprintf( '%s%s', I18n::__( '4 stars and higher' ), '<span class="badge badge--blue-lt ml-auto">74</span>' ),
 							],
 						],
 					]
@@ -1098,55 +1098,11 @@ final class Forms
 							],
 						],
 						[
-							'name'          => 'applications',
+							'name'          => 'password',
 							'type'          => 'tab',
-							'label'         => I18n::__( 'API keys' ),
-							'description'   => '',
-							'icon'          => 'ph ph-key',
-							'class_button'  => '',
-							'class_content' => 'p-8',
-							'fields'        => [
-								[
-									'name'   => 'theme',
-									'type'   => 'group',
-									'label'  => I18n::__( 'Authentication keys' ),
-									'fields' => [
-										[
-											'name'     => 'title',
-											'type'     => 'custom',
-											'callback' => function () {
-												ob_start();
-												?>
-												<div class="dg g-2 ga-4">
-													<p><?php I18n::e( 'Application passwords allow authentication via non-interactive systems, such as REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
-													<div class="p-4 df fdr g-4 card card-border">
-														<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
-															<path d="M160 18a78 78 0 0 0-73.8 103.3l-58.4 58.5A6 6 0 0 0 26 184v40a6 6 0 0 0 6 6h40a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 4.2-1.8l10.5-10.4A78 78 0 1 0 160 18Zm0 144a65.6 65.6 0 0 1-24.4-4.7 6 6 0 0 0-6.7 1.3L117.5 170H96a6 6 0 0 0-6 6v18H72a6 6 0 0 0-6 6v18H38v-31.5L97.4 127a6 6 0 0 0 1.3-6.7A66 66 0 1 1 160 162Zm30-86a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
-														</svg>
-														<div class="dg g-1">
-															<h6 class="fs-15">Amplication</h6>
-															<code class="fs-12 badge--green-lt"><span class="badge badge--sm badge--green-lt">Active</span> SHA256:Ai2xqyVBORX9PJJigJxfrdzXfKPajJHZMYw3+dOo+nw</code>
-															<div class="fs-12 t-muted lh-xs">Added on Nov 15, 2022</div>
-														</div>
-														<div class="ml-auto">
-															<button class="btn btn--outline" type="button">Delete</button>
-														</div>
-													</div>
-												</div>
-												<?php
-												return ob_get_clean();
-											},
-										],
-									],
-								],
-							],
-						],
-						[
-							'name'          => 'sessions',
-							'type'          => 'tab',
-							'label'         => I18n::__( 'Sessions' ),
+							'label'         => I18n::__( 'Security' ),
 							'caption'       => '',
-							'icon'          => 'ph ph-broadcast',
+							'icon'          => 'ph ph-password',
 							'class_button'  => '',
 							'class_content' => 'p-8',
 							'fields'        => [
@@ -1161,110 +1117,47 @@ final class Forms
 											'callback' => function () {
 												ob_start();
 												?>
-												<div class="dg g-2 ga-4">
-													<p>This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</p>
-													<div class="p-4 df fdr g-4 card card-border">
-														<div class="avatar">
-															<i class="badge"></i>
-															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
-																<path d="M224 74h-18V64a22 22 0 0 0-22-22H40a22 22 0 0 0-22 22v96a22 22 0 0 0 22 22h114v10a22 22 0 0 0 22 22h48a22 22 0 0 0 22-22V96a22 22 0 0 0-22-22ZM40 170a10 10 0 0 1-10-10V64a10 10 0 0 1 10-10h144a10 10 0 0 1 10 10v10h-18a22 22 0 0 0-22 22v74Zm194 22a10 10 0 0 1-10 10h-48a10 10 0 0 1-10-10V96a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10Zm-100 16a6 6 0 0 1-6 6H88a6 6 0 0 1 0-12h40a6 6 0 0 1 6 6Zm80-96a6 6 0 0 1-6 6h-16a6 6 0 0 1 0-12h16a6 6 0 0 1 6 6Z"/>
-															</svg>
-														</div>
-														<div class="dg g-1">
-															<h6 class="fs-15">Turkey, Antalya 46.197.118.72</h6>
-															<code class="fs-12">Microsoft Edge on Windows</code>
-															<div class="fs-12 t-muted lh-xs">Your current session</div>
-														</div>
-														<div class="ml-auto">
-															<button class="btn btn--outline" type="button">Delete</button>
-														</div>
-													</div>
-													<div class="p-4 df fdr g-4 card card-border">
-														<div class="avatar">
-															<i class="badge badge--green"></i>
-															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
-																<path d="M176 18H80a22 22 0 0 0-22 22v176a22 22 0 0 0 22 22h96a22 22 0 0 0 22-22V40a22 22 0 0 0-22-22Zm10 198a10 10 0 0 1-10 10H80a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10h96a10 10 0 0 1 10 10ZM138 60a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
-															</svg>
-														</div>
-														<div class="dg g-1">
-															<h6 class="fs-15">Germany, Berlin 26.144.105.72</h6>
-															<code class="fs-12">Chromium on Linux</code>
-															<div class="fs-12 t-muted lh-xs">Your current session</div>
-														</div>
-														<div class="ml-auto">
-															<button class="btn btn--outline" type="button">Delete</button>
-														</div>
-													</div>
-												</div>
+                                                <div class="dg g-2 ga-4">
+                                                    <div>This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</div>
+                                                    <div class="p-4 df fdr g-4 card card-border">
+                                                        <div class="avatar">
+                                                            <i class="badge"></i>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
+                                                                <path d="M224 74h-18V64a22 22 0 0 0-22-22H40a22 22 0 0 0-22 22v96a22 22 0 0 0 22 22h114v10a22 22 0 0 0 22 22h48a22 22 0 0 0 22-22V96a22 22 0 0 0-22-22ZM40 170a10 10 0 0 1-10-10V64a10 10 0 0 1 10-10h144a10 10 0 0 1 10 10v10h-18a22 22 0 0 0-22 22v74Zm194 22a10 10 0 0 1-10 10h-48a10 10 0 0 1-10-10V96a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10Zm-100 16a6 6 0 0 1-6 6H88a6 6 0 0 1 0-12h40a6 6 0 0 1 6 6Zm80-96a6 6 0 0 1-6 6h-16a6 6 0 0 1 0-12h16a6 6 0 0 1 6 6Z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="dg g-1">
+                                                            <h6 class="fs-15">Turkey, Antalya 46.197.118.72</h6>
+                                                            <code class="fs-12">Microsoft Edge on Windows</code>
+                                                            <div class="fs-12 t-muted lh-xs">Your current session</div>
+                                                        </div>
+                                                        <div class="ml-auto">
+                                                            <button class="btn btn--outline" type="button">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="p-4 df fdr g-4 card card-border">
+                                                        <div class="avatar">
+                                                            <i class="badge badge--green"></i>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
+                                                                <path d="M176 18H80a22 22 0 0 0-22 22v176a22 22 0 0 0 22 22h96a22 22 0 0 0 22-22V40a22 22 0 0 0-22-22Zm10 198a10 10 0 0 1-10 10H80a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10h96a10 10 0 0 1 10 10ZM138 60a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="dg g-1">
+                                                            <h6 class="fs-15">Germany, Berlin 26.144.105.72</h6>
+                                                            <code class="fs-12">Chromium on Linux</code>
+                                                            <div class="fs-12 t-muted lh-xs">Your current session</div>
+                                                        </div>
+                                                        <div class="ml-auto">
+                                                            <button class="btn btn--outline" type="button">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
 												<?php
 												return ob_get_clean();
 											},
 										],
 									],
 								],
-								[
-									'name'   => 'theme',
-									'type'   => 'group',
-									'label'  => I18n::__( 'Security log' ),
-									'fields' => [
-										[
-											'name'     => 'title',
-											'type'     => 'custom',
-											'callback' => function () {
-												ob_start();
-												?>
-												<div class="dg g-2 ga-4">
-													<p>https://github.com/settings/security-log</p>
-													<div class="p-4 df fdr g-4 card card-border">
-														<div class="avatar">
-															<i class="badge"></i>
-															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
-																<path d="M224 74h-18V64a22 22 0 0 0-22-22H40a22 22 0 0 0-22 22v96a22 22 0 0 0 22 22h114v10a22 22 0 0 0 22 22h48a22 22 0 0 0 22-22V96a22 22 0 0 0-22-22ZM40 170a10 10 0 0 1-10-10V64a10 10 0 0 1 10-10h144a10 10 0 0 1 10 10v10h-18a22 22 0 0 0-22 22v74Zm194 22a10 10 0 0 1-10 10h-48a10 10 0 0 1-10-10V96a10 10 0 0 1 10-10h48a10 10 0 0 1 10 10Zm-100 16a6 6 0 0 1-6 6H88a6 6 0 0 1 0-12h40a6 6 0 0 1 6 6Zm80-96a6 6 0 0 1-6 6h-16a6 6 0 0 1 0-12h16a6 6 0 0 1 6 6Z"/>
-															</svg>
-														</div>
-														<div class="dg g-1">
-															<h6 class="fs-15">Turkey, Antalya 46.197.118.72</h6>
-															<code class="fs-12">Microsoft Edge on Windows</code>
-															<div class="fs-12 t-muted lh-xs">Your current session</div>
-														</div>
-														<div class="ml-auto">
-															<button class="btn btn--outline" type="button">Delete</button>
-														</div>
-													</div>
-													<div class="p-4 df fdr g-4 card card-border">
-														<div class="avatar">
-															<i class="badge badge--green"></i>
-															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
-																<path d="M176 18H80a22 22 0 0 0-22 22v176a22 22 0 0 0 22 22h96a22 22 0 0 0 22-22V40a22 22 0 0 0-22-22Zm10 198a10 10 0 0 1-10 10H80a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10h96a10 10 0 0 1 10 10ZM138 60a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
-															</svg>
-														</div>
-														<div class="dg g-1">
-															<h6 class="fs-15">Germany, Berlin 26.144.105.72</h6>
-															<code class="fs-12">Chromium on Linux</code>
-															<div class="fs-12 t-muted lh-xs">Your current session</div>
-														</div>
-														<div class="ml-auto">
-															<button class="btn btn--outline" type="button">Delete</button>
-														</div>
-													</div>
-												</div>
-												<?php
-												return ob_get_clean();
-											},
-										],
-									],
-								],
-							],
-						],
-						[
-							'name'          => 'password',
-							'type'          => 'tab',
-							'label'         => I18n::__( 'Security' ),
-							'caption'       => '',
-							'icon'          => 'ph ph-password',
-							'class_button'  => '',
-							'class_content' => 'p-8',
-							'fields'        => [
 								[
 									'name'   => 'theme',
 									'type'   => 'group',
@@ -1328,6 +1221,50 @@ final class Forms
 											},
 										],
                                     ],
+								],
+							],
+						],
+						[
+							'name'          => 'applications',
+							'type'          => 'tab',
+							'label'         => I18n::__( 'API keys' ),
+							'description'   => '',
+							'icon'          => 'ph ph-key',
+							'class_button'  => '',
+							'class_content' => 'p-8',
+							'fields'        => [
+								[
+									'name'   => 'theme',
+									'type'   => 'group',
+									'label'  => I18n::__( 'Authentication keys' ),
+									'fields' => [
+										[
+											'name'     => 'title',
+											'type'     => 'custom',
+											'callback' => function () {
+												ob_start();
+												?>
+                                                <div class="dg g-2 ga-4">
+                                                    <p><?php I18n::e( 'Application passwords allow authentication via non-interactive systems, such as REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
+                                                    <div class="p-4 df fdr g-4 card card-border">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
+                                                            <path d="M160 18a78 78 0 0 0-73.8 103.3l-58.4 58.5A6 6 0 0 0 26 184v40a6 6 0 0 0 6 6h40a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 4.2-1.8l10.5-10.4A78 78 0 1 0 160 18Zm0 144a65.6 65.6 0 0 1-24.4-4.7 6 6 0 0 0-6.7 1.3L117.5 170H96a6 6 0 0 0-6 6v18H72a6 6 0 0 0-6 6v18H38v-31.5L97.4 127a6 6 0 0 0 1.3-6.7A66 66 0 1 1 160 162Zm30-86a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
+                                                        </svg>
+                                                        <div class="dg g-1">
+                                                            <h6 class="fs-15">Amplication</h6>
+                                                            <code class="fs-12 bg-green-lt t-green"><span class="badge badge--sm badge--green-lt">Active</span> SHA256:Ai2xqyVBORX9PJJigJxfrdzXfKPajJHZMYw3+dOo+nw</code>
+                                                            <div class="fs-12 t-muted lh-xs">Added on Nov 15, 2022</div>
+                                                        </div>
+                                                        <div class="ml-auto">
+                                                            <button class="btn btn--outline" type="button">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<?php
+												return ob_get_clean();
+											},
+										],
+									],
 								],
 							],
 						],

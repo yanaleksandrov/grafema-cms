@@ -89,7 +89,7 @@
 $colors: (
   dark: #151d26,
   muted: #71777F,
-  grey: #8E8E8E,
+  gray: #8E8E8E,
   white: #ffffff,
   red: #d63939,
   amber: #f76707,
@@ -111,8 +111,8 @@ $colors: (
   .bg-#{"" + $name} {
     background-color: $color !important;
   }
-  .bg-#{"" + $name}-lt {
-    background-color: #{mix(rgba(255, 255, 255, 1), $color, 93%)} !important;
+  .bg-#{$name}-lt {
+    background-color: #{mix(rgba(255, 255, 255, 1), $color, 92%)} !important;
   }
 }
 

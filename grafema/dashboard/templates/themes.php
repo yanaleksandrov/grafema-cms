@@ -29,23 +29,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>E-commerce</span><span class="badge ml-auto badge--sky-lt">56</span>-->
+<!--				<span>E-commerce</span><span class="badge ml-auto badge--blue-lt">56</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Analytics</span><span class="badge ml-auto badge--sky-lt">1245</span>-->
+<!--				<span>Analytics</span><span class="badge ml-auto badge--blue-lt">1245</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Security</span><span class="badge ml-auto badge--sky-lt">21</span>-->
+<!--				<span>Security</span><span class="badge ml-auto badge--blue-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>SEO</span><span class="badge ml-auto badge--sky-lt">21</span>-->
+<!--				<span>SEO</span><span class="badge ml-auto badge--blue-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Content</span><span class="badge ml-auto badge--sky-lt">21</span>-->
+<!--				<span>Content</span><span class="badge ml-auto badge--blue-lt">21</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!---->
@@ -55,27 +55,27 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price" checked>-->
-<!--				<span>All prices</span><span class="badge ml-auto badge--sky-lt">700</span>-->
+<!--				<span>All prices</span><span class="badge ml-auto badge--blue-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>Free</span><span class="badge ml-auto badge--sky-lt">700</span>-->
+<!--				<span>Free</span><span class="badge ml-auto badge--blue-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$1-10</span><span class="badge ml-auto badge--sky-lt">45</span>-->
+<!--				<span>$1-10</span><span class="badge ml-auto badge--blue-lt">45</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$11-29</span><span class="badge ml-auto badge--sky-lt">21</span>-->
+<!--				<span>$11-29</span><span class="badge ml-auto badge--blue-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$30-59</span><span class="badge ml-auto badge--sky-lt">77</span>-->
+<!--				<span>$30-59</span><span class="badge ml-auto badge--blue-lt">77</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$59+</span><span class="badge ml-auto badge--sky-lt">129</span>-->
+<!--				<span>$59+</span><span class="badge ml-auto badge--blue-lt">129</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!--		<div class="dg g-1">-->
@@ -84,23 +84,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating" checked>-->
-<!--				<span>Show all</span><span class="badge ml-auto badge--sky-lt">700</span>-->
+<!--				<span>Show all</span><span class="badge ml-auto badge--blue-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>1 star and higher</span><span class="badge ml-auto badge--sky-lt">45</span>-->
+<!--				<span>1 star and higher</span><span class="badge ml-auto badge--blue-lt">45</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>2 stars and higher</span><span class="badge ml-auto badge--sky-lt">21</span>-->
+<!--				<span>2 stars and higher</span><span class="badge ml-auto badge--blue-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>3 stars and higher</span><span class="badge ml-auto badge--sky-lt">77</span>-->
+<!--				<span>3 stars and higher</span><span class="badge ml-auto badge--blue-lt">77</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>4 stars and higher</span><span class="badge ml-auto badge--sky-lt">129</span>-->
+<!--				<span>4 stars and higher</span><span class="badge ml-auto badge--blue-lt">129</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!--	</form>-->

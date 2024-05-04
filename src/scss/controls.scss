@@ -1079,7 +1079,7 @@
     }
 
     &--#{"" + $name}-lt {
-      background-color: #{mix(rgba(255, 255, 255, 1), $color, 93%)} !important;
+      background-color: #{mix(rgba(255, 255, 255, 1), $color, 85%)} !important;
 
       @if $color != #ffffff {
         color: #{$color};

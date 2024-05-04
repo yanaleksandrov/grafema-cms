@@ -45,7 +45,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Admin</span>
+				<span class="badge badge--blue-lt">Admin</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -66,7 +66,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -87,7 +87,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -108,7 +108,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -129,7 +129,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -150,7 +150,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -171,7 +171,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -192,7 +192,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -213,7 +213,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -234,7 +234,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>
@@ -255,7 +255,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge badge--sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
 				<span class="badge badge--dark-lt">3 days ago</span>

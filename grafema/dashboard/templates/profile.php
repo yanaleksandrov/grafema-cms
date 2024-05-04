@@ -32,6 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			],
 		]
 	);
+
+	echo Form::view( 'grafema-profile' );
 	?>
-	<?php echo Form::view( 'grafema-profile' ); ?>
 </div>

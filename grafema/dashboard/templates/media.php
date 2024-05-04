@@ -68,9 +68,9 @@ $media = Query::apply(
 	}
 );
 ?>
-<div class="grafema-filter">
-	<?php echo Form::view( 'core-filter-posts' ); ?>
-</div>
+<!--<div class="grafema-filter">-->
+<!--	--><?php //echo Form::view( 'core-filter-posts' ); ?>
+<!--</div>-->
 <div class="grafema-main" x-data="{showUploader: false, files: <?php echo $media; ?>}">
 <?php
 View::part(

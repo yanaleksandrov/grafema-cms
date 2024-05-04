@@ -333,7 +333,6 @@
   width: 100%;
   position: relative;
   text-align: start;
-  height: 100%;
 
   &__nav {
     -webkit-user-select: none;
@@ -391,8 +390,7 @@
   }
 
   &__content {
-    flex: 1;
-    max-width: 60rem;
+    max-width: 64rem;
   }
 
   &--btn {
@@ -731,7 +729,7 @@
   position: fixed;
   inset: 0;
   opacity: 0;
-  z-index: 99999;
+  z-index: 9999;
   visibility: hidden;
   overflow: hidden;
   outline: 0;
@@ -969,7 +967,7 @@
   }
 
   &__header {
-    max-width: calc(100vw - 17.5rem);
+    max-width: 100%;
     display: grid;
     gap: 0.65rem;
     padding: 1.5rem 1.5rem 0.5rem;

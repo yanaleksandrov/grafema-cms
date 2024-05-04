@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<div class="p-8 bg-telegrey-lt mw" style="padding-bottom: 4rem; margin-bottom: -2.6rem;">
+	<div class="p-8 pb-4 bg-telegrey-lt">
 		<?php
 		View::part(
 			'templates/form/image',
@@ -33,7 +33,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				],
 			]
 		);
-?>
+        ?>
 	</div>
 	<?php echo Form::view( 'grafema-profile' ); ?>
 </div>

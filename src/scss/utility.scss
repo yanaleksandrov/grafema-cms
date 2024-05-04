@@ -112,17 +112,9 @@ $colors: (
 @each $name, $color in $colors {
   .bg-#{$name} {
     background-color: $color !important;
-
-    @if $color != #ffffff {
-      color: #fff;
-    }
   }
   .bg-#{$name}-lt {
     background-color: #{mix(white, $color, 93%)} !important;
-
-    @if $color != #ffffff {
-      color: #{$color};
-    }
   }
 }
 

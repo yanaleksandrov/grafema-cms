@@ -186,9 +186,9 @@ $plugins = [
 ];
 $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 ?>
-<div class="grafema-filter">
-	<?php echo Form::view( 'core-filter-plugins' ); ?>
-</div>
+<!--<div class="grafema-filter">-->
+<!--	--><?php //echo Form::view( 'core-filter-plugins' ); ?>
+<!--</div>-->
 <div class="grafema-main">
 	<?php
 	View::part(

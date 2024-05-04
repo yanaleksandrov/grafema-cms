@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$name, $label, $label_class, $class, $description, $max, $min, $value, $speed] = (
+[$name, $label, $label_class, $class, $instruction, $max, $min, $value, $speed] = (
     new Grafema\Sanitizer(
         $args ?? [],
         [
@@ -22,7 +22,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
             'label'       => 'trim',
             'label_class' => 'class:df aic jcsb fw-600 mb-1',
             'class'       => 'class:dg g-1',
-            'description' => 'trim',
+            'instruction' => 'trim',
             'max'         => 'absint:0',
             'min'         => 'absint:0',
             'value'       => 'absint:100',
@@ -34,10 +34,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="<?php echo $class; ?>">
 	<div class="<?php echo $label_class; ?>">
 		<?php Esc::html( $label ); ?>
-		<span class="ml-auto">Set limits</span>
 	</div>
 	<div class="progress" x-progress.<?php printf( '%d.%d.%d.%d', $max, $min, $value, $speed ); ?>ms></div>
-	<?php if ( $description ) : ?>
-		<div class="mt-1 fw-600 lh-xs"><?php Esc::html( $description ); ?></div>
+	<?php if ( $instruction ) : ?>
+		<div class="mt-1 fw-600 lh-xs"><?php Esc::html( $instruction ); ?></div>
 	<?php endif; ?>
 </div>

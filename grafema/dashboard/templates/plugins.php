@@ -9,5 +9,7 @@
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
-
-( new Tables\Plugins() )->render();
+?>
+<div class="grafema-main">
+	<?php ( new Tables\Plugins() )->render(); ?>
+</div>

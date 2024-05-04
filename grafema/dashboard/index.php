@@ -104,7 +104,7 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="{query:false}">
+<body x-data="index">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema">
 			<div class="grafema-panel">
@@ -138,7 +138,9 @@ $start_time = microtime( true );
 								</li>
 							</ul>
 						</li>
-						<li class="menu__item" id="query" x-init="query = !query"></li>
+						<li class="menu__item">
+                            <a class="menu__link" href="#"><i class="ph ph-monitor"></i> <span x-text="index.query"></span></a>
+                        </li>
 					</ul>
 				</div>
 

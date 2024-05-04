@@ -25,8 +25,8 @@ Tree::view(
 			foreach ( $items as $item ) {
 				ob_start();
 				?>
-				<li class="panel__item">
-					<a class="panel__link" x-tooltip.hover.right="'%title$s'" href="%url$s">
+				<li class="panel__item" x-tooltip.hover.right="'%title$s'">
+					<a class="panel__link" href="%url$s">
 						<i class="%icon$s"></i>
 					</a>
 				</li>

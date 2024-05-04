@@ -91,33 +91,33 @@ View::part(
 	</div>
 	<div class="dg g-3 p-8 sm:p-5 pt-0 pb-0" x-show="showUploader" x-cloak>
 		<?php
-	View::part(
-		'templates/form/uploader',
-		[
-			'description' => I18n::__( 'Click to upload or drag & drop' ),
-			'attributes'  => [
-				'required' => false,
-				'multiple' => true,
-				'x-ref'    => 'uploader',
-				'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
-			],
-		]
-	);
-View::part(
-	'templates/form/textarea',
-	[
-		'name'       => 'urls',
-		'label'      => I18n::__( 'Or upload from URL' ),
-		'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
-		'attributes' => [
-			'required'    => false,
-			'placeholder' => I18n::__( 'Input file URL(s)' ),
-			'@change'     => '$ajax("grab/files").then(response => files = response)',
-			'x-textarea'  => 99,
-		],
-	]
-);
-?>
+        View::part(
+            'templates/form/uploader',
+            [
+                'description' => I18n::__( 'Click to upload or drag & drop' ),
+                'attributes'  => [
+                    'required' => false,
+                    'multiple' => true,
+                    'x-ref'    => 'uploader',
+                    '@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+                ],
+            ]
+        );
+        View::part(
+            'templates/form/textarea',
+            [
+                'name'       => 'urls',
+                'label'      => I18n::__( 'Or upload from URL' ),
+                'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
+                'attributes' => [
+                    'required'    => false,
+                    'placeholder' => I18n::__( 'Input file URL(s)' ),
+                    '@change'     => '$ajax("grab/files").then(response => files = response)',
+                    'x-textarea'  => 99,
+                ],
+            ]
+        );
+        ?>
 	</div>
 
 	<template x-if="files.length">
@@ -141,6 +141,6 @@ View::part(
 				'description' => I18n::__( 'The files were not found, probably because you did not download them or they do not match the specified filter parameters' ),
 			]
 		);
-?>
+        ?>
 	</template>
 </div>

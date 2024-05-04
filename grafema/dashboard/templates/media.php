@@ -69,7 +69,7 @@ $media = Query::apply(
 );
 ?>
 <!--<div class="grafema-filter">-->
-<!--	--><?php //echo Form::view( 'core-filter-posts' ); ?>
+<!--	--><?php //echo Form::view( 'grafema-posts-filter' ); ?>
 <!--</div>-->
 <div class="grafema-main" x-data="{showUploader: false, files: <?php echo $media; ?>}">
 <?php
@@ -123,7 +123,7 @@ View::part(
 	<template x-if="files.length">
 		<div class="storage">
 			<template x-for="file in files">
-				<div class="storage__item" @click="$modal.open('jb-add-post')">
+				<div class="storage__item" @click="$modal.open('grafema-posts-creator')">
 					<img class="storage__image" :src="file.thumbnail" alt="" width="200" height="200">
 					<div class="storage__meta">
 						<div class="storage__data" x-text="file.size"></div>

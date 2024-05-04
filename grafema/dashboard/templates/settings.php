@@ -13,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
     <!-- tabs start -->
-	<?php echo Form::view( 'jb-settings' ); ?>
+	<?php echo Form::view( 'grafema-settings' ); ?>
     <!-- tabs end -->
 </div>

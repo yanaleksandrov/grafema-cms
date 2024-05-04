@@ -53,7 +53,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--outline',
-					'content'     => Form::view( 'items/actions' ),
+					'content'     => Form::view( 'grafema-posts-actions' ),
 				]
 			);
 			View::part(
@@ -62,7 +62,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--outline btn--icon',
-					'content'     => Form::view( 'items/options' ),
+					'content'     => Form::view( 'grafema-posts-options' ),
 				]
 			);
 			?>

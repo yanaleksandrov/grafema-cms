@@ -8,6 +8,7 @@
  */
 
 use Grafema\Db;
+use Grafema\Dir;
 use Grafema\Api;
 use Grafema\Asset;
 use Grafema\Hook;
@@ -433,6 +434,9 @@ class Dashboard extends Grafema\App\App
 		 *
 		 * @since 1.0.0
 		 */
-		Forms::init();
+		$forms = (new Dir\Dir( GRFM_DASHBOARD . 'forms' ))->getFiles( '*.php' );
+		foreach ( $forms as $form ) {
+			require_once $form;
+		}
 	}
 }

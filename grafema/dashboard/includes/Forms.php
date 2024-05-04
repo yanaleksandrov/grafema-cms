@@ -453,11 +453,11 @@ final class Forms
 							'attributes'  => [],
 							'conditions'  => [],
 							'options' => [
-								'svg'    => sprintf( '%s%s', I18n::__( 'SVG' ), '<span class="badge ml-auto bg-sky-lt">56</span>' ),
-								'images' => sprintf( '%s%s', I18n::__( 'Images' ), '<span class="badge ml-auto bg-sky-lt">670</span>' ),
-								'video'  => sprintf( '%s%s', I18n::__( 'Video' ), '<span class="badge ml-auto bg-sky-lt">35</span>' ),
-								'audio'  => sprintf( '%s%s', I18n::__( 'Audio' ), '<span class="badge ml-auto bg-sky-lt">147</span>' ),
-								'zip'    => sprintf( '%s%s', I18n::__( 'ZIP' ), '<span class="badge ml-auto bg-sky-lt">74</span>' ),
+								'svg'    => sprintf( '%s%s', I18n::__( 'SVG' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
+								'images' => sprintf( '%s%s', I18n::__( 'Images' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
+								'video'  => sprintf( '%s%s', I18n::__( 'Video' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
+								'audio'  => sprintf( '%s%s', I18n::__( 'Audio' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
+								'zip'    => sprintf( '%s%s', I18n::__( 'ZIP' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
 							],
 						],
 						[
@@ -522,11 +522,11 @@ final class Forms
 								'value' => true,
 							],
 							'options' => [
-								'commerce'  => sprintf( '%s%s', I18n::__( 'Commerce' ), '<span class="badge ml-auto bg-sky-lt">56</span>' ),
-								'analytics' => sprintf( '%s%s', I18n::__( 'Analytics' ), '<span class="badge ml-auto bg-sky-lt">670</span>' ),
-								'security'  => sprintf( '%s%s', I18n::__( 'Security' ), '<span class="badge ml-auto bg-sky-lt">35</span>' ),
-								'seo'       => sprintf( '%s%s', I18n::__( 'SEO' ), '<span class="badge ml-auto bg-sky-lt">147</span>' ),
-								'content'   => sprintf( '%s%s', I18n::__( 'Content' ), '<span class="badge ml-auto bg-sky-lt">74</span>' ),
+								'commerce'  => sprintf( '%s%s', I18n::__( 'Commerce' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
+								'analytics' => sprintf( '%s%s', I18n::__( 'Analytics' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
+								'security'  => sprintf( '%s%s', I18n::__( 'Security' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
+								'seo'       => sprintf( '%s%s', I18n::__( 'SEO' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
+								'content'   => sprintf( '%s%s', I18n::__( 'Content' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
 							],
 						],
 						[
@@ -541,11 +541,11 @@ final class Forms
 								'value' => true,
 							],
 							'options' => [
-								'commerce'  => sprintf( '%s%s', I18n::__( 'Show all' ), '<span class="badge ml-auto bg-sky-lt">56</span>' ),
-								'analytics' => sprintf( '%s%s', I18n::__( '1 star and higher' ), '<span class="badge ml-auto bg-sky-lt">670</span>' ),
-								'security'  => sprintf( '%s%s', I18n::__( '2 stars and higher' ), '<span class="badge ml-auto bg-sky-lt">35</span>' ),
-								'seo'       => sprintf( '%s%s', I18n::__( '3 stars and higher' ), '<span class="badge ml-auto bg-sky-lt">147</span>' ),
-								'content'   => sprintf( '%s%s', I18n::__( '4 stars and higher' ), '<span class="badge ml-auto bg-sky-lt">74</span>' ),
+								'commerce'  => sprintf( '%s%s', I18n::__( 'Show all' ), '<span class="badge ml-auto badge--blue-lt">56</span>' ),
+								'analytics' => sprintf( '%s%s', I18n::__( '1 star and higher' ), '<span class="badge ml-auto badge--blue-lt">670</span>' ),
+								'security'  => sprintf( '%s%s', I18n::__( '2 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">35</span>' ),
+								'seo'       => sprintf( '%s%s', I18n::__( '3 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">147</span>' ),
+								'content'   => sprintf( '%s%s', I18n::__( '4 stars and higher' ), '<span class="badge ml-auto badge--blue-lt">74</span>' ),
 							],
 						],
 					]
@@ -1125,7 +1125,7 @@ final class Forms
 														</svg>
 														<div class="dg g-1">
 															<h6 class="fs-15">Amplication</h6>
-															<code class="fs-12 bg-herbal-lt"><span class="badge badge--sm bg-herbal-lt">Active</span> SHA256:Ai2xqyVBORX9PJJigJxfrdzXfKPajJHZMYw3+dOo+nw</code>
+															<code class="fs-12 badge--green-lt"><span class="badge badge--sm badge--green-lt">Active</span> SHA256:Ai2xqyVBORX9PJJigJxfrdzXfKPajJHZMYw3+dOo+nw</code>
 															<div class="fs-12 t-muted lh-xs">Added on Nov 15, 2022</div>
 														</div>
 														<div class="ml-auto">
@@ -1181,7 +1181,7 @@ final class Forms
 													</div>
 													<div class="p-4 df fdr g-4 card card-border">
 														<div class="avatar">
-															<i class="badge bg-herbal"></i>
+															<i class="badge badge--green"></i>
 															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
 																<path d="M176 18H80a22 22 0 0 0-22 22v176a22 22 0 0 0 22 22h96a22 22 0 0 0 22-22V40a22 22 0 0 0-22-22Zm10 198a10 10 0 0 1-10 10H80a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10h96a10 10 0 0 1 10 10ZM138 60a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
 															</svg>
@@ -1233,7 +1233,7 @@ final class Forms
 													</div>
 													<div class="p-4 df fdr g-4 card card-border">
 														<div class="avatar">
-															<i class="badge bg-herbal"></i>
+															<i class="badge badge--green"></i>
 															<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
 																<path d="M176 18H80a22 22 0 0 0-22 22v176a22 22 0 0 0 22 22h96a22 22 0 0 0 22-22V40a22 22 0 0 0-22-22Zm10 198a10 10 0 0 1-10 10H80a10 10 0 0 1-10-10V40a10 10 0 0 1 10-10h96a10 10 0 0 1 10 10ZM138 60a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>
 															</svg>
@@ -1492,13 +1492,13 @@ final class Forms
 														<span class="df aic jcsb fw-600"><?php I18n::e( 'Date Format' ); ?></span>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">April 3, 2021</span> <code class="badge bg-dark-lt">F j, Y</code>
+														<span><input class="mr-2" type="radio" name="item">April 3, 2021</span> <code class="badge badge--dark-lt">F j, Y</code>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">2021-04-03</span> <code class="badge bg-dark-lt">Y-m-d</code>
+														<span><input class="mr-2" type="radio" name="item">2021-04-03</span> <code class="badge badge--dark-lt">Y-m-d</code>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">04/03/2021</span> <code class="badge bg-dark-lt">m/d/Y</code>
+														<span><input class="mr-2" type="radio" name="item">04/03/2021</span> <code class="badge badge--dark-lt">m/d/Y</code>
 													</label>
 													<label class="df aic jcsb">
 														<span><input class="mr-2" type="radio" name="item">Custom</span> <input class="mw-80" type="text" name="item">
@@ -1518,13 +1518,13 @@ final class Forms
 														<span class="df aic jcsb fw-600"><?php I18n::e( 'Time Format' ); ?></span>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">17:22</span> <code class="badge bg-dark-lt">H:i</code>
+														<span><input class="mr-2" type="radio" name="item">17:22</span> <code class="badge badge--dark-lt">H:i</code>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">5:22 PM</span> <code class="badge bg-dark-lt">g:i A</code>
+														<span><input class="mr-2" type="radio" name="item">5:22 PM</span> <code class="badge badge--dark-lt">g:i A</code>
 													</label>
 													<label class="df aic jcsb">
-														<span><input class="mr-2" type="radio" name="item">12:50am</span> <code class="badge bg-dark-lt">g:ia</code>
+														<span><input class="mr-2" type="radio" name="item">12:50am</span> <code class="badge badge--dark-lt">g:ia</code>
 													</label>
 													<label class="df aic jcsb">
 														<span><input class="mr-2" type="radio" name="item">Custom</span> <input class="mw-80" type="text" name="item">

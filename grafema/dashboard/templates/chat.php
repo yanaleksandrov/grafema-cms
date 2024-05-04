@@ -32,17 +32,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<div class="tab__content dg g-6" x-show="tab === 'open'">
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
-								<i class="badge bg-herbal" title="Online"></i>
+								<i class="badge badge--green" title="Online"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">John Doe <span class="fs-13 t-muted">15:32</span></div>
-								<div class="fs-13 t-herbal">Typing...</div>
+								<div class="fs-13 t-green">Typing...</div>
 							</div>
 						</div>
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded">
 								EJ
-								<i class="badge bg-muted" title="Offline"></i>
+								<i class="badge badge--muted" title="Offline"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">Elizabeth Jenson <span class="fs-13 t-muted">11:11</span></div>
@@ -51,7 +51,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</div>
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=39)">
-								<i class="badge bg-muted" title="Offline"></i>
+								<i class="badge badge--muted" title="Offline"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">Emmie F. Batalonger <span class="fs-13 t-muted">14:45</span></div>
@@ -60,7 +60,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</div>
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150)">
-								<i class="badge bg-muted" title="Offline"></i>
+								<i class="badge badge--muted" title="Offline"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">John Smith <span class="fs-13 t-muted">17:50</span></div>
@@ -71,16 +71,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<div class="tab__content dg g-6" x-show="tab === 'archive'">
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=4)">
-								<i class="badge bg-herbal" title="Online"></i>
+								<i class="badge badge--green" title="Online"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">John Doe <span class="fs-13 t-muted">15:32</span></div>
-								<div class="fs-13 t-herbal">Typing...</div>
+								<div class="fs-13 t-green">Typing...</div>
 							</div>
 						</div>
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=7)">
-								<i class="badge bg-muted" title="Offline"></i>
+								<i class="badge badge--muted" title="Offline"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">Emmie F. Batalonger <span class="fs-13 t-muted">14:45</span></div>
@@ -89,7 +89,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</div>
 						<div class="chat__user df">
 							<div class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=17)">
-								<i class="badge bg-muted" title="Offline"></i>
+								<i class="badge badge--muted" title="Offline"></i>
 							</div>
 							<div class="ml-4">
 								<div class="df aib jcsb fw-500 fs-15 mb-1">John Smith <span class="fs-13 t-muted">17:50</span></div>
@@ -147,7 +147,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="dg g-1">
 					<div class="df fdc aic">
 						<div class="avatar avatar--xl avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=39)">
-							<i class="badge bg-muted" title="Offline"></i>
+							<i class="badge badge--muted" title="Offline"></i>
 						</div>
 						<div class="mt-2 fs-13 t-muted">chat with</div>
 						<div class="fw-500 fs-16">Emmie F. Batalonger</div>

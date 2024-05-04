@@ -36,10 +36,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<i class="ph ph-copy" x-copy="123"></i>
 				<button type="button" class="modal__close" @click="$modal.close()"></button>
 			</div>
-			<div class="modal__body bg-milky">
+			<div class="modal__body bg-white">
 				<?php echo Form::view( 'jb-add-post' ); ?>
 			</div>
-			<div class="modal__footer bg-milky">
+			<div class="modal__footer bg-white">
 				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
 				<button type="button" class="btn btn--primary" @click="$modal.close()">Publish</button>
 			</div>

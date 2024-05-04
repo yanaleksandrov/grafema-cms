@@ -72,7 +72,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<div class="hover">
 						<a href="#" class="fw-600" x-text="post.title" @click="$modal.open('jb-add-post')"></a>
 						<div class="df aic g-2 mt-1 fs-13 hover--show">
-							<a href="#">View</a> <a href="#">Duplicate</a> <a class="t-reddish" href="#">Trash</a>
+							<a href="#">View</a> <a href="#">Duplicate</a> <a class="t-red" href="#">Trash</a>
 						</div>
 					</div>
 					<div><a href="#">Yan Alexandrov</a></div>
@@ -118,7 +118,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                     ?>
 				</div>
 			</div>
-			<div class="modal__footer bg-milky">
+			<div class="modal__footer bg-white">
 				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
 				<button type="button" class="btn btn--primary" @click="$dispatch('submit')">Publish</button>
 			</div>

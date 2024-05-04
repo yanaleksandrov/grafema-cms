@@ -15,25 +15,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<div class="p-8 pb-4 bg-telegrey-lt">
-		<?php
-		View::part(
-			'templates/form/image',
-			[
-				'type'        => 'image',
-				'name'        => 'avatar',
-				'label'       => I18n::__( 'Upload avatar' ),
-				'label_class' => '',
-				'class'       => '',
-				'description' => I18n::__( 'Click to upload or drag & drop' ),
-				'tooltip'     => I18n::__( 'This is tooltip' ),
-				'attributes'  => [
-					'required' => false,
-					'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
-				],
-			]
-		);
-        ?>
-	</div>
+	<?php
+	View::part(
+		'templates/form/image',
+		[
+			'type'        => 'image',
+			'name'        => 'avatar',
+			'label'       => I18n::__( 'Upload avatar' ),
+			'label_class' => '',
+			'class'       => 'dg p-8 pb-4 bg-gray-lt',
+			'description' => I18n::__( 'Click to upload or drag & drop' ),
+			'tooltip'     => I18n::__( 'This is tooltip' ),
+			'attributes'  => [
+				'required' => false,
+				'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+			],
+		]
+	);
+	?>
 	<?php echo Form::view( 'grafema-profile' ); ?>
 </div>

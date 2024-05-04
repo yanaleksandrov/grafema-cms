@@ -45,7 +45,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			Esc::html( $label );
             if ( $reset ) {
                 ?>
-				<span class="ml-auto t-reddish" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::e( 'Reset' ); ?></span>
+				<span class="ml-auto t-red" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::e( 'Reset' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php

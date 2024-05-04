@@ -112,7 +112,7 @@ $start_time = microtime( true );
                 <?php View::part( 'templates/menu-panel' ); ?>
                 <div class="mt-auto df fdc aic">
                     <div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
-                        <i class="badge bg-herbal" title="Online"></i>
+                        <i class="badge bg-green" title="Online"></i>
                     </div>
                 </div>
 			</div>

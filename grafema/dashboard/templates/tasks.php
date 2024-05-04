@@ -26,7 +26,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     <div class="kanban">
         <div class="kanban__wrapper">
             <div class="kanban__col">
-                <div class="kanban__title">To Do <span class="badge bg-azure-lt ml-auto">Add task</span> <span class="badge ml-2">3</span></div>
+                <div class="kanban__title">To Do <span class="badge badge--azure-lt ml-auto">Add task</span> <span class="badge ml-2">3</span></div>
                 <div class="kanban__item">
                     <div class="kanban__name">
                         CEO plugin
@@ -42,7 +42,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <div class="fs-12 t-muted mt-1 df aic">Progress <span class="ml-auto">25%</span></div>
                     </div>
                     <div class="kanban__status">
-                        <span class="badge bg-reddish-lt">High</span><span class="ml-auto fs-12 t-muted">Due in 2 days</span>
+                        <span class="badge badge--red-lt">High</span><span class="ml-auto fs-12 t-muted">Due in 2 days</span>
                     </div>
                 </div>
                 <div class="kanban__item">
@@ -52,7 +52,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <div class="fs-12 t-muted mt-1 df aic">Progress <span class="ml-auto">75%</span></div>
                     </div>
                     <div class="kanban__status">
-                        <span class="badge bg-melon-lt">Medium</span><span class="ml-auto fs-12 t-muted">Due in 5 days</span>
+                        <span class="badge badge--orange-lt">Medium</span><span class="ml-auto fs-12 t-muted">Due in 5 days</span>
                     </div>
                 </div>
                 <div class="kanban__item">
@@ -62,7 +62,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <div class="fs-12 t-muted mt-1 df aic">Progress <span class="ml-auto">96%</span></div>
                     </div>
                     <div class="kanban__status">
-                        <span class="badge bg-herbal-lt">Low</span><span class="ml-auto fs-12 t-muted">Due in 7 days</span>
+                        <span class="badge badge--green-lt">Low</span><span class="ml-auto fs-12 t-muted">Due in 7 days</span>
                     </div>
                 </div>
             </div>
@@ -75,7 +75,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <div class="fs-12 t-muted mt-1 df aic">Progress <span class="ml-auto">75%</span></div>
                     </div>
                     <div class="kanban__status">
-                        <span class="badge bg-melon-lt">Medium</span><span class="ml-auto fs-12 t-muted">Due in 5 days</span>
+                        <span class="badge badge--orange-lt">Medium</span><span class="ml-auto fs-12 t-muted">Due in 5 days</span>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <div class="fs-12 t-muted mt-1 df aic">Progress <span class="ml-auto">96%</span></div>
                     </div>
                     <div class="kanban__status">
-                        <span class="badge bg-herbal-lt">Low</span><span class="ml-auto fs-12 t-muted">Due in 7 days</span>
+                        <span class="badge badge--green-lt">Low</span><span class="ml-auto fs-12 t-muted">Due in 7 days</span>
                     </div>
                 </div>
             </div>

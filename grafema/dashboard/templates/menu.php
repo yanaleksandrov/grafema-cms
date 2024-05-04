@@ -54,7 +54,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							<a class="nav__link" href="%url$s" @click.prevent="i = '<?php echo $id; ?>'">
 								<i class="%icon$s"></i> %title$s
 								<?php if ( isset( $item['count'] ) ) { ?>
-									<span class="badge bg-sky-lt ml-auto">%count$d</span>
+									<span class="badge badge--sky-lt ml-auto">%count$d</span>
 								<?php } ?>
 							</a>
 							<?php $test( $item['children'] ?? [], $tree ); ?>

@@ -29,6 +29,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<div class="df aic g-2 mt-1 hover--show">
 		<a href="#">View</a>
 		<a href="#">Duplicate</a>
-		<a class="t-reddish" href="#">Trash</a>
+		<a class="t-red" href="#">Trash</a>
 	</div>
 </div>

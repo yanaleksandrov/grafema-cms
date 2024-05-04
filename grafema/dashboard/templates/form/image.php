@@ -60,7 +60,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						<canvas x-ref="canvas" x-show="!showImg" style="border-radius: 20rem; width: 240px; height: 240px; position: absolute; margin: auto; inset: 0; box-shadow: 0 0 0 999px rgb(255 255 255 / 60%);"></canvas>
 						<img x-ref="image" x-show="showImg" x-cloak alt="" src="/dashboard/assets/images/1x1.png" style="border-radius: 20rem; width: 240px; height: 240px; position: absolute; margin: auto; inset: 0; box-shadow: 0 0 0 999px rgb(255 255 255 / 98%);">
 					</div>
-					<div class="modal__body bg-milky t-center" style="position: relative;">
+					<div class="modal__body bg-white t-center" style="position: relative;">
 						<div
 							class="fs-48"
 							x-show="second > 0"

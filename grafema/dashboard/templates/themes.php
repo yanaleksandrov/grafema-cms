@@ -29,23 +29,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>E-commerce</span><span class="badge ml-auto bg-sky-lt">56</span>-->
+<!--				<span>E-commerce</span><span class="badge ml-auto badge--sky-lt">56</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Analytics</span><span class="badge ml-auto bg-sky-lt">1245</span>-->
+<!--				<span>Analytics</span><span class="badge ml-auto badge--sky-lt">1245</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Security</span><span class="badge ml-auto bg-sky-lt">21</span>-->
+<!--				<span>Security</span><span class="badge ml-auto badge--sky-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>SEO</span><span class="badge ml-auto bg-sky-lt">21</span>-->
+<!--				<span>SEO</span><span class="badge ml-auto badge--sky-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="checkbox" name="remember">-->
-<!--				<span>Content</span><span class="badge ml-auto bg-sky-lt">21</span>-->
+<!--				<span>Content</span><span class="badge ml-auto badge--sky-lt">21</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!---->
@@ -55,27 +55,27 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price" checked>-->
-<!--				<span>All prices</span><span class="badge ml-auto bg-sky-lt">700</span>-->
+<!--				<span>All prices</span><span class="badge ml-auto badge--sky-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>Free</span><span class="badge ml-auto bg-sky-lt">700</span>-->
+<!--				<span>Free</span><span class="badge ml-auto badge--sky-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$1-10</span><span class="badge ml-auto bg-sky-lt">45</span>-->
+<!--				<span>$1-10</span><span class="badge ml-auto badge--sky-lt">45</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$11-29</span><span class="badge ml-auto bg-sky-lt">21</span>-->
+<!--				<span>$11-29</span><span class="badge ml-auto badge--sky-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$30-59</span><span class="badge ml-auto bg-sky-lt">77</span>-->
+<!--				<span>$30-59</span><span class="badge ml-auto badge--sky-lt">77</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="price">-->
-<!--				<span>$59+</span><span class="badge ml-auto bg-sky-lt">129</span>-->
+<!--				<span>$59+</span><span class="badge ml-auto badge--sky-lt">129</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!--		<div class="dg g-1">-->
@@ -84,23 +84,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--			</div>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating" checked>-->
-<!--				<span>Show all</span><span class="badge ml-auto bg-sky-lt">700</span>-->
+<!--				<span>Show all</span><span class="badge ml-auto badge--sky-lt">700</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>1 star and higher</span><span class="badge ml-auto bg-sky-lt">45</span>-->
+<!--				<span>1 star and higher</span><span class="badge ml-auto badge--sky-lt">45</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>2 stars and higher</span><span class="badge ml-auto bg-sky-lt">21</span>-->
+<!--				<span>2 stars and higher</span><span class="badge ml-auto badge--sky-lt">21</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>3 stars and higher</span><span class="badge ml-auto bg-sky-lt">77</span>-->
+<!--				<span>3 stars and higher</span><span class="badge ml-auto badge--sky-lt">77</span>-->
 <!--			</label>-->
 <!--			<label class="df aic">-->
 <!--				<input type="radio" name="rating">-->
-<!--				<span>4 stars and higher</span><span class="badge ml-auto bg-sky-lt">129</span>-->
+<!--				<span>4 stars and higher</span><span class="badge ml-auto badge--sky-lt">129</span>-->
 <!--			</label>-->
 <!--		</div>-->
 <!--	</form>-->
@@ -119,11 +119,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="theme__item card card-border card-hover jcsb" data-title="Theme Details">
 			<div class="theme__image card-img" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png)"></div>
 			<div class="dg g-2 p-5 pt-4 pb-4">
-				<div class="fw-600 fs-16 df jcsb aic">Rgbcode <span class="badge bg-herbal-lt">Installed</span></div>
+				<div class="fw-600 fs-16 df jcsb aic">Rgbcode <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
 					<span class="df g-2">
-						<span class="df aic g-1 t-melon">
+						<span class="df aic g-1 t-orange">
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
@@ -139,11 +139,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="theme__item card card-border card-hover jcsb" data-title="Theme Details">
 			<div class="theme__image card-img" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/daria/screenshot.jpg)"></div>
 			<div class="dg g-2 p-5 pt-4 pb-4">
-				<div class="fw-600 fs-16 df jcsb aic">Daria <span class="badge bg-herbal-lt">Installed</span></div>
+				<div class="fw-600 fs-16 df jcsb aic">Daria <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
 					<span class="df g-2">
-						<span class="df aic g-1 t-melon">
+						<span class="df aic g-1 t-orange">
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
@@ -159,11 +159,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="theme__item card card-border card-hover jcsb" data-title="Theme Details">
 			<div class="theme__image card-img" style="background-image: url(//ts.w.org/wp-content/themes/twentytwentytwo/screenshot.png)"></div>
 			<div class="dg g-2 p-5 pt-4 pb-4">
-				<div class="fw-600 fs-16 df jcsb aic">Twenty Twenty-Two <span class="badge bg-herbal-lt">Installed</span></div>
+				<div class="fw-600 fs-16 df jcsb aic">Twenty Twenty-Two <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
 					<span class="df g-2">
-						<span class="df aic g-1 t-melon">
+						<span class="df aic g-1 t-orange">
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
@@ -179,7 +179,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="theme__item card card-border card-hover jcsb" data-title="Theme Details">
 			<div class="theme__image card-img" style="background-image: url(//ts.w.org/wp-content/themes/lemmony/screenshot.png)"></div>
 			<div class="dg g-2 p-5 pt-4 pb-4">
-				<div class="fw-600 fs-16 df jcsb aic">Lemmony Health <span class="badge bg-herbal-lt">Installed</span></div>
+				<div class="fw-600 fs-16 df jcsb aic">Lemmony Health <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Lemmony Health is multipurpose eCommerce theme.</div>
 				<div class="df jcsb fs-12">
 					<span class="t-muted">This theme has not been rated yet.</span>
@@ -190,11 +190,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="theme__item card card-border card-hover jcsb" data-title="Theme Details">
 			<div class="theme__image card-img" style="background-image: url(//ts.w.org/wp-content/themes/threadwears/screenshot.png)"></div>
 			<div class="dg g-2 p-5 pt-4 pb-4">
-				<div class="fw-600 fs-16 df jcsb aic">Threadwears <span class="badge bg-herbal-lt">Installed</span></div>
+				<div class="fw-600 fs-16 df jcsb aic">Threadwears <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Threadwears is a light and elegant free eCommerce Grafema block theme.</div>
 				<div class="df jcsb fs-12">
 					<span class="df g-2">
-						<span class="df aic g-1 t-melon">
+						<span class="df aic g-1 t-orange">
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>
 							<i class="ph ph-star"></i>

@@ -332,7 +332,7 @@ final class Install extends Grafema\App\App {
 											foreach ( $checks as $icon => $title ) :
 												?>
 												<li class="df aic">
-													<span class="badge badge--xl badge--round badge--icon" :class="approved.<?php echo $icon; ?> === undefined ? 'badge--load' : (approved.<?php echo $icon; ?> ? 't-herbal' : 't-reddish')">
+													<span class="badge badge--xl badge--round badge--icon" :class="approved.<?php echo $icon; ?> === undefined ? 'badge--load' : (approved.<?php echo $icon; ?> ? 't-green' : 't-red')">
 														<i class="ph" :class="approved.<?php echo $icon; ?> ? 'ph-check' : 'ph-x'"></i>
 													</span>
 													<span class="ml-4"><?php echo $title; ?></span>

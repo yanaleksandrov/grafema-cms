@@ -14,7 +14,7 @@ use Grafema\{
 /**
  * Forms builder.
  *
- * TODO: проверить производительность, только генерация всех форм занимает столько же времени, сколько всё остальное приложение
+ * TODO: проверить производительность, только генерация формы профиля занимает в 2 раза больше времени, чем всё остальное приложение
  *
  * @package Grafema
  */
@@ -101,7 +101,7 @@ class Form {
 		}
 
 		$form->uniqid     = $uniqid;
-		$form->attributes = array_merge( [ 'method' => 'POST' ], $attributes );
+		$form->attributes = array_merge( $form->attributes, $attributes );
 
 		if ( is_callable( $function ) ) {
 			call_user_func( $function, $form );

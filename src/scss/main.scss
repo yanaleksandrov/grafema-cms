@@ -25,15 +25,15 @@
 }
 
 *::-webkit-input-placeholder {
-  color: var(--grafema-text-muted);
+  color: var(--grafema-placeholder);
 }
 
 *::-moz-placeholder {
-  color: var(--grafema-text-muted);
+  color: var(--grafema-placeholder);
 }
 
 *::placeholder {
-  color: var(--grafema-text-muted);
+  color: var(--grafema-placeholder);
 }
 
 *:focus::-webkit-input-placeholder {
@@ -229,9 +229,9 @@ textarea {
 
   &[readonly],
   &[disabled] {
-    color: var(--grafema-text-muted);
     background-color: #f7f7f7;
-    border-color: #ececec;
+    border-color: #f7f7f7 !important;
+    color: var(--grafema-text-muted) !important;
     cursor: not-allowed;
     pointer-events: none;
     resize: none;
@@ -279,6 +279,7 @@ textarea {
     min-height: calc(2rem - 2px);
     cursor: initial;
     resize: none;
+    color: inherit;
 
     &.load {
       background-position: calc(100% - 0.25rem) center;

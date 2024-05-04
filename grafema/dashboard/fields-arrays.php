@@ -29,6 +29,7 @@
 	'class'       => 'df aic fs-12 t-muted',
 	'reset'       => 0,
 	'required'    => 0,
+	'copy'        => 0,
 	'before'      => '',
 	'after'       => '',
 	'tooltip'     => '',
@@ -46,6 +47,10 @@
 		'length'    => 12,
 		'digit'     => 2,
 	],
+	// progress
+	'max'         => 100,
+	'min'         => 0,
+	'speed'       => 500,
 	// details: dropdown with button
 	'content'     => '',
 	// simple select/checkbox/radio options & toggle with 2 options

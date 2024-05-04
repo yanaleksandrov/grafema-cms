@@ -50,7 +50,7 @@ $attributes['value'] = $value;
 			printf( '%s<input%s>%s', $before, Arr::toHtmlAtts( $attributes ), $after );
 			if ( $copy ) :
 				?>
-				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" @click="$copy(<?php echo $name; ?>.value)"></i>
+				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" @click="$copy(<?php echo $name; ?>)"></i>
 				<?php
 			endif;
 			if ( $tooltip ) :

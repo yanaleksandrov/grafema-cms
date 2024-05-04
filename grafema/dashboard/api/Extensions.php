@@ -45,7 +45,7 @@ class Extensions extends \Grafema\Api\Handler
 				'status'          => [
 					[
 						'title' => 'Active',
-						'class' => 'bg-herbal-lt',
+						'class' => 'bg-green-lt',
 					],
 				],
 				'date'            => '2023/09/18 at 10:13 am',
@@ -83,7 +83,7 @@ class Extensions extends \Grafema\Api\Handler
 				'status'          => [
 					[
 						'title' => 'Active',
-						'class' => 'bg-herbal-lt',
+						'class' => 'bg-green-lt',
 					],
 				],
 				'date'            => '2023/09/18 at 10:13 am',
@@ -145,7 +145,7 @@ class Extensions extends \Grafema\Api\Handler
 				'status'          => [
 					[
 						'title' => 'Active',
-						'class' => 'bg-herbal-lt',
+						'class' => 'bg-green-lt',
 					],
 				],
 				'date'            => '2023/09/18 at 10:13 am',
@@ -175,7 +175,7 @@ class Extensions extends \Grafema\Api\Handler
 				'status'          => [
 					[
 						'title' => 'Active',
-						'class' => 'bg-herbal-lt',
+						'class' => 'bg-green-lt',
 					],
 				],
 				'date'            => '2023/09/18 at 10:13 am',

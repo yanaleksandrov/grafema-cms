@@ -60,7 +60,7 @@ final class Menu
 							'url'          => 'settings',
 							'title'        => I18n::__( 'Settings' ),
 							'capabilities' => ['manage_options'],
-							'icon'         => 'ph ph-gear-six',
+							'icon'         => 'ph ph-gear',
 							'position'     => 900,
 						],
 					]

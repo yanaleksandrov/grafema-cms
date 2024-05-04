@@ -514,7 +514,7 @@ document.addEventListener( 'alpine:init', () => {
 						trigger: trigger,
 						position: position,
 						background: '#fff',
-						color: 'var(--core-dark)',
+						color: 'var(--grafema-dark)',
 						animation: 'bounce',
 						content: content || null,
 						callback: null
@@ -1188,10 +1188,10 @@ document.addEventListener( 'alpine:init', () => {
 						[ end, start ] = [ start, end ];
 					}
 
-					el.style.setProperty('--core-progress', ( start < 0 ? 0 : start ) + '%');
+					el.style.setProperty('--grafema-progress', ( start < 0 ? 0 : start ) + '%');
 					setTimeout(() => {
-						el.style.setProperty('--core-transition', ' width ' + duration);
-						el.style.setProperty('--core-progress', ( end > 100 ? 100 : end ) + '%');
+						el.style.setProperty('--grafema-transition', ' width ' + duration);
+						el.style.setProperty('--grafema-progress', ( end > 100 ? 100 : end ) + '%');
 					}, 500)
 
 					// apply progress just once

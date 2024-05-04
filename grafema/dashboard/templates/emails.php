@@ -22,7 +22,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'title' => I18n::__( 'Emails' ),
 			]
 		);
-?>
+        ?>
 		<div class="tables" x-data="table">
 			<div class="tables__head">
 				<div class="df aic">
@@ -47,7 +47,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								</svg>
 							</span>
 						</div>
-						<button class="btn btn--outline" hidden @click="$modal.open('jb-add-post')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new' ); ?></button>
+						<button class="btn btn--outline" hidden @click="$modal.open('grafema-posts-creator')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new' ); ?></button>
 					</div>
 				</div>
 				<div class="tables__row" style="grid-template-columns: 1rem 2.5rem minmax(18rem, 1fr) repeat(3, minmax(6rem, 1fr))">
@@ -70,9 +70,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					</div>
 					<div class="avatar" :style="'background-image: url(https://i.pravatar.cc/150?img=' + (post.ID - 50120) + ')'"></div>
 					<div class="hover">
-						<a href="#" class="fw-600" x-text="post.title" @click="$modal.open('jb-add-post')"></a>
+						<a href="#" class="fw-600" x-text="post.title" @click="$modal.open('grafema-posts-creator')"></a>
 						<div class="df aic g-2 mt-1 fs-13 hover--show">
-							<a href="#">View</a> <a href="#">Duplicate</a> <a class="t-reddish" href="#">Trash</a>
+							<a href="#">View</a> <a href="#">Duplicate</a> <a class="t-red" href="#">Trash</a>
 						</div>
 					</div>
 					<div><a href="#">Yan Alexandrov</a></div>
@@ -84,18 +84,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</template>
 	<template x-if="!emails.length">
 		<?php
-View::part(
-	'templates/states/undefined',
-	[
-		'title'       => I18n::__( 'Emails templates is not found' ),
-		'description' => I18n::__( 'Add <a href="/dashboard/emails" @click.prevent="$modal.open(\'jb-add-email\')">new email template</a> manually' ),
-	]
-);
-?>
+        View::part(
+            'templates/states/undefined',
+            [
+                'title'       => I18n::__( 'Emails templates is not found' ),
+                'description' => I18n::__( 'Add <a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">new email template</a> manually' ),
+            ]
+        );
+        ?>
 	</template>
 </div>
 
-<div class="modal" id="jb-add-email" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
+<div class="modal" id="grafema-emails-creator" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
 	<div class="modal__dialog modal__dialog--right modal__dialog--xl" role="document">
 		<div class="modal__content" @click.outside="$modal.close()">
 			<div class="modal__header">
@@ -105,20 +105,20 @@ View::part(
 			</div>
 			<div class="modal__body modal__body--columns bg-muted-lt">
 				<div class="modal__side">
-					<?php echo Form::view( 'jb-add-email' ); ?>
+					<?php echo Form::view( 'grafema-emails-creator' ); ?>
 				</div>
 				<div class="df jcc">
 					<?php
-			View::output(
-				GRFM_DASHBOARD . 'templates/mails/wrappers.php',
-				[
-					'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
-				]
-			);
-?>
+                    View::output(
+                        GRFM_DASHBOARD . 'templates/mails/wrappers.php',
+                        [
+                            'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
+                        ]
+                    );
+                    ?>
 				</div>
 			</div>
-			<div class="modal__footer bg-milky">
+			<div class="modal__footer bg-white">
 				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
 				<button type="button" class="btn btn--primary" @click="$dispatch('submit')">Publish</button>
 			</div>

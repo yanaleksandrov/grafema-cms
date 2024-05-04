@@ -7,7 +7,8 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-use Grafema\Csrf;
+use Grafema\Db;
+use Grafema\Dir;
 use Grafema\Api;
 use Grafema\Asset;
 use Grafema\Hook;
@@ -17,7 +18,6 @@ use Grafema\Post\Type;
 use Grafema\Url;
 use Grafema\User;
 use Grafema\Debug;
-use Grafema\Json;
 use Grafema\Users\Roles;
 use Grafema\View;
 use Grafema\File\Csv;
@@ -403,6 +403,8 @@ class Dashboard extends Grafema\App\App
 			if ( $script === 'index' ) {
 				$data['data'] = [
 					'apiurl' => 'https://cms.codyshop.ru/api/',
+					// TODO: move to a later
+					'query'  => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
 				];
 			}
 
@@ -432,6 +434,9 @@ class Dashboard extends Grafema\App\App
 		 *
 		 * @since 1.0.0
 		 */
-		Forms::init();
+		$forms = (new Dir\Dir( GRFM_DASHBOARD . 'forms' ))->getFiles( '*.php' );
+		foreach ( $forms as $form ) {
+			require_once $form;
+		}
 	}
 }

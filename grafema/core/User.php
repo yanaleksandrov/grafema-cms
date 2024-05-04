@@ -35,15 +35,15 @@ class User extends Users {
 	 */
 	public array $caps = [];
 
-	public int $ID;
-	public string $login;
-	public string $password;
-	public string $showname;
-	public string $nicename;
-	public string $email;
-	public string $registered;
-	public string $visited;
-	public array $fields;
+	public int $ID = 0;
+	public string $login = '';
+	public string $password = '';
+	public string $showname = '';
+	public string $nicename = '';
+	public string $email = '';
+	public string $registered = '';
+	public string $visited = '';
+	public array $fields = [];
 
 	/**
 	 * Sanitizer user data before inserting into the database.

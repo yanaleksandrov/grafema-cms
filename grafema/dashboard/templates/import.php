@@ -122,7 +122,7 @@ Form::register(
 	}
 );
 ?>
-<div class="grafema-main p-8 bg-telegrey-lt t-dark">
+<div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
 		<?php echo Form::view( 'posts/import' ); ?>
 	</div>

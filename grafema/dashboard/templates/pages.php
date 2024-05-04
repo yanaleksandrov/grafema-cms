@@ -28,7 +28,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 </div>
 
-<div class="modal" id="jb-add-post" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
+<div class="modal" id="grafema-posts-creator" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
 	<div class="modal__dialog modal__dialog--right" role="document">
 		<div class="modal__content" @click.outside="$modal.close()">
 			<div class="modal__header">
@@ -36,10 +36,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<i class="ph ph-copy" x-copy="123"></i>
 				<button type="button" class="modal__close" @click="$modal.close()"></button>
 			</div>
-			<div class="modal__body bg-milky">
-				<?php echo Form::view( 'jb-add-post' ); ?>
+			<div class="modal__body bg-white">
+				<?php echo Form::view( 'grafema-posts-creator' ); ?>
 			</div>
-			<div class="modal__footer bg-milky">
+			<div class="modal__footer bg-white">
 				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
 				<button type="button" class="btn btn--primary" @click="$modal.close()">Publish</button>
 			</div>

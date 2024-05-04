@@ -27,7 +27,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Create item.
 	 *
-	 * @url    POST api/user
+	 * @url    POST api/posts
 	 */
 	public function create(): array
 	{
@@ -39,7 +39,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Get all items.
 	 *
-	 * @url    GET api/user
+	 * @url    GET api/posts
 	 */
 	public function index(): array
 	{
@@ -61,7 +61,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Update item by ID.
 	 *
-	 * @url    PUT api/user/$id
+	 * @url    PUT api/posts/$id
 	 */
 	public function update(): array
 	{
@@ -73,7 +73,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Remove item by ID.
 	 *
-	 * @url    DELETE api/user/$id
+	 * @url    DELETE api/posts/$id
 	 */
 	public function delete(): array
 	{

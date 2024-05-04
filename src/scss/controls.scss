@@ -1,3 +1,5 @@
+@import 'utility';
+
 /* BUTTONS */
 .btn {
   color: inherit;
@@ -333,7 +335,6 @@
   width: 100%;
   position: relative;
   text-align: start;
-  height: 100%;
 
   &__nav {
     -webkit-user-select: none;
@@ -391,8 +392,7 @@
   }
 
   &__content {
-    flex: 1;
-    max-width: 60rem;
+    max-width: 62rem;
   }
 
   &--btn {
@@ -731,7 +731,7 @@
   position: fixed;
   inset: 0;
   opacity: 0;
-  z-index: 99999;
+  z-index: 9999;
   visibility: hidden;
   overflow: hidden;
   outline: 0;
@@ -969,7 +969,7 @@
   }
 
   &__header {
-    max-width: calc(100vw - 17.5rem);
+    max-width: 100%;
     display: grid;
     gap: 0.65rem;
     padding: 1.5rem 1.5rem 0.5rem;
@@ -1006,9 +1006,9 @@
   letter-spacing: .04em;
   text-transform: uppercase;
   position: relative;
-  min-width: #{(21/16)}rem;
-  height: #{(21/16)}rem;
-  font-size: #{(10/16)}rem;
+  min-width: #{calc(21/16)}rem;
+  height: #{calc(21/16)}rem;
+  font-size: #{calc(10/16)}rem;
 
   &:empty{
     display: inline-block;
@@ -1016,8 +1016,8 @@
     min-height: auto;
     padding: 0;
     border-radius: 10rem;
-    width: #{(10/16)}rem;
-    height: #{(10/16)}rem;
+    width: #{calc(10/16)}rem;
+    height: #{calc(10/16)}rem;
   }
 
   @each $size, $scale in (
@@ -1027,13 +1027,14 @@
     'xl': 1.36,
   ) {
     &--#{$size} {
-      min-width: #{($scale * 21 / 16)}rem;
-      height: #{($scale * 21 / 16)}rem;
-      font-size: #{($scale * 10 / 16)}rem;
+      $calc: $scale * calc(10 / 16);
+      min-width: #{$scale * calc(20 / 16)}rem;
+      height: #{$scale * calc(20 / 16)}rem;
+      font-size: #{$calc}rem;
 
       &:empty{
-        width: #{($scale * 10 / 16)}rem;
-        height: #{($scale * 10 / 16)}rem;
+        width: #{$calc}rem;
+        height: #{$calc}rem;
       }
     }
   }
@@ -1065,6 +1066,24 @@
       inset: 0;
       margin: auto;
       animation: spinner-border .5s linear infinite;
+    }
+  }
+
+  @each $name, $color in $colors {
+    &--#{"" + $name} {
+      background-color: $color !important;
+
+      @if $color != #ffffff {
+        color: #fff;
+      }
+    }
+
+    &--#{"" + $name}-lt {
+      background-color: #{mix(rgba(255, 255, 255, 1), $color, 85%)} !important;
+
+      @if $color != #ffffff {
+        color: #{$color};
+      }
     }
   }
 }

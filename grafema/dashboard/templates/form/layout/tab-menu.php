@@ -23,7 +23,7 @@ if ( count( $fields ) === 0 ) {
 <ul class="tab__nav" x-sticky>
 	<?php
 	foreach ( $fields as $field ) :
-		[ $type, $name, $property, $label, $caption, $icon, $class_button ] = (
+		[ $type, $name, $property, $label, $caption, $icon, $class ] = (
             new Sanitizer(
 				$field,
                 [
@@ -38,7 +38,7 @@ if ( count( $fields ) === 0 ) {
             )
 		)->values();
 		?>
-		<li class="tab__title <?php echo $class_button; ?>" @click="<?php echo $property; ?> = '<?php echo $name; ?>'" :class="{'active': <?php echo $property; ?> === '<?php echo $name; ?>'}">
+		<li class="tab__title <?php echo $class; ?>" @click="<?php echo $property; ?> = '<?php echo $name; ?>'" :class="{'active': <?php echo $property; ?> === '<?php echo $name; ?>'}">
 			<div class="df aic g-2">
 				<?php if ( $icon ) : ?>
 					<i class="<?php echo $icon; ?>"></i>

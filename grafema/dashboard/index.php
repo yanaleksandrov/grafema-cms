@@ -104,50 +104,48 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="{query:false}">
+<body x-data="index">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema">
 			<div class="grafema-panel">
-				<div class="grafema-sidebar">
-					<img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
-					<?php View::part( 'templates/menu-panel' ); ?>
-					<div class="mt-auto df fdc aic">
-						<div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
-							<i class="badge bg-herbal" title="Online"></i>
-						</div>
-					</div>
-				</div>
+                <img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
+                <?php View::part( 'templates/menu-panel' ); ?>
+                <div class="mt-auto df fdc aic">
+                    <div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
+                        <i class="badge bg-green" title="Online"></i>
+                    </div>
+                </div>
 			</div>
-			<div class="grafema-prime">
-				<div class="grafema-bar">
-					<ul class="menu">
-						<li class="menu__item">
-							<a class="menu__link" href="home.html"><i class="ph ph-house-line"></i> Grafema</a>
-						</li>
-						<li class="menu__item">
-							<a class="menu__link" href="index.html"><i class="ph ph-clock-clockwise"></i> 0</a>
-						</li>
-						<li class="menu__item">
-							<a class="menu__link" href="index.html"><i class="ph ph-chats"></i> 2</a>
-						</li>
-						<li class="menu__item parent">
-							<a class="menu__link" href="page.html"><i class="ph ph-plus"></i> New</a>
-							<ul class="menu__sub">
-								<li class="menu__item">
-									<a href="product.html">Page</a>
-								</li>
-							</ul>
-						</li>
-						<li class="menu__item" id="query" x-init="query = !query"></li>
-					</ul>
-				</div>
+            <div class="grafema-bar">
+                <ul class="menu">
+                    <li class="menu__item">
+                        <a class="menu__link" href="home.html"><i class="ph ph-house-line"></i> Grafema</a>
+                    </li>
+                    <li class="menu__item">
+                        <a class="menu__link" href="index.html"><i class="ph ph-clock-clockwise"></i> 0</a>
+                    </li>
+                    <li class="menu__item">
+                        <a class="menu__link" href="index.html"><i class="ph ph-chats"></i> 2</a>
+                    </li>
+                    <li class="menu__item parent">
+                        <a class="menu__link" href="page.html"><i class="ph ph-plus"></i> New</a>
+                        <ul class="menu__sub">
+                            <li class="menu__item">
+                                <a href="product.html">Page</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu__item">
+                        <a class="menu__link" href="#"><i class="ph ph-monitor"></i> <span x-text="index.query"></span></a>
+                    </li>
+                </ul>
+            </div>
 
-				<?php
-				View::part( 'templates/menu' );
+            <?php
+            View::part( 'templates/menu' );
 
-				View::part( 'templates/' . $slug );
-				?>
-			</div>
+            View::part( 'templates/' . $slug );
+            ?>
 		</div>
 	<?php } else { ?>
 		<div class="df aic jcc p-8">

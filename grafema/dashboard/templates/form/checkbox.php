@@ -38,32 +38,30 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 ?>
-<div class="dg g-1" x-data="{<?php echo $name; ?>: {}}">
+<div class="dg g-1" x-data="{<?php echo $name; ?>: []}">
 	<?php if ( $label ) { ?>
 		<div class="<?php echo $class; ?>">
 			<?php
 			Esc::html( $label );
             if ( $reset ) {
                 ?>
-				<span class="ml-auto t-reddish" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::e( 'Reset' ); ?></span>
+				<span class="ml-auto t-red" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::e( 'Reset' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
 	}
-	echo '<pre>';
-	print_r( $options );
-	print_r( $attributes );
-	echo '</pre>';
+
 	foreach ( $options as $option => $text ) {
 	    $optionName = sprintf( '%s.%s', $name, $option );
 		$attributes = [
+			'type'         => 'checkbox',
 		    'value'        => $option,
-            'name'         => $optionName,
-			'x-model.fill' => $optionName,
+            'name'         => $name,
+			'x-model.fill' => $name,
         ];
 		?>
 		<label class="df aic">
-			<input type="checkbox"<?php echo Arr::toHtmlAtts( $attributes ); ?>>
+			<input <?php echo Arr::toHtmlAtts( $attributes ); ?>>
 			<span class="df aic mw"><?php echo $text; ?></span>
 		</label>
 		<?php

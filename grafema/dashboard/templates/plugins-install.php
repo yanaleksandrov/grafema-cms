@@ -186,9 +186,9 @@ $plugins = [
 ];
 $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 ?>
-<div class="grafema-filter">
-	<?php echo Form::view( 'core-filter-plugins' ); ?>
-</div>
+<!--<div class="grafema-filter">-->
+<!--	--><?php //echo Form::view( 'grafema-plugins-filter' ); ?>
+<!--</div>-->
 <div class="grafema-main">
 	<?php
 	View::part(
@@ -208,7 +208,7 @@ $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 					<div class="dg g-2 fs-13">
 						<h4 class="fw-600 fs-16 df jcsb">
 							<span x-text="plugin.title"></span>
-							<span class="btn btn--sm bg-herbal-lt">Installed</span>
+							<span class="btn btn--sm bg-green-lt">Installed</span>
 						</h4>
 						<div class="t-muted lh-sm" x-text="plugin.description"></div>
 						<div>by <a target="_blank" :href="`${plugin.author_link}`" x-text="plugin.author">Our Team</a></div>
@@ -220,7 +220,7 @@ $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 					</div>
 					<div class="df jcsb">
 						<div class="df g-2">
-							<span class="df aic g-1 t-melon">
+							<span class="df aic g-1 t-orange">
 								<template x-for="index in [1, 2, 3, 4, 5]">
 									<i class="ph ph-star" :class="plugin.rating < index && 't-muted'"></i>
 								</template>

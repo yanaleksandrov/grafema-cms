@@ -78,11 +78,11 @@ $attributes = [
 	if ( $indicator ) {
 		?>
 		<div class="dg g-2 gtc-5 mt-2">
-			<i class="pt-1" :class="data.progress > <?php echo 100 / 5; ?> ? 'bg-reddish' : 'bg-muted-lt'"></i>
+			<i class="pt-1" :class="data.progress > <?php echo 100 / 5; ?> ? 'bg-red' : 'bg-muted-lt'"></i>
 			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 2; ?> ? 'bg-amber' : 'bg-muted-lt'"></i>
-			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 3; ?> ? 'bg-melon' : 'bg-muted-lt'"></i>
-			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 4; ?> ? 'bg-irish' : 'bg-muted-lt'"></i>
-			<i class="pt-1" :class="data.progress === 100 ? 'bg-herbal' : 'bg-muted-lt'"></i>
+			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 3; ?> ? 'bg-orange' : 'bg-muted-lt'"></i>
+			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 4; ?> ? 'bg-green' : 'bg-muted-lt'"></i>
+			<i class="pt-1" :class="data.progress === 100 ? 'bg-green' : 'bg-muted-lt'"></i>
 		</div>
 	<?php } ?>
 
@@ -102,7 +102,7 @@ $attributes = [
                     continue;
                 }
                 ?>
-				<div class="df aifs g-2" :class="data.<?php echo $character; ?> && 't-herbal'">
+				<div class="df aifs g-2" :class="data.<?php echo $character; ?> && 't-green'">
 					<i class="ph" :class="data.<?php echo $character; ?> ? 'ph-check' : 'ph-x'"></i> <span><?php printf( $messages[$character], $count ); ?></span>
 				</div>
 			<?php } ?>

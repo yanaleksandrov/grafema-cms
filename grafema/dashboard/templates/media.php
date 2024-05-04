@@ -68,9 +68,9 @@ $media = Query::apply(
 	}
 );
 ?>
-<div class="grafema-filter">
-	<?php echo Form::view( 'core-filter-posts' ); ?>
-</div>
+<!--<div class="grafema-filter">-->
+<!--	--><?php //echo Form::view( 'grafema-posts-filter' ); ?>
+<!--</div>-->
 <div class="grafema-main" x-data="{showUploader: false, files: <?php echo $media; ?>}">
 <?php
 View::part(
@@ -91,39 +91,39 @@ View::part(
 	</div>
 	<div class="dg g-3 p-8 sm:p-5 pt-0 pb-0" x-show="showUploader" x-cloak>
 		<?php
-	View::part(
-		'templates/form/uploader',
-		[
-			'description' => I18n::__( 'Click to upload or drag & drop' ),
-			'attributes'  => [
-				'required' => false,
-				'multiple' => true,
-				'x-ref'    => 'uploader',
-				'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
-			],
-		]
-	);
-View::part(
-	'templates/form/textarea',
-	[
-		'name'       => 'urls',
-		'label'      => I18n::__( 'Or upload from URL' ),
-		'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
-		'attributes' => [
-			'required'    => false,
-			'placeholder' => I18n::__( 'Input file URL(s)' ),
-			'@change'     => '$ajax("grab/files").then(response => files = response)',
-			'x-textarea'  => 99,
-		],
-	]
-);
-?>
+        View::part(
+            'templates/form/uploader',
+            [
+                'description' => I18n::__( 'Click to upload or drag & drop' ),
+                'attributes'  => [
+                    'required' => false,
+                    'multiple' => true,
+                    'x-ref'    => 'uploader',
+                    '@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+                ],
+            ]
+        );
+        View::part(
+            'templates/form/textarea',
+            [
+                'name'       => 'urls',
+                'label'      => I18n::__( 'Or upload from URL' ),
+                'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
+                'attributes' => [
+                    'required'    => false,
+                    'placeholder' => I18n::__( 'Input file URL(s)' ),
+                    '@change'     => '$ajax("grab/files").then(response => files = response)',
+                    'x-textarea'  => 99,
+                ],
+            ]
+        );
+        ?>
 	</div>
 
 	<template x-if="files.length">
 		<div class="storage">
 			<template x-for="file in files">
-				<div class="storage__item" @click="$modal.open('jb-add-post')">
+				<div class="storage__item" @click="$modal.open('grafema-posts-creator')">
 					<img class="storage__image" :src="file.thumbnail" alt="" width="200" height="200">
 					<div class="storage__meta">
 						<div class="storage__data" x-text="file.size"></div>
@@ -141,6 +141,6 @@ View::part(
 				'description' => I18n::__( 'The files were not found, probably because you did not download them or they do not match the specified filter parameters' ),
 			]
 		);
-?>
+        ?>
 	</template>
 </div>

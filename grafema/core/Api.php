@@ -12,7 +12,6 @@ namespace Grafema;
 use Grafema\Csrf\Csrf;
 use Grafema\Csrf\Exceptions\InvalidCsrfTokenException;
 use Grafema\Csrf\Providers\NativeHttpOnlyCookieProvider;
-use ReflectionException;
 
 /**
  * @since 1.0.0
@@ -46,11 +45,10 @@ final class Api
 	}
 
 	/**
-	 * @throws ReflectionException
 	 */
 	private static function run( $slug ): void
 	{
-		[$endpoint, $method] = explode( '/', $slug, 2 );
+		[$endpoint, $method] = explode( '/', $slug, 2 ) + [null, null];
 
 		$resource = self::$resources[$endpoint] ?? '';
 		if ( empty( $resource ) ) {
@@ -61,44 +59,35 @@ final class Api
 		$filepath = Sanitizer::path( $resource['filepath'] ?? '' );
 		$class    = Sanitizer::pascalcase( $resource['class'] ?? '' );
 
-		if ( ! file_exists( $filepath ) ) {
-			// TODO: return error
-		} else {
+		if ( file_exists( $filepath ) ) {
 			require_once $filepath;
 		}
 
-		if ( ! method_exists( $class, $method ) ) {
-			// TODO: return error
-		}
-
-		$provider = new NativeHttpOnlyCookieProvider();
-		$csrf     = new Csrf( $provider );
-
+		$csrf = new Csrf( new NativeHttpOnlyCookieProvider() );
 		try {
 			$csrf->check( 'token', $_COOKIE['grafema_token'] ?? '' );
 		} catch ( InvalidCsrfTokenException $e ) {
-			$data = [
-				'status'    => 200,
-				'benchmark' => Debug::timer( 'getall' ),
-				'memory'    => Debug::memory_peak(),
-				'error'     => I18n::__( 'Ajax queries not allows without nonce!' ),
-			];
-			var_dump( $e->getMessage() );
-			var_dump( $data );
-			exit;
+			$data = new Errors( 'api-no-route', I18n::__( 'Ajax queries not allows without CSRF token!' ) );
 		}
-		$csrf->generate( 'token' );
 
-		$reflector   = new \ReflectionClass( $class );
-		$classMethod = $reflector->getMethod( $method );
-		$data        = $classMethod->isStatic() ? $class::$method() : $class->{$method}();
+		if ( empty( $data ) ) {
+			$csrf->generate( 'token' );
+			try {
+				$reflector   = new \ReflectionClass( $class );
+				$classMethod = $reflector->getMethod( $method );
+				$data        = $classMethod->isStatic() ? $class::$method() : $class->{$method}();
+			} catch ( \ReflectionException $e ) {
+				$data = new Errors( 'api-no-route', I18n::__( 'No route was found matching the URL and request method.' ) );
+			}
 
-		/**
-		 * Interceptor for overriding the server response.
-		 *
-		 * @since 1.0.0
-		 */
-		$data = Hook::apply( 'grafema_api_response', $data, $slug );
+			/**
+			 * Interceptor for overriding the server response.
+			 *
+			 * @since 1.0.0
+			 */
+			$data = Hook::apply( 'grafema_api_response', $data, $slug );
+		}
+
 		$data = Json::encode(
 			[
 				'status'    => 200,

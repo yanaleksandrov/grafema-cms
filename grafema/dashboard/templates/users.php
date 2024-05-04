@@ -45,13 +45,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Admin</span>
+				<span class="badge badge--blue-lt">Admin</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -59,20 +59,20 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<input type="checkbox" name="post[]" x-bind="switcher">
 			</td>
 			<td class="img is-fit">
-				<span class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=2)" title="Jakob Batallone is online"><span class="badge bg-herbal"></span></span>
+				<span class="avatar avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=2)" title="Jakob Batallone is online"><span class="badge badge--green"></span></span>
 			</td>
 			<td class="name">
 				<a class="fs-15 fw-600" href="#">Leslee Moss</a>
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -87,13 +87,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -108,13 +108,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -129,13 +129,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -150,13 +150,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -171,13 +171,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -192,13 +192,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -213,13 +213,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -234,13 +234,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		<tr>
@@ -255,13 +255,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fs-13"><a href="mailto:codyshop@team.com" class="t-muted">codyshop@team.com</a></div>
 			</td>
 			<td class="role is-fit">
-				<span class="badge bg-sky-lt">Subscriber</span>
+				<span class="badge badge--blue-lt">Subscriber</span>
 			</td>
 			<td class="status is-fit">
-				<span class="badge bg-dark-lt">3 days ago</span>
+				<span class="badge badge--dark-lt">3 days ago</span>
 			</td>
 			<td class="actions is-fit">
-				<span class="btn btn--icon t-reddish"><i class="ph ph-trash"></i></span>
+				<span class="btn btn--icon t-red"><i class="ph ph-trash"></i></span>
 			</td>
 		</tr>
 		</tbody>

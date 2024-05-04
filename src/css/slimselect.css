@@ -284,6 +284,7 @@
 	outline: 0;
 	text-align: left;
 	box-sizing: border-box;
+	background-position: calc(100% - 0.65rem);
 }
 
 .ss-content .ss-search input::placeholder {

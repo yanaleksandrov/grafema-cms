@@ -22,7 +22,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'title' => I18n::__( 'Emails' ),
 			]
 		);
-?>
+        ?>
 		<div class="tables" x-data="table">
 			<div class="tables__head">
 				<div class="df aic">
@@ -84,14 +84,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</template>
 	<template x-if="!emails.length">
 		<?php
-View::part(
-	'templates/states/undefined',
-	[
-		'title'       => I18n::__( 'Emails templates is not found' ),
-		'description' => I18n::__( 'Add <a href="/dashboard/emails" @click.prevent="$modal.open(\'jb-add-email\')">new email template</a> manually' ),
-	]
-);
-?>
+        View::part(
+            'templates/states/undefined',
+            [
+                'title'       => I18n::__( 'Emails templates is not found' ),
+                'description' => I18n::__( 'Add <a href="/dashboard/emails" @click.prevent="$modal.open(\'jb-add-email\')">new email template</a> manually' ),
+            ]
+        );
+        ?>
 	</template>
 </div>
 
@@ -109,13 +109,13 @@ View::part(
 				</div>
 				<div class="df jcc">
 					<?php
-			View::output(
-				GRFM_DASHBOARD . 'templates/mails/wrappers.php',
-				[
-					'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
-				]
-			);
-?>
+                    View::output(
+                        GRFM_DASHBOARD . 'templates/mails/wrappers.php',
+                        [
+                            'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
+                        ]
+                    );
+                    ?>
 				</div>
 			</div>
 			<div class="modal__footer bg-milky">

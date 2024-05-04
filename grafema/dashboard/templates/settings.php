@@ -11,6 +11,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<!-- tabs start -->
-<?php echo Form::view( 'jb-settings' ); ?>
-<!-- tabs end -->
+<div class="grafema-main">
+    <!-- tabs start -->
+	<?php echo Form::view( 'jb-settings' ); ?>
+    <!-- tabs end -->
+</div>

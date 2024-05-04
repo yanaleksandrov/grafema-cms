@@ -40,6 +40,6 @@ class Builder
 			$result[] = $repeat > 1 ? sprintf( 'repeat(%s, %s)', $repeat, $previous ) : $previous;
 		}
 
-		return sprintf( '--core-grid-template-columns: %s', implode( ' ', $result ) );
+		return sprintf( '--grafema-grid-template-columns: %s', implode( ' ', $result ) );
 	}
 }

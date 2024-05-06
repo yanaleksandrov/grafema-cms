@@ -7,7 +7,7 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Tables;
+namespace Dashboard\Tables;
 
 class Builder
 {

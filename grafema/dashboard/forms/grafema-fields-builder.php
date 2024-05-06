@@ -4,7 +4,7 @@
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-fields-builder',
 	[
 		'class'           => 'builder',

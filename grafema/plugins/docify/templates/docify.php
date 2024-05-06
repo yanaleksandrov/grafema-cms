@@ -1,4 +1,6 @@
 <?php
+use Grafema\I18n;
+
 /**
  * Documentation creator.
  *
@@ -44,7 +46,7 @@ if ( $plugins->plugins ) {
 	}
 }
 
-Form::register(
+Dashboard\Form::register(
 	'import/documents',
 	[
 		'class'           => 'card card-border',
@@ -149,7 +151,7 @@ Form::register(
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php echo Form::view( 'import/documents' ); ?>
+		<?php echo Dashboard\Form::view( 'import/documents' ); ?>
 	</div>
 </div>
 

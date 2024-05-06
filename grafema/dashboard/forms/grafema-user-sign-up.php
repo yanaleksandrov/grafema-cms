@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-user-sign-up',
 	[
 		'class'           => 'card card-border g-6 p-8',

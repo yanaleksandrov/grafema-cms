@@ -36,14 +36,16 @@ $click = sprintf( "%s = '%s'", $name, $value );
 $show  = sprintf( "%s !== '%s'", $name, $value );
 ?>
 <div class="dg g-1">
-	<span class="<?php echo $class; ?>">
-		<?php
-		Grafema\Esc::html( $label );
-		if ( $reset ) {
-			?>
-			<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::e( 'Reset' ); ?></span>
-		<?php } ?>
-	</span>
+    <?php if ( $label ) : ?>
+        <span class="<?php echo $class; ?>">
+            <?php
+            Grafema\Esc::html( $label );
+            if ( $reset ) {
+                ?>
+                <span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::e( 'Reset' ); ?></span>
+            <?php } ?>
+        </span>
+    <?php endif; ?>
 	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 		<?php
 		$get_attributes = function ( $key, $value, $option ) {

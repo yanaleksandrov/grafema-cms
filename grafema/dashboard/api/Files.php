@@ -9,8 +9,13 @@
 
 namespace Dashboard\Api;
 
+use Dashboard\Form;
 use Grafema\File\File;
+use Grafema\File\Csv;
+use Grafema\Sanitizer;
 use Grafema\Url;
+use Grafema\I18n;
+use Grafema\View;
 
 class Files extends \Grafema\Api\Handler
 {
@@ -29,7 +34,26 @@ class Files extends \Grafema\Api\Handler
 		$files = $_FILES ?? [];
 		if ( $files ) {
 			foreach ( $files as $file ) {
-				return ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+				$uploadedFile = ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+
+				if ( ! $uploadedFile instanceof File ) {
+					continue;
+				}
+
+				$filepath = Sanitizer::path( $uploadedFile->path ?? '' );
+				$rows     = Csv::import( $filepath );
+
+				View::include(
+					GRFM_DASHBOARD . 'forms/grafema-posts-import-fields.php',
+					[
+						'samples'  => $rows[0] ?? [],
+						'filepath' => $filepath,
+					]
+				);
+
+				return [
+					'fields' => Form::view( 'posts-import-fields', true ),
+				];
 			}
 		}
 		return [];
@@ -48,6 +72,11 @@ class Files extends \Grafema\Api\Handler
 				$files[] = ( new File() )->to( GRFM_UPLOADS . 'i/' )->grab( $url );
 			}
 		}
-		return $files;
+
+		return [
+			'files'      => $files,
+			'notice'     => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
+			'filesCount' => count( $files ),
+		];
 	}
 }

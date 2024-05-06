@@ -18,5 +18,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<div class="t-muted fs-12 mw-600">managing custom fields</div>
 		</div>
 	</div>
-	<?php echo Form::view( 'grafema-fields-builder' ); ?>
+	<?php echo Dashboard\Form::view( 'grafema-fields-builder' ); ?>
 </div>

@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-user-sign-in',
 	[
 		'class'           => 'card card-border g-6 p-8',
@@ -51,7 +51,7 @@ Form::register(
 					'before'      => '',
 					'after'       => '',
 					'tooltip'     => '',
-					'instruction' => sprintf( I18n::__( 'Forgot your password? You can %sreset it here%s' ), '<a href="/dashboard/reset-password">', '</a>' ),
+					'instruction' => I18n::_s( 'Forgot your password? You can %sreset it here%s', '<a href="/dashboard/reset-password">', '</a>' ),
 					'attributes'  => [],
 					'conditions'  => [],
 					'switcher'    => 1,

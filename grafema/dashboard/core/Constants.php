@@ -6,6 +6,8 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
+namespace Dashboard;
+
 use Grafema\I18n;
 use Grafema\Patterns\Registry;
 use Grafema\Patterns\Singleton;

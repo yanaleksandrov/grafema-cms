@@ -111,7 +111,7 @@ $colors: (
   .bg-#{"" + $name} {
     background-color: $color !important;
   }
-  .bg-#{$name}-lt {
+  .bg-#{"" + $name}-lt {
     background-color: #{mix(rgba(255, 255, 255, 1), $color, 92%)} !important;
   }
 }

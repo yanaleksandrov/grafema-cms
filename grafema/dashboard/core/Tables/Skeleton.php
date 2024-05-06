@@ -1,5 +1,5 @@
 <?php
-namespace Tables;
+namespace Dashboard\Tables;
 
 /**
  *

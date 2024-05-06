@@ -189,11 +189,11 @@ class File
 		if ( is_writable( $this->path ) ) {
 			$fp = fopen( $this->path, $after ? 'a' : 'w' );
 			if ( ! $fp ) {
-				$this->errors[] = new Errors( 'file-manipulation', sprintf( I18n::__( "I can't open the file '%s'" ), $this->path ) );
+				$this->errors[] = new Errors( 'file-manipulation', I18n::_s( "I can't open the file '%s'", $this->path ) );
 			} else {
 				// writing $content to open file
 				if ( fwrite( $fp, $content ) === false ) {
-					$this->errors[] = new Errors( 'file-manipulation', sprintf( I18n::__( "I can't write to the file '%s'" ), $this->path ) );
+					$this->errors[] = new Errors( 'file-manipulation', I18n::_s( "I can't write to the file '%s'", $this->path ) );
 				}
 
 				fclose( $fp );
@@ -433,7 +433,7 @@ class File
 
 		// remove not allowed symbols & letters
 		// TODO sanitize file name
-		$filename = mb_convert_encoding( htmlspecialchars( mb_strtolower( $filename ) ) );
+		$filename = mb_convert_encoding( htmlspecialchars( mb_strtolower( $filename ) ), 'UTF-8' );
 		$formats  = mb_convert_encoding(
 			'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª',
 			'ISO-8859-1',

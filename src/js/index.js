@@ -783,7 +783,7 @@ document.addEventListener( 'alpine:init', () => {
 				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
 			}
 
-			request.onreadystatechange = event => {
+			request.onload = event => {
 				document.dispatchEvent(
 					new CustomEvent(route, {
 						detail: { data: request.response?.data, event, el, resolve },

@@ -24,7 +24,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-( new Tables\Pages() )->render();
+( new Dashboard\Tables\Pages() )->render();
 ?>
 </div>
 
@@ -37,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<button type="button" class="modal__close" @click="$modal.close()"></button>
 			</div>
 			<div class="modal__body bg-white">
-				<?php echo Form::view( 'grafema-posts-creator' ); ?>
+				<?php echo Dashboard\Form::view( 'grafema-posts-creator' ); ?>
 			</div>
 			<div class="modal__footer bg-white">
 				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>

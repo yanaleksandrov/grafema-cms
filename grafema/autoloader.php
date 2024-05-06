@@ -8,16 +8,17 @@
  */
 spl_autoload_register(
 	function ( $class ) {
-		$filename = str_replace( ['\\', '/Grafema/'], ['/', '/core/'], GRFM_PATH . sprintf( '%s.php', $class ) );
+		$filepath = sprintf( '%s%s.php', GRFM_PATH, $class );
 
 		// TODO: is so bad, fix it!
-		// try to find class in dashboard if not founded in core
-		if ( ! is_file( $filename ) ) {
-			$filename = str_replace( '\\', '/', GRFM_PATH . sprintf( 'dashboard/includes/%s.php', $class ) );
-		}
+		$filepath = str_replace(
+			['\\', '/Grafema/', '/Dashboard/'],
+			['/', '/core/', '/dashboard/core/'],
+			$filepath
+		);
 
-		if ( is_file( $filename ) ) {
-			require_once $filename;
+		if ( is_file( $filepath ) ) {
+			require_once $filepath;
 		}
 	}
 );

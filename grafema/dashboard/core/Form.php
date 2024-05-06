@@ -1,4 +1,6 @@
 <?php
+namespace Dashboard;
+
 use Grafema\{
 	Esc,
 	I18n,
@@ -83,14 +85,14 @@ class Form {
 		// TODO:: wrong escaping, use sanitize
 		$uniqid = Esc::html( $uniqid, false );
 		if ( empty( $uniqid ) ) {
-			new Errors( 'form-register', sprintf( I18n::__( 'The $uniqid of the form is empty.' ), $uniqid ) );
+			new Errors( 'form-register', I18n::_s( 'The $uniqid of the form is empty.', $uniqid ) );
 
 			return;
 		}
 
 		$form = self::init( $uniqid );
 		if ( isset( $form->uniqid ) ) {
-			new Errors( 'form-register', sprintf( I18n::__( 'The form identified by %s already exists! Potential conflicts detected!' ), $uniqid ) );
+			new Errors( 'form-register', I18n::_s( 'The form identified by %s already exists! Potential conflicts detected!', $uniqid ) );
 		}
 
 		$form->uniqid     = $uniqid;
@@ -197,7 +199,7 @@ class Form {
 	 */
 	public function parseFields( array $fields, int $step = 1 ): string {
 		ob_start();
-		View::part( 'templates/form/layout/tab-menu', [ 'fields' => $fields ] );
+		View::part( GRFM_DASHBOARD . 'templates/form/layout/tab-menu', [ 'fields' => $fields ] );
 		$content = ob_get_clean();
 
 		foreach ( $fields as $field ) {
@@ -244,10 +246,6 @@ class Form {
 			// parse conditions
 			if ( ! empty( $field['conditions'] ) ) {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
-				echo '<pre>';
-				var_dump( 54354 );
-				print_r( $field );
-				echo '</pre>';
 			}
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
@@ -260,7 +258,7 @@ class Form {
 				case 'step':
 				case 'group':
 					View::part(
-						"templates/form/layout/{$type}",
+						GRFM_DASHBOARD . "templates/form/layout/{$type}",
 						array_merge(
 							[
 								'columns'    => 2,
@@ -284,7 +282,7 @@ class Form {
 					}
 					break;
 				default:
-					View::part( "templates/form/{$type}", $field );
+					View::part( GRFM_DASHBOARD . "templates/form/{$type}", $field );
 					break;
 			}
 			$content .= ob_get_clean();

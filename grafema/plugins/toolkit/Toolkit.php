@@ -83,7 +83,7 @@ class Toolkit implements Grafema\Plugins\Skeleton
 		 *
 		 * @since 1.0.0
 		 */
-		Form::register(
+		Dashboard\Form::register(
 			'builder/fields',
 			[
 				'class'  => 'dg p-7 g-7',

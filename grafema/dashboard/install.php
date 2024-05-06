@@ -51,7 +51,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                     </defs>
                 </svg>
             </div>
-            <?php echo Form::view( 'system-install' ); ?>
+            <?php echo Dashboard\Form::view( 'system-install' ); ?>
         </div>
 		<?php
 

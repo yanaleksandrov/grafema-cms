@@ -105,7 +105,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</div>
 			<div class="modal__body modal__body--columns bg-muted-lt">
 				<div class="modal__side">
-					<?php echo Form::view( 'grafema-emails-creator' ); ?>
+					<?php echo Dashboard\Form::view( 'grafema-emails-creator' ); ?>
 				</div>
 				<div class="df jcc">
 					<?php

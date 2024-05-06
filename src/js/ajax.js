@@ -107,3 +107,8 @@ document.addEventListener('files/upload', ({detail}) => {
 	}
 	resolve(data);
 });
+
+document.addEventListener('posts/import', ({detail}) => {
+	const {data, resolve} = detail;
+	resolve(data);
+});

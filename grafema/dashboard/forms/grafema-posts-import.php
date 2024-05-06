@@ -10,8 +10,8 @@ Dashboard\Form::register(
 	'posts/import',
 	[
 		'class'           => 'card card-border',
-		'@submit.prevent' => '$ajax("posts/import").then(response => {completed = response;$wizard.goNext()})',
-		'x-data'          => '{fields:"", completed:""}',
+		'@submit.prevent' => '$ajax("posts/import").then(response => output = response.output,$wizard.goNext())',
+		'x-data'          => '{fields: "", output: ""}',
 	],
 	function ( $form ) {
 		$form->addFields(
@@ -65,6 +65,7 @@ Dashboard\Form::register(
 					'attributes' => [
 						'class'          => 'pl-8 pr-8',
 						'x-cloak'        => true,
+						'x-wizard:step'  => 'output.trim()',
 						'x-wizard:title' => I18n::__( 'Column mapping' ),
 					],
 					'fields' => [
@@ -84,15 +85,10 @@ Dashboard\Form::register(
 				[
 					'type'       => 'step',
 					'attributes' => [
-						'class'          => 'pl-8 pr-8',
+						'class'          => 'dg p-8',
+						'x-html'         => 'output',
 						'x-cloak'        => true,
 						'x-wizard:title' => I18n::__( 'Import is completed' ),
-					],
-					'fields' => [
-						[
-							'type'     => 'custom',
-							'callback' => fn () => '<div class="dg" x-html="completed"></div>',
-						],
 					],
 				],
 				[
@@ -100,9 +96,8 @@ Dashboard\Form::register(
 					'callback' => function () {
 						ob_start();
 						?>
-
 						<!-- buttons -->
-						<div class="p-8 df jcsb g-2">
+						<div class="p-8 df jcsb g-2" x-show="!output.trim()">
 							<button type="button" class="btn btn--outline" :disabled="$wizard.cannotGoBack()" x-show="$wizard.isNotLast()" @click="$wizard.goBack()" disabled><?php I18n::e( 'Back' ); ?></button>
 							<button type="button" class="btn btn--primary" :disabled="$wizard.cannotGoNext()" x-show="$wizard.isFirst()" @click="$wizard.goNext()" disabled><?php I18n::e( 'Continue' ); ?></button>
 							<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(1)" x-cloak><?php I18n::e( 'Run the importer' ); ?></button>

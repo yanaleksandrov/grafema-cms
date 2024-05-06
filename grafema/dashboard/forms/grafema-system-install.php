@@ -1,5 +1,6 @@
 <?php
 use Grafema\I18n;
+use Grafema\View;
 
 /**
  * Register form for first Grafema installation.

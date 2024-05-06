@@ -1,6 +1,6 @@
 <?php
 
-namespace Tables;
+namespace Dashboard\Tables;
 
 use Grafema\I18n;
 use Grafema\View;

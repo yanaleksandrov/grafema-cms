@@ -1,4 +1,8 @@
 <?php
+use Grafema\I18n;
+use Grafema\View;
+use Grafema\Esc;
+
 /**
  * Fields builder
  *
@@ -17,7 +21,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<div class="fields-builder__header">
 				<h4>Fields Builder</h4>
 			</div>
-			<?php echo Form::view( 'builder/fields' ); ?>
+			<?php echo Dashboard\Form::view( 'builder/fields' ); ?>
 		</div>
 		<div class="fields-builder__main">
 			<div class="fields-builder__code">

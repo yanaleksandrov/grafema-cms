@@ -33,6 +33,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-	echo Form::view( 'grafema-user-profile' );
+	echo Dashboard\Form::view( 'grafema-user-profile' );
 	?>
 </div>

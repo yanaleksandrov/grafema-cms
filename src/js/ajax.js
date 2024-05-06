@@ -99,3 +99,11 @@ document.addEventListener('user/reset-password', ({ detail: { data } }) => {
 		window.location.href = data.redirect;
 	}
 });
+
+document.addEventListener('files/upload', ({detail}) => {
+	const {el, data, resolve} = detail;
+	if (el) {
+		el.value = '';
+	}
+	resolve(data);
+});

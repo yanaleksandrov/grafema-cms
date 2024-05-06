@@ -15,6 +15,12 @@ namespace Grafema;
  */
 class View
 {
+	/**
+	 * @param $location
+	 * @param int $status
+	 * @param string $x_redirect_by
+	 * @return bool|Errors
+	 */
 	public static function redirect( $location, $status = 302, $x_redirect_by = 'Grafema' )
 	{
 		/**
@@ -117,27 +123,28 @@ class View
 	 */
 	public static function part( string $template, array $args = [] )
 	{
-		if ( Is::dashboard() || Is::install() ) {
-			$template_file = sprintf( '%sdashboard/%s.php', GRFM_PATH, $template );
-		} else {
-			$template_file = Sanitizer::path( GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) ) . $template;
-		}
+		$filepath = sprintf( '%s.php', $template );
+		$filepath = match (true) {
+			file_exists( $filepath )         => $filepath,
+			Is::dashboard() || Is::install() => sprintf('%sdashboard/%s.php', GRFM_PATH, $template),
+			default                          => GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) . $template,
+		};
 
-		$template_file = Sanitizer::path( $template_file );
-		if ( file_exists( $template_file ) ) {
+		$filepath = Sanitizer::path( $filepath );
+		if ( file_exists( $filepath ) ) {
 
 			/**
 			 * Override template file.
 			 *
 			 * @since 1.0.0
 			 *
-			 * @param string $find_filepath the application doing the redirect
+			 * @param string $filepath Path to existing template part.
 			 */
-			$template_file = Hook::apply( 'grafema_view_part', $template_file, $template, $args );
+			$filepath = Hook::apply( 'grafema_view_part', $filepath, $template, $args );
 
 			extract( $args, EXTR_SKIP );
 
-			require $template_file;
+			require $filepath;
 		}
 	}
 }

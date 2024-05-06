@@ -86,6 +86,6 @@ Dashboard\Form::register(
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php echo Form::view( 'jb-exporter' ); ?>
+		<?php echo Dashboard\Form::view( 'jb-exporter' ); ?>
 	</div>
 </div>

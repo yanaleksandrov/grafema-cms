@@ -100,7 +100,7 @@ class Media extends \Grafema\Api\Handler
 
 		return [
 			[
-				'fragment' => sprintf( I18n::__( '%d files have been successfully uploaded to the library' ), count( $files ) ),
+				'fragment' => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
 				'target'   => 'body',
 				'method'   => 'notify',
 				'custom'   => [

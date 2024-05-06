@@ -24,7 +24,7 @@ Dashboard\Form::register(
 						?>
 						<div class="progress" :style="'--grafema-progress:' + $wizard.progress().progress"></div>
 						<div class="p-8 pt-7 pb-7 df aic jcsb">
-							<span x-text="$wizard.current().title">Upload CSV file</span>
+							<span x-text="$wizard.current().title"><?php I18n::e( 'Upload CSV file' ); ?></span>
 							<span class="t-muted">
 								step <strong x-text="$wizard.progress().current">1</strong> from <strong x-text="$wizard.progress().total">2</strong>
 							</span>

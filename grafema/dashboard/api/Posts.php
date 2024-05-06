@@ -89,7 +89,7 @@ class Posts extends \Grafema\Api\Handler
 	 *
 	 * @since 1.0.0
 	 */
-	public static function export(): array
+	public static function export()
 	{
 		$format = trim( strval( $_REQUEST['format'] ?? '' ) );
 		$types  = $_REQUEST['types'] ?? [];
@@ -124,6 +124,8 @@ class Posts extends \Grafema\Api\Handler
 				}
 			}
 		);
+
+		exit;
 	}
 
 	/**

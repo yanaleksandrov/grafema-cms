@@ -14,6 +14,7 @@ use Grafema\Post\Post;
 use Grafema\Patterns;
 use Grafema\File\File;
 use Grafema\File\Image;
+use Grafema\Sanitizer;
 
 class Media extends \Grafema\Api\Handler
 {
@@ -50,11 +51,19 @@ class Media extends \Grafema\Api\Handler
 				$sizes = Patterns\Registry::get( 'jb.images' );
 				if ( is_array( $sizes ) && $sizes !== [] ) {
 					foreach ( $sizes as $size ) {
-						$mime   = $size['mime'] ?? null;
-						$width  = intval( $size['width'] ?? 0 );
-						$height = intval( $size['height'] ?? 0 );
+						[ 'mime' => $mime, 'width' => $width, 'height' => $height ] = (
+							new Sanitizer(
+								$size,
+								[
+									'name'   => 'text',
+									'mime'   => 'mime',
+									'width'  => 'absint',
+									'height' => 'absint',
+								]
+							)
+						)->apply();
 
-						if ( ! $width || ! $height ) {
+						if ( ! $mime || ! $width || ! $height ) {
 							continue;
 						}
 

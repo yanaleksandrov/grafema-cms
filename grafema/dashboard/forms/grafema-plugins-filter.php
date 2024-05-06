@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-plugins-filter',
 	[
 		'class'    => 'dg g-7 p-8',

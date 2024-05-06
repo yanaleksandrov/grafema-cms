@@ -433,7 +433,7 @@ class File
 
 		// remove not allowed symbols & letters
 		// TODO sanitize file name
-		$filename = mb_convert_encoding( htmlspecialchars( mb_strtolower( $filename ) ) );
+		$filename = mb_convert_encoding( htmlspecialchars( mb_strtolower( $filename ) ), 'UTF-8' );
 		$formats  = mb_convert_encoding(
 			'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr"!@#$%&*()_-+={[}]/?;:.,\\\'<>°ºª',
 			'ISO-8859-1',

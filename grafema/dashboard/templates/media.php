@@ -99,7 +99,7 @@ View::part(
                     'required' => false,
                     'multiple' => true,
                     'x-ref'    => 'uploader',
-                    '@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+                    '@change'  => '[...$refs.uploader.files].map(file => $ajax("media/upload").then(response => files.unshift(response[0])))',
                 ],
             ]
         );
@@ -112,7 +112,7 @@ View::part(
                 'attributes' => [
                     'required'    => false,
                     'placeholder' => I18n::__( 'Input file URL(s)' ),
-                    '@change'     => '$ajax("grab/files").then(response => files = response)',
+                    '@change'     => '$ajax("files/grab").then(response => files = response)',
                     'x-textarea'  => 99,
                 ],
             ]

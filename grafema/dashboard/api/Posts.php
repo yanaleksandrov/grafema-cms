@@ -14,6 +14,8 @@ use Grafema\Query\Query;
 use Grafema\Json;
 use Grafema\File\Csv;
 use Grafema\Post\Post;
+use Grafema\View;
+use Grafema\I18n;
 
 class Posts extends \Grafema\Api\Handler
 {
@@ -165,6 +167,16 @@ class Posts extends \Grafema\Api\Handler
 				}
 			}
 		}
-		return $imported;
+
+		return [
+			'imported' => true,
+			'output'   => View::include(
+				GRFM_DASHBOARD . 'templates/states/completed.php',
+				[
+					'title'       => I18n::_s( 'Import is completed', count( $imported ) ),
+					'instruction' => I18n::_s( '%d posts was successfully imported. Do you want %sto launch a new import?%s', count( $imported ), '<a href="/dashboard/import">', '</a>' ),
+				]
+			)
+		];
 	}
 }

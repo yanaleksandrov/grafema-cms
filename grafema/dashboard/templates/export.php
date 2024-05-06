@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-Form::register(
+Dashboard\Form::register(
 	'jb-exporter',
 	[
 		'class'  => 'card card-border p-8 pt-0 g-8',

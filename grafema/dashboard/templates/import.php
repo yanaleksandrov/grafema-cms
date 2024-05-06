@@ -13,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-Form::register(
+Dashboard\Form::register(
 	'posts/import',
 	[
 		'class'           => 'card card-border',
@@ -54,7 +54,7 @@ Form::register(
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
 							'label'       => I18n::__( 'Import posts from a CSV file' ),
-							'instruction' => I18n::__( 'This tool allows you to import (or merge) posts data to your website from a CSV or TXT file. Choose a file from your computer:' ),
+							'instruction' => I18n::_s( 'This tool allows you to import (or merge) posts data to your website from a CSV or TXT file. %sDownload%s the file for an example. Choose a file from your computer:', '<a href="/dashboard/assets/files/example-posts.csv" download>', '</a>' ),
 						],
 						[
 							'name'        => 'uploader',
@@ -62,7 +62,7 @@ Form::register(
 							'instruction' => I18n::__( 'Click to upload or drag & drop' ),
 							'attributes'  => [
 								'accept'  => '.csv,.txt',
-								'@change' => '$ajax("upload/file").then(response => {fields = response;$wizard.goNext()})',
+								'@change' => '$ajax("files/upload").then(response => {fields = response;$wizard.goNext()})',
 							],
 						],
 					],

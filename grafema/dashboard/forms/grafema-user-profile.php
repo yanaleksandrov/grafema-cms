@@ -7,7 +7,7 @@ use Grafema\Url;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-user-profile',
 	[
 		'class'  => 'tab',

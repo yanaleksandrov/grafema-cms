@@ -1,4 +1,6 @@
 <?php
+namespace Dashboard;
+
 use Grafema\{
 	Esc,
 	I18n,

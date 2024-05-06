@@ -23,6 +23,8 @@ use Grafema\{
 	Csrf,
 };
 
+use Dashboard\Constants;
+
 /**
  * Setup system core constants.
  *
@@ -92,7 +94,7 @@ Debug::timer();
  * @since 1.0.0
  */
 if ( ! Is::installed() ) {
-	Install::init();
+	\Dashboard\Install::init();
 	exit;
 }
 
@@ -197,7 +199,7 @@ Hook::apply( 'grafema_plugins_loaded' );
  *
  * @since 1.0.0
  */
-Dashboard::init();
+\Dashboard\Dashboard::init();
 
 /**
  * Load private administrative panel.

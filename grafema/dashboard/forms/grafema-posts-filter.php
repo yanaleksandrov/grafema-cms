@@ -6,11 +6,11 @@ use Grafema\I18n;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-posts-filter',
 	[
 		'class'    => 'dg g-7 p-8',
-		'@change'  => '$ajax("filter/posts")',
+		'@change'  => '$ajax("posts/filter")',
 		'x-sticky' => '',
 	],
 	function ( $form ) {

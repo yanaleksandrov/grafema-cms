@@ -7,12 +7,12 @@ use Grafema\Option;
  *
  * @since 1.0.0
  */
-Form::register(
+Dashboard\Form::register(
 	'grafema-settings',
 	[
 		'class'   => 'tab tab--vertical',
 		'x-data'  => "{tab:'general'}",
-		'@change' => '$ajax("save-settings")',
+		'@change' => '$ajax("settings/save")',
 	],
 	function ( $form ) {
 		$form->addFields(

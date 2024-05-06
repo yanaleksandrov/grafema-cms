@@ -128,6 +128,10 @@ const config = {
           from: "src/css",
           to: "css",
         },
+        {
+          from: "src/files",
+          to: "files",
+        },
       ],
     }),
     new CleanWebpackPlugin({

@@ -1,4 +1,7 @@
 <?php
+use Grafema\I18n;
+use Grafema\Errors;
+
 /**
  * This file is part of Grafema CMS.
  *
@@ -129,7 +132,7 @@ class Font
             }
             return $result;
         }
-        return new Errors(Debug::get_backtrace(), I18n::__('You must supply valid google fonts link.'));
+        return new Errors( 'font-fetch-link', I18n::__('You must supply valid google fonts link.'));
     }
 
     /**
@@ -165,7 +168,7 @@ class Font
         if ( ! is_file($this->folderFont . '/' . $filename) || $this->forceReplace) {
             file_put_contents($this->folder_root . '/' . $this->folderFont . '/' . $filename, $content);
         } else {
-            return new Errors(Debug::get_backtrace(), I18n::__('Skipped existing file: ') . $filename);
+            return new Errors( 'font-save-font', I18n::__('Skipped existing file: ') . $filename);
         }
     }
 
@@ -185,7 +188,7 @@ class Font
         if ( ! is_file($this->folder_css . '/' . $filename) || $this->forceReplace) {
             file_put_contents($this->folder_root . '/' . $this->folder_css . '/' . $filename, $content);
         } else {
-            return new Errors(Debug::get_backtrace(), I18n::__('Skipped existing file: ') . $filename);
+            return new Errors('font-save-css', I18n::__('Skipped existing file: ') . $filename);
         }
     }
 

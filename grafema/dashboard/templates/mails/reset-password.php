@@ -1,4 +1,6 @@
 <?php
+use Grafema\I18n;
+
 /**
  * Reset password mail content.
  *

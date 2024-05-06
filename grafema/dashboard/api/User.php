@@ -12,11 +12,10 @@ namespace Dashboard\Api;
 use Grafema\Api\Crud;
 use Grafema\Sanitizer;
 use Grafema\Url;
-use Grafema\Validator;
 use Grafema\View;
-use Grafema\Mail\Mail;
-use Grafema\I18n;
+use Grafema\Mail;
 use Grafema\Errors;
+use Grafema\I18n;
 
 class User extends \Grafema\Api\Handler
 {
@@ -97,9 +96,16 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 1.0.0
 	 */
-	public static function signUp(): array
+	public static function signUp(): Errors|\Grafema\User|array
 	{
-		return \Grafema\User::add( $_REQUEST ?? [] );
+		$user = \Grafema\User::add( $_REQUEST ?? [] );
+		if ( $user instanceof \Grafema\User ) {
+			return [
+				'signed-up' => true,
+				'redirect'  => Url::sign_in(),
+			];
+		}
+		return $user;
 	}
 
 	/**
@@ -107,59 +113,14 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 1.0.0
 	 */
-	public static function resetPassword(): array
+	public static function resetPassword(): Errors|\Grafema\User|array
 	{
-		$email = trim( strval( $_REQUEST['email'] ?? '' ) );
-
-		if ( empty( $email ) ) {
-			return [
-				[
-					'delay'    => 0,
-					'fragment' => I18n::__( 'Field can\'t be empty' ),
-					'method'   => 'update',
-					'target'   => '.email-error',
-				],
-				[
-					'delay'    => 0,
-					'fragment' => 'is-invalid',
-					'method'   => 'addClass',
-					'target'   => '[name="email"]',
-				],
-				[
-					'delay'    => 4000,
-					'fragment' => '',
-					'method'   => 'update',
-					'target'   => '.email-error',
-				],
-				[
-					'delay'    => 4000,
-					'fragment' => 'is-invalid',
-					'method'   => 'removeClass',
-					'target'   => '[name="email"]',
-				],
-			];
-		}
-
-		$user = \Grafema\User::get( $email, 'email' );
-		if ( ! $user instanceof User ) {
-			return [
-				[
-					'delay'    => 0,
-					'fragment' => I18n::__( 'The user with this email was not found' ),
-					'method'   => 'update',
-					'target'   => '.email-error',
-				],
-				[
-					'delay'    => 4000,
-					'fragment' => '',
-					'method'   => 'update',
-					'target'   => '.email-error',
-				],
-			];
-		} else {
+		$email = Sanitizer::email( $_REQUEST['email'] ?? '' );
+		$user  = \Grafema\User::get( $email, 'email' );
+		if ( $user instanceof \Grafema\User ) {
 			$mail_is_sent = Mail::send(
 				$email,
-				'Instructions for reset password',
+				I18n::__( 'Instructions for reset password' ),
 				View::include(
 					GRFM_DASHBOARD . 'templates/mails/wrapper.php',
 					[
@@ -167,14 +128,11 @@ class User extends \Grafema\Api\Handler
 					]
 				)
 			);
-			if ( $mail_is_sent ) {
-				return [
-					[
-						'fragment' => true,
-						'target'   => 'sent',
-					],
-				];
-			}
+
+			return [
+				'mail-is-sent' => $mail_is_sent,
+			];
 		}
+		return $user;
 	}
 }

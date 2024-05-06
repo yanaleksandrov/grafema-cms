@@ -11,7 +11,7 @@ Form::register(
 	[
 		'class'           => 'card card-border g-6 p-8',
 		'x-data'          => '{email: ""}',
-		'@submit.prevent' => '$ajax("reset/password")',
+		'@submit.prevent' => '$ajax("user/reset-password")',
 	],
 	function ( $form ) {
 		$form->addFields(

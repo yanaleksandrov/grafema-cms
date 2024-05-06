@@ -208,11 +208,11 @@ class Option extends Options {
 	 * Removes option by name. Prevents removal of protected Grafema options.
 	 *
 	 * @param string $option  Name of the option to retrieve.
-	 * @return int|Error     Count of deleted rows.
+	 * @return int|Errors     Count of deleted rows.
 	 *
 	 * @since 1.0.0
 	 */
-	public static function delete( string $option ): int|Error {
+	public static function delete( string $option ): int|Errors {
 
 		/**
 		 * Delete dotted options
@@ -225,8 +225,8 @@ class Option extends Options {
 
 		$not_allowed_options = array_keys( self::default() );
 		if ( in_array( $option, $not_allowed_options, true ) ) {
-			return new Error(
-				Debug::get_backtrace(),
+			return new Errors(
+				'option-delete',
 				sprintf(
 					I18n::__( 'You are not allowed to delete the "%s" option. You can just update it.' ),
 					$option
@@ -270,12 +270,12 @@ class Option extends Options {
 	 *
 	 * @param  string $option  Name of the option to retrieve.
 	 * @param  mixed  $default Optional. Default value to return if the option does not exist.
-	 * @return void
+	 * @return string
 	 *
 	 * @since 1.0.0
 	 */
-	public static function attr( string $option, mixed $default = '' ) {
-		Esc::attr( self::get( $option, $default ) );
+	public static function attr( string $option, mixed $default = '' ): string {
+		return Esc::attr( self::get( $option, $default ) );
 	}
 
 	/**

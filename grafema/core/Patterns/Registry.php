@@ -2,6 +2,9 @@
 
 namespace Grafema\Patterns;
 
+use Grafema\Errors;
+use Grafema\I18n;
+
 /**
  * The Registry pattern is designed primarily to solve the global scope problem.
  * This is a very common problem when you want to share data,
@@ -47,7 +50,7 @@ final class Registry {
 		if ( ! isset( self::$registry[ $key ] ) ) {
 			self::$registry[ $key ] = $value;
 		} else {
-			new \Errors( \Debug::get_backtrace(), \I18n::__( 'Are you trying to override an existing data.' ) );
+			new Errors( 'registry-set', I18n::__( 'Are you trying to override an existing data.' ) );
 		}
 	}
 

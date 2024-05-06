@@ -36,7 +36,7 @@ final class Db {
 	/**
 	 * Init database connection
 	 *
-	 * @return void|Error
+	 * @return void|Errors
 	 */
 	public function __construct( array $options = [] ) {
 		$options = array_merge(
@@ -55,7 +55,7 @@ final class Db {
 		try {
 			self::$connection = new Medoo( $options );
 		} catch ( PDOException $e ) {
-			return new Error( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
 		}
 	}
 
@@ -369,15 +369,15 @@ final class Db {
 	/**
 	 * Try to check database connection
 	 *
-	 * @return Error|Medoo|null
+	 * @return Errors|Medoo|null
 	 * @since 1.0.0
 	 */
-	public static function check(): Error|Medoo|null
+	public static function check(): Errors|Medoo|null
 	{
 		try {
 			return self::$connection;
 		} catch ( PDOException $e ) {
-			return new Error( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
 		}
 	}
 }

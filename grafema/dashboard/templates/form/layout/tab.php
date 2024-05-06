@@ -19,7 +19,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         [
 			'name'          => 'key',
 			'property'      => 'key:tab',
-			'caption'       => 'trim',
+			'caption'       => 'trim|ucfirst',
 			'description'   => 'trim',
 			'content'       => 'trim',
 			'class_content' => 'class',

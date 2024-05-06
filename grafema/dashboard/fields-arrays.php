@@ -104,7 +104,6 @@
 	'label'   => '',
 	'name'    => 'manage',
 	'class'   => 'df aic fs-12 t-muted',
-	'content' => '',
 	'columns' => '',
 	'fields'  => [],
 ];

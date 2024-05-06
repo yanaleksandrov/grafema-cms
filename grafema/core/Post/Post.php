@@ -3,8 +3,7 @@ namespace Grafema\Post;
 
 use Grafema\Patterns\Registry;
 use Grafema\Db;
-use Grafema\Debug;
-use Grafema\Error;
+use Grafema\Errors;
 use Grafema\I18n;
 use Grafema\Esc;
 use Grafema\Url;
@@ -24,7 +23,7 @@ class Post {
 	 */
 	public static function add( $type, $args ): Error|string|null {
 		if ( ! Type::exist( $type ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'Post type is not registered.' ) );
+			return new Errors( 'post-add', I18n::__( 'Post type is not registered.' ) );
 		}
 
 		$author  = trim( strval( $args['author'] ?? '' ) );

@@ -93,7 +93,7 @@ class Tree
 	{
 		$item_id = trim( (string) ( $item['id'] ?? '' ) );
 		if ( ! $item_id ) {
-			new Error( Debug::get_backtrace(), I18n::__( 'Tree item ID is required.' ) );
+			new Errors( 'tree-add-item', I18n::__( 'Tree item ID is required.' ) );
 		}
 
 		$item = array_replace(

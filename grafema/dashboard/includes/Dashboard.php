@@ -201,17 +201,6 @@ class Dashboard extends Grafema\App\App
 			'grafema_api_response',
 			function ( $data, $slug ) {
 				switch ( $slug ) {
-					case 'user/sign-up':
-						$isUser = $data instanceof User;
-						$data   = [
-							[
-								'target'   => $isUser ? 'body' : '',
-								'fragment' => $isUser ? Url::sign_in() : '',
-								'method'   => $isUser ? 'redirect' : '',
-								'data'     => $data,
-							],
-						];
-						break;
 					case 'files/grab':
 						$data = [
 							[
@@ -438,5 +427,7 @@ class Dashboard extends Grafema\App\App
 		foreach ( $forms as $form ) {
 			require_once $form;
 		}
+		//require_once GRFM_DASHBOARD . 'forms/grafema-user-profile.php';
+		//require_once GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php';
 	}
 }

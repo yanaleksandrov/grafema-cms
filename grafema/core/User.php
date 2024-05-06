@@ -1,7 +1,6 @@
 <?php
 namespace Grafema;
 
-use Grafema\Errors;
 use Grafema\Users\Roles;
 use Grafema\Users\Users;
 use Grafema\Helpers\Hash;
@@ -46,27 +45,6 @@ class User extends Users {
 	public array $fields = [];
 
 	/**
-	 * Sanitizer user data before inserting into the database.
-	 *
-	 * @return array
-	 * @since 1.0.0
-	 */
-	private static function data_sanitize( array $userdata ) {
-		$schema    = Db::schema( DB_PREFIX . self::$table );
-		$_userdata = [];
-		foreach ( $userdata as $column => $value ) {
-			if ( isset( $schema[ $column ] ) ) {
-				if ( is_array( $value ) ) {
-					$_userdata[ $column ] = $value;
-				} else {
-					$_userdata[ $column ] = Esc::sql( $value, $schema[ $column ] );
-				}
-			}
-		}
-		return $_userdata;
-	}
-
-	/**
 	 * Insert a user into the database.
 	 *
 	 * The showname & nickname fields should not be left empty, because nickname
@@ -86,11 +64,10 @@ class User extends Users {
 	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
 	 * }
 	 *
-	 * @return array|User|bool The newly created user's ID or an Errors object if the user could not be created.
-	 * @throws \Exception
+	 * @return User|Errors The newly created user's ID or an Errors object if the user could not be created.
 	 * @since 1.0.0
 	 */
-	public static function add( array $userdata ) {
+	public static function add( array $userdata ): User|Errors {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
@@ -133,7 +110,7 @@ class User extends Users {
 		)->apply();
 
 		if ( $userdata instanceof Validator ) {
-			return $userdata->errors;
+			return new Errors( 'user-add', $userdata );
 		}
 
 		[ $login, $password ] = array_values( $userdata );
@@ -141,56 +118,69 @@ class User extends Users {
 
 		$user_count = Db::insert( self::$table, $userdata )->rowCount();
 		if ( $user_count !== 1 ) {
-			return false;
+			return new Errors( 'user-add', I18n::__( 'Something went wrong, it was not possible to add a user.' ) );
 		}
 
 		$user = self::get( $login, 'login' );
-		if ( $user instanceof User ) {
 
-			/**
-			 * Fires immediately after a new user is registered.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param User $user data of created user
-			 */
-			Hook::apply( 'grafema_user_added', $user );
+		/**
+		 * Fires immediately after a new user is registered.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param User $user data of created user
+		 */
+		Hook::apply( 'grafema_user_added', $user );
 
-			return $user;
-		}
-
-		return false;
+		return $user;
 	}
 
 	/**
-	 * Получение данных о пользователе
+	 * Retrieves user info by a given field.
 	 *
+	 * @param string|int    $value A value for $field. A user ID, slug, email address, or login name.
+	 * @param string        $getBy The field to retrieve the user with. ID | login | email | nicename.
+	 * @return Errors|User
 	 * @since 1.0.0
 	 */
-	public static function get( $value, string $get_by = 'ID' ): Error|User|bool {
-		if ( ! in_array( $get_by, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Error( 'user-field', I18n::__( 'Sorry, to get a user, use an ID, login, nicename or email.' ) );
+	public static function get( string|int $value, string $getBy = 'ID' ): Errors|User {
+		if ( empty( $value ) ) {
+			return new Errors( 'user-get-empty', I18n::_s( 'You are trying to find a user with an empty %s.', $getBy ) );
 		}
 
-		$user = Db::select( self::$table, '*', [ $get_by => $value ], [ 'LIMIT' => 1 ] );
-		if ( isset( $user[0] ) && is_array( $user[0] ) ) {
-			$_user = new self();
-			foreach ( $user[0] as $field => $value ) {
-				$_user->$field = $value;
-			}
-			return $_user;
+		if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
+			return new Errors( 'user-get-by', I18n::__( 'To get a user, use an ID, login, email or nicename.' ) );
 		}
-		return false;
+
+		$user = Db::select( self::$table, '*', [ $getBy => $value ], [ 'LIMIT' => 1 ] );
+		$user = (array) ( $user[0] ?? [] );
+		if ( $user ) {
+			$userdata = new self();
+			foreach ( $user as $field => $value ) {
+				$userdata->$field = $value;
+			}
+			return $userdata;
+		}
+
+		return new Errors( 'user-get', I18n::__( 'User not found!' ) );
 	}
 
 	/**
 	 * Update a user in the database.
 	 * If no ID is found in the received array, the function passes the work to the add method.
 	 *
+	 * @param array $userdata
+	 * @return Errors|User|int
 	 * @since 1.0.0
 	 */
-	public static function update( array $userdata ) {
-		$user_id = (int) ( $userdata['ID'] ?? 0 );
+	public static function update( array $userdata ): Errors|User|int
+	{
+		$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
+		if ( ! $user_id ) {
+			return new Errors( 'user-update-invalid-id', I18n::__( 'Invalid user ID.' ) );
+		}
+
+		$user_id = Sanitizer::absint( $userdata['ID'] ?? 0 );
 		if ( ! $user_id ) {
 			return self::add( $userdata );
 		}
@@ -200,11 +190,11 @@ class User extends Users {
 
 		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'User not found.' ) );
+			return new Errors( 'user-update', I18n::__( 'User not found.' ) );
 		}
 
 		// sanitize incoming data and exclusion of extraneous data
-		$userdata = self::data_sanitize( $userdata );
+		$userdata = self::dataSanitize( $userdata );
 
 		return Db::update( self::$table, $userdata )->rowCount();
 	}
@@ -219,7 +209,7 @@ class User extends Users {
 	 *
 	 * @param  int   $user_id  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
-	 * @return Error|int      The number of remote users or false.
+	 * @return Errors|int      The number of remote users or false.
 	 * @since 1.0.0
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
@@ -228,7 +218,7 @@ class User extends Users {
 		];
 
 		if ( ! self::exists( $fields ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'The user you are trying to delete does not exist.' ) );
+			return new Errors( 'user-delete', I18n::__( 'The user you are trying to delete does not exist.' ) );
 		}
 
 		if ( $reassign ) {
@@ -306,7 +296,8 @@ class User extends Users {
 	/**
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
-	 * @return Error|false|User
+	 * @return Errors|false|User
+	 * @throws \JsonException
 	 * @since   1.0.0
 	 */
 	public static function current() {
@@ -363,10 +354,7 @@ class User extends Users {
 		) )->apply();
 
 		if ( $userdata instanceof Validator ) {
-			// TODO: do not stop at the first element, return the full set of errors
-			foreach ( $userdata->errors as $key => $errors ) {
-				return new Errors( 'user-' . $key, $errors );
-			}
+			return new Errors( 'user-login', $userdata );
 		}
 
 		[ $login_or_email, $password, $remember ] = array_values( $userdata );
@@ -408,5 +396,28 @@ class User extends Users {
 			);
 		}
 		Session::set( self::$session_id, null );
+	}
+
+	/**
+	 * Sanitizer user data before inserting into the database.
+	 *
+	 * @param array $userdata
+	 * @return array
+	 * @since 1.0.0
+	 */
+	private static function dataSanitize( array $userdata ): array
+	{
+		$schema    = Db::schema( DB_PREFIX . self::$table );
+		$_userdata = [];
+		foreach ( $userdata as $column => $value ) {
+			if ( isset( $schema[ $column ] ) ) {
+				if ( is_array( $value ) ) {
+					$_userdata[ $column ] = $value;
+				} else {
+					$_userdata[ $column ] = Esc::sql( $value, $schema[ $column ] );
+				}
+			}
+		}
+		return $_userdata;
 	}
 }

@@ -173,7 +173,7 @@ class Posts extends \Grafema\Api\Handler
 			'output'    => View::include(
 				GRFM_DASHBOARD . 'templates/states/completed.php',
 				[
-					'title'       => I18n::_s( 'Import is completed', count( $imported ) ),
+					'title'       => I18n::__( 'Import is complete!' ),
 					'description' => I18n::_s( '%d posts was successfully imported. Do you want %sto launch a new import?%s', count( $imported ), '<a href="/dashboard/import">', '</a>' ),
 				]
 			)

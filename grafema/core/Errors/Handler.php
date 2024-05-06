@@ -17,7 +17,7 @@ namespace Grafema\Errors;
 class Handler {
 
 	/**
-	 * Stores the list of errors.
+	 * Errors list storage.
 	 *
 	 * @since 1.0.0
 	 * @var array
@@ -27,10 +27,9 @@ class Handler {
 	/**
 	 * Add an error or append additional message to an existing error.
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param string|int $code      Errors code.
-	 * @param string|array $message Errors message.
+	 * @param string|array $message Error single message or array of messages.
+	 * @since 1.0.0
 	 */
 	protected function push( string|int $code, string|array $message = '' ): void {
 		if ( is_array( $message ) ) {

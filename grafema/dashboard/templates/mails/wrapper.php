@@ -1,4 +1,7 @@
 <?php
+use Grafema\Option;
+use Grafema\View;
+
 /**
  * Grafema is installed information.
  *

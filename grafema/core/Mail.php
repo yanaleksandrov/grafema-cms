@@ -8,7 +8,9 @@
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
  */
 
-namespace Grafema\Mail;
+namespace Grafema;
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * @since 1.0.0
@@ -52,11 +54,11 @@ class Mail
         global $phpmailer;
 
         // (Re)create it, if it's gone missing.
-        if ( ! $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer) {
-            require_once GRFM_CORE . 'PHPMailer/Exception.php';
-            require_once GRFM_CORE . 'PHPMailer/PHPMailer.php';
-            require_once GRFM_CORE . 'PHPMailer/SMTP.php';
-            $phpmailer = new PHPMailer\PHPMailer\PHPMailer(true);
+        if ( ! $phpmailer instanceof PHPMailer) {
+            require_once GRFM_CORE . 'Mail/PHPMailer/Exception.php';
+            require_once GRFM_CORE . 'Mail/PHPMailer/PHPMailer.php';
+            require_once GRFM_CORE . 'Mail/PHPMailer/SMTP.php';
+            $phpmailer = new PHPMailer(true);
 
             $phpmailer::$validator = static function ($email) {
                 return Is::email($email);

@@ -21,7 +21,7 @@ class Users
 	 *
 	 * @since 1.0.0
 	 */
-	public static string $table = 'users';
+	protected static string $table = 'users';
 
 	/**
 	 * Create new table into database.

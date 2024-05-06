@@ -16,18 +16,19 @@ class I18n
      *
      * @since 1.0.0
      */
-    public static $locale;
+    public static string $locale;
 
-    /**
-     * Translation.
-     *
-     * @return mixed|string
-     *
-     * @since 1.0.0
-     */
+	/**
+	 * Translation.
+	 *
+	 * @param string $string
+	 * @return mixed|string
+	 *
+	 * @since 1.0.0
+	 */
     public static function __(string $string)
     {
-        $locale = self::getLocale();
+        $locale    = self::getLocale();
         $file_path = GRFM_PATH . 'dashboard/i18n/' . $locale . '.json';
         if (is_file($file_path)) {
             $json = file_get_contents($file_path);
@@ -40,8 +41,19 @@ class I18n
     }
 
 	/**
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return string
+	 */
+    public static function _s( string $string, mixed ...$args ): string
+	{
+		return sprintf( self::__( $string ), ...$args );
+	}
+
+	/**
 	 * Translation.
 	 *
+	 * @param string $string
 	 * @since 1.0.0
 	 */
 	public static function e(string $string): void
@@ -49,11 +61,13 @@ class I18n
 		echo self::__($string);
 	}
 
-    /**
-     * Get local from HTTP.
-     *
-     * @since 1.0.0
-     */
+	/**
+	 * Get local from HTTP.
+	 *
+	 * @param string $default
+	 * @return string
+	 * @since 1.0.0
+	 */
     public static function getLocale(string $default = 'en_US')
     {
         if ( ! isset(self::$locale) && function_exists('locale_accept_from_http')) {
@@ -62,6 +76,9 @@ class I18n
         return self::$locale ?? $default;
     }
 
+	/**
+	 * @param string $default
+	 */
     public static function locale(string $default = 'en_US')
     {
         echo self::getLocale($default);

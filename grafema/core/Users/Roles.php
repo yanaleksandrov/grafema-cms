@@ -9,8 +9,7 @@
 
 namespace Grafema\Users;
 
-use Grafema\Debug;
-use Grafema\Error;
+use Grafema\Errors;
 use Grafema\I18n;
 
 /**
@@ -58,14 +57,14 @@ class Roles
 	{
 		$roles = self::fetch();
 		if ( empty( $role ) || isset( $roles[$role] ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'Sorry, the role with this ID already exists.' ) );
+			return new Errors( 'roles-register', I18n::__( 'Sorry, the role with this ID already exists.' ) );
 		}
 
 		if ( is_string( $capabilities ) ) {
 			if ( isset( $roles[$capabilities] ) ) {
 				$capabilities = $roles[$capabilities]['capabilities'];
 			} else {
-				return new Error( Debug::get_backtrace(), I18n::__( 'You are trying to copy capabilities from a non exists role.' ) );
+				return new Errors( 'roles-register', I18n::__( 'You are trying to copy capabilities from a non exists role.' ) );
 			}
 		}
 
@@ -115,14 +114,14 @@ class Roles
 	 * Set capability to role.
 	 *
 	 * @param mixed $capability Single capability or capabilities array
-	 * @return bool|Error
+	 * @return bool|Errors
 	 * @since 1.0.0
 	 */
 	public static function set( string $role, $capability )
 	{
 		$roles = self::fetch();
 		if ( ! isset( $roles[$role] ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'You are trying set capability for non exists role.' ) );
+			return new Errors( 'roles-set', I18n::__( 'You are trying set capability for non exists role.' ) );
 		}
 
 		if ( is_array( $capability ) ) {
@@ -137,7 +136,7 @@ class Roles
 	/**
 	 * Remove capability from role.
 	 *
-	 * @return bool|Error
+	 * @return bool|Errors
 	 *
 	 * @since 1.0.0
 	 */
@@ -145,7 +144,7 @@ class Roles
 	{
 		$roles = self::fetch();
 		if ( ! isset( $roles[$role] ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'You are trying unset capability for non exists role.' ) );
+			return new Errors( 'roles-unset', I18n::__( 'You are trying unset capability for non exists role.' ) );
 		}
 
 		unset( $roles[$role]['capabilities'][$capability] );

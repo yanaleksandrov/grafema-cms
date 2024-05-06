@@ -4,9 +4,8 @@ use Grafema\{
 	I18n,
 	Json,
 	View,
-	Debug,
 	Hook,
-	Error,
+	Errors,
 	Sanitizer,
 	Helpers\Arr
 };
@@ -84,20 +83,14 @@ class Form {
 		// TODO:: wrong escaping, use sanitize
 		$uniqid = Esc::html( $uniqid, false );
 		if ( empty( $uniqid ) ) {
-			new Error(
-				Debug::get_backtrace(),
-				sprintf( I18n::__( 'The $uniqid of the form is empty.' ), $uniqid )
-			);
+			new Errors( 'form-register', sprintf( I18n::__( 'The $uniqid of the form is empty.' ), $uniqid ) );
 
 			return;
 		}
 
 		$form = self::init( $uniqid );
 		if ( isset( $form->uniqid ) ) {
-			new Error(
-				Debug::get_backtrace(),
-				sprintf( I18n::__( 'The form identified by %s already exists! Potential conflicts detected!' ), $uniqid )
-			);
+			new Errors( 'form-register', sprintf( I18n::__( 'The form identified by %s already exists! Potential conflicts detected!' ), $uniqid ) );
 		}
 
 		$form->uniqid     = $uniqid;
@@ -147,7 +140,7 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'Form fields is incorrect.' ) );
+			return new Errors( 'form-view', I18n::__( 'Form fields is incorrect.' ) );
 		}
 
 		/**
@@ -251,6 +244,10 @@ class Form {
 			// parse conditions
 			if ( ! empty( $field['conditions'] ) ) {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
+				echo '<pre>';
+				var_dump( 54354 );
+				print_r( $field );
+				echo '</pre>';
 			}
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
@@ -310,13 +307,13 @@ class Form {
 	 * Adding a new field to the end of the array with all fields.
 	 *
 	 * @param array $field
-	 * @return void|Error
+	 * @return void|Errors
 	 */
 	public function addField( array $field ) {
 		$fields   = $this->fields ?? [];
 		$field_id = trim( strval( $field['ID'] ?? '' ) );
 		if ( empty( $field_id ) ) {
-			return new Error( Debug::get_backtrace(), I18n::__( 'It is not possible to add a field with an empty ID.' ) );
+			return new Errors( 'form-add-field', I18n::__( 'It is not possible to add a field with an empty ID.' ) );
 		}
 
 		$insert_places = array_filter( [ $this->after, $this->before, $this->instead ] );

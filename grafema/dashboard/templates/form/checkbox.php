@@ -32,7 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'tooltip'     => 'attribute',
 			'copy'        => 'bool:false',
 			'attributes'  => 'array',
-			'conditions'  => 'array',
+			'conditions'  => 'trim',
 			'options'     => 'array',
         ]
     )

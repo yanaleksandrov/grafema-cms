@@ -25,13 +25,12 @@ class Errors extends Errors\Handler {
 	 * Though the class is constructed with a single error code and
 	 * message, multiple codes can be added using the `add()` method.
 	 *
+	 * @param string|int $code                Errors code.
+	 * @param string|array|Validator $message Error single message or array of messages.
 	 * @since 1.0.0
-	 *
-	 * @param string|int $code      Errors code.
-	 * @param string|array $message Errors message.
 	 */
-	public function __construct( string|int $code, string|array $message = '' ) {
-		(new Errors\Handler())->push( $code, $message );
+	public function __construct( string|int $code, string|array|Validator $message = '' ) {
+		self::add( $code, $message );
 
 		return $this;
 	}
@@ -39,14 +38,19 @@ class Errors extends Errors\Handler {
 	/**
 	 * Add an error or append additional message to an existing error.
 	 *
-	 * @param string|int $code      Errors code.
-	 * @param string|array $message Errors message.
+	 * @param string|int $code                Errors code.
+	 * @param string|array|Validator $message Error single message or array of messages.
 	 * @return void
-	 *
 	 * @since 1.0.0
 	 */
-	public static function add( string|int $code, string|array $message = '' ): void {
-		(new Errors\Handler())->push( $code, $message );
+	public static function add( string|int $code, string|array|Validator $message = '' ): void {
+		if ( $message instanceof Validator ) {
+			foreach ( $message->errors as $key => $errors ) {
+				(new Errors\Handler())->push( sprintf( '%s-%s', $code, $key ), $errors );
+			}
+		} else {
+			(new Errors\Handler())->push( $code, $message );
+		}
 	}
 
 	/**

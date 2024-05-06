@@ -93,3 +93,9 @@ document.addEventListener('user/sign-in', ({ detail: { data } }) => {
 		window.location.href = data.redirect;
 	}
 });
+
+document.addEventListener('user/reset-password', ({ detail: { data } }) => {
+	if (data.logged && data.redirect) {
+		window.location.href = data.redirect;
+	}
+});

@@ -1,4 +1,7 @@
 <?php
+use Grafema\View;
+use Grafema\I18n;
+
 /**
  * Grafema is installed information
  *
@@ -16,10 +19,6 @@ $template = trim( $args['body_template'] ?? '' );
 if ( empty( $template ) || ! file_exists( $template ) ) {
 	return false;
 }
-
-$styles = [
-	'' => '',
-];
 ?>
 <table style="margin: 20px auto; padding: 0; width: 90%; max-width: 560px; color: #151d26;">
 	<tbody>

@@ -295,6 +295,8 @@ $route->get( '(.*)', function ( $slug ) use ( $route ) {
 		View::redirect( Url::site( 'dashboard' ) );
 		exit;
 	}
+
+	printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() );
 } );
 
 $route->run();

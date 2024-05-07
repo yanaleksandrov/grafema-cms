@@ -35,31 +35,28 @@ $media = Query::apply(
 				continue;
 			}
 
-			[$name, $mime, $width, $height] = array_values(
-				( new Grafema\Sanitizer() )->apply(
-					$thumbnail,
-					[
-						'name'   => 'text',
-						'mime'   => 'mime',
-						'width'  => 'absint',
-						'height' => 'absint',
-					]
-				)
-			);
+			[$name, $mime, $width, $height] = ( new Grafema\Sanitizer(
+				$thumbnail,
+				[
+					'name'   => 'text',
+					'mime'   => 'mime',
+					'width'  => 'absint',
+					'height' => 'absint',
+				]
+            ) )->values();
 
 			if ( ! $mime || ! $width || ! $height ) {
 				continue;
 			}
 
-			$filepath          = sprintf( '%s%s%s', GRFM_UPLOADS, sprintf( 'i/%sx%s/', $width, $height ), $post['title'] ?? '' );
+			$filepath          = sprintf( '%si/%sx%s/%s', GRFM_UPLOADS, $width, $height, $post['slug'] ?? '' );
 			$allowed_extension = [
 				'image/jpeg' => IMAGETYPE_JPEG,
 				'image/png'  => IMAGETYPE_PNG,
 				'image/webp' => IMAGETYPE_WEBP,
 			];
-			if ( in_array( $mime, array_keys( $allowed_extension ), true ) ) {
-				$extension = image_type_to_extension( $allowed_extension[$mime] );
-				$filepath  = preg_replace( '/\.[^.]+$/', $extension, $filepath );
+			if ( ! in_array( $mime, array_keys( $allowed_extension ), true ) ) {
+				continue;
 			}
 			$posts[$i]['thumbnail'] = Url::fromPath( $filepath );
 		}
@@ -72,54 +69,15 @@ $media = Query::apply(
 <!--	--><?php //echo Dashboard\Form::view( 'grafema-posts-filter' ); ?>
 <!--</div>-->
 <div class="grafema-main" x-data="{showUploader: false, files: <?php echo $media; ?>}">
-<?php
-View::part(
-	'templates/table/header',
-	[
-		'title' => I18n::__( 'Media' ),
-	]
-);
-?>
-	<div class="df aic p-8 sm:p-5">
-		<div class="mr-2">
-			<h4>Media Library</h4>
-			<div class="t-muted fs-12 mw-600">data about all registered users</div>
-		</div>
-		<div class="ml-auto">
-			<button class="btn btn--outline" @click="showUploader = !showUploader"><i class="ph ph-folder-simple-plus"></i> Add new file</button>
-		</div>
-	</div>
-	<div class="dg g-3 p-8 sm:p-5 pt-0 pb-0" x-show="showUploader" x-cloak>
-		<?php
-        View::part(
-            'templates/form/uploader',
-            [
-                'description' => I18n::__( 'Click to upload or drag & drop' ),
-                'attributes'  => [
-                    'required' => false,
-                    'multiple' => true,
-                    'x-ref'    => 'uploader',
-                    '@change'  => '[...$refs.uploader.files].map(file => $ajax("media/upload").then(response => files.unshift(response[0])))',
-                ],
-            ]
-        );
-        View::part(
-            'templates/form/textarea',
-            [
-                'name'       => 'urls',
-                'label'      => I18n::__( 'Or upload from URL' ),
-                'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
-                'attributes' => [
-                    'required'    => false,
-                    'placeholder' => I18n::__( 'Input file URL(s)' ),
-                    '@change'     => '$ajax("files/grab").then(response => files = response)',
-                    'x-textarea'  => 99,
-                ],
-            ]
-        );
-        ?>
-	</div>
-
+    <?php
+    View::part(
+        'templates/table/header',
+        [
+            'title' => I18n::__( 'Media Library' ),
+			'show'  => $media !== '[]',
+        ]
+    );
+    ?>
 	<template x-if="files.length">
 		<div class="storage">
 			<template x-for="file in files">

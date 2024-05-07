@@ -15,6 +15,7 @@ use Grafema\Patterns;
 use Grafema\File\File;
 use Grafema\File\Image;
 use Grafema\Sanitizer;
+use Grafema\Url;
 
 class Media extends \Grafema\Api\Handler
 {
@@ -30,89 +31,89 @@ class Media extends \Grafema\Api\Handler
 	 */
 	public static function upload(): array
 	{
-		$files = [];
-		if ( $_FILES && is_array( $_FILES ) ) {
-			foreach ( $_FILES as $file ) {
-				// upload original image
-				$original_file = File::upload(
-					$file,
-					function( $file ) {
-						$file->set_directory( 'i/original' );
-					}
-				);
+		$posts = [];
+		$files = Sanitizer::array( $_FILES ?? [] );
+		foreach ( $files as $file ) {
+			// upload original image
+			$uploadedFile = ( new File() )->to( GRFM_UPLOADS . 'i/original/' )->upload( $file );
 
-				// now make smaller copies
-				$file_path = $original_file['path'] ?? '';
-				if ( ! $file_path ) {
+			if ( ! $uploadedFile instanceof File ) {
+				continue;
+			}
+
+			// now make smaller copies
+			$filepath = Sanitizer::path( $uploadedFile->path ?? '' );
+			if ( ! $filepath ) {
+				continue;
+			}
+
+			$sizes = Patterns\Registry::get( 'images' );
+			$sizes = Sanitizer::array( $sizes );
+			foreach ( $sizes as $size ) {
+				[ $name, $mime, $width, $height ] = (
+					new Sanitizer(
+						$size,
+						[
+							'name'   => 'text',
+							'mime'   => 'mime',
+							'width'  => 'absint',
+							'height' => 'absint',
+						]
+					)
+				)->values();
+
+				if ( ! $mime || ! $width || ! $height ) {
 					continue;
 				}
 
-				$image = new Image();
-				$sizes = Patterns\Registry::get( 'jb.images' );
-				if ( is_array( $sizes ) && $sizes !== [] ) {
-					foreach ( $sizes as $size ) {
-						[ 'mime' => $mime, 'width' => $width, 'height' => $height ] = (
-							new Sanitizer(
-								$size,
-								[
-									'name'   => 'text',
-									'mime'   => 'mime',
-									'width'  => 'absint',
-									'height' => 'absint',
-								]
-							)
-						)->apply();
+				$file_resized = sprintf( '/i/%s/', implode( 'x', [ $width, $height ] ) );
+				$file_resized = str_replace( '/i/original/', $file_resized, $filepath );
 
-						if ( ! $mime || ! $width || ! $height ) {
-							continue;
-						}
-
-						$file_resized = sprintf( '/i/%s/', implode( 'x', [ $width, $height ] ) );
-						$file_resized = str_replace( '/i/original/', $file_resized, $file_path );
-
-						$image->fromFile( $file_path )->thumbnail( $width, $height )->toFile( $file_resized, $mime );
-					}
-				}
-
-				$files[] = $original_file;
+				( new Image() )->fromFile( $filepath )->thumbnail( $width, $height )->toFile( $file_resized, $mime );
 			}
-		}
 
-		$posts = [];
-		if ( $files ) {
-			foreach ( $files as $file ) {
-				$post_id = Post::add(
-					'media',
-					[
-						'status' => 'publish',
-						'slug'   => $file['slug'],
-						'fields' => [
-							'mime' => $file['mime'],
-						],
-					]
-				);
+			$post_id = Post::add(
+				'media',
+				[
+					'status' => 'publish',
+					'slug'   => $uploadedFile->data['basename'],
+					'fields' => [
+						'mime' => $uploadedFile->data['mime'],
+					],
+				]
+			);
 
-				if ( $post_id ) {
-					$posts[] = Post::get( 'media', $post_id );
-				}
+			if ( $post_id ) {
+				$posts[] = Post::get( 'media', $post_id );
 			}
 		}
 
 		return [
-			[
-				'fragment' => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
-				'target'   => 'body',
-				'method'   => 'notify',
-				'custom'   => [
-					'type'     => count( $posts ) > 0 ? 'success' : 'error',
-					'duration' => 5000,
-				],
-			],
-			[
-				'fragment' => $posts,
-				'target'   => 'body',
-				'method'   => 'alpine',
-			],
+			'notice'   => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
+			'uploaded' => count( $posts ) > 0,
+			'posts'    => $posts,
+		];
+	}
+
+	/**
+	 * Upload files from external url.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function grab(): array {
+		$files = [];
+		$urls  = Url::extract( $_POST['urls'] ?? '' );
+		if ( $urls ) {
+			foreach ( $urls as $url ) {
+				$file = ( new File() )->to( GRFM_UPLOADS . 'i/' )->grab( $url );
+				print_r( $file );
+			}
+		}
+
+		return [
+			'files'      => $files,
+			'notice'     => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
+			'filesCount' => count( $files ),
 		];
 	}
 }

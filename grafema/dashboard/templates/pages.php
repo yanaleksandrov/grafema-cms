@@ -24,8 +24,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-( new Dashboard\Tables\Pages() )->render();
-?>
+    ( new Dashboard\Tables\Pages() )->render();
+    ?>
 </div>
 
 <div class="modal" id="grafema-posts-creator" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>

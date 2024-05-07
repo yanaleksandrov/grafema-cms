@@ -15,12 +15,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $title ] = ( new Sanitizer(
+[ $title, $show ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'title' => 'trim',
+		'show'  => 'bool:true',
 	]
 ) )->values();
+
+if ( ! $show ) {
+    return;
+}
 ?>
 <!-- table head start -->
 <div class="table__header">
@@ -66,6 +71,38 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				]
 			);
 			?>
+            <button class="btn btn--outline" @click="showUploader = !showUploader"><i class="ph ph-folder-simple-plus"></i> Add new file</button>
 		</div>
 	</div>
+    <div class="dg g-3" x-show="showUploader" x-cloak>
+		<?php
+		View::part(
+			'templates/form/uploader',
+			[
+				'description' => I18n::__( 'Click to upload or drag & drop' ),
+				'attributes'  => [
+					'required' => false,
+					'multiple' => true,
+					'x-ref'    => 'uploader',
+					'@change'  => '[...$refs.uploader.files].map(file => $ajax("media/upload").then(response => files.unshift(response[0])))',
+				],
+			]
+		);
+		View::part(
+			'templates/form/textarea',
+			[
+				'label'      => I18n::__( 'Or upload from URL' ),
+				'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
+				'attributes' => [
+					'name'         => 'urls',
+					'x-model.fill' => 'urls',
+					'required'      => false,
+					'placeholder'   => I18n::__( 'Input file URL(s)' ),
+					'@change'       => '$ajax("media/grab", {urls}).then(response => files = response)',
+					'x-textarea'    => 99,
+				],
+			]
+		);
+		?>
+    </div>
 </div>

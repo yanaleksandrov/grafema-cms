@@ -90,13 +90,13 @@ class Sanitizer
 
 				$extension = isset( $this->extensions[$method] ) ? $this->extensions[$method] : null;
 				if ( ! empty( $key ) ) {
-					$value = $this->data[$field][$key] ?? ( $this->fields[$field][$key] ?? '' );
+					$value = $this->data[$field][$key] ?? ( $this->fields[$field][$key] ?? null );
 				} else {
-					$value = $this->data[$field] ?? ( $this->fields[$field] ?? '' );
+					$value = $this->data[$field] ?? ( $this->fields[$field] ?? null );
 				}
 
 				// set default value if incoming is empty & default is not empty
-				if ( empty( $value ) && ! empty( $default_value ) ) {
+				if ( $value === null && ! empty( $default_value ) ) {
 					$value = $default_value;
 
 					// substring "$" at the beginning, means that the default value must be taken from another field

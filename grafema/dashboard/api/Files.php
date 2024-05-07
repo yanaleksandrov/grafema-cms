@@ -58,25 +58,4 @@ class Files extends \Grafema\Api\Handler
 		}
 		return [];
 	}
-
-	/**
-	 * Upload files from external url.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function grab(): array {
-		$files = [];
-		$urls  = Url::extract( $_POST['urls'] ?? '' );
-		if ( $urls ) {
-			foreach ( $urls as $url ) {
-				$files[] = ( new File() )->to( GRFM_UPLOADS . 'i/' )->grab( $url );
-			}
-		}
-
-		return [
-			'files'      => $files,
-			'notice'     => I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ),
-			'filesCount' => count( $files ),
-		];
-	}
 }

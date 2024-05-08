@@ -277,10 +277,6 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 * @since 1.0.0
 	 */
 	Hook::apply( 'grafema_dashboard_loaded', $slug );
-
-	printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() );
-
-	exit;
 } );
 
 $route->get( '(.*)', function ( $slug ) use ( $route ) {

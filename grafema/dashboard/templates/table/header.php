@@ -71,7 +71,7 @@ if ( ! $show ) {
 				]
 			);
 			?>
-            <button class="btn btn--outline" @click="showUploader = !showUploader"><i class="ph ph-folder-simple-plus"></i> Add new file</button>
+            <button class="btn btn--outline" @click="showUploader = !showUploader"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new file' ); ?></button>
 		</div>
 	</div>
     <div class="dg g-3" x-show="showUploader" x-cloak>
@@ -79,12 +79,10 @@ if ( ! $show ) {
 		View::part(
 			'templates/form/uploader',
 			[
-				'description' => I18n::__( 'Click to upload or drag & drop' ),
+				'instruction' => I18n::__( 'Click to upload or drag & drop' ),
 				'attributes'  => [
-					'required' => false,
+					'@change'  => '$ajax("media/upload", $el.files, e => percent = e.percent).then()',
 					'multiple' => true,
-					'x-ref'    => 'uploader',
-					'@change'  => '[...$refs.uploader.files].map(file => $ajax("media/upload").then(response => files.unshift(response[0])))',
 				],
 			]
 		);
@@ -104,5 +102,6 @@ if ( ! $show ) {
 			]
 		);
 		?>
+        <div class="progress" x-show="percent > 0" :style="{ '--grafema-progress': `${percent}%` }"></div>
     </div>
 </div>

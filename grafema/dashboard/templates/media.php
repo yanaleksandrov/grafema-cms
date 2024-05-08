@@ -29,16 +29,15 @@ $media = Query::apply(
 		}
 
 		foreach ( $posts as $i => $post ) {
-			$thumbnail = Patterns\Registry::get( 'images.thumbnail' );
+			$thumbnail = Patterns\Registry::get( 'images' );
 
 			if ( ! is_array( $post ) || ! is_array( $thumbnail ) ) {
 				continue;
 			}
 
-			[$name, $mime, $width, $height] = ( new Grafema\Sanitizer(
+			[$mime, $width, $height] = ( new Grafema\Sanitizer(
 				$thumbnail,
 				[
-					'name'   => 'text',
 					'mime'   => 'mime',
 					'width'  => 'absint',
 					'height' => 'absint',
@@ -60,6 +59,9 @@ $media = Query::apply(
 			}
 			$posts[$i]['thumbnail'] = Url::fromPath( $filepath );
 		}
+//		echo '<pre>';
+//		print_r( $posts );
+//		echo '</pre>';
 
 		return str_replace( '"', "'", Json::encode( $posts ) );
 	}
@@ -68,7 +70,7 @@ $media = Query::apply(
 <!--<div class="grafema-filter">-->
 <!--	--><?php //echo Dashboard\Form::view( 'grafema-posts-filter' ); ?>
 <!--</div>-->
-<div class="grafema-main" x-data="{showUploader: false, files: <?php echo $media; ?>}">
+<div class="grafema-main" x-data="{showUploader: false, percent: 0, uploader: null, files: <?php echo $media; ?>}">
     <?php
     View::part(
         'templates/table/header',

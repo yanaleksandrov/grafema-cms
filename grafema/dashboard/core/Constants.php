@@ -31,7 +31,6 @@ final class Constants
 			[
 				'thumbnail' => [
 					'name'   => I18n::__( 'Thumbnail' ),
-					'mime'   => 'image/webp',
 					'width'  => 240,
 					'height' => 240,
 				],

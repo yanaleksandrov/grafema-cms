@@ -703,9 +703,33 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.magic( 'ajax', el => (route, data) => {
+	const BYTES_IN_MB = 1048576;
+	Alpine.magic( 'ajax', el => (route, data, callback) => {
 		let formData  = new FormData(),
+			xhr       = new XMLHttpRequest(),
 			submitBtn = el.querySelector("[type='submit']");
+
+		function onProgress(event, xhr) {
+			const { loaded = 0, total = 0, type } = event;
+			const { response = '', status = '', responseURL = '' } = xhr;
+
+			return {
+				blob: new Blob([response]),
+				raw: response,
+				status,
+				url: responseURL,
+				loaded: convertTo(loaded),
+				total: convertTo(total),
+				percent: total > 0 ? Math.round((loaded / total) * 100) : 0,
+				start: type === 'loadstart',
+				progress: type === 'progress',
+				end: type === 'loadend',
+			}
+		}
+
+		function convertTo(number) {
+			return Math.round(number / BYTES_IN_MB * 100) / 100;
+		}
 
 		return new Promise(resolve => {
 			switch (el.tagName) {
@@ -723,36 +747,34 @@ document.addEventListener( 'alpine:init', () => {
 				case 'TEXTAREA':
 				case 'SELECT':
 				case 'INPUT':
-					if (el.type === 'file' && el.files) {
-						Array.from(el.files).forEach((file, index) => formData.append(index, file));
-					} else {
-						el.name && formData.append(el.name, el.value);
-					}
+					el.type !== 'file' && el.name && formData.append(el.name, el.value);
 					break;
 			}
 
-			if (data) {
-				const keys = Reflect.ownKeys(data);
-				if (keys) {
-					function proxyToObj(proxy) {
-						if (typeof proxy !== 'object' || proxy === null) {
-							return proxy;
-						}
-						const obj = Array.isArray(proxy) ? [] : {};
-
-						Reflect.ownKeys(proxy).forEach(key => {
-							obj[key] = proxyToObj(proxy[key]);
-						});
-
-						return obj;
-					}
-					data = proxyToObj(data);
-				}
-
+			if (typeof data === 'object') {
 				for (const [key, value] of Object.entries(data)) {
 					formData.append(key, value);
 				}
 			}
+
+			// if (data) {
+			// 	const keys = Reflect.ownKeys(data);
+			// 	if (keys) {
+			// 		function proxyToObj(proxy) {
+			// 			if (typeof proxy !== 'object' || proxy === null) {
+			// 				return proxy;
+			// 			}
+			// 			const obj = Array.isArray(proxy) ? [] : {};
+			//
+			// 			Reflect.ownKeys(proxy).forEach(key => {
+			// 				obj[key] = proxyToObj(proxy[key]);
+			// 			});
+			//
+			// 			return obj;
+			// 		}
+			// 		data = proxyToObj(data);
+			// 	}
+			// }
 
 			if (submitBtn) {
 				Object.assign(submitBtn.style, {
@@ -766,38 +788,35 @@ document.addEventListener( 'alpine:init', () => {
 				});
 			}
 
-			let method  = el.getAttribute('method')?.toUpperCase() ?? 'POST';
-			let request = new XMLHttpRequest();
+			let method = el.getAttribute('method')?.toUpperCase() ?? 'POST';
 
-			request.withCredentials = true;
-			request.responseType    = 'json';
+			xhr.withCredentials = true;
+			xhr.responseType    = 'json';
 
-			request.open(method, index.apiurl + route);
-			request.send(formData);
+			xhr.open(method, index.apiurl + route);
 
-			request.upload.onprogress = event => {
-				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
-			}
-
-			request.onprogress = event => {
-				console.log(`Progress ${parseInt(event.loaded / event.total * 100)}%`);
-			}
-
-			request.onload = event => {
+			// regular ajax sending & request with file uploading
+			xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
+			xhr.onloadend   = event => resolve(() => callback?.(onProgress(event, xhr)));
+			xhr.onload      = event => {
 				document.dispatchEvent(
 					new CustomEvent(route, {
-						detail: { data: request.response?.data, event, el, resolve },
+						detail: { data: xhr.response?.data, event, el, resolve },
 						bubbles: true,
 						// Allows events to pass the shadow DOM barrier.
 						composed: true,
 						cancelable: true
 					})
 				);
-
-				el.classList.remove('btn--load');
-
-				submitBtn && submitBtn.removeAttribute('style');
 			};
+
+			xhr.send(formData);
+		}).then(response => {
+			el.classList.remove('btn--load');
+
+			submitBtn && submitBtn.removeAttribute('style');
+
+			return response();
 		});
 	});
 
@@ -1179,7 +1198,7 @@ document.addEventListener( 'alpine:init', () => {
 		new IntersectionObserver((entries, observer) => {
 			entries.forEach(entry => {
 				if(entry.isIntersecting) {
-					let [value = 100, from = 0, to = 100, duration = '0ms'] = modifiers;
+					let [value = 100, from = 0, to = 100, duration = '400ms'] = modifiers;
 
 					let start = parseInt(from) / parseInt(value) * 100;
 					let end   = parseInt(to) / parseInt(value) * 100;

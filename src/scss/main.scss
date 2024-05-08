@@ -598,7 +598,6 @@ img {
   }
 
   &:after {
-    background-color: var(--grafema-bg-universal);
     content: "" attr(alt) "";
     color: #646464;
     display: flex;

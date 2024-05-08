@@ -12,7 +12,7 @@ Dashboard\Form::register(
 	[
 		'class'   => 'tab tab--vertical',
 		'x-data'  => "{tab:'general'}",
-		'@change' => '$ajax("settings/save")',
+		'@change' => '$ajax("options/update")',
 	],
 	function ( $form ) {
 		$form->addFields(

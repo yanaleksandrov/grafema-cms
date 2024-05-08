@@ -605,11 +605,10 @@ class Sanitizer
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param mixed $value mime type
-	 *
-	 * @return string sanitized mime type
+	 * @param mixed $value Mime type.
+	 * @return string      Sanitized mime type.
 	 */
-	public static function mime( string $value ): string
+	public static function mime( mixed $value ): string
 	{
 		return preg_replace( '/[^-+*.a-zA-Z0-9\/]/', '', self::trim( $value ) );
 	}
@@ -726,5 +725,47 @@ class Sanitizer
 
 		// removing the remaining bits
 		return preg_replace( '#&[^;]+;#', '', $value );
+	}
+
+	/**
+	 * Sanitizes a filename, replacing whitespace with dashes.
+	 *
+	 * Removes special characters that are illegal in filenames on certain
+	 * operating systems and special characters requiring special escaping
+	 * to manipulate at the command line. Replaces spaces and consecutive
+	 * dashes with a single dash. Trims period, dash and underscore from beginning
+	 * and end of filename. It is not guaranteed that this function will return a
+	 * filename that is allowed to be uploaded.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $value The filename to be sanitized.
+	 * @return string       The sanitized filename.
+	 */
+	public static function filename( string $value ): string {
+		$filename  = pathinfo( $value, PATHINFO_FILENAME );
+		$extension = pathinfo( $value, PATHINFO_EXTENSION );
+
+		// remove accents
+		$filename = self::accents( $filename );
+
+		// remove not allowed symbols
+		$specialChars = '"!@#$%&*()_-~+=|{[}]/?;:.,\\\'<>«»”“’`°ºª�' . chr( 0 );
+		$filename     = str_replace( mb_str_split( $specialChars ), '', $filename );
+
+		// remove not allowed symbols & letters with diacritics
+		$letters      = 'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜüÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿRr';
+		$replacements = 'aaaaaaaceeeeiiiidnoooooouuuuuybsaaaaaaaceeeeiiiidnoooooouuuyybyrr';
+		$filename     = str_replace( mb_str_split( $letters ), mb_str_split( $replacements ), $filename );
+
+		// remove whitespaces
+		$filename = str_replace( ' ', '-', $filename );
+
+		// remove duplicate hyphens, tabs & new lines
+		$filename = preg_replace( '/[\r\n\t -]+/', '-', $filename );
+		$filename = preg_replace( '/[-\s]+/', '-', $filename );
+		$filename = trim( $filename, '.-_' );
+
+		return sprintf( '%s.%s', $filename, $extension );
 	}
 }

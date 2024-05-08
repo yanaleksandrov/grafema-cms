@@ -13,8 +13,6 @@ use Dashboard\Form;
 use Grafema\File\File;
 use Grafema\File\Csv;
 use Grafema\Sanitizer;
-use Grafema\Url;
-use Grafema\I18n;
 use Grafema\View;
 
 class Files extends \Grafema\Api\Handler

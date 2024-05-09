@@ -187,8 +187,13 @@ class Handler {
 		];
 
 		$result = $bytes / pow( 1024, $formats[$format] ?? 0 );
+		$result = number_format( $result, 2, '.' );
+		$result = rtrim( $result, '0' );
+		if ( substr( $result, -1 ) === '.' ) {
+			$result = rtrim( $result, '.' );
+		}
 
-		return floatval( number_format( $result, 2, '.' ) );
+		return round( floatval( $result ), 2 );
 	}
 
 	/**
@@ -208,7 +213,14 @@ class Handler {
 			$i = array_search( $format, $sizes );
 		}
 
-		return sprintf( '%.02F %s', $bytes / pow( 1024, $i ), $sizes[ $i ] );
+		$result = round( $bytes / pow(1024, $i ), 2 );
+		$result = number_format( $result, 2 );
+		$result = rtrim( $result, '0' );
+		if ( substr( $result, -1 ) === '.' ) {
+			$result = rtrim( $result, '.' );
+		}
+
+		return sprintf( '%s %s', $result, $sizes[ $i ] );
 	}
 
 	/**

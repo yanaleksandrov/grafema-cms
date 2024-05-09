@@ -17,10 +17,11 @@ Dashboard\Form::register(
 		$form->addFields(
 			[
 				[
-					'name'   => 'permalinks',
-					'type'   => 'group',
-					'label'  => I18n::__( 'Permalink' ),
-					'fields' => [
+					'name'    => 'permalinks',
+					'type'    => 'group',
+					'label'   => I18n::__( 'Permalink' ),
+					'columns' => 1,
+					'fields'  => [
 						[
 							'name'       => 'permalink',
 							'type'       => 'text',
@@ -28,23 +29,6 @@ Dashboard\Form::register(
 							'class'      => 'dg g-1 ga-2',
 							'attributes' => [
 								'required' => true,
-							],
-						],
-					],
-				],
-				[
-					'name'   => 'thumbnail',
-					'type'   => 'group',
-					'label'  => I18n::__( 'Thumbnail' ),
-					'fields' => [
-						[
-							'name'        => 'owners',
-							'type'        => 'text',
-							'label'       => I18n::__( 'Owner email address' ),
-							'instruction' => I18n::__( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. The new address will not become active until confirmed.' ),
-							'class'       => 'dg g-1 ga-2',
-							'attributes'  => [
-								'x-media' => '',
 							],
 						],
 					],
@@ -58,6 +42,7 @@ Dashboard\Form::register(
 							'name'       => 'visibility',
 							'type'       => 'select',
 							'label'      => I18n::__( 'Visibility' ),
+							'class'      => 'df aic fs-12 t-muted',
 							'value'      => 'public',
 							'attributes' => [
 								'x-select' => '{"showSearch":1}',
@@ -72,6 +57,7 @@ Dashboard\Form::register(
 							'name'       => 'status',
 							'type'       => 'select',
 							'label'      => I18n::__( 'Status' ),
+							'class'      => 'df aic fs-12 t-muted',
 							'value'      => 'publish',
 							'attributes' => [
 								'x-select' => '{"showSearch":1}',
@@ -83,20 +69,11 @@ Dashboard\Form::register(
 							],
 						],
 						[
-							'name'        => 'tagline',
-							'type'        => 'text',
-							'label'       => I18n::__( 'Template' ),
-							'instruction' => I18n::__( 'Templates define the way content is displayed when viewing your site' ),
-							'attributes'  => [
-								'required'    => true,
-								'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
-							],
-						],
-						[
 							'name'        => 'language',
 							'type'        => 'select',
 							'label'       => I18n::__( 'Author' ),
-							'instruction' => I18n::__( 'Some description' ),
+							'instruction' => '',
+							'class'       => 'df aic fs-12 t-muted',
 							'value'       => 'us',
 							'attributes'  => [
 								'x-select' => '{"showSearch":1}',
@@ -114,6 +91,17 @@ Dashboard\Form::register(
 									'image'   => 'assets/images/flags/il.svg',
 									'content' => I18n::__( 'עִבְרִית - Hebrew' ),
 								],
+							],
+						],
+						[
+							'name'        => 'date',
+							'type'        => 'date',
+							'label'       => I18n::__( 'Published on' ),
+							'class'       => 'df aic fs-12 t-muted',
+							'instruction' => '',
+							'attributes'  => [
+								'required'    => true,
+								'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
 							],
 						],
 					],

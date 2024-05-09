@@ -1183,15 +1183,14 @@
 
 .storage {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 0.65rem;
   padding: 1.25rem 1.75rem 1.75rem;
 
   &__item {
     background-color: var(--grafema-bg-universal);
     background-position: 0 0,10px 10px;
-    background-size: calc(2 * 10px) calc(2 * 10px);
-    border-radius: var(--grafema-border-radius);
+    border-radius: 2px;
     border: 1px solid var(--grafema-border);
     overflow: hidden;
     color: var(--grafema-text-muted);
@@ -1216,29 +1215,24 @@
   &__meta {
     font-weight: 600;
     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 9;
     inset: inherit 0 0 0;
-    padding: 1rem;
-    color: var(--grafema-white);
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
+    padding: 0.5rem 0.75rem;
+    background: var(--grafema-bg);
+    border-top: 1px solid var(--grafema-border);
   }
 
   &__data {
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 400;
     color: var(--grafema-text-muted);
+    font-family: var(--grafema-font-code);
     display: flex;
     line-height: 1;
-  }
-
-  &__icon {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
   }
 
   &__image {
@@ -1248,6 +1242,8 @@
     inset: 0;
     margin: auto;
     max-height: 100%;
+    width: auto;
+    height: auto;
   }
 }
 

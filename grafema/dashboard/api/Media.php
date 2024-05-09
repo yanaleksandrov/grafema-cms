@@ -14,6 +14,7 @@ use Grafema\File\Image;
 use Grafema\Files;
 use Grafema\I18n;
 use Grafema\File\File;
+use Grafema\Post\Post;
 use Grafema\Sanitizer;
 use Grafema\Url;
 
@@ -23,6 +24,23 @@ class Media extends \Grafema\Api\Handler
 	 * Endpoint name.
 	 */
 	public string $endpoint = 'media';
+
+	/**
+	 * Get media files.
+	 *
+	 * @since 1.0.0
+	 */
+	public static function get() {
+		$media = \Grafema\Media::get(
+			[
+				'per_page' => 60,
+			]
+		);
+
+		return [
+			'posts' => $media,
+		];
+	}
 
 	/**
 	 * Upload new file to media.
@@ -43,7 +61,7 @@ class Media extends \Grafema\Api\Handler
 			if ( $postID instanceof Errors ) {
 				$errors[ $filename ] = Errors::get();
 			} else {
-				$posts[] = $postID;
+				$posts[] = Post::get( 'media', $postID );
 			}
 		}
 

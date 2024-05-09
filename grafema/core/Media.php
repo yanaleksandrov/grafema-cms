@@ -8,6 +8,7 @@
  */
 namespace Grafema;
 
+use Grafema\Query\Query;
 use Grafema\File\Image;
 use Grafema\Post\Post;
 
@@ -17,6 +18,97 @@ use Grafema\Post\Post;
  * @since 1.0.0
  */
 class Media {
+
+	/**
+	 * Get media files.
+	 *
+	 * @param array $args
+	 * @param bool $returnJson
+	 * @return string|array
+	 */
+	public static function get( array $args = [], bool $returnJson = false ): string|array {
+		$args = array_merge( [
+			'type'     => 'media',
+			'page'     => 1,
+			'per_page' => 30,
+		], $args );
+
+		$posts = Query::apply( $args, function ( $posts ) {
+			if ( ! is_array( $posts ) ) {
+				return $posts;
+			}
+
+			$sizes = Patterns\Registry::get( 'images' );
+			foreach ( $posts as $i => $post ) {
+				if ( ! is_array( $post ) || ! is_array( $sizes ) ) {
+					continue;
+				}
+
+				$filepath = sprintf( '%si/original/%s', GRFM_UPLOADS, $post['slug'] ?? '' );
+				if ( file_exists( $filepath ) ) {
+					$file      = Files::open( $filepath );
+					$iconPath  = sprintf( '%sassets/images/files/%s.svg', GRFM_DASHBOARD, $file->type ?? 'default' );
+					$posts[$i] = [
+						...$post,
+						...[
+							'url'          => Url::fromPath( $filepath ),
+							'icon'         => Url::fromPath( $iconPath ),
+							'path'         => $file->path,
+							'extension'    => $file->extension,
+							'basename'     => $file->basename,
+							'filename'     => $file->filename,
+							'mime'         => $file->mime,
+							'type'         => $file->type,
+							'size'         => $file->size,
+							'sizeKb'       => $file->sizeKb,
+							'sizeMb'       => $file->sizeMb,
+							'sizeHumanize' => $file->sizeHumanize,
+						]
+					];
+				}
+
+				foreach ( $sizes as $key => $size ) {
+					$width  = Sanitizer::absint( $size['width'] ?? 0 );
+					$height = Sanitizer::absint( $size['height'] ?? 0 );
+					if ( ! $width || ! $height ) {
+						continue;
+					}
+
+					$filepath = sprintf( '%si/%sx%s/%s', GRFM_UPLOADS, $width, $height, $post['slug'] ?? '' );
+					if ( file_exists( $filepath ) ) {
+						$file     = Files::open( $filepath );
+						$iconPath = sprintf( '%sassets/images/files/%s.svg', GRFM_DASHBOARD, $file->type ?? 'default' );
+
+						$posts[$i]['sizes'][$key] = [
+							'url'          => Url::fromPath( $filepath ),
+							'icon'         => Url::fromPath( $iconPath ),
+							'width'        => $width,
+							'height'       => $height,
+							'path'         => $file->path,
+							'extension'    => $file->extension,
+							'basename'     => $file->basename,
+							'filename'     => $file->filename,
+							'mime'         => $file->mime,
+							'type'         => $file->type,
+							'size'         => $file->size,
+							'sizeKb'       => $file->sizeKb,
+							'sizeMb'       => $file->sizeMb,
+							'sizeHumanize' => $file->sizeHumanize,
+						];
+					}
+				}
+			}
+
+			return $posts;
+		} );
+
+//		echo '<pre>';
+//		print_r( $posts );
+		if ( $returnJson ) {
+			return str_replace( '"', "'", Json::encode( $posts ) );
+		}
+		return $posts;
+	}
 
 	/**
 	 * Uploads the file transmitted in the form to the Grafema downloads folder
@@ -69,7 +161,7 @@ class Media {
 			'media',
 			[
 				'status' => 'publish',
-				'title'  => $originalFile->basename,
+				'title'  => $originalFile->filename,
 				'slug'   => $originalFile->basename,
 				'fields' => [
 					'mime' => $originalFile->mime,

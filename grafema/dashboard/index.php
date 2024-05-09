@@ -109,7 +109,7 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="index">
+<body x-data="{grafema: index}">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema">
 			<div class="grafema-panel">

@@ -1,6 +1,62 @@
 document.addEventListener( 'alpine:init', () => {
 
 	/**
+	 * Intersect event
+	 *
+	 * @since 1.0
+	 */
+	Alpine.directive( 'intersect', (el, { value, expression, modifiers }, { evaluateLater, cleanup }) => {
+		function getThreshold(modifiers) {
+			if (modifiers.includes("full"))
+				return 0.99;
+			if (modifiers.includes("half"))
+				return 0.5;
+			if (!modifiers.includes("threshold"))
+				return 0;
+			let threshold = modifiers[modifiers.indexOf("threshold") + 1];
+			if (threshold === "100")
+				return 1;
+			if (threshold === "0")
+				return 0;
+			return Number(`.${threshold}`);
+		}
+		function getLengthValue(rawValue) {
+			let match = rawValue.match(/^(-?[0-9]+)(px|%)?$/);
+			return match ? match[1] + (match[2] || "px") : void 0;
+		}
+		function getRootMargin(modifiers) {
+			const key = "margin";
+			const fallback = "0px 0px 0px 0px";
+			const index = modifiers.indexOf(key);
+			if (index === -1)
+				return fallback;
+			let values = [];
+			for (let i = 1; i < 5; i++) {
+				values.push(getLengthValue(modifiers[index + i] || ""));
+			}
+			values = values.filter((v) => v !== void 0);
+			return values.length ? values.join(" ").trim() : fallback;
+		}
+
+		let evaluate = evaluateLater(expression);
+		let options = {
+			rootMargin: getRootMargin(modifiers),
+			threshold: getThreshold(modifiers)
+		};
+		let observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting === (value === "leave")) {
+					return;
+				}
+				evaluate();
+				modifiers.includes("once") && observer.disconnect();
+			});
+		}, options);
+		observer.observe(el);
+		cleanup(() => observer.disconnect());
+	});
+
+	/**
 	 * Sticky sidebar
 	 *
 	 * @since 1.0
@@ -713,7 +769,7 @@ document.addEventListener( 'alpine:init', () => {
 			const { loaded = 0, total = 0, type } = event;
 			const { response = '', status = '', responseURL = '' } = xhr;
 
-			return {
+			let data = {
 				blob: new Blob([response]),
 				raw: response,
 				status,
@@ -725,6 +781,12 @@ document.addEventListener( 'alpine:init', () => {
 				progress: type === 'progress',
 				end: type === 'loadend',
 			}
+
+			if (data.end) {
+				console.log(data);
+			}
+
+			return data;
 		}
 
 		function convertTo(number) {
@@ -757,25 +819,6 @@ document.addEventListener( 'alpine:init', () => {
 				}
 			}
 
-			// if (data) {
-			// 	const keys = Reflect.ownKeys(data);
-			// 	if (keys) {
-			// 		function proxyToObj(proxy) {
-			// 			if (typeof proxy !== 'object' || proxy === null) {
-			// 				return proxy;
-			// 			}
-			// 			const obj = Array.isArray(proxy) ? [] : {};
-			//
-			// 			Reflect.ownKeys(proxy).forEach(key => {
-			// 				obj[key] = proxyToObj(proxy[key]);
-			// 			});
-			//
-			// 			return obj;
-			// 		}
-			// 		data = proxyToObj(data);
-			// 	}
-			// }
-
 			if (submitBtn) {
 				Object.assign(submitBtn.style, {
 					"background-image": "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Z' stroke='%23fff' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M15 8a7 7 0 0 0-7-7' stroke='%23fff' stroke-width='2'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E\")",
@@ -788,16 +831,14 @@ document.addEventListener( 'alpine:init', () => {
 				});
 			}
 
-			let method = el.getAttribute('method')?.toUpperCase() ?? 'POST';
+			xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', index.apiurl + route);
 
 			xhr.withCredentials = true;
 			xhr.responseType    = 'json';
 
-			xhr.open(method, index.apiurl + route);
-
 			// regular ajax sending & request with file uploading
 			xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
-			xhr.onloadend   = event => resolve(() => callback?.(onProgress(event, xhr)));
+			xhr.onloadend   = event => callback?.(onProgress(event, xhr));
 			xhr.onload      = event => {
 				document.dispatchEvent(
 					new CustomEvent(route, {
@@ -811,12 +852,10 @@ document.addEventListener( 'alpine:init', () => {
 			};
 
 			xhr.send(formData);
-		}).then(response => {
+
 			el.classList.remove('btn--load');
 
 			submitBtn && submitBtn.removeAttribute('style');
-
-			return response();
 		});
 	});
 

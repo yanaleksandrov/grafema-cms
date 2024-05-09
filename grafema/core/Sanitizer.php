@@ -750,7 +750,7 @@ class Sanitizer
 		$filename = self::accents( $filename );
 
 		// remove not allowed symbols
-		$specialChars = '"!@#$%&*()_-~+=|{[}]/?;:.,\\\'<>«»”“’`°ºª�' . chr( 0 );
+		$specialChars = '"!@#$%&*()~+=|{[}]/?;:.,\\\'<>«»”“’`°ºª�' . chr( 0 );
 		$filename     = str_replace( mb_str_split( $specialChars ), '', $filename );
 
 		// remove not allowed symbols & letters with diacritics

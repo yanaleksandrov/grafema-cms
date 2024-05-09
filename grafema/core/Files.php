@@ -37,6 +37,8 @@ class Files extends Files\Handler
 
 	public string $hash = '';
 
+	public string $type = '';
+
 	public string $url = '';
 
 	public int $size = 0;
@@ -63,6 +65,7 @@ class Files extends Files\Handler
 		$this->url          = $this->getUrl();
 		$this->extension    = $this->extension();
 		$this->hash         = $this->getHash();
+		$this->type         = $this->getType();
 		$this->mime         = $this->mime();
 		$this->modified     = $this->modified();
 		$this->size         = $this->size();

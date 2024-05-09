@@ -144,6 +144,17 @@ class Handler {
 	}
 
 	/**
+	 * Get file type.
+	 *
+	 * @return string
+	 */
+	protected function getType(): string {
+		[ $type ] = explode( '/', $this->mime() );
+
+		return $type;
+	}
+
+	/**
 	 * Set maximum file size.
 	 *
 	 * @param string $size String designation of the file size, e.g.: 300kb, 20Mb, 0.3Gb, 3Tb
@@ -236,14 +247,6 @@ class Handler {
 	protected function mime(): string
 	{
 		return finfo_file( finfo_open( FILEINFO_MIME_TYPE ), $this->path );
-	}
-
-	/**
-	 * Get the type of file.
-	 */
-	protected function type(): string
-	{
-		return filetype( $this->path );
 	}
 
 	/**

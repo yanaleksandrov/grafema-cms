@@ -96,7 +96,7 @@ class Sanitizer
 				}
 
 				// set default value if incoming is empty & default is not empty
-				if ( $value === null && ! empty( $default_value ) ) {
+				if ( empty( $value ) && ! empty( $default_value ) ) {
 					$value = $default_value;
 
 					// substring "$" at the beginning, means that the default value must be taken from another field

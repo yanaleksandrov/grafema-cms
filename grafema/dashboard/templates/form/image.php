@@ -34,7 +34,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</span>
 			<div class="image__container">
 				<label for="fileInputs">
-					<span class="avatar avatar--lg avatar--rounded" :style="image && `background-image: url(${image})`">
+					<span class="avatar avatar--xl avatar--rounded" :style="image && `background-image: url(${image})`">
 						<span x-text="getInitials(content)" x-show="!image"></span>
 					</span>
 				</label>

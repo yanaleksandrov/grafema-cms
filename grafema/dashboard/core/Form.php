@@ -127,9 +127,9 @@ class Form {
 	 *
 	 * @param string $uniqid
 	 * @param bool $without_form_wrapper
-	 * @return string|Error
+	 * @return string|Errors
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false ): Error|string {
+	public static function view( string $uniqid, bool $without_form_wrapper = false ): Errors|string {
 		$form   = self::init( $uniqid );
 		$fields = $form->fields ?? [];
 
@@ -248,7 +248,7 @@ class Form {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
 			}
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
 			}
 

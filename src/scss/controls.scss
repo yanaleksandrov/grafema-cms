@@ -687,11 +687,11 @@
   }
 
   @each $size, $value in (
-    'xs': 1.25,
+    'xs': 1.6,
     'sm': 2,
-    'md': 3.75,
-    'lg': 5,
-    'xl': 7,
+    'md': 2.5,
+    'lg': 3.25,
+    'xl': 5,
   ) {
     &--#{$size} {
       --grafema-avatar-size: #{$value}rem;
@@ -830,7 +830,7 @@
 
   &__header {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     flex-shrink: 0;
     align-items: center;
     justify-content: space-between;

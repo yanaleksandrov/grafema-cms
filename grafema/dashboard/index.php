@@ -6,6 +6,7 @@ use Grafema\Option;
 use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\User;
+use Grafema\Tree;
 
 /**
  * Remove the duplicate access to the console at two addresses:
@@ -111,18 +112,12 @@ $start_time = microtime( true );
 </head>
 <body x-data="{grafema: index}">
 	<?php if ( Is::installed() && User::logged() ) { ?>
-		<div class="grafema">
-			<div class="grafema-panel">
-                <img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
-                <?php View::part( 'templates/menu-panel' ); ?>
-                <div class="mt-auto df fdc aic">
-                    <div class="avatar avatar--sm avatar--rounded" style="background-image: url(https://i.pravatar.cc/150?img=3)">
-                        <i class="badge bg-green" title="Online"></i>
-                    </div>
-                </div>
-			</div>
+		<div class="grafema" :class="grafema.showMenu && 'active'">
             <div class="grafema-bar">
-                <ul class="menu">
+                <div class="grafema-bar-menu" @click="grafema.showMenu = !grafema.showMenu">
+                    <i class="ph ph-list"></i>
+                </div>
+                <ul class="menu mr-auto">
                     <li class="menu__item">
                         <a class="menu__link" href="home.html"><i class="ph ph-house-line"></i> Grafema</a>
                     </li>
@@ -144,7 +139,65 @@ $start_time = microtime( true );
                         <a class="menu__link" href="#"><i class="ph ph-monitor"></i> <span x-text="index.query"></span></a>
                     </li>
                 </ul>
+
+				<?php ob_start(); ?>
+                <div class="df fdc">
+                    <div class="fs-13 lh-xs fw-600">Howdy, Yan Aleksandrov</div>
+                </div>
+                <div class="avatar avatar--xs" style="background-image: url(https://i.pravatar.cc/150?img=3)">
+                    <i class="badge bg-green" title="Online"></i>
+                </div>
+				<?php
+				$label = ob_get_clean();
+
+				View::part(
+					'templates/form/details',
+					[
+						'label'       => $label,
+						'instruction' => '',
+						'class'       => 'ml-auto df aic g-3',
+						'content'     => Tree::include(
+							'dashboard-user-menu',
+							$test = function ( $items, $tree ) use ( &$test ) {
+								if ( empty( $items ) || ! is_array( $items ) ) {
+									return false;
+								}
+								?>
+                                <ul class="user-menu">
+									<?php
+									foreach ( $items as $item ) {
+										ob_start();
+
+										if ( empty( $item['url'] ) ) {
+											?>
+                                            <li class="user-menu-divider">%title$s</li>
+											<?php
+										} else {
+											?>
+                                            <li class="user-menu-item">
+                                                <a class="user-menu-link" href="%url$s">
+                                                    <i class="%icon$s"></i> <span>%title$s</span>
+                                                </a>
+                                            </li>
+											<?php
+										}
+
+										echo $tree->vsprintf( ob_get_clean(), $item );
+									}
+									?>
+                                </ul>
+								<?php
+							}
+						),
+					]
+				);
+				?>
             </div>
+
+			<div class="grafema-panel">
+                <img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
+                <?php View::part( 'templates/menu-panel' ); ?>
+			</div>
 
             <?php
             View::part( 'templates/menu' );

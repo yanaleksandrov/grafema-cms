@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 [$label, $instruction, $class, $content] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'label'       => 'html',
+		'label'       => 'trim',
 		'instruction' => 'html',
 		'class'       => 'class:df',
 		'content'     => 'trim',
@@ -28,7 +28,7 @@ if ( empty( $label ) ) {
 }
 ?>
 <details class="details" @click.outside="$el.removeAttribute('open')">
-	<summary class="<?php echo $class; ?>"><?php echo $label; ?></summary>
+	<summary class="details__summary <?php echo $class; ?>"><?php echo $label; ?></summary>
 	<div class="details__content">
 		<?php if ( $instruction ) { ?>
 			<div class="details__head">

@@ -1,5 +1,6 @@
 <?php
 use Grafema\Tree;
+use Grafema\View;
 
 /*
  * Grafema dashboard menu.
@@ -14,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-side">
-	<?php
+    <?php
 	Tree::view(
 		'dashboard-main-menu',
 		$test = function ( $items, $tree ) use ( &$test ) {
@@ -69,5 +70,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<?php
 		}
 	);
-?>
+    ?>
 </div>

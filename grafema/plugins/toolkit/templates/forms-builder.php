@@ -11,7 +11,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<div class="grafema-main p-8 sm:p-5">
+<div class="grafema-main p-7">
 	<div class="df aic mb-8 sm:mb-5">
 		<div class="mr-2">
 			<h4>Fields Groups</h4>

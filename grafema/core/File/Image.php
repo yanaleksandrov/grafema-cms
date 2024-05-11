@@ -154,7 +154,7 @@ class Image
      *
      * @param string $uri a data URI
      *
-     * @return \Image
+     * @return Image
      *
      * @throws Exception thrown if URI or image data is invalid
      */
@@ -190,7 +190,7 @@ class Image
      *
      * @param string $file the image file to load
      *
-     * @return \Image
+     * @return Image
      *
      * @throws Exception thrown if file or image data is invalid
      */
@@ -261,7 +261,7 @@ class Image
      * @param int          $height the height of the image
      * @param array|string $color  optional fill color for the new image (default 'transparent')
      *
-     * @return \Image
+     * @return Image
      */
     public function fromNew($width, $height, $color = 'transparent')
     {
@@ -281,7 +281,7 @@ class Image
      *
      * @param string $string the raw image data as a string
      *
-     * @return \Image
+     * @return Image
      *
      * @example
      *    $string = file_get_contents('image.jpg');
@@ -313,7 +313,7 @@ class Image
      * @param string $mimeType the image format to output as a mime type (defaults to the original mime type)
      * @param int    $quality  image quality as a percentage (default 100)
      *
-     * @return \Image
+     * @return Image
      */
     public function toDownload($filename, $mimeType = null, $quality = 100)
     {
@@ -339,7 +339,7 @@ class Image
      * @param string $mimeType
      * @param int    $quality  image quality as a percentage (default 100)
      *
-     * @return \Image
+     * @return Image
      *
      * @throws Exception thrown if failed write to file
      */
@@ -376,7 +376,7 @@ class Image
      * @param string $mimeType the image format to output as a mime type (defaults to the original mime type)
      * @param int    $quality  image quality as a percentage (default 100)
      *
-     * @return \Image
+     * @return Image
      */
     public function toScreen($mimeType = null, $quality = 100)
     {
@@ -485,7 +485,7 @@ class Image
      * Rotates an image so the orientation will be correct based on its exif data. It is safe to call
      * this method on images that don't have exif data (no changes will be made).
      *
-     * @return \Image
+     * @return Image
      */
     public function autoOrient()
     {
@@ -530,7 +530,7 @@ class Image
      * @param int $maxWidth  the maximum width the image can be
      * @param int $maxHeight the maximum height the image can be
      *
-     * @return \Image
+     * @return Image
      */
     public function bestFit($maxWidth, $maxHeight)
     {
@@ -571,7 +571,7 @@ class Image
      * @param float|int $x2 bottom right x coordinate
      * @param float|int $y2 bottom right x coordinate
      *
-     * @return \Image
+     * @return Image
      */
     public function crop($x1, $y1, $x2, $y2)
     {
@@ -615,7 +615,7 @@ class Image
      * @param array|string $lightColor the lightest color in the duotone
      * @param array|string $darkColor  the darkest color in the duotone
      *
-     * @return \Image
+     * @return Image
      */
     public function duotone($lightColor, $darkColor)
     {
@@ -661,7 +661,7 @@ class Image
      *
      * @param int $height
      *
-     * @return \Image
+     * @return Image
      *
      * @deprecated
      *    This method was deprecated in version 3.2.2 and will be removed in version 4.0.
@@ -677,7 +677,7 @@ class Image
      *
      * @param int $width the width to resize the image to
      *
-     * @return \Image
+     * @return Image
      *
      * @deprecated
      *    This method was deprecated in version 3.2.2 and will be removed in version 4.0.
@@ -693,7 +693,7 @@ class Image
      *
      * @param string $direction the direction to flip: x|y|both
      *
-     * @return \Image
+     * @return Image
      */
     public function flip($direction)
     {
@@ -717,7 +717,7 @@ class Image
      * @param int  $max    the maximum number of colors to use
      * @param bool $dither whether or not to use a dithering effect (default true)
      *
-     * @return \Image
+     * @return Image
      */
     public function maxColors($max, $dither = true)
     {
@@ -736,7 +736,7 @@ class Image
      * @param int          $yOffset                 vertical offset in pixels (default 0)
      * @param bool         $calculateOffsetFromEdge calculate Offset referring to the edges of the image (default false)
      *
-     * @return \Image
+     * @return Image
      */
     public function overlay($overlay, $anchor = 'center', $opacity = 1, $xOffset = 0, $yOffset = 0, $calculateOffsetFromEdge = false)
     {
@@ -792,7 +792,7 @@ class Image
      * @param int $width  the new image width
      * @param int $height the new image height
      *
-     * @return \Image
+     * @return Image
      */
     public function resize($width = null, $height = null)
     {
@@ -848,7 +848,7 @@ class Image
      * @param int $res_x the horizontal resolution in DPI
      * @param int $res_y The vertical resolution in DPI
      *
-     * @return \Image
+     * @return Image
      */
     public function resolution($res_x, $res_y = null)
     {
@@ -867,7 +867,7 @@ class Image
      * @param int          $angle           the angle of rotation (-360 - 360)
      * @param array|string $backgroundColor the background color to use for the uncovered zone area after rotation (default 'transparent')
      *
-     * @return \Image
+     * @return Image
      */
     public function rotate($angle, $backgroundColor = 'transparent')
     {
@@ -893,7 +893,7 @@ class Image
      * @param int    $height the thumbnail height
      * @param string $anchor the anchor point: 'center', 'top', 'bottom', 'left', 'right', 'top left', 'top right', 'bottom left', 'bottom right' (default 'center')
      *
-     * @return \Image
+     * @return Image
      */
     public function thumbnail($width, $height, $anchor = 'center')
     {
@@ -985,7 +985,7 @@ class Image
      * @param array|string $color     the arc color
      * @param int|string   $thickness line thickness in pixels or 'filled' (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function arc($x, $y, $width, $height, $start, $end, $color, $thickness = 1)
     {
@@ -1028,7 +1028,7 @@ class Image
      * @param array|string $color     the border color
      * @param int          $thickness the thickness of the border (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function border($color, $thickness = 1)
     {
@@ -1051,7 +1051,7 @@ class Image
      * @param int          $y     the y coordinate of the dot
      * @param array|string $color the dot color
      *
-     * @return \Image
+     * @return Image
      */
     public function dot($x, $y, $color)
     {
@@ -1071,7 +1071,7 @@ class Image
      * @param array|string $color     the ellipse color
      * @param array|int    $thickness line thickness in pixels or 'filled' (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function ellipse($x, $y, $width, $height, $color, $thickness = 1)
     {
@@ -1113,7 +1113,7 @@ class Image
      *
      * @param array|string $color the fill color
      *
-     * @return \Image
+     * @return Image
      */
     public function fill($color)
     {
@@ -1137,7 +1137,7 @@ class Image
      * @param array|string $color     the line color
      * @param int          $thickness the line thickness (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function line($x1, $y1, $x2, $y2, $color, $thickness = 1)
     {
@@ -1165,7 +1165,7 @@ class Image
      * @param array|string $color     the polygon color
      * @param array|int    $thickness line thickness in pixels or 'filled' (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function polygon($vertices, $color, $thickness = 1)
     {
@@ -1201,7 +1201,7 @@ class Image
      * @param array|string $color     the rectangle color
      * @param array|int    $thickness line thickness in pixels or 'filled' (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function rectangle($x1, $y1, $x2, $y2, $color, $thickness = 1)
     {
@@ -1231,7 +1231,7 @@ class Image
      * @param array|string $color     the rectangle color
      * @param array|int    $thickness line thickness in pixels or 'filled' (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function roundedRectangle($x1, $y1, $x2, $y2, $radius, $color, $thickness = 1)
     {
@@ -1293,7 +1293,7 @@ class Image
      * @param string $type   the blur algorithm to use: 'selective', 'gaussian' (default 'gaussian')
      * @param number $passes the number of time to apply the filter, enhancing the effect (default 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function blur($type = 'selective', $passes = 1)
     {
@@ -1311,7 +1311,7 @@ class Image
      *
      * @param int $percentage percentage to brighten the image (0 - 100)
      *
-     * @return \Image
+     * @return Image
      */
     public function brighten($percentage)
     {
@@ -1327,7 +1327,7 @@ class Image
      *
      * @param array|string $color the filter color
      *
-     * @return \Image
+     * @return Image
      */
     public function colorize($color)
     {
@@ -1350,7 +1350,7 @@ class Image
      *
      * @param int $percentage percentage to adjust (-100 - 100)
      *
-     * @return \Image
+     * @return Image
      */
     public function contrast($percentage)
     {
@@ -1364,7 +1364,7 @@ class Image
      *
      * @param int $percentage percentage to darken the image (0 - 100)
      *
-     * @return \Image
+     * @return Image
      */
     public function darken($percentage)
     {
@@ -1378,7 +1378,7 @@ class Image
     /**
      * Applies the desaturate (grayscale) filter.
      *
-     * @return \Image
+     * @return Image
      */
     public function desaturate()
     {
@@ -1390,7 +1390,7 @@ class Image
     /**
      * Applies the edge detect filter.
      *
-     * @return \Image
+     * @return Image
      */
     public function edgeDetect()
     {
@@ -1402,7 +1402,7 @@ class Image
     /**
      * Applies the emboss filter.
      *
-     * @return \Image
+     * @return Image
      */
     public function emboss()
     {
@@ -1414,7 +1414,7 @@ class Image
     /**
      * Inverts the image's colors.
      *
-     * @return \Image
+     * @return Image
      */
     public function invert()
     {
@@ -1428,7 +1428,7 @@ class Image
      *
      * @param float $opacity the desired opacity level (0 - 1)
      *
-     * @return \Image
+     * @return Image
      */
     public function opacity($opacity)
     {
@@ -1457,7 +1457,7 @@ class Image
      *
      * @param int $size the size of the blocks in pixels (default 10)
      *
-     * @return \Image
+     * @return Image
      */
     public function pixelate($size = 10)
     {
@@ -1469,7 +1469,7 @@ class Image
     /**
      * Simulates a sepia effect by desaturating the image and applying a sepia tone.
      *
-     * @return \Image
+     * @return Image
      */
     public function sepia()
     {
@@ -1484,7 +1484,7 @@ class Image
      *
      * @param int $amount sharpening amount (default 50)
      *
-     * @return \Image
+     * @return Image
      */
     public function sharpen($amount = 50)
     {
@@ -1506,7 +1506,7 @@ class Image
     /**
      * Applies the mean remove filter to produce a sketch effect.
      *
-     * @return \Image
+     * @return Image
      */
     public function sketch()
     {

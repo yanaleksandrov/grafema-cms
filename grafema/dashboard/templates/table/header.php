@@ -15,10 +15,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $title ] = ( new Sanitizer(
+[ $title, $show ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'title' => 'trim',
+		'show'  => 'bool:true',
 	]
 ) )->values();
 ?>
@@ -30,42 +31,46 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<h4><?php echo $title; ?></h4>
 			</div>
 		<?php endif; ?>
-		<div class="df aic g-1">
-			<?php
-			View::part(
-				'templates/form/number',
-				[
-					'name'        => 'page',
-					'label'       => '',
-					'description' => '',
-					'attributes'  => [
-						'value' => 3,
-					],
-				]
-			);
-			?>
-			<a href="/dashboard/plugins-install" class="btn btn--outline">Install <span class="badge badge--sm">+2k</span></a>
-			<button class="btn btn--outline"><i class="ph ph-funnel-simple"></i> Filters <span class="badge badge--sm">8</span></button>
-			<?php
-			View::part(
-				'templates/form/details',
-				[
-					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
-					'instruction' => I18n::__( 'Test content' ),
-					'class'       => 'btn btn--outline',
-					'content'     => Dashboard\Form::view( 'grafema-posts-actions' ),
-				]
-			);
-			View::part(
-				'templates/form/details',
-				[
-					'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
-					'instruction' => I18n::__( 'Test content' ),
-					'class'       => 'btn btn--outline btn--icon',
-					'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
-				]
-			);
-			?>
-		</div>
+
+        <div class="df aic g-1">
+            <?php if ( $show ) : ?>
+                <?php
+                View::part(
+                    'templates/form/number',
+                    [
+                        'name'        => 'page',
+                        'label'       => '',
+                        'description' => '',
+                        'attributes'  => [
+                            'value' => 3,
+                        ],
+                    ]
+                );
+                ?>
+                <a href="/dashboard/plugins-install" class="btn btn--outline">Install <span class="badge badge--sm">+2k</span></a>
+                <button class="btn btn--outline"><i class="ph ph-funnel-simple"></i> Filters <span class="badge badge--sm">8</span></button>
+                <?php
+                View::part(
+                    'templates/form/details',
+                    [
+                        'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
+                        'instruction' => I18n::__( 'Test content' ),
+                        'class'       => 'btn btn--outline',
+                        'content'     => Dashboard\Form::view( 'grafema-posts-actions' ),
+                    ]
+                );
+                View::part(
+                    'templates/form/details',
+                    [
+                        'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
+                        'instruction' => I18n::__( 'Test content' ),
+                        'class'       => 'btn btn--outline btn--icon',
+                        'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
+                    ]
+                );
+                ?>
+            <?php endif; ?>
+            <button class="btn btn--outline" @click="$modal.open('grafema-modals-uploader')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new file' ); ?></button>
+        </div>
 	</div>
 </div>

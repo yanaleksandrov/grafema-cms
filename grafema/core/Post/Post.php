@@ -68,7 +68,7 @@ class Post {
 		$post = Db::get( $type, '*', [ $by => $value ] );
 
 		// add data for media files
-		$sizes = Registry::get( 'jb.images' );
+		$sizes = Registry::get( 'images' );
 
 		if ( $type === 'media' && is_array( $post ) && is_array( $sizes ) ) {
 			$file_path = sprintf( '%s%s', GRFM_PATH, $post['slug'] ?? '' );

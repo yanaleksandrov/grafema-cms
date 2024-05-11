@@ -46,7 +46,7 @@ final class Menu
 							'url'          => 'emails',
 							'title'        => I18n::__( 'Emails' ),
 							'capabilities' => ['manage_options'],
-							'icon'         => 'ph ph-tray',
+							'icon'         => 'ph ph-mailbox',
 							'position'     => 700,
 						],
 						[
@@ -70,8 +70,81 @@ final class Menu
 			}
 		);
 
-		/*
-		 * Register menu
+		/**
+		 * Register menu for user.
+		 *
+		 * @since 1.0.0
+		 */
+		Tree::attach(
+			'dashboard-user-menu',
+			function ( $tree ) {
+				$tree->addItems(
+					[
+						[
+							'id'           => 'comments',
+							'url'          => 'comments',
+							'title'        => I18n::__( 'Sign out' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-sign-out',
+							'position'     => 0,
+						],
+						[
+							'id'       => 'divider-content',
+							'title'    => '',
+							'position' => 10,
+						],
+						[
+							'id'           => 'comments',
+							'url'          => 'comments',
+							'title'        => I18n::__( 'Profile' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-gear',
+							'position'     => 20,
+						],
+						[
+							'id'           => 'profile',
+							'url'          => 'profile',
+							'title'        => I18n::_s( 'Set yourself as %saway%s', '<strong>', '</strong>' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-moon-stars',
+							'position'     => 30,
+						],
+						[
+							'id'           => 'dialogs',
+							'url'          => 'comments',
+							'title'        => I18n::__( 'Pause notifications' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-bell-slash',
+							'position'     => 40,
+						],
+						[
+							'id'       => 'divider-content',
+							'title'    => '',
+							'position' => 50,
+						],
+						[
+							'id'           => 'comments',
+							'url'          => 'comments',
+							'title'        => I18n::__( 'Add account' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-user-plus',
+							'position'     => 60,
+						],
+						[
+							'id'           => 'comments',
+							'url'          => 'comments',
+							'title'        => I18n::__( 'Igor Ivanov' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-user-plus',
+							'position'     => 70,
+						],
+					]
+				);
+			}
+		);
+
+		/**
+		 * Register menu in left panel.
 		 *
 		 * @since 1.0.0
 		 */

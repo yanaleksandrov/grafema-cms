@@ -34,10 +34,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'options'     => 'array',
 	]
 ) )->values();
+
+$attributes['placeholder'] = $placeholder;
 ?>
 <div class="dg g-1"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<label class="dg g-1">
-		<span class="<?php echo $class; ?>"><?php Esc::html( $label ); ?></span>
+        <?php if ( $label ) : ?>
+		    <span class="<?php echo $class; ?>"><?php Esc::html( $label ); ?></span>
+        <?php endif; ?>
 		<span class="field">
 			<?php
 			printf( '%s<textarea%s>%s</textarea>%s', $before, Arr::toHtmlAtts( $attributes ), $value, $after );

@@ -687,11 +687,11 @@
   }
 
   @each $size, $value in (
-    'xs': 1.25,
+    'xs': 1.6,
     'sm': 2,
-    'md': 3.75,
-    'lg': 5,
-    'xl': 7,
+    'md': 2.5,
+    'lg': 3.25,
+    'xl': 5,
   ) {
     &--#{$size} {
       --grafema-avatar-size: #{$value}rem;
@@ -830,7 +830,7 @@
 
   &__header {
     display: flex;
-    gap: 0.5rem;
+    gap: 1rem;
     flex-shrink: 0;
     align-items: center;
     justify-content: space-between;
@@ -839,6 +839,12 @@
     border-top-right-radius: var(--grafema-border-radius);
     min-height: 3.5rem;
     padding: 0 0 0 1.75rem;
+    cursor: initial;
+
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 9;
   }
 
   &__close {
@@ -848,6 +854,8 @@
     padding: 0;
     z-index: 10;
     margin-inline: auto 0;
+    right: 0.5rem;
+    position: relative;
     color: #000;
     background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/.75rem auto no-repeat;
     border: 0;
@@ -874,6 +882,7 @@
   }
 
   &__body {
+    cursor: initial;
     position: relative;
     flex: 1 1 auto;
     padding: 1.75rem;
@@ -969,10 +978,17 @@
   }
 
   &__header {
+    padding: 1.75rem 1.75rem 0.5rem;
     max-width: 100%;
     display: grid;
     gap: 0.65rem;
-    padding: 1.5rem 1.5rem 0.5rem;
+
+    padding: 1.35rem 1.75rem;
+    position: sticky;
+    top: 42px;
+    border-bottom: 1px solid var(--grafema-border);
+    background-color: var(--grafema-bg);
+    z-index: 10;
   }
 
   &__link {
@@ -1002,13 +1018,14 @@
   user-select: none;
   padding-inline: 0.65em;
   border: 1px solid transparent;
-  font-weight: 600;
-  letter-spacing: .04em;
+  font-weight: 500;
+  letter-spacing: .05em;
   text-transform: uppercase;
   position: relative;
+  padding: .25rem .5rem;
   min-width: #{calc(21/16)}rem;
   height: #{calc(21/16)}rem;
-  font-size: #{calc(10/16)}rem;
+  font-size: #{calc(9.5/16)}rem;
 
   &:empty{
     display: inline-block;
@@ -1183,15 +1200,14 @@
 
 .storage {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  padding: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 0.65rem;
+  padding: 1.25rem 1.75rem 1.75rem;
 
   &__item {
-    background-color: var(--grafema-bg);
+    background-color: var(--grafema-bg-universal);
     background-position: 0 0,10px 10px;
-    background-size: calc(2 * 10px) calc(2 * 10px);
-    border-radius: var(--grafema-border-radius);
+    border-radius: 2px;
     border: 1px solid var(--grafema-border);
     overflow: hidden;
     color: var(--grafema-text-muted);
@@ -1216,29 +1232,24 @@
   &__meta {
     font-weight: 600;
     position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 9;
     inset: inherit 0 0 0;
-    padding: 1rem;
-    color: var(--grafema-white);
-    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%);
+    padding: 0.5rem 0.75rem;
+    background: var(--grafema-bg);
+    border-top: 1px solid var(--grafema-border);
   }
 
   &__data {
     align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 400;
     color: var(--grafema-text-muted);
+    font-family: var(--grafema-font-code);
     display: flex;
     line-height: 1;
-  }
-
-  &__icon {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
   }
 
   &__image {
@@ -1248,6 +1259,8 @@
     inset: 0;
     margin: auto;
     max-height: 100%;
+    width: auto;
+    height: auto;
   }
 }
 
@@ -1729,7 +1742,7 @@
 
       .ss-value {
         background-color: rgba(32, 107, 196, 0.1);
-        height: 26px;
+        height: 25px;
 
         .ss-value-delete,
         .ss-value-text {

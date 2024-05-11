@@ -64,7 +64,6 @@ body {
   touch-action: manipulation;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  scrollbar-gutter: stable;
   min-height: 100dvh;
   font-size: 14px;
   overflow-x: hidden;
@@ -263,6 +262,11 @@ textarea {
   height: auto;
   cursor: text;
 
+  &:has(code),
+  &:has(samp) {
+    padding-left: 0.3rem;
+  }
+
   &:not(:last-child) {
     margin-bottom: 0.125rem;
   }
@@ -369,6 +373,15 @@ input {
       width: 0;
       height: 0;
       display: none;
+    }
+  }
+
+  &[type="date"] {
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+      -webkit-appearance: none;
     }
   }
 
@@ -573,8 +586,12 @@ textarea {
   resize: vertical;
   white-space: pre-wrap;
   min-height: 2rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+
+  &[x-textarea] {
+    overflow: hidden;
+  }
 }
 
 label {
@@ -598,7 +615,6 @@ img {
   }
 
   &:after {
-    background-color: var(--grafema-bg-universal);
     content: "" attr(alt) "";
     color: #646464;
     display: flex;
@@ -615,7 +631,8 @@ img {
 }
 
 [\@click],
-[\@click\.prevent]{
+[\@click\.outside],
+[\@click\.prevent] {
   cursor: pointer;
   transition: opacity 0.3s;
 }
@@ -638,15 +655,13 @@ img {
   &__content {
     position: absolute;
     z-index: 99;
-    border-radius: var(--grafema-border-radius);
+    border-radius: var(--grafema-border-radius-lg);
     border: 1px solid var(--grafema-border);
     background-color: var(--grafema-white);
     top: calc(100% + 0.125rem);
     right: 0;
-    width: 80vw;
-    max-width: 15.5rem;
     font-size: 0.8125rem;
-    box-shadow: rgba(140, 149, 159, 0.2) 0 8px 24px 0;
+    box-shadow: var(--grafema-box-shadow);
     animation: contextMenu .3s cubic-bezier(0, 0.1, 0.1, 1) backwards;
   }
 
@@ -656,8 +671,12 @@ img {
     border-bottom: 1px solid var(--grafema-border);
   }
 
+  &__summary {
+    position: relative;
+  }
+
   &__body {
-    padding: 0.75rem 1.25rem 1.25rem;
+    width: 100%;
   }
 }
 

@@ -112,3 +112,9 @@ document.addEventListener('posts/import', ({detail}) => {
 	const {data, resolve} = detail;
 	resolve(data);
 });
+
+document.addEventListener('media/get', ({detail}) => {
+	const {data, resolve} = detail;
+	console.log(data)
+	resolve(data);
+});

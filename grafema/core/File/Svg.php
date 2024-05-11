@@ -728,8 +728,6 @@ class Svg
         return $this->xml->saveXML($this->xml->documentElement);
     }
 
-    public function symbol() {}
-
     /**
      * @see https://github.com/alnorris/SVG-Sanitizer
      */

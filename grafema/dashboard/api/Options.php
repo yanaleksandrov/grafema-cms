@@ -53,30 +53,6 @@ class Options extends \Grafema\Api\Handler
 	 */
 	public function update(): array
 	{
-		return [
-			'method' => 'PUT update user by ID',
-		];
-	}
-
-	/**
-	 * Remove item by ID.
-	 *
-	 * @url    DELETE api/user/$id
-	 */
-	public function delete(): array
-	{
-		return [
-			'method' => 'DELETE remove user by ID',
-		];
-	}
-
-	/**
-	 * Export new posts.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function save(): array
-	{
 		$options = Arr::exclude( $_POST, [ 'nonce' ] );
 		if ( $options ) {
 			print_r( $options );
@@ -96,6 +72,18 @@ class Options extends \Grafema\Api\Handler
 					'duration' => 5000,
 				],
 			],
+		];
+	}
+
+	/**
+	 * Remove item by ID.
+	 *
+	 * @url    DELETE api/user/$id
+	 */
+	public function delete(): array
+	{
+		return [
+			'method' => 'DELETE remove user by ID',
 		];
 	}
 }

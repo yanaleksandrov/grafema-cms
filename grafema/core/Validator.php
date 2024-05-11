@@ -2,8 +2,6 @@
 
 namespace Grafema;
 
-use Grafema\I18n;
-
 /**
  * Validates input against certain criteria.
  *
@@ -510,11 +508,12 @@ class Validator {
 	 * @return bool
 	 */
 	protected function max( mixed $value, mixed $maximum_value ): bool {
-		$value = intval( $value );
+		$value         = intval( $value );
+		$maximum_value = intval( $maximum_value );
 		if ( function_exists( 'bccomp' ) ) {
-			return ! ( bccomp( $value, intval( $maximum_value ), 14 ) === 1 );
+			return ! ( bccomp( $value, $maximum_value, 14 ) === 1 );
 		}
-		return intval( $maximum_value ) >= $value;
+		return $maximum_value <= $value;
 	}
 
 	/**
@@ -525,11 +524,12 @@ class Validator {
 	 * @return bool
 	 */
 	protected function min( mixed $value, mixed $minimum_value ): bool {
-		$value = intval( $value );
+		$value         = intval( $value );
+		$minimum_value = intval( $minimum_value );
 		if ( function_exists( 'bccomp' ) ) {
-			return ! ( bccomp( intval( $minimum_value ), $value, 14 ) === 1 );
+			return ! ( bccomp( $minimum_value, $value, 14 ) >= 0 );
 		}
-		return intval( $minimum_value ) <= $value;
+		return $minimum_value >= $value;
 	}
 
 	/**
@@ -669,7 +669,7 @@ class Validator {
 		if ( is_string( $minsize ) ) {
 			$minsize = (int) $minsize * pow( 1024, array_search( strtolower( substr( $minsize, -2 ) ), [ 'b', 'kb', 'mb', 'gb' ], true ) );
 		}
-		return intval( $value ) >= intval( $minsize );
+		return intval( $value ) <= intval( $minsize );
 	}
 
 	/**
@@ -683,6 +683,6 @@ class Validator {
 		if ( is_string( $maxsize ) ) {
 			$maxsize = (int) $maxsize * pow( 1024, array_search( strtolower( substr( $maxsize, -2 ) ), [ 'b', 'kb', 'mb', 'gb' ], true ) );
 		}
-		return intval( $value ) <= intval( $maxsize );
+		return intval( $value ) >= intval( $maxsize );
 	}
 }

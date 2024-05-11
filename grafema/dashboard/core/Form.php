@@ -127,9 +127,9 @@ class Form {
 	 *
 	 * @param string $uniqid
 	 * @param bool $without_form_wrapper
-	 * @return string|Error
+	 * @return string|Errors
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false ): Error|string {
+	public static function view( string $uniqid, bool $without_form_wrapper = false ): Errors|string {
 		$form   = self::init( $uniqid );
 		$fields = $form->fields ?? [];
 
@@ -198,14 +198,21 @@ class Form {
 	 * @throws JsonException
 	 */
 	public function parseFields( array $fields, int $step = 1 ): string {
-		ob_start();
-		View::part( GRFM_DASHBOARD . 'templates/form/layout/tab-menu', [ 'fields' => $fields ] );
-		$content = ob_get_clean();
-
+		$content = '';
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
 			$name     = Sanitizer::name( $field['name'] ?? '' );
 			$callback = $field['callback'] ?? null;
+
+			if ( $type === 'tab' && ! isset( $startTab ) ) {
+				$startTab = true;
+				$content .= View::get(
+					GRFM_DASHBOARD . 'templates/form/layout/tab-menu',
+					[
+						'fields' => $fields
+					]
+				);
+			}
 
 			// add required attributes & other manipulations
 			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
@@ -216,6 +223,16 @@ class Form {
 					'select'   => $field['attributes']['x-select']      ??= '',
 					default    => '',
 				};
+
+				if ( in_array( $type, [ 'date' ], true ) ) {
+					$field['attributes'] = array_merge(
+						[
+							'type'         => $type,
+							'x-datepicker' => '{}',
+						],
+						$field['attributes']
+					);
+				}
 
 				if ( in_array( $type, [ 'toggle' ], true ) ) {
 					$field['attributes'] = array_merge(
@@ -248,44 +265,37 @@ class Form {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
 			}
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'image', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
 			}
 
-			ob_start();
-			switch ( $type ) {
-				case 'tab':
-				case 'step':
-				case 'group':
-					View::part(
-						GRFM_DASHBOARD . "templates/form/layout/{$type}",
-						array_merge(
-							[
-								'columns'    => 2,
-								'width'      => 100,
-								'content'    => $this->parseFields( $field['fields'] ?? [], $step + 1 ),
-								'step'       => $step++,
-								'attributes' => array_merge(
-									[
-										'x-wizard:step' => '',
-									],
-									$field['attributes']
-								),
-							],
-							$field
-						)
-					);
-					break;
-				case 'custom':
-					if ( is_callable( $callback ) ) {
-						echo call_user_func( $callback );
-					}
-					break;
-				default:
-					View::part( GRFM_DASHBOARD . "templates/form/{$type}", $field );
-					break;
-			}
-			$content .= ob_get_clean();
+			$content .= match ($type) {
+				'tab',
+				'step',
+				'group' => View::get(
+					GRFM_DASHBOARD . "templates/form/layout/{$type}",
+					array_merge(
+						[
+							'columns'    => 2,
+							'width'      => 100,
+							'content'    => $this->parseFields($field['fields'] ?? [], $step + 1),
+							'step'       => $step++,
+							'attributes' => array_merge(
+								[
+									'x-wizard:step' => '',
+								],
+								$field['attributes']
+							),
+						],
+						$field
+					)
+				),
+    			'custom' => is_callable($callback) ? call_user_func($callback) : '',
+   				default  => View::get(
+   					GRFM_DASHBOARD . "templates/form/{$type}",
+					$field
+				),
+			};
 		}
 
 		return $content;

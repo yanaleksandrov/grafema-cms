@@ -47,7 +47,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								</svg>
 							</span>
 						</div>
-						<button class="btn btn--outline" hidden @click="$modal.open('grafema-posts-creator')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new' ); ?></button>
+						<button class="btn btn--outline" hidden @click="$modal.open('grafema-modals-post')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new' ); ?></button>
 					</div>
 				</div>
 				<div class="tables__row" style="grid-template-columns: 1rem 2.5rem minmax(18rem, 1fr) repeat(3, minmax(6rem, 1fr))">
@@ -70,7 +70,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					</div>
 					<div class="avatar" :style="'background-image: url(https://i.pravatar.cc/150?img=' + (post.ID - 50120) + ')'"></div>
 					<div class="hover">
-						<a href="#" class="fw-600" x-text="post.title" @click="$modal.open('grafema-posts-creator')"></a>
+						<a href="#" class="fw-600" x-text="post.title" @click="$modal.open('grafema-modals-post')"></a>
 						<div class="df aic g-2 mt-1 fs-13 hover--show">
 							<a href="#">View</a> <a href="#">Duplicate</a> <a class="t-red" href="#">Trash</a>
 						</div>
@@ -93,35 +93,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         );
         ?>
 	</template>
-</div>
-
-<div class="modal" id="grafema-emails-creator" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
-	<div class="modal__dialog modal__dialog--right modal__dialog--xl" role="document">
-		<div class="modal__content" @click.outside="$modal.close()">
-			<div class="modal__header">
-				<h6 class="modal__title t-muted fw-300">Page ID: <span class="t-dark fw-600">#123</span></h6>
-				<i class="ph ph-copy" x-copy="123"></i>
-				<button type="button" class="modal__close" @click="$modal.close()"></button>
-			</div>
-			<div class="modal__body modal__body--columns bg-muted-lt">
-				<div class="modal__side">
-					<?php echo Dashboard\Form::view( 'grafema-emails-creator' ); ?>
-				</div>
-				<div class="df jcc">
-					<?php
-                    View::output(
-                        GRFM_DASHBOARD . 'templates/mails/wrappers.php',
-                        [
-                            'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
-                        ]
-                    );
-                    ?>
-				</div>
-			</div>
-			<div class="modal__footer bg-white">
-				<button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
-				<button type="button" class="btn btn--primary" @click="$dispatch('submit')">Publish</button>
-			</div>
-		</div>
-	</div>
+	<?php View::part( 'templates/modals/email' ); ?>
 </div>

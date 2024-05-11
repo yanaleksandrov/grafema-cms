@@ -18,6 +18,7 @@ Dashboard\Form::register(
 				[
 					'name'       => 'title',
 					'type'       => 'text',
+					'class'       => 'df aic fs-12 t-muted',
 					'label'      => I18n::__( 'Email heading' ),
 					'attributes' => [
 						'required'    => true,
@@ -27,7 +28,8 @@ Dashboard\Form::register(
 				[
 					'name'       => 'event',
 					'type'       => 'select',
-					'label'      => I18n::__( 'Event' ),
+					'class'       => 'df aic fs-12 t-muted',
+					'label'      => I18n::__( 'Events' ),
 					'value'      => '',
 					'attributes' => [
 						'x-select' => '',
@@ -41,6 +43,7 @@ Dashboard\Form::register(
 				[
 					'name'       => 'subtitle',
 					'type'       => 'text',
+					'class'       => 'df aic fs-12 t-muted',
 					'label'      => I18n::__( 'Subtitle' ),
 					'attributes' => [
 						'required'    => true,
@@ -50,6 +53,7 @@ Dashboard\Form::register(
 				[
 					'name'        => 'content',
 					'type'        => 'textarea',
+					'class'       => 'df aic fs-12 t-muted',
 					'label'       => I18n::__( 'Content' ),
 					'instruction' => I18n::__( 'Enter recipients for this email. Each recipient email from a new line.' ),
 					'attributes'  => [
@@ -61,6 +65,7 @@ Dashboard\Form::register(
 				[
 					'name'        => 'recipients',
 					'type'        => 'textarea',
+					'class'       => 'df aic fs-12 t-muted',
 					'label'       => I18n::__( 'Recipient(s)' ),
 					'instruction' => I18n::__( 'Enter recipients for this email. Each recipient email from a new line.' ),
 					'attributes'  => [

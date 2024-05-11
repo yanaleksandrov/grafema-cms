@@ -54,7 +54,7 @@ class Pages extends Builder implements Skeleton
 					'templates/states/undefined',
 					[
 						'title'       => I18n::__( 'Pages not found' ),
-						'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-posts-creator\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+						'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 					]
 				);
 			?>

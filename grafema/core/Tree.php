@@ -65,8 +65,10 @@ class Tree
 	}
 
 	/**
-	 * Output html of menu.
+	 * Output data of tree structure.
 	 *
+	 * @param string $name
+	 * @param callable $function
 	 * @since 1.0.0
 	 */
 	public static function view( string $name, callable $function ): void
@@ -77,6 +79,20 @@ class Tree
 		if ( is_callable( $function ) ) {
 			$function( $items, $tree );
 		}
+	}
+
+	/**
+	 * Return data of tree structure.
+	 *
+	 * @param string $name
+	 * @param callable $function
+	 * @return string
+	 */
+	public static function include( string $name, callable $function ): string
+	{
+		ob_start();
+		self::view( $name, $function );
+		return ob_get_clean();
 	}
 
 	/**
@@ -124,10 +140,11 @@ class Tree
 	 * Parses a one-dimensional array with elements and forms a multidimensional one, taking into account nesting.
 	 * Sorts array elements in ascending order of the value of the `position` field.
 	 *
-	 * @param array       $elements  List of tree
+	 * @param array $elements List of tree
 	 * @param string|null $parent_id Parent ID
-	 * @param int         $depth     depth of parsing
+	 * @param int $depth depth of parsing
 	 *
+	 * @return array
 	 * @since  1.0.0
 	 */
 	public function parse( array $elements, ?string $parent_id = '', int $depth = 0 ): array

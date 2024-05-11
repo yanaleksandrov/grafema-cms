@@ -118,6 +118,9 @@
 ];
 
 // tabs
+//'class_menu'    => '', // css class for tab navigation menu
+//'class_button'  => '', // css class for tab menu button
+//'class_content' => '', // css class for tab content
 [
 	'type'          => 'tab',
 	'label'         => I18n::__( 'General' ),
@@ -125,7 +128,8 @@
 	'caption'       => '',
 	'description'   => '',
 	'icon'          => 'ph ph-cube',
-	'class_button'  => '', // css class for tab menu button
-	'class_content' => '', // css class for tab content
+	'class_menu'    => '',
+	'class_button'  => '',
+	'class_content' => '',
 	'fields'        => [],
 ];

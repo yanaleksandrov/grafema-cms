@@ -539,11 +539,8 @@ document.addEventListener( 'alpine:init', () => {
 				return false;
 			}
 
-			let styles  = getComputedStyle( el, null ),
-				border  = parseInt( styles.getPropertyValue( 'border-width' ) ) * 4;
-
 			el.style.height = 'auto';
-			el.style.height = ( el.scrollHeight + border + 4 ) + 'px';
+			el.style.height = ( el.scrollHeight + 1 ) + 'px';
 		}, false );
 	});
 
@@ -849,13 +846,13 @@ document.addEventListener( 'alpine:init', () => {
 						cancelable: true
 					})
 				);
+
+				el.classList.remove('btn--load');
+
+				submitBtn && submitBtn.removeAttribute('style');
 			};
 
 			xhr.send(formData);
-
-			el.classList.remove('btn--load');
-
-			submitBtn && submitBtn.removeAttribute('style');
 		});
 	});
 
@@ -1068,43 +1065,45 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data( 'datepicker', () => ( {
-		run: ( elem, opts ) => {
-			//console.log(elem);
+	Alpine.directive( 'datepicker', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {
+		let evaluate = evaluateLater(expression);
+		effect(() => {
+			evaluate( content => {
+				//console.log(elem);
 
-			// see option https://wwilsman.github.io/Datepicker.js/#methods
-			//console.log( new Date('2018-07-22') );
-			opts = Object.assign( {}, {
-				inline: true,
-				multiple: false,
-				ranged: true,
-				time: true,
-				lang: 'ru',
-				months: 2,
-				timeAmPm: false,
-				/*min: (function(){
-					var date = new Date();
-					return date.setDate( date.getDate() - 200);
-				})(),
-				max: (function(){
-					var date = new Date();
-					return date.setDate(date.getDate() + 405);
-				})(),*/
-				within: false,
-				without: false,
-				yearRange: 5,
-				weekStart: 1,
-				/* defaultTime: {
-					start: [12, 0],
-					end: [12, 0]
-				}, */
-			}, opts );
+				// see option https://wwilsman.github.io/Datepicker.js/#methods
+				//console.log( new Date('2018-07-22') );
+				let opts = Object.assign( {}, {
+					inline: true,
+					multiple: false,
+					ranged: true,
+					time: true,
+					lang: 'ru',
+					months: 2,
+					timeAmPm: false,
+					/*min: (function(){
+                        var date = new Date();
+                        return date.setDate( date.getDate() - 200);
+                    })(),
+                    max: (function(){
+                        var date = new Date();
+                        return date.setDate(date.getDate() + 405);
+                    })(),*/
+					within: false,
+					without: false,
+					yearRange: 5,
+					weekStart: 1,
+					/* defaultTime: {
+                        start: [12, 0],
+                        end: [12, 0]
+                    }, */
+				}, content || {} );
 
-			//var datepicker = new Datepicker(elem,opts);
-			//var datepicker = new Datepicker( elem, opts );
-			//console.log( datepicker );
-		}
-	} ) );
+				let datepicker = new Datepicker( el, opts );
+				console.log( datepicker );
+			});
+		});
+	});
 
 	/**
 	 * Validation by field `type`, `regexp` or `mask`.

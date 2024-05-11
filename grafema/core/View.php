@@ -147,4 +147,17 @@ class View
 			require $filepath;
 		}
 	}
+
+	/**
+	 * Get template part.
+	 *
+	 * @param string $template
+	 * @param array $args
+	 * @return string
+	 */
+	public static function get( string $template, array $args = [] ): string {
+		ob_start();
+		View::part( $template, $args );
+		return ob_get_clean();
+	}
 }

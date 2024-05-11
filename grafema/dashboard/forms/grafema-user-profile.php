@@ -17,6 +17,19 @@ Dashboard\Form::register(
 		$form->addFields(
 			[
 				[
+					'type'        => 'image',
+					'name'        => 'avatar',
+					'label'       => I18n::__( 'Upload avatar' ),
+					'label_class' => '',
+					'class'       => 'dg p-8 pb-4 bg-gray-lt',
+					'description' => I18n::__( 'Click to upload or drag & drop' ),
+					'tooltip'     => I18n::__( 'This is tooltip' ),
+					'attributes'  => [
+						'required' => false,
+						'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+					],
+				],
+				[
 					'type'          => 'tab',
 					'label'         => I18n::__( 'Profile' ),
 					'name'          => 'profile',

@@ -64,7 +64,6 @@ body {
   touch-action: manipulation;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  scrollbar-gutter: stable;
   min-height: 100dvh;
   font-size: 14px;
   overflow-x: hidden;
@@ -263,6 +262,11 @@ textarea {
   height: auto;
   cursor: text;
 
+  &:has(code),
+  &:has(samp) {
+    padding-left: 0.3rem;
+  }
+
   &:not(:last-child) {
     margin-bottom: 0.125rem;
   }
@@ -369,6 +373,15 @@ input {
       width: 0;
       height: 0;
       display: none;
+    }
+  }
+
+  &[type="date"] {
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-calendar-picker-indicator {
+      display: none;
+      -webkit-appearance: none;
     }
   }
 
@@ -573,8 +586,12 @@ textarea {
   resize: vertical;
   white-space: pre-wrap;
   min-height: 2rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+
+  &[x-textarea] {
+    overflow: hidden;
+  }
 }
 
 label {

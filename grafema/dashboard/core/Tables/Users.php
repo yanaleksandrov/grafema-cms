@@ -6,7 +6,7 @@ use Grafema\I18n;
 use Grafema\Sanitizer;
 use Grafema\View;
 
-class Pages extends Builder implements Skeleton
+class Users extends Builder implements Skeleton
 {
 	public function render()
 	{
@@ -19,9 +19,7 @@ class Pages extends Builder implements Skeleton
 			$output .= '<div class="table__row">';
 
 			foreach ( $columns as $key => $column ) {
-				ob_start();
-				View::part( 'templates/table/cells/head', $column + ['key' => $key] );
-				$output .= ob_get_clean();
+				$output .= View::get( 'templates/table/cells/head', $column + ['key' => $key] );
 			}
 			$output .= '</div>';
 			$output .= '</template>';
@@ -87,7 +85,7 @@ class Pages extends Builder implements Skeleton
 			],
 			'title' => [
 				'cell'       => 'title',
-				'title'      => I18n::__( 'Title' ),
+				'title'      => I18n::__( 'Name' ),
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
@@ -95,7 +93,7 @@ class Pages extends Builder implements Skeleton
 			],
 			'author' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Author' ),
+				'title'      => I18n::__( 'Role' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
@@ -103,18 +101,10 @@ class Pages extends Builder implements Skeleton
 			],
 			'categories' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Categories' ),
+				'title'      => I18n::__( 'Last visit' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
-			],
-			'date' => [
-				'cell'       => 'date',
-				'title'      => I18n::__( 'Date' ),
-				'width'      => '9rem',
-				'flexible'   => false,
-				'sortable'   => true,
 				'filterable' => true,
 			],
 		];

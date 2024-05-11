@@ -171,6 +171,7 @@ Dashboard\Form::register(
 									'name'     => 'date-format',
 									'type'     => 'custom',
 									'callback' => function () {
+			                            ob_start();
 										?>
 										<div class="dg g-2">
 											<label class="dg">
@@ -191,12 +192,14 @@ Dashboard\Form::register(
 											<div class="fs-13 t-muted"><a href="https://www.php.net/manual/en/datetime.format.php" target="_blank">Get formats list</a> on php.net</div>
 										</div>
 										<?php
+                                        return ob_get_clean();
 									},
 								],
 								[
 									'name'     => 'time-format',
 									'type'     => 'custom',
 									'callback' => function () {
+										ob_start();
 										?>
 										<div class="dg g-2">
 											<label class="dg">
@@ -217,6 +220,7 @@ Dashboard\Form::register(
 											<div class="fs-13 t-muted"><a href="https://www.php.net/manual/en/datetime.format.php" target="_blank">Get full time formats list</a> on php.net</div>
 										</div>
 										<?php
+										return ob_get_clean();
 									},
 								],
 								[

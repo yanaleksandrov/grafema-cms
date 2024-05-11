@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<div class="grafema-main" x-data="{showUploader: false, percent: 0, uploader: null}">
+<div class="grafema-main" x-data="{percent: 0, uploader: null}">
     <?php
     View::part(
         'templates/table/header',
@@ -27,7 +27,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<template x-if="grafema.posts.length">
 		<div class="storage">
 			<template x-for="post in grafema.posts">
-				<div class="storage__item" @click="$modal.open('grafema-posts-creator')">
+				<div class="storage__item" @click="$modal.open('grafema-modals-post')">
 					<img class="storage__image" :src="post.sizes?.thumbnail?.url || post.url || post.icon" alt="" width="200" height="200">
 					<div class="storage__meta">
 						<div class="storage__data" x-text="post.sizeHumanize"></div>

@@ -222,6 +222,8 @@ $start_time = microtime( true );
     </div>
     <?php
 
+	View::part( 'templates/modals/uploader' );
+
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *

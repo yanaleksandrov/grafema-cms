@@ -212,7 +212,7 @@ $start_time = microtime( true );
 
 	} else {
 	    ?>
-		<div class="df aic jcc p-8">
+		<div class="df aic jcc p-6">
 			<?php View::part( 'templates/' . $slug ); ?>
 		</div>
 		<?php

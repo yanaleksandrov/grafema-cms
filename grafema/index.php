@@ -58,14 +58,34 @@ array_map(function ($include) {
 		file_put_contents(
 			GRFM_PATH . '.htaccess',
 			'<<<HTACCESS
-			<IfModule mod_rewrite.c>
-				RewriteEngine On
-				RewriteBase /
+Options +FollowSymLinks
+# Options +SymLinksIfOwnerMatch
+Options -Indexes
+DirectoryIndex index.php index.html
+AddDefaultCharset UTF-8
 
-				RewriteCond %{REQUEST_FILENAME} !-f
-				RewriteCond %{REQUEST_FILENAME} !-d
-				RewriteRule ^(.*)$ index.php?/$1 [L]
-			</IfModule>
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # for 301-redirect http to https
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
+
+    RewriteBase /
+    RewriteCond $1 !^(index\.php|uploads|robots\.txt|favicon\.ico)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+    # or for fastCGI
+    # RewriteRule . /index.php [L]
+</IfModule>
+
+<IfModule mod_expires.c>
+    <filesmatch ".(jpg|jpeg|gif|png|webp|svg|ico|css|js|woff|woff2)$">
+        ExpiresActive on
+        ExpiresDefault "access plus 1 month"
+    </filesmatch>
+</IfModule>
             HTACCESS'
 		);
 	}
@@ -232,9 +252,9 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 *
 	 * @since 1.0.0
 	 */
-	if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true )
-		&& ! User::logged() && Is::installed()
-	) {
+	if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true ) && ! User::logged() && Is::installed() ) {
+//		var_dump( $slug );
+//		exit;
 		View::redirect(
 			Url::sign_in()
 		);

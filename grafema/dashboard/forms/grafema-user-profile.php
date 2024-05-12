@@ -21,7 +21,7 @@ Dashboard\Form::register(
 					'name'        => 'avatar',
 					'label'       => I18n::__( 'Upload avatar' ),
 					'label_class' => '',
-					'class'       => 'dg p-8 pb-4 bg-gray-lt',
+					'class'       => 'dg p-7 pt-6 pb-5 bg-gray-lt',
 					'description' => I18n::__( 'Click to upload or drag & drop' ),
 					'tooltip'     => I18n::__( 'This is tooltip' ),
 					'attributes'  => [
@@ -36,8 +36,9 @@ Dashboard\Form::register(
 					'caption'       => '',
 					'description'   => '',
 					'icon'          => 'ph ph-user',
-					'class_button'  => 'ml-8',
-					'class_content' => 'p-8',
+					'class_menu'    => 'bg-gray-lt',
+					'class_button'  => 'ml-7',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -48,7 +49,7 @@ Dashboard\Form::register(
 									'type'        => 'email',
 									'label'       => I18n::__( 'Your email (required)' ),
 									'name'        => 'email',
-									'value'       => \Grafema\User::current()?->email,
+									'value'       => Grafema\User::current()?->email,
 									'placeholder' => I18n::__( 'Enter user email' ),
 									'class'       => '',
 									'reset'       => 0,
@@ -75,7 +76,7 @@ Dashboard\Form::register(
 									'type'        => 'text',
 									'label'       => I18n::__( 'Login' ),
 									'name'        => 'login',
-									'value'       => \Grafema\User::current()?->login,
+									'value'       => Grafema\User::current()?->login,
 									'placeholder' => '',
 									'class'       => '',
 									'reset'       => 0,
@@ -95,7 +96,7 @@ Dashboard\Form::register(
 									'type'        => 'text',
 									'label'       => I18n::__( 'Nicename (required)' ),
 									'name'        => 'nicename',
-									'value'       => \Grafema\User::current()?->nicename,
+									'value'       => Grafema\User::current()?->nicename,
 									'placeholder' => '',
 									'class'       => '',
 									'reset'       => 0,
@@ -254,7 +255,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-paint-brush-broad',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'    => 'theme',
@@ -352,7 +353,7 @@ Dashboard\Form::register(
 					'caption'       => '',
 					'icon'          => 'ph ph-password',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -479,7 +480,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-key',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',

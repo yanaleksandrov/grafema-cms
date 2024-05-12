@@ -362,7 +362,7 @@
     align-items: center;
     font-weight: 600;
     white-space: nowrap;
-    color: var(--grafema-text-muted);
+    color: var(--grafema-secondary);
 
     &:hover,
     &.active {
@@ -392,7 +392,7 @@
   }
 
   &__content {
-    max-width: 62rem;
+    max-width: 60rem;
   }
 
   &--btn {
@@ -429,26 +429,25 @@
     display: flex;
 
     .tab__nav {
-      max-width: 14rem;
-      width: 14rem;
-      min-width: 14rem;
+      max-width: 13rem;
+      width: 13rem;
+      min-width: 13rem;
       flex-direction: column;
       align-items: flex-start;
       margin: 0;
-      height: auto;
       border: 0;
-      gap: 0;
-      padding: 1.75rem 0;
-      border-right: 1px solid var(--grafema-border);
+      gap: 0.25rem;
+      padding: 1.75rem 1rem 1.75rem 1.75rem;
     }
 
     .tab__title {
       display: grid;
-      width: 100%;
       border: 0;
       height: auto;
       gap: 0;
-      padding: 0.75rem 0 0.75rem 1.75rem;
+      padding: 0.55rem 0 .55rem 0.85rem;
+      width: 100%;
+      border-radius: var(--grafema-border-radius-lg);
 
       &:after {
         content: none;
@@ -457,10 +456,6 @@
       &:hover,
       &.active {
         background-color: var(--grafema-bg-active);
-      }
-
-      &.active {
-        border-right: 2px solid var(--grafema-dark);
       }
     }
 

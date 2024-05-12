@@ -1,12 +1,11 @@
 <?php
 use Grafema\I18n;
 use Grafema\View;
-use Grafema\Media;
 
 /*
  * Files storage.
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/storage.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/media.php
  *
  * @version     1.0.0
  */
@@ -14,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<div class="grafema-main" x-data="{percent: 0, uploader: null}">
+<div class="grafema-main">
     <?php
     View::part(
         'templates/table/header',

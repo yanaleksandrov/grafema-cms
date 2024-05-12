@@ -2835,7 +2835,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
 				const [key, ...rest] = expression.split('.');
 				if (el.type === 'checkbox') {
 					value = typeof xData[key] === 'undefined' ? '' : Array.from(xData[key]);
-				} else if (el.type === 'radio') {
+				} else if (el.type === 'radio' && typeof xData[key] === 'undefined') {
 					value = el.checked ? el.value : '';
 				} else {
 					value = xData[key] ?? '';

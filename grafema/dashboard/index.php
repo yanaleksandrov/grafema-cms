@@ -95,11 +95,13 @@ $start_time = microtime( true );
 	<meta charset="<?php Option::attr( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Menu</title>
-    <link rel="icon" href="/dashboard/assets/favicon.ico">
-    <link rel="icon" href="/dashboard/assets/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/images/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
+    <link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 	<?php
 
 	/**
@@ -195,7 +197,7 @@ $start_time = microtime( true );
             </div>
 
 			<div class="grafema-panel">
-                <img src="/dashboard/assets/images/logo.svg" width="28" height="28" alt="Grafema Logo">
+                <img src="/dashboard/assets/images/logo.svg" width="34" height="34" alt="Grafema Logo">
                 <?php View::part( 'templates/menu-panel' ); ?>
 			</div>
 
@@ -205,7 +207,11 @@ $start_time = microtime( true );
             View::part( 'templates/' . $slug );
             ?>
 		</div>
-	<?php } else { ?>
+    	<?php
+		View::part( 'templates/modals/uploader' );
+
+	} else {
+	    ?>
 		<div class="df aic jcc p-8">
 			<?php View::part( 'templates/' . $slug ); ?>
 		</div>
@@ -221,9 +227,6 @@ $start_time = microtime( true );
         </template>
     </div>
     <?php
-
-	View::part( 'templates/modals/uploader' );
-
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *

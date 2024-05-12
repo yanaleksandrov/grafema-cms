@@ -14,8 +14,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="mw-400">
-	<div class="mb-8 df jcc">
-		<img src="/dashboard/assets/images/logo.svg" width="72" height="72" alt="Grafema CMS">
+	<div class="df jcc">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="172" height="172" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-sign-in' ); ?>
 	<div class="fs-14 t-center t-muted mt-3">

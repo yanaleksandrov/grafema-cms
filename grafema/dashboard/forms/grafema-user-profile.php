@@ -21,7 +21,7 @@ Dashboard\Form::register(
 					'name'        => 'avatar',
 					'label'       => I18n::__( 'Upload avatar' ),
 					'label_class' => '',
-					'class'       => 'dg p-8 pb-5 bg-gray-lt',
+					'class'       => 'dg p-7 pt-6 pb-5 bg-gray-lt',
 					'description' => I18n::__( 'Click to upload or drag & drop' ),
 					'tooltip'     => I18n::__( 'This is tooltip' ),
 					'attributes'  => [
@@ -37,8 +37,8 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-user',
 					'class_menu'    => 'bg-gray-lt',
-					'class_button'  => 'ml-8',
-					'class_content' => 'p-8',
+					'class_button'  => 'ml-7',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -255,7 +255,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-paint-brush-broad',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'    => 'theme',
@@ -353,7 +353,7 @@ Dashboard\Form::register(
 					'caption'       => '',
 					'icon'          => 'ph ph-password',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -480,7 +480,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-key',
 					'class_button'  => '',
-					'class_content' => 'p-8',
+					'class_content' => 'p-7',
 					'fields'        => [
 						[
 							'name'   => 'theme',

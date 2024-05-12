@@ -232,9 +232,9 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 *
 	 * @since 1.0.0
 	 */
-	if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true )
-		&& ! User::logged() && Is::installed()
-	) {
+	if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true ) && ! User::logged() && Is::installed() ) {
+//		var_dump( $slug );
+//		exit;
 		View::redirect(
 			Url::sign_in()
 		);

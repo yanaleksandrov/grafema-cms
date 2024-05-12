@@ -113,10 +113,6 @@ const config = {
           to: "fonts",
         },
         {
-          from: "src/favicon",
-          to: "favicon",
-        },
-        {
           from: "src/images",
           to: "images",
         },

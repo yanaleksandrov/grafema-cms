@@ -51,7 +51,7 @@ Dashboard\Form::register(
 					'before'      => '',
 					'after'       => '',
 					'tooltip'     => '',
-					'instruction' => I18n::_s( 'Forgot your password? You can %sreset it here%s', '<a href="/dashboard/reset-password">', '</a>' ),
+					'instruction' => I18n::_f( 'Forgot your password? You can %sreset it here%s', '<a href="/dashboard/reset-password">', '</a>' ),
 					'attributes'  => [],
 					'conditions'  => [],
 					'switcher'    => 1,

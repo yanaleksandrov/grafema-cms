@@ -41,7 +41,7 @@ if ( empty( $template ) || ! file_exists( $template ) ) {
 		</table>
 		<table border="0" cellpadding="0" cellspacing="0" style="width: 90%; max-width: 560px; margin: 0 auto; background: #fff; border-radius: 4px; overflow: hidden; border: 1px solid #e6e7e9; border-top: 4px solid #206bc4;">
 			<tr>
-				<?php View::output( $template, $args ); ?>
+				<?php View::print( $template, $args ); ?>
 			</tr>
 		</table>
 		<table border="0" cellpadding="10" cellspacing="0" style="width: 90%; max-width: 560px; padding: 20px 0 0; margin: 0 auto;">

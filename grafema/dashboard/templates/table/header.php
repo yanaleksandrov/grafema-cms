@@ -35,7 +35,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         <div class="df aic g-1">
             <?php if ( $show ) : ?>
                 <?php
-                View::part(
+                View::print(
                     'templates/form/number',
                     [
                         'name'        => 'page',
@@ -50,7 +50,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                 <a href="/dashboard/plugins-install" class="btn btn--outline">Install <span class="badge badge--sm">+2k</span></a>
                 <button class="btn btn--outline"><i class="ph ph-funnel-simple"></i> Filters <span class="badge badge--sm">8</span></button>
                 <?php
-                View::part(
+                View::print(
                     'templates/form/details',
                     [
                         'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
@@ -59,7 +59,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         'content'     => Dashboard\Form::view( 'grafema-posts-actions' ),
                     ]
                 );
-                View::part(
+                View::print(
                     'templates/form/details',
                     [
                         'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
@@ -70,7 +70,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                 );
                 ?>
             <?php endif; ?>
-            <button class="btn btn--outline" @click="$modal.open('grafema-modals-uploader')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new file' ); ?></button>
+            <button class="btn btn--outline" @click="$modal.open('grafema-modals-uploader')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::t( 'Add new file' ); ?></button>
         </div>
 	</div>
 </div>

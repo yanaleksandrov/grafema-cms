@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="grafema-main" x-data="{emails: []}">
 	<template x-if="emails.length">
 		<?php
-		View::part(
+		View::print(
 			'templates/table/header',
 			[
 				'title' => I18n::__( 'Emails' ),
@@ -27,7 +27,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<div class="tables__head">
 				<div class="df aic">
 					<div class="mr-2">
-						<h4><?php I18n::e( 'Pages' ); ?></h4>
+						<h4><?php I18n::t( 'Pages' ); ?></h4>
 					</div>
 					<div class="ml-auto df aic g-4">
 						<div class="df aic g-1">
@@ -47,7 +47,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								</svg>
 							</span>
 						</div>
-						<button class="btn btn--outline" hidden @click="$modal.open('grafema-modals-post')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::e( 'Add new' ); ?></button>
+						<button class="btn btn--outline" hidden @click="$modal.open('grafema-modals-post')"><i class="ph ph-folder-simple-plus"></i> <?php I18n::t( 'Add new' ); ?></button>
 					</div>
 				</div>
 				<div class="tables__row" style="grid-template-columns: 1rem 2.5rem minmax(18rem, 1fr) repeat(3, minmax(6rem, 1fr))">
@@ -84,14 +84,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</template>
 	<template x-if="!emails.length">
 		<?php
-        View::part(
+        View::print(
             'templates/states/undefined',
             [
                 'title'       => I18n::__( 'Emails templates is not found' ),
-                'description' => I18n::__( 'Add <a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">new email template</a> manually' ),
+                'description' => I18n::_f(
+                    'Add %s1$new email template%s2$ manually',
+                    '<a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">',
+                    '</a>'
+                ),
             ]
         );
         ?>
 	</template>
-	<?php View::part( 'templates/modals/email' ); ?>
+	<?php View::print( 'templates/modals/email' ); ?>
 </div>

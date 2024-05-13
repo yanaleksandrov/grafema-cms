@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
 	<?php
-	View::part(
+	View::print(
 		'templates/table/header',
 		[
 			'title' => I18n::__( 'Users' ),

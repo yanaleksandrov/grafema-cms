@@ -66,7 +66,7 @@ class Media extends \Grafema\Api\Handler
 		}
 
 		return [
-			'notice'   => empty( $errors ) ? I18n::_s( '%d files have been successfully uploaded to the library', count( $posts ) ) : '',
+			'notice'   => empty( $errors ) ? I18n::_f( '%d files have been successfully uploaded to the library', count( $posts ) ) : '',
 			'uploaded' => count( $posts ) > 0,
 			'posts'    => $posts,
 			'errors'   => $errors,
@@ -95,7 +95,7 @@ class Media extends \Grafema\Api\Handler
 		print_r( $files );
 
 		return [
-			'notice'   => empty( $errors ) ? I18n::_s( '%d files have been successfully uploaded to the library', count( $files ) ) : '',
+			'notice'   => empty( $errors ) ? I18n::_f( '%d files have been successfully uploaded to the library', count( $files ) ) : '',
 			'uploaded' => count( $files ) > 0,
 			'files'    => $files,
 			'errors'   => $errors,

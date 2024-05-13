@@ -26,12 +26,11 @@ class Users extends Builder implements Skeleton
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
-
-			ob_start();
+			$output .= '<div class="table__row hover">';
 
 			foreach ( $columns as $key => $column ) {
-				$cell = Sanitizer::trim( $column['cell'] ?? '' );
-				View::part(
+				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
+				$output .= View::get(
 					'templates/table/cells/' . $cell,
 					[
 						'column' => [
@@ -41,18 +40,24 @@ class Users extends Builder implements Skeleton
 					]
 				);
 			}
-			$output .= '<div class="table__row hover">' . ob_get_clean() . '</div>';
+			$output .= '</div>';
 			$output .= '</template>';
 
 			ob_start();
 			?>
 			<template x-if="!items.length">
 				<?php
-				View::part(
+				View::print(
 					'templates/states/undefined',
 					[
 						'title'       => I18n::__( 'Pages not found' ),
-						'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+						'description' => I18n::_f(
+							'You don\'t have any pages yet. %s1$Add them manually%s2$ or %s3$import via CSV%s4$',
+							'<a @click="$modal.open(\'grafema-modals-post\')">',
+							'</a>',
+							'<a href="/dashboard/import">',
+							'</a>'
+						),
 					]
 				);
 			?>

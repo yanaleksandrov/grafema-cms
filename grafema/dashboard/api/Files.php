@@ -41,8 +41,8 @@ class Files extends \Grafema\Api\Handler
 				$filepath = Sanitizer::path( $uploadedFile->path ?? '' );
 				$rows     = Csv::import( $filepath );
 
-				View::include(
-					GRFM_DASHBOARD . 'forms/grafema-posts-import-fields.php',
+				View::get(
+					GRFM_DASHBOARD . 'forms/grafema-posts-import-fields',
 					[
 						'samples'  => $rows[0] ?? [],
 						'filepath' => $filepath,

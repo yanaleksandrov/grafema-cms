@@ -148,7 +148,7 @@ Dashboard\Form::register(
 									'label'       => '',
 									'class'       => '',
 									'instruction' => '',
-									'before'      => I18n::_s( '%sFrom:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
+									'before'      => I18n::_f( '%sFrom:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
 									'attributes'  => [
 										'required'    => true,
 										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
@@ -160,7 +160,7 @@ Dashboard\Form::register(
 									'label'       => '',
 									'class'       => '',
 									'instruction' => '',
-									'before'      => I18n::_s( '%sTo:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
+									'before'      => I18n::_f( '%sTo:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
 									'attributes'  => [
 										'required'    => true,
 										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),

@@ -53,7 +53,7 @@ $attributes = [
 			Esc::html( $label );
             if ( $generator ) {
                 ?>
-				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::e( 'Generate' ); ?></span>
+				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
 			<?php } ?>
 		</div>
 		<div class="field">

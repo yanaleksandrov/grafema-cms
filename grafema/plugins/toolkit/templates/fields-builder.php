@@ -28,7 +28,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="fields-builder__preview">
 					<div class="fields-builder__preview-field" data-title="Field Preview">
 						<?php
-						View::part(
+						View::print(
 							'templates/form/image',
 							[
 								'name'        => 'perpage',
@@ -56,7 +56,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					Code Preview <i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy to clipboard' ) ); ?>" x-copy="$refs.code.innerText"></i>
 				</div>
 				<pre x-ref="code" x-highlight.php>
-View::part(
+View::print(
 	'templates/form/image',
 	[
 		'name'        =&gt; 'perpage',

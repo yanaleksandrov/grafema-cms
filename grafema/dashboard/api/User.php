@@ -121,10 +121,10 @@ class User extends \Grafema\Api\Handler
 			$mail_is_sent = Mail::send(
 				$email,
 				I18n::__( 'Instructions for reset password' ),
-				View::include(
-					GRFM_DASHBOARD . 'templates/mails/wrapper.php',
+				View::get(
+					GRFM_DASHBOARD . 'templates/mails/wrapper',
 					[
-						'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
+						'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password',
 					]
 				)
 			);

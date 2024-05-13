@@ -85,7 +85,7 @@ class Files extends Files\Handler
 	 */
 	public static function open( string $filepath = '', ?callable $callback = null ): Files|Errors {
 		if ( ! file_exists( $filepath ) ) {
-			return new Errors(  'file-not-exists', I18n::_s( "File with '%s' path is not exists.", $filepath ) );
+			return new Errors(  'file-not-exists', I18n::_f( "File with '%s' path is not exists.", $filepath ) );
 		}
 
 		$file = new self( $filepath );
@@ -138,8 +138,8 @@ class Files extends Files\Handler
 				// Courtesy of php.net, the strings that describe the error indicated in $_FILES[{form field}]['error'].
 				$uploadErrorMessages = [
 					false,
-					I18n::_s( 'The uploaded file exceeds the %1$s directive in %2$s.', 'upload_max_filesize', 'php.ini' ),
-					I18n::_s( 'The uploaded file exceeds the %s directive that was specified in the HTML form.', 'MAX_FILE_SIZE' ),
+					I18n::_f( 'The uploaded file exceeds the %1$s directive in %2$s.', 'upload_max_filesize', 'php.ini' ),
+					I18n::_f( 'The uploaded file exceeds the %s directive that was specified in the HTML form.', 'MAX_FILE_SIZE' ),
 					I18n::__( 'The uploaded file was only partially uploaded.' ),
 					I18n::__( 'No file was uploaded.' ),
 					'',
@@ -157,7 +157,7 @@ class Files extends Files\Handler
 			I18n::__( 'File is empty. Please upload something more substantial.' )
 		)->extend(
 			'size:max',
-			I18n::_s( 'The maximum file size is %s.', parent::humanise( $maxFileSize, 'Mb' ) )
+			I18n::_f( 'The maximum file size is %s.', parent::humanise( $maxFileSize, 'Mb' ) )
 		)->apply();
 
 		/**
@@ -325,11 +325,11 @@ class Files extends Files\Handler
 		if ( is_writable( $this->path ) ) {
 			$fp = fopen( $this->path, $after ? 'a' : 'w' );
 			if ( ! $fp ) {
-				$this->errors[] = new Errors( 'file-manipulation', I18n::_s( "I can't open the file '%s'", $this->path ) );
+				$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't open the file '%s'", $this->path ) );
 			} else {
 				// writing $content to open file
 				if ( fwrite( $fp, $content ) === false ) {
-					$this->errors[] = new Errors( 'file-manipulation', I18n::_s( "I can't write to the file '%s'", $this->path ) );
+					$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't write to the file '%s'", $this->path ) );
 				}
 
 				fclose( $fp );

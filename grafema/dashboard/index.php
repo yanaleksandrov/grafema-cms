@@ -152,7 +152,7 @@ $start_time = microtime( true );
 				<?php
 				$label = ob_get_clean();
 
-				View::part(
+				View::print(
 					'templates/form/details',
 					[
 						'label'       => $label,
@@ -198,22 +198,22 @@ $start_time = microtime( true );
 
 			<div class="grafema-panel">
                 <img src="/dashboard/assets/images/logo.svg" width="34" height="34" alt="Grafema Logo">
-                <?php View::part( 'templates/menu-panel' ); ?>
+                <?php View::print( 'templates/menu-panel' ); ?>
 			</div>
 
             <?php
-            View::part( 'templates/menu' );
+            View::print( 'templates/menu' );
 
-            View::part( 'templates/' . $slug );
+            View::print( 'templates/' . $slug );
             ?>
 		</div>
     	<?php
-		View::part( 'templates/modals/uploader' );
+		View::print( 'templates/modals/uploader' );
 
 	} else {
 	    ?>
 		<div class="df aic jcc p-6">
-			<?php View::part( 'templates/' . $slug ); ?>
+			<?php View::print( 'templates/' . $slug ); ?>
 		</div>
 		<?php
 	}

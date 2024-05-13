@@ -24,7 +24,7 @@ Dashboard\Form::register(
 						?>
 						<div class="progress" :style="'--grafema-progress:' + $wizard.progress().progress"></div>
 						<div class="p-8 pt-7 pb-7 df aic jcsb">
-							<span x-text="$wizard.current().title"><?php I18n::e( 'Upload CSV file' ); ?></span>
+							<span x-text="$wizard.current().title"><?php I18n::t( 'Upload CSV file' ); ?></span>
 							<span class="t-muted">
 								step <strong x-text="$wizard.progress().current">1</strong> from <strong x-text="$wizard.progress().total">2</strong>
 							</span>
@@ -47,7 +47,7 @@ Dashboard\Form::register(
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
 							'label'       => I18n::__( 'Import posts from a CSV file' ),
-							'instruction' => I18n::_s( 'This tool allows you to import (or merge) posts data to your website from a CSV or TXT file. %sDownload%s the file for an example or choose a file from your computer:', '<a href="/dashboard/assets/files/example-posts.csv" download>', '</a>' ),
+							'instruction' => I18n::_f( 'This tool allows you to import (or merge) posts data to your website from a CSV or TXT file. %sDownload%s the file for an example or choose a file from your computer:', '<a href="/dashboard/assets/files/example-posts.csv" download>', '</a>' ),
 						],
 						[
 							'name'        => 'uploader',
@@ -98,9 +98,9 @@ Dashboard\Form::register(
 						?>
 						<!-- buttons -->
 						<div class="p-8 df jcsb g-2" x-show="!output.trim()">
-							<button type="button" class="btn btn--outline" :disabled="$wizard.cannotGoBack()" x-show="$wizard.isNotLast()" @click="$wizard.goBack()" disabled><?php I18n::e( 'Back' ); ?></button>
-							<button type="button" class="btn btn--primary" :disabled="$wizard.cannotGoNext()" x-show="$wizard.isFirst()" @click="$wizard.goNext()" disabled><?php I18n::e( 'Continue' ); ?></button>
-							<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(1)" x-cloak><?php I18n::e( 'Run the importer' ); ?></button>
+							<button type="button" class="btn btn--outline" :disabled="$wizard.cannotGoBack()" x-show="$wizard.isNotLast()" @click="$wizard.goBack()" disabled><?php I18n::t( 'Back' ); ?></button>
+							<button type="button" class="btn btn--primary" :disabled="$wizard.cannotGoNext()" x-show="$wizard.isFirst()" @click="$wizard.goNext()" disabled><?php I18n::t( 'Continue' ); ?></button>
+							<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(1)" x-cloak><?php I18n::t( 'Run the importer' ); ?></button>
 						</div>
 						<?php
 						return ob_get_clean();

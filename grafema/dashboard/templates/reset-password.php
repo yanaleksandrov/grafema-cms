@@ -16,16 +16,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="mw-400">
 	<div class="df jcc">
-		<img src="/dashboard/assets/images/logo-decorate.svg" width="300" height="178" alt="Grafema CMS">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="274" height="160" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-reset-password' ); ?>
 	<div class="t-center t-muted mt-3">
 		<?php
-		printf(
-			I18n::__( 'I remembered the password, %ssend%s me to the sign in page' ),
+		I18n::tf(
+			'I remembered the password, %ssend%s me to the sign in page',
 			'<a href="' . Url::site( 'dashboard/sign-in' ) . '">',
 			'</a>'
 		);
-?>
+        ?>
 	</div>
 </div>

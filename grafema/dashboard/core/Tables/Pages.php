@@ -19,21 +19,18 @@ class Pages extends Builder implements Skeleton
 			$output .= '<div class="table__row">';
 
 			foreach ( $columns as $key => $column ) {
-				ob_start();
-				View::part( 'templates/table/cells/head', $column + ['key' => $key] );
-				$output .= ob_get_clean();
+				$output .= View::get( 'templates/table/cells/head', $column + ['key' => $key] );
 			}
 			$output .= '</div>';
 			$output .= '</template>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
-
-			ob_start();
+			$output .= '<div class="table__row hover">';
 
 			foreach ( $columns as $key => $column ) {
-				$cell = Sanitizer::trim( $column['cell'] ?? '' );
-				View::part(
+				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
+				$output .= View::get(
 					'templates/table/cells/' . $cell,
 					[
 						'column' => [
@@ -43,14 +40,14 @@ class Pages extends Builder implements Skeleton
 					]
 				);
 			}
-			$output .= '<div class="table__row hover">' . ob_get_clean() . '</div>';
+			$output .= '</div>';
 			$output .= '</template>';
 
 			ob_start();
 			?>
 			<template x-if="!items.length">
 				<?php
-				View::part(
+				View::print(
 					'templates/states/undefined',
 					[
 						'title'       => I18n::__( 'Pages not found' ),

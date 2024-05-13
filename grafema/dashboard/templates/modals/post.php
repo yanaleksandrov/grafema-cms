@@ -19,13 +19,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         <div class="modal__content" @click.outside="$modal.close()">
             <div class="modal__header t-muted fw-600">
                 <div class="df aic g-1 fs-12" @click="$copy('123')">
-                    <i class="ph ph-share-network"></i> <?php I18n::e( 'Copy link' ); ?>
+                    <i class="ph ph-share-network"></i> <?php I18n::t( 'Copy link' ); ?>
                 </div>
                 <div class="df aic g-1 fs-12" @click="$copy('123')">
-                    <i class="ph ph-folders"></i> <?php I18n::e( 'Duplicate' ); ?>
+                    <i class="ph ph-folders"></i> <?php I18n::t( 'Duplicate' ); ?>
                 </div>
                 <div class="df aic g-1 fs-12 t-red" @click="$copy('123')">
-                    <i class="ph ph-trash"></i> <?php I18n::e( 'Move to trash' ); ?>
+                    <i class="ph ph-trash"></i> <?php I18n::t( 'Move to trash' ); ?>
                 </div>
                 <button type="button" class="modal__close" @click="$modal.close()"></button>
             </div>

@@ -191,7 +191,7 @@ $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 <!--</div>-->
 <div class="grafema-main">
 	<?php
-	View::part(
+	View::print(
 		'templates/table/header',
 		[
 			'title' => I18n::__( 'Add Plugins' ),
@@ -200,17 +200,17 @@ $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 ?>
 
 	<!-- plugins list start -->
-	<div class="plugin p-6 sm:p-5 dg g-5" x-data="{plugins: <?php echo $plugins; ?>}">
+	<div class="plugin p-7 sm:p-5 dg g-5" x-data="{plugins: <?php echo $plugins; ?>}">
 		<template x-for="plugin in plugins">
 			<div class="card card-border card-hover jcsb">
 				<div class="df aifs p-5 g-5">
 					<div class="avatar avatar--md avatar--rounded" :style="`background-image: url(${plugin.image})`"></div>
-					<div class="dg g-2 fs-13">
-						<h4 class="fw-600 fs-16 df jcsb">
+					<div class="dg g-2 fs-14">
+						<h4 class="fw-600 fs-18 df jcsb">
 							<span x-text="plugin.title"></span>
-							<span class="btn btn--sm bg-green-lt">Installed</span>
+							<span class="badge badge--green-lt">Installed</span>
 						</h4>
-						<div class="t-muted lh-sm" x-text="plugin.description"></div>
+						<div class="t-muted" x-text="plugin.description"></div>
 						<div>by <a target="_blank" :href="`${plugin.author_link}`" x-text="plugin.author">Our Team</a></div>
 					</div>
 				</div>

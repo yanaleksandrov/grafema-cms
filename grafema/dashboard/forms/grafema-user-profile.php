@@ -464,7 +464,7 @@ Dashboard\Form::register(
 									'callback' => function () {
 										ob_start();
 										?>
-										<button class="btn btn--primary" type="button" @click="$ajax('user/password-update', $data)" :disabled="!(passwordnew && passwordold)" disabled><?php I18n::e( 'Update password' ); ?></button>
+										<button class="btn btn--primary" type="button" @click="$ajax('user/password-update', $data)" :disabled="!(passwordnew && passwordold)" disabled><?php I18n::t( 'Update password' ); ?></button>
 										<?php
 										return ob_get_clean();
 									},
@@ -494,7 +494,7 @@ Dashboard\Form::register(
 										ob_start();
 										?>
 										<div class="dg g-2 ga-4">
-											<p><?php I18n::e( 'Application passwords allow authentication via non-interactive systems, such as REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
+											<p><?php I18n::t( 'Application passwords allow authentication via non-interactive systems, such as REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
 											<div class="p-4 df fdr g-4 card card-border">
 												<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 256 256">
 													<path d="M160 18a78 78 0 0 0-73.8 103.3l-58.4 58.5A6 6 0 0 0 26 184v40a6 6 0 0 0 6 6h40a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 6-6v-18h18a6 6 0 0 0 4.2-1.8l10.5-10.4A78 78 0 1 0 160 18Zm0 144a65.6 65.6 0 0 1-24.4-4.7 6 6 0 0 0-6.7 1.3L117.5 170H96a6 6 0 0 0-6 6v18H72a6 6 0 0 0-6 6v18H38v-31.5L97.4 127a6 6 0 0 0 1.3-6.7A66 66 0 1 1 160 162Zm30-86a10 10 0 1 1-10-10 10 10 0 0 1 10 10Z"/>

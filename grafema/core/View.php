@@ -73,36 +73,9 @@ class View
 	}
 
 	/**
-	 * Echo template.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function output( string $template_file, array $args = [] )
-	{
-		if ( file_exists( $template_file ) ) {
-			extract( $args, EXTR_SKIP );
-
-			require $template_file;
-		}
-	}
-
-	/**
-	 * Include template.
-	 *
-	 * @since 1.0.0
-	 */
-	public static function include( string $template_file, array $args = [] )
-	{
-		ob_start();
-		self::output( $template_file, $args );
-
-		return ob_get_clean();
-	}
-
-	/**
 	 * Loads a template part into a template.
 	 *
-	 * Using: View::part( 'templates/content', [
+	 * Using: View::print( 'templates/content', [
 	 *          'key' => 'value'
 	 *        ] );.
 	 *
@@ -121,7 +94,7 @@ class View
 	 *
 	 * @since 1.0.0
 	 */
-	public static function part( string $template, array $args = [] )
+	public static function print( string $template, array $args = [] )
 	{
 		$filepath = sprintf( '%s.php', $template );
 		$filepath = match (true) {
@@ -157,7 +130,7 @@ class View
 	 */
 	public static function get( string $template, array $args = [] ): string {
 		ob_start();
-		View::part( $template, $args );
+		self::print( $template, $args );
 		return ob_get_clean();
 	}
 }

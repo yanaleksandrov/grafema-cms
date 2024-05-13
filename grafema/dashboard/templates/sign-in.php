@@ -15,16 +15,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="mw-400">
 	<div class="df jcc">
-        <img src="/dashboard/assets/images/logo-decorate.svg" width="300" height="178" alt="Grafema CMS">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="274" height="160" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-sign-in' ); ?>
 	<div class="fs-14 t-center t-muted mt-3">
 		<?php
-		printf(
-			I18n::__( 'Don\'t have an account yet? %sSign up%s' ),
+		I18n::tf(
+		    'Don\'t have an account yet? %sSign up%s',
 			'<a href="' . Url::site( 'dashboard/sign-up' ) . '">',
 			'</a>'
-		);
-?>
+        );
+        ?>
 	</div>
 </div>

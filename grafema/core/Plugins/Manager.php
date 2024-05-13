@@ -68,7 +68,7 @@ final class Manager
 				$data    = $plugin->manifest();
 				$missing = array_diff( ['name', 'description', 'version', 'php', 'mysql'], array_keys( $data ) );
 				if ( ! empty( $missing ) ) {
-					new Errors( 'manager-register', I18n::_s( 'Plugin "%s" parameters "%s" are required', $class, implode( ' ', $missing ) ) );
+					new Errors( 'manager-register', I18n::_f( 'Plugin "%s" parameters "%s" are required', $class, implode( ' ', $missing ) ) );
 
 					continue;
 				}

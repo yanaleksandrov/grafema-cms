@@ -197,7 +197,7 @@ $plugins = str_replace( '"', "'", Json::encode( $plugins ) );
 			'title' => I18n::__( 'Add Plugins' ),
 		]
 	);
-?>
+    ?>
 
 	<!-- plugins list start -->
 	<div class="plugin p-7 sm:p-5 dg g-5" x-data="{plugins: <?php echo $plugins; ?>}">

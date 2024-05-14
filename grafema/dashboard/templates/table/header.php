@@ -22,6 +22,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'show'  => 'bool:true',
 	]
 ) )->values();
+
+$show = true;
 ?>
 <!-- table head start -->
 <div class="table__header">

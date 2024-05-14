@@ -929,11 +929,11 @@
   &__row {
     display: grid;
     gap: 1.3rem;
-    padding: 0.65rem 1.5rem;
+    padding: 0.85rem 1.75rem;
     grid-template-columns: var(--grafema-grid-template-columns);
 
-    &:nth-child(4) {
-      padding-top: 1.25rem;
+    &:nth-child(3) {
+      padding-top: 1.75rem;
     }
   }
 
@@ -945,30 +945,28 @@
     position: sticky;
     top: 42px;
     z-index: 10;
+    color: var(--grafema-secondary);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-align: start;
+    padding: 0 1.75rem;
+    margin-top: -1px;
 
-    .table__row {
-      color: var(--grafema-secondary);
-      font-weight: 600;
-      font-size: 0.8rem;
-      text-align: start;
-      padding: 0 1.5rem;
+    > * {
+      padding: 0.25rem 0 0.5rem;
+      transition: color 0.3s;
 
-      > * {
-        padding: 0.75rem 0;
-        transition: color 0.3s;
+      &:has(i) {
+        cursor: pointer;
 
-        &:has(i) {
-          cursor: pointer;
-
-          &:hover {
-            color: var(--grafema-dark);
-          }
+        &:hover {
+          color: var(--grafema-dark);
         }
       }
+    }
 
-      i {
-        font-size: 0.8rem;
-      }
+    i {
+      font-size: 0.8rem;
     }
   }
 

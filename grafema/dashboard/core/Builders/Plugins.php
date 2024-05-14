@@ -1,6 +1,6 @@
 <?php
 
-namespace Dashboard\Tables;
+namespace Dashboard\Builders;
 
 use Grafema\I18n;
 use Grafema\View;
@@ -8,20 +8,28 @@ use Grafema\Sanitizer;
 
 class Plugins extends Builder
 {
-	public function render()
+    public static function make() {
+
+    }
+
+	public function render(): Builder
 	{
+		return new Builder();
 		$output  = '';
 		$columns = $this->columns();
 		if ( $columns ) {
+			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response)" style="' . $this->stylize( $columns ) . '">';
+			$output .= '<!-- table header start -->';
+			$output .= '<template x-if="items.length">';
+			$output .= '<div class="table__head">';
+
 			$output .= View::get(
 				'templates/table/header',
 				[
 					'title' => I18n::__( 'Plugins' ),
 				]
 			);
-			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response.items)" style="' . $this->stylize( $columns ) . '">';
-			$output .= '<!-- table header start -->';
-			$output .= '<div class="table__head">';
+
 			$output .= '<div class="table__row">';
 
 			foreach ( $columns as $key => $column ) {
@@ -29,6 +37,7 @@ class Plugins extends Builder
 			}
 			$output .= '</div>';
 			$output .= '</div>';
+			$output .= '</template>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
@@ -129,29 +138,4 @@ class Plugins extends Builder
 			],
 		];
 	}
-
-	/**
-	 * @since 1.0.0
-	 */
-	public function wrapper()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function row()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function cell()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function sort()
-	{
-		// TODO: Implement sort() method.
-	}
-
-	public function modify() {}
 }

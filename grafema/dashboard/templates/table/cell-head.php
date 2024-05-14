@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key, $cell, $title, $sortable, $filterable ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+        $args ?? [],
         [
             'key'        => 'key',
             'cell'       => 'key',
@@ -27,16 +27,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <div class="<?php echo $key; ?> df aic g-1">
-	<div class="df aic g-1">
-		<?php
-		if ( $title ) :
-			echo $title;
-		endif;
-		if ( $sortable ) :
-			?>
-			<i class="ph ph-sort-ascending"></i>
-			<?php
-		endif;
+	<?php
+	if ( $title ) :
+		echo $title;
+	endif;
+	if ( $sortable ) :
 		?>
-	</div>
+        <i class="ph ph-sort-ascending"></i>
+	<?php endif; ?>
 </div>

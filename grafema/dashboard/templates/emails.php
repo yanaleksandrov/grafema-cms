@@ -89,7 +89,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
             [
                 'title'       => I18n::__( 'Emails templates is not found' ),
                 'description' => I18n::_f(
-                    'Add %s1$new email template%s2$ manually',
+                    'Add %1$snew email template%2$s manually',
                     '<a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">',
                     '</a>'
                 ),

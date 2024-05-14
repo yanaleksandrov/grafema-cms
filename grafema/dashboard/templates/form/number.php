@@ -33,20 +33,21 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $attributes = [
 	...$attributes,
-	'name'    => $name,
-	':style'  => '`width: ${value.toString().length * 0.46}rem`',
+	'type'         => $type,
+	'name'         => $name,
+	'x-model.fill' => $name,
 ];
 ?>
-<div class="<?php echo $class; ?>" x-data="{value: 3}">
+<div class="<?php echo $class; ?>">
 	<div class="dg g-1">
 		<?php if ( $label ) : ?>
 			<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>
 		<?php endif; ?>
 		<span class="field field--outline">
-			<i class="ph ph-minus fs-12" @click="value--"></i>
+			<i class="ph ph-minus fs-12" @click="<?php Esc::attr( $name ); ?>--"></i>
 			<?php printf( '<input%s>', Arr::toHtmlAtts( $attributes ) ); ?>
 			<span class="t-muted">of 25</span>
-			<i class="ph ph-plus fs-12" @click="value++"></i>
+			<i class="ph ph-plus fs-12" @click="<?php Esc::attr( $name ); ?>++"></i>
 		</span>
 	</div>
 	<?php if ( $description ) : ?>

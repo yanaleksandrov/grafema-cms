@@ -72,7 +72,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'image' => [
 				'cell'       => 'image',
@@ -80,7 +79,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '2.5rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'title' => [
 				'cell'       => 'title',
@@ -88,7 +86,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 			'author' => [
 				'cell'       => 'links',
@@ -96,7 +93,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'categories' => [
 				'cell'       => 'links',
@@ -104,7 +100,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'date' => [
 				'cell'       => 'date',
@@ -112,7 +107,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '9rem',
 				'flexible'   => false,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 		];
 	}

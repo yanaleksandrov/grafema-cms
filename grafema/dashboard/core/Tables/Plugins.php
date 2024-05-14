@@ -11,24 +11,24 @@ class Plugins extends Builder
 	public function render()
 	{
 		$output  = '';
+		$content = '';
 		$columns = $this->columns();
 		if ( $columns ) {
+			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response.items)" style="' . $this->stylize( $columns ) . '">';
+
+			$content .= '<div class="table__head">';
+			foreach ( $columns as $key => $column ) {
+				$content .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
+			}
+			$content .= '</div>';
+
 			$output .= View::get(
 				'templates/table/header',
 				[
-					'title' => I18n::__( 'Plugins' ),
+					'title'   => I18n::__( 'Plugins' ),
+					'content' => $content,
 				]
 			);
-			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response.items)" style="' . $this->stylize( $columns ) . '">';
-			$output .= '<!-- table header start -->';
-			$output .= '<div class="table__head">';
-			$output .= '<div class="table__row">';
-
-			foreach ( $columns as $key => $column ) {
-				$output .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
-			}
-			$output .= '</div>';
-			$output .= '</div>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
@@ -77,7 +77,6 @@ class Plugins extends Builder
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'reviews' => [
 				'cell'       => 'raw',
@@ -85,7 +84,6 @@ class Plugins extends Builder
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'image' => [
 				'cell'       => 'image',
@@ -93,7 +91,6 @@ class Plugins extends Builder
 				'width'      => '2.5rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'title' => [
 				'cell'       => 'title',
@@ -101,7 +98,6 @@ class Plugins extends Builder
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 			'author' => [
 				'cell'       => 'links',
@@ -109,7 +105,6 @@ class Plugins extends Builder
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'categories' => [
 				'cell'       => 'links',
@@ -117,7 +112,6 @@ class Plugins extends Builder
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'date' => [
 				'cell'       => 'date',
@@ -125,7 +119,6 @@ class Plugins extends Builder
 				'width'      => '9rem',
 				'flexible'   => false,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 		];
 	}

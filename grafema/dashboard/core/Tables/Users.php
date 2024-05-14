@@ -52,7 +52,7 @@ class Users extends Builder implements Skeleton
 					[
 						'title'       => I18n::__( 'Pages not found' ),
 						'description' => I18n::_f(
-							'You don\'t have any pages yet. %s1$Add them manually%s2$ or %s3$import via CSV%s4$',
+							'You don\'t have any pages yet. %1$sAdd them manually%2$s or %3$simport via CSV%4$s',
 							'<a @click="$modal.open(\'grafema-modals-post\')">',
 							'</a>',
 							'<a href="/dashboard/import">',
@@ -78,7 +78,6 @@ class Users extends Builder implements Skeleton
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'image' => [
 				'cell'       => 'image',
@@ -86,7 +85,6 @@ class Users extends Builder implements Skeleton
 				'width'      => '2.5rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'title' => [
 				'cell'       => 'title',
@@ -94,7 +92,6 @@ class Users extends Builder implements Skeleton
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 			'author' => [
 				'cell'       => 'links',
@@ -102,7 +99,6 @@ class Users extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'categories' => [
 				'cell'       => 'links',
@@ -110,7 +106,6 @@ class Users extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 		];
 	}

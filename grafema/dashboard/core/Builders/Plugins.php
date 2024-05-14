@@ -86,7 +86,6 @@ class Plugins extends Builder
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'reviews' => [
 				'cell'       => 'raw',
@@ -94,7 +93,6 @@ class Plugins extends Builder
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'image' => [
 				'cell'       => 'image',
@@ -102,7 +100,6 @@ class Plugins extends Builder
 				'width'      => '2.5rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'title' => [
 				'cell'       => 'title',
@@ -110,7 +107,6 @@ class Plugins extends Builder
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 			'author' => [
 				'cell'       => 'links',
@@ -118,7 +114,6 @@ class Plugins extends Builder
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'categories' => [
 				'cell'       => 'links',
@@ -126,7 +121,6 @@ class Plugins extends Builder
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'date' => [
 				'cell'       => 'date',
@@ -134,7 +128,6 @@ class Plugins extends Builder
 				'width'      => '9rem',
 				'flexible'   => false,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 		];
 	}

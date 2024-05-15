@@ -31,6 +31,10 @@ class Html
 
     private $token_type;
 
+	private $prev_tag_text;
+
+	private $prev_tag_type;
+
     private $newlines;
 
     private $indent_content;
@@ -114,7 +118,13 @@ class Html
         }
     }
 
-    public function minify($input)
+	/**
+	 * Minify html markup.
+	 *
+	 * @param $input
+	 * @return string
+	 */
+    public function minify($input): string
     {
         return preg_replace(
             [
@@ -133,11 +143,17 @@ class Html
         );
     }
 
-    public function beautify($input)
+	/**
+	 * Beautify html markup.
+	 *
+	 * @param $input
+	 * @return string
+	 */
+    public function beautify($input): string
     {
-        $this->input = $input; // gets the input for the Parser
+        $this->input        = $input; // gets the input for the Parser
         $this->input_length = strlen($this->input);
-        $this->output = [];
+        $this->output       = [];
 
         while (true) {
             $t = $this->get_token();
@@ -157,7 +173,9 @@ class Html
                         $this->indent();
                         $this->indent_content = false;
                     }
-                    $this->current_mode = 'CONTENT';
+                    $this->current_mode  = 'CONTENT';
+                    $this->prev_tag_text = $this->token_text;
+					$this->prev_tag_type = $this->token_type;
                     break;
                 case 'TK_TAG_STYLE':
                 case 'TK_TAG_SCRIPT':
@@ -180,7 +198,18 @@ class Html
                             $tag_extracted_from_last_output = $matches[0] ?? null;
                         }
 
-                        if ( ! $skip_tags && ($tag_extracted_from_last_output === null || $tag_extracted_from_last_output[1] !== $tag_name)) {
+                        $is_tag_with_content = true;
+						preg_match( '/<([a-zA-Z0-9]+)[^>]*>/', $this->prev_tag_text, $openingMatches );
+						preg_match( '/<\/([a-zA-Z0-9]+)[^>]*>/', $this->token_text, $closingMatches );
+						if ( $openingMatches[1] === $closingMatches[1] && $this->last_text === '' ) {
+							$is_tag_with_content = false;
+						}
+
+                        if (
+                        	! $skip_tags &&
+							$is_tag_with_content &&
+							($tag_extracted_from_last_output === null || $tag_extracted_from_last_output[1] !== $tag_name)
+						) {
                             $this->print_newline(false, $this->output);
                         }
                     }
@@ -256,7 +285,7 @@ class Html
             }
 
             $this->last_token = $this->token_type;
-            $this->last_text = $this->token_text;
+            $this->last_text  = $this->token_text;
         }
 
         return implode('', $this->output);
@@ -286,8 +315,8 @@ class Html
     private function get_content()
     {
         $input_char = '';
-        $content = [];
-        $space = false; // if a space is needed
+        $content    = [];
+        $space      = false; // if a space is needed
 
         while (isset($this->input[$this->pos]) && $this->input[$this->pos] !== '<') {
             if ($this->pos >= $this->input_length) {
@@ -318,7 +347,7 @@ class Html
             $content[] = $input_char; // letter at-a-time (or string) inserted to an array
         }
 
-        return count($content) ? implode('', $content) : '';
+		return implode( '', $content );
     }
 
     // get the full content of a script or style to pass to js_beautify
@@ -663,7 +692,6 @@ class Html
 
         if ($this->current_mode === 'TAG') {
             $token = $this->get_tag();
-
             if ( ! is_string($token)) {
                 return $token;
             }

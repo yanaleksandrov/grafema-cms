@@ -34,6 +34,7 @@ Dashboard\Form::register(
 					'label'         => I18n::__( 'General' ),
 					'description'   => '',
 					'icon'          => 'ph ph-pen',
+					'class_menu'    => 'bg-gray-lt',
 					'class_button'  => 'ml-7',
 					'class_content' => 'p-7',
 					'fields'        => [

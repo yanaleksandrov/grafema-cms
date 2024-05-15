@@ -1099,8 +1099,12 @@ document.addEventListener( 'alpine:init', () => {
                     }, */
 				}, content || {} );
 
-				let datepicker = new Datepicker( el, opts );
-				console.log( datepicker );
+				try {
+					let datepicker = new Datepicker( el, opts );
+					console.log( datepicker );
+				} catch (e) {
+					console.error( 'Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js' );
+				}
 			});
 		});
 	});

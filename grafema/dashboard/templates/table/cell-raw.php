@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key, $cell, $title, $sortable ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
 			'key'      => 'key',
 			'cell'     => 'key',

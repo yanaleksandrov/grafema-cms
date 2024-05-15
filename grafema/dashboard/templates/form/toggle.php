@@ -37,17 +37,32 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         ]
     )
 )->values();
+
+$attributes = [
+	...$attributes,
+	'type' => 'checkbox',
+];
+
+if ( $name ) {
+	$attributes = [
+		...$attributes,
+		'name'         => $name,
+		'x-model.fill' => $name,
+	];
+}
 ?>
 <div class="dg g-1">
     <label class="toggle">
         <input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( $attributes ); ?>>
         <span class="toggle__switch"></span>
-        <span class="toggle__label">
-            <?php
-            Esc::html( $label );
-            if ( $instruction ) : ?>
-                <span class="toggle__description"><?php Esc::html( $instruction ); ?></span>
-			<?php endif; ?>
-        </span>
+        <?php if ( $label || $instruction ) : ?>
+            <span class="toggle__label">
+                <?php
+                Esc::html( $label );
+                if ( $instruction ) : ?>
+                    <span class="toggle__description"><?php Esc::html( $instruction ); ?></span>
+                <?php endif; ?>
+            </span>
+        <?php endif; ?>
     </label>
 </div>

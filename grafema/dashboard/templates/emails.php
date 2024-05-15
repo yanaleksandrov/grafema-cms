@@ -52,7 +52,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				</div>
 				<div class="tables__row" style="grid-template-columns: 1rem 2.5rem minmax(18rem, 1fr) repeat(3, minmax(6rem, 1fr))">
 					<div class="cb">
-						<input type="checkbox" x-bind="trigger">
+						<input type="checkbox" x-bind="trigger"/>
 					</div>
 					<div></div>
 					<div class="hover">

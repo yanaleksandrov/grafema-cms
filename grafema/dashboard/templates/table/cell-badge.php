@@ -2,9 +2,9 @@
 use Grafema\Sanitizer;
 
 /**
- * Table raw text cell
+ * Comma-separated list of links
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cells/text.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cell-badge.php
  *
  * @package     Grafema\Templates
  * @version     1.0.0
@@ -23,5 +23,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <div class="<?php echo $key; ?>">
-	<input type="checkbox" name="item[]" :value="item.ID" x-bind="switcher" />
+    <span class="badge badge--green-lt" x-text="item.<?php echo $key; ?>"></span>
 </div>

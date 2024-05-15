@@ -15,14 +15,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
             'key' => 'key',
         ]
     )
 )->values();
 ?>
-<div class="<?php echo $key; ?>" x-init="console.log(item.<?php echo $key; ?>)">
+<div class="<?php echo $key; ?>">
 	<template x-for="(badge, index) in item.<?php echo $key; ?>">
 		<span class="badge badge--lg" :class="badge.class" x-text="badge.title"></span>
 	</template>

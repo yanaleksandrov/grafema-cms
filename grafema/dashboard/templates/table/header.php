@@ -26,6 +26,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $show = true;
 ?>
+
 <!-- table head start -->
 <div class="table__header">
     <div class="mw df aic jcsb g-4 px-7 py-5">
@@ -89,7 +90,6 @@ $show = true;
 				]
 			);
 			?>
-
             <button type="button" class="btn btn--sm t-red" x-bind="reset">
                 <i class="ph ph-trash"></i> <?php I18n::t( 'Reset' ); ?>
             </button>

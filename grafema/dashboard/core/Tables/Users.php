@@ -74,7 +74,7 @@ class Users extends Builder implements Skeleton
 		return [
 			'cb' => [
 				'cell'       => 'cb',
-				'title'      => '<input type="checkbox" x-bind="trigger">',
+				'title'      => '<input type="checkbox" x-bind="trigger"/>',
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,

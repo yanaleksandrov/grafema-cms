@@ -18,7 +18,7 @@ class Plugins extends Builder
 
 			$content .= '<div class="table__head">';
 			foreach ( $columns as $key => $column ) {
-				$content .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
+				$content .= View::get( 'templates/table/cell-head', [ ...$column, ...[ 'key' => $key ] ] );
 			}
 			$content .= '</div>';
 
@@ -32,19 +32,10 @@ class Plugins extends Builder
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
-			$output .= '<div class="table__row hover">';
-
+			$output .= '<div class="table__row">';
 			foreach ( $columns as $key => $column ) {
 				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
-				$output .= View::get(
-					'templates/table/cell-' . $cell,
-					[
-						'column' => [
-							'key' => $key,
-							...$column,
-						],
-					]
-				);
+				$output .= View::get( 'templates/table/cell-' . $cell, [ ...$column, ...[ 'key' => $key ] ] );
 			}
 			$output .= '</div>';
 			$output .= '</template>';
@@ -73,14 +64,7 @@ class Plugins extends Builder
 		return [
 			'cb' => [
 				'cell'       => 'cb',
-				'title'      => '<input type="checkbox" x-bind="trigger">',
-				'width'      => '1rem',
-				'flexible'   => false,
-				'sortable'   => false,
-			],
-			'reviews' => [
-				'cell'       => 'raw',
-				'title'      => '<i class="ph ph-hash-straight"></i>',
+				'title'      => '<input type="checkbox" x-bind="trigger"/>',
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
@@ -92,33 +76,40 @@ class Plugins extends Builder
 				'flexible'   => false,
 				'sortable'   => false,
 			],
-			'title' => [
-				'cell'       => 'title',
-				'title'      => I18n::__( 'Title' ),
-				'width'      => '22rem',
-				'flexible'   => true,
-				'sortable'   => true,
-			],
-			'author' => [
-				'cell'       => 'links',
-				'title'      => I18n::__( 'Author' ),
-				'width'      => '6rem',
+			'plugin' => [
+				'cell'       => 'plugin',
+				'title'      => I18n::__( 'Plugin' ),
+				'width'      => '10rem',
 				'flexible'   => true,
 				'sortable'   => false,
 			],
-			'categories' => [
-				'cell'       => 'links',
-				'title'      => I18n::__( 'Categories' ),
-				'width'      => '6rem',
-				'flexible'   => true,
-				'sortable'   => false,
-			],
-			'date' => [
-				'cell'       => 'date',
-				'title'      => I18n::__( 'Date' ),
-				'width'      => '9rem',
+//			'description' => [
+//				'cell'       => 'raw',
+//				'title'      => I18n::__( 'Description' ),
+//				'width'      => '16rem',
+//				'flexible'   => true,
+//				'sortable'   => false,
+//			],
+			'license' => [
+				'cell'       => 'badge',
+				'title'      => I18n::__( 'License' ),
+				'width'      => '4rem',
 				'flexible'   => false,
-				'sortable'   => true,
+				'sortable'   => false,
+			],
+			'version' => [
+				'cell'       => 'raw',
+				'title'      => I18n::__( 'Version' ),
+				'width'      => '4rem',
+				'flexible'   => false,
+				'sortable'   => false,
+			],
+			'active' => [
+				'cell'       => 'toggle',
+				'title'      => I18n::__( 'Activity' ),
+				'width'      => '4rem',
+				'flexible'   => false,
+				'sortable'   => false,
 			],
 		];
 	}

@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
             'key' => 'key',
         ]
@@ -23,5 +23,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <div class="<?php echo $key; ?>">
-	<span class="avatar" :style="'background-image: url(https://placehold.jp/150x150.png)'"></span>
+    <span class="avatar avatar--rounded" :style="`background-image: url(${item.<?php echo $key; ?>})`"></span>
 </div>

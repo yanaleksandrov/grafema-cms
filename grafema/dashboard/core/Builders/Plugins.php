@@ -31,18 +31,17 @@ class Plugins extends Builder
 			);
 
 			$output .= '<div class="table__row">';
-
 			foreach ( $columns as $key => $column ) {
 				$output .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
 			}
 			$output .= '</div>';
+
 			$output .= '</div>';
 			$output .= '</template>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
 			$output .= '<div class="table__row hover">';
-
 			foreach ( $columns as $key => $column ) {
 				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
 				$output .= View::get(
@@ -82,7 +81,7 @@ class Plugins extends Builder
 		return [
 			'cb' => [
 				'cell'       => 'cb',
-				'title'      => '<input type="checkbox" x-bind="trigger">',
+				'title'      => '<input type="checkbox" x-bind="trigger"/>',
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,

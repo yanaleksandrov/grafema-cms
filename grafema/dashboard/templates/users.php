@@ -28,7 +28,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<table class="table" x-data="table">
 		<thead>
             <tr>
-                <th class="is-fit"><input type="checkbox" x-bind="trigger"></th>
+                <th class="is-fit"><input type="checkbox" x-bind="trigger"/></th>
                 <th class="img is-fit"></th>
                 <th class="name">Name</th>
                 <th class="role is-fit">Role</th>

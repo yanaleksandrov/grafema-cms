@@ -104,7 +104,7 @@ final class Menu
 						[
 							'id'           => 'profile',
 							'url'          => 'profile',
-							'title'        => I18n::_s( 'Set yourself as %saway%s', '<strong>', '</strong>' ),
+							'title'        => I18n::_f( 'Set yourself as %saway%s', '<strong>', '</strong>' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => 'ph ph-moon-stars',
 							'position'     => 30,

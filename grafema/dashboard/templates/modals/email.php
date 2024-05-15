@@ -32,7 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                 </div>
                 <div class="df jcc">
 					<?php
-					View::output(
+					View::print(
 						GRFM_DASHBOARD . 'templates/mails/wrappers.php',
 						[
 							'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',

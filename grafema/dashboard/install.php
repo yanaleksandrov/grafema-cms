@@ -19,7 +19,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title><?php I18n::e( 'Install Grafema' ); ?></title>
+		<title><?php I18n::t( 'Install Grafema' ); ?></title>
         <link rel="icon" href="/dashboard/assets/favicon.ico">
 		<link rel="icon" href="/dashboard/assets/favicon.svg" type="image/svg+xml">
 		<link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/favicon/apple-touch-icon.png">

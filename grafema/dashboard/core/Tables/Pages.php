@@ -19,22 +19,19 @@ class Pages extends Builder implements Skeleton
 			$output .= '<div class="table__row">';
 
 			foreach ( $columns as $key => $column ) {
-				ob_start();
-				View::part( 'templates/table/cells/head', $column + ['key' => $key] );
-				$output .= ob_get_clean();
+				$output .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
 			}
 			$output .= '</div>';
 			$output .= '</template>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
-
-			ob_start();
+			$output .= '<div class="table__row hover">';
 
 			foreach ( $columns as $key => $column ) {
-				$cell = Sanitizer::trim( $column['cell'] ?? '' );
-				View::part(
-					'templates/table/cells/' . $cell,
+				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
+				$output .= View::get(
+					'templates/table/cell-' . $cell,
 					[
 						'column' => [
 							'key' => $key,
@@ -43,14 +40,14 @@ class Pages extends Builder implements Skeleton
 					]
 				);
 			}
-			$output .= '<div class="table__row hover">' . ob_get_clean() . '</div>';
+			$output .= '</div>';
 			$output .= '</template>';
 
 			ob_start();
 			?>
 			<template x-if="!items.length">
 				<?php
-				View::part(
+				View::print(
 					'templates/states/undefined',
 					[
 						'title'       => I18n::__( 'Pages not found' ),
@@ -71,11 +68,10 @@ class Pages extends Builder implements Skeleton
 		return [
 			'cb' => [
 				'cell'       => 'cb',
-				'title'      => '<input type="checkbox" x-bind="trigger">',
+				'title'      => '<input type="checkbox" x-bind="trigger"/>',
 				'width'      => '1rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'image' => [
 				'cell'       => 'image',
@@ -83,7 +79,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '2.5rem',
 				'flexible'   => false,
 				'sortable'   => false,
-				'filterable' => false,
 			],
 			'title' => [
 				'cell'       => 'title',
@@ -91,7 +86,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 			'author' => [
 				'cell'       => 'links',
@@ -99,7 +93,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'categories' => [
 				'cell'       => 'links',
@@ -107,7 +100,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-				'filterable' => true,
 			],
 			'date' => [
 				'cell'       => 'date',
@@ -115,7 +107,6 @@ class Pages extends Builder implements Skeleton
 				'width'      => '9rem',
 				'flexible'   => false,
 				'sortable'   => true,
-				'filterable' => true,
 			],
 		];
 	}

@@ -41,24 +41,34 @@ class I18n
     }
 
 	/**
-	 * @param string $string
-	 * @param mixed ...$args
-	 * @return string
-	 */
-    public static function _s( string $string, mixed ...$args ): string
-	{
-		return sprintf( self::__( $string ), ...$args );
-	}
-
-	/**
 	 * Translation.
 	 *
 	 * @param string $string
 	 * @since 1.0.0
 	 */
-	public static function e(string $string): void
+	public static function t(string $string): void
 	{
 		echo self::__($string);
+	}
+
+	/**
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return string
+	 */
+	public static function _f( string $string, mixed ...$args ): string
+	{
+		return sprintf( self::__( $string ), ...$args );
+	}
+
+	/**
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return void
+	 */
+	public static function tf( string $string, mixed ...$args ): void
+	{
+		echo sprintf( self::__( $string ), ...$args );
 	}
 
 	/**

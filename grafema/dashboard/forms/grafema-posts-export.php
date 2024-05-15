@@ -67,7 +67,7 @@ Dashboard\Form::register(
 					'callback' => function () {
 						ob_start();
 						?>
-                        <button type="submit" class="btn btn--primary btn--lg"><?php I18n::e( 'Export posts' ); ?></button>
+                        <button type="submit" class="btn btn--primary btn--lg"><?php I18n::t( 'Export posts' ); ?></button>
 						<?php
 						return ob_get_clean();
 					},

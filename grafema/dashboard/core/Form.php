@@ -85,14 +85,14 @@ class Form {
 		// TODO:: wrong escaping, use sanitize
 		$uniqid = Esc::html( $uniqid, false );
 		if ( empty( $uniqid ) ) {
-			new Errors( 'form-register', I18n::_s( 'The $uniqid of the form is empty.', $uniqid ) );
+			new Errors( 'form-register', I18n::_f( 'The $uniqid of the form is empty.', $uniqid ) );
 
 			return;
 		}
 
 		$form = self::init( $uniqid );
 		if ( isset( $form->uniqid ) ) {
-			new Errors( 'form-register', I18n::_s( 'The form identified by %s already exists! Potential conflicts detected!', $uniqid ) );
+			new Errors( 'form-register', I18n::_f( 'The form identified by %s already exists! Potential conflicts detected!', $uniqid ) );
 		}
 
 		$form->uniqid     = $uniqid;

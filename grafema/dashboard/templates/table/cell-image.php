@@ -2,9 +2,9 @@
 use Grafema\Sanitizer;
 
 /**
- * Publish date
+ * Table image cell
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cells/date.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cells/image.php
  *
  * @package     Grafema\Templates
  * @version     1.0.0
@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
             'key' => 'key',
         ]
@@ -23,6 +23,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <div class="<?php echo $key; ?>">
-	Published
-	<div x-text="item.<?php echo $key; ?>"></div>
+    <span class="avatar avatar--rounded" :style="`background-image: url(${item.<?php echo $key; ?>})`"></span>
 </div>

@@ -1099,8 +1099,12 @@ document.addEventListener( 'alpine:init', () => {
                     }, */
 				}, content || {} );
 
-				let datepicker = new Datepicker( el, opts );
-				console.log( datepicker );
+				try {
+					let datepicker = new Datepicker( el, opts );
+					console.log( datepicker );
+				} catch (e) {
+					console.error( 'Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js' );
+				}
 			});
 		});
 	});
@@ -1442,12 +1446,24 @@ document.addEventListener( 'alpine:init', () => {
 			addMore: true,
 		},
 		items: [],
+		bulk: false,
 		trigger: {
 			['@change']( e ) {
-				let inputs = document.querySelectorAll( 'input[name="item[]"]' );
+				let checked = 0;
+				let inputs  = document.querySelectorAll( 'input[name="item[]"]' );
 				if (inputs.length) {
-					inputs.forEach(input => input.checked = e.target.checked);
+					inputs.forEach(input => (input.checked = e.target.checked, input.checked && checked++));
 				}
+				this.bulk = checked > 0;
+			},
+		},
+		reset: {
+			['@click']( e ) {
+				let inputs = document.querySelectorAll( 'input[name="item[]"], input[x-bind="trigger"]' );
+				if (inputs.length) {
+					inputs.forEach(input => input.checked = false);
+				}
+				this.bulk = false;
 			},
 		},
 		switcher: {
@@ -1477,6 +1493,9 @@ document.addEventListener( 'alpine:init', () => {
 				} else {
 					this.selection.box[0] = nodeList.indexOf( e.target.parentNode );
 				}
+
+				let checked = document.querySelectorAll('input[name="item[]"]:checked');
+				this.bulk   = checked.length > 0;
 			},
 		}
 	} ) )

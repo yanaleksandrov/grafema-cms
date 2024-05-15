@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
             'key' => 'key',
         ]

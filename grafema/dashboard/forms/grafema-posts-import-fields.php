@@ -35,7 +35,7 @@ Dashboard\Form::register(
 							'before'      => '',
 							'after'       => '',
 							'tooltip'     => '',
-							'instruction' => I18n::_s( 'Sample: <samp>%s</samp>', 'pages' ),
+							'instruction' => I18n::_f( 'Sample: <samp>%s</samp>', 'pages' ),
 							'attributes'  => [],
 							'conditions'  => [],
 							'options'     => Type::get(),
@@ -99,7 +99,7 @@ Dashboard\Form::register(
 						'before'      => '',
 						'after'       => '',
 						'tooltip'     => '',
-						'instruction' => I18n::_s( 'Sample: %s', '<samp>' . $sample . '</samp>' ),
+						'instruction' => I18n::_f( 'Sample: %s', '<samp>' . $sample . '</samp>' ),
 						'attributes'  => [],
 						'conditions'  => [],
 						'options'     => [

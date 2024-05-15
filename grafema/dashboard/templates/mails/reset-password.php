@@ -17,14 +17,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <table border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td style="padding: 2rem; text-align: center; ">
-			<h2 style="margin: 0;"><?php I18n::e( 'Your are registered!' ); ?></h2>
-			<p style="color: #7e848b; max-width: 270px; margin: 10px auto 0;"><?php I18n::e( 'We have received a new registration request. Read the instructions.' ); ?></p>
+			<h2 style="margin: 0;"><?php I18n::t( 'Your are registered!' ); ?></h2>
+			<p style="color: #7e848b; max-width: 270px; margin: 10px auto 0;"><?php I18n::t( 'We have received a new registration request. Read the instructions.' ); ?></p>
 		</td>
 	</tr>
 	<tr>
 		<td>
 			<p style="margin: 0; text-align: center; font-size: 10.35px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #7c8188; height: 7px;">
-				<span style="background-color: #fff; display: inline-block; padding: 0 8px;"><?php I18n::e( 'What\'s next?' ); ?></span>
+				<span style="background-color: #fff; display: inline-block; padding: 0 8px;"><?php I18n::t( 'What\'s next?' ); ?></span>
 			</p>
 		</td>
 	</tr>

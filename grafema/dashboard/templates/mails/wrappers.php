@@ -41,7 +41,7 @@ if ( empty( $template ) || ! file_exists( $template ) ) {
 					<tbody>
 						<tr>
 							<td>
-								<?php View::output( $template, $args ); ?>
+								<?php View::print( $template, $args ); ?>
 							</td>
 						</tr>
 					</tbody>
@@ -49,7 +49,7 @@ if ( empty( $template ) || ! file_exists( $template ) ) {
 				<table border="0" cellpadding="10" cellspacing="0" style="opacity: 0.75; font-size: 11px; line-height: 145%; text-align: center; width: 100%;">
 					<tbody>
 						<tr>
-							<td style="padding-top:20px;"><?php I18n::e( 'This message is generated automatically. Don\'t reply it.' ); ?></td>
+							<td style="padding-top:20px;"><?php I18n::t( 'This message is generated automatically. Don\'t reply it.' ); ?></td>
 						</tr>
 						<tr>
 							<td><?php printf( I18n::__( 'All rights reserved © %d' ), date( 'Y' ) ); ?></td>

@@ -110,6 +110,10 @@ acronym[title] {
   border-bottom: 1px dotted;
 }
 
+sup {
+  vertical-align: super;
+}
+
 b,
 strong {
   font-weight: 600;
@@ -137,6 +141,7 @@ pre {
 }
 
 code {
+  width: fit-content;
   border-radius: var(--grafema-border-radius);
   padding: 0.25rem 0.5rem;
   line-height: 1.45;
@@ -294,7 +299,8 @@ textarea {
 
     &[type="number"] {
       -moz-appearance: textfield;
-      width: 0.46rem;
+      width: 2.2em;
+      text-align: end;
       border: 0;
     }
 
@@ -663,6 +669,7 @@ img {
     font-size: 0.8125rem;
     box-shadow: var(--grafema-box-shadow);
     animation: contextMenu .3s cubic-bezier(0, 0.1, 0.1, 1) backwards;
+    min-width: 210px;
   }
 
   &__head {

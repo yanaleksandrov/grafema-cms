@@ -118,3 +118,9 @@ document.addEventListener('media/get', ({detail}) => {
 	console.log(data)
 	resolve(data);
 });
+
+document.addEventListener('extensions/get', ({detail}) => {
+	const {data, resolve} = detail;
+	console.log(data)
+	resolve(data);
+});

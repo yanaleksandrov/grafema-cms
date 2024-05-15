@@ -42,7 +42,7 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
             Grafema\Esc::html( $label );
             if ( $reset ) {
                 ?>
-                <span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::e( 'Reset' ); ?></span>
+                <span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
             <?php } ?>
         </span>
     <?php endif; ?>

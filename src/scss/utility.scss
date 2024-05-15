@@ -14,7 +14,7 @@
 
     @if $key == flex or $key == grid {
       gap: 0;
-      align-content: start;
+      align-content: flex-start;
     }
   }
 }

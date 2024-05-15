@@ -108,9 +108,7 @@ final class Install extends \Grafema\App\App {
 				 *
 				 * @since 1.0.0
 				 */
-				ob_start();
-				View::output( GRFM_PATH . 'dashboard/install.php' );
-				echo ( new Html() )->beautify( ob_get_clean() );
+				echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
 
 				die();
 			}

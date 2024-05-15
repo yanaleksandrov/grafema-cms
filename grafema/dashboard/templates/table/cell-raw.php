@@ -13,15 +13,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key, $cell, $title, $sortable, $filterable ] = (
+[ $key, $cell, $title, $sortable ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
-			'key'        => 'key',
-			'cell'       => 'key',
-			'title'      => 'trim',
-			'sortable'   => 'bool',
-			'filterable' => 'bool',
+			'key'      => 'key',
+			'cell'     => 'key',
+			'title'    => 'trim',
+			'sortable' => 'bool',
         ]
     )
 )->values();

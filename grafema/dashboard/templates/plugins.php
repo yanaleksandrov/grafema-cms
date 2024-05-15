@@ -12,4 +12,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Tables\Plugins() )->render(); ?>
+	<?php Dashboard\Builders\Plugins::make(); ?>
 </div>

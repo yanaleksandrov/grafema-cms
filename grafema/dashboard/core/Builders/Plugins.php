@@ -1,33 +1,47 @@
 <?php
 
-namespace Dashboard\Tables;
+namespace Dashboard\Builders;
 
 use Grafema\I18n;
-use Grafema\Sanitizer;
 use Grafema\View;
+use Grafema\Sanitizer;
 
-class Users extends Builder implements Skeleton
+class Plugins extends Builder
 {
-	public function render()
+    public static function make() {
+
+    }
+
+	public function render(): Builder
 	{
+		return new Builder();
 		$output  = '';
 		$columns = $this->columns();
 		if ( $columns ) {
-			$output .= '<div class="table" x-data="table" x-init="$ajax(\'posts/get\').then(response => items = response)" style="' . $this->stylize( $columns ) . '">';
-			$output .= '<template x-if="items.length">';
+			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response)" style="' . $this->stylize( $columns ) . '">';
 			$output .= '<!-- table header start -->';
-			$output .= '<div class="table__row">';
+			$output .= '<template x-if="items.length">';
+			$output .= '<div class="table__head">';
 
+			$output .= View::get(
+				'templates/table/header',
+				[
+					'title' => I18n::__( 'Plugins' ),
+				]
+			);
+
+			$output .= '<div class="table__row">';
 			foreach ( $columns as $key => $column ) {
 				$output .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
 			}
+			$output .= '</div>';
+
 			$output .= '</div>';
 			$output .= '</template>';
 
 			$output .= '<!-- table rows list start -->';
 			$output .= '<template x-for="item in items">';
 			$output .= '<div class="table__row hover">';
-
 			foreach ( $columns as $key => $column ) {
 				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
 				$output .= View::get(
@@ -42,7 +56,6 @@ class Users extends Builder implements Skeleton
 			}
 			$output .= '</div>';
 			$output .= '</template>';
-
 			ob_start();
 			?>
 			<template x-if="!items.length">
@@ -50,14 +63,8 @@ class Users extends Builder implements Skeleton
 				View::print(
 					'templates/states/undefined',
 					[
-						'title'       => I18n::__( 'Pages not found' ),
-						'description' => I18n::_f(
-							'You don\'t have any pages yet. %1$sAdd them manually%2$s or %3$simport via CSV%4$s',
-							'<a @click="$modal.open(\'grafema-modals-post\')">',
-							'</a>',
-							'<a href="/dashboard/import">',
-							'</a>'
-						),
+						'title'       => I18n::__( 'Plugins are not installed yet' ),
+						'description' => I18n::__( 'You can download them manually or install from the repository' ),
 					]
 				);
 			?>
@@ -79,6 +86,13 @@ class Users extends Builder implements Skeleton
 				'flexible'   => false,
 				'sortable'   => false,
 			],
+			'reviews' => [
+				'cell'       => 'raw',
+				'title'      => '<i class="ph ph-hash-straight"></i>',
+				'width'      => '1rem',
+				'flexible'   => false,
+				'sortable'   => false,
+			],
 			'image' => [
 				'cell'       => 'image',
 				'title'      => '',
@@ -88,50 +102,32 @@ class Users extends Builder implements Skeleton
 			],
 			'title' => [
 				'cell'       => 'title',
-				'title'      => I18n::__( 'Name' ),
+				'title'      => I18n::__( 'Title' ),
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
 			],
 			'author' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Role' ),
+				'title'      => I18n::__( 'Author' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
 			],
 			'categories' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Last visit' ),
+				'title'      => I18n::__( 'Categories' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
 			],
+			'date' => [
+				'cell'       => 'date',
+				'title'      => I18n::__( 'Date' ),
+				'width'      => '9rem',
+				'flexible'   => false,
+				'sortable'   => true,
+			],
 		];
 	}
-
-	/**
-	 * @since 1.0.0
-	 */
-	public function wrapper()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function row()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function cell()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function sort()
-	{
-		// TODO: Implement sort() method.
-	}
-
-	public function modify() {}
 }

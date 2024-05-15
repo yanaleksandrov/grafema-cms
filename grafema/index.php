@@ -279,15 +279,15 @@ $route->get( sprintf( '%s(.*)', $dashboard ), function ( $slug ) use ( $route ) 
 	 *
 	 * @since 1.0.0
 	 */
-	ob_start();
-	View::output(
-		GRFM_DASHBOARD . 'index.php',
-		[
-			'route' => $route,
-			'slug'  => $slug,
-		]
+	echo ( new Html() )->beautify(
+		View::get(
+			GRFM_DASHBOARD . 'index',
+			[
+				'route' => $route,
+				'slug'  => $slug,
+			]
+		)
 	);
-	echo ( new Html() )->beautify( ob_get_clean() );
 
 	/**
 	 * Grafema dashboard is fully loaded.

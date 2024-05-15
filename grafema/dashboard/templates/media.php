@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
     <?php
-    View::part(
+    View::print(
         'templates/table/header',
         [
             'title' => I18n::__( 'Media Library' ),
@@ -37,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</template>
 	<template x-if="!grafema.posts.length">
 		<?php
-		View::part(
+		View::print(
 			'templates/states/undefined',
 			[
 				'title'       => I18n::__( 'Files in library is not found' ),

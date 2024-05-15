@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 [ $key ] = (
     new Sanitizer(
-        $args['column'] ?? [],
+		$args ?? [],
         [
             'key' => 'key',
         ]
@@ -23,12 +23,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <div class="<?php echo $key; ?>">
-	<div class="fs-14 lh-sm">
-		<a href="#" class="fw-600 t-dark" x-text="item.title" @click="$modal.open('jb-add-item')"></a> <span class="t-muted">— Draft</span>
-	</div>
-	<div class="df aic g-2 mt-1 hover--show">
-		<a href="#">View</a>
-		<a href="#">Duplicate</a>
-		<a class="t-red" href="#">Trash</a>
+	<div class="fs-15 lh-sm fw-600" x-text="item.title"></div>
+    <div class="mt-1 t-muted" x-text="item.description"></div>
+	<div class="df g-1 mt-1 t-muted">
+        <span class="dib">by <a href="#" class="dib">WP Engine</a></span> ·
+        <span class="dib"><a href="#" class="dib">Settings</a></span> ·
+        <a href="#" class="dib t-red">Delete</a>
 	</div>
 </div>

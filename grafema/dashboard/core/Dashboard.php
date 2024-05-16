@@ -196,6 +196,8 @@ class Dashboard extends \Grafema\App\App
 		 */
 		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
 
+		// TODO: stop in none dashboard pages!
+
 		/**
 		 * Now the code is exclusively for the administrative panel.
 		 * Define a constants.

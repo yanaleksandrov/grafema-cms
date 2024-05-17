@@ -1,5 +1,8 @@
 <?php
+
+use Dashboard\Tables\Column;
 use Grafema\Sanitizer;
+use Grafema\View;
 
 /**
  * Table raw text cell
@@ -13,25 +16,37 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key, $cell, $title, $sortable ] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-            'key'      => 'key',
-            'cell'     => 'key',
-            'title'    => 'trim',
-            'sortable' => 'bool',
-        ]
-    )
-)->values();
+$columns = Sanitizer::array( $args ?? [] );
+if ( ! $columns ) {
+    return;
+}
 ?>
-<div class="<?php echo $key; ?> df aic g-1">
-	<?php
-	if ( $title ) :
-		echo $title;
-	endif;
-	if ( $sortable ) :
-		?>
-        <i class="ph ph-sort-ascending"></i>
-	<?php endif; ?>
+<div class="table__head">
+    <?php
+	foreach ( $columns as $column ) {
+		[ $key, $cell, $title, $sortable ] = (
+            new Sanitizer(
+                (array) $column,
+                [
+                    'key'      => 'key',
+                    'cell'     => 'key',
+                    'title'    => 'trim',
+                    'sortable' => 'bool',
+                ]
+            )
+		)->values();
+	    ?>
+        <div class="<?php echo $key; ?> df aic g-1">
+			<?php
+			if ( $title ) :
+				echo $title;
+			endif;
+			if ( $sortable ) :
+				?>
+                <i class="ph ph-sort-ascending"></i>
+			<?php endif; ?>
+        </div>
+        <?php
+    }
+    ?>
 </div>

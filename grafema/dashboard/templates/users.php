@@ -23,7 +23,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-	( new Dashboard\Tables\Users() )->render();
+	( new Dashboard\Tables\UsersTable() )->render();
 	?>
 	<table class="table" x-data="table">
 		<thead>

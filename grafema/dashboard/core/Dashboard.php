@@ -221,11 +221,13 @@ class Dashboard extends \Grafema\App\App
 			$data = [];
 			if ( $script === 'index' ) {
 				$data['data'] = [
-					// TODO: move to a later
-					'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
-					'apiurl'   => 'https://cms.codyshop.ru/api/',
-					'posts'    => '',
-					'showMenu' => false,
+					'grafema' => [
+						// TODO: move to a later
+						'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
+						'apiurl'   => 'https://cms.codyshop.ru/api/',
+						'posts'    => '',
+						'showMenu' => false,
+					]
 				];
 			}
 

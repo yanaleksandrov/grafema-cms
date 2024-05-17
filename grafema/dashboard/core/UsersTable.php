@@ -1,12 +1,12 @@
 <?php
 
-namespace Dashboard\Tables;
+namespace Dashboard;
 
 use Grafema\I18n;
 use Grafema\Sanitizer;
 use Grafema\View;
 
-class Pages extends Builder implements Skeleton
+class UsersTable extends Builders\Table
 {
 	public function render()
 	{
@@ -51,7 +51,13 @@ class Pages extends Builder implements Skeleton
 					'templates/states/undefined',
 					[
 						'title'       => I18n::__( 'Pages not found' ),
-						'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+						'description' => I18n::_f(
+							'You don\'t have any pages yet. %1$sAdd them manually%2$s or %3$simport via CSV%4$s',
+							'<a @click="$modal.open(\'grafema-modals-post\')">',
+							'</a>',
+							'<a href="/dashboard/import">',
+							'</a>'
+						),
 					]
 				);
 			?>
@@ -82,31 +88,24 @@ class Pages extends Builder implements Skeleton
 			],
 			'title' => [
 				'cell'       => 'title',
-				'title'      => I18n::__( 'Title' ),
+				'title'      => I18n::__( 'Name' ),
 				'width'      => '22rem',
 				'flexible'   => true,
 				'sortable'   => true,
 			],
 			'author' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Author' ),
+				'title'      => I18n::__( 'Role' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
 			],
 			'categories' => [
 				'cell'       => 'links',
-				'title'      => I18n::__( 'Categories' ),
+				'title'      => I18n::__( 'Last visit' ),
 				'width'      => '6rem',
 				'flexible'   => true,
 				'sortable'   => false,
-			],
-			'date' => [
-				'cell'       => 'date',
-				'title'      => I18n::__( 'Date' ),
-				'width'      => '9rem',
-				'flexible'   => false,
-				'sortable'   => true,
 			],
 		];
 	}

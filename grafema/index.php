@@ -219,7 +219,7 @@ Hook::apply( 'grafema_plugins_loaded' );
  *
  * @since 1.0.0
  */
-\Dashboard\Dashboard::init();
+Dashboard\Dashboard::init();
 
 /**
  * Load private administrative panel.

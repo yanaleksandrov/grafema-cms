@@ -1,4 +1,6 @@
 <?php
+use Grafema\I18n;
+
 /**
  * This file is part of Grafema CMS.
  *
@@ -11,6 +13,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php ( new Dashboard\Tables\Plugins() )->render(); ?>
-	<?php Dashboard\Builders\Plugins::make(); ?>
+	<?php
+	Dashboard\PluginsTable::add()
+        ->title( I18n::__( 'Plugins' ) )
+        ->attributes(
+			[
+				'class'  => 'table',
+				'x-data' => 'table',
+				'x-init' => '$ajax("extensions/get").then(response => items = response.items)',
+			]
+        )
+        ->print();
+    ?>
+	<?php ( new Dashboard\PluginsTable() )->render(); ?>
 </div>

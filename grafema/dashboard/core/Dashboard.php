@@ -196,6 +196,8 @@ class Dashboard extends \Grafema\App\App
 		 */
 		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
 
+		// TODO: stop in none dashboard pages!
+
 		/**
 		 * Now the code is exclusively for the administrative panel.
 		 * Define a constants.
@@ -219,11 +221,13 @@ class Dashboard extends \Grafema\App\App
 			$data = [];
 			if ( $script === 'index' ) {
 				$data['data'] = [
-					// TODO: move to a later
-					'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
-					'apiurl'   => 'https://cms.codyshop.ru/api/',
-					'posts'    => '',
-					'showMenu' => false,
+					'grafema' => [
+						// TODO: move to a later
+						'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
+						'apiurl'   => 'https://cms.codyshop.ru/api/',
+						'posts'    => '',
+						'showMenu' => false,
+					]
 				];
 			}
 

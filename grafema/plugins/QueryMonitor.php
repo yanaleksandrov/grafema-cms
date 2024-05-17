@@ -1,16 +1,18 @@
 <?php
+namespace QueryMonitor;
 
 use Grafema\DB;
 use Grafema\I18n;
 use Grafema\Is;
-use Hook\Hook;
+use Grafema\Hook;
+use Grafema\Debug;
 
 /**
  * QueryMonitor plugin.
  *
  * @since 1.0.0
  */
-class QueryMonitor implements Grafema\Plugins\Skeleton
+class QueryMonitor implements \Grafema\Plugins\Skeleton
 {
 	public function manifest(): array
 	{
@@ -45,7 +47,7 @@ class QueryMonitor implements Grafema\Plugins\Skeleton
 				?>
 				<template x-teleport="#query">
 					<a class="menu__link" x-show="query" href="#">
-						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Grafema\Debug::timer( 'getall' ), Grafema\Debug::memory_peak(), Db::queries() ); ?>
+						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ); ?>
 					</a>
 				</template>
 				<?php

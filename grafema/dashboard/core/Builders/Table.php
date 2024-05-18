@@ -38,7 +38,7 @@ class Table
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public string $views = GRFM_PATH . 'dashboard/templates/table';
+	public string $views = GRFM_DASHBOARD . 'templates/table';
 
 	/**
 	 * Add new table.

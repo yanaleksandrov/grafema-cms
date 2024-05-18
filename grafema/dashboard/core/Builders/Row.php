@@ -50,6 +50,7 @@ final class Row
 	/**
 	 * Render row markup.
 	 *
+	 * @param array $columns
 	 * @return Row
 	 */
 	public function render( array $columns ): string {

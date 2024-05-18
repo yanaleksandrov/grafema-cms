@@ -113,9 +113,9 @@ $start_time = microtime( true );
 </head>
 <body x-data="index">
 	<?php if ( Is::installed() && User::logged() ) { ?>
-		<div class="grafema" :class="grafema.showMenu && 'active'">
+		<div class="grafema" :class="index.showMenu && 'active'">
             <div class="grafema-bar">
-                <div class="grafema-bar-menu" @click="grafema.showMenu = !grafema.showMenu">
+                <div class="grafema-bar-menu" @click="index.showMenu = !index.showMenu">
                     <i class="ph ph-list"></i>
                 </div>
                 <ul class="menu mr-auto">

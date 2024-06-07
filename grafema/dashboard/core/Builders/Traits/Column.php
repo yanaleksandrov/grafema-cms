@@ -10,56 +10,56 @@ trait Column
 	 *
 	 * @var string
 	 */
-	public string $key;
+	protected string $key;
 
 	/**
 	 * Title of column.
 	 *
 	 * @var string
 	 */
-	public string $title = '';
+	protected string $title = '';
 
 	/**
 	 * Path to get view for render column cell.
 	 *
 	 * @var string
 	 */
-	public string $view = '';
+	protected string $view = '';
 
 	/**
 	 * Column is sortable.
 	 *
 	 * @var bool
 	 */
-	public bool $sortable = false;
+	protected bool $sortable = false;
 
 	/**
 	 * Column default sort ordering.
 	 *
 	 * @var string
 	 */
-	public string $sortOrder = 'DESC';
+	protected string $sortOrder = 'DESC';
 
 	/**
 	 * Min column width.
 	 *
 	 * @var string
 	 */
-	public string $width = '';
+	protected string $width = '';
 
 	/**
 	 * Column width is flexible.
 	 *
 	 * @var bool
 	 */
-	public bool $flexible = false;
+	protected bool $flexible = false;
 
 	/**
 	 * Column is searchable.
 	 *
 	 * @var bool
 	 */
-	public bool $searchable = false;
+	protected bool $searchable = false;
 
 	/**
 	 * Column constructor.

@@ -86,7 +86,7 @@ class PluginsTable extends Table
 	    return Hook::apply(
 	        'grafema_plugins_table_columns',
 			[
-				Builders\Column::add( 'cb' )
+				Column::add( 'cb' )
                     ->title( '<input type="checkbox" x-bind="trigger" />' )
 					->width( '1rem' )
 					->view( 'cb' ),

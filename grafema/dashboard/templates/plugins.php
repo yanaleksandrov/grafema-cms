@@ -24,6 +24,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			]
         )
         ->print();
-    ?>
-	<?php ( new Dashboard\PluginsTable() )->render(); ?>
+
+	//( new Dashboard\PluginsTable() )->render();
+	?>
 </div>

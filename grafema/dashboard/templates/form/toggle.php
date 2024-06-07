@@ -57,9 +57,9 @@ if ( $name ) {
         <span class="toggle__switch"></span>
         <?php if ( $label || $instruction ) : ?>
             <span class="toggle__label">
-                <?php
-                Esc::html( $label );
-                if ( $instruction ) : ?>
+                <?php Esc::html( $label ); ?>
+
+                <?php if ( $instruction ) : ?>
                     <span class="toggle__description"><?php Esc::html( $instruction ); ?></span>
                 <?php endif; ?>
             </span>

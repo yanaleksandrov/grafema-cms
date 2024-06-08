@@ -35,9 +35,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		?>
 	</head>
 	<body class="df jcc p-8">
-        <div class="mw-400">
+        <div class="mw-360">
             <div class="mb-8 df jcc">
-                <img src="/dashboard/assets/images/logo-decorate.svg" width="274" height="160" alt="Grafema CMS">
+                <img src="/dashboard/assets/images/logo-decorate.svg" width="240" height="140" alt="Grafema CMS">
             </div>
             <?php echo Dashboard\Form::view( 'system-install' ); ?>
         </div>

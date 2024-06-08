@@ -9,7 +9,7 @@ use Grafema\I18n;
 Dashboard\Form::register(
 	'grafema-user-reset-password',
 	[
-		'class'           => 'card card-border g-6 p-8',
+		'class'           => 'dg g-6',
 		'x-data'          => '{email: ""}',
 		'@submit.prevent' => '$ajax("user/reset-password")',
 	],

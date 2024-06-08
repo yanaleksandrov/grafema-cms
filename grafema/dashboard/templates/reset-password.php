@@ -14,9 +14,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<div class="mw-400">
+<div class="mw-360">
 	<div class="df jcc">
-        <img src="/dashboard/assets/images/logo-decorate.svg" width="274" height="160" alt="Grafema CMS">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="240" height="140" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-reset-password' ); ?>
 	<div class="t-center t-muted mt-3">

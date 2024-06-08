@@ -9,7 +9,7 @@ use Grafema\I18n;
 Dashboard\Form::register(
 	'grafema-user-sign-in',
 	[
-		'class'           => 'card card-border g-6 p-8',
+		'class'           => 'dg g-6',
 		'@submit.prevent' => '$ajax("user/sign-in").then()',
 		'x-data'          => '',
 	],

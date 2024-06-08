@@ -10,7 +10,7 @@ use Grafema\View;
 Dashboard\Form::register(
 	'system-install',
 	[
-		'class'           => 'card card-border',
+		'class'           => 'dg g-6',
 		'@submit.prevent' => '$ajax("system/install").then(response => installed = response)',
 		'x-data'          => '{approved: {}, site: {}, db: {}, user: {}, installed: false}',
 		'x-init'          => '$watch("installed", () => $wizard.goNext())'

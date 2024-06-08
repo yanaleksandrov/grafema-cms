@@ -1,6 +1,35 @@
 document.addEventListener( 'alpine:init', () => {
 
 	/**
+	 * Updates the URL parameters based on the provided FormData.
+	 * Removes missing parameters and adds new parameters.
+	 *
+	 * @param {FormData} formData - The FormData containing the new parameters.
+	 * @param {string} [url=window.location.href] - The URL to update. Defaults to the current window location.
+	 * @returns {void}
+	 */
+	function updateUrlParams(formData, url = window.location.href) {
+		const urlObj = new URL(url);
+		const params = new URLSearchParams(urlObj.search);
+
+		// remove params
+		for (const [key] of params) {
+			if (!formData.has(key)) {
+				params.delete(key);
+			}
+		}
+
+		// add new params
+		for (const [key, value] of formData.entries()) {
+			params.set(key, value);
+		}
+
+		urlObj.search = params.toString();
+
+		window.history.replaceState({}, '', urlObj.toString());
+	}
+
+	/**
 	 * Intersect event
 	 *
 	 * @since 1.0
@@ -758,9 +787,9 @@ document.addEventListener( 'alpine:init', () => {
 	 */
 	const BYTES_IN_MB = 1048576;
 	Alpine.magic( 'ajax', el => (route, data, callback) => {
-		let formData  = new FormData(),
-			xhr       = new XMLHttpRequest(),
-			submitBtn = el.querySelector("[type='submit']");
+		let formData = new FormData(),
+			xhr      = new XMLHttpRequest(),
+			buttons  = el.querySelectorAll("[type='submit']");
 
 		function onProgress(event, xhr) {
 			const { loaded = 0, total = 0, type } = event;
@@ -816,17 +845,15 @@ document.addEventListener( 'alpine:init', () => {
 				}
 			}
 
-			if (submitBtn) {
-				Object.assign(submitBtn.style, {
-					"background-image": "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Z' stroke='%23fff' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M15 8a7 7 0 0 0-7-7' stroke='%23fff' stroke-width='2'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E\")",
-					"background-repeat": "no-repeat",
-					"background-position": "center center",
-					"background-size": "16px",
-					"pointer-events": "none",
-					"color": "transparent",
-					"transition": "none",
-				});
-			}
+			buttons && buttons.forEach(button => Object.assign(button.style, {
+				"background-image": "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Z' stroke='%23fff' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M15 8a7 7 0 0 0-7-7' stroke='%23fff' stroke-width='2'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E\")",
+				"background-repeat": "no-repeat",
+				"background-position": "center center",
+				"background-size": "16px",
+				"pointer-events": "none",
+				"color": "transparent",
+				"transition": "none",
+			}));
 
 			xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', index.apiurl + route);
 
@@ -849,7 +876,7 @@ document.addEventListener( 'alpine:init', () => {
 
 				el.classList.remove('btn--load');
 
-				submitBtn && submitBtn.removeAttribute('style');
+				buttons && buttons.forEach(button => button.removeAttribute('style'));
 			};
 
 			xhr.send(formData);
@@ -1419,6 +1446,37 @@ document.addEventListener( 'alpine:init', () => {
 			}
 		}
 	} ) );
+
+	/**
+	 * Tab
+	 *
+	 * @since 1.0
+	 */
+	Alpine.data( 'tab', (id) => ({
+		tab: id,
+		tabButton(id) {
+			return {
+				['@click']() {
+					this.tab = id;
+
+					let formData = new FormData();
+					formData.append('tab', id);
+
+					updateUrlParams(formData);
+				},
+				[':class']() {
+					return this.tab === id ? 'active' : '';
+				},
+			};
+		},
+		tabContent(id) {
+			return {
+				['x-show']() {
+					return this.tab === id;
+				},
+			};
+		}
+	}));
 
 	/**
 	 * Table checkbox

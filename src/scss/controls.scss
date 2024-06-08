@@ -4,14 +4,14 @@
 .btn {
   color: inherit;
   font: inherit;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
   overflow: hidden;
   position: relative;
   padding: 0 .925em;
   outline: 0;
   gap: .5em;
-  font-size: .875rem;
+  font-size: .8125rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -393,6 +393,7 @@
 
   &__content {
     max-width: 60rem;
+    width: 100%;
   }
 
   &--btn {
@@ -441,10 +442,7 @@
     }
 
     .tab__title {
-      display: grid;
-      border: 0;
       height: auto;
-      gap: 0;
       padding: 0.55rem 0 .55rem 0.85rem;
       width: 100%;
       border-radius: var(--grafema-border-radius-lg);
@@ -592,10 +590,11 @@
   }
 
   &__container {
-    display: inline-block;
-    clip-path: circle(50% at center);
+    border-radius: 100rem;
+    border: 1px solid var(--grafema-border);
+    overflow: hidden;
+    display: block;
     position: relative;
-    border-radius: 10rem;
     width: max-content;
   }
 
@@ -1689,7 +1688,7 @@
     background: var(--grafema-bg) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2371777F' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.75' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px top 55%;
     background-size: 12px;
 
-    &:focus {
+    &.ss-open-below {
       color: inherit;
       outline: 0;
       background-color: #fff;

@@ -23,9 +23,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         ]
     );
     ?>
-	<template x-if="grafema.posts.length">
+	<template x-if="index.posts.length">
 		<div class="storage">
-			<template x-for="post in grafema.posts">
+			<template x-for="post in index.posts">
 				<div class="storage__item" @click="$modal.open('grafema-modals-post')">
 					<img class="storage__image" :src="post.sizes?.thumbnail?.url || post.url || post.icon" alt="" width="200" height="200">
 					<div class="storage__meta">
@@ -35,7 +35,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</template>
 		</div>
 	</template>
-	<template x-if="!grafema.posts.length">
+	<template x-if="!index.posts.length">
 		<?php
 		View::print(
 			'templates/states/undefined',
@@ -46,5 +46,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		);
         ?>
 	</template>
-    <div x-intersect="$ajax('media/get').then(response => grafema.posts = response.posts)"></div>
+    <div x-intersect="$ajax('media/get').then(response => index.posts = response.posts)"></div>
 </div>

@@ -81,7 +81,7 @@ class I18n
     public static function getLocale(string $default = 'en_US')
     {
         if ( ! isset(self::$locale) && function_exists('locale_accept_from_http')) {
-            self::$locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            self::$locale = locale_accept_from_http( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en_US' );
         }
         return self::$locale ?? $default;
     }

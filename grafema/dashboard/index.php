@@ -113,9 +113,9 @@ $start_time = microtime( true );
 </head>
 <body x-data="index">
 	<?php if ( Is::installed() && User::logged() ) { ?>
-		<div class="grafema" :class="grafema.showMenu && 'active'">
+		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">
-                <div class="grafema-bar-menu" @click="grafema.showMenu = !grafema.showMenu">
+                <div class="grafema-bar-menu" @click="showMenu = !showMenu">
                     <i class="ph ph-list"></i>
                 </div>
                 <ul class="menu mr-auto">
@@ -216,14 +216,8 @@ $start_time = microtime( true );
 		</div>
 		<?php
 	}
+	?>
 
-	/**
-	 * Prints scripts or data before the closing body tag on the dashboard.
-	 *
-	 * @since 1.0.0
-	 */
-	Hook::apply( 'grafema_dashboard_footer' );
-    ?>
     <div class="notice" x-data>
         <template x-for="(item, id) in $store.notice.items">
             <div class="notice__item" :class="item.classes()">
@@ -232,5 +226,14 @@ $start_time = microtime( true );
             </div>
         </template>
     </div>
+    <?php
+
+	/**
+	 * Prints scripts or data before the closing body tag on the dashboard.
+	 *
+	 * @since 1.0.0
+	 */
+	Hook::apply( 'grafema_dashboard_footer' );
+    ?>
 </body>
 </html>

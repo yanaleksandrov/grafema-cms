@@ -20,7 +20,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<input type="search" placeholder="Search user">
 				</div>
 				<!-- tab start -->
-				<div class="tab" x-data="{ tab: 'open' }">
+				<div class="tab" x-data="tab('open')">
 					<div class="tab__nav">
 						<span class="tab__title" :class="{ 'active': tab === 'open' }" @click="tab = 'open'">
 							<i class="ph ph-chats"></i> Open chats

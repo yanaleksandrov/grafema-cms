@@ -157,12 +157,15 @@
     }
 
     &--divider {
-      padding: 0 0.75rem;
-      margin: 1.25rem 0 0.4rem;
+      padding: 0.4rem 0.75rem;
       text-transform: uppercase;
       font-size: 0.625rem;
       letter-spacing: 0.04em;
       color: var(--grafema-text-muted);
+
+      .nav__item + & {
+        padding: 1.25rem 0.75rem 0.4rem;
+      }
     }
 
     &--parent {

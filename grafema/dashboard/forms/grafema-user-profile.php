@@ -1,6 +1,8 @@
 <?php
 use Grafema\I18n;
 use Grafema\Url;
+use Grafema\Sanitizer;
+use Grafema\View;
 
 /**
  * Profile page.
@@ -10,28 +12,45 @@ use Grafema\Url;
 Dashboard\Form::register(
 	'grafema-user-profile',
 	[
-		'class'  => 'tab',
-		'x-data' => "{tab:'profile'}",
+		'class'           => 'tab',
+		'x-data'          => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'profile' ) ),
+		'@submit.prevent' => '$ajax("user/update")',
 	],
 	function ( $form ) {
 		$form->addFields(
 			[
 				[
-					'type'        => 'image',
-					'name'        => 'avatar',
-					'label'       => I18n::__( 'Upload avatar' ),
-					'label_class' => '',
-					'class'       => 'dg p-7 pt-6 pb-5 bg-gray-lt',
-					'description' => I18n::__( 'Click to upload or drag & drop' ),
-					'tooltip'     => I18n::__( 'This is tooltip' ),
-					'attributes'  => [
-						'required' => false,
-						'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
-					],
+					'type'     => 'custom',
+					'class'    => 'dg p-7 pt-6 pb-5 bg-gray-lt',
+					'callback' => function () {
+						ob_start();
+						?>
+                        <div class="dg g-1 px-7 pt-6 pb-5 bg-gray-lt">
+							<?php
+							View::print(
+								'templates/form/image',
+								[
+									'name'        => 'avatar',
+									'label'       => I18n::__( 'Profile Settings' ),
+									'label_class' => 'fw-600 fs-18',
+									'class'       => '',
+									'description' => I18n::__( 'Click to upload your avatar' ),
+									'tooltip'     => I18n::__( 'This is tooltip' ),
+									'attributes'  => [
+										'required' => false,
+										'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+									],
+								]
+							);
+							?>
+                        </div>
+						<?php
+						return ob_get_clean();
+					},
 				],
 				[
 					'type'          => 'tab',
-					'label'         => I18n::__( 'Profile' ),
+					'label'         => I18n::__( 'Overview' ),
 					'name'          => 'profile',
 					'caption'       => '',
 					'description'   => '',
@@ -197,54 +216,19 @@ Dashboard\Form::register(
 							],
 						],
 						[
-							'type'    => 'group',
-							'label'   => I18n::__( 'About yourself' ),
-							'name'    => 'about-yourself',
-							'columns' => 1,
-							'fields'  => [
-								[
-									'type'        => 'textarea',
-									'label'       => I18n::__( 'Biographical info' ),
-									'name'        => 'bio',
-									'value'       => '',
-									'placeholder' => '',
-									'class'       => '',
-									'reset'       => 0,
-									'required'    => 0,
-									'copy'        => 0,
-									'before'      => '',
-									'after'       => '',
-									'tooltip'     => '',
-									'instruction' => I18n::__( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ),
-									'attributes'  => [],
-									'conditions'  => [],
-								],
-							],
-						],
-						[
-							'type'    => 'group',
-							'label'   => I18n::__( 'About yourself' ),
-							'name'    => 'about-yourself',
-							'columns' => 1,
-							'fields'  => [
-								[
-									'type'        => 'textarea',
-									'label'       => I18n::__( 'Biographical info' ),
-									'name'        => 'bio',
-									'value'       => '',
-									'placeholder' => '',
-									'class'       => '',
-									'reset'       => 0,
-									'required'    => 0,
-									'copy'        => 0,
-									'before'      => '',
-									'after'       => '',
-									'tooltip'     => '',
-									'instruction' => I18n::__( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ),
-									'attributes'  => [],
-									'conditions'  => [],
-								],
-							],
+							'type'     => 'custom',
+							'callback' => function () {
+								ob_start();
+								?>
+                                <div class="dg g-7 gtc-5">
+                                    <div class="ga-1 fw-600"></div>
+                                    <div class="df">
+                                        <button type="submit" class="btn btn--primary"><?php I18n::t( 'Update Profile' ); ?></button>
+                                    </div>
+                                </div>
+								<?php
+								return ob_get_clean();
+							},
 						],
 					],
 				],
@@ -269,19 +253,17 @@ Dashboard\Form::register(
 									'variation'   => 'image',
 									'instruction' => I18n::__( 'Choose how dashboard looks to you. Select a single theme, or sync with your system and automatically switch between day and night themes.' ),
 									'value'       => 'light',
-									'width'       => 180,
+									'width'       => 280,
 									'options'     => [
 										'light' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
-											'title' => I18n::__( 'Light mode' ),
+											'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
+											'title'   => I18n::__( 'Light mode' ),
+                                            'content' => I18n::__( 'This theme will be active when your system is set to “light mode”' ),
 										],
 										'dark' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
-											'title' => I18n::__( 'Dark mode' ),
-										],
-										'system' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-system.svg' ),
-											'title' => I18n::__( 'System' ),
+											'image'   => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
+											'title'   => I18n::__( 'Dark mode' ),
+											'content' => I18n::__( 'This theme will be active when your system is set to “night mode”' ),
 										],
 									],
 								],
@@ -343,6 +325,21 @@ Dashboard\Form::register(
 									],
 								],
 							],
+						],
+						[
+							'type'     => 'custom',
+							'callback' => function () {
+								ob_start();
+								?>
+                                <div class="dg g-7 gtc-5">
+                                    <div class="ga-1 fw-600"></div>
+                                    <div class="df">
+                                        <button type="submit" class="btn btn--primary"><?php I18n::t( 'Update Profile' ); ?></button>
+                                    </div>
+                                </div>
+								<?php
+								return ob_get_clean();
+							},
 						],
 					],
 				],
@@ -464,7 +461,7 @@ Dashboard\Form::register(
 									'callback' => function () {
 										ob_start();
 										?>
-										<button class="btn btn--primary" type="button" @click="$ajax('user/password-update', $data)" :disabled="!(passwordnew && passwordold)" disabled><?php I18n::t( 'Update password' ); ?></button>
+										<button class="btn btn--primary" type="button" @click="$ajax('user/password-update', $data)" :disabled="!(passwordnew && passwordold)" disabled><?php I18n::t( 'Update Password' ); ?></button>
 										<?php
 										return ob_get_clean();
 									},

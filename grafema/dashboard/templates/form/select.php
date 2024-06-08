@@ -40,10 +40,16 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
         <span class="<?php echo $class; ?>">
             <?php
             Grafema\Esc::html( $label );
-            if ( $reset ) {
+            if ( $reset ) :
                 ?>
                 <span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
-            <?php } ?>
+                <?php
+            endif;
+
+			if ( $tooltip ) :
+				?>
+                <i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
+			<?php endif; ?>
         </span>
     <?php endif; ?>
 	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>

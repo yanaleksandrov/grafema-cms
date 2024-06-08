@@ -10,8 +10,8 @@
 namespace Dashboard\Builders;
 
 use Grafema\I18n;
-use Grafema\Sanitizer;
 use Grafema\View;
+use Grafema\Sanitizer;
 
 /**
  * Class Table.
@@ -30,7 +30,7 @@ class Table
 	 * @since 1.0.0
 	 * @var array
 	 */
-	public array $data = [];
+	protected array $data = [];
 
 	/**
 	 * The path to the folder with the template files.
@@ -38,7 +38,7 @@ class Table
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public string $views = GRFM_PATH . 'dashboard/templates/table';
+	protected string $views = GRFM_DASHBOARD . 'templates/table';
 
 	/**
 	 * Add new table.

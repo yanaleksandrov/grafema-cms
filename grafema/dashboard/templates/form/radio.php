@@ -34,7 +34,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="df aic jcsb fw-600"><?php Esc::html( $label ); ?></div>
-	<div class="dg g-4" style="grid-template-columns: repeat(auto-fill, minmax(<?php Esc::attr( $width ); ?>px, 1fr))">
+	<div class="dg g-4 mb-2" style="grid-template-columns: repeat(auto-fill, minmax(<?php Esc::attr( $width ); ?>px, 1fr))">
 		<?php
 		foreach ( $options as $v => $option ) :
 			[$image, $title, $content, $hidden] = (
@@ -63,7 +63,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				switch ( $variation ) {
 					case 'image':
 						?>
+                        <div class="radio-title"><?php echo $title; ?></div>
 						<img src="<?php Esc::attr( $image ); ?>" alt="<?php Esc::attr( $title ); ?>">
+                        <div class="radio-content"><?php echo $content; ?></div>
 						<?php
 						break;
 					case 'described':

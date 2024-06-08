@@ -253,19 +253,17 @@ Dashboard\Form::register(
 									'variation'   => 'image',
 									'instruction' => I18n::__( 'Choose how dashboard looks to you. Select a single theme, or sync with your system and automatically switch between day and night themes.' ),
 									'value'       => 'light',
-									'width'       => 180,
+									'width'       => 280,
 									'options'     => [
 										'light' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
-											'title' => I18n::__( 'Light mode' ),
+											'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
+											'title'   => I18n::__( 'Light mode' ),
+                                            'content' => I18n::__( 'This theme will be active when your system is set to “light mode”' ),
 										],
 										'dark' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
-											'title' => I18n::__( 'Dark mode' ),
-										],
-										'system' => [
-											'image' => Url::site( 'dashboard/assets/images/dashboard-system.svg' ),
-											'title' => I18n::__( 'System' ),
+											'image'   => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
+											'title'   => I18n::__( 'Dark mode' ),
+											'content' => I18n::__( 'This theme will be active when your system is set to “night mode”' ),
 										],
 									],
 								],

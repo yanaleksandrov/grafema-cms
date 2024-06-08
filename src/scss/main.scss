@@ -403,7 +403,7 @@ input {
     width: 18px;
     min-width: 18px;
     max-width: 18px;
-    min-height: inherit;
+    min-height: 18px;
     padding: 0;
     display: inline-block;
     -webkit-background-clip: unset;
@@ -528,6 +528,7 @@ input {
   flex: 1;
   transition: border-color, box-shadow 0.3s ease;
   position: relative;
+  line-height: 1.2;
 
   &--simple {
 
@@ -549,6 +550,7 @@ input {
 
   &--image {
     padding: 0;
+    flex-direction: column;
 
     input[type="radio"] {
       right: 1rem;
@@ -557,12 +559,22 @@ input {
     }
 
     img {
-      margin: 0;
-      width: 100%;
-      user-select: none;
+      border-top: 1px solid var(--grafema-border);
+      border-bottom: 1px solid var(--grafema-border);
+      border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
       pointer-events: none;
-      position: initial;
+      position: static;
+      user-select: none;
+      width: 100%;
     }
+  }
+
+  &-title,
+  &-content {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+    color: var(--grafema-text-muted);
+    margin: 0 !important;
   }
 }
 

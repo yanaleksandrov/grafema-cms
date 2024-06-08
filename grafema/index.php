@@ -9,8 +9,6 @@
 
 use Grafema\{Api, Db, Dir, Debug, Hook, Html, I18n, Is, Plugins, Post\Type, Route, Url, User, Users\Roles, View, Csrf};
 
-use Dashboard\Constants;
-
 /**
  * Setup system core constants.
  *
@@ -164,7 +162,7 @@ $route->mount('', function() use ( $route ) {
 	 *
 	 * @since 1.0.0
 	 */
-	Constants::init();
+	Dashboard\Constants::init();
 
 	/**
 	 * Add roles and users.

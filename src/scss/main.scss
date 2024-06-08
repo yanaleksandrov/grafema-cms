@@ -461,7 +461,6 @@ input {
 
 .toggle {
   display: inline-flex;
-  align-items: center;
 
   &__checkbox {
     position: absolute !important;
@@ -506,7 +505,7 @@ input {
     background: var(--grafema-bg-universal);
     border: 1px solid var(--grafema-border);
     transition: background 0.25s;
-    margin: 0 !important;
+    margin: 2px 0 0 !important;
 
     &:before {
       content: '';

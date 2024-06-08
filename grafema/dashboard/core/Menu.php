@@ -94,8 +94,8 @@ final class Menu
 							'position' => 10,
 						],
 						[
-							'id'           => 'comments',
-							'url'          => 'comments',
+							'id'           => 'profile',
+							'url'          => 'profile',
 							'title'        => I18n::__( 'Profile' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => 'ph ph-gear',
@@ -153,6 +153,11 @@ final class Menu
 			function ( $tree ) {
 				$tree->addItems(
 					[
+						[
+							'id'       => 'divider-workspace',
+							'title'    => I18n::__( 'Workspace' ),
+							'position' => 0,
+						],
 						[
 							'id'           => 'profile',
 							'url'          => 'profile',

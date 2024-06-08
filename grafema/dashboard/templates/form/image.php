@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\I18n;
 
 /**
  * Single image uploader.
@@ -14,13 +15,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $label_class, $class] = (
+[$label, $label_class, $class, $description] = (
     new Sanitizer(
         $args ?? [],
         [
             'label'       => 'trim',
             'label_class' => 'class:dg ga-1 fw-600',
             'class'       => 'class:dg',
+			'description' => 'trim:' . I18n::__( 'Click to upload your avatar' ),
         ]
     )
 )->values();
@@ -34,19 +36,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</span>
 			<div class="image__container">
 				<label for="fileInputs">
-					<span class="avatar avatar--xl avatar--rounded" :style="image && `background-image: url(${image})`">
+					<span class="avatar avatar--xl" :style="image && `background-image: url(${image})`">
 						<span x-text="getInitials(content)" x-show="!image"></span>
 					</span>
 				</label>
 				<span class="image__action" @click="$modal.open('take-selfie')" title="You can take a selfie. Allow the browser to access the camera."><i class="ph ph-webcam"></i></span>
 			</div>
 		</div>
-		<div class="dg g-2 mw50x9">
+		<div class="dg g-1 mw50x9">
 			<?php if ( $label ) { ?>
 				<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 			<?php } ?>
 			<div class="fs-13 t-muted lh-xs">
-				<a @click.prevent="$refs.input.click()">Click to upload</a> WEBP, PNG, JPG or GIF (max. 400×400px)
+				<a @click.prevent="$refs.input.click()"><?php echo $description; ?></a> WEBP, PNG, JPG or GIF (max. 400×400px)
 			</div>
 		</div>
 	</div>

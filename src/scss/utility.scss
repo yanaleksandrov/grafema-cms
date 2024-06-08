@@ -133,6 +133,7 @@ $colors: (
   'lg': '1279',
   'md': '1024',
   'sm': '640',
+  'xs': '480',
 ) {
   @media(max-width: #{$width}px) {
     @each $selector, $property in (

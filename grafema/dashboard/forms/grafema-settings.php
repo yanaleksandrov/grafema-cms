@@ -1,6 +1,7 @@
 <?php
 use Grafema\I18n;
 use Grafema\Option;
+use Grafema\Sanitizer;
 
 /**
  * Website settings in dashboard
@@ -11,7 +12,7 @@ Dashboard\Form::register(
 	'grafema-settings',
 	[
 		'class'   => 'tab tab--vertical',
-		'x-data'  => "{tab:'general'}",
+		'x-data'  => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'general' ) ),
 		'@change' => '$ajax("options/update")',
 	],
 	function ( $form ) {

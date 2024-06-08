@@ -1,6 +1,35 @@
 document.addEventListener( 'alpine:init', () => {
 
 	/**
+	 * Updates the URL parameters based on the provided FormData.
+	 * Removes missing parameters and adds new parameters.
+	 *
+	 * @param {FormData} formData - The FormData containing the new parameters.
+	 * @param {string} [url=window.location.href] - The URL to update. Defaults to the current window location.
+	 * @returns {void}
+	 */
+	function updateUrlParams(formData, url = window.location.href) {
+		const urlObj = new URL(url);
+		const params = new URLSearchParams(urlObj.search);
+
+		// remove params
+		for (const [key] of params) {
+			if (!formData.has(key)) {
+				params.delete(key);
+			}
+		}
+
+		// add new params
+		for (const [key, value] of formData.entries()) {
+			params.set(key, value);
+		}
+
+		urlObj.search = params.toString();
+
+		window.history.replaceState({}, '', urlObj.toString());
+	}
+
+	/**
 	 * Intersect event
 	 *
 	 * @since 1.0
@@ -1419,6 +1448,37 @@ document.addEventListener( 'alpine:init', () => {
 			}
 		}
 	} ) );
+
+	/**
+	 * Tab
+	 *
+	 * @since 1.0
+	 */
+	Alpine.data( 'tab', (id) => ({
+		tab: id,
+		tabButton(id) {
+			return {
+				['@click']() {
+					this.tab = id;
+
+					let formData = new FormData();
+					formData.append('tab', id);
+
+					updateUrlParams(formData);
+				},
+				[':class']() {
+					return this.tab === id ? 'active' : '';
+				},
+			};
+		},
+		tabContent(id) {
+			return {
+				['x-show']() {
+					return this.tab === id;
+				},
+			};
+		}
+	}));
 
 	/**
 	 * Table checkbox

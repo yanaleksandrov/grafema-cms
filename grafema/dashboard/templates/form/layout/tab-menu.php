@@ -38,7 +38,7 @@ if ( count( $fields ) === 0 ) {
             )
 		)->values();
 		?>
-		<li class="tab__title <?php echo $class; ?>" @click="<?php echo $property; ?> = '<?php echo $name; ?>'" :class="{'active': <?php echo $property; ?> === '<?php echo $name; ?>'}">
+		<li class="tab__title <?php echo $class; ?>" x-bind="tabButton('<?php echo $name; ?>')">
 			<div class="df aic g-2">
 				<?php if ( $icon ) : ?>
 					<i class="<?php echo $icon; ?>"></i>

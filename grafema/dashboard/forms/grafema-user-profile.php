@@ -1,6 +1,7 @@
 <?php
 use Grafema\I18n;
 use Grafema\Url;
+use Grafema\Sanitizer;
 
 /**
  * Profile page.
@@ -11,7 +12,7 @@ Dashboard\Form::register(
 	'grafema-user-profile',
 	[
 		'class'  => 'tab',
-		'x-data' => "{tab:'profile'}",
+		'x-data' => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'profile' ) ),
 	],
 	function ( $form ) {
 		$form->addFields(

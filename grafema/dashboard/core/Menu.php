@@ -159,6 +159,13 @@ final class Menu
 						'icon'         => 'ph ph-user-focus',
 					],
 					[
+						'id'           => 'website',
+						'url'          => '/',
+						'title'        => '1.0.0',
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-git-branch',
+					],
+					[
 						'id'           => 'updates',
 						'url'          => 'updates',
 						'title'        => 0,

@@ -184,6 +184,10 @@ $start_time = microtime( true );
 
             View::print( 'templates/' . $slug );
             ?>
+
+            <div class="grafema-tools">
+                <a class="menu__link" href="/"><i class="ph ph-git-branch"></i> 1.0.0</a>
+            </div>
 		</div>
     	<?php
 		View::print( 'templates/modals/uploader' );

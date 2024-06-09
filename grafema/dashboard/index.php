@@ -118,28 +118,7 @@ $start_time = microtime( true );
                 <div class="grafema-bar-menu" @click="showMenu = !showMenu">
                     <i class="ph ph-list"></i>
                 </div>
-                <ul class="menu mr-auto">
-                    <li class="menu__item">
-                        <a class="menu__link" href="home.html"><i class="ph ph-house-line"></i> Grafema</a>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="index.html"><i class="ph ph-clock-clockwise"></i> 0</a>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="index.html"><i class="ph ph-chats"></i> 2</a>
-                    </li>
-                    <li class="menu__item parent">
-                        <a class="menu__link" href="page.html"><i class="ph ph-plus"></i> New</a>
-                        <ul class="menu__sub">
-                            <li class="menu__item">
-                                <a href="product.html">Page</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="#"><i class="ph ph-monitor"></i> <span x-text="index.query"></span></a>
-                    </li>
-                </ul>
+                <?php View::print( 'templates/menu-bar' ); ?>
 
 				<?php ob_start(); ?>
                 <div class="df fdc">

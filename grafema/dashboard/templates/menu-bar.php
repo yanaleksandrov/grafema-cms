@@ -1,0 +1,46 @@
+<?php
+use Grafema\Tree;
+use Grafema\Sanitizer;
+
+/*
+ * Grafema dashboard menu.
+ *
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/menu-bar.php
+ *
+ * @package     Grafema\Templates
+ * @version     1.0.0
+ */
+if ( ! defined( 'GRFM_PATH' ) ) {
+	exit;
+}
+
+Tree::view( 'dashboard-menu-bar', function ( $items ) {
+    ?>
+    <ul class="menu mr-auto">
+        <?php
+        foreach ( $items as $item ) :
+			[$url, $icon, $title] = (
+                new Sanitizer(
+					$item,
+                    [
+                        'url'   => 'url',
+                        'icon'  => 'class',
+                        'title' => 'trim',
+                    ]
+                )
+			)->values();
+			?>
+            <li class="menu__item">
+                <a class="menu__link" href="<?php echo $url; ?>">
+                    <?php if ( $icon ) : ?>
+                        <i class="<?php echo $icon; ?>"></i>
+                    <?php endif; ?>
+					<?php echo $title; ?>
+                </a>
+            </li>
+			<?php
+        endforeach;
+    ?>
+    </ul>
+    <?php
+} );

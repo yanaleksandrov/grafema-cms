@@ -10,13 +10,14 @@ use Grafema\Asset;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Tree;
+use Grafema\Plugins;
 
 /**
  * Boilerplate plugin.
  *
  * @since 1.0.0
  */
-class Toolkit implements Grafema\Plugins\Skeleton
+class Toolkit implements Plugins\Skeleton
 {
 	public function manifest(): array
 	{

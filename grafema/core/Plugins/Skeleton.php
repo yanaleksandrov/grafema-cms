@@ -34,7 +34,7 @@ interface Skeleton
 	public function launch();
 
 	/**
-	 * Activate the plugin.
+	 * Activate action the plugin.
 	 *
 	 * This method is responsible for activating the plugin.
 	 * It typically performs necessary initialization tasks and sets up any required resources or configurations.
@@ -44,7 +44,7 @@ interface Skeleton
 	public function activate();
 
 	/**
-	 * Deactivate the plugin.
+	 * Deactivate action the plugin.
 	 *
 	 * This method is responsible for deactivating the plugin.
 	 * It is called when the plugin is being disabled or turned off.
@@ -55,7 +55,7 @@ interface Skeleton
 	public function deactivate();
 
 	/**
-	 * Install the plugin.
+	 * Install action the plugin.
 	 *
 	 * This method is responsible for installing the plugin.
 	 *
@@ -64,7 +64,7 @@ interface Skeleton
 	public function install();
 
 	/**
-	 * Uninstall the plugin.
+	 * Uninstall action the plugin.
 	 *
 	 * This method is responsible for uninstalling the plugin.
 	 * It is called when the plugin is being completely removed from the system.

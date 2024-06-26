@@ -8,18 +8,18 @@
  */
 use Docify\App\Finder;
 use Docify\App\Parser;
-use Grafema\Api;
 use Grafema\Dir;
 use Grafema\I18n;
 use Grafema\Post;
 use Grafema\Tree;
+use Grafema\Plugins;
 
 /**
  * Docify plugin.
  *
  * @since 1.0.0
  */
-class Docify implements Grafema\Plugins\Skeleton
+class Docify implements Plugins\Skeleton
 {
 	public function manifest(): array
 	{
@@ -118,17 +118,15 @@ class Docify implements Grafema\Plugins\Skeleton
 		 *
 		 * @since 1.0.0
 		 */
-		$plugins = Grafema\Plugins\Manager::init(
-			function () {
-				$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
-				if ( ! $paths ) {
-					return null;
-				}
+		$plugins = new Plugins\Manager( function () {
+			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
+			if ( ! $paths ) {
+				return null;
 			}
-		);
-		if ( $plugins->plugins ) {
+		} );
+		if ( $plugins->collection ) {
 			$docblock = ( new Parser() )->run( '' );
-			$classes  = ( new Finder() )->methods( $plugins->plugins );
+			$classes  = ( new Finder() )->methods( $plugins->collection );
 			// echo '<pre>';
 			// print_r( $files );
 			// print_r( $classes );

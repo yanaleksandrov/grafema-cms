@@ -329,15 +329,15 @@ $route->mount('', function() use ( $route ) {
 	 *
 	 * @since 1.0.0
 	 */
-	$plugins = Plugins\Manager::init( function ( $plugins ) {
-		$paths = (new Dir\Dir( GRFM_PLUGINS ))->getFiles( '*.php', 1 );
+	$plugins = new Plugins\Manager( function ( $plugins ) {
+		$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
 
 		if ( ! $paths ) {
 			return null;
 		}
 		$plugins->register( $paths );
 	} );
-	//$plugins->launch();
+	$plugins->launch();
 	//$plugins->install();
 	//$plugins->uninstall();
 	//$plugins->activate();
@@ -349,6 +349,25 @@ $route->mount('', function() use ( $route ) {
 	 * @since 1.0.0
 	 */
 	Hook::apply( 'grafema_plugins_loaded' );
+
+	/**
+	 * Load installed and launch active themes.
+	 *
+	 * @since 1.0.0
+	 */
+	$themes = new Plugins\Manager( function ( $themes ) {
+		$paths = (new Dir\Dir( GRFM_THEMES ))->getFiles( '*.php', 1 );
+
+		if ( ! $paths ) {
+			return null;
+		}
+		$themes->register( $paths );
+	} );
+	$themes->launch();
+	//$themes->install();
+	//$themes->uninstall();
+	//$themes->activate();
+	//$themes->deactivate();
 
 	/**
 	 * Add core API endpoints.

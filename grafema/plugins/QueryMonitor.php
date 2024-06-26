@@ -1,18 +1,17 @@
 <?php
-namespace QueryMonitor;
-
 use Grafema\DB;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Hook;
 use Grafema\Debug;
+use Grafema\Plugins;
 
 /**
  * QueryMonitor plugin.
  *
  * @since 1.0.0
  */
-class QueryMonitor implements \Grafema\Plugins\Skeleton
+class QueryMonitor implements Plugins\Skeleton
 {
 	public function manifest(): array
 	{

@@ -6,14 +6,16 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
+
 use Grafema\I18n;
+use Grafema\Plugins;
 
 /**
  * Boilerplate plugin.
  *
  * @since 1.0.0
  */
-class Boilerplate implements Grafema\Plugins\Skeleton
+class Boilerplate implements Plugins\Skeleton
 {
 	public function manifest(): array
 	{

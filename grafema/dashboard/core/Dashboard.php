@@ -71,6 +71,10 @@ class Dashboard extends \Grafema\App\App
 				// $data['dependencies'] = [ 'dragula-min-js' ];
 			}
 			Asset::enqueue( $script, '/dashboard/assets/js/' . $script . '.js', $data );
+
+			Asset::plug();
+			Asset::enqueue()->jQuery()->react();
+			Asset::enqueue()->dependencies()->react()->jQuery();
 		}
 
 		/**

@@ -78,10 +78,10 @@ class I18n
 	 * @return string
 	 * @since 1.0.0
 	 */
-    public static function getLocale(string $default = 'en_US')
+    public static function getLocale(string $default = 'en')
     {
         if ( ! isset(self::$locale) && function_exists('locale_accept_from_http')) {
-            self::$locale = locale_accept_from_http( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en_US' );
+            self::$locale = locale_accept_from_http( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? $default );
         }
         return self::$locale ?? $default;
     }
@@ -89,7 +89,7 @@ class I18n
 	/**
 	 * @param string $default
 	 */
-    public static function locale(string $default = 'en_US')
+    public static function locale(string $default = 'en')
     {
         echo self::getLocale($default);
     }

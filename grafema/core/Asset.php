@@ -21,8 +21,10 @@ final class Asset
 {
 	/**
 	 * Assets list.
+	 *
+	 * @since 1.0.0
 	 */
-	public static array $assets = [];
+	private static array $assets = [];
 	
 	/**
 	 * Correctly add JS scripts and CSS styles to the page.
@@ -38,7 +40,7 @@ final class Asset
 	 *
 	 * @return Asset
 	 */
-	public static function enqueue( string $id, string $src, array $args = [], string $version = '' ): Asset
+	public static function enqueue( string $id, string $src, array $args = [], string $version = '' ): self
 	{
 		$helpers = new Asset\Helpers();
 
@@ -49,12 +51,8 @@ final class Asset
 			$extension = pathinfo( $src, PATHINFO_EXTENSION ) ?? '';
 			$src .= ( $version ? '?' . http_build_query( ['v' => $version] ) : '' );
 			$uuid = sprintf( '%s-%s', $id, $extension );
-			
-			/**
-			 * Add to assets
-			 *
-			 * @since 1.0.0
-			 */
+
+			// add to assets
 			self::$assets[ $uuid ] = match ( $extension ) {
 				'js'  => ( new Asset\Type\JS() )->add( $id, $src, $args ),
 				'css' => ( new Asset\Type\CSS() )->add( $id, $src, $args ),
@@ -63,28 +61,39 @@ final class Asset
 
 		return new self();
 	}
-	
+
 	/**
 	 * Remove a previously enqueued source.
 	 *
 	 * @param string $id The unique id of the asset which to be deleted
 	 *
+	 * @return void
 	 * @since 1.0.0
 	 */
-	public static function remove( string $id ): Asset
+	public static function dequeue( string $id ): void
 	{
 		if ( isset( self::$assets[$id] ) ) {
 			unset( self::$assets[$id] );
 		}
+	}
 
-		return new self();
+	/**
+	 * Add dependencies.
+	 *
+	 * @return Asset\Dependence
+	 * @since 1.0.0
+	 */
+	public function dependence(): Asset\Dependence {
+		return new Asset\Dependence();
 	}
 	
 	/**
 	 * Searches for all files and connects them, use this function if the sequence of files does not matter.
+	 *
+	 * @return Asset
+	 * @since 1.0.0
 	 */
-	public static function find( string $dirpath ): Asset {
-		
+	public static function find( string $dirpath ): self {
 		return new self();
 	}
 	
@@ -95,8 +104,7 @@ final class Asset
 	 */
 	public static function plug( string $pattern = '' ): void {
 		$helpers = new Asset\Helpers();
-
-		$assets = $helpers->sort( self::$assets );
+		$assets  = $helpers->sort( self::$assets );
 		foreach ( $assets as $asset ) {
 			$type = $asset['type'] ?? '';
 			$url  = $asset['url'] ?? '';
@@ -106,9 +114,8 @@ final class Asset
 			}
 
 			echo match ( $type ) {
-				'js'    => ( new Asset\Type\JS() )->plug( $asset ),
-				'css'   => ( new Asset\Type\CSS() )->plug( $asset ),
-				default => '',
+				'js'  => ( new Asset\Type\JS() )->plug( $asset ),
+				'css' => ( new Asset\Type\CSS() )->plug( $asset ),
 			};
 		}
 	}

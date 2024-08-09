@@ -19,14 +19,14 @@ final class Menu
 	/**
 	 * Class constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct()
 	{
 		/*
 		 * Register menu
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'core-panel-menu',
@@ -73,7 +73,7 @@ final class Menu
 		/**
 		 * Register menu for user.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'dashboard-user-menu',
@@ -146,7 +146,7 @@ final class Menu
 		/**
 		 * Register menu in bar.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach( 'dashboard-menu-bar', function ( Tree $tree ) {
 			$tree->addItems(
@@ -161,7 +161,7 @@ final class Menu
 					[
 						'id'           => 'website',
 						'url'          => '/',
-						'title'        => '1.0.0',
+						'title'        => '2025.1',
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-git-branch',
 					],
@@ -200,7 +200,7 @@ final class Menu
 		/**
 		 * Register menu in left panel.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'dashboard-main-menu',

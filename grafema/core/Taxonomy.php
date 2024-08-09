@@ -5,14 +5,14 @@ namespace Grafema;
 /**
  * Core class for managing taxonomies.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Taxonomy {
 
 	/**
 	 * DataBase table name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public static string $table = 'term_taxonomy';
@@ -20,7 +20,7 @@ class Taxonomy {
 	/**
 	 *
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function register( string $taxonomy, string $object_type, array $args = [] ) {
 
@@ -29,7 +29,7 @@ class Taxonomy {
 	/**
 	 *
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function unregister( string $taxonomy ) {
 
@@ -43,7 +43,7 @@ class Taxonomy {
 	 *
 	 * A false return value might also mean that the taxonomy does not exist.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $taxonomy Name of taxonomy object.
 	 * @return  bool           Whether the taxonomy is hierarchical.
@@ -55,7 +55,7 @@ class Taxonomy {
 	/**
 	 * Create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate() {
 		$table           = DB_PREFIX . self::$table;

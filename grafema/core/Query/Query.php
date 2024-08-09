@@ -13,7 +13,7 @@ class Query {
 	/**
 	 * SQL for the database query.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public string $request;
@@ -21,7 +21,7 @@ class Query {
 	/**
 	 * Query vars set by the user.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var array
 	 */
 	public array $query = [];
@@ -29,7 +29,7 @@ class Query {
 	/**
 	 * Parse a query string and set query type booleans.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param array $query {
 	 *     Optional. Array or string of Query parameters.
@@ -153,7 +153,7 @@ class Query {
 		 * Main part of query for post types
 		 * TODO: add checking existing post types (remove type from array if not exist)
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( ! empty( $args['type'] ) ) {
 			$types = array_map( 'Grafema\Sanitizer::key', is_array( $args['type'] ) ? $args['type'] : [ $args['type'] ] );
@@ -164,14 +164,14 @@ class Query {
 		/**
 		 * Parse search parameter.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$search = ( new Search( $args ) )->parse( $args['s'] ?? '' );
 
 		/**
 		 * Parse custom fields.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$custom_fields_added = false;
 		$custom_fields       = self::parseFields( $args );
@@ -213,7 +213,7 @@ class Query {
 		 *
 		 * Authors/users stuff, posts IDs & parents posts IDs
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$nicename = trim( $args['nicename'] ?? '' );
 		$user     = $nicename ? User::get( $nicename, 'nicename' ) : null;
@@ -243,7 +243,7 @@ class Query {
 		/**
 		 * Post title
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$title = Esc::html( $args['title'] ?? '' );
 		if ( ! empty( $title ) ) {
@@ -253,7 +253,7 @@ class Query {
 		/**
 		 * Post status
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$allowed_statuses = Type::getStatuses();
 		$statuses         = (array) ( $args['status'] ?? [] );
@@ -271,7 +271,7 @@ class Query {
 		/**
 		 * Post slug
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$slug        = Esc::slug( $args['slug'] ?? '' );
 		$slug_strict = (bool) ( $args['slug_strict'] ?? true );
@@ -282,7 +282,7 @@ class Query {
 		/**
 		 * Matching by comments count & views.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$fields = [ 'comments', 'views' ];
 		foreach ( $fields as $field ) {
@@ -315,7 +315,7 @@ class Query {
 		/**
 		 * Matching by posts discussion status.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$discussion = trim( (string) ( $args['discussion'] ?? '' ) );
 		if ( $discussion ) {
@@ -325,7 +325,7 @@ class Query {
 		/**
 		 * Parse dates.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$dates = self::parseDates( $args['dates'] ?? [] );
 		if ( $dates ) {
@@ -335,7 +335,7 @@ class Query {
 		/**
 		 * Implode where part
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $where ) {
 			$query .= 'WHERE
@@ -347,7 +347,7 @@ class Query {
 		/**
 		 * Order.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$orderby = self::parseOrderBy( $args['orderby'] ?? '', $args, self::parseOrder( $args['order'] ?? '' ) );
 		if ( $orderby ) {
@@ -357,7 +357,7 @@ class Query {
 		/**
 		 * Limits for pagination.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$limit = self::parseLimit( $args );
 		if ( $limit ) {
@@ -396,7 +396,7 @@ class Query {
 	 * when 'compare' is 'BETWEEN' or 'NOT BETWEEN', arrays of two valid values are required.
 	 * See individual argument descriptions for accepted values.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param array  $date_query {
 	 *     Array of date query clauses.
@@ -446,7 +446,7 @@ class Query {
 			/**
 			 * Check compare & db column format
 			 *
-			 * @since 1.0.0
+			 * @since 2025.1
 			 */
 			if ( ! in_array( $comparison, $comparisons, true ) || $column_format !== 'datetime' ) {
 				continue;
@@ -472,7 +472,7 @@ class Query {
 					/**
 					 * Validate & sanitize time and dates values
 					 *
-					 * @since 1.0.0
+					 * @since 2025.1
 					 */
 					$year      = $year ?? [ intval( $date->format( 'Y' ) ) ];
 					$month     = $month ?? [ intval( $date->format( 'm' ) ) ];
@@ -526,7 +526,7 @@ class Query {
 					/**
 					 * Builds and validates a value string based on the comparison operator.
 					 *
-					 * @since 1.0.0
+					 * @since 2025.1
 					 */
 					if ( is_array( $value ) && ! empty( $value ) ) {
 						$part = sprintf( "{$fields[ $field ]}%s $comparison", $field === 'human_date_time' ? "t.$column" : "(t.$column)" );
@@ -564,7 +564,7 @@ class Query {
 	 *
 	 * @param  array  $args
 	 * @return string
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	protected static function parseFields( $args ): string {
 		$fields = $args['fields'] ?? [];
@@ -648,7 +648,7 @@ class Query {
 	 * Parse limit for pagination.
 	 * TODO: optimize function
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param  array $args
 	 * @return string
@@ -704,7 +704,7 @@ class Query {
 	/**
 	 * Parse an 'order' query variable and cast it to ASC or DESC as necessary.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param  string $order The 'order' query variable.
 	 * @return string        The sanitized 'order' query variable.
@@ -720,7 +720,7 @@ class Query {
 	/**
 	 * Converts the given orderby alias (if allowed) to a properly-prefixed value.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param  string $orderby Alias for the field to order by.
 	 * @param  array  $args

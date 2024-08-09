@@ -12,7 +12,7 @@ namespace Grafema\Api;
 use Exception;
 
 /**
- * @since 1.0.0
+ * @since 2025.1
  */
 class ResponseJson
 {

@@ -17,7 +17,7 @@ use Grafema\Plugins;
 /**
  * Docify plugin.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Docify implements Plugins\Skeleton
 {
@@ -30,7 +30,7 @@ class Docify implements Plugins\Skeleton
 			'email'        => '',
 			'url'          => '',
 			'license'      => 'GNU General Public License v3.0',
-			'version'      => '1.0.0',
+			'version'      => '2025.1',
 			'php'          => '8.2',
 			'mysql'        => '5.7',
 			'dependencies' => [],
@@ -116,7 +116,7 @@ class Docify implements Plugins\Skeleton
 		/**
 		 * Get all uploaded plugins.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$plugins = new Plugins\Manager( function () {
 			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );

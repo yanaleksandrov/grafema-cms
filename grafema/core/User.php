@@ -13,7 +13,7 @@ class User extends Users {
 	/**
 	 * Session key
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	private static string $session_id = DB_PREFIX . 'user_logged';
@@ -21,7 +21,7 @@ class User extends Users {
 	/**
 	 * Current user data.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static $current;
 
@@ -30,7 +30,7 @@ class User extends Users {
 	 *
 	 * @var   array Array of key/value pairs where keys represent a capability name
 	 *              and boolean values represent whether the user has that capability.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public array $caps = [];
 
@@ -65,7 +65,7 @@ class User extends Users {
 	 * }
 	 *
 	 * @return User|Errors The newly created user's ID or an Errors object if the user could not be created.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( array $userdata ): User|Errors {
 		$userdata = ( new Sanitizer(
@@ -126,7 +126,7 @@ class User extends Users {
 		/**
 		 * Fires immediately after a new user is registered.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 *
 		 * @param User $user data of created user
 		 */
@@ -141,7 +141,7 @@ class User extends Users {
 	 * @param string|int    $value A value for $field. A user ID, slug, email address, or login name.
 	 * @param string        $getBy The field to retrieve the user with. ID | login | email | nicename.
 	 * @return Errors|User
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get( string|int $value, string $getBy = 'ID' ): Errors|User {
 		if ( empty( $value ) ) {
@@ -171,7 +171,7 @@ class User extends Users {
 	 *
 	 * @param array $userdata
 	 * @return Errors|User|int
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function update( array $userdata ): Errors|User|int
 	{
@@ -210,7 +210,7 @@ class User extends Users {
 	 * @param  int   $user_id  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
 	 * @return Errors|int      The number of remote users or false.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
 		$fields = [
@@ -230,7 +230,7 @@ class User extends Users {
 	/**
 	 * Searches for users by the specified parameters
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 * @return bool Array of fields and values to search for users.
 	 */
 	public static function exists( array $fields ): bool {
@@ -244,7 +244,7 @@ class User extends Users {
 	/**
 	 * Returns whether a particular user has the specified capability.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param integer  $user_id      User ID.
 	 * @param  string  $capabilities Capability name.
@@ -273,7 +273,7 @@ class User extends Users {
 	/**
 	 * Checks whether the user is with the specified role.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param integer  $user_id  User ID.
 	 * @param  string  $role     Role name.
@@ -298,7 +298,7 @@ class User extends Users {
 	 *
 	 * @return Errors|false|User
 	 * @throws \JsonException
-	 * @since   1.0.0
+	 * @since   2025.1
 	 */
 	public static function current() {
 		if ( self::$current ) {
@@ -316,7 +316,7 @@ class User extends Users {
 	/**
 	 * Проверяет, залогинен ли пользователь в этом сеансе.
 	 *
-	 * @since   1.0.0
+	 * @since   2025.1
 	 * @return   bool
 	 */
 	public static function logged() {
@@ -333,7 +333,7 @@ class User extends Users {
 	 *
 	 * @param array $userdata
 	 * @return Errors|User
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function login( array $userdata ): Errors|User {
 		$userdata = ( new Sanitizer(
@@ -382,7 +382,7 @@ class User extends Users {
 	/**
 	 * Де-авторизует текущего пользователя.
 	 *
-	 * @since   1.0.0
+	 * @since   2025.1
 	 */
 	public static function logout(): void {
 		Session::start();
@@ -403,7 +403,7 @@ class User extends Users {
 	 *
 	 * @param array $userdata
 	 * @return array
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static function dataSanitize( array $userdata ): array
 	{

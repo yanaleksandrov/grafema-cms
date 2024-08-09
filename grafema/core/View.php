@@ -11,7 +11,7 @@ namespace Grafema;
 /**
  * Template class.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class View
 {
@@ -87,12 +87,12 @@ class View
 	 * TODO: include 404 error part if nothing found (possible no needs)
 	 * TODO: potential problem, - if the same file override several different plugins, which one should I use?
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $template The path to the view file.
 	 * @param array  $args     Optional. Additional arguments passed to the template. Default empty array.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function print( string $template, array $args = [] )
 	{
@@ -109,7 +109,7 @@ class View
 			/**
 			 * Override template file.
 			 *
-			 * @since 1.0.0
+			 * @since 2025.1
 			 *
 			 * @param string $filepath Path to existing template part.
 			 */

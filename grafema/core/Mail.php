@@ -13,12 +13,12 @@ namespace Grafema;
 use PHPMailer\PHPMailer\PHPMailer;
 
 /**
- * @since 1.0.0
+ * @since 2025.1
  */
 class Mail
 {
     /**
-     * @since 1.0.0
+     * @since 2025.1
      */
     public static function send(string $to, string $subject, string $message, string $headers = '', array $attachments = [])
     {

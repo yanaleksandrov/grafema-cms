@@ -74,7 +74,7 @@ class Search
 	];
 
 	/**
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct( $args )
 	{

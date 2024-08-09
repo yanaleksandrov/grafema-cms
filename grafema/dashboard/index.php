@@ -12,7 +12,7 @@ use Grafema\Tree;
  * Remove the duplicate access to the console at two addresses:
  * "dashboard" and "dashboard/index", leave only the first one.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	$dashboard_url = trim( $_SERVER['SCRIPT_URI'] ?? '' );
@@ -106,7 +106,7 @@ $start_time = microtime( true );
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
@@ -210,7 +210,7 @@ $start_time = microtime( true );
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_dashboard_footer' );
     ?>

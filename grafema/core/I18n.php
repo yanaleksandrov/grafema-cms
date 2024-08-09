@@ -14,7 +14,7 @@ class I18n
     /**
      * Local from HTTP.
      *
-     * @since 1.0.0
+     * @since 2025.1
      */
     public static string $locale;
 
@@ -24,7 +24,7 @@ class I18n
 	 * @param string $string
 	 * @return mixed|string
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
     public static function __(string $string)
     {
@@ -44,7 +44,7 @@ class I18n
 	 * Translation.
 	 *
 	 * @param string $string
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function t(string $string): void
 	{
@@ -76,7 +76,7 @@ class I18n
 	 *
 	 * @param string $default
 	 * @return string
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
     public static function getLocale(string $default = 'en')
     {

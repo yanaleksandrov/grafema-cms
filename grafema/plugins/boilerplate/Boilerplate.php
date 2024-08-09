@@ -13,7 +13,7 @@ use Grafema\Plugins;
 /**
  * Boilerplate plugin.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Boilerplate implements Plugins\Skeleton
 {
@@ -26,7 +26,7 @@ class Boilerplate implements Plugins\Skeleton
 			'email'        => '',
 			'url'          => '',
 			'license'      => 'GNU General Public License v3.0',
-			'version'      => '1.0.0',
+			'version'      => '2025.1',
 			'php'          => '8.2',
 			'mysql'        => '5.7',
 			'dependencies' => [],

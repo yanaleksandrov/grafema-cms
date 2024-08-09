@@ -1,12 +1,4 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Grafema;
 
 /**
@@ -15,17 +7,17 @@ namespace Grafema;
  * This makes sure all assets will be included in the correct
  * order, no matter what order they are defined in.
  *
- * @version   1.0.0
+ * @version   2025.1
  */
 final class Asset
 {
 	/**
 	 * Assets list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static array $assets = [];
-	
+
 	/**
 	 * Correctly add JS scripts and CSS styles to the page.
 	 *
@@ -33,33 +25,51 @@ final class Asset
 	 * This will allow you to combine JS or CSS files into one without any problems.
 	 * Get rid of script conflicts when the dependent script is connected to the main one.
 	 *
-	 * @param string $id      Name of the script. Should be unique.
-	 * @param string $src     full URL of the script, or path of the script relative to the Grafema root directory
-	 * @param array  $args    list of attributes
-	 * @param string $version version of file
+	 * @param string $id      ID of the resource. Should be unique.
+	 * @param string $src     Full URL of the resource, or path of the script relative to the Grafema root directory.
+	 * @param array  $args    List of attributes.
+	 * @param string $version Version of file.
 	 *
-	 * @return Asset
+	 * @return void
+	 * @since 2025.1
 	 */
-	public static function enqueue( string $id, string $src, array $args = [], string $version = '' ): self
+	public static function enqueue( string $id, string $src, array $args = [], string $version = GRFM_VERSION ): void
 	{
-		$helpers = new Asset\Helpers();
+		$id  = Asset\Sanitizer::id( $id );
+		$src = Asset\Sanitizer::url( $src );
 
-		$id  = $helpers->sanitizeID( $id );
-		$src = $helpers->parseSrc( $src );
-		
-		if ( ! empty( $id ) && ! empty( $src ) ) {
-			$extension = pathinfo( $src, PATHINFO_EXTENSION ) ?? '';
-			$src .= ( $version ? '?' . http_build_query( ['v' => $version] ) : '' );
-			$uuid = sprintf( '%s-%s', $id, $extension );
+		if ( $id && $src ) {
+			$extension = pathinfo( $src, PATHINFO_EXTENSION );
+			$uuid      = sprintf( '%s-%s', $id, $extension );
+
+			if ( $version ) {
+				$src = sprintf( '%s?%s', $src, http_build_query( [ 'v' => $version ] ) );
+			}
 
 			// add to assets
-			self::$assets[ $uuid ] = match ( $extension ) {
-				'js'  => ( new Asset\Type\JS() )->add( $id, $src, $args ),
-				'css' => ( new Asset\Type\CSS() )->add( $id, $src, $args ),
-			};
+			if ( ! isset( self::$assets[$uuid] ) ) {
+				self::$assets[ $uuid ] = match ( $extension ) {
+					'js'  => ( new Asset\ProviderJS() )->add( $id, $src, $args ),
+					'css' => ( new Asset\ProviderCSS() )->add( $id, $src, $args ),
+				};
+			}
 		}
+	}
 
-		return new self();
+	/**
+	 * Override data of exist asset.
+	 *
+	 * @param string $id
+	 * @param string $src
+	 * @param array $args
+	 * @param string $version
+	 *
+	 * @return void
+	 * @since 2025.1
+	 */
+	public static function override( string $id, string $src, array $args = [], string $version = GRFM_VERSION ): void {
+		self::dequeue( $id );
+		self::enqueue( $id, $src, $args, $version );
 	}
 
 	/**
@@ -68,54 +78,62 @@ final class Asset
 	 * @param string $id The unique id of the asset which to be deleted
 	 *
 	 * @return void
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
-	public static function dequeue( string $id ): void
-	{
+	public static function dequeue( string $id ): void {
 		if ( isset( self::$assets[$id] ) ) {
 			unset( self::$assets[$id] );
 		}
 	}
 
 	/**
-	 * Add dependencies.
+	 * Get enqueued assets.
 	 *
-	 * @return Asset\Dependence
-	 * @since 1.0.0
+	 * @since 2025.1
+	 *
+	 * @param string $id
+	 * @return array
 	 */
-	public function dependence(): Asset\Dependence {
-		return new Asset\Dependence();
+	public static function get( string $id = '' ): array {
+		if ( $id ) {
+			return self::$assets[ $id ] ?? [];
+		}
+		return self::$assets;
 	}
-	
+
 	/**
-	 * Searches for all files and connects them, use this function if the sequence of files does not matter.
+	 * Add data to resource.
 	 *
-	 * @return Asset
-	 * @since 1.0.0
+	 * @param string $id
+	 * @param array $data
 	 */
-	public static function find( string $dirpath ): self {
-		return new self();
+	public static function attach( string $id, array $data ): void {
+
 	}
-	
+
 	/**
 	 * @param  string $pattern
 	 * @return void
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function plug( string $pattern = '' ): void {
-		$helpers = new Asset\Helpers();
-		$assets  = $helpers->sort( self::$assets );
+		$assets = Asset\Dependency::sort( self::$assets );
+
+		echo '<pre>';
+		print_r( $assets );
+		echo '</pre>';
+
 		foreach ( $assets as $asset ) {
 			$type = $asset['type'] ?? '';
-			$url  = $asset['url'] ?? '';
-			
-			if ( ! empty( $pattern ) && ! fnmatch($pattern, $url ) ) {
+			$path = $asset['path'] ?? '';
+
+			if ( ! empty( $pattern ) && ! fnmatch( $pattern, $path ) ) {
 				continue;
 			}
 
 			echo match ( $type ) {
-				'js'  => ( new Asset\Type\JS() )->plug( $asset ),
-				'css' => ( new Asset\Type\CSS() )->plug( $asset ),
+				'js'  => ( new Asset\ProviderJS() )->plug( $asset ),
+				'css' => ( new Asset\ProviderCSS() )->plug( $asset ),
 			};
 		}
 	}

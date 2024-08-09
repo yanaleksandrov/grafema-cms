@@ -6,7 +6,7 @@ namespace Grafema\Helpers;
  * @see https://github.com/mhanson01/humanize
  * @see https://github.com/coduo/php-humanizer
  * @see https://github.com/nFnK/php-humanizer
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Humanize {
 
@@ -15,7 +15,7 @@ final class Humanize {
 	 *
 	 * @param string|int $bytes
 	 * @return string
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function fromBytes( string|int $bytes ): string {
 		$i     = floor( log( $bytes ) / log( 1024 ) );
@@ -43,7 +43,7 @@ final class Humanize {
 	 *
 	 * @param string $value
 	 * @return int|null
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function toBytes( string $value ): ?int {
 		return preg_replace_callback(

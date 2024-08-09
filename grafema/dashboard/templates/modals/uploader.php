@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/modals/post.php
  *
  * @package     Grafema\Templates
- * @version     1.0.0
+ * @version     2025.1
  */
 use Dashboard\Form;
 use Grafema\I18n;
@@ -25,7 +25,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			/**
 			 * Files uploader modal.
 			 *
-			 * @since 1.0.0
+			 * @since 2025.1
 			 */
 			echo Form::view( 'grafema-files-uploader' );
 			?>

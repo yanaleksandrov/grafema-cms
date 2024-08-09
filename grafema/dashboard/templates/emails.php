@@ -7,7 +7,7 @@ use Grafema\View;
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/emails.php
  *
- * @version     1.0.0
+ * @version 2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;

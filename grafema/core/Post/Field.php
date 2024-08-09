@@ -14,7 +14,7 @@ use Grafema\Helpers\Arr;
  * Metadata for an object is a represented by a simple key-value pair.
  * Objects may contain multiple metadata entries that share the same key and differ only in their value.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Field {
 
@@ -23,7 +23,7 @@ class Field {
 	/**
 	 * List of posts and their meta fields.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public array $fields = [];
 
@@ -34,7 +34,7 @@ class Field {
 	 * @param int    $post  Post ID.
 	 *
 	 * @return array|Errors Array of metadata or an instance of Errors if the post type is invalid.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function fetch( string $type, int $post ): Errors|array {
 		if ( ! Type::exist( $type ) ) {
@@ -63,7 +63,7 @@ class Field {
 	 * @param bool   $unique     Optional. Whether the same key should not be added.
 	 *                           Default false.
 	 * @return Errors|int        Meta ID on success, false on failure.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( string $type, int $post, string $field, $value, $unique = true ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
@@ -138,7 +138,7 @@ class Field {
 	/**
 	 * Retrieves a post meta field for the given post ID.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int    $post     Post ID.
 	 * @param string $field    Optional. The meta key to retrieve. By default, returns data for all keys. Default empty.
@@ -186,7 +186,7 @@ class Field {
 	 * @return Errors|int        Meta ID if the key didn't exist, true on successful update,
 	 *                           false on failure or if the value passed to the function
 	 *                           is the same as the one that is already in the database.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function update( string $type, int $post, string $field, mixed $new_value, mixed $old_value = '' ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
@@ -220,7 +220,7 @@ class Field {
 	 * @param mixed  $value  Optional. Metadata value. If provided, rows will only be removed that match the value.
 	 *                       Must be serializable if non-scalar. Default empty.
 	 * @return Errors|int    Count of deleted rows if success, false on failure.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function delete( string $type, int $post, string $field = '', mixed $value = '' ): Errors|int {
 		if ( ! Type::exist( $type ) ) {

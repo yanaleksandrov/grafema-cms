@@ -7,9 +7,10 @@ use Grafema\I18n;
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/image.php
  *
- * TODO: add crop image functionality
+ * TODO: add crop imag
  *
- * @version     1.0.0
+ * @package Grafema\Templates
+ * @since   2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;

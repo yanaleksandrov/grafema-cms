@@ -27,7 +27,7 @@ class Table
 	/**
 	 * Data for render table.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var array
 	 */
 	protected array $data = [];
@@ -35,7 +35,7 @@ class Table
 	/**
 	 * The path to the folder with the template files.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var string
 	 */
 	protected string $views = GRFM_DASHBOARD . 'templates/table';
@@ -43,7 +43,7 @@ class Table
 	/**
 	 * Add new table.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add(): Table {
 		return new self();
@@ -54,7 +54,7 @@ class Table
 	 *
 	 * @param string $title
 	 * @return Table
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function title( string $title ): Table {
 		$title = Sanitizer::html( $title );

@@ -9,7 +9,7 @@ trait Singleton {
 	 * В этом случае статическое поле является массивом, где каждый
 	 * подкласс Одиночки хранит свой собственный экземпляр.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected static $instance;
 
@@ -21,7 +21,7 @@ trait Singleton {
 	 * Эта реализация позволяет вам расширять класс Одиночки, сохраняя повсюду
 	 * только один экземпляр каждого подкласса.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function init( ...$args ): self {
 		if ( ! isset( self::$instance ) ) {
@@ -35,21 +35,21 @@ trait Singleton {
 	 * чтобы предотвратить создание объекта через оператор new.
 	 * Однако он не может быть приватным, если мы хотим разрешить создание подклассов.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function __construct( ...$args ) {}
 
 	/**
 	 * Cloning and deserialization are not allowed.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function __clone() {}
 
 	/**
 	 * Singleton should not be recoverable from strings.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __wakeup() {}
 }

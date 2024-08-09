@@ -9,7 +9,7 @@ use Grafema\Plugins;
 /**
  * QueryMonitor plugin.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class QueryMonitor implements Plugins\Skeleton
 {
@@ -22,7 +22,7 @@ class QueryMonitor implements Plugins\Skeleton
 			'email'        => '',
 			'url'          => '',
 			'license'      => 'GNU General Public License v3.0',
-			'version'      => '1.0.0',
+			'version'      => '2025.1',
 			'php'          => '8.2',
 			'mysql'        => '5.7',
 			'dependencies' => [],
@@ -32,7 +32,7 @@ class QueryMonitor implements Plugins\Skeleton
 	/**
 	 * QueryMonitor plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function launch(): void
 	{

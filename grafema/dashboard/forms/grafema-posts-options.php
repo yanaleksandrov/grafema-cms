@@ -4,7 +4,7 @@ use Grafema\I18n;
 /**
  * Posts options
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 Dashboard\Form::register(
 	'grafema-posts-options',

@@ -4,7 +4,7 @@ namespace Grafema\Helpers;
 /**
  * Utility class to handle operations on an array of objects or arrays.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Arr {
 

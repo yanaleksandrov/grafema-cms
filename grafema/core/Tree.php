@@ -14,7 +14,7 @@ use Grafema\Helpers\Arr;
  * A class for displaying various tree-like structures.
  * Use it for output a tree of menu items, comments, taxonomies & many more.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Tree
 {
@@ -23,14 +23,14 @@ class Tree
 	/**
 	 * Tree structures list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public array $list;
 
 	/**
 	 * Tree structure name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public string $name;
 
@@ -41,7 +41,7 @@ class Tree
 	 * $depth = 0  means display all levels.
 	 * $depth > 0  specifies the number of display levels.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public int $depth = 99;
 
@@ -69,7 +69,7 @@ class Tree
 	 *
 	 * @param string $name
 	 * @param callable $function
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function view( string $name, callable $function ): void
 	{
@@ -103,7 +103,7 @@ class Tree
 	 * The function which is hooked in to handle the output of the page must check
 	 * that the user has the required capability as well.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function addItem( array $item ): void
 	{
@@ -145,7 +145,7 @@ class Tree
 	 * @param int $depth depth of parsing
 	 *
 	 * @return array
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public function parse( array $elements, ?string $parent_id = '', int $depth = 0 ): array
 	{

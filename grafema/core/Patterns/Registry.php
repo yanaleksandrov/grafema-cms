@@ -26,7 +26,7 @@ use Grafema\I18n;
  * output: array( 'value', 'row' )
  * ```
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Registry {
 

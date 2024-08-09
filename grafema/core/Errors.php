@@ -12,7 +12,7 @@ namespace Grafema;
  *   $message - is a message for the user.
  *   $data    - is a instruction for the developer.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Errors extends Errors\Handler {
 
@@ -27,7 +27,7 @@ class Errors extends Errors\Handler {
 	 *
 	 * @param string|int $code                Errors code.
 	 * @param string|array|Validator $message Error single message or array of messages.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct( string|int $code, string|array|Validator $message = '' ) {
 		self::add( $code, $message );
@@ -41,7 +41,7 @@ class Errors extends Errors\Handler {
 	 * @param string|int $code                Errors code.
 	 * @param string|array|Validator $message Error single message or array of messages.
 	 * @return void
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( string|int $code, string|array|Validator $message = '' ): void {
 		if ( $message instanceof Validator ) {
@@ -59,7 +59,7 @@ class Errors extends Errors\Handler {
 	 * This function removes all error messages associated with the specified
 	 * error code, along with any error data for that code.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string|int $code Errors code.
 	 */
@@ -70,7 +70,7 @@ class Errors extends Errors\Handler {
 	/**
 	 * Verify if the instance contains errors.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return bool
 	 */
@@ -81,7 +81,7 @@ class Errors extends Errors\Handler {
 	/**
 	 * Retrieve all or single error messages.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
 	 * @return array           Errors strings on success, or empty array on failure (if using code parameter).
@@ -93,7 +93,7 @@ class Errors extends Errors\Handler {
 	/**
 	 * Retrieve all error codes.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return array List of error codes, if available.
 	 */

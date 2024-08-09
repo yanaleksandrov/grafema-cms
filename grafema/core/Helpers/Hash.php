@@ -15,7 +15,7 @@ use Exception;
 /**
  * The Hash Class.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Hash
 {
@@ -31,7 +31,7 @@ class Hash
      *
      * @return string The random password
      *
-     * @since 1.0.0
+     * @since 2025.1
      */
     public static function generate(int $length = 12, bool $special_chars = true, bool $extra_special_chars = false): string
     {

@@ -4,7 +4,7 @@ use Grafema\I18n;
 /**
  * Form for filter posts
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 Dashboard\Form::register(
 	'grafema-posts-filter',

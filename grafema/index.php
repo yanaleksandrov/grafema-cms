@@ -11,17 +11,17 @@ use Grafema\{Api, Db, Dir, Option, Debug, Hook, Html, I18n, Is, Plugins, Post\Ty
 /**
  * Setup system core constants.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const GRFM_PATH                   = __DIR__ . '/';
-const GRFM_VERSION                = '1.0.0';
+const GRFM_VERSION                = '2025.1';
 const GRFM_REQUIRED_PHP_VERSION   = '8.1';
 const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
 
 /**
  * Include required files: app configuration & autoloader.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 array_map(function ($include) {
 	$include_path = sprintf( '%s%s.php', GRFM_PATH, $include );
@@ -33,7 +33,7 @@ array_map(function ($include) {
 /**
  * Create a single entry point to the website.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 (function() {
 	// save as .htaccess
@@ -77,7 +77,7 @@ AddDefaultCharset UTF-8
 /**
  * Launch debug mode & run benchmark.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 Debug::launch();
 Debug::timer();
@@ -85,7 +85,7 @@ Debug::timer();
 /**
  * Generate CSRF token.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 ( new Csrf\Csrf(
 	new Csrf\Providers\NativeHttpOnlyCookieProvider()
@@ -94,7 +94,7 @@ Debug::timer();
 /**
  * Launch the installer if Grafema is not installed.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 if ( ! Is::installed() ) {
 	\Dashboard\Install::init();
@@ -104,7 +104,7 @@ if ( ! Is::installed() ) {
 /**
  * Launch database connection.
  *
- * @since  1.0.0
+ * @since  2025.1
  */
 Db::init();
 
@@ -112,7 +112,7 @@ Db::init();
  * Check for the required PHP version, and the MySQL extension or a database drop-in.
  * Dies if requirements are not met.
  *
- * @since  1.0.0
+ * @since  2025.1
  */
 (function() {
 	$serverProtocol = $_SERVER['SERVER_PROTOCOL'] ?? '';
@@ -159,14 +159,14 @@ $route->mount('', function() use ( $route ) {
 	/**
 	 * Define auxiliary constants necessary for the application and make them available in any part.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Dashboard\Constants::init();
 
 	/**
 	 * Add roles and users.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Roles::register(
 		'admin',
@@ -248,7 +248,7 @@ $route->mount('', function() use ( $route ) {
 	/**
 	 * Set up default post types: "pages" & "media".
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Type::register(
 		'pages',
@@ -319,14 +319,14 @@ $route->mount('', function() use ( $route ) {
 	/**
 	 * Set up current user.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	User::current();
 
 	/**
 	 * Load installed and launch active plugins.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	$plugins = new Plugins\Manager( function ( $plugins ) {
 		$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
@@ -345,14 +345,14 @@ $route->mount('', function() use ( $route ) {
 	/**
 	 * Triggered after Grafema plugins is loaded & ready for use.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_plugins_loaded' );
 
 	/**
 	 * Load installed and launch active themes.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	$themes = new Plugins\Manager( function ( $themes ) {
 		$paths = (new Dir\Dir( GRFM_THEMES ))->getFiles( '*.php', 1 );
@@ -372,7 +372,7 @@ $route->mount('', function() use ( $route ) {
 	 * Add core API endpoints.
 	 * Important! If current request is request to API, stop code execution after Api::create().
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
 
@@ -382,7 +382,7 @@ $route->mount('', function() use ( $route ) {
 	 * Load private administrative panel.
 	 *
 	 * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	$dashboard = sprintf( '%s(.*)', str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ) );
 
@@ -391,7 +391,7 @@ $route->mount('', function() use ( $route ) {
 		/**
 		 * Run the installer if Grafema is not installed.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $slug !== 'install' && ! Is::installed() ) {
 			View::redirect(
@@ -404,7 +404,7 @@ $route->mount('', function() use ( $route ) {
 		 * Out from dashboard if user is not logged.
 		 * Also leave access for the registration and password recovery pages.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true ) && ! User::logged() && Is::installed() ) {
 			View::redirect(
@@ -416,7 +416,7 @@ $route->mount('', function() use ( $route ) {
 		/**
 		 * Not allow some slugs for logged user, they are reserved.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$black_list_slugs = ['install', 'sign-in', 'sign-up', 'reset-password'];
 		if ( in_array( $slug, $black_list_slugs, true ) && User::logged() ) {
@@ -426,33 +426,40 @@ $route->mount('', function() use ( $route ) {
 			exit;
 		}
 
-		/**
-		 * Run the installer if Grafema is not installed.
-		 *
-		 * @since 1.0.0
-		 */
-		Dashboard\Dashboard::init();
+		try {
 
-		/**
-		 * The administrative panel also has a single entry point.
-		 *
-		 * @since 1.0.0
-		 */
-		echo ( new Html() )->beautify(
-			View::get(
-				GRFM_DASHBOARD . 'index',
-				[
-					'route' => $route,
-					'slug'  => $slug,
-				]
-			)
-		);
+			/**
+			 * Run the installer if Grafema is not installed.
+			 *
+			 * @since 2025.1
+			 */
+			Dashboard\Dashboard::init();
+
+			/**
+			 * The administrative panel also has a single entry point.
+			 *
+			 * @since 2025.1
+			 */
+			echo ( new Html() )->beautify(
+				View::get(
+					GRFM_DASHBOARD . 'index',
+					[
+						'route' => $route,
+						'slug'  => $slug,
+					]
+				)
+			);
+		} catch ( Error $e ) {
+			echo '<pre>';
+			print_r( $e->getMessage() );
+			echo '</pre>';
+		}
 
 		/**
 		 * Grafema dashboard is fully loaded.
 		 *
 		 * @param string $slug Current page slug.
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Hook::apply( 'grafema_dashboard_loaded', $slug );
 	} );
@@ -461,14 +468,14 @@ $route->mount('', function() use ( $route ) {
 	 * None dashboard pages: website frontend output.
 	 *
 	 * @param string $slug Current page slug.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	$route->get( '(.*)', function ( $slug ) use ( $route ) {
 
 		/**
 		 * Run the installer if Grafema is not installed.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( Is::installed() && $slug === 'install' ) {
 			View::redirect( Url::site( 'dashboard' ) );
@@ -492,7 +499,7 @@ $route->mount('', function() use ( $route ) {
     /**
      * Prints scripts or data before the closing body tag on the dashboard.
      *
-     * @since 1.0.0
+     * @since 2025.1
      */
     Hook::apply( 'grafema_header' );
     ?>
@@ -502,7 +509,7 @@ $route->mount('', function() use ( $route ) {
     /**
      * Prints scripts or data before the closing body tag on the dashboard.
      *
-     * @since 1.0.0
+     * @since 2025.1
      */
     Hook::apply( 'grafema_footer' );
     ?>

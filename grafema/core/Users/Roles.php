@@ -25,14 +25,14 @@ use Grafema\I18n;
  *    ]
  * ]
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Roles
 {
 	/**
 	 * Object list of roles and capabilities.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @var array[]
 	 */
@@ -46,7 +46,7 @@ class Roles
 	 * The capabilities are defined in the following format `array( 'read' => true );`
 	 * To explicitly deny a role a capability you set the value for that capability to false.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $display_name role display name
 	 * @param mixed  $capabilities List of capabilities keyed by the capability name, e.g. [ 'edit_posts', 'delete_posts' ].
@@ -79,7 +79,7 @@ class Roles
 	/**
 	 * Retrieve role object by name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return object role object if found, null if the role does not exist
 	 */
@@ -96,7 +96,7 @@ class Roles
 	/**
 	 * Remove role.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function delete( string $role ): bool
 	{
@@ -115,7 +115,7 @@ class Roles
 	 *
 	 * @param mixed $capability Single capability or capabilities array
 	 * @return bool|Errors
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function set( string $role, $capability )
 	{
@@ -138,7 +138,7 @@ class Roles
 	 *
 	 * @return bool|Errors
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function unset( string $role, string $capability )
 	{
@@ -155,7 +155,7 @@ class Roles
 	/**
 	 * Whether role name is currently in the list of available roles.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function exists( string $role ): bool
 	{
@@ -167,7 +167,7 @@ class Roles
 	/**
 	 * Whether role name is currently in the list of available roles.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function has_cap( string $role, $capabilities ): bool
 	{
@@ -187,7 +187,7 @@ class Roles
 	/**
 	 * Get all roles.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static function fetch()
 	{

@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/modals/post.php
  *
  * @package     Grafema\Templates
- * @version     1.0.0
+ * @version     2025.1
  */
 
 use Grafema\I18n;
@@ -34,7 +34,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			/**
 			 * Form for create or update posts.
 			 *
-			 * @since 1.0.0
+			 * @since 2025.1
 			 */
             echo Dashboard\Form::view( 'grafema-posts-creator' );
             ?>

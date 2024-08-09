@@ -10,7 +10,7 @@ namespace Grafema\Patterns;
  * The simplest example is working with multiple configurations,
  * where each multitone class stores some different set of data.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 trait Multiton {
 
@@ -19,7 +19,7 @@ trait Multiton {
 	 * In this case the static field is an array, where
 	 * each instance of the class is accessible by a flag.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected static array $instances = [];
 
@@ -28,7 +28,7 @@ trait Multiton {
 	 * On the first run, it creates a Multiton instance and places it in a static field.
 	 * On subsequent runs, it returns to the client the object stored in the static field.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function init( string $id, ...$args ) {
 		if ( ! isset( self::$instances[ $id ] ) ) {
@@ -41,21 +41,21 @@ trait Multiton {
 	 * The Multiton constructor should not be public, but should be hidden
 	 * to prevent the object from being created via the new operator.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function __construct( ...$args ) {}
 
 	/**
 	 * Cloning and deserialization are not allowed.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function __clone() {}
 
 	/**
 	 * Multiton should not be recoverable from strings.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __wakeup() {}
 }

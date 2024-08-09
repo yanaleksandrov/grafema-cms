@@ -11,14 +11,16 @@ namespace Grafema;
 /**
  * Is class.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Is
 {
 	/**
 	 * Checks whether the string is a valid email.
 	 *
-	 * @since  1.0.0
+	 * @param string $thing
+	 * @return bool
+	 * @since  2025.1
 	 */
 	public static function email( string $thing ): bool
 	{
@@ -28,7 +30,9 @@ final class Is
 	/**
 	 * Checks whether the string is a valid URL.
 	 *
-	 * @since  1.0.0
+	 * @param string $thing
+	 * @return bool
+	 * @since  2025.1
 	 */
 	public static function url( string $thing ): bool
 	{
@@ -39,7 +43,7 @@ final class Is
 	 * Test if the current browser runs on a mobile device (smart phone, tablet, etc.).
 	 *
 	 * @see    http://detectmobilebrowsers.com
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function mobile(): bool
 	{
@@ -63,7 +67,7 @@ final class Is
 	/**
 	 * Whether the server software is Apache or something else.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function apache(): bool
 	{
@@ -73,7 +77,7 @@ final class Is
 	/**
 	 * Whether the server software is IIS or something else.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function iis(): bool
 	{
@@ -83,7 +87,7 @@ final class Is
 	/**
 	 * Whether the server software is Nginx or something else.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function nginx(): bool
 	{
@@ -93,7 +97,7 @@ final class Is
 	/**
 	 * Determines if SSL is used.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function ssl(): bool
 	{
@@ -117,13 +121,12 @@ final class Is
 	 *
 	 * Returns whether `$thing` is an instance of the `Errors` class.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
-	 * @param mixed $thing the variable to check
-	 *
-	 * @return bool whether the variable is an instance of Errors
+	 * @param mixed $thing The variable to check
+	 * @return bool        Whether the variable is an instance of Errors
 	 */
-	public static function error( $thing ): bool
+	public static function error( mixed $thing ): bool
 	{
 		return $thing instanceof Error;
 	}
@@ -136,7 +139,7 @@ final class Is
 	 * Is designed just to check the location in the admin panel and is not intended to protect requests.
 	 * For checking roles and capabilities, use `User` class.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @return bool true if inside Grafema administration interface, false otherwise
 	 */
@@ -148,7 +151,7 @@ final class Is
 	/**
 	 * Determines whether the current request is for install wizard page.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function install(): bool
 	{
@@ -156,9 +159,18 @@ final class Is
 	}
 
 	/**
+	 * Determines is debug mode.
+	 *
+	 * @since  2025.1
+	 */
+	public static function debug(): bool {
+		return defined( 'GRFM_DEBUG' ) && GRFM_DEBUG === true;
+	}
+
+	/**
 	 * Checks whether the database is installed.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @return bool true if Grafema is installed
 	 */
@@ -181,7 +193,7 @@ final class Is
 	/**
 	 * Check is ajax query.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function ajax(): bool
 	{
@@ -191,7 +203,7 @@ final class Is
 	/**
 	 * Determines string is json format.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @return bool true if current string is json format
 	 */
@@ -203,7 +215,7 @@ final class Is
 	/**
 	 * Determines string is timestamp format.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function timestamp( $thing ): bool
 	{
@@ -226,7 +238,7 @@ final class Is
 	 * If $data is not string, then returned value will always be false.
 	 * Serialized data is always a string.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $data   value to check to see if was serialized
 	 * @param bool   $strict Optional. Whether to be strict about the end of the string. Default true.

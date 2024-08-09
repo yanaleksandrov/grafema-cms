@@ -18,7 +18,7 @@ use Grafema\Sanitizer;
  *
  * This class provides functionality for registering, activating, deactivating, installing, and uninstalling extensions.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Manager
 {
@@ -26,14 +26,14 @@ final class Manager
 	/**
 	 * Full list of existing extensions.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public array $collection = [];
 
 	/**
 	 * Contains registered instances of plugin classes.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public array $instances = [];
 
@@ -41,7 +41,7 @@ final class Manager
 	 * Constructor for the Manager class.
 	 *
 	 * @param callable $callback a callback function used for registering extensions
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct( callable $callback )
 	{
@@ -52,7 +52,7 @@ final class Manager
 	 * Extract all implements on Plugins\Skeleton & add a plugin to the list of registered extensions.
 	 *
 	 * @param array $paths Array of paths to the start files of extensions
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function register( array $paths ): void
 	{
@@ -105,7 +105,7 @@ final class Manager
 	/**
 	 * Launch all registered extensions.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function launch(): void
 	{
@@ -121,7 +121,7 @@ final class Manager
 	 *
 	 * Calls the `activate()` method on each registered plugin, allowing them to perform necessary initialization tasks.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function activate(): void
 	{
@@ -137,7 +137,7 @@ final class Manager
 	 *
 	 * Calls the `deactivate()` method on each registered plugin, allowing them to clean up resources or undo changes made during activation.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function deactivate(): void
 	{
@@ -153,7 +153,7 @@ final class Manager
 	 *
 	 * Calls the `install()` method on each registered plugin, allowing them to perform installation tasks.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function install(): void
 	{
@@ -169,7 +169,7 @@ final class Manager
 	 *
 	 * Calls the `uninstall()` method on each registered plugin, allowing them to clean up resources or remove associated assets.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function uninstall(): void
 	{

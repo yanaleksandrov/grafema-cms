@@ -19,7 +19,7 @@ class Post {
 	 * @param $type
 	 * @param $args
 	 * @return Error|string|null
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( $type, $args ): Error|string|null {
 		if ( ! Type::exist( $type ) ) {
@@ -58,7 +58,7 @@ class Post {
 	 * @param  string|int $value
 	 * @param  string     $by
 	 * @return array
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get( $type, $value, $by = 'ID' ): array {
 		if ( ! Type::exist( $type ) ) {
@@ -95,7 +95,7 @@ class Post {
 	 * @param $value
 	 * @param string $by
 	 * @return \PDOStatement
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function delete( $type, $value, string $by = 'ID' ): \PDOStatement
 	{

@@ -33,7 +33,7 @@ use Exception;
  * Source:    https://github.com/claviska/SimpleImage
  * License:   MIT license <http://opensource.org/licenses/MIT>
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Image
 {

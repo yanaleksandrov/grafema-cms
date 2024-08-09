@@ -15,7 +15,7 @@ use Grafema\Post\Post;
 /**
  * Grafema administration Media API.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Media {
 
@@ -120,7 +120,7 @@ class Media {
 	 *
 	 * @param array $file Array that represents a `$_FILES` upload array.
 	 * @return Errors|int
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function upload( array $file ): int|Errors {
 		// TODO: add checking user capabilities

@@ -102,7 +102,7 @@ namespace Grafema;
 		)->apply()
 	);
  *
- * @since   1.0.0
+ * @since   2025.1
  * @package Grafema
  */
 class Validator {
@@ -549,7 +549,7 @@ class Validator {
 	 * @return bool
 	 */
 	protected function required( mixed $value ): bool {
-		return ( is_string( $value ) && trim( $value ) !== '' );
+		return is_scalar( $value ) && ! empty( $value );
 	}
 
 	/**

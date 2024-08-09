@@ -4,7 +4,7 @@ use Grafema\I18n;
 /**
  * Plugins filter form.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 Dashboard\Form::register(
 	'grafema-plugins-filter',

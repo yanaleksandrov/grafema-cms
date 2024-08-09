@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * This template can be overridden by copying it to themes/yourtheme/toolkit/templates/docify.php
  *
- * @version     1.0.0
+ * @since 2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 /**
  * Get all uploaded plugins.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 $list    = [];
 $plugins = Plugins\Manager::init(

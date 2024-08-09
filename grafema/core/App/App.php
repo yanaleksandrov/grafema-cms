@@ -8,14 +8,14 @@ use Grafema\Db\Medoo;
 /**
  * The main class for working with the application system.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class App {
 
 	/**
 	 * Defines a named constant.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function define( string $name, $value ): void {
 		if ( ! defined( $name ) ) {

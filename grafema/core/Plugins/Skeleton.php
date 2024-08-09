@@ -15,21 +15,21 @@ namespace Grafema\Plugins;
  * The Skeleton defines the contract for a plugin in a Grafema CMS.
  * It serves as a blueprint for implementing plugins and ensures consistency across different plugins.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 interface Skeleton
 {
 	/**
 	 * Data about plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function manifest();
 
 	/**
 	 * Launch the plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function launch();
 
@@ -39,7 +39,7 @@ interface Skeleton
 	 * This method is responsible for activating the plugin.
 	 * It typically performs necessary initialization tasks and sets up any required resources or configurations.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function activate();
 
@@ -50,7 +50,7 @@ interface Skeleton
 	 * It is called when the plugin is being disabled or turned off.
 	 * It usually involves cleaning up resources, unregistering hooks, or undoing any changes made during activation.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function deactivate();
 
@@ -59,7 +59,7 @@ interface Skeleton
 	 *
 	 * This method is responsible for installing the plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function install();
 
@@ -70,7 +70,7 @@ interface Skeleton
 	 * It is called when the plugin is being completely removed from the system.
 	 * It typically involves removing any database tables, files, or other assets associated with the plugin.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function uninstall();
 }

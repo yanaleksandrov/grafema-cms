@@ -6,8 +6,8 @@ use Grafema\Tree;
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/menu-panel.php
  *
- * @package     Grafema\Templates
- * @version     1.0.0
+ * @package Grafema\Templates
+ * @since   2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;

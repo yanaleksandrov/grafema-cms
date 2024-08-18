@@ -14,7 +14,7 @@ class Status {
 	 *
 	 * Arguments prefixed with an _underscore shouldn't be used by plugins and themes.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string       $post_status Name of the post status.
 	 * @param array|string $args {

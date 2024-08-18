@@ -87,7 +87,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Export new posts.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function export()
 	{
@@ -131,7 +131,7 @@ class Posts extends \Grafema\Api\Handler
 	/**
 	 * Import posts.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function import(): array
 	{

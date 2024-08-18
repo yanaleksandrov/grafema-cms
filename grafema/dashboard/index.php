@@ -12,7 +12,7 @@ use Grafema\Tree;
  * Remove the duplicate access to the console at two addresses:
  * "dashboard" and "dashboard/index", leave only the first one.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	$dashboard_url = trim( $_SERVER['SCRIPT_URI'] ?? '' );
@@ -92,7 +92,7 @@ $start_time = microtime( true );
 <!DOCTYPE html>
 <html lang="<?php I18n::locale(); ?>">
 <head>
-	<meta charset="<?php Option::attr( 'charset' ); ?>">
+	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Menu</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
@@ -106,7 +106,7 @@ $start_time = microtime( true );
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
@@ -118,28 +118,7 @@ $start_time = microtime( true );
                 <div class="grafema-bar-menu" @click="showMenu = !showMenu">
                     <i class="ph ph-list"></i>
                 </div>
-                <ul class="menu mr-auto">
-                    <li class="menu__item">
-                        <a class="menu__link" href="home.html"><i class="ph ph-house-line"></i> Grafema</a>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="index.html"><i class="ph ph-clock-clockwise"></i> 0</a>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="index.html"><i class="ph ph-chats"></i> 2</a>
-                    </li>
-                    <li class="menu__item parent">
-                        <a class="menu__link" href="page.html"><i class="ph ph-plus"></i> New</a>
-                        <ul class="menu__sub">
-                            <li class="menu__item">
-                                <a href="product.html">Page</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="menu__item">
-                        <a class="menu__link" href="#"><i class="ph ph-monitor"></i> <span x-text="index.query"></span></a>
-                    </li>
-                </ul>
+                <?php View::print( 'templates/menu-bar' ); ?>
 
 				<?php ob_start(); ?>
                 <div class="df fdc">
@@ -231,7 +210,7 @@ $start_time = microtime( true );
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_dashboard_footer' );
     ?>

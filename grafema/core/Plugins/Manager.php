@@ -9,36 +9,39 @@
 
 namespace Grafema\Plugins;
 
-use Grafema\Debug;
 use Grafema\I18n;
 use Grafema\Errors;
 use Grafema\Sanitizer;
 
 /**
- * The main class for managing plugins.
+ * The main class for managing extensions.
  *
- * This class provides functionality for registering, activating, deactivating, installing, and uninstalling plugins.
+ * This class provides functionality for registering, activating, deactivating, installing, and uninstalling extensions.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Manager
 {
-	use \Grafema\Patterns\Singleton;
 
 	/**
-	 * Full list of existing plugins.
+	 * Full list of existing extensions.
+	 *
+	 * @since 2025.1
 	 */
-	public array $plugins = [];
+	public array $collection = [];
 
 	/**
 	 * Contains registered instances of plugin classes.
+	 *
+	 * @since 2025.1
 	 */
 	public array $instances = [];
 
 	/**
 	 * Constructor for the Manager class.
 	 *
-	 * @param callable $callback a callback function used for registering plugins
+	 * @param callable $callback a callback function used for registering extensions
+	 * @since 2025.1
 	 */
 	public function __construct( callable $callback )
 	{
@@ -46,128 +49,133 @@ final class Manager
 	}
 
 	/**
-	 * Register a plugin.
+	 * Extract all implements on Plugins\Skeleton & add a plugin to the list of registered extensions.
 	 *
-	 * Adds a plugin to the list of registered plugins.
-	 *
-	 * @param array $paths Array of paths to the start files of plugins
+	 * @param array $paths Array of paths to the start files of extensions
+	 * @since 2025.1
 	 */
 	public function register( array $paths ): void
 	{
-		$this->extract( $paths );
+		foreach ( $paths as $path ) {
+			if ( ! file_exists( $path ) ) {
+				continue;
+			}
 
-		foreach ( $this->plugins as $class => $path ) {
-			if ( class_exists( $class ) || ! file_exists( $path ) ) {
+			$code = file_get_contents( $path );
+
+			// try to find the implementation of the new plugin
+			// preg_match( '/class\s+(\w+)(?:\s+extends\s+(\w+))?.*implements\s+Plugins\\\Skeleton/', $code, $classes );
+			// TODO: add support final & extends
+			preg_match( '/class\s+(\w+)\s+implements\s+Plugins\\\\Skeleton/', $code, $classes );
+			preg_match( '/namespace\s+([^;]+);/', $code, $namespaces );
+
+			// TODO: add error if plugin with same name is exist
+			$namespace = Sanitizer::pascalcase( $namespaces[1] ?? '' );
+			$class     = Sanitizer::pascalcase( $namespace ? $namespace : ( $classes[1] ?? '' ) );
+			if (  ! $namespace && ! $class ) {
 				continue;
 			}
 
 			require_once $path;
 
-			$plugin = new $class();
-			if ( $plugin instanceof Skeleton ) {
-				$data    = $plugin->manifest();
-				$missing = array_diff( ['name', 'description', 'version', 'php', 'mysql'], array_keys( $data ) );
-				if ( ! empty( $missing ) ) {
-					new Errors( 'manager-register', I18n::_f( 'Plugin "%s" parameters "%s" are required', $class, implode( ' ', $missing ) ) );
+			// TODO:: require & call class just on launch
+			// TODO:: add namespaces support for plugins & themes
+			try {
+				$plugin = new $class();
+				if ( $plugin instanceof Skeleton ) {
+					$data    = $plugin->manifest();
+					$missing = array_diff( ['name', 'description', 'version', 'php', 'mysql'], array_keys( $data ) );
+					if ( ! empty( $missing ) ) {
+						new Errors( 'manager-register', I18n::_f( 'Plugin "%s" parameters "%s" are required', $class, implode( ' ', $missing ) ) );
 
-					continue;
+						continue;
+					}
+
+					$this->collection[$class] = $path;
+					$this->instances[$class]  = $plugin;
 				}
-				$this->instances[$class] = $plugin;
+			} catch ( \Throwable $e ) {
+//				echo '<pre>';
+//				print_r( $e );
+//				echo '</pre>';
 			}
 		}
 	}
 
 	/**
-	 * Extract all implements on Plugins\Skeleton.
+	 * Launch all registered extensions.
 	 *
-	 * Adds a plugin to the list of registered plugins.
-	 *
-	 * @param array $paths Array of paths to the start files of plugins
-	 */
-	public function extract( array $paths ): void
-	{
-		foreach ( $paths as $path ) {
-			$code = file_get_contents( $path );
-
-			// try to find the implementation of the new plugin
-			// preg_match( '/class\s+(\w+)(?:\s+extends\s+(\w+))?.*implements\s+Plugins\\\Skeleton/', $code, $matches );
-			// TODO: add support final & extends
-			preg_match( '/class\s+(\w+)\s+implements\s+Plugins\\\\Skeleton/', $code, $matches );
-
-			$class = Sanitizer::pascalcase( $matches[1] ?? '' );
-			if ( ! $class || class_exists( $class ) ) {
-				// TODO: add error if plugin with same name is exist
-				continue;
-			}
-
-			$this->plugins[$class] = $path;
-		}
-	}
-
-	/**
-	 * Launch all registered plugins.
+	 * @since 2025.1
 	 */
 	public function launch(): void
 	{
-		foreach ( $this->instances as $plugin ) {
-			if ( $plugin instanceof Skeleton ) {
-				$plugin->launch();
+		foreach ( $this->instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+				$extension->launch();
 			}
 		}
 	}
 
 	/**
-	 * Activate all registered plugins.
+	 * Activate all registered extensions.
 	 *
 	 * Calls the `activate()` method on each registered plugin, allowing them to perform necessary initialization tasks.
+	 *
+	 * @since 2025.1
 	 */
 	public function activate(): void
 	{
-		foreach ( $this->instances as $plugin ) {
-			if ( $plugin instanceof Skeleton ) {
-				$plugin->activate();
+		foreach ( $this->instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+				$extension->activate();
 			}
 		}
 	}
 
 	/**
-	 * Deactivate all registered plugins.
+	 * Deactivate all registered extensions.
 	 *
 	 * Calls the `deactivate()` method on each registered plugin, allowing them to clean up resources or undo changes made during activation.
+	 *
+	 * @since 2025.1
 	 */
 	public function deactivate(): void
 	{
-		foreach ( $this->instances as $plugin ) {
-			if ( $plugin instanceof Skeleton ) {
-				$plugin->deactivate();
+		foreach ( $this->instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+				$extension->deactivate();
 			}
 		}
 	}
 
 	/**
-	 * Install all registered plugins.
+	 * Install all registered extensions.
 	 *
 	 * Calls the `install()` method on each registered plugin, allowing them to perform installation tasks.
+	 *
+	 * @since 2025.1
 	 */
 	public function install(): void
 	{
-		foreach ( $this->instances as $plugin ) {
-			if ( $plugin instanceof Skeleton ) {
-				$plugin->install();
+		foreach ( $this->instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+				$extension->install();
 			}
 		}
 	}
 
 	/**
-	 * Uninstall all registered plugins.
+	 * Uninstall all registered extensions.
 	 *
 	 * Calls the `uninstall()` method on each registered plugin, allowing them to clean up resources or remove associated assets.
+	 *
+	 * @since 2025.1
 	 */
 	public function uninstall(): void
 	{
-		foreach ( $this->instances as $plugin ) {
-			if ( $plugin instanceof Skeleton ) {
-				$plugin->uninstall();
+		foreach ( $this->instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+				$extension->uninstall();
 			}
 		}
 	}

@@ -7,7 +7,7 @@ use Grafema\Helpers\Arr;
  * Option class it is a self-contained class for creating, updating, and deleting options.
  * Uses static variables to store options, which allows to avoid using the object cache without losing performance.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Option extends Options {
 
@@ -16,7 +16,7 @@ class Option extends Options {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static array $options = [];
 
@@ -25,7 +25,7 @@ class Option extends Options {
 	 *
 	 * @var   array
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static array $required = [];
 
@@ -34,14 +34,14 @@ class Option extends Options {
 	 *
 	 * @var   bool
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static bool $suspend = false;
 
 	/**
 	 * Get all options.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function fetch(): array {
 		if ( empty( self::$options ) ) {
@@ -69,7 +69,7 @@ class Option extends Options {
 	 * @param  mixed  $value   Option value. Must be serializable if non-scalar. Expected to not be SQL-escaped.
 	 * @return mixed           Number of rows added to the database or false, if option and value is exists.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( string $option, mixed $value ) {
 		$options = self::fetch();
@@ -121,7 +121,7 @@ class Option extends Options {
 	 * @param mixed  $value   Option value as a number, string, or array. The array will be serialized.
 	 * @return int            Number of updated rows or false, if option and value is exists.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function update( string $option, mixed $value ) {
 		$options = self::fetch();
@@ -187,7 +187,7 @@ class Option extends Options {
 	 * @return mixed           Value set for the option. A value of any type may be returned, including
 	 *                         array, boolean, float, integer, null, object, and string.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get( string $option, mixed $default = '' ) {
 		$options = self::fetch();
@@ -210,7 +210,7 @@ class Option extends Options {
 	 * @param string $option  Name of the option to retrieve.
 	 * @return int|Errors     Count of deleted rows.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function delete( string $option ): int|Errors {
 
@@ -272,7 +272,7 @@ class Option extends Options {
 	 * @param  mixed  $default Optional. Default value to return if the option does not exist.
 	 * @return string
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function attr( string $option, mixed $default = '' ): string {
 		return Esc::attr( self::get( $option, $default ) );
@@ -291,7 +291,7 @@ class Option extends Options {
 	 * @param  bool $suspend  Optional. Suspends additions if true, re-enables them if false.
 	 * @return bool           The current suspend setting.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function suspend_addition( bool $suspend ): bool {
 		if ( false === $suspend ) {
@@ -311,7 +311,7 @@ class Option extends Options {
 	 *
 	 * @return array Options list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function default(): array {
 		return [

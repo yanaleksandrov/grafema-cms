@@ -4,7 +4,8 @@
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/reset-password.php
  *
- * @version     1.0.0
+ * @package Grafema\Templates
+ * @since   2025.1
  */
 
 use Grafema\I18n;
@@ -15,8 +16,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="mw-360">
-	<div class="df jcc">
-        <img src="/dashboard/assets/images/logo-decorate.svg" width="240" height="140" alt="Grafema CMS">
+	<div class="df jcc mb-4">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="200" height="117" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-reset-password' ); ?>
 	<div class="t-center t-muted mt-3">

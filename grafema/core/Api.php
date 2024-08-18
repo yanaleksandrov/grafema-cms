@@ -14,7 +14,7 @@ use Grafema\Csrf\Exceptions\InvalidCsrfTokenException;
 use Grafema\Csrf\Providers\NativeHttpOnlyCookieProvider;
 
 /**
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Api
 {
@@ -83,7 +83,7 @@ final class Api
 			/**
 			 * Interceptor for overriding the server response.
 			 *
-			 * @since 1.0.0
+			 * @since 2025.1
 			 */
 			$data = Hook::apply( 'grafema_api_response', $data, $slug );
 		}

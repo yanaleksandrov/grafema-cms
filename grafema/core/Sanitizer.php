@@ -10,7 +10,7 @@
 namespace Grafema;
 
 /**
- * @since   1.0.0
+ * @since   2025.1
  */
 class Sanitizer
 {
@@ -572,7 +572,7 @@ class Sanitizer
 	 *
 	 * @return string the normalized string
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function whitespace( mixed $value ): string
 	{
@@ -586,7 +586,7 @@ class Sanitizer
 	 * the `<script>` and `<style>` tags. E.g. `strip_tags( '<script>something</script>' )`
 	 * will return 'something'. `Sanitizer::tags()` will return ''
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @param  string $value String containing HTML tags.
 	 * @return string        The processed string.
@@ -603,7 +603,7 @@ class Sanitizer
 	/**
 	 * Sanitizer a mime type.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @param mixed $value Mime type.
 	 * @return string      Sanitized mime type.
@@ -616,7 +616,7 @@ class Sanitizer
 	/**
 	 * Sanitizes a hex color with or without a hash.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @param string $value Color in HEX format
 	 * @return string|null  3 or 6 digit hex color with or without #
@@ -668,7 +668,7 @@ class Sanitizer
 	/**
 	 * Sanitize a login.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @param  mixed  $value Incoming login.
 	 * @return string
@@ -698,7 +698,7 @@ class Sanitizer
 	 * Esc::accents("ªºÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿØ");
 	 *         echo: ooAAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyyO.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 *
 	 * @param  mixed  $value Incoming login.
 	 * @return string
@@ -737,7 +737,7 @@ class Sanitizer
 	 * and end of filename. It is not guaranteed that this function will return a
 	 * filename that is allowed to be uploaded.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $value The filename to be sanitized.
 	 * @return string       The sanitized filename.

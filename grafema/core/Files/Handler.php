@@ -18,7 +18,7 @@ use Grafema\Helpers\Humanize;
  * You can perform a wide range of operations: reading and writing to a file,
  * downloading and capturing, moving and copying files, and much more.
  *
- * @since      1.0.0
+ * @since      2025.1
  */
 class Handler {
 
@@ -159,7 +159,7 @@ class Handler {
 	 *
 	 * @param string $size String designation of the file size, e.g.: 300kb, 20Mb, 0.3Gb, 3Tb
 	 * @return Handler
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function setMaxSize( string $size ): Handler
 	{
@@ -175,7 +175,7 @@ class Handler {
 	 * @param string|int $bytes
 	 * @param string $format
 	 * @return float
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected static function reformat( string|int $bytes, string $format = '' ): float {
 		$format  = ucfirst( strtolower( $format ) );
@@ -202,7 +202,7 @@ class Handler {
 	 * @param string|int $bytes
 	 * @param string $format
 	 * @return string
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected static function humanise( string|int $bytes, string $format = '' ): string {
 		$format  = ucfirst( strtolower( $format ) );
@@ -289,7 +289,7 @@ class Handler {
 	 * Create unique signature of the file.
 	 *
 	 * @return string
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function getHash(): string
 	{

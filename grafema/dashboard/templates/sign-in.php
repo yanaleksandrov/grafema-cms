@@ -7,15 +7,16 @@ use Grafema\Url;
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/sign-in.php
  *
- * @version     1.0.0
+ * @package Grafema\Templates
+ * @since   2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
 <div class="mw-360">
-	<div class="df jcc">
-        <img src="/dashboard/assets/images/logo-decorate.svg" width="240" height="140" alt="Grafema CMS">
+	<div class="df jcc mb-4">
+        <img src="/dashboard/assets/images/logo-decorate.svg" width="200" height="117" alt="Grafema CMS">
 	</div>
 	<?php echo Dashboard\Form::view( 'grafema-user-sign-in' ); ?>
 	<div class="fs-14 t-center t-muted mt-3">

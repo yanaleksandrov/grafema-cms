@@ -18,7 +18,7 @@ use Grafema\Dir;
  * You can perform a wide range of operations: reading and writing to a file,
  * downloading and capturing, moving and copying files, and much more.
  *
- * @since      1.0.0
+ * @since      2025.1
  */
 class Files extends Files\Handler
 {
@@ -81,7 +81,7 @@ class Files extends Files\Handler
 	 * @param callable|null $callback
 	 * @return Files|Errors
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function open( string $filepath = '', ?callable $callback = null ): Files|Errors {
 		if ( ! file_exists( $filepath ) ) {
@@ -103,7 +103,7 @@ class Files extends Files\Handler
 	 * @param callable|null $callback
 	 * @return Files|Errors Data about current uploaded file or errors list.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function upload( array $file, string $targetDir, ?callable $callback = null ): Files|Errors {
 		$maxFileSize = parent::getMaxUploadSizeInBytes();
@@ -114,7 +114,7 @@ class Files extends Files\Handler
 		/**
 		 * Check file validation.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$validator = ( new Validator(
 			$file,
@@ -163,7 +163,7 @@ class Files extends Files\Handler
 		/**
 		 * If the incoming data has been checked for validity, continue uploading
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $validator instanceof Validator ) {
 			return new Errors( 'file-upload', $validator );
@@ -178,7 +178,7 @@ class Files extends Files\Handler
 		/**
 		 * Check that the uploaded file is unique.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( file_exists( $filepath ) ) {
 			$filename  = pathinfo( $basename, PATHINFO_FILENAME );
@@ -202,7 +202,7 @@ class Files extends Files\Handler
 		/**
 		 * Create new file.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( ! isset( $_file ) ) {
 			if ( ! is_dir( $targetDir ) ) {
@@ -224,7 +224,7 @@ class Files extends Files\Handler
 		/**
 		 * Filters the data array for the uploaded file.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		return Hook::apply( 'grafema_file_uploaded', $_file );
 	}
@@ -236,7 +236,7 @@ class Files extends Files\Handler
 	 * @param string $targetDir
 	 * @param callable|null $callback
 	 * @return Files|Errors
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function grab( string $url, string $targetDir, ?callable $callback = null ): Files|Errors
 	{
@@ -308,7 +308,7 @@ class Files extends Files\Handler
 		/**
 		 * Filters the data array for the grabbed file.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		return Hook::apply( 'grafema_file_grabbed', $_file );
 	}
@@ -450,7 +450,7 @@ class Files extends Files\Handler
 	/**
 	 * Download file.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public function download(): void
 	{
@@ -477,7 +477,7 @@ class Files extends Files\Handler
 	 * @param int|string $size String designation of the file size, e.g.: 300kb, 20Mb, 0.3Gb, 3Tb
 	 * @param string $format
 	 * @return Files
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function setMaxSize( int|string $size, string $format = 'Кb' ): Files
 	{
@@ -492,7 +492,7 @@ class Files extends Files\Handler
 	 *
 	 * @param array $mimes
 	 * @return Files
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function setAllowedMimeTypes( array $mimes ): Files
 	{

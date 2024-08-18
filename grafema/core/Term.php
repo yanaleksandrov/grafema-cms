@@ -14,31 +14,31 @@ use Grafema\Db;
 /**
  * Core class for managing plugins.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Term
 {
 	/**
 	 * DataBase table name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static string $table = 'term';
 
 	/**
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function register( string $term, string $object_type, array $args = [] ) {}
 
 	/**
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function unregister( string $term ) {}
 
 	/**
 	 * Create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate(): void
 	{

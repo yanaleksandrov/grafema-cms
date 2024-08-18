@@ -12,21 +12,21 @@ namespace Grafema\Users;
 use Grafema\DB;
 
 /**
- * @since 1.0.0
+ * @since 2025.1
  */
 class Users
 {
 	/**
 	 * DataBase table name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected static string $table = 'users';
 
 	/**
 	 * Create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate(): void
 	{

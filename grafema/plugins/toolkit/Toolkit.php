@@ -10,13 +10,14 @@ use Grafema\Asset;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Tree;
+use Grafema\Plugins;
 
 /**
  * Boilerplate plugin.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
-class Toolkit implements Grafema\Plugins\Skeleton
+class Toolkit implements Plugins\Skeleton
 {
 	public function manifest(): array
 	{
@@ -27,7 +28,7 @@ class Toolkit implements Grafema\Plugins\Skeleton
 			'email'        => '',
 			'url'          => '',
 			'license'      => 'GNU General Public License v3.0',
-			'version'      => '1.0.0',
+			'version'      => '2025.1',
 			'php'          => '8.2',
 			'mysql'        => '5.7',
 			'dependencies' => [],
@@ -81,7 +82,7 @@ class Toolkit implements Grafema\Plugins\Skeleton
 		/*
 		 * Sign In form
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Dashboard\Form::register(
 			'builder/fields',

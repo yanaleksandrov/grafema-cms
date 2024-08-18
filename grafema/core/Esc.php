@@ -17,7 +17,7 @@ class Esc
 	 * @param string $string Attribute
 	 * @param bool   $echo   Output or return
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function attr( string $string, bool $echo = true ): string
 	{
@@ -32,7 +32,7 @@ class Esc
 	/**
 	 * Escaping for html blocks.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function html( string $string, bool $echo = true ): string
 	{
@@ -52,7 +52,7 @@ class Esc
 	 *
 	 * If `$title` is empty and `$fallback_title` is set, the latter will be used.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $string      the string to be sanitized
 	 * @param string $replacement Whitespace replacement
@@ -67,7 +67,7 @@ class Esc
 	/**
 	 * Sanitizer the value according to the column data type when inserting data into the database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function sql( string $value, string $type ): string
 	{
@@ -108,7 +108,7 @@ class Esc
 	/**
 	 * Escapes url for use inside href attribute.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function url( string $url ): string
 	{

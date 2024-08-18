@@ -12,14 +12,14 @@ namespace Grafema\Errors;
  *   $message - is a message for the user.
  *   $data    - is a instruction for the developer.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Handler {
 
 	/**
 	 * Errors list storage.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var array
 	 */
 	protected static array $errors = [];
@@ -29,7 +29,7 @@ class Handler {
 	 *
 	 * @param string|int $code      Errors code.
 	 * @param string|array $message Error single message or array of messages.
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function push( string|int $code, string|array $message = '' ): void {
 		if ( is_array( $message ) ) {
@@ -45,7 +45,7 @@ class Handler {
 	 * This function removes all error messages associated with the specified
 	 * error code, along with any error data for that code.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string|int $code Errors code.
 	 */
@@ -58,7 +58,7 @@ class Handler {
 	/**
 	 * Retrieve all error codes.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return array List of error codes, if available.
 	 */
@@ -72,7 +72,7 @@ class Handler {
 	/**
 	 * Retrieve all error messages or error messages matching code.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
 	 * @return array Errors strings on success, or empty array on failure (if using code parameter).
@@ -87,7 +87,7 @@ class Handler {
 	/**
 	 * Verify if the instance contains errors.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return bool
 	 */

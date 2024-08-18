@@ -33,7 +33,7 @@ class System extends \Grafema\Api\Handler
 	/**
 	 * Check the compliance of the server with the minimum requirements.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function test(): array
 	{
@@ -77,7 +77,7 @@ class System extends \Grafema\Api\Handler
 	/**
 	 * Run Grafema installation.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function install(): array
 	{
@@ -106,7 +106,7 @@ class System extends \Grafema\Api\Handler
 		 * The check for connection to the database should have already been passed by this point.
 		 * Therefore, just fill in the file config.php data and immediately connect it.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$config = GRFM_PATH . 'config.php';
 		if ( ! file_exists( $config ) ) {
@@ -131,7 +131,7 @@ class System extends \Grafema\Api\Handler
 		/**
 		 * Creating the necessary tables in the database
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Term::migrate();
 		Users::migrate();
@@ -142,7 +142,7 @@ class System extends \Grafema\Api\Handler
 		/**
 		 * Fill same options
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Option::update( 'site', $site );
 

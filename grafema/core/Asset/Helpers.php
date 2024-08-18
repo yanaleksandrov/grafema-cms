@@ -11,55 +11,14 @@ namespace Grafema\Asset;
 
 class Helpers
 {
-	/**
-	 * @param string $src
-	 * @return string
-	 */
-	public function parseSrc( string $src ): string
-	{
-		return $this->sanitizeUrl( parse_url( $src, PHP_URL_PATH ) ?? '' );
-	}
-
-	/**
-	 * Sanitizer id of asset.
-	 */
-	public function sanitizeID( string $uuid ): string
-	{
-		$uuid = str_replace( ['_', '.', ','], '-', $uuid );
-
-		return trim( preg_replace( '/\W-/', '', $uuid ) );
-	}
-
-	/**
-	 * Sanitizer key of asset.
-	 */
-	public function sanitizeKey( string $key ): string
-	{
-		$key = str_replace( ['_', '-'], ' ', $key );
-
-		return lcfirst( str_replace( ' ', '', ucwords( $key ) ) );
-	}
-
-	/**
-	 * Sanitizer url.
-	 */
-	public function sanitizeUrl( string $url ): string
-	{
-		// remove leading and trailing whitespace
-		$url = trim( $url );
-
-		// remove characters other than letters, numbers, hyphens, underscores, dots, and slashes
-		$url = preg_replace( '/[^a-zA-Z0-9-_.\/?]/', '', $url );
-
-		// remove double and triple slashes
-		$url = preg_replace( '/\/{2,}/', '/', $url );
-
-		// normalize slashes
-		return str_replace( ';//', '://', $url );
-	}
 
 	/**
 	 * Convert array to attributes.
+	 *
+	 * @param array $attributes
+	 * @param array $whitelist
+	 * @return string
+	 * @since 2025.1
 	 */
 	public function format( array $attributes, array $whitelist ): string
 	{
@@ -84,38 +43,5 @@ class Helpers
 		}
 
 		return $result ? ' ' . implode( ' ', $result ) : '';
-	}
-
-	/**
-	 * Sort sources by dependencies.
-	 *
-	 * @since 1.0.0
-	 */
-	public function sort( array $assets ): array
-	{
-		$dependents = array_filter( $assets, fn ( $item ) => ! empty( $item['dependencies'] ) );
-		$assets     = array_filter( $assets, fn ( $item ) => empty( $item['dependencies'] ) );
-
-		foreach ( $dependents as $key => $dependent ) {
-			$dependencies = $dependent['dependencies'] ?? [];
-			if ( empty( $dependencies ) || ! is_array( $dependencies ) ) {
-				continue;
-			}
-
-			$index    = null;
-			$filtered = array_intersect_key( $assets, array_flip( $dependencies ) );
-			if ( $filtered ) {
-				$index = max( array_keys( $filtered ) );
-			}
-
-			if ( $index ) {
-				$splitIndex = array_search( $index, array_keys( $assets ), true );
-				$primary    = array_slice( $assets, 0, $splitIndex + 1, true );
-				$secondary  = array_slice( $assets, $splitIndex + 1, null, true );
-				$assets     = $primary + [$key => $dependent] + $secondary;
-			}
-		}
-
-		return $assets;
 	}
 }

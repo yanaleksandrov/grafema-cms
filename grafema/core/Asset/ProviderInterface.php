@@ -7,22 +7,30 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Grafema\Asset\Interfaces;
+namespace Grafema\Asset;
 
-interface Provider
+interface ProviderInterface
 {
 	/**
-	 * @since 1.0.0
+	 * @param string $id
+	 * @param string $src
+	 * @param array $args
+	 * @return array
+	 * @since 2025.1
 	 */
 	public function add( string $id, string $src, array $args ): array;
 
 	/**
-	 * @since 1.0.0
+	 * @param array $asset
+	 * @return string
+	 * @since 2025.1
 	 */
 	public function plug( array $asset ): string;
 
 	/**
-	 * @since 1.0.0
+	 * @param string $code
+	 * @return string
+	 * @since 2025.1
 	 */
 	public function minify( string $code ): string;
 }

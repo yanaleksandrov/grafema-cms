@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/modals/email.php
  *
  * @package     Grafema\Templates
- * @version     1.0.0
+ * @version     2025.1
  */
 
 use Grafema\View;

@@ -7,50 +7,58 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Grafema\Asset\Type;
+namespace Grafema\Asset;
 
-use Grafema\Asset\Helpers;
-use Grafema\Asset\Interfaces\Provider;
-
-class CSS implements Provider
+class ProviderCSS implements ProviderInterface
 {
 	/**
 	 * List of type 'css' style tag.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private array $whitelist = ['rel', 'id', 'href', 'media'];
 
 	/**
-	 * @since 1.0.0
+	 * @param string $id
+	 * @param string $src
+	 * @param array $args
+	 * @return array
+	 * @since 2025.1
 	 */
 	public function add( string $id, string $src, array $args ): array
 	{
-		$helpers = new Helpers();
-
 		return array_merge(
 			[
 				'rel'   => 'stylesheet',
-				'type'  => 'css',
-				'href'  => $src,
 				'id'    => sprintf( '%s-css', $id ),
-				'uuid'  => $id,
+				'href'  => $src,
 				'media' => '',
-				'url'   => $helpers->parseSrc( $src ),
+				// and custom data
+				'type'  => 'css',
+				'uuid'  => $id,
+				'path'  => \Grafema\Url::toPath( $src ),
 			],
 			$args
 		);
 	}
 
+	/**
+	 * Get html tag of resource.
+	 *
+	 * @param array $asset
+	 * @return string
+	 */
 	public function plug( array $asset ): string
 	{
-		$helpers = new Helpers();
-
-		return sprintf( "\n<link%s/>", $helpers->format( $asset, $this->whitelist ) );
+		return sprintf( "\n<link%s/>", ( new Helpers() )->format( $asset, $this->whitelist ) );
 	}
 
 	/**
-	 * @since 1.0.0
+	 * CSS minifier
+	 *
+	 * @param string $code
+	 * @return string
+	 * @since 2025.1
 	 */
 	public function minify( string $code ): string
 	{

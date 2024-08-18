@@ -13,7 +13,7 @@ final class Db {
 	 * Db structure
 	 *
 	 * @var array
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $schema = [];
 
@@ -21,7 +21,7 @@ final class Db {
 	 * Db queries count
 	 *
 	 * @var int
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static int $queries = 0;
 
@@ -29,7 +29,7 @@ final class Db {
 	 * Db queries count
 	 *
 	 * @var null|Db\Medoo
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static ?Db\Medoo $connection = null;
 
@@ -278,7 +278,7 @@ final class Db {
 	/**
 	 * Get count of queries
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function queries(): int {
 		return self::$queries;
@@ -287,7 +287,7 @@ final class Db {
 	/**
 	 * Get count of queries
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function info(): ?array {
 		if ( self::$connection instanceof Db\Medoo ) {
@@ -310,7 +310,7 @@ final class Db {
 	/**
 	 * Get database version
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function version(): array|string|null {
 		$info = self::info();
@@ -325,7 +325,7 @@ final class Db {
 	 * Get database schema
 	 *
 	 * @see   https://stackoverflow.com/questions/52642542/how-to-extract-column-name-and-type-from-mysql
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function schema( string $_column = null ) {
 		if ( ! self::$schema ) {
@@ -357,7 +357,7 @@ final class Db {
 	/**
 	 * Update database schema.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function updateSchema() {
 		if ( self::$schema ) {
@@ -370,7 +370,7 @@ final class Db {
 	 * Try to check database connection
 	 *
 	 * @return Errors|Medoo|null
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function check(): Errors|Medoo|null
 	{

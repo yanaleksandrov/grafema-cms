@@ -9,20 +9,18 @@
 namespace Dashboard;
 
 use Grafema\Db;
+use Grafema\Is;
 use Grafema\Dir;
-use Grafema\Api;
 use Grafema\Asset;
 use Grafema\Hook;
-use Grafema\I18n;
-use Grafema\Post\Type;
 use Grafema\Debug;
-use Grafema\Users\Roles;
 use Grafema\Patterns\Singleton;
+use Grafema\Url;
 
 /**
  *
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Dashboard extends \Grafema\App\App
 {
@@ -31,7 +29,7 @@ class Dashboard extends \Grafema\App\App
 	/**
 	 * Class constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct()
 	{
@@ -40,21 +38,29 @@ class Dashboard extends \Grafema\App\App
 		 * Now the code is exclusively for the administrative panel.
 		 * Define a constants.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$this->define( 'GRFM_IS_DASHBOARD', true );
 
 		/**
 		 * Include CSS styles & JS scripts.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
-		$styles = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
-		foreach ( $styles as $style ) {
-			Asset::enqueue( $style, '/dashboard/assets/css/' . $style . '.css', [], GRFM_VERSION );
+		$styles  = ['phosphor'];
+		$scripts = ['index', 'ajax', 'alpine'];
+		if ( ! Is::install() ) {
+			$styles  = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
+			$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
 		}
 
-		$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine.min', 'dragula.min', 'croppr.min', 'prism.min'];
+		foreach ( $styles as $style ) {
+			if ( ! Is::debug() ) {
+				$style = sprintf( '%s.min', $style );
+			}
+			Asset::enqueue( $style, Url::dashboard( '/assets/css/' . $style . '.css' ) );
+		}
+
 		foreach ( $scripts as $script ) {
 			$data = [];
 			if ( $script === 'index' ) {
@@ -67,37 +73,37 @@ class Dashboard extends \Grafema\App\App
 				];
 			}
 
-			if ( $script === 'index' ) {
-				// $data['dependencies'] = [ 'dragula-min-js' ];
+			if ( ! Is::debug() ) {
+				$script = sprintf( '%s.min', $script );
 			}
-			Asset::enqueue( $script, '/dashboard/assets/js/' . $script . '.js', $data );
+			Asset::enqueue( $script, Url::dashboard( '/assets/js/' . $script . '.js' ), $data );
 		}
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
-		Hook::add( 'grafema_dashboard_header', fn () => Asset::plug( '*.css' ) );
-		Hook::add( 'grafema_dashboard_footer', fn () => Asset::plug( '*.js' ) );
+		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
+		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Menu::init();
 
 		/**
 		 * Register new forms
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$forms = (new Dir\Dir( GRFM_DASHBOARD . 'forms' ))->getFiles( '*.php' );
 		foreach ( $forms as $form ) {
 			require_once $form;
 		}
-		//require_once GRFM_DASHBOARD . 'forms/grafema-user-profile.php';
-		//require_once GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php';
+		require_once GRFM_DASHBOARD . 'forms/grafema-user-profile.php';
+		require_once GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php';
 	}
 }

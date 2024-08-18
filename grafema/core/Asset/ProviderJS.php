@@ -7,59 +7,64 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace Grafema\Asset\Type;
+namespace Grafema\Asset;
 
-use Grafema\Asset\Helpers;
-use Grafema\Asset\Interfaces\Provider;
-
-class JS implements Provider
+class ProviderJS implements ProviderInterface
 {
 	/**
 	 * List of type 'js' script tag.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private array $whitelist = ['id', 'src', 'async', 'defer', 'media'];
 
 	/**
-	 * @since 1.0.0
+	 * @param string $id
+	 * @param string $src
+	 * @param array $args
+	 * @return array
+	 * @since 2025.1
 	 */
 	public function add( string $id, string $src, array $args ): array
 	{
-		$helpers = new Helpers();
-
 		return array_merge(
 			[
 				'id'           => sprintf( '%s-js', $id ),
-				'uuid'         => $id,
 				'src'          => $src,
-				'type'         => 'js',
 				'async'        => false,
 				'defer'        => false,
+				'media'        => '',
+				// and custom data
+				'uuid'         => $id,
+				'type'         => 'js',
 				'dependencies' => [],
 				'data'         => [],
-				'media'        => '',
-				'url'          => $helpers->parseSrc( $src ),
+				'path'         => \Grafema\Url::toPath( $src ),
 			],
 			$args
 		);
 	}
 
+	/**
+	 * @param array $asset
+	 * @return string
+	 */
 	public function plug( array $asset ): string
 	{
-		$helpers = new Helpers();
-		$key     = $helpers->sanitizeKey( $asset['uuid'] ?? '' );
-		$data    = $asset['data'] ?? [];
+		$key     = Sanitizer::key( $asset['uuid'] ?? '' );
+		$data    = Sanitizer::array( $asset['data'] ?? [] );
 		$return  = '';
-		if ( ! empty( $data ) && is_array( $data ) ) {
+
+		if ( $data ) {
 			$return = sprintf( "\n<script>const %s = %s</script>", $key, json_encode( $data, JSON_HEX_TAG ) );
 		}
-
-		return $return . sprintf( "\n<script%s></script>", $helpers->format( $asset, $this->whitelist ) );
+		return $return . sprintf( "\n<script%s></script>", ( new Helpers() )->format( $asset, $this->whitelist ) );
 	}
 
 	/**
-	 * @since 1.0.0
+	 * @param string $code
+	 * @return string
+	 * @since 2025.1
 	 */
 	public function minify( string $code ): string
 	{

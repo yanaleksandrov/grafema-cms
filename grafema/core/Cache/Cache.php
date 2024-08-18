@@ -11,7 +11,7 @@ class Cache
 	/**
 	 * The amount of times the cache data was already stored in the cache.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @var int
 	 */
@@ -20,7 +20,7 @@ class Cache
 	/**
 	 * Amount of times the cache did not have the request in cache.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @var int
 	 */
@@ -29,7 +29,7 @@ class Cache
 	/**
 	 * List of global cache groups.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @var array
 	 */
@@ -38,7 +38,7 @@ class Cache
 	/**
 	 * Holds the cached objects.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @var array
 	 */
@@ -47,14 +47,14 @@ class Cache
 	/**
 	 * Sets up object properties; PHP 5 style constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct() {}
 
 	/**
 	 * Makes private properties readable for backward compatibility.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $name property to get
 	 *
@@ -68,7 +68,7 @@ class Cache
 	/**
 	 * Makes private properties settable for backward compatibility.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $name  property to set
 	 * @param mixed  $value property value
@@ -83,7 +83,7 @@ class Cache
 	/**
 	 * Makes private properties checkable for backward compatibility.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $name property to check if set
 	 *
@@ -97,7 +97,7 @@ class Cache
 	/**
 	 * Makes private properties un-settable for backward compatibility.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $name property to unset
 	 */
@@ -109,7 +109,7 @@ class Cache
 	/**
 	 * Adds data to the cache if it doesn't already exist.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @uses Cache::_exists() Checks to see if the cache already has data.
 	 * @uses Cache::set()     Sets the data after the checking the cache
@@ -140,7 +140,7 @@ class Cache
 	/**
 	 * Sets the list of global cache groups.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param array $groups list of groups that are global
 	 */
@@ -155,7 +155,7 @@ class Cache
 	/**
 	 * Decrements numeric cache item's value.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key    the cache key to decrement
 	 * @param int        $offset Optional. The amount by which to decrement the item's value. Default 1.
@@ -193,7 +193,7 @@ class Cache
 	 *
 	 * If the cache key does not exist in the group, then nothing will happen.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key        what the contents in the cache are called
 	 * @param string     $group      Optional. Where the cache contents are grouped. Default 'default'.
@@ -219,7 +219,7 @@ class Cache
 	/**
 	 * Clears the object cache of all data.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return true always returns true
 	 */
@@ -239,7 +239,7 @@ class Cache
 	 *
 	 * On failure, the number of cache misses will be incremented.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key   the key under which the cache contents are stored
 	 * @param string     $group Optional. Where the cache contents are grouped. Default 'default'.
@@ -275,7 +275,7 @@ class Cache
 	/**
 	 * Retrieves multiple values from the cache in one call.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param array  $keys  array of keys under which the cache contents are stored
 	 * @param string $group Optional. Where the cache contents are grouped. Default 'default'.
@@ -298,7 +298,7 @@ class Cache
 	/**
 	 * Increments numeric cache item's value.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key    The cache key to increment
 	 * @param int        $offset Optional. The amount by which to increment the item's value. Default 1.
@@ -334,7 +334,7 @@ class Cache
 	/**
 	 * Replaces the contents in the cache, if contents already exist.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @see Cache::set()
 	 *
 	 * @param int|string $key    what to call the contents in the cache
@@ -371,7 +371,7 @@ class Cache
 	 * expire for each time a page is accessed and PHP finishes. The method is
 	 * more for cache plugins which use files.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key    what to call the contents in the cache
 	 * @param mixed      $data   the contents to store in the cache
@@ -401,7 +401,7 @@ class Cache
 	 * Gives the cache hits, and cache misses. Also prints every cached group,
 	 * key and the data.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function stats()
 	{
@@ -420,7 +420,7 @@ class Cache
 	/**
 	 * Serves as a utility function to determine whether a key exists in the cache.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param int|string $key   cache key to check for existence
 	 * @param string     $group cache group for the key existence check

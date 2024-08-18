@@ -23,14 +23,14 @@ final class Install extends \Grafema\App\App {
 	 * Class constructor
 	 *
 	 * @return void|bool
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct() {
 
 		/**
 		 * Define declare the necessary constants
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$this->define( 'GRFM_IS_INSTALL', true );
 
@@ -38,14 +38,14 @@ final class Install extends \Grafema\App\App {
 		 * Add core API endpoints.
 		 * Important! If current request is request to API, stop code execution after Api::create().
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Api::create( sprintf( '%sdashboard/api', GRFM_PATH ), '/api' );
 
 		/**
 		 * Register new routes
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		$this->route();
 	}
@@ -53,7 +53,7 @@ final class Install extends \Grafema\App\App {
 	/**
 	 * Add router
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private function route(): void {
 		$route = new Route();
@@ -65,7 +65,7 @@ final class Install extends \Grafema\App\App {
 				/**
 				 * Redirect to installer wizard if Grafema is not installed.
 				 *
-				 * @since 1.0.0
+				 * @since 2025.1
 				 */
 				if ( $slug !== 'install' ) {
 					View::redirect( Url::site( 'install' ) );
@@ -75,7 +75,7 @@ final class Install extends \Grafema\App\App {
 				/**
 				 * Run the installer wizard.
 				 *
-				 * @since 1.0.0
+				 * @since 2025.1
 				 */
 				$styles = [ 'main', 'phosphor' ];
 				foreach ( $styles as $style ) {
@@ -98,15 +98,15 @@ final class Install extends \Grafema\App\App {
 				/**
 				 * Include assets before calling hooks, but after they are registered.
 				 *
-				 * @since 1.0.0
+				 * @since 2025.1
 				 */
-				Hook::add( 'grafema_dashboard_header', fn () => Asset::plug( '*.css' ) );
-				Hook::add( 'grafema_dashboard_footer', fn () => Asset::plug( '*.js' ) );
+				Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
+				Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
 				/**
 				 * The administrative panel also has a single entry point.
 				 *
-				 * @since 1.0.0
+				 * @since 2025.1
 				 */
 				echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
 

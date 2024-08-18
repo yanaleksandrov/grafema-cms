@@ -12,35 +12,35 @@ namespace Grafema;
 /**
  * The Hook Class.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 final class Hook
 {
 	/**
 	 * Holds list of filters.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $filters = [];
 
 	/**
 	 * Merged filters.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $merged_filters = [];
 
 	/**
 	 * Holds the name of the current filter.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $current_filter = [];
 
 	/**
 	 * Hooks a function or method to a specific filter action.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string   $tag             the name of the filter to hook the $function_to_add to
 	 * @param callable $function_to_add the name of the function to be called when the filter is applied
@@ -64,7 +64,7 @@ final class Hook
 	/**
 	 * Removes a function from a specified filter hook.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string   $tag                the filter hook to which the function to be removed is hooked
 	 * @param callable $function_to_remove the name of the function which should be removed
@@ -92,7 +92,7 @@ final class Hook
 	/**
 	 * Remove all the hooks from a filter.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $tag      the filter to remove hooks from
 	 * @param int    $priority the priority number to remove
@@ -119,7 +119,7 @@ final class Hook
 	/**
 	 * Check if any filter has been registered for a hook.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string   $tag               the name of the filter hook
 	 * @param callable $function_to_check optional
@@ -152,7 +152,7 @@ final class Hook
 	/**
 	 * Call the functions added to a hook.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $tag   the name of the hook
 	 * @param mixed  $value the value on which the filters hooked to <tt>$tag</tt> are applied on
@@ -210,7 +210,7 @@ final class Hook
 	/**
 	 * Execute functions hooked on a specific filter hook, specifying arguments in an array.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $tag  the name of the hook
 	 * @param array  $args The arguments supplied to the functions hooked to <tt>$tag</tt>
@@ -262,7 +262,7 @@ final class Hook
 	/**
 	 * Retrieve the name of the current filter or action.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @return string name of the current hook
 	 */
@@ -280,7 +280,7 @@ final class Hook
 	 * executed ( despite not being the most recent filter to fire, in the case of
 	 * hooks called from hook callbacks ) to be verified.
 	 *
-	 * @since 1.0.0.2
+	 * @since 2025.1.2
 	 *
 	 * @param string|null $filter Optional. Filter to check. Defaults to null, which checks if any filter is currently being run.
 	 *

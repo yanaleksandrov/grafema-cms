@@ -12,26 +12,26 @@ namespace Grafema;
 /**
  * Core class for managing comments.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Comments
 {
 	/**
 	 * DataBase table name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static string $table = 'comments';
 
 	/**
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function add( string $string ): void {}
 
 	/**
 	 * Create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate(): void
 	{

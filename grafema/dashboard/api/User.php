@@ -94,7 +94,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Sign up user.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function signUp(): Errors|\Grafema\User|array
 	{
@@ -111,7 +111,7 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Reset user password.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function resetPassword(): Errors|\Grafema\User|array
 	{

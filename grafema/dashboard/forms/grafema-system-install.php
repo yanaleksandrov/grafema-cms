@@ -5,7 +5,7 @@ use Grafema\View;
 /**
  * Register form for first Grafema installation.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 Dashboard\Form::register(
 	'system-install',

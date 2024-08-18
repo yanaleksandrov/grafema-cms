@@ -13,21 +13,21 @@ namespace Grafema;
  * Option class it is a self-contained class for creating, updating, and deleting options.
  * Uses static variables to store options, which allows to avoid using the object cache without losing performance.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 class Options
 {
 	/**
 	 * DataBase table name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static string $table = 'options';
 
 	/**
 	 * Create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate(): void
 	{

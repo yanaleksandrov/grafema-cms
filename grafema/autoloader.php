@@ -17,6 +17,12 @@ spl_autoload_register(
 			$filepath
 		);
 
+		if ( $class === 'Grafema2025' ) {
+			echo '<pre>';
+			var_dump( $class );
+			var_dump( $filepath );
+			echo '</pre>';
+		}
 		if ( is_file( $filepath ) ) {
 			require_once $filepath;
 		}

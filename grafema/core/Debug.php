@@ -126,7 +126,7 @@ class Debug
 	 * It is formed as a string that separates the name of the class, method, and line in the file with a slash.
 	 * This makes it convenient to search for the source of errors for subsequent debugging.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get_backtrace(): string
 	{
@@ -141,7 +141,7 @@ class Debug
 	/**
 	 * Gets the source file of a function or method call.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get_source( $class, $function )
 	{
@@ -173,7 +173,7 @@ class Debug
 	/**
 	 * Generates a backtrace.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private static function backtrace(): array
 	{

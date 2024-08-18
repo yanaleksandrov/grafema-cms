@@ -9,7 +9,7 @@
 namespace Grafema;
 
 /**
- * @since 1.0.0
+ * @since 2025.1
  */
 class Url
 {
@@ -55,7 +55,7 @@ class Url
 	 * Returns the 'site_url' option with the appropriate protocol, 'https' if
 	 * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https', `is_ssl()` is overridden.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string      $path   Optional. Path relative to the site URL. Default empty.
 	 * @param string|null $scheme Optional. Scheme to give the site URL context. Accepts
@@ -67,14 +67,14 @@ class Url
 	public static function site( string $path = '', string $scheme = null ): string
 	{
 		$url = 'https://cms.codyshop.ru'; // TODO:: resolve conflict when install Option::get( 'site.url' );
-		if ( $path && is_string( $path ) ) {
+		if ( $path ) {
 			$url .= '/' . ltrim( $path, '/' );
 		}
 
 		/*
 		 * Filters the site URL.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 *
 		 * @param string      $url     The complete site URL including scheme and path.
 		 * @param string      $path    Path relative to the site URL. Blank string if no path is specified.
@@ -109,13 +109,25 @@ class Url
 		return self::site( 'dashboard/installed' );
 	}
 
-	public static function dashboard()
+	/**
+	 * Retrieves the URL to the admin area for a given site.
+	 *
+	 * @since 2025.1
+	 *
+	 * @param string $path Optional. Path relative to the dashboard URL. Default empty.
+	 *
+	 * @return string Dashboard URL link with optional path appended.
+	 */
+	public static function dashboard( string $path = '' ): string
 	{
-		return self::site( 'dashboard' );
+		return self::site( sprintf( 'dashboard%s', $path ) );
 	}
 
 	/**
 	 * Extract all URLs from text.
+	 *
+	 * @param $text
+	 * @return array
 	 */
 	public static function extract( $text ): array
 	{
@@ -131,9 +143,30 @@ class Url
 
 	/**
 	 * Return url from any path.
+	 *
+	 * @param $path
+	 * @return string
 	 */
-	public static function fromPath( $path ): string
+	public static function fromPath( string $path ): string
 	{
 		return str_replace( dirname( __DIR__ ), self::site(), $path );
+	}
+
+	/**
+	 * Convert absolute URL of file to path.
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public static function toPath( string $url ): string
+	{
+		$dirname  = dirname( __DIR__ );
+		$relative = ltrim( parse_url( $url, PHP_URL_PATH ), '/' );
+		$filepath = sprintf( '%s/%s', $dirname, $relative );
+
+		if ( file_exists( $filepath ) ) {
+			return $filepath;
+		}
+		return '';
 	}
 }

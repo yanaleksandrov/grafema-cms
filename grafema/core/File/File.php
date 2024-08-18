@@ -26,7 +26,7 @@ use Grafema\Helpers\Humanize;
  * operations, such as reading and writing to file, uploading &
  * grabbing, moving and copying files, and many more.
  *
- * @since      1.0.0
+ * @since      2025.1
  */
 class File
 {
@@ -154,7 +154,7 @@ class File
 	];
 
 	/**
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct( string $filepath = '' )
 	{
@@ -287,7 +287,7 @@ class File
 	 *
 	 * @return File data about current upload or errors list
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public function upload( array $file, bool $skip_if_exist = true ): File
 	{
@@ -339,7 +339,7 @@ class File
 	/**
 	 * Upload file via URL.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public function grab( string $url ): File
 	{
@@ -383,7 +383,7 @@ class File
 	/**
 	 * Download file.
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public function download(): void
 	{
@@ -407,7 +407,7 @@ class File
 	/**
 	 * Set maximum file size.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param string $size String designation of the file size, e.g.: 300kb, 20Mb, 0.3Gb, 3Tb
 	 */
@@ -424,7 +424,7 @@ class File
 	 * Sanitizer & normalize file name: remove special chars & spaces.
 	 * Check for a file with the same name, add a prefix until we find a free name.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function setName( string $filename ): string
 	{
@@ -468,7 +468,7 @@ class File
 	/**
 	 * Set allowed mime types.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param array $mimes
 	 */
@@ -496,7 +496,7 @@ class File
 	/**
 	 * Set data about file.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	private function setData(): array
 	{
@@ -578,7 +578,7 @@ class File
 	/**
 	 * Create unique signature of the file.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 *
 	 * @param ?array $file
 	 */

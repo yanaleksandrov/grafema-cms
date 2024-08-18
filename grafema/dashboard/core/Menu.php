@@ -19,14 +19,14 @@ final class Menu
 	/**
 	 * Class constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function __construct()
 	{
 		/*
 		 * Register menu
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'core-panel-menu',
@@ -73,7 +73,7 @@ final class Menu
 		/**
 		 * Register menu for user.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'dashboard-user-menu',
@@ -144,9 +144,63 @@ final class Menu
 		);
 
 		/**
+		 * Register menu in bar.
+		 *
+		 * @since 2025.1
+		 */
+		Tree::attach( 'dashboard-menu-bar', function ( Tree $tree ) {
+			$tree->addItems(
+				[
+					[
+						'id'           => 'website',
+						'url'          => '/',
+						'title'        => I18n::__( 'Grafema' ),
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-user-focus',
+					],
+					[
+						'id'           => 'website',
+						'url'          => '/',
+						'title'        => '2025.1',
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-git-branch',
+					],
+					[
+						'id'           => 'updates',
+						'url'          => 'updates',
+						'title'        => 0,
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-clock-clockwise',
+					],
+					[
+						'id'           => 'comments',
+						'url'          => 'comments',
+						'title'        => 0,
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-chats',
+					],
+					[
+						'id'           => 'new',
+						'url'          => 'new',
+						'title'        => I18n::__( 'New' ),
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-plus',
+					],
+					[
+						'id'           => 'site-health',
+						'url'          => 'site-health',
+						'title'        => '<span x-text="index.query"></span>',
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-monitor',
+					],
+				]
+			);
+		} );
+
+		/**
 		 * Register menu in left panel.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		Tree::attach(
 			'dashboard-main-menu',

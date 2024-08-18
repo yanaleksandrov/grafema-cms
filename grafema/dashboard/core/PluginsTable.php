@@ -21,7 +21,7 @@ class PluginsTable extends Table
 	/**
 	 * The main function for generating a table markup.
      *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function render()
 	{
@@ -79,7 +79,7 @@ class PluginsTable extends Table
 	/**
 	 * Columns list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	protected function columns(): array
 	{
@@ -128,7 +128,7 @@ class PluginsTable extends Table
 	/**
 	 * Include CSS styles & JS scripts.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public function query() {
 

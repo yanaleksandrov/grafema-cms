@@ -7,7 +7,8 @@ use Grafema\View;
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/themes.php
  *
- * @version     1.0.0
+ * @package Grafema\Templates
+ * @since   2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
@@ -39,7 +40,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</span>
 						[973]
 					</span>
-					<span class="t-muted">v1.0.0</span>
+					<span class="t-muted">v2025.1</span>
 				</div>
 			</div>
 		</div>
@@ -59,7 +60,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</span>
 						[973]
 					</span>
-					<span class="t-muted">v1.0.0</span>
+					<span class="t-muted">v2025.1</span>
 				</div>
 			</div>
 		</div>
@@ -79,7 +80,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</span>
 						[973]
 					</span>
-					<span class="t-muted">v1.0.0</span>
+					<span class="t-muted">v2025.1</span>
 				</div>
 			</div>
 		</div>
@@ -90,7 +91,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="t-muted">Lemmony Health is multipurpose eCommerce theme.</div>
 				<div class="df jcsb fs-12">
 					<span class="t-muted">This theme has not been rated yet.</span>
-					<span class="t-muted">v1.0.0</span>
+					<span class="t-muted">v2025.1</span>
 				</div>
 			</div>
 		</div>
@@ -110,7 +111,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						</span>
 						[973]
 					</span>
-					<span class="t-muted">v1.0.0</span>
+					<span class="t-muted">v2025.1</span>
 				</div>
 			</div>
 		</div>

@@ -26,7 +26,7 @@ class Form {
 	/**
 	 * Unique ID of form class instance.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public string $uniqid;
@@ -34,7 +34,7 @@ class Form {
 	/**
 	 * List of all form fields
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   array
 	 */
 	public array $fields = [];
@@ -42,7 +42,7 @@ class Form {
 	/**
 	 * Form default attributes
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   array
 	 */
 	public array $attributes = [
@@ -52,7 +52,7 @@ class Form {
 	/**
 	 * ID of the field before which the new field will be added
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public string $before = '';
@@ -60,7 +60,7 @@ class Form {
 	/**
 	 * ID of the field after which the new field will be added
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public string $after = '';
@@ -68,7 +68,7 @@ class Form {
 	/**
 	 * ID of the field to be replaced with new field
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 * @var   string
 	 */
 	public string $instead = '';
@@ -136,7 +136,7 @@ class Form {
 		/**
 		 * Override form fields
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 * @param array $fields Fields list of form.
 		 * @param array $uniqid ID of form.
 		 */
@@ -148,7 +148,7 @@ class Form {
 		/**
 		 * Override form html
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 * @param string $content Parsed fields html
 		 */
 		$content = $form->parseFields( $fields );
@@ -157,7 +157,7 @@ class Form {
 		/**
 		 * Return only the contents of the form without its wrapper
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $without_form_wrapper ) {
 			return $content;
@@ -180,7 +180,7 @@ class Form {
 		/**
 		 * Override form wrapper
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 * @param array  $wrapper    Form wrapper markup.
 		 * @param array  $attributes Form html attributes.
 		 * @param string $content    Parsed form content.

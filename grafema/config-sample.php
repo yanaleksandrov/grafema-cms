@@ -13,7 +13,7 @@
  * Utf8mb4 uses 4 bytes for each character. This means that an index that used to have room for
  * floor(767/3) = 255 characters now only has room for floor(767/4) = 191 characters.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const DB_NAME             = 'db.name';
 const DB_USERNAME         = 'db.username';
@@ -28,7 +28,7 @@ const DB_MAX_INDEX_LENGTH = 191;
 /**
  * Constants for paths to Grafema directories.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const GRFM_CORE      = __DIR__ . '/core/';
 const GRFM_DASHBOARD = __DIR__ . '/dashboard/';
@@ -42,7 +42,7 @@ const GRFM_UPLOADS   = __DIR__ . '/uploads/';
  * You can change these at any point in time to invalidate all existing cookies.
  * This will force all users to have to log in again.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const GRFM_AUTH_KEY  = 'authkey';
 const GRFM_NONCE_KEY = 'noncekey';
@@ -51,7 +51,7 @@ const GRFM_HASH_KEY  = 'hashkey';
 /**
  * Debug mode.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const GRFM_DEBUG     = true;
 const GRFM_DEBUG_LOG = true;
@@ -59,7 +59,7 @@ const GRFM_DEBUG_LOG = true;
 /**
  * Cron intervals.
  *
- * @since 1.0.0
+ * @since 2025.1
  */
 const GRFM_HOUR_IN_SECONDS     = 3600;
 const GRFM_HALF_DAY_IN_SECONDS = 43200;

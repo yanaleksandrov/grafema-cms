@@ -23,14 +23,14 @@ class Type
 	/**
 	 * Posts types list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $types = [];
 
 	/**
 	 * Posts statuses list.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static array $statuses = ['publish', 'pending', 'draft', 'protected', 'private', 'trash', 'future'];
 
@@ -138,7 +138,7 @@ class Type
 	 *                  this post type. Default 'post.php?post=%d'.
 	 *                  }
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function register( string $post_type, array $args = [] )
 	{
@@ -200,7 +200,7 @@ class Type
 		/*
 		 * Add routes if type is public.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $public ) {
 			$pattern = ( $args['route'] ?? $post_type ) . '/([a-z0-9-]+)/';
@@ -242,7 +242,7 @@ class Type
 		 * Show in dashboard menu.
 		 * TODO:: add items to menu only in dashboard
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 */
 		if ( $show_in_menu ) {
 			Tree::attach(
@@ -274,7 +274,7 @@ class Type
 		/**
 		 * DataBase table schema.
 		 *
-		 * @since 1.0.0
+		 * @since 2025.1
 		 *
 		 * @var array
 		 */
@@ -293,7 +293,7 @@ class Type
 	/**
 	 * Unregister post type.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function unregister( string $post_type )
 	{
@@ -310,7 +310,7 @@ class Type
 	 *
 	 * @return bool whether the post type supports the given feature
 	 *
-	 * @since  1.0.0
+	 * @since  2025.1
 	 */
 	public static function supports( string $post_type, string $feature )
 	{
@@ -328,7 +328,7 @@ class Type
 	 *                         element from the array needs to match; 'and' means all elements
 	 *                         must match; 'not' means no elements may match. Default 'and'.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function fetch( $args = [], $operator = 'and' ): array
 	{
@@ -338,7 +338,7 @@ class Type
 	/**
 	 * Get registered types for using in select field.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get(): array
 	{
@@ -384,7 +384,7 @@ class Type
 	/**
 	 * Get query for create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function migrate( string $post_type )
 	{
@@ -435,7 +435,7 @@ class Type
 	/**
 	 * Get query for create new table into database.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function metaQuery( string $post_type )
 	{

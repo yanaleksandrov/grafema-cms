@@ -28,7 +28,7 @@ class Media extends \Grafema\Api\Handler
 	/**
 	 * Get media files.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function get() {
 		$media = \Grafema\Media::get(
@@ -45,7 +45,7 @@ class Media extends \Grafema\Api\Handler
 	/**
 	 * Upload new file to media.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function upload(): array
 	{
@@ -76,7 +76,7 @@ class Media extends \Grafema\Api\Handler
 	/**
 	 * Upload files from external url.
 	 *
-	 * @since 1.0.0
+	 * @since 2025.1
 	 */
 	public static function grab(): array {
 		$errors = [];

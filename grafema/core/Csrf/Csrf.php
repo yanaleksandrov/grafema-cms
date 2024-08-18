@@ -27,7 +27,7 @@ use Exception;
  * 	return $e->getMessage();
  * }
  *
- * @since 1.0.0
+ * @since 2025.1
  * @see   https://github.com/gilbitron/EasyCSRF
  */
 class Csrf

@@ -830,6 +830,9 @@ class Kses
 	 * This function deals with parsing errors in combineAttributes(). The general plan is
 	 * to remove everything to and including some whitespace, but it deals with
 	 * quotes and apostrophes as well.
+	 *
+	 * @param string $str
+	 * @return string
 	 */
 	protected static function htmlError( string $str ): string
 	{

@@ -189,7 +189,7 @@ final class Menu
 					[
 						'id'           => 'site-health',
 						'url'          => 'site-health',
-						'title'        => '<span x-text="index.query"></span>',
+						'title'        => '<span x-text="grafema.query"></span>',
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-monitor',
 					],

@@ -13,6 +13,7 @@ use Grafema\Is;
 use Grafema\Dir;
 use Grafema\Asset;
 use Grafema\Hook;
+use Grafema\I18n;
 use Grafema\Debug;
 use Grafema\Patterns\Singleton;
 use Grafema\Url;
@@ -51,7 +52,7 @@ class Dashboard extends \Grafema\App\App
 		$scripts = ['index', 'ajax', 'alpine'];
 		if ( ! Is::install() ) {
 			$styles  = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
-			$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
+			$scripts = ['grafema', 'ajax', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
 		}
 
 		foreach ( $styles as $style ) {
@@ -63,10 +64,10 @@ class Dashboard extends \Grafema\App\App
 
 		foreach ( $scripts as $script ) {
 			$data = [];
-			if ( $script === 'index' ) {
+			if ( $script === 'grafema' ) {
 				$data['data'] = [
 					// TODO: move to a later
-					'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
+					'query'    => I18n::_f( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
 					'apiurl'   => 'https://cms.codyshop.ru/api/',
 					'posts'    => '',
 					'showMenu' => false,

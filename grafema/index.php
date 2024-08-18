@@ -452,6 +452,7 @@ try {
 			 *
 			 * @since 2025.1
 			 */
+			ob_start();
 			echo ( new Html() )->beautify(
 				View::get(
 					GRFM_DASHBOARD . 'index',
@@ -461,6 +462,7 @@ try {
 					]
 				)
 			);
+			echo ob_get_clean();
 
 			/**
 			 * Grafema dashboard is fully loaded.
@@ -469,6 +471,8 @@ try {
 			 * @since 2025.1
 			 */
 			Hook::apply( 'grafema_dashboard_loaded', $slug );
+
+			I18n::tf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
 		});
 
 		/**
@@ -534,9 +538,7 @@ try {
 		});
 	});
 
-	$route->run( function() {
-		printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() );
-	} );
+	$route->run();
 } catch ( Error $e ) {
 	echo '<pre>';
 	print_r( $e->getMessage() );

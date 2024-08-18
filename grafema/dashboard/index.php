@@ -92,7 +92,7 @@ $start_time = microtime( true );
 <!DOCTYPE html>
 <html lang="<?php I18n::locale(); ?>">
 <head>
-	<meta charset="<?php Option::attr( 'charset' ); ?>">
+	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Menu</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">

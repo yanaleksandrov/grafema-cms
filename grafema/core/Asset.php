@@ -116,25 +116,23 @@ final class Asset
 	 * @return void
 	 * @since  2025.1
 	 */
-	public static function plug( string $pattern = '' ): void {
+	public static function render( string $pattern = '' ): void {
 		$assets = Asset\Dependency::sort( self::$assets );
 
-		echo '<pre>';
-		print_r( $assets );
-		echo '</pre>';
+		if ( is_array( $assets ) ) {
+			foreach ( $assets as $asset ) {
+				$type = $asset['type'] ?? '';
+				$path = $asset['path'] ?? '';
 
-		foreach ( $assets as $asset ) {
-			$type = $asset['type'] ?? '';
-			$path = $asset['path'] ?? '';
+				if ( ! empty( $pattern ) && ! fnmatch( $pattern, $path ) ) {
+					continue;
+				}
 
-			if ( ! empty( $pattern ) && ! fnmatch( $pattern, $path ) ) {
-				continue;
+				echo match ( $type ) {
+					'js'  => ( new Asset\ProviderJS() )->plug( $asset ),
+					'css' => ( new Asset\ProviderCSS() )->plug( $asset ),
+				};
 			}
-
-			echo match ( $type ) {
-				'js'  => ( new Asset\ProviderJS() )->plug( $asset ),
-				'css' => ( new Asset\ProviderCSS() )->plug( $asset ),
-			};
 		}
 	}
 }

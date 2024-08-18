@@ -78,17 +78,14 @@ class Dashboard extends \Grafema\App\App
 			}
 			Asset::enqueue( $script, Url::dashboard( '/assets/js/' . $script . '.js' ), $data );
 		}
-//		echo '<pre>';
-//		print_r( Asset::get() );
-//		echo '</pre>';
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 2025.1
 		 */
-		Hook::add( 'grafema_dashboard_header', fn () => Asset::plug( '*.css' ) );
-		Hook::add( 'grafema_dashboard_footer', fn () => Asset::plug( '*.js' ) );
+		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
+		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.

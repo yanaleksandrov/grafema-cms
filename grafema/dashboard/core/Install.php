@@ -100,8 +100,8 @@ final class Install extends \Grafema\App\App {
 				 *
 				 * @since 2025.1
 				 */
-				Hook::add( 'grafema_dashboard_header', fn () => Asset::plug( '*.css' ) );
-				Hook::add( 'grafema_dashboard_footer', fn () => Asset::plug( '*.js' ) );
+				Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
+				Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
 				/**
 				 * The administrative panel also has a single entry point.

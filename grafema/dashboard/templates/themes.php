@@ -24,9 +24,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	);
     ?>
 	<div class="themes">
-		<div class="themes__item" data-title="Theme Details">
-			<div class="themes__image" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png)"></div>
-			<div class="dg g-2 p-5 pt-4 pb-4">
+		<div class="themes__item">
+			<div class="themes__image" data-title="Theme Details" data-title="Theme Details" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png)"></div>
+			<div class="dg g-2 py-4">
 				<div class="fw-600 fs-16 df jcsb aic">Rgbcode <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
@@ -44,9 +44,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				</div>
 			</div>
 		</div>
-		<div class="themes__item" data-title="Theme Details">
-			<div class="themes__image" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/daria/screenshot.jpg)"></div>
-			<div class="dg g-2 p-5 pt-4 pb-4">
+		<div class="themes__item">
+			<div class="themes__image" data-title="Theme Details" style="background-image: url(https://dev.codyshop.ru/wp-content/themes/daria/screenshot.jpg)"></div>
+			<div class="dg g-2 py-4">
 				<div class="fw-600 fs-16 df jcsb aic">Daria <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
@@ -64,9 +64,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				</div>
 			</div>
 		</div>
-		<div class="themes__item" data-title="Theme Details">
-			<div class="themes__image" style="background-image: url(//ts.w.org/wp-content/themes/twentytwentytwo/screenshot.png)"></div>
-			<div class="dg g-2 p-5 pt-4 pb-4">
+		<div class="themes__item">
+			<div class="themes__image" data-title="Theme Details" style="background-image: url(//ts.w.org/wp-content/themes/twentytwentytwo/screenshot.png)"></div>
+			<div class="dg g-2 py-4">
 				<div class="fw-600 fs-16 df jcsb aic">Twenty Twenty-Two <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Multipurpose theme for blog, startup, portfolio, business & e-commerce.</div>
 				<div class="df jcsb fs-12">
@@ -84,9 +84,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				</div>
 			</div>
 		</div>
-		<div class="themes__item" data-title="Theme Details">
-			<div class="themes__image" style="background-image: url(//ts.w.org/wp-content/themes/lemmony/screenshot.png)"></div>
-			<div class="dg g-2 p-5 pt-4 pb-4">
+		<div class="themes__item">
+			<div class="themes__image" data-title="Theme Details" style="background-image: url(//ts.w.org/wp-content/themes/lemmony/screenshot.png)"></div>
+			<div class="dg g-2 py-4">
 				<div class="fw-600 fs-16 df jcsb aic">Lemmony Health <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Lemmony Health is multipurpose eCommerce theme.</div>
 				<div class="df jcsb fs-12">
@@ -95,9 +95,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				</div>
 			</div>
 		</div>
-		<div class="themes__item" data-title="Theme Details">
-			<div class="themes__image" style="background-image: url(//ts.w.org/wp-content/themes/threadwears/screenshot.png)"></div>
-			<div class="dg g-2 p-5 pt-4 pb-4">
+		<div class="themes__item">
+			<div class="themes__image" data-title="Theme Details" style="background-image: url(//ts.w.org/wp-content/themes/threadwears/screenshot.png)"></div>
+			<div class="dg g-2 py-4">
 				<div class="fw-600 fs-16 df jcsb aic">Threadwears <span class="badge badge--green-lt">Installed</span></div>
 				<div class="t-muted">Threadwears is a light and elegant free eCommerce Grafema block theme.</div>
 				<div class="df jcsb fs-12">

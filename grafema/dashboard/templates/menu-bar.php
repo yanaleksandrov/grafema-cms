@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 Tree::view( 'dashboard-menu-bar', function ( $items ) {
     ?>
-    <ul class="menu mr-auto">
+    <ul id="dashboard-menu-bar" class="menu mr-auto">
         <?php
         foreach ( $items as $item ) :
 			[$url, $icon, $title] = (

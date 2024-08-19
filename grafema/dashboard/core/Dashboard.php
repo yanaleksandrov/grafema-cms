@@ -10,7 +10,6 @@ namespace Dashboard;
 
 use Grafema\Db;
 use Grafema\Is;
-use Grafema\Dir;
 use Grafema\Asset;
 use Grafema\Hook;
 use Grafema\I18n;
@@ -66,9 +65,6 @@ class Dashboard extends \Grafema\App\App
 			$data = [];
 			if ( $script === 'grafema' ) {
 				$data['data'] = [
-					// TODO: move to a later
-					'query'    => I18n::_f( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
-					'query'    => '0Q 0.001s 999kb',
 					'apiurl'   => 'https://cms.codyshop.ru/api/',
 					'posts'    => '',
 					'showMenu' => false,
@@ -89,6 +85,11 @@ class Dashboard extends \Grafema\App\App
 		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
 		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
+		/**
+		 * Add benchmark result.
+		 *
+		 * @since 2025.1
+		 */
 		Hook::add( 'grafema_dashboard_loaded', function( $content ) {
 			return str_replace(
 				'0Q 0.001s 999kb',

@@ -47,6 +47,10 @@ class Tree
 
 	/**
 	 * Register new tree structure.
+	 *
+	 * @param string $name
+	 * @param callable|null $function
+	 * @since 2025.1
 	 */
 	public static function attach( string $name, callable $function = null ): void
 	{
@@ -87,6 +91,8 @@ class Tree
 	 * @param string $name
 	 * @param callable $function
 	 * @return string
+	 *
+	 * @since 2025.1
 	 */
 	public static function include( string $name, callable $function ): string
 	{
@@ -126,6 +132,10 @@ class Tree
 
 	/**
 	 * Bulk add tree items.
+	 *
+	 * @param array $items
+	 *
+	 * @since 2025.1
 	 */
 	public function addItems( array $items ): void
 	{
@@ -166,6 +176,7 @@ class Tree
 			}
 		}
 
+		// TODO: неправильно сортирует, если у всех элементов значение position одинаковое
 		return Arr::sort( $tree, 'position' );
 	}
 
@@ -178,8 +189,14 @@ class Tree
 	 *
 	 * $args also can be object, then it's properties are retrieved using get_object_vars().
 	 * '%s' without argument name works fine too. Everything vsprintf() can do is supported.
+	 *
+	 * @param string       $str
+	 * @param array|object $args
+	 * @return string
+	 *
+	 * @since  2025.1
 	 */
-	public function vsprintf( string $str, $args ): string
+	public function vsprintf( string $str, array|object $args ): string
 	{
 		if ( is_object( $args ) ) {
 			$args = get_object_vars( $args );

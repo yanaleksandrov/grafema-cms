@@ -13,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php echo Dashboard\Form::view( 'grafema-posts-export' ); ?>
+		<?php echo Dashboard\Form::view( 'grafema-posts-export', path: GRFM_DASHBOARD . 'forms/grafema-posts-export.php' ); ?>
 	</div>
 </div>

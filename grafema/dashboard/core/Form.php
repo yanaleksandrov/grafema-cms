@@ -127,9 +127,14 @@ class Form {
 	 *
 	 * @param string $uniqid
 	 * @param bool $without_form_wrapper
+	 * @param string $path               Path to register form.
 	 * @return string|Errors
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false ): Errors|string {
+	public static function view( string $uniqid, bool $without_form_wrapper = false, string $path = '' ): Errors|string {
+		if ( file_exists( $path ) ) {
+			require_once $path;
+		}
+
 		$form   = self::init( $uniqid );
 		$fields = $form->fields ?? [];
 

@@ -24,7 +24,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
                         <i class="ph ph-copy" x-copy="123"></i>
                         <button type="button" class="modal__close" @click="$modal.close()"></button>
                     </div>
-					<?php echo Dashboard\Form::view( 'grafema-emails-creator' ); ?>
+					<?php echo Dashboard\Form::view( 'grafema-emails-creator', path: GRFM_DASHBOARD . 'forms/grafema-emails-creator.php' ); ?>
                     <div class="modal__footer bg-white">
                         <button type="button" class="btn btn--outline" @click="$modal.close()">Cancel</button>
                         <button type="button" class="btn btn--primary" @click="$dispatch('submit')">Publish</button>

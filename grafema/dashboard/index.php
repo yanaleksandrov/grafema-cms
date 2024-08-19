@@ -175,7 +175,9 @@ $start_time = microtime( true );
             </div>
 
 			<div class="grafema-panel">
-                <img src="/dashboard/assets/images/logo.svg" width="34" height="34" alt="Grafema Logo">
+                <a href="<?php echo Grafema\Url::site(); ?>">
+	                <img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
+                </a>
                 <?php View::print( 'templates/menu-panel' ); ?>
 			</div>
 

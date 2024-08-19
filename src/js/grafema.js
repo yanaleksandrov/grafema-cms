@@ -855,7 +855,7 @@ document.addEventListener( 'alpine:init', () => {
 				"transition": "none",
 			}));
 
-			xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', index.apiurl + route);
+			xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', grafema.apiurl + route);
 
 			xhr.withCredentials = true;
 			xhr.responseType    = 'json';

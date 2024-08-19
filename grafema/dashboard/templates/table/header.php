@@ -43,7 +43,7 @@ $show = true;
 						'label'       => '<i class="ph ph-funnel-simple"></i>' . I18n::__( 'Filters' ),
 						'instruction' => '',
 						'class'       => 'btn btn--sm',
-						'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
+						'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 					]
 				);
 				?>
@@ -71,7 +71,7 @@ $show = true;
 						'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 						'instruction' => I18n::__( 'Test content' ),
 						'class'       => 'btn btn--sm btn--icon',
-						'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
+						'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 					]
 				);
 				?>
@@ -86,7 +86,7 @@ $show = true;
 					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--sm',
-					'content'     => Dashboard\Form::view( 'grafema-posts-actions' ),
+					'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),
 				]
 			);
 			?>

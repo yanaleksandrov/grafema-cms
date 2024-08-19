@@ -68,6 +68,7 @@ class Dashboard extends \Grafema\App\App
 				$data['data'] = [
 					// TODO: move to a later
 					'query'    => I18n::_f( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
+					'query'    => '0Q 0.001s 999kb',
 					'apiurl'   => 'https://cms.codyshop.ru/api/',
 					'posts'    => '',
 					'showMenu' => false,
@@ -88,23 +89,19 @@ class Dashboard extends \Grafema\App\App
 		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
 		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
+		Hook::add( 'grafema_dashboard_loaded', function( $content ) {
+			return str_replace(
+				'0Q 0.001s 999kb',
+				I18n::_f( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() ),
+				$content
+			);
+		} );
+
 		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 2025.1
 		 */
 		Menu::init();
-
-		/**
-		 * Register new forms
-		 *
-		 * @since 2025.1
-		 */
-		$forms = (new Dir\Dir( GRFM_DASHBOARD . 'forms' ))->getFiles( '*.php' );
-		foreach ( $forms as $form ) {
-			require_once $form;
-		}
-		require_once GRFM_DASHBOARD . 'forms/grafema-user-profile.php';
-		require_once GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php';
 	}
 }

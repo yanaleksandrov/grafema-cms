@@ -1930,3 +1930,16 @@
     }
   }
 }
+
+.submit {
+  background-color: #000;
+  position: fixed;
+  margin: 0 auto;
+  bottom: 1rem;
+  display: flex;
+  gap: 3rem;
+  padding: 0.35rem 1rem;
+  border-radius: var(--grafema-border-radius-lg);
+  left: 50%;
+  transform: translate(-50%, 0);
+}

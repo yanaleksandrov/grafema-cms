@@ -186,6 +186,11 @@ $start_time = microtime( true );
 
             View::print( 'templates/' . $slug );
             ?>
+
+			<div class="grafema-board">
+				<a href="#" class="dif aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
+				<a href="#" class="dif aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
+			</div>
 		</div>
     	<?php
 		View::print( 'templates/modals/uploader' );

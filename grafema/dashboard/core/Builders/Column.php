@@ -74,8 +74,9 @@ final class Column
 	 * @param string $width
 	 * @return Column
 	 */
-	public function width( string $width ): Column {
-		$this->width = $width;
+	public function fixedWidth( string $width ): Column {
+		$this->flexible = false;
+		$this->width    = $width;
 
 		return $this;
 	}
@@ -83,10 +84,12 @@ final class Column
 	/**
 	 * Set column width flexible.
 	 *
+	 * @param string $width
 	 * @return Column
 	 */
-	public function flexible(): Column {
+	public function flexibleWidth( string $width ): Column {
 		$this->flexible = true;
+		$this->width    = $width;
 
 		return $this;
 	}

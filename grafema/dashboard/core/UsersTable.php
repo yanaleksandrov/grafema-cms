@@ -109,29 +109,4 @@ class UsersTable extends Builders\Table
 			],
 		];
 	}
-
-	/**
-	 * @since 2025.1
-	 */
-	public function wrapper()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function row()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function cell()
-	{
-		return sprintf( '<div %s>%s</div>' );
-	}
-
-	public function sort()
-	{
-		// TODO: Implement sort() method.
-	}
-
-	public function modify() {}
 }

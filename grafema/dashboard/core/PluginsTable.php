@@ -14,10 +14,6 @@ use Dashboard\Builders\Column;
 class PluginsTable extends Table
 {
 
-    public function print(): void {
-        echo '435345';
-    }
-
 	/**
 	 * The main function for generating a table markup.
      *
@@ -88,28 +84,26 @@ class PluginsTable extends Table
 			[
 				Column::add( 'cb' )
                     ->title( '<input type="checkbox" x-bind="trigger" />' )
-					->width( '1rem' )
+					->fixedWidth( '1rem' )
 					->view( 'cb' ),
 				Column::add( 'image' )
-					->width( '2.5rem' )
+					->fixedWidth( '2.5rem' )
 					->view( 'image' ),
 				Column::add( 'plugin' )
 					->title( I18n::__( 'Plugin' ) )
-					->width( '10rem' )
-                    ->flexible()
+					->flexibleWidth( '10rem' )
 					->view( 'plugin' ),
 				Column::add( 'description' )
 					->title( I18n::__( 'Description' ) )
-					->width( '16rem' )
-					->flexible()
+					->flexibleWidth( '16rem' )
 					->view( 'raw' ),
 				Column::add( 'version' )
 					->title( I18n::__( 'Version' ) )
-					->width( '6rem' )
+					->fixedWidth( '6rem' )
 					->view( 'badge' ),
 				Column::add( 'active' )
 					->title( I18n::__( 'Activity' ) )
-					->width( '6rem' )
+					->fixedWidth( '6rem' )
 					->view( 'toggle' ),
 			]
         );

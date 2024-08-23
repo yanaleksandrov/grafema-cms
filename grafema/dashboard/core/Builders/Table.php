@@ -12,6 +12,7 @@ namespace Dashboard\Builders;
 use Grafema\I18n;
 use Grafema\View;
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Class Table.
@@ -30,7 +31,39 @@ class Table
 	 * @since 2025.1
 	 * @var array
 	 */
-	protected array $data = [];
+	public array $data = [];
+
+	/**
+	 * Rows settings.
+	 *
+	 * @since 2025.1
+	 * @var Row
+	 */
+	public Row $rows;
+
+	/**
+	 * Columns list.
+	 *
+	 * @since 2025.1
+	 * @var array
+	 */
+	public array $columns = [];
+
+	/**
+	 * Template to get for not found.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $notFoundTemplate = 'templates/states/undefined';
+
+	/**
+	 * Data for not found template partial.
+	 *
+	 * @since 2025.1
+	 * @var array
+	 */
+	public array $notFoundContent;
 
 	/**
 	 * The path to the folder with the template files.
@@ -38,11 +71,29 @@ class Table
 	 * @since 2025.1
 	 * @var string
 	 */
-	protected string $views = GRFM_DASHBOARD . 'templates/table';
+	public string $views = GRFM_DASHBOARD . 'templates/table';
+
+	public function __construct( $table ) {
+		$methods = [
+			'rows',
+			'title',
+			'columns',
+			'attributes',
+			'notFoundContent',
+			'notFoundTemplate',
+		];
+
+		foreach ( $methods as $method ) {
+			if ( method_exists( $table, $method ) ) {
+				$this->$method = $table->$method();
+			}
+		}
+	}
 
 	/**
 	 * Add new table.
 	 *
+	 * @return Table
 	 * @since 2025.1
 	 */
 	public static function add(): Table {
@@ -99,54 +150,31 @@ class Table
 	 * @return string
 	 */
 	public function get(): string {
-		$output  = '';
-		$columns = $this->columns();
-		echo '<pre>';
-		print_r( $columns );
-		echo '</pre>';
-		if ( $columns ) {
-			$output .= '<div class="table" x-data="table" x-init="$ajax(\'extensions/get\').then(response => items = response.items)" style="' . $this->stylize( $columns ) . '">';
+		$this->attributes['style'] = $this->stylize( $this->columns );
 
-			$output .= View::get(
+		$attributes = Arr::toHtmlAtts( $this->attributes );
+		ob_start();
+		?>
+		<div<?php echo $attributes; ?>>
+			<?php
+			View::print(
 				sprintf( '%s/header', $this->views ),
 				[
-					'title'   => I18n::__( 'Plugins' ),
-					'content' => View::get( sprintf( '%s/cell-head', $this->views ), $columns ),
+					'title'   => $this->title,
+					'content' => View::get( sprintf( '%s/cell-head', $this->views ), $this->columns ),
 				]
 			);
-
-			$output .= Row::add()
-				->tag( 'div' )
-				->attribute( 'class', 'table__row' )
-				->render( $columns );
-
-			$output .= '<!-- table rows list start -->';
-			$output .= '<template x-for="item in items">';
-			$output .= '<div class="table__row">';
-			foreach ( $columns as $key => $column ) {
-				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
-				$output .= View::get( sprintf( '%s/cell-%s', $this->views, $cell ), [ ...$column, ...[ 'key' => $key ] ] );
-			}
-			$output .= '</div>';
-			$output .= '</template>';
-			ob_start();
 			?>
-			<template x-if="!items.length">
-				<?php
-				View::print(
-					'templates/states/undefined',
-					[
-						'title'       => I18n::__( 'Plugins are not installed yet' ),
-						'description' => I18n::__( 'You can download them manually or install from the repository' ),
-					]
-				);
-				?>
+			<!-- table rows list start -->
+			<template x-for="item in items">
+				<?php echo $this->rows->render( $this->columns ); ?>
 			</template>
-			<?php
-			$output .= ob_get_clean();
-			$output .= '</div>';
-		}
-		return $output;
+			<template x-if="!items.length">
+				<?php View::print( $this->notFoundTemplate, $this->notFoundContent ); ?>
+			</template>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 	/**

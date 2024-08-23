@@ -10,12 +10,12 @@ trait Table
 	 *
 	 * @var string
 	 */
-	protected string $title = 'div';
+	public string $title;
 
 	/**
 	 * Table attributes list.
 	 *
 	 * @var array
 	 */
-	protected array $attributes = [];
+	public array $attributes;
 }

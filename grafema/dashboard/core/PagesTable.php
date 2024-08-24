@@ -1,7 +1,6 @@
 <?php
 namespace Dashboard;
 
-use Grafema\Hook;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
@@ -9,8 +8,17 @@ use Dashboard\Builders\Column;
 
 class PagesTable {
 
-	public function data() {
-
+	public function data(): array {
+		return [
+			[
+				'cb'         => '<input type="checkbox" value="1">',
+				'image'      => 'image',
+				'title'      => 'Post title',
+				'author'     => 'Yan Aleksandrov',
+				'categories' => [],
+				'date'       => '24 august 2024',
+			]
+		];
 	}
 
 	public function title(): string {

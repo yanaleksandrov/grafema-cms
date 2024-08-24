@@ -489,7 +489,7 @@ Dashboard\Form::register(
 					'callback' => function () {
 						ob_start();
 						?>
-						<div class="submit" x-show="submit === true" x-cloak>
+						<div class="submit" x-cloak>
 							<button class="t-red" type="reset" @click="submit = false"><?php I18n::t( 'Cancel' ); ?></button>
 							<button class="t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
 						</div>

@@ -13,16 +13,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php
-	Dashboard\PluginsTable::add()
-        ->title( I18n::__( 'Plugins' ) )
-        ->attributes(
-			[
-				'class'  => 'table',
-				'x-data' => 'table',
-				'x-init' => '$ajax("extensions/get").then(response => items = response.items)',
-			]
-        )
-        ->print();
-	?>
+	<?php ( new Dashboard\Builders\Table( new Dashboard\PluginsTable() ) )->print(); ?>
 </div>

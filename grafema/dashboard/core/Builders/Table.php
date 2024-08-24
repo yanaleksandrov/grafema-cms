@@ -9,7 +9,6 @@
 
 namespace Dashboard\Builders;
 
-use Grafema\I18n;
 use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\Helpers\Arr;
@@ -76,6 +75,7 @@ class Table
 	public function __construct( $table ) {
 		$methods = [
 			'rows',
+			'data',
 			'title',
 			'columns',
 			'attributes',
@@ -167,7 +167,7 @@ class Table
 			?>
 			<!-- table rows list start -->
 			<template x-for="item in items">
-				<?php echo $this->rows->render( $this->columns ); ?>
+				<?php echo $this->rows->render( $this->columns, $this->data ); ?>
 			</template>
 			<template x-if="!items.length">
 				<?php View::print( $this->notFoundTemplate, $this->notFoundContent ); ?>
@@ -198,32 +198,24 @@ class Table
 			return '';
 		}
 
-		$repeat   = 1;
-		$previous = null;
-		$output   = array_reduce( $columns, function ( $carry, Column $column ) {
-			static $previous = null;
-			static $repeat   = 1;
-
-			$width    = trim( (string) ( $column->width ?? '1fr' ) );
-			$flexible = (bool) ( $column->flexible ?? false );
-			$value    = $flexible ? sprintf('minmax(%s, 1fr)', $width) : $width;
-
-			if ($value === $previous) {
-				++$repeat;
-			} else {
-				if ($previous !== null) {
-					$carry[] = $repeat > 1 ? sprintf( 'repeat(%s, %s)', $repeat, $previous ) : $previous;
-				}
-
-				$previous = $value;
-				$repeat = 1;
+		$repeat = 1;
+		$styles = [];
+		foreach ( $columns as $i => $column ) {
+			$width    = Sanitizer::trim( $column->width ?? '1fr' );
+			$flexible = Sanitizer::bool( $column->flexible ?? false );
+			if ( $flexible ) {
+				$width = sprintf( 'minmax(%s, 1fr)', $width );
 			}
 
-			return $carry;
-		}, [] );
+			if ( $width === ( $styles[$i - 1] ?? null ) ) {
+				$repeat++;
+				$styles[ $i - 1 ] = sprintf( 'repeat(%s, %s)', $repeat, $width );
+			} else {
+				$repeat = 1;
+				$styles[ $i ] = $width;
+			}
+		}
 
-		$output[] = $repeat > 1 ? sprintf('repeat(%s, %s)', $repeat, $previous) : $previous;
-
-		return sprintf( '--grafema-grid-template-columns: %s', implode( ' ', $output ) );
+		return sprintf( '--grafema-grid-template-columns: %s', implode( ' ', $styles ) );
 	}
 }

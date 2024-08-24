@@ -40,7 +40,7 @@ $show = true;
 				View::print(
 					'templates/form/details',
 					[
-						'label'       => '<i class="ph ph-funnel-simple"></i>' . I18n::__( 'Filters' ),
+						'label'       => I18n::_f( '%s Filters', '<i class="ph ph-funnel-simple"></i>' ),
 						'instruction' => '',
 						'class'       => 'btn btn--sm',
 						'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),

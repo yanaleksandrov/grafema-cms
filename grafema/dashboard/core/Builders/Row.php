@@ -2,7 +2,9 @@
 
 namespace Dashboard\Builders;
 
+use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
+use Grafema\View;
 
 final class Row
 {
@@ -51,13 +53,22 @@ final class Row
 	 * Render row markup.
 	 *
 	 * @param array $columns
+	 * @param array $data
 	 * @return Row
 	 */
-	public function render( array $columns ): string {
+	public function render( array $columns, array $data ): string {
 		ob_start();
+//		echo '<pre>';
+//		print_r( $data );
+//		print_r( $columns );
+//		echo '</pre>';
 		?>
-		<<?php echo trim( sprintf( '%s %s', $this->tag, implode( ' ', $this->attributes ) ) ); ?>>
-
+		<<?php echo trim( sprintf( '%s %s', $this->tag, Arr::toHtmlAtts( $this->attributes ) ) ); ?>>
+			<?php
+			foreach ( $columns as $key => $column ) {
+				View::print( 'templates/table/cell-' . $column->view, (array) $column );
+			}
+			?>
 		</<?php echo $this->tag; ?>>
 		<?php
 		return ob_get_clean();

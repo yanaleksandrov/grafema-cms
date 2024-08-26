@@ -62,7 +62,11 @@ final class Table {
 		$attributes = Arr::toHtmlAtts( $this->attributes );
 
 		ob_start();
-		$this->tag && printf( '<%s>', trim( sprintf( '%s %s', $this->tag, $attributes ) ) );
+		if ( $this->tag ) {
+			?>
+			<<?php echo trim( sprintf( '%s %s', $this->tag, $attributes ) ); ?>>
+			<?php
+		}
 
 		View::print(
 			$this->headerTemplate,
@@ -105,7 +109,11 @@ final class Table {
 			}
 		}
 
-		$this->tag && printf( '</%s>', $this->tag );
+		if ( $this->tag ) {
+			?>
+			</<?php echo $this->tag; ?>>
+			<?php
+		}
 		return ob_get_clean();
 	}
 

@@ -18,5 +18,5 @@ $key   = Sanitizer::attribute($args['key'] ?? '' );
 $value = Sanitizer::trim($args['value'] ?? '' );
 ?>
 <div class="<?php echo $key; ?>">
-	<?php printf( '<textarea class="empty" name="%s" x-textarea="8">%s</textarea>', 'name', $value ); ?>
+	<textarea class="empty" name="<?php echo 'name'; ?>" x-textarea="8"><?php echo $value; ?></textarea>
 </div>

@@ -107,7 +107,7 @@ class Html
         $this->options['indent_size'] = intval($options['indent_size'] ?? 4);
         $this->options['indent_char'] = strval($options['indent_char'] ?? ' ');
         $this->options['wrap_line_length'] = intval($options['wrap_line_length'] ?? 32786);
-        $this->options['unformatted'] = ! empty($options['unformatted']) && is_array($options['unformatted']) ? $options['unformatted'] : ['code', 'pre', 'strong', 'textarea'];
+        $this->options['unformatted'] = ! empty($options['unformatted']) && is_array($options['unformatted']) ? $options['unformatted'] : ['code', 'pre', 'strong', 'textarea', 'i'];
         $this->options['preserve_newlines'] = boolval($options['preserve_newlines'] ?? true);
         $this->options['max_preserve_newlines'] = $this->options['preserve_newlines'] && isset($options['max_preserve_newlines']) ? (int) $options['max_preserve_newlines'] : 32786;
 

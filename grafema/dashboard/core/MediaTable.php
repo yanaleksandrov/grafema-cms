@@ -2,19 +2,19 @@
 namespace Dashboard;
 
 use Grafema\I18n;
-use Grafema\Media;
+use Grafema\View;
 
 use Dashboard\Builders\Row;
 use Dashboard\Builders\Column;
 
-class MediaTable {
+final class MediaTable {
+
+	public function tag(): string {
+		return '';
+	}
 
 	public function data(): array {
-		return Media::get(
-			[
-				'per_page' => 40,
-			]
-		);
+		return [];
 	}
 
 	public function rows(): array {
@@ -31,7 +31,7 @@ class MediaTable {
 
 	public function attributes(): array {
 		return [
-			'class' => 'storage',
+			'class' => 'table',
 		];
 	}
 
@@ -48,5 +48,25 @@ class MediaTable {
 
 	public function headerTemplate(): string {
 		return '';
+	}
+
+	public function notFoundBefore(): string {
+		ob_start();
+		$row = current( $this->rows() );
+		?>
+		<template x-if="posts.length">
+			<div class="storage">
+				<template x-for="post in posts">
+					<?php View::print( $row->view, [ 'columns' => $this->columns(), 'row' => $row ] ); ?>
+				</template>
+			</div>
+		</template>
+		<template x-if="!posts.length">
+		<?php
+		return ob_get_clean();
+	}
+
+	public function notFoundAfter(): string {
+		return '</template>';
 	}
 }

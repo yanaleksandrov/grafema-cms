@@ -4,11 +4,11 @@ namespace Dashboard\Builders\Traits;
 trait Table {
 
 	/**
-	 * Table title.
+	 * Tag for table wrapper.
 	 *
 	 * @var string
 	 */
-	public string $title = '';
+	public string $tag = 'div';
 
 	/**
 	 * Table attributes list.
@@ -24,6 +24,22 @@ trait Table {
 	 * @var array
 	 */
 	public array $data = [];
+
+	/**
+	 * Content after the output of the data.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $dataAfter = '';
+
+	/**
+	 * Content before the output of the data.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $dataBefore = '';
 
 	/**
 	 * Rows settings.
@@ -58,12 +74,20 @@ trait Table {
 	public string $headerTemplate = 'templates/table/header';
 
 	/**
-	 * Template to get for not found.
+	 * Content after not found data.
 	 *
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $notFoundTemplate = 'templates/states/undefined';
+	public string $notFoundAfter = '';
+
+	/**
+	 * Content before not found data.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $notFoundBefore = '';
 
 	/**
 	 * Data for not found template partial.
@@ -71,7 +95,15 @@ trait Table {
 	 * @since 2025.1
 	 * @var array
 	 */
-	public array $notFoundContent;
+	public array $notFoundContent = [];
+
+	/**
+	 * Template to get for not found.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $notFoundTemplate = 'templates/states/undefined';
 
 	/**
 	 * Use table header or not.

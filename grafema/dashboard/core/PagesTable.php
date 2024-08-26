@@ -6,7 +6,7 @@ use Grafema\I18n;
 use Dashboard\Builders\Row;
 use Dashboard\Builders\Column;
 
-class PagesTable {
+final class PagesTable {
 
 	public function data(): array {
 		return [
@@ -19,10 +19,6 @@ class PagesTable {
 				'date'       => '24 august 2024',
 			]
 		];
-	}
-
-	public function title(): string {
-		return I18n::__( 'Pages' );
 	}
 
 	public function rows(): array {
@@ -66,6 +62,12 @@ class PagesTable {
 			'class'  => 'table',
 			'x-data' => 'table',
 			'x-init' => '$ajax("posts/get").then(response => items = response.items)',
+		];
+	}
+
+	public function headerContent(): array {
+		return [
+			'title' => I18n::__( 'Pages' ),
 		];
 	}
 

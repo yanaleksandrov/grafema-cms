@@ -20,19 +20,22 @@ use Grafema\Helpers\Arr;
  *
  * @package Dashboard\Tables
  */
-class Table
-{
+final class Table {
 	use Traits\Table;
 
 	public function __construct( $table ) {
 		$methods = [
+			'tag',
 			'rows',
-			'data',
-			'title',
 			'columns',
 			'attributes',
+			'data',
+			'dataAfter',
+			'dataBefore',
 			'headerContent',
 			'headerTemplate',
+			'notFoundAfter',
+			'notFoundBefore',
 			'notFoundContent',
 			'notFoundTemplate',
 			'cellHeadTemplate',
@@ -101,43 +104,52 @@ class Table
 		}
 
 		$attributes = Arr::toHtmlAtts( $this->attributes );
+
 		ob_start();
-		?>
-		<div<?php echo $attributes; ?>>
-			<?php
-			View::print(
-				$this->headerTemplate,
-				$this->headerContent ?? [
-					'title'   => $this->title,
-					'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
-				]
-			);
+		$this->tag && printf( '<%s>', trim( sprintf( '%s %s', $this->tag, $attributes ) ) );
 
-//			echo '<pre>';
-//			print_r( $this );
-//			echo '</pre>';
-			if ( is_array( $this->data ) && $this->data ) {
-				foreach ( $this->data as $i => $data ) {
-					$row = $this->rows[ $i ] ?? end( $this->rows );
+		View::print(
+			$this->headerTemplate,
+			$this->headerContent ?? [
+				'title'   => $this->title,
+				'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
+			]
+		);
 
-					View::print(
-						$row->view ?? '',
-						[
-							'data'    => $data,
-							'rows'    => $row,
-							'columns' => $this->columns,
-						]
-					);
-				}
-			} else {
-				View::print( $this->notFoundTemplate, $this->notFoundContent );
+		if ( is_array( $this->data ) && $this->data ) {
+			if ( $this->dataBefore ) {
+				echo $this->dataBefore;
 			}
-			// TODO: добавить возможность добавления обёртки для vue.js или alpine.js
-			?>
-<!--			<template x-if="!items.length">-->
-<!--			</template>-->
-		</div>
-		<?php
+
+			foreach ( $this->data as $i => $data ) {
+				$row = $this->rows[ $i ] ?? end( $this->rows );
+
+				View::print(
+					$row->view ?? '',
+					[
+						'data'    => $data,
+						'row'     => $row,
+						'columns' => $this->columns,
+					]
+				);
+			}
+
+			if ( $this->dataAfter ) {
+				echo $this->dataAfter;
+			}
+		} else {
+			if ( $this->notFoundBefore ) {
+				echo $this->notFoundBefore;
+			}
+
+			View::print( $this->notFoundTemplate, $this->notFoundContent );
+
+			if ( $this->notFoundAfter ) {
+				echo $this->notFoundAfter;
+			}
+		}
+
+		$this->tag && printf( '</%s>', $this->tag );
 		return ob_get_clean();
 	}
 

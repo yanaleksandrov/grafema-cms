@@ -82,7 +82,7 @@ $show = true;
 			View::print(
 				'templates/form/details',
 				[
-					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
+					'label'       => I18n::_f( '%s Bulk actions', '<i class="ph ph-magic-wand"></i>' ),
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--sm',
 					'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),

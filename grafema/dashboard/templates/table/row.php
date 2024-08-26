@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-if ( empty( $row ) || empty( $columns ) ) {
+if ( ! is_array( $data ) || empty( $row ) || empty( $columns ) ) {
 	return;
 }
 
@@ -31,7 +31,7 @@ if ( empty( $row ) || empty( $columns ) ) {
 )->values();
 
 $tag && printf( '<%s>', trim( sprintf( '%s %s', $tag, Arr::toHtmlAtts( $attributes ) ) ) );
-foreach ( $columns as $key => $column ) {
-	View::print( $column->view, $data ?? [] );
+foreach ( $columns as $column ) {
+	View::print( $column->view, [ 'key' => $column->key, ...$data ] );
 }
 $tag && printf( '</%s>', $tag );

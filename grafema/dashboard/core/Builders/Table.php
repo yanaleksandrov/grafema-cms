@@ -49,50 +49,6 @@ final class Table {
 	}
 
 	/**
-	 * Add table title.
-	 *
-	 * @param string $title
-	 * @return Table
-	 * @since 2025.1
-	 */
-	public function title( string $title ): Table {
-		$title = Sanitizer::html( $title );
-		if ( $title ) {
-			$this->title = $title;
-		}
-		return $this;
-	}
-
-	/**
-	 * Set table attribute.
-	 *
-	 * @param string $attribute
-	 * @param string|int $value
-	 * @return Table
-	 */
-	public function attribute( string $attribute, string|int $value = '' ): Table {
-		$attribute = Sanitizer::key( $attribute );
-		$value     = Sanitizer::attribute( $value );
-		if ( $attribute && $value ) {
-			$this->attributes[ $attribute ] = $value;
-		}
-		return $this;
-	}
-
-	/**
-	 * Bulk adding attributes.
-	 *
-	 * @param array $attributes
-	 * @return Table
-	 */
-	public function attributes( array $attributes ): Table {
-		foreach ( $attributes as $attribute => $value ) {
-			$this->attribute( $attribute, $value );
-		}
-		return $this;
-	}
-
-	/**
 	 * Get table markup.
 	 *
 	 * @return string
@@ -110,9 +66,9 @@ final class Table {
 
 		View::print(
 			$this->headerTemplate,
-			$this->headerContent ?? [
-				'title'   => $this->title,
+			[
 				'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
+				...$this->headerContent
 			]
 		);
 
@@ -173,7 +129,7 @@ final class Table {
 		$styles = [];
 		if ( $columns ) {
 			foreach ( $columns as $i => $column ) {
-				$width    = Sanitizer::trim( $column->width ?? '1fr' );
+				$width    = Sanitizer::trim( $column->width ?: '1fr' );
 				$flexible = Sanitizer::bool( $column->flexible ?? false );
 				if ( $flexible ) {
 					$width = sprintf( 'minmax(%s, 1fr)', $width );

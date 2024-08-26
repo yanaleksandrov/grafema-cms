@@ -65,6 +65,14 @@ final class Menu
 							'icon'         => 'ph ph-gear',
 							'position'     => 900,
 						],
+						[
+							'id'           => 'translation',
+							'url'          => 'translation',
+							'title'        => I18n::__( 'Translation' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => 'ph ph-translate',
+							'position'     => 1000,
+						],
 					]
 				);
 			}

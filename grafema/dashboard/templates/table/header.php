@@ -15,10 +15,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $title, $show, $content ] = ( new Sanitizer(
+[ $title, $badge, $show, $content ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'title'   => 'trim',
+		'badge'   => 'trim',
 		'show'    => 'bool:true',
 		'content' => 'trim',
 	]
@@ -30,9 +31,15 @@ $show = true;
 <div class="table__header">
     <div class="mw df aic jcsb g-4 px-7 py-5">
 		<?php if ( $title ) : ?>
-            <h4><?php echo $title; ?><span class="badge">39 items</span></h4>
+            <h4>
+	            <?php
+	            echo $title;
+	            if ( $badge ) {
+					echo '<span class="badge">' . $badge . '</span>';
+	            }
+	            ?>
+            </h4>
 		<?php endif; ?>
-
         <div class="df aic g-1" x-show="!bulk">
 			<?php if ( $show ) : ?>
 				<?php

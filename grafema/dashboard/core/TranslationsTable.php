@@ -34,7 +34,7 @@ final class TranslationsTable {
 	public function columns(): array {
 		return [
 			Column::add( 'source' )->title( I18n::_f( '%s Source text', '<i class="ph ph-text-aa"></i>' ) )->view( 'raw' ),
-			Column::add( 'translation' )->title( I18n::_f( '%s Translations', '<i class="ph ph-globe-hemisphere-east"></i>' ) )->view( 'text' ),
+			Column::add( 'value' )->title( I18n::_f( '%s Translations', '<i class="ph ph-globe-hemisphere-east"></i>' ) )->view( 'text' ),
 		];
 	}
 

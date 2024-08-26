@@ -101,9 +101,6 @@ $show = true;
             </button>
         </div>
     </div>
-    <?php
-    if ( $content ) {
-        echo $content;
-	}
-    ?>
+    <?php $content && print( $content ); ?>
+
 </div>

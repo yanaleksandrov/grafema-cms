@@ -7,7 +7,7 @@ use Grafema\I18n;
 use Dashboard\Builders\Row;
 use Dashboard\Builders\Column;
 
-class PluginsTable {
+final class PluginsTable {
 
 	public function data(): array {
 		return [
@@ -37,10 +37,6 @@ class PluginsTable {
 				'version'         => '1.3.5',
 			]
 		];
-	}
-
-	public function title(): string {
-		return I18n::__( 'Plugins' );
 	}
 
 	public function rows(): array {
@@ -82,6 +78,12 @@ class PluginsTable {
 			'class'  => 'table',
 			'x-data' => 'table',
 			'x-init' => '$ajax("extensions/get").then(response => items = response.items)',
+		];
+	}
+
+	public function headerContent(): array {
+		return [
+			'title' => I18n::__( 'Plugins' ),
 		];
 	}
 

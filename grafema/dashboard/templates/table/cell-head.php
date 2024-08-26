@@ -22,31 +22,29 @@ if ( ! $columns ) {
 }
 ?>
 <div class="table__head">
-    <?php
-	foreach ( $columns as $column ) {
-		[ $key, $cell, $title, $sortable ] = (
-            new Sanitizer(
-                (array) $column,
-                [
-                    'key'      => 'key',
-                    'cell'     => 'key',
-                    'title'    => 'trim',
-                    'sortable' => 'bool',
-                ]
-            )
-		)->values();
-	    ?>
-        <div class="<?php echo $key; ?> df aic g-1">
-			<?php
-			if ( $title ) :
-				echo $title;
-			endif;
-			if ( $sortable ) :
-				?>
-                <i class="ph ph-sort-ascending"></i>
-			<?php endif; ?>
-        </div>
-        <?php
-    }
+<?php
+foreach ( $columns as $column ) {
+	[ $key, $cell, $title, $sortable ] = (
+        new Sanitizer(
+            (array) $column,
+            [
+                'key'      => 'key',
+                'cell'     => 'key',
+                'title'    => 'trim',
+                'sortable' => 'bool',
+            ]
+        )
+	)->values();
     ?>
+    <div class="<?php echo $key; ?> df aic g-1">
+		<?php
+		$title && print( $title );
+		if ( $sortable ) :
+			?>
+            <i class="ph ph-sort-ascending"></i>
+		<?php endif; ?>
+    </div>
+    <?php
+}
+?>
 </div>

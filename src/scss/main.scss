@@ -347,6 +347,18 @@ input {
     -webkit-background-clip: text;
     -webkit-box-shadow: 0 0 0 0 transparent inset !important;
     filter: none;
+
+    &.empty {
+      border-radius: 0;
+      border: 0;
+      background-color: transparent;
+      resize: none;
+
+      &:hover {
+        border-color: var(--grafema-link);
+        box-shadow: 0 0 0 1px var(--grafema-link);
+      }
+    }
   }
 
   &[type="search"] {
@@ -591,6 +603,18 @@ select {
   cursor: pointer;
   width: auto;
 
+  &.empty {
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+    resize: none;
+
+    &:hover {
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+    }
+  }
+
   &:not([multiple]) {
     background: var(--grafema-bg) url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2371777F' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.75' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") no-repeat right 12px top 55%;
     background-size: 12px;
@@ -614,6 +638,19 @@ textarea {
 
   &[x-textarea] {
     overflow: hidden;
+  }
+
+  &.empty {
+    border-radius: 0;
+    border: 0;
+    background-color: transparent;
+    resize: none;
+    line-height: 1.6;
+
+    &:hover {
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+    }
   }
 }
 

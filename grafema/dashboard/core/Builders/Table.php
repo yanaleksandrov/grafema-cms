@@ -20,19 +20,22 @@ use Grafema\Helpers\Arr;
  *
  * @package Dashboard\Tables
  */
-class Table
-{
+final class Table {
 	use Traits\Table;
 
 	public function __construct( $table ) {
 		$methods = [
+			'tag',
 			'rows',
-			'data',
-			'title',
 			'columns',
 			'attributes',
+			'data',
+			'dataAfter',
+			'dataBefore',
 			'headerContent',
 			'headerTemplate',
+			'notFoundAfter',
+			'notFoundBefore',
 			'notFoundContent',
 			'notFoundTemplate',
 			'cellHeadTemplate',
@@ -43,50 +46,6 @@ class Table
 				$this->$method = $table->$method();
 			}
 		}
-	}
-
-	/**
-	 * Add table title.
-	 *
-	 * @param string $title
-	 * @return Table
-	 * @since 2025.1
-	 */
-	public function title( string $title ): Table {
-		$title = Sanitizer::html( $title );
-		if ( $title ) {
-			$this->title = $title;
-		}
-		return $this;
-	}
-
-	/**
-	 * Set table attribute.
-	 *
-	 * @param string $attribute
-	 * @param string|int $value
-	 * @return Table
-	 */
-	public function attribute( string $attribute, string|int $value = '' ): Table {
-		$attribute = Sanitizer::key( $attribute );
-		$value     = Sanitizer::attribute( $value );
-		if ( $attribute && $value ) {
-			$this->attributes[ $attribute ] = $value;
-		}
-		return $this;
-	}
-
-	/**
-	 * Bulk adding attributes.
-	 *
-	 * @param array $attributes
-	 * @return Table
-	 */
-	public function attributes( array $attributes ): Table {
-		foreach ( $attributes as $attribute => $value ) {
-			$this->attribute( $attribute, $value );
-		}
-		return $this;
 	}
 
 	/**
@@ -101,43 +60,60 @@ class Table
 		}
 
 		$attributes = Arr::toHtmlAtts( $this->attributes );
+
 		ob_start();
-		?>
-		<div<?php echo $attributes; ?>>
-			<?php
-			View::print(
-				$this->headerTemplate,
-				$this->headerContent ?? [
-					'title'   => $this->title,
-					'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
-				]
-			);
-
-//			echo '<pre>';
-//			print_r( $this );
-//			echo '</pre>';
-			if ( is_array( $this->data ) && $this->data ) {
-				foreach ( $this->data as $i => $data ) {
-					$row = $this->rows[ $i ] ?? end( $this->rows );
-
-					View::print(
-						$row->view ?? '',
-						[
-							'data'    => $data,
-							'rows'    => $row,
-							'columns' => $this->columns,
-						]
-					);
-				}
-			} else {
-				View::print( $this->notFoundTemplate, $this->notFoundContent );
-			}
-			// TODO: добавить возможность добавления обёртки для vue.js или alpine.js
+		if ( $this->tag ) {
 			?>
-<!--			<template x-if="!items.length">-->
-<!--			</template>-->
-		</div>
-		<?php
+			<<?php echo trim( sprintf( '%s %s', $this->tag, $attributes ) ); ?>>
+			<?php
+		}
+
+		View::print(
+			$this->headerTemplate,
+			[
+				'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
+				...$this->headerContent
+			]
+		);
+
+		if ( is_array( $this->data ) && $this->data ) {
+			if ( $this->dataBefore ) {
+				echo $this->dataBefore;
+			}
+
+			foreach ( $this->data as $i => $data ) {
+				$row = $this->rows[ $i ] ?? end( $this->rows );
+
+				View::print(
+					$row->view ?? '',
+					[
+						'data'    => $data,
+						'row'     => $row,
+						'columns' => $this->columns,
+					]
+				);
+			}
+
+			if ( $this->dataAfter ) {
+				echo $this->dataAfter;
+			}
+		} else {
+			if ( $this->notFoundBefore ) {
+				echo $this->notFoundBefore;
+			}
+
+			View::print( $this->notFoundTemplate, $this->notFoundContent );
+
+			if ( $this->notFoundAfter ) {
+				echo $this->notFoundAfter;
+			}
+		}
+
+		if ( $this->tag ) {
+			?>
+			</<?php echo $this->tag; ?>>
+			<?php
+		}
 		return ob_get_clean();
 	}
 
@@ -161,7 +137,7 @@ class Table
 		$styles = [];
 		if ( $columns ) {
 			foreach ( $columns as $i => $column ) {
-				$width    = Sanitizer::trim( $column->width ?? '1fr' );
+				$width    = Sanitizer::trim( $column->width ?: '1fr' );
 				$flexible = Sanitizer::bool( $column->flexible ?? false );
 				if ( $flexible ) {
 					$width = sprintf( 'minmax(%s, 1fr)', $width );

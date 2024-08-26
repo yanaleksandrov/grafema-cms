@@ -21,10 +21,6 @@ final class UsersTable {
 		];
 	}
 
-	public function title(): string {
-		return I18n::__( 'Users' );
-	}
-
 	public function rows(): array {
 		return [
 			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' ),
@@ -61,6 +57,12 @@ final class UsersTable {
 			'class'  => 'table',
 			'x-data' => 'table',
 			'x-init' => '$ajax("users/get").then(response => items = response.items)',
+		];
+	}
+
+	public function headerContent(): array {
+		return [
+			'title' => I18n::__( 'Users' ),
 		];
 	}
 

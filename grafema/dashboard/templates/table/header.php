@@ -15,10 +15,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $title, $show, $content ] = ( new Sanitizer(
+[ $title, $badge, $show, $content ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'title'   => 'trim',
+		'badge'   => 'trim',
 		'show'    => 'bool:true',
 		'content' => 'trim',
 	]
@@ -30,9 +31,15 @@ $show = true;
 <div class="table__header">
     <div class="mw df aic jcsb g-4 px-7 py-5">
 		<?php if ( $title ) : ?>
-            <h4><?php echo $title; ?><span class="badge">39 items</span></h4>
+            <h4>
+	            <?php
+	            echo $title;
+	            if ( $badge ) {
+					echo '<span class="badge">' . $badge . '</span>';
+	            }
+	            ?>
+            </h4>
 		<?php endif; ?>
-
         <div class="df aic g-1" x-show="!bulk">
 			<?php if ( $show ) : ?>
 				<?php
@@ -82,7 +89,7 @@ $show = true;
 			View::print(
 				'templates/form/details',
 				[
-					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
+					'label'       => I18n::_f( '%s Bulk actions', '<i class="ph ph-magic-wand"></i>' ),
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--sm',
 					'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),
@@ -94,9 +101,6 @@ $show = true;
             </button>
         </div>
     </div>
-    <?php
-    if ( $content ) {
-        echo $content;
-	}
-    ?>
+    <?php $content && print( $content ); ?>
+
 </div>

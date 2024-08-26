@@ -6,7 +6,7 @@ use Grafema\I18n;
 use Dashboard\Builders\Row;
 use Dashboard\Builders\Column;
 
-class CommentsTable {
+final class CommentsTable {
 
 	public function data(): array {
 		return [
@@ -19,10 +19,6 @@ class CommentsTable {
 				'date'       => '24 august 2024',
 			]
 		];
-	}
-
-	public function title(): string {
-		return I18n::__( 'Comments' );
 	}
 
 	public function rows(): array {
@@ -63,6 +59,12 @@ class CommentsTable {
 			'class'  => 'table',
 			'x-data' => 'table',
 			'x-init' => '$ajax("posts/get").then(response => items = response.items)',
+		];
+	}
+
+	public function headerContent(): array {
+		return [
+			'title' => I18n::__( 'Comments' ),
 		];
 	}
 

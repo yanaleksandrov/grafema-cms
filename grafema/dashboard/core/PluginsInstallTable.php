@@ -304,10 +304,6 @@ final class PluginsInstallTable {
 		];
 	}
 
-	public function title(): string {
-		return I18n::__( 'Add Plugins' );
-	}
-
 	public function rows(): array {
 		return [
 			Row::add()->tag( '' ),
@@ -334,7 +330,9 @@ final class PluginsInstallTable {
 	}
 
 	public function headerContent(): array {
-		return [];
+		return [
+			'title' => I18n::__( 'Add Plugins' ),
+		];
 	}
 
 	public function headerTemplate(): string {

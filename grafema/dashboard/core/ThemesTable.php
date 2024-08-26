@@ -58,10 +58,6 @@ final class ThemesTable {
 		];
 	}
 
-	public function title(): string {
-		return I18n::__( 'Themes' );
-	}
-
 	public function rows(): array {
 		return [
 			Row::add()->tag( '' ),
@@ -88,7 +84,9 @@ final class ThemesTable {
 	}
 
 	public function headerContent(): array {
-		return [];
+		return [
+			'title' => I18n::__( 'Themes' ),
+		];
 	}
 
 	public function headerTemplate(): string {

@@ -24,54 +24,6 @@ class Table
 {
 	use Traits\Table;
 
-	/**
-	 * Data for render table.
-	 *
-	 * @since 2025.1
-	 * @var array
-	 */
-	public array $data = [];
-
-	/**
-	 * Rows settings.
-	 *
-	 * @since 2025.1
-	 * @var Row
-	 */
-	public Row $rows;
-
-	/**
-	 * Columns list.
-	 *
-	 * @since 2025.1
-	 * @var array
-	 */
-	public array $columns = [];
-
-	/**
-	 * Template to get for not found.
-	 *
-	 * @since 2025.1
-	 * @var string
-	 */
-	public string $notFoundTemplate = 'templates/states/undefined';
-
-	/**
-	 * Data for not found template partial.
-	 *
-	 * @since 2025.1
-	 * @var array
-	 */
-	public array $notFoundContent;
-
-	/**
-	 * The path to the folder with the template files.
-	 *
-	 * @since 2025.1
-	 * @var string
-	 */
-	public string $views = GRFM_DASHBOARD . 'templates/table';
-
 	public function __construct( $table ) {
 		$methods = [
 			'rows',
@@ -79,8 +31,11 @@ class Table
 			'title',
 			'columns',
 			'attributes',
+			'headerContent',
+			'headerTemplate',
 			'notFoundContent',
 			'notFoundTemplate',
+			'cellHeadTemplate',
 		];
 
 		foreach ( $methods as $method ) {
@@ -88,16 +43,6 @@ class Table
 				$this->$method = $table->$method();
 			}
 		}
-	}
-
-	/**
-	 * Add new table.
-	 *
-	 * @return Table
-	 * @since 2025.1
-	 */
-	public static function add(): Table {
-		return new self();
 	}
 
 	/**
@@ -150,7 +95,10 @@ class Table
 	 * @return string
 	 */
 	public function get(): string {
-		$this->attributes['style'] = $this->stylize( $this->columns );
+		$styles = $this->stylize( $this->columns );
+		if ( $styles ) {
+			$this->attributes['style'] = $styles;
+		}
 
 		$attributes = Arr::toHtmlAtts( $this->attributes );
 		ob_start();
@@ -158,20 +106,36 @@ class Table
 		<div<?php echo $attributes; ?>>
 			<?php
 			View::print(
-				sprintf( '%s/header', $this->views ),
-				[
+				$this->headerTemplate,
+				$this->headerContent ?? [
 					'title'   => $this->title,
-					'content' => View::get( sprintf( '%s/cell-head', $this->views ), $this->columns ),
+					'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
 				]
 			);
+
+//			echo '<pre>';
+//			print_r( $this );
+//			echo '</pre>';
+			if ( is_array( $this->data ) && $this->data ) {
+				foreach ( $this->data as $i => $data ) {
+					$row = $this->rows[ $i ] ?? end( $this->rows );
+
+					View::print(
+						$row->view ?? '',
+						[
+							'data'    => $data,
+							'rows'    => $row,
+							'columns' => $this->columns,
+						]
+					);
+				}
+			} else {
+				View::print( $this->notFoundTemplate, $this->notFoundContent );
+			}
+			// TODO: добавить возможность добавления обёртки для vue.js или alpine.js
 			?>
-			<!-- table rows list start -->
-			<template x-for="item in items">
-				<?php echo $this->rows->render( $this->columns, $this->data ); ?>
-			</template>
-			<template x-if="!items.length">
-				<?php View::print( $this->notFoundTemplate, $this->notFoundContent ); ?>
-			</template>
+<!--			<template x-if="!items.length">-->
+<!--			</template>-->
 		</div>
 		<?php
 		return ob_get_clean();
@@ -192,30 +156,33 @@ class Table
 	 * @param array $columns
 	 * @return string
 	 */
-	public function stylize( array $columns ): string
-	{
-		if ( ! $columns ) {
-			return '';
-		}
-
+	public function stylize( array $columns ): string {
 		$repeat = 1;
 		$styles = [];
-		foreach ( $columns as $i => $column ) {
-			$width    = Sanitizer::trim( $column->width ?? '1fr' );
-			$flexible = Sanitizer::bool( $column->flexible ?? false );
-			if ( $flexible ) {
-				$width = sprintf( 'minmax(%s, 1fr)', $width );
-			}
+		if ( $columns ) {
+			foreach ( $columns as $i => $column ) {
+				$width    = Sanitizer::trim( $column->width ?? '1fr' );
+				$flexible = Sanitizer::bool( $column->flexible ?? false );
+				if ( $flexible ) {
+					$width = sprintf( 'minmax(%s, 1fr)', $width );
+				}
 
-			if ( $width === ( $styles[$i - 1] ?? null ) ) {
-				$repeat++;
-				$styles[ $i - 1 ] = sprintf( 'repeat(%s, %s)', $repeat, $width );
-			} else {
-				$repeat = 1;
-				$styles[ $i ] = $width;
+				if ( $width ) {
+					if ( $width === ( $styles[ $i - 1 ] ?? null ) ) {
+						$repeat++;
+						$styles[ $i - 1 ] = sprintf( 'repeat(%s, %s)', $repeat, $width );
+					} else {
+						$repeat = 1;
+						$styles[ $i ] = $width;
+					}
+				}
 			}
 		}
 
-		return sprintf( '--grafema-grid-template-columns: %s', implode( ' ', $styles ) );
+		if ( $styles ) {
+			return sprintf( '--grafema-grid-template-columns: %s', implode( ' ', $styles ) );
+		}
+
+		return '';
 	}
 }

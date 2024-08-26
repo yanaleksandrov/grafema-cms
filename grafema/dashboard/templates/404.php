@@ -1,4 +1,6 @@
 <?php
+use Grafema\I18n;
+
 /**
  * 404 page.
  *
@@ -7,9 +9,6 @@
  * @package Grafema\Templates
  * @since   2025.1
  */
-
-use Grafema\I18n;
-
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }

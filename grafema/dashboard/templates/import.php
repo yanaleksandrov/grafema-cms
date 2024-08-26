@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Import posts from CSV file.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/import.php

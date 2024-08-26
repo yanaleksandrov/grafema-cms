@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Export website content page
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/export.php

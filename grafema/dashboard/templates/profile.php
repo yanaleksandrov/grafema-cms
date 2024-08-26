@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * User profile page.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/profile.php

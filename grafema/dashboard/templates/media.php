@@ -2,7 +2,7 @@
 use Grafema\I18n;
 use Grafema\View;
 
-/*
+/**
  * Files storage.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/media.php
@@ -15,18 +15,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-    <?php
-    View::print(
-        'templates/table/header',
-        [
-            'title' => I18n::__( 'Media Library' ),
-			'show'  => false,
-        ]
-    );
-    ?>
-	<template x-if="grafema.posts.length">
+	<?php
+	View::print(
+		'templates/table/header',
+		[
+			'title' => I18n::__( 'Media Library' ),
+		]
+	);
+
+	( new Dashboard\Builders\Table( new Dashboard\MediaTable() ) )->print();
+	?>
+	<template x-if="posts.length">
 		<div class="storage">
-			<template x-for="post in grafema.posts">
+			<template x-for="post in posts">
 				<div class="storage__item" @click="$modal.open('grafema-modals-post')">
 					<img class="storage__image" :src="post.sizes?.thumbnail?.url || post.url || post.icon" alt="" width="200" height="200">
 					<div class="storage__meta">
@@ -36,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</template>
 		</div>
 	</template>
-	<template x-if="!grafema.posts.length">
+	<template x-if="!posts.length">
 		<?php
 		View::print(
 			'templates/states/undefined',
@@ -47,5 +48,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		);
         ?>
 	</template>
-    <div x-intersect="$ajax('media/get').then(response => grafema.posts = response.posts)"></div>
+    <div x-intersect="$ajax('media/get').then(response => posts = response.posts)"></div>
 </div>

@@ -26,7 +26,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $show = true;
 ?>
-
 <!-- table head start -->
 <div class="table__header">
     <div class="mw df aic jcsb g-4 px-7 py-5">

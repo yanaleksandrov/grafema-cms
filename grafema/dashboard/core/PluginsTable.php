@@ -12,12 +12,29 @@ class PluginsTable {
 	public function data(): array {
 		return [
 			[
-				'cb'         => '<input type="checkbox" value="1">',
-				'image'      => 'image',
-				'title'      => 'Post title',
-				'author'     => 'Yan Aleksandrov',
-				'categories' => [],
-				'date'       => '24 august 2024',
+				'title'           => 'Classic Editor 1 and very longadable pluginsnameand hello world',
+				'description'     => 'Customize WordPress with powerful, professional and intuitive fields.',
+				'screenshot'      => 'https://ps.w.org/buddypress/assets/icon.svg',
+				'author'          => [
+					[
+						'title' => 'Grafema Team',
+						'href'  => 'https://core.com',
+					],
+				],
+				'categories'      => [
+					[
+						'title' => 'Test category',
+						'href'  => 'https://core.com',
+					],
+				],
+				'installed'       => false,
+				'active'          => false,
+				'installations'   => '300k+ installations',
+				'date'            => '18 September, 2024',
+				'reviews'         => 23,
+				'rating'          => 4,
+				'grafema_version' => '2025.1',
+				'version'         => '1.3.5',
 			]
 		];
 	}
@@ -26,10 +43,10 @@ class PluginsTable {
 		return I18n::__( 'Plugins' );
 	}
 
-	public function rows(): Row {
-		return Row::add()
-			->tag( 'div' )
-			->attribute( 'class', 'table__row' );
+	public function rows(): array {
+		return [
+			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+		];
 	}
 
 	public function columns(): array {
@@ -73,9 +90,5 @@ class PluginsTable {
 			'title'       => I18n::__( 'Plugins are not installed yet' ),
 			'description' => I18n::__( 'You can download them manually or install from the repository' ),
 		];
-	}
-
-	public function notFoundTemplate(): string {
-		return 'templates/states/undefined';
 	}
 }

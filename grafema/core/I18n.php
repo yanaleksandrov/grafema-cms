@@ -46,12 +46,14 @@ class I18n
 	 * @param string $string
 	 * @since 2025.1
 	 */
-	public static function t(string $string): void
+	public static function t( string $string ): void
 	{
-		echo self::__($string);
+		echo self::__( $string );
 	}
 
 	/**
+	 * Translate with formatting.
+	 *
 	 * @param string $string
 	 * @param mixed ...$args
 	 * @return string
@@ -62,6 +64,21 @@ class I18n
 	}
 
 	/**
+	 * Translate with condition.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return string
+	 */
+	public static function _c( bool $condition, string $ifString, string $elseString ): string
+	{
+		return $condition ? self::__( $ifString ) : self::__( $elseString );
+	}
+
+	/**
+	 * Translate with formatting.
+	 *
 	 * @param string $string
 	 * @param mixed ...$args
 	 * @return void
@@ -69,6 +86,19 @@ class I18n
 	public static function tf( string $string, mixed ...$args ): void
 	{
 		echo sprintf( self::__( $string ), ...$args );
+	}
+
+	/**
+	 * Translate with condition.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return void
+	 */
+	public static function tc( bool $condition, string $ifString, string $elseString ): void
+	{
+		echo self::_c( $condition, $ifString, $elseString );
 	}
 
 	/**
@@ -89,8 +119,7 @@ class I18n
 	/**
 	 * @param string $default
 	 */
-    public static function locale(string $default = 'en')
-    {
-        echo self::getLocale($default);
+    public static function locale( string $default = 'en' ) {
+        echo self::getLocale( $default );
     }
 }

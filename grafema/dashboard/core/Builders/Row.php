@@ -1,10 +1,7 @@
 <?php
-
 namespace Dashboard\Builders;
 
-use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
-use Grafema\View;
 
 final class Row
 {
@@ -26,10 +23,8 @@ final class Row
 	 * @return Row
 	 */
 	public function tag( string $tag ): Row {
-		$tag = Sanitizer::key( $tag );
-		if ( $tag ) {
-			$this->tag = $tag;
-		}
+		$this->tag = Sanitizer::key( $tag );
+
 		return $this;
 	}
 
@@ -50,27 +45,18 @@ final class Row
 	}
 
 	/**
-	 * Render row markup.
+	 * Get view template.
 	 *
-	 * @param array $columns
-	 * @param array $data
+	 * @param string $template
 	 * @return Row
 	 */
-	public function render( array $columns, array $data ): string {
-		ob_start();
-//		echo '<pre>';
-//		print_r( $data );
-//		print_r( $columns );
-//		echo '</pre>';
-		?>
-		<<?php echo trim( sprintf( '%s %s', $this->tag, Arr::toHtmlAtts( $this->attributes ) ) ); ?>>
-			<?php
-			foreach ( $columns as $key => $column ) {
-				View::print( 'templates/table/cell-' . $column->view, (array) $column );
-			}
-			?>
-		</<?php echo $this->tag; ?>>
-		<?php
-		return ob_get_clean();
+	public function view( string $template ): Row {
+		if ( file_exists( $template ) ) {
+			$this->view = $template;
+		} else {
+			$this->view = sprintf( '%s/%s', $this->view, $template );
+		}
+
+		return $this;
 	}
 }

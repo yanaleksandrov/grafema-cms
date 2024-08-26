@@ -2,7 +2,7 @@
 use Grafema\I18n;
 use Grafema\Url;
 
-/*
+/**
  * User sing in page.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/sign-in.php

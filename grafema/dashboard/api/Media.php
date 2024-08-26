@@ -10,10 +10,8 @@
 namespace Dashboard\Api;
 
 use Grafema\Errors;
-use Grafema\File\Image;
 use Grafema\Files;
 use Grafema\I18n;
-use Grafema\File\File;
 use Grafema\Post\Post;
 use Grafema\Sanitizer;
 use Grafema\Url;

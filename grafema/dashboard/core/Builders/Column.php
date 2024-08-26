@@ -101,7 +101,11 @@ final class Column
 	 * @return Column
 	 */
 	public function view( string $template ): Column {
-		$this->view = $template;
+		if ( file_exists( $template ) ) {
+			$this->view = $template;
+		} else {
+			$this->view = sprintf( '%s-%s', $this->view, $template );
+		}
 
 		return $this;
 	}

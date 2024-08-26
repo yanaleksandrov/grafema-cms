@@ -2,7 +2,7 @@
 use Grafema\I18n;
 use Grafema\View;
 
-/*
+/**
  * Grafema dashboard tools.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/tasks.php

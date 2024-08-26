@@ -1,8 +1,7 @@
 <?php
-use Grafema\I18n;
 use Grafema\View;
 
-/*
+/**
  * Files storage.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/pages.php

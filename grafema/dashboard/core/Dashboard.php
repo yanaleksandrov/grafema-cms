@@ -66,7 +66,7 @@ class Dashboard extends \Grafema\App\App
 			if ( $script === 'grafema' ) {
 				$data['data'] = [
 					'apiurl'   => 'https://cms.codyshop.ru/api/',
-					'posts'    => '',
+					'posts'    => [],
 					'showMenu' => false,
 				];
 			}

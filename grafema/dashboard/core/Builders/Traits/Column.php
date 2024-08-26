@@ -1,9 +1,7 @@
 <?php
-
 namespace Dashboard\Builders\Traits;
 
-trait Column
-{
+trait Column {
 
 	/**
 	 * Unique column key.
@@ -24,7 +22,7 @@ trait Column
 	 *
 	 * @var string
 	 */
-	public string $view = '';
+	public string $view = 'templates/table/cell';
 
 	/**
 	 * Column is sortable.

@@ -6,7 +6,7 @@ use Grafema\I18n;
 use Dashboard\Builders\Row;
 use Dashboard\Builders\Column;
 
-class PagesTable {
+class CommentsTable {
 
 	public function data(): array {
 		return [
@@ -22,7 +22,7 @@ class PagesTable {
 	}
 
 	public function title(): string {
-		return I18n::__( 'Pages' );
+		return I18n::__( 'Comments' );
 	}
 
 	public function rows(): array {
@@ -37,22 +37,19 @@ class PagesTable {
 				->title( '<input type="checkbox" x-bind="trigger" />' )
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
-			Column::add( 'image' )
-				->fixedWidth( '2.5rem' )
-				->view( 'image' ),
-			Column::add( 'title' )
-				->title( I18n::__( 'Title' ) )
-				->flexibleWidth( '22rem' )
-				->sortable()
-				->view( 'title' ),
 			Column::add( 'author' )
 				->title( I18n::__( 'Author' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
-			Column::add( 'categories' )
-				->title( I18n::__( 'Categories' ) )
+			Column::add( 'comment' )
+				->title( I18n::__( 'Comment' ) )
 				->flexibleWidth( '6rem' )
-				->view( 'links' ),
+				->view( 'raw' ),
+			Column::add( 'date' )
+				->title( I18n::__( 'In response to' ) )
+				->fixedWidth( '9rem' )
+				->sortable()
+				->view( 'date' ),
 			Column::add( 'date' )
 				->title( I18n::__( 'Date' ) )
 				->fixedWidth( '9rem' )
@@ -71,7 +68,7 @@ class PagesTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Pages not found' ),
+			'title'       => I18n::__( 'Comments not found' ),
 			'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 		];
 	}

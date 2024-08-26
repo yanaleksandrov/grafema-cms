@@ -1,4 +1,7 @@
 <?php
+use Grafema\I18n;
+use Grafema\Url;
+
 /**
  * Reset user password form.
  *
@@ -7,10 +10,6 @@
  * @package Grafema\Templates
  * @since   2025.1
  */
-
-use Grafema\I18n;
-use Grafema\Url;
-
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }

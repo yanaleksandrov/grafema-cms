@@ -2,7 +2,7 @@
 use Grafema\Tree;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Grafema dashboard menu.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/menu-bar.php

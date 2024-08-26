@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $class, $reset, $instruction, $tooltip, $attributes, $conditions, $options] = (
+[ $label, $name, $value, $class, $reset, $instruction, $tooltip, $attributes, $conditions, $options ] = (
     new Grafema\Sanitizer(
         $args ?? [],
         [

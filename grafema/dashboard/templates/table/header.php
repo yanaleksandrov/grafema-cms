@@ -100,6 +100,86 @@ $show = true;
                 <i class="ph ph-trash"></i> <?php I18n::t( 'Reset' ); ?>
             </button>
         </div>
+
+	    <div class="df aic g-2">
+		    <div class="df aic g-1">
+			    <img src="/dashboard/assets/images/flags/us.svg" alt="USA" width="16" height="16"> English
+		    </div>
+		    <span class="badge badge--round badge--icon badge--lg"><i class="ph ph-arrows-left-right"></i></span>
+		    <?php
+		    View::print(
+			    'templates/form/select',
+			    [
+				    'type'        => 'select',
+				    'label'       => '',
+				    'value'       => '',
+				    'placeholder' => '',
+				    'class'       => 'df aic fs-12 t-muted',
+				    'reset'       => 0,
+				    'required'    => 0,
+				    'copy'        => 0,
+				    'before'      => '',
+				    'after'       => '',
+				    'tooltip'     => '',
+				    'instruction' => '',
+				    'attributes'  => [
+					    'name'     => 'language',
+					    'x-select' => true,
+				    ],
+				    'conditions'  => [],
+				    'options'     => [
+					    'ru_RU' => [
+						    'content' => I18n::__( 'Russian' ),
+						    'image'   => 'assets/images/flags/ru.svg',
+					    ],
+					    'de_DE' => [
+						    'content' => I18n::__( 'Germany' ),
+						    'image'   => 'assets/images/flags/de.svg',
+					    ],
+				    ],
+			    ]
+		    );
+
+		    View::print(
+			    'templates/form/select',
+			    [
+				    'type'        => 'select',
+				    'label'       => '',
+				    'value'       => '',
+				    'placeholder' => '',
+				    'class'       => 'df aic fs-12 t-muted',
+				    'reset'       => 0,
+				    'required'    => 0,
+				    'copy'        => 0,
+				    'before'      => '',
+				    'after'       => '',
+				    'tooltip'     => '',
+				    'instruction' => '',
+				    'attributes'  => [
+					    'name'     => 'project',
+					    'x-select' => true,
+				    ],
+				    'conditions'  => [],
+				    'options'     => [
+					    'optgroup' => [
+						    'label'   => I18n::__( 'Plugins' ),
+						    'options' => [
+							    'one' => I18n::__( 'Plugin #1' ),
+							    'two' => I18n::__( 'Plugin #2' ),
+						    ],
+					    ],
+					    'optgroup' => [
+						    'label'   => I18n::__( 'Themes' ),
+						    'options' => [
+							    'one' => I18n::__( 'Theme #1' ),
+							    'two' => I18n::__( 'Theme #2' ),
+						    ],
+					    ],
+				    ],
+			    ]
+		    );
+		    ?>
+	    </div>
     </div>
     <?php $content && print( $content ); ?>
 

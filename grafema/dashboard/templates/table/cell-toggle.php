@@ -34,7 +34,7 @@ $key = Sanitizer::key($args['key'] ?? [] );
 			'tooltip'     => '',
 			'instruction' => '',
 			'attributes'  => [
-			    ':checked' => "item.{$key} === true",
+			    ':checked' => "item.$key === true",
 				'@change'  => '$ajax("plugin/deactivate")',
             ],
 			'conditions'  => [],

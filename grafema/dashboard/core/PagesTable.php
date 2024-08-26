@@ -1,138 +1,78 @@
 <?php
-
 namespace Dashboard;
 
 use Grafema\I18n;
-use Grafema\Sanitizer;
-use Grafema\View;
 
-class PagesTable extends Builders\Table
-{
-	public function render()
-	{
-		$output  = '';
-		$columns = $this->columns();
-		if ( $columns ) {
-			$output .= '<div class="table" x-data="table" x-init="$ajax(\'posts/get\').then(response => items = response)" style="' . $this->stylize( $columns ) . '">';
-			$output .= '<template x-if="items.length">';
-			$output .= '<!-- table header start -->';
-			$output .= '<div class="table__row">';
+use Dashboard\Builders\Row;
+use Dashboard\Builders\Column;
 
-			foreach ( $columns as $key => $column ) {
-				$output .= View::get( 'templates/table/cell-head', $column + ['key' => $key] );
-			}
-			$output .= '</div>';
-			$output .= '</template>';
+class PagesTable {
 
-			$output .= '<!-- table rows list start -->';
-			$output .= '<template x-for="item in items">';
-			$output .= '<div class="table__row hover">';
-
-			foreach ( $columns as $key => $column ) {
-				$cell    = Sanitizer::trim( $column['cell'] ?? '' );
-				$output .= View::get(
-					'templates/table/cell-' . $cell,
-					[
-						'column' => [
-							'key' => $key,
-							...$column,
-						],
-					]
-				);
-			}
-			$output .= '</div>';
-			$output .= '</template>';
-
-			ob_start();
-			?>
-			<template x-if="!items.length">
-				<?php
-				View::print(
-					'templates/states/undefined',
-					[
-						'title'       => I18n::__( 'Pages not found' ),
-						'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
-					]
-				);
-			?>
-			</template>
-			<?php
-			$output .= ob_get_clean();
-			$output .= '</div>';
-		}
-		echo $output;
-	}
-
-	public function columns(): array
-	{
+	public function data(): array {
 		return [
-			'cb' => [
-				'cell'       => 'cb',
-				'title'      => '<input type="checkbox" x-bind="trigger"/>',
-				'width'      => '1rem',
-				'flexible'   => false,
-				'sortable'   => false,
-			],
-			'image' => [
-				'cell'       => 'image',
-				'title'      => '',
-				'width'      => '2.5rem',
-				'flexible'   => false,
-				'sortable'   => false,
-			],
-			'title' => [
-				'cell'       => 'title',
-				'title'      => I18n::__( 'Title' ),
-				'width'      => '22rem',
-				'flexible'   => true,
-				'sortable'   => true,
-			],
-			'author' => [
-				'cell'       => 'links',
-				'title'      => I18n::__( 'Author' ),
-				'width'      => '6rem',
-				'flexible'   => true,
-				'sortable'   => false,
-			],
-			'categories' => [
-				'cell'       => 'links',
-				'title'      => I18n::__( 'Categories' ),
-				'width'      => '6rem',
-				'flexible'   => true,
-				'sortable'   => false,
-			],
-			'date' => [
-				'cell'       => 'date',
-				'title'      => I18n::__( 'Date' ),
-				'width'      => '9rem',
-				'flexible'   => false,
-				'sortable'   => true,
-			],
+			[
+				'cb'         => '<input type="checkbox" value="1">',
+				'image'      => 'image',
+				'title'      => 'Post title',
+				'author'     => 'Yan Aleksandrov',
+				'categories' => [],
+				'date'       => '24 august 2024',
+			]
 		];
 	}
 
-	/**
-	 * @since 2025.1
-	 */
-	public function wrapper()
-	{
-		return sprintf( '<div %s>%s</div>' );
+	public function title(): string {
+		return I18n::__( 'Pages' );
 	}
 
-	public function row()
-	{
-		return sprintf( '<div %s>%s</div>' );
+	public function rows(): array {
+		return [
+			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+		];
 	}
 
-	public function cell()
-	{
-		return sprintf( '<div %s>%s</div>' );
+	public function columns(): array {
+		return [
+			Column::add( 'cb' )
+				->title( '<input type="checkbox" x-bind="trigger" />' )
+				->fixedWidth( '1rem' )
+				->view( 'cb' ),
+			Column::add( 'image' )
+				->fixedWidth( '2.5rem' )
+				->view( 'image' ),
+			Column::add( 'title' )
+				->title( I18n::__( 'Title' ) )
+				->flexibleWidth( '22rem' )
+				->sortable()
+				->view( 'title' ),
+			Column::add( 'author' )
+				->title( I18n::__( 'Author' ) )
+				->flexibleWidth( '6rem' )
+				->view( 'links' ),
+			Column::add( 'categories' )
+				->title( I18n::__( 'Categories' ) )
+				->flexibleWidth( '6rem' )
+				->view( 'links' ),
+			Column::add( 'date' )
+				->title( I18n::__( 'Date' ) )
+				->fixedWidth( '9rem' )
+				->sortable()
+				->view( 'date' ),
+		];
 	}
 
-	public function sort()
-	{
-		// TODO: Implement sort() method.
+	public function attributes(): array {
+		return [
+			'class'  => 'table',
+			'x-data' => 'table',
+			'x-init' => '$ajax("posts/get").then(response => items = response.items)',
+		];
 	}
 
-	public function modify() {}
+	public function notFoundContent(): array {
+		return [
+			'title'       => I18n::__( 'Pages not found' ),
+			'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+		];
+	}
 }

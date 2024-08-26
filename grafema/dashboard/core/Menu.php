@@ -157,13 +157,7 @@ final class Menu
 						'title'        => I18n::__( 'Grafema' ),
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-user-focus',
-					],
-					[
-						'id'           => 'website',
-						'url'          => '/',
-						'title'        => '2025.1',
-						'capabilities' => ['manage_options'],
-						'icon'         => 'ph ph-git-branch',
+						'position'     => 10,
 					],
 					[
 						'id'           => 'updates',
@@ -171,6 +165,7 @@ final class Menu
 						'title'        => 0,
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-clock-clockwise',
+						'position'     => 20,
 					],
 					[
 						'id'           => 'comments',
@@ -178,6 +173,7 @@ final class Menu
 						'title'        => 0,
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-chats',
+						'position'     => 30,
 					],
 					[
 						'id'           => 'new',
@@ -185,13 +181,15 @@ final class Menu
 						'title'        => I18n::__( 'New' ),
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-plus',
+						'position'     => 40,
 					],
 					[
 						'id'           => 'site-health',
 						'url'          => 'site-health',
-						'title'        => '<span x-text="index.query"></span>',
+						'title'        => '0Q 0.001s 999kb',
 						'capabilities' => ['manage_options'],
 						'icon'         => 'ph ph-monitor',
+						'position'     => 50,
 					],
 				]
 			);

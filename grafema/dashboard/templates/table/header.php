@@ -26,7 +26,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $show = true;
 ?>
-
 <!-- table head start -->
 <div class="table__header">
     <div class="mw df aic jcsb g-4 px-7 py-5">
@@ -40,10 +39,10 @@ $show = true;
 				View::print(
 					'templates/form/details',
 					[
-						'label'       => '<i class="ph ph-funnel-simple"></i>' . I18n::__( 'Filters' ),
+						'label'       => I18n::_f( '%s Filters', '<i class="ph ph-funnel-simple"></i>' ),
 						'instruction' => '',
 						'class'       => 'btn btn--sm',
-						'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
+						'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 					]
 				);
 				?>
@@ -71,7 +70,7 @@ $show = true;
 						'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 						'instruction' => I18n::__( 'Test content' ),
 						'class'       => 'btn btn--sm btn--icon',
-						'content'     => Dashboard\Form::view( 'grafema-posts-options' ),
+						'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 					]
 				);
 				?>
@@ -86,7 +85,7 @@ $show = true;
 					'label'       => '<i class="ph ph-magic-wand"></i>' . I18n::__( 'Bulk actions' ),
 					'instruction' => I18n::__( 'Test content' ),
 					'class'       => 'btn btn--sm',
-					'content'     => Dashboard\Form::view( 'grafema-posts-actions' ),
+					'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),
 				]
 			);
 			?>

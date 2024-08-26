@@ -36,7 +36,7 @@ class Debug
 	 *
 	 * @ver: 3.4.3
 	 */
-	public static function timer( string $phase = 'run', int $round = 3, string $txt = 's' )
+	public static function timer( string $phase = 'run', int $round = 2, string $txt = 's' )
 	{
 		static $prev_time, $collect;
 

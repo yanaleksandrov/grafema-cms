@@ -1,8 +1,7 @@
 <?php
 use Grafema\Tree;
-use Grafema\View;
 
-/*
+/**
  * Grafema dashboard menu.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/menu.php

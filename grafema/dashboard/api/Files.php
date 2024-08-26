@@ -50,7 +50,7 @@ class Files extends \Grafema\Api\Handler
 				);
 
 				return [
-					'fields' => Form::view( 'posts-import-fields', true ),
+					'fields' => Form::view( 'posts-import-fields', true, GRFM_DASHBOARD . 'forms/grafema-post-import-fields.php' ),
 				];
 			}
 		}

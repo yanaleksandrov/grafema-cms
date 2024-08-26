@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Export website content page
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/export.php
@@ -13,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php echo Dashboard\Form::view( 'grafema-posts-export' ); ?>
+		<?php echo Dashboard\Form::view( 'grafema-posts-export', path: GRFM_DASHBOARD . 'forms/grafema-posts-export.php' ); ?>
 	</div>
 </div>

@@ -111,7 +111,7 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="index">
+<body x-data="grafema">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">
@@ -175,7 +175,9 @@ $start_time = microtime( true );
             </div>
 
 			<div class="grafema-panel">
-                <img src="/dashboard/assets/images/logo.svg" width="34" height="34" alt="Grafema Logo">
+                <a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
+	                <img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
+                </a>
                 <?php View::print( 'templates/menu-panel' ); ?>
 			</div>
 
@@ -184,6 +186,11 @@ $start_time = microtime( true );
 
             View::print( 'templates/' . $slug );
             ?>
+
+			<div class="grafema-board">
+				<a href="#" class="dif aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
+				<a href="#" class="dif aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
+			</div>
 		</div>
     	<?php
 		View::print( 'templates/modals/uploader' );

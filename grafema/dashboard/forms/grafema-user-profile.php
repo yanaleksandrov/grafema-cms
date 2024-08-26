@@ -14,7 +14,7 @@ Dashboard\Form::register(
 	[
 		'class'           => 'tab',
 		'x-data'          => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'profile' ) ),
-		'@submit.prevent' => '$ajax("user/update")',
+		'@change.prevent' => '$ajax("user/update")',
 	],
 	function ( $form ) {
 		$form->addFields(
@@ -215,21 +215,6 @@ Dashboard\Form::register(
 								],
 							],
 						],
-						[
-							'type'     => 'custom',
-							'callback' => function () {
-								ob_start();
-								?>
-                                <div class="dg g-7 gtc-5">
-                                    <div class="ga-1 fw-600"></div>
-                                    <div class="df">
-                                        <button type="submit" class="btn btn--primary"><?php I18n::t( 'Update Profile' ); ?></button>
-                                    </div>
-                                </div>
-								<?php
-								return ob_get_clean();
-							},
-						],
 					],
 				],
 				[
@@ -325,21 +310,6 @@ Dashboard\Form::register(
 									],
 								],
 							],
-						],
-						[
-							'type'     => 'custom',
-							'callback' => function () {
-								ob_start();
-								?>
-                                <div class="dg g-7 gtc-5">
-                                    <div class="ga-1 fw-600"></div>
-                                    <div class="df">
-                                        <button type="submit" class="btn btn--primary"><?php I18n::t( 'Update Profile' ); ?></button>
-                                    </div>
-                                </div>
-								<?php
-								return ob_get_clean();
-							},
 						],
 					],
 				],
@@ -513,6 +483,19 @@ Dashboard\Form::register(
 							],
 						],
 					],
+				],
+				[
+					'type'     => 'custom',
+					'callback' => function () {
+						ob_start();
+						?>
+						<div class="submit" x-cloak>
+							<button class="t-red" type="reset" @click="submit = false"><?php I18n::t( 'Cancel' ); ?></button>
+							<button class="t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
+						</div>
+						<?php
+						return ob_get_clean();
+					},
 				],
 			]
 		);

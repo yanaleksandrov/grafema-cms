@@ -1,5 +1,4 @@
 <?php
-
 namespace Dashboard\Builders;
 
 use Grafema\Sanitizer;
@@ -24,10 +23,8 @@ final class Row
 	 * @return Row
 	 */
 	public function tag( string $tag ): Row {
-		$tag = Sanitizer::key( $tag );
-		if ( $tag ) {
-			$this->tag = $tag;
-		}
+		$this->tag = Sanitizer::key( $tag );
+
 		return $this;
 	}
 
@@ -48,18 +45,18 @@ final class Row
 	}
 
 	/**
-	 * Render row markup.
+	 * Get view template.
 	 *
-	 * @param array $columns
+	 * @param string $template
 	 * @return Row
 	 */
-	public function render( array $columns ): string {
-		ob_start();
-		?>
-		<<?php echo trim( sprintf( '%s %s', $this->tag, implode( ' ', $this->attributes ) ) ); ?>>
+	public function view( string $template ): Row {
+		if ( file_exists( $template ) ) {
+			$this->view = $template;
+		} else {
+			$this->view = sprintf( '%s/%s', $this->view, $template );
+		}
 
-		</<?php echo $this->tag; ?>>
-		<?php
-		return ob_get_clean();
+		return $this;
 	}
 }

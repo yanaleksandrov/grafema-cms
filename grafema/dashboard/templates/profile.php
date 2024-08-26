@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * User profile page.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/profile.php
@@ -12,5 +12,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php echo Dashboard\Form::view( 'grafema-user-profile' ); ?>
+	<?php echo Dashboard\Form::view( 'grafema-user-profile', path: GRFM_DASHBOARD . 'forms/grafema-user-profile.php' ); ?>
 </div>

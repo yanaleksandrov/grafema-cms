@@ -25,12 +25,12 @@ const htmlPlugins = generateHtmlPlugins("src/html/pages");
 
 const config = {
   entry: [
-    "./src/js/index.js",
+    "./src/js/grafema.js",
     "./src/scss/index.scss"
   ],
   output: {
     path: path.resolve(__dirname, "grafema/dashboard/assets"),
-    filename: "js/index.js",
+    filename: "js/grafema.js",
   },
   devServer: {
     static: {

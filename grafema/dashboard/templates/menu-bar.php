@@ -2,7 +2,7 @@
 use Grafema\Tree;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Grafema dashboard menu.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/menu-bar.php
@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 Tree::view( 'dashboard-menu-bar', function ( $items ) {
     ?>
-    <ul class="menu mr-auto">
+    <ul id="dashboard-menu-bar" class="menu mr-auto">
         <?php
         foreach ( $items as $item ) :
 			[$url, $icon, $title] = (

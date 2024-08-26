@@ -46,8 +46,15 @@ final class Asset
 				$src = sprintf( '%s?%s', $src, http_build_query( [ 'v' => $version ] ) );
 			}
 
+			/**
+			 * Filters the data array asset arguments.
+			 *
+			 * @since 2025.1
+			 */
+			$args = Hook::apply( 'grafema_asset_enqueue_args', $args, $uuid, $src );
+
 			// add to assets
-			if ( ! isset( self::$assets[$uuid] ) ) {
+			if ( ! isset( self::$assets[ $uuid ] ) ) {
 				self::$assets[ $uuid ] = match ( $extension ) {
 					'js'  => ( new Asset\ProviderJS() )->add( $id, $src, $args ),
 					'css' => ( new Asset\ProviderCSS() )->add( $id, $src, $args ),

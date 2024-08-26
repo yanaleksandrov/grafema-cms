@@ -452,7 +452,7 @@ try {
 			 *
 			 * @since 2025.1
 			 */
-			echo ( new Html() )->beautify(
+			$content = ( new Html() )->beautify(
 				View::get(
 					GRFM_DASHBOARD . 'index',
 					[
@@ -465,10 +465,11 @@ try {
 			/**
 			 * Grafema dashboard is fully loaded.
 			 *
-			 * @param string $slug Current page slug.
+			 * @param string $content Current page content.
+			 * @param string $slug    Current page slug.
 			 * @since 2025.1
 			 */
-			Hook::apply( 'grafema_dashboard_loaded', $slug );
+			echo Hook::apply( 'grafema_dashboard_loaded', $content, $slug );
 		});
 
 		/**
@@ -496,49 +497,49 @@ try {
 				View::redirect( Url::site( 'dashboard' ) );
 				exit;
 			}
+
 			?>
-			<!DOCTYPE html>
-			<html lang="<?php I18n::locale(); ?>">
-			<head>
-				<title>Menu</title>
-				<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
-				<meta name="viewport" content="width=device-width, initial-scale=1">
-				<link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
-				<link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/images/favicons/favicon-32x32.png">
-				<link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
-				<link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
-				<link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
-				<meta name="msapplication-TileColor" content="#da532c">
-				<meta name="theme-color" content="#ffffff">
-				<?php
-				/**
-				 * Prints scripts or data before the closing body tag on the dashboard.
-				 *
-				 * @since 2025.1
-				 */
-				Hook::apply( 'grafema_header' );
-				?>
-			</head>
-			<body>
+<!DOCTYPE html>
+<html lang="<?php I18n::locale(); ?>">
+<head>
+	<title>Menu</title>
+	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/images/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
+<?php
+	/**
+	 * Prints scripts or data before the closing body tag on the dashboard.
+	 *
+	 * @since 2025.1
+	 */
+	Hook::apply( 'grafema_header' );
+	?>
+</head>
+<body>
+<?php
+/**
+ * Prints scripts or data before the closing body tag on the dashboard.
+ *
+ * @since 2025.1
+ */
+Hook::apply( 'grafema_footer' );
+?>
+</body>
+</html>
 			<?php
-			/**
-			 * Prints scripts or data before the closing body tag on the dashboard.
-			 *
-			 * @since 2025.1
-			 */
-			Hook::apply( 'grafema_footer' );
-			?>
-			</body>
-			</html>
-			<?php
+I18n::tf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
 		});
 	});
 
-	$route->run( function() {
-		printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() );
-	} );
+	$route->run();
 } catch ( Error $e ) {
 	echo '<pre>';
-	print_r( $e->getMessage() );
+	printf( 'On line %d in file %s, fatal error: "%s"', $e->getLine(), $e->getFile(), $e->getMessage() );
 	echo '</pre>';
 }

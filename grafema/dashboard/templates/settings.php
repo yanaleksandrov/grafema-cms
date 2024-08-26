@@ -13,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
     <!-- tabs start -->
-	<?php echo Dashboard\Form::view( 'grafema-settings' ); ?>
+	<?php echo Dashboard\Form::view( 'grafema-settings', path: GRFM_DASHBOARD . 'forms/grafema-settings.php' ); ?>
     <!-- tabs end -->
 </div>

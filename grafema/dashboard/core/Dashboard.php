@@ -10,9 +10,9 @@ namespace Dashboard;
 
 use Grafema\Db;
 use Grafema\Is;
-use Grafema\Dir;
 use Grafema\Asset;
 use Grafema\Hook;
+use Grafema\I18n;
 use Grafema\Debug;
 use Grafema\Patterns\Singleton;
 use Grafema\Url;
@@ -51,7 +51,7 @@ class Dashboard extends \Grafema\App\App
 		$scripts = ['index', 'ajax', 'alpine'];
 		if ( ! Is::install() ) {
 			$styles  = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
-			$scripts = ['index', 'ajax', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
+			$scripts = ['grafema', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
 		}
 
 		foreach ( $styles as $style ) {
@@ -63,12 +63,10 @@ class Dashboard extends \Grafema\App\App
 
 		foreach ( $scripts as $script ) {
 			$data = [];
-			if ( $script === 'index' ) {
+			if ( $script === 'grafema' ) {
 				$data['data'] = [
-					// TODO: move to a later
-					'query'    => sprintf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ),
 					'apiurl'   => 'https://cms.codyshop.ru/api/',
-					'posts'    => '',
+					'posts'    => [],
 					'showMenu' => false,
 				];
 			}
@@ -88,22 +86,23 @@ class Dashboard extends \Grafema\App\App
 		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
 
 		/**
+		 * Add benchmark result.
+		 *
+		 * @since 2025.1
+		 */
+		Hook::add( 'grafema_dashboard_loaded', function( $content ) {
+			return str_replace(
+				'0Q 0.001s 999kb',
+				I18n::_f( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() ),
+				$content
+			);
+		} );
+
+		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 2025.1
 		 */
 		Menu::init();
-
-		/**
-		 * Register new forms
-		 *
-		 * @since 2025.1
-		 */
-		$forms = (new Dir\Dir( GRFM_DASHBOARD . 'forms' ))->getFiles( '*.php' );
-		foreach ( $forms as $form ) {
-			require_once $form;
-		}
-		require_once GRFM_DASHBOARD . 'forms/grafema-user-profile.php';
-		require_once GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php';
 	}
 }

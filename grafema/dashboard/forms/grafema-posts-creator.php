@@ -9,7 +9,7 @@ use Grafema\I18n;
 Dashboard\Form::register(
 	'grafema-posts-creator',
 	[
-		'x-data'          => "{post: [], tab:'main'}",
+		'x-data'          => "{post: [], ...tab('main')}",
 		'@submit.prevent' => '$ajax("posts/update")',
 	],
 	function ( $form ) {

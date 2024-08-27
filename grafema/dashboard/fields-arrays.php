@@ -75,7 +75,7 @@
 	],
 	// select options with optgroups
 	'options'     => [
-		'optgroup' => [
+		'optgroup1' => [
 			'label'   => I18n::__( 'Optgroup Label' ),
 			'options' => [
 				'one' => [

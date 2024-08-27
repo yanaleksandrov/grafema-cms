@@ -1,0 +1,63 @@
+.toggle {
+  display: inline-flex;
+
+  &__checkbox {
+    position: absolute !important;
+    visibility: hidden;
+
+    &:checked ~ {
+
+      .toggle__switch {
+        background: var(--grafema-primary);
+        border: 1px solid var(--grafema-primary);
+
+        &:before {
+          left: 50%;
+          background: var(--grafema-white);
+        }
+      }
+    }
+  }
+
+  &__label {
+    margin-left: 0.65rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__description {
+    color: #71777f !important;
+    line-height: 1.2em;
+    font-size: 0.8125rem;
+    margin-top: 0.125rem;
+  }
+
+  &__switch {
+    $width: 12px;
+    $gap: 3px;
+    position: relative;
+    display: inline-block;
+    min-width: $width * 2 + ($gap * 2);
+    width: $width * 2 + ($gap * 2);
+    height: $width + ($gap * 2);
+    border-radius: $width + ($gap * 2);
+    background: var(--grafema-bg-universal);
+    border: 1px solid var(--grafema-border);
+    transition: background 0.25s;
+    margin: 2px 0 0 !important;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: $gap;
+      margin: auto 0;
+      width: $width;
+      height: $width;
+      background: var(--grafema-border);
+      border-radius: 50%;
+      transition: all 0.25s;
+    }
+  }
+}

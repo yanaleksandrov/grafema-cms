@@ -64,7 +64,9 @@ final class CommentsTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Comments' ),
+			'title'   => I18n::__( 'Comments' ),
+			'actions' => true,
+			'filter'  => true,
 		];
 	}
 

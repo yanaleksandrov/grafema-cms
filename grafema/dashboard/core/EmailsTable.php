@@ -38,10 +38,13 @@ final class EmailsTable {
 				->flexibleWidth( '15rem' )
 				->sortable()
 				->view( 'title' ),
-			Column::add( 'date' )
-				->title( I18n::__( 'Date' ) )
+			Column::add( 'recipients' )
+				->title( I18n::__( 'Recipients' ) )
+				->flexibleWidth( '15rem' )
+				->view( 'title' ),
+			Column::add( 'event' )
+				->title( I18n::__( 'Event' ) )
 				->fixedWidth( '9rem' )
-				->sortable()
 				->view( 'date' ),
 		];
 	}
@@ -56,7 +59,8 @@ final class EmailsTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Emails' ),
+			'title'   => I18n::__( 'Emails' ),
+			'actions' => true,
 		];
 	}
 

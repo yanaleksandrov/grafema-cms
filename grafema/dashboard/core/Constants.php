@@ -30,7 +30,7 @@ final class Constants
 			'images',
 			[
 				'thumbnail' => [
-					'name'   => I18n::__( 'Thumbnail' ),
+					'name'   => I18n::_t( 'Thumbnail' ),
 					'width'  => 240,
 					'height' => 240,
 				],

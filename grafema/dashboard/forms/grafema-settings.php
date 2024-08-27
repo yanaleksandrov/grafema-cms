@@ -21,42 +21,42 @@ Dashboard\Form::register(
 				[
 					'name'    => 'general',
 					'type'    => 'tab',
-					'label'   => I18n::__( 'General' ),
-					'caption' => I18n::__( 'main settings' ),
+					'label'   => I18n::_t( 'General' ),
+					'caption' => I18n::_t( 'main settings' ),
 					'icon'    => 'ph ph-tree-structure',
 					'fields'  => [
 						[
 							'name'   => 'website',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Website' ),
+							'label'  => I18n::_t( 'Website' ),
 							'fields' => [
 								[
 									'name'        => 'site[name]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Name' ),
-									'instruction' => I18n::__( 'A quick snapshot of your website.' ),
+									'label'       => I18n::_t( 'Name' ),
+									'instruction' => I18n::_t( 'A quick snapshot of your website.' ),
 									'attributes'  => [
 										'value'       => Option::get( 'site.name' ),
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Google' ),
+										'placeholder' => I18n::_t( 'e.g. Google' ),
 									],
 								],
 								[
 									'name'        => 'site[tagline]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Tagline' ),
-									'instruction' => I18n::__( 'In a few words, explain what this site is about.' ),
+									'label'       => I18n::_t( 'Tagline' ),
+									'instruction' => I18n::_t( 'In a few words, explain what this site is about.' ),
 									'attributes'  => [
 										'value'       => Option::get( 'site.tagline' ),
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
+										'placeholder' => I18n::_t( 'e.g. Just another Grafema site' ),
 									],
 								],
 								[
 									'name'        => 'site[language]',
 									'type'        => 'select',
-									'label'       => I18n::__( 'Language' ),
-									'instruction' => I18n::__( 'Some description' ),
+									'label'       => I18n::_t( 'Language' ),
+									'instruction' => I18n::_t( 'Some description' ),
 									'value'       => Option::get( 'site.language' ),
 									'attributes'  => [
 										'x-select' => '{"showSearch":1}',
@@ -64,27 +64,27 @@ Dashboard\Form::register(
 									'options' => [
 										'us' => [
 											'image'   => 'assets/images/flags/us.svg',
-											'content' => I18n::__( 'English - english' ),
+											'content' => I18n::_t( 'English - english' ),
 										],
 										'ru' => [
 											'image'   => 'assets/images/flags/ru.svg',
-											'content' => I18n::__( 'Russian - русский' ),
+											'content' => I18n::_t( 'Russian - русский' ),
 										],
 										'he' => [
 											'image'   => 'assets/images/flags/il.svg',
-											'content' => I18n::__( 'עִבְרִית - Hebrew' ),
+											'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
 										],
 									],
 								],
 								[
 									'name'        => 'site[url]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Site address (URL)' ),
-									'instruction' => I18n::__( 'A quick snapshot of your website.' ),
+									'label'       => I18n::_t( 'Site address (URL)' ),
+									'instruction' => I18n::_t( 'A quick snapshot of your website.' ),
 									'attributes'  => [
 										'value'       => Option::get( 'site.url' ),
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Google' ),
+										'placeholder' => I18n::_t( 'e.g. Google' ),
 									],
 								],
 							],
@@ -92,13 +92,13 @@ Dashboard\Form::register(
 						[
 							'name'   => 'administrator',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Administrator' ),
+							'label'  => I18n::_t( 'Administrator' ),
 							'fields' => [
 								[
 									'name'        => 'owner[email]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Owner email address!' ),
-									'instruction' => I18n::__( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. The new address will not become active until confirmed.' ),
+									'label'       => I18n::_t( 'Owner email address!' ),
+									'instruction' => I18n::_t( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. The new address will not become active until confirmed.' ),
 									'before'      => '<i class="ph ph-at"></i>',
 									'attributes'  => [
 										'value'    => Option::get( 'owner.email' ),
@@ -109,14 +109,14 @@ Dashboard\Form::register(
 						],
 						[
 							'type'    => 'group',
-							'label'   => I18n::__( 'Users' ),
+							'label'   => I18n::_t( 'Users' ),
 							'name'    => 'users',
 							'class'   => '',
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Anyone can register' ),
+									'label'       => I18n::_t( 'Anyone can register' ),
 									'name'        => 'users[membership]',
 									'value'       => Option::get( 'users.membership' ),
 									'placeholder' => '',
@@ -133,7 +133,7 @@ Dashboard\Form::register(
 								],
 								[
 									'type'        => 'select',
-									'label'       => I18n::__( 'New user default role' ),
+									'label'       => I18n::_t( 'New user default role' ),
 									'name'        => 'users[role]',
 									'value'       => Option::get( 'users.role' ),
 									'placeholder' => '',
@@ -154,11 +154,11 @@ Dashboard\Form::register(
                                         ]
 									],
 									'options'     => [
-										'subscriber'    => I18n::__( 'Subscriber' ),
-										'contributor'   => I18n::__( 'Contributor' ),
-										'author'        => I18n::__( 'Author' ),
-										'editor'        => I18n::__( 'Editor' ),
-										'administrator' => I18n::__( 'Administrator' ),
+										'subscriber'    => I18n::_t( 'Subscriber' ),
+										'contributor'   => I18n::_t( 'Contributor' ),
+										'author'        => I18n::_t( 'Author' ),
+										'editor'        => I18n::_t( 'Editor' ),
+										'administrator' => I18n::_t( 'Administrator' ),
 									],
 								],
 							],
@@ -166,7 +166,7 @@ Dashboard\Form::register(
 						[
 							'name'   => 'dates',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Dates & time' ),
+							'label'  => I18n::_t( 'Dates & time' ),
 							'fields' => [
 								[
 									'name'     => 'date-format',
@@ -227,37 +227,37 @@ Dashboard\Form::register(
 								[
 									'name'        => 'week-starts-on',
 									'type'        => 'select',
-									'label'       => I18n::__( 'Week Starts On' ),
+									'label'       => I18n::_t( 'Week Starts On' ),
 									'instruction' => '<a href="https://www.php.net/manual/en/datetime.format.php" target="_blank">Get full time formats list</a> on php.net',
 									'value'       => Option::get( 'week-starts-on' ),
 									'attributes'  => [
 										'x-select' => '',
 									],
 									'options' => [
-										'0' => I18n::__( 'Sunday' ),
-										'1' => I18n::__( 'Monday' ),
-										'2' => I18n::__( 'Tuesday' ),
-										'3' => I18n::__( 'Wednesday' ),
-										'4' => I18n::__( 'Thursday' ),
-										'5' => I18n::__( 'Friday' ),
-										'6' => I18n::__( 'Saturday' ),
+										'0' => I18n::_t( 'Sunday' ),
+										'1' => I18n::_t( 'Monday' ),
+										'2' => I18n::_t( 'Tuesday' ),
+										'3' => I18n::_t( 'Wednesday' ),
+										'4' => I18n::_t( 'Thursday' ),
+										'5' => I18n::_t( 'Friday' ),
+										'6' => I18n::_t( 'Saturday' ),
 									],
 								],
 								[
 									'name'        => 'timezone',
 									'type'        => 'select',
-									'label'       => I18n::__( 'Timezone' ),
-									'instruction' => I18n::__( 'Choose either a city in the same timezone as you or a UTC (Coordinated Universal Time) time offset.' ),
+									'label'       => I18n::_t( 'Timezone' ),
+									'instruction' => I18n::_t( 'Choose either a city in the same timezone as you or a UTC (Coordinated Universal Time) time offset.' ),
 									'value'       => Option::get( 'timezone' ),
 									'attributes'  => [
 										'x-select' => '',
 									],
 									'options' => [
-										'subscriber'    => I18n::__( 'Subscriber' ),
-										'contributor'   => I18n::__( 'Contributor' ),
-										'author'        => I18n::__( 'Author' ),
-										'editor'        => I18n::__( 'Editor' ),
-										'administrator' => I18n::__( 'Administrator' ),
+										'subscriber'    => I18n::_t( 'Subscriber' ),
+										'contributor'   => I18n::_t( 'Contributor' ),
+										'author'        => I18n::_t( 'Author' ),
+										'editor'        => I18n::_t( 'Editor' ),
+										'administrator' => I18n::_t( 'Administrator' ),
 									],
 								],
 							],
@@ -267,19 +267,19 @@ Dashboard\Form::register(
 				[
 					'name'    => 'reading',
 					'type'    => 'tab',
-					'label'   => I18n::__( 'Reading' ),
-					'caption' => I18n::__( 'displaying posts' ),
+					'label'   => I18n::_t( 'Reading' ),
+					'caption' => I18n::_t( 'displaying posts' ),
 					'icon'    => 'ph ph-book-open-text',
 					'fields'  => [
 						[
 							'name'    => 'search_engine',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Search engine' ),
+							'label'   => I18n::_t( 'Search engine' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Discourage search engines from indexing this site' ),
+									'label'       => I18n::_t( 'Discourage search engines from indexing this site' ),
 									'name'        => 'discourage',
 									'value'       => Option::get( 'discourage' ),
 									'placeholder' => '',
@@ -301,19 +301,19 @@ Dashboard\Form::register(
 				[
 					'name'    => 'discussions',
 					'type'    => 'tab',
-					'label'   => I18n::__( 'Discussions' ),
-					'caption' => I18n::__( 'comments' ),
+					'label'   => I18n::_t( 'Discussions' ),
+					'caption' => I18n::_t( 'comments' ),
 					'icon'    => 'ph ph-chats-circle',
 					'fields'  => [
 						[
 							'name'    => 'comments',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Post comments' ),
+							'label'   => I18n::_t( 'Post comments' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Allow people to submit comments on new posts' ),
+									'label'       => I18n::_t( 'Allow people to submit comments on new posts' ),
 									'name'        => 'comments[default_status]',
 									'value'       => Option::get( 'comments.default_status' ),
 									'placeholder' => '',
@@ -330,7 +330,7 @@ Dashboard\Form::register(
 								],
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Users must be registered and logged in to comment' ),
+									'label'       => I18n::_t( 'Users must be registered and logged in to comment' ),
 									'name'        => 'comments[registration]',
 									'value'       => Option::get( 'comments.registration' ),
 									'placeholder' => '',
@@ -347,7 +347,7 @@ Dashboard\Form::register(
 								],
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Automatically close comments on posts older than' ),
+									'label'       => I18n::_t( 'Automatically close comments on posts older than' ),
 									'name'        => 'comments[close][after]',
 									'value'       => Option::get( 'comments.close.after' ),
 									'placeholder' => '',
@@ -367,12 +367,12 @@ Dashboard\Form::register(
 						[
 							'name'    => 'comments',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Email me whenever' ),
+							'label'   => I18n::_t( 'Email me whenever' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Anyone posts a comment' ),
+									'label'       => I18n::_t( 'Anyone posts a comment' ),
 									'name'        => 'comments[notify][posts]',
 									'value'       => Option::get( 'comments.notify.posts' ),
 									'placeholder' => '',
@@ -389,7 +389,7 @@ Dashboard\Form::register(
 								],
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'A comment is held for moderation' ),
+									'label'       => I18n::_t( 'A comment is held for moderation' ),
 									'name'        => 'comments[notify][moderation]',
 									'value'       => Option::get( 'comments.notify.moderation' ),
 									'placeholder' => '',
@@ -411,19 +411,19 @@ Dashboard\Form::register(
 				[
 					'name'    => 'storage',
 					'type'    => 'tab',
-					'label'   => I18n::__( 'Storage' ),
-					'caption' => I18n::__( 'media options' ),
+					'label'   => I18n::_t( 'Storage' ),
+					'caption' => I18n::_t( 'media options' ),
 					'icon'    => 'ph ph-lockers',
 					'fields'  => [
 						[
 							'name'    => 'images',
 							'type'    => 'group',
-							'label'   => I18n::__( 'File uploading' ),
+							'label'   => I18n::_t( 'File uploading' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'select',
-									'label'       => I18n::__( 'Convert images to format' ),
+									'label'       => I18n::_t( 'Convert images to format' ),
 									'name'        => 'images[format]',
 									'value'       => '',
 									'placeholder' => '',
@@ -433,18 +433,18 @@ Dashboard\Form::register(
 									'copy'        => 0,
 									'before'      => '',
 									'after'       => '',
-									'tooltip'     => I18n::__( 'Can lead to loss of detail and image quality, as well as increase the cost of your hosting resources' ),
-									'instruction' => I18n::__( 'Will provide a higher compression ratio' ),
+									'tooltip'     => I18n::_t( 'Can lead to loss of detail and image quality, as well as increase the cost of your hosting resources' ),
+									'instruction' => I18n::_t( 'Will provide a higher compression ratio' ),
 									'attributes'  => [],
 									'conditions'  => [],
 									'options'     => [
-										''     => I18n::__( 'Do not convert' ),
-										'wepb' => I18n::__( 'Webp' ),
+										''     => I18n::_t( 'Do not convert' ),
+										'wepb' => I18n::_t( 'Webp' ),
 									],
 								],
 								[
 									'type'        => 'select',
-									'label'       => I18n::__( 'Files organization' ),
+									'label'       => I18n::_t( 'Files organization' ),
 									'name'        => 'images[organization]',
 									'value'       => '',
 									'placeholder' => '',
@@ -459,8 +459,8 @@ Dashboard\Form::register(
 									'attributes'  => [],
 									'conditions'  => [],
 									'options'     => [
-										'yearmonth' => I18n::__( 'Into month- and year-based folders' ),
-										'hash'      => I18n::__( 'Into hash-based folders' ),
+										'yearmonth' => I18n::_t( 'Into month- and year-based folders' ),
+										'hash'      => I18n::_t( 'Into hash-based folders' ),
 									],
 								],
 							],
@@ -468,16 +468,16 @@ Dashboard\Form::register(
 						[
 							'name'    => 'images',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Limits' ),
+							'label'   => I18n::_t( 'Limits' ),
 							'columns' => 2,
 							'fields'  => [
 								[
 									'name'        => 'limits[owner]',
 									'type'        => 'number',
-									'label'       => I18n::__( 'For owner' ),
-									'after'       => I18n::__( 'MB' ),
-									'instruction' => I18n::__( 'The amount of disk space for files.' ),
-									'tooltip'     => I18n::__( 'When the threshold is reached, the administrator will receive an email notification.' ),
+									'label'       => I18n::_t( 'For owner' ),
+									'after'       => I18n::_t( 'MB' ),
+									'instruction' => I18n::_t( 'The amount of disk space for files.' ),
+									'tooltip'     => I18n::_t( 'When the threshold is reached, the administrator will receive an email notification.' ),
 									'attributes'  => [
 										'value' => Option::get( 'limits.owner', 10 ),
 									],
@@ -485,9 +485,9 @@ Dashboard\Form::register(
 								[
 									'name'        => 'limits[users]',
 									'type'        => 'number',
-									'label'       => I18n::__( 'For users' ),
-									'after'       => I18n::__( 'MB' ),
-									'instruction' => I18n::__( 'The maximum size of files allowed per user.' ),
+									'label'       => I18n::_t( 'For users' ),
+									'after'       => I18n::_t( 'MB' ),
+									'instruction' => I18n::_t( 'The maximum size of files allowed per user.' ),
 									'attributes'  => [
 										'value' => Option::get( 'limits.users' ),
 									],
@@ -499,24 +499,24 @@ Dashboard\Form::register(
 				[
 					'name'        => 'permalinks',
 					'type'        => 'tab',
-					'label'       => I18n::__( 'Permalinks' ),
-					'caption'     => I18n::__( 'URLs structure' ),
-					'description' => I18n::__( 'custom URL structures can improve the aesthetics, usability, and forward-compatibility of your links' ),
+					'label'       => I18n::_t( 'Permalinks' ),
+					'caption'     => I18n::_t( 'URLs structure' ),
+					'description' => I18n::_t( 'custom URL structures can improve the aesthetics, usability, and forward-compatibility of your links' ),
 					'icon'        => 'ph ph-link',
 					'fields'      => [
 						[
 							'name'    => 'dates',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Pages' ),
+							'label'   => I18n::_t( 'Pages' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'name'        => 'permalinks[pages][single]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Single page' ),
-									'before'      => '<i class="ph ph-link"></i><code class="badge">https://cms.codyshop.ru/</code>',
-									'tooltip'     => I18n::__( 'ZIP Code must be US or CDN format. You can use an extended ZIP+4 code to determine address more accurately.' ),
-									'instruction' => I18n::__( 'Select the permalink structure for your website. Including the %slug% tag makes links easy to understand, and can help your posts rank higher in search engines.' ),
+									'label'       => I18n::_t( 'Single page' ),
+									'before'      => '<code class="badge"><i class="ph ph-link"></i> https://cms.codyshop.ru/</code>',
+									'tooltip'     => I18n::_t( 'ZIP Code must be US or CDN format. You can use an extended ZIP+4 code to determine address more accurately.' ),
+									'instruction' => I18n::_t( 'Select the permalink structure for your website. Including the %slug% tag makes links easy to understand, and can help your posts rank higher in search engines.' ),
 									'attributes'  => [
 										'required' => true,
 										'value'    => Option::get( 'permalinks.pages.single' ),
@@ -525,8 +525,8 @@ Dashboard\Form::register(
 								[
 									'name'       => 'permalinks[pages][categories]',
 									'type'       => 'text',
-									'label'      => I18n::__( 'Categories' ),
-									'before'     => '<i class="ph ph-link"></i><code class="badge">https://cms.codyshop.ru/</code>',
+									'label'      => I18n::_t( 'Categories' ),
+									'before'     => '<code class="badge"><i class="ph ph-link"></i> https://cms.codyshop.ru/</code>',
 									'attributes' => [
 										'required' => true,
 										'value'    => Option::get( 'permalinks.pages.categories' ),
@@ -537,16 +537,16 @@ Dashboard\Form::register(
 						[
 							'name'    => 'dates',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Products' ),
+							'label'   => I18n::_t( 'Products' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'name'        => 'permalinks[products][single]',
 									'type'        => 'text',
-									'label'       => I18n::__( 'Single product' ),
-									'before'      => '<i class="ph ph-link"></i><code class="badge">https://cms.codyshop.ru/</code>',
-									'tooltip'     => I18n::__( 'ZIP Code must be US or CDN format. You can use an extended ZIP+4 code to determine address more accurately.' ),
-									'instruction' => I18n::__( 'Select the permalink structure for your website. Including the %slug% tag makes links easy to understand, and can help your posts rank higher in search engines.' ),
+									'label'       => I18n::_t( 'Single product' ),
+									'before'      => '<code class="badge"><i class="ph ph-link"></i> https://cms.codyshop.ru/</code>',
+									'tooltip'     => I18n::_t( 'ZIP Code must be US or CDN format. You can use an extended ZIP+4 code to determine address more accurately.' ),
+									'instruction' => I18n::_t( 'Select the permalink structure for your website. Including the %slug% tag makes links easy to understand, and can help your posts rank higher in search engines.' ),
 									'attributes'  => [
 										'required' => true,
 										'value'    => Option::get( 'permalinks.products.single' ),
@@ -555,8 +555,8 @@ Dashboard\Form::register(
 								[
 									'name'       => 'permalinks[pages][categories]',
 									'type'       => 'text',
-									'label'      => I18n::__( 'Products categories' ),
-									'before'     => '<i class="ph ph-link"></i><code class="badge">https://cms.codyshop.ru/</code>',
+									'label'      => I18n::_t( 'Products categories' ),
+									'before'     => '<code class="badge"><i class="ph ph-link"></i> https://cms.codyshop.ru/</code>',
 									'attributes' => [
 										'required' => true,
 										'value'    => Option::get( 'permalinks.products.categories' ),
@@ -565,8 +565,8 @@ Dashboard\Form::register(
 								[
 									'name'       => 'permalinks[pages][tags]',
 									'type'       => 'text',
-									'label'      => I18n::__( 'Products tags' ),
-									'before'     => '<i class="ph ph-link"></i><code class="badge">https://cms.codyshop.ru/</code>',
+									'label'      => I18n::_t( 'Products tags' ),
+									'before'     => '<code class="badge"><i class="ph ph-link"></i> https://cms.codyshop.ru/</code>',
 									'attributes' => [
 										'required' => true,
 										'value'    => Option::get( 'permalinks.products.tags' ),

@@ -38,7 +38,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 ?>
-<div class="dg g-1" x-data="{<?php echo $name; ?>: []}">
+<div class="field" x-data="{<?php echo $name; ?>: []}">
 	<?php if ( $label ) { ?>
 		<div class="<?php echo $class; ?>">
 			<?php
@@ -69,6 +69,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 	if ( $instruction ) :
 	    ?>
-		<div class="fs-13 t-muted lh-xs ml-7"><?php Esc::html( $instruction ); ?></div>
+		<div class="field-instruction ml-7"><?php Esc::html( $instruction ); ?></div>
 	<?php endif; ?>
 </div>

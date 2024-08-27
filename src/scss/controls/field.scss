@@ -1,93 +1,129 @@
 .field {
-  padding: 0 0.75rem;
-  overflow: visible;
-  gap: 0.5em;
-  height: auto;
-  cursor: text;
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--grafema-border);
-  border-radius: var(--grafema-border-radius);
-  background-color: var(--grafema-bg);
+  display: grid;
+  gap: 0.25em;
+  font-size: 0.875rem;
+  align-content: start;
 
-  &:has(code),
-  &:has(samp) {
-    padding-left: 0.3rem;
-  }
-
-  &[data-before]:before {
-    content: attr(data-before);
-    font-size: inherit;
-    color: var(--grafema-text-muted);
-  }
-
-  &[data-after]:after {
-    content: attr(data-after);
-    font-size: inherit;
-    color: var(--grafema-text-muted);
-  }
-
-  input,
-  select,
-  textarea {
-    border-radius: 0;
-    border-color: transparent;
-    background-color: transparent;
-    box-shadow: none;
-    padding-left: 0;
-    padding-right: 0;
-    height: auto;
-    min-height: calc(2rem - 2px);
-    cursor: initial;
-    resize: none;
-    color: inherit;
-
-    &.load {
-      background-position: calc(100% - 0.25rem) center;
-    }
-  }
-
-  input {
-
-    &[type="number"] {
-      -moz-appearance: textfield;
-      width: 2.2em;
-      text-align: end;
-    }
-
-    &[type="number"]::-webkit-inner-spin-button,
-    &[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-
-  &:not(:has([readonly])):focus-within {
-    color: inherit;
-    outline: 0;
-    background-color: #fff;
-    border-color: var(--grafema-link);
-    box-shadow: 0 0 0 1px var(--grafema-link);
-  }
-
-  &:has([readonly]) {
-    cursor: default;
+  &:has([disabled]) {
+    pointer-events: none;
   }
 
   &--sm {
     font-size: 0.8125rem;
-    height: 1.75rem;
-    max-height: 1.75rem;
   }
 
   &--lg {
     font-size: 1rem;
-    height: 2.5rem;
-    max-height: 2.5rem;
   }
 
-  &--outline {
+  &-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    line-height: 1.35em;
+    font-size: 0.9285em;
+  }
+
+  &-instruction {
+    line-height: 1.3em;
+    font-size: 0.9285em;
+    color: var(--grafema-text-muted);
+  }
+
+  &-item {
+    padding-inline: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
     border: 1px solid var(--grafema-border);
-    background-color: var(--grafema-white);
+    border-radius: var(--grafema-border-radius);
+    background-color: var(--grafema-bg);
+    height: 2rem;
+
+    i {
+      font-size: inherit;
+      margin-top: 0.15em;
+    }
+
+    code,
+    samp {
+      font-size: 0.7em;
+      font-weight: inherit;
+    }
+
+    &:has([type="number"]),
+    &:has(:nth-child(1 of code)),
+    &:has(:nth-child(1 of samp)) {
+      padding-inline-start: 0.4em;
+    }
+
+    &:has(textarea[x-textarea]) {
+      height: initial;
+    }
+
+    input,
+    select,
+    textarea {
+      border-radius: 0;
+      border-width: 0;
+      border-color: transparent;
+      background-color: transparent;
+      padding-inline: 0;
+      height: inherit;
+      cursor: initial;
+      resize: none;
+      color: inherit;
+      font-size: inherit;
+
+      &:focus,
+      &:hover {
+        box-shadow: none;
+      }
+
+      &.load {
+        background-position: calc(100% - 0.25rem) center;
+      }
+    }
+
+    input {
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+        text-align: center;
+        width: 2.75em;
+      }
+
+      &[type="number"]::-webkit-inner-spin-button,
+      &[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    &:not(:has([readonly])):focus-within {
+      color: inherit;
+      outline: 0;
+      background-color: #fff;
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+    }
+
+    .fields--sm & {
+      padding-inline: 0.65em;
+      height: 1.75rem;
+      max-height: 1.75rem;
+    }
+
+    .fields--lg & {
+      padding-inline: 1.125em;
+      height: 2.5rem;
+      max-height: 2.5rem;
+    }
+
+    .fields--outline & {
+      border: 1px solid var(--grafema-border);
+      background-color: var(--grafema-white);
+    }
   }
 }

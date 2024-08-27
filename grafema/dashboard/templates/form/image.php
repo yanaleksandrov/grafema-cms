@@ -23,7 +23,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
             'label'       => 'trim',
             'label_class' => 'class:dg ga-1 fw-600',
             'class'       => 'class:dg',
-			'description' => 'trim:' . I18n::__( 'Click to upload your avatar' ),
+			'description' => 'trim:' . I18n::_t( 'Click to upload your avatar' ),
         ]
     )
 )->values();

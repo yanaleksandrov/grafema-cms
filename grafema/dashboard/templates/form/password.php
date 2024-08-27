@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = (
+[$label, $name, $value, $placeholder, $class, $label_class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = (
     new Sanitizer(
         $args ?? [],
         [
@@ -24,7 +24,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'name'        => 'name',
 			'value'       => 'attribute|trim',
 			'placeholder' => 'trim',
-			'class'       => 'class:df aic jcsb fw-600',
+			'class'       => 'class:field',
+	        'label_class' => 'class:field-label',
 			'instruction' => 'trim',
 			'tooltip'     => 'trim|attribute',
 			'copy'        => 'bool:false',
@@ -46,36 +47,30 @@ $attributes = [
 	'@input.window' => $generator ? 'data = $password.check(' . $variable . ')' : '',
 ];
 ?>
-<div class="dg g-1" x-data="{show: true, data: {}}">
-	<div class="dg g-1">
-		<div class="<?php echo $class; ?>">
-			<?php
-			Esc::html( $label );
-            if ( $generator ) {
-                ?>
-				<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
-			<?php } ?>
-		</div>
-		<div class="field">
-			<?php
-			printf( '<input%s>', Arr::toHtmlAtts( $attributes ) );
-            if ( $switcher ) {
-                ?>
-				<i class="ph" :class="show ? 'ph-eye-closed' : 'ph-eye'" @click="show = $password.switch(show)"></i>
-				<?php
-            }
-            if ( $copy ) {
-                ?>
-				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" x-copy="<?php Esc::attr( $variable ); ?>"></i>
-			<?php } ?>
-		</div>
+<div class="<?php echo $class; ?>" x-data="{show: true, data: {}}">
+	<div class="<?php echo $label_class; ?>"><?php
+		Esc::html( $label );
+        if ( $generator ) {
+            ?>
+			<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
+		<?php } ?>
 	</div>
-	<?php if ( $instruction ) { ?>
-		<div class="fs-13 t-muted lh-xs"><?php echo $instruction; ?></div>
+	<div class="field-item">
+		<input<?php echo Arr::toHtmlAtts( $attributes ); ?>>
+		<?php if ( $switcher ) : ?>
+			<i class="ph" :class="show ? 'ph-eye-closed' : 'ph-eye'" @click="show = $password.switch(show)"></i>
+			<?php
+        endif;
+        if ( $copy ) :
+            ?>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" x-copy="<?php Esc::attr( $variable ); ?>"></i>
+		<?php endif; ?>
+	</div>
+	<?php if ( $instruction ) : ?>
+		<div class="field-instruction"><?php echo $instruction; ?></div>
 		<?php
-	}
-
-	if ( $indicator ) {
+	endif;
+	if ( $indicator ) :
 		?>
 		<div class="dg g-2 gtc-5 mt-2">
 			<i class="pt-1" :class="data.progress > <?php echo 100 / 5; ?> ? 'bg-red' : 'bg-muted-lt'"></i>
@@ -84,17 +79,18 @@ $attributes = [
 			<i class="pt-1" :class="data.progress > <?php echo 100 / 5 * 4; ?> ? 'bg-green' : 'bg-muted-lt'"></i>
 			<i class="pt-1" :class="data.progress === 100 ? 'bg-green' : 'bg-muted-lt'"></i>
 		</div>
-	<?php } ?>
-
-	<?php if ( ! empty( $characters ) ) { ?>
+		<?php
+	endif;
+	if ( ! empty( $characters ) ) :
+		?>
 		<div class="dg g-2 gtc-2 t-muted fs-13 mt-3 lh-xs">
 			<?php
 			$messages = [
-				'lowercase' => I18n::__( '%d lowercase letters' ),
-				'uppercase' => I18n::__( '%d uppercase letters' ),
-				'special'   => I18n::__( '%d special characters' ),
-				'length'    => I18n::__( '%d characters minimum' ),
-				'digit'     => I18n::__( '%d numbers' ),
+				'lowercase' => I18n::_t( '%d lowercase letters' ),
+				'uppercase' => I18n::_t( '%d uppercase letters' ),
+				'special'   => I18n::_t( '%d special characters' ),
+				'length'    => I18n::_t( '%d characters minimum' ),
+				'digit'     => I18n::_t( '%d numbers' ),
 			];
 
             foreach ( $characters as $character => $count ) {
@@ -107,5 +103,5 @@ $attributes = [
 				</div>
 			<?php } ?>
 		</div>
-	<?php } ?>
+	<?php endif; ?>
 </div>

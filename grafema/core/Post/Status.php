@@ -1,6 +1,8 @@
 <?php
 namespace Grafema\Post;
 
+use Grafema\I18n;
+
 /**
  *
  */
@@ -62,13 +64,13 @@ class Status {
 
 	public static function getStatuses() {
 		return [
-			'publish'   => I18n::__( 'Publish' ),
-			'pending'   => I18n::__( 'Pending' ),
-			'draft'     => I18n::__( 'Draft' ),
-			'protected' => I18n::__( 'Protected' ),
-			'private'   => I18n::__( 'Private' ),
-			'trash'     => I18n::__( 'Trash' ),
-			'future'    => I18n::__( 'Future' ),
+			'publish'   => I18n::_t( 'Publish' ),
+			'pending'   => I18n::_t( 'Pending' ),
+			'draft'     => I18n::_t( 'Draft' ),
+			'protected' => I18n::_t( 'Protected' ),
+			'private'   => I18n::_t( 'Private' ),
+			'trash'     => I18n::_t( 'Trash' ),
+			'future'    => I18n::_t( 'Future' ),
 		];
 	}
 }

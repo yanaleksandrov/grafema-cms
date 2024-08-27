@@ -34,20 +34,20 @@ final class CommentsTable {
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
 			Column::add( 'author' )
-				->title( I18n::__( 'Author' ) )
+				->title( I18n::_t( 'Author' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
 			Column::add( 'comment' )
-				->title( I18n::__( 'Comment' ) )
+				->title( I18n::_t( 'Comment' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'raw' ),
 			Column::add( 'date' )
-				->title( I18n::__( 'In response to' ) )
+				->title( I18n::_t( 'In response to' ) )
 				->fixedWidth( '9rem' )
 				->sortable()
 				->view( 'date' ),
 			Column::add( 'date' )
-				->title( I18n::__( 'Date' ) )
+				->title( I18n::_t( 'Date' ) )
 				->fixedWidth( '9rem' )
 				->sortable()
 				->view( 'date' ),
@@ -64,7 +64,7 @@ final class CommentsTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::__( 'Comments' ),
+			'title'   => I18n::_t( 'Comments' ),
 			'actions' => true,
 			'filter'  => true,
 		];
@@ -72,8 +72,8 @@ final class CommentsTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Comments not found' ),
-			'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'title'       => I18n::_t( 'Comments not found' ),
+			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 		];
 	}
 }

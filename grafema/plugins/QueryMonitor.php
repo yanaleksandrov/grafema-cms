@@ -16,8 +16,8 @@ class QueryMonitor implements Plugins\Skeleton
 	public function manifest(): array
 	{
 		return [
-			'name'         => I18n::__( 'Query Monitor' ),
-			'description'  => I18n::__( 'The developer tools panel for Grafema.' ),
+			'name'         => I18n::_t( 'Query Monitor' ),
+			'description'  => I18n::_t( 'The developer tools panel for Grafema.' ),
 			'author'       => 'Grafema Team',
 			'email'        => '',
 			'url'          => '',

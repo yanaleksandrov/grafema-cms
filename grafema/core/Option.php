@@ -228,7 +228,7 @@ class Option extends Options {
 			return new Errors(
 				'option-delete',
 				sprintf(
-					I18n::__( 'You are not allowed to delete the "%s" option. You can just update it.' ),
+					I18n::_t( 'You are not allowed to delete the "%s" option. You can just update it.' ),
 					$option
 				)
 			);

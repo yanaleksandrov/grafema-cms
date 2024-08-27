@@ -23,6 +23,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 ?>
-<div class="dg g-1">
+<div class="field">
 	<button type="submit"<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>
 </div>

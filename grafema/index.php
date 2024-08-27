@@ -127,7 +127,7 @@ Db::init();
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		printf(
-			I18n::__( 'Your server is running PHP version "%1$s" but Grafema %2$s requires at least %3$s.' ),
+			I18n::_t( 'Your server is running PHP version "%1$s" but Grafema %2$s requires at least %3$s.' ),
 			$php_version,
 			GRFM_VERSION,
 			GRFM_REQUIRED_PHP_VERSION
@@ -143,7 +143,7 @@ Db::init();
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		printf(
-			I18n::__( 'Your server is running DataBase version %1$s but Grafema %2$s requires at least %3$s.' ),
+			I18n::_t( 'Your server is running DataBase version %1$s but Grafema %2$s requires at least %3$s.' ),
 			$db_version,
 			GRFM_VERSION,
 			GRFM_REQUIRED_MYSQL_VERSION
@@ -171,7 +171,7 @@ try {
 		 */
 		Roles::register(
 			'admin',
-			I18n::__( 'Administrator' ),
+			I18n::_t( 'Administrator' ),
 			[
 				'read',
 				'files_upload',
@@ -205,7 +205,7 @@ try {
 
 		Roles::register(
 			'editor',
-			I18n::__( 'Editor' ),
+			I18n::_t( 'Editor' ),
 			[
 				'read',
 				'files_upload',
@@ -226,7 +226,7 @@ try {
 
 		Roles::register(
 			'author',
-			I18n::__( 'Author' ),
+			I18n::_t( 'Author' ),
 			[
 				'read',
 				'files_upload',
@@ -240,7 +240,7 @@ try {
 
 		Roles::register(
 			'subscriber',
-			I18n::__( 'Subscriber' ),
+			I18n::_t( 'Subscriber' ),
 			[
 				'read',
 			]
@@ -255,18 +255,18 @@ try {
 			'pages',
 			[
 				'labels' => [
-					'name'        => I18n::__( 'Page' ),
-					'name_plural' => I18n::__( 'Pages' ),
-					'add'         => I18n::__( 'Add New' ),
-					'edit'        => I18n::__( 'Edit Page' ),
-					'update'      => I18n::__( 'Update Page' ),
-					'view'        => I18n::__( 'View Page' ),
-					'view_plural' => I18n::__( 'View Pages' ),
-					'search'      => I18n::__( 'Search Pages' ),
-					'all_items'   => I18n::__( 'All Pages' ),
-					'published'   => I18n::__( 'Page published' ),
-					'scheduled'   => I18n::__( 'Page scheduled' ),
-					'updated'     => I18n::__( 'Page updated' ),
+					'name'        => I18n::_t( 'Page' ),
+					'name_plural' => I18n::_t( 'Pages' ),
+					'add'         => I18n::_t( 'Add New' ),
+					'edit'        => I18n::_t( 'Edit Page' ),
+					'update'      => I18n::_t( 'Update Page' ),
+					'view'        => I18n::_t( 'View Page' ),
+					'view_plural' => I18n::_t( 'View Pages' ),
+					'search'      => I18n::_t( 'Search Pages' ),
+					'all_items'   => I18n::_t( 'All Pages' ),
+					'published'   => I18n::_t( 'Page published' ),
+					'scheduled'   => I18n::_t( 'Page scheduled' ),
+					'updated'     => I18n::_t( 'Page updated' ),
 				],
 				'description'  => '',
 				'public'       => true,
@@ -288,18 +288,18 @@ try {
 			'media',
 			[
 				'labels' => [
-					'name'        => I18n::__( 'Storage' ),
-					'name_plural' => I18n::__( 'Storage' ),
-					'add'         => I18n::__( 'Upload' ),
-					'edit'        => I18n::__( 'Edit Media' ),
-					'update'      => I18n::__( 'Update Attachment' ),
-					'view'        => I18n::__( 'View Attachment' ),
-					'view_plural' => I18n::__( 'View Attachments' ),
-					'search'      => I18n::__( 'Search Attachments' ),
-					'all_items'   => I18n::__( 'Library' ),
-					'published'   => I18n::__( 'Attachment published.' ),
-					'scheduled'   => I18n::__( 'Attachment scheduled.' ),
-					'updated'     => I18n::__( 'Attachment updated.' ),
+					'name'        => I18n::_t( 'Storage' ),
+					'name_plural' => I18n::_t( 'Storage' ),
+					'add'         => I18n::_t( 'Upload' ),
+					'edit'        => I18n::_t( 'Edit Media' ),
+					'update'      => I18n::_t( 'Update Attachment' ),
+					'view'        => I18n::_t( 'View Attachment' ),
+					'view_plural' => I18n::_t( 'View Attachments' ),
+					'search'      => I18n::_t( 'Search Attachments' ),
+					'all_items'   => I18n::_t( 'Library' ),
+					'published'   => I18n::_t( 'Attachment published.' ),
+					'scheduled'   => I18n::_t( 'Attachment scheduled.' ),
+					'updated'     => I18n::_t( 'Attachment updated.' ),
 				],
 				'description'  => '',
 				'public'       => true,

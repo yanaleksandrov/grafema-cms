@@ -18,11 +18,11 @@ Dashboard\Form::register(
 				[
 					'type'        => 'image',
 					'name'        => 'avatar',
-					'label'       => I18n::__( 'Upload avatar' ),
+					'label'       => I18n::_t( 'Upload avatar' ),
 					'label_class' => '',
 					'class'       => 'dg p-6 pb-3 bg-gray-lt',
-					'description' => I18n::__( 'Click to upload or drag & drop' ),
-					'tooltip'     => I18n::__( 'This is tooltip' ),
+					'description' => I18n::_t( 'Click to upload or drag & drop' ),
+					'tooltip'     => I18n::_t( 'This is tooltip' ),
 					'attributes'  => [
 						'required' => false,
 						'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
@@ -31,7 +31,7 @@ Dashboard\Form::register(
 				[
 					'name'          => 'main',
 					'type'          => 'tab',
-					'label'         => I18n::__( 'General' ),
+					'label'         => I18n::_t( 'General' ),
 					'description'   => '',
 					'icon'          => 'ph ph-pen',
 					'class_menu'    => 'bg-gray-lt',
@@ -42,7 +42,7 @@ Dashboard\Form::register(
 							'name'    => 'excerpt',
 							'type'    => 'group',
 							'class'  => 'ga-1 fs-12 t-muted',
-							'label'   => I18n::__( 'Title' ),
+							'label'   => I18n::_t( 'Title' ),
 							'columns' => 1,
 							'fields'  => [
 								[
@@ -50,7 +50,7 @@ Dashboard\Form::register(
 									'label'       => '',
 									'name'        => 'title',
 									'value'       => '',
-									'placeholder' => I18n::__( 'Add title...' ),
+									'placeholder' => I18n::_t( 'Add title...' ),
 									'class'       => '',
 									'reset'       => 0,
 									'required'    => 0,
@@ -79,7 +79,7 @@ Dashboard\Form::register(
 							'name'    => 'excerpt',
 							'type'    => 'group',
 							'class'   => 'ga-1 fs-12 t-muted',
-							'label'   => I18n::__( 'Excerpt' ),
+							'label'   => I18n::_t( 'Excerpt' ),
 							'columns' => 1,
 							'fields'  => [
 								[
@@ -87,7 +87,7 @@ Dashboard\Form::register(
 									'label'       => '',
 									'name'        => 'excerpt',
 									'value'       => '',
-									'placeholder' => I18n::__( 'Write an excerpt (optional)...' ),
+									'placeholder' => I18n::_t( 'Write an excerpt (optional)...' ),
 									'class'       => '',
 									'reset'       => 0,
 									'required'    => 0,
@@ -95,7 +95,7 @@ Dashboard\Form::register(
 									'before'      => '',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'This section only applicable to post types that have excerpts enabled. Here you can write a one to two sentence description of the post.' ),
+									'instruction' => I18n::_t( 'This section only applicable to post types that have excerpts enabled. Here you can write a one to two sentence description of the post.' ),
 									'attributes'  => [
 										'rows' => 1,
 									],
@@ -107,7 +107,7 @@ Dashboard\Form::register(
 							'name'   => 'summary',
 							'type'   => 'group',
 							'class'  => 'ga-1 fs-12 t-muted',
-							'label'  => I18n::__( 'Visibility & status' ),
+							'label'  => I18n::_t( 'Visibility & status' ),
 							'fields' => [
 								[
 									'name'       => 'status',
@@ -117,9 +117,9 @@ Dashboard\Form::register(
 									'value'      => 'publish',
 									'attributes' => [],
 									'options' => [
-										'publish' => I18n::__( 'Publish' ),
-										'pending' => I18n::__( 'Pending' ),
-										'draft'   => I18n::__( 'Draft' ),
+										'publish' => I18n::_t( 'Publish' ),
+										'pending' => I18n::_t( 'Pending' ),
+										'draft'   => I18n::_t( 'Draft' ),
 									],
 								],
 								[
@@ -130,9 +130,9 @@ Dashboard\Form::register(
 									'value'      => 'public',
 									'attributes' => [],
 									'options' => [
-										'public'  => I18n::__( 'Public' ),
-										'pending' => I18n::__( 'Password protected' ),
-										'private' => I18n::__( 'Private' ),
+										'public'  => I18n::_t( 'Public' ),
+										'pending' => I18n::_t( 'Password protected' ),
+										'private' => I18n::_t( 'Private' ),
 									],
 								],
 							],
@@ -141,7 +141,7 @@ Dashboard\Form::register(
 							'name'   => 'dates',
 							'type'   => 'group',
 							'class'  => 'ga-1 fs-12 t-muted',
-							'label'  => I18n::__( 'Publication dates' ),
+							'label'  => I18n::_t( 'Publication dates' ),
 							'fields' => [
 								[
 									'name'        => 'date',
@@ -152,7 +152,7 @@ Dashboard\Form::register(
 									'before'      => I18n::_f( '%sFrom:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
 									'attributes'  => [
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
+										'placeholder' => I18n::_t( 'e.g. Just another Grafema site' ),
 									],
 								],
 								[
@@ -164,7 +164,7 @@ Dashboard\Form::register(
 									'before'      => I18n::_f( '%sTo:%s', '<samp class="badge badge--blue-lt">', '</samp>' ),
 									'attributes'  => [
 										'required'    => true,
-										'placeholder' => I18n::__( 'e.g. Just another Grafema site' ),
+										'placeholder' => I18n::_t( 'e.g. Just another Grafema site' ),
 									],
 								],
 							],
@@ -173,7 +173,7 @@ Dashboard\Form::register(
 							'name'    => 'authors',
 							'type'    => 'group',
 							'class'   => 'ga-1 fs-12 t-muted',
-							'label'   => I18n::__( 'Authors' ),
+							'label'   => I18n::_t( 'Authors' ),
 							'columns' => 1,
 							'fields'  => [
 								[
@@ -191,15 +191,15 @@ Dashboard\Form::register(
 									'options' => [
 										'us' => [
 											'image'   => 'assets/images/flags/us.svg',
-											'content' => I18n::__( 'English - english' ),
+											'content' => I18n::_t( 'English - english' ),
 										],
 										'ru' => [
 											'image'   => 'assets/images/flags/ru.svg',
-											'content' => I18n::__( 'Russian - русский' ),
+											'content' => I18n::_t( 'Russian - русский' ),
 										],
 										'he' => [
 											'image'   => 'assets/images/flags/il.svg',
-											'content' => I18n::__( 'עִבְרִית - Hebrew' ),
+											'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
 										],
 									],
 								],
@@ -210,7 +210,7 @@ Dashboard\Form::register(
 				[
 					'name'          => 'comments',
 					'type'          => 'tab',
-					'label'         => I18n::__( 'Comments' ),
+					'label'         => I18n::_t( 'Comments' ),
 					'description'   => '',
 					'icon'          => 'ph ph-chats',
 					'class_button'  => '',
@@ -220,7 +220,7 @@ Dashboard\Form::register(
 							'name'    => 'discussion',
 							'type'    => 'group',
 							'class'   => 'ga-1 fs-12 t-muted',
-							'label'   => I18n::__( 'Discussion' ),
+							'label'   => I18n::_t( 'Discussion' ),
 							'columns' => 1,
 							'fields'  => [
 								[
@@ -231,9 +231,9 @@ Dashboard\Form::register(
 										'x-select' => '',
 									],
 									'options' => [
-										'open'        => I18n::__( 'Open' ),
-										'close'       => I18n::__( 'Close' ),
-										'temporarily' => I18n::__( 'Temporarily' ),
+										'open'        => I18n::_t( 'Open' ),
+										'close'       => I18n::_t( 'Close' ),
+										'temporarily' => I18n::_t( 'Temporarily' ),
 									],
 								],
 							],

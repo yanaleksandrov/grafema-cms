@@ -37,8 +37,8 @@ final class MediaTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Files in library is not found' ),
-			'description' => I18n::__( 'They have not been uploaded or do not match the filter parameters' ),
+			'title'       => I18n::_t( 'Files in library is not found' ),
+			'description' => I18n::_t( 'They have not been uploaded or do not match the filter parameters' ),
 		];
 	}
 

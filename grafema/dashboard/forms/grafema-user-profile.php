@@ -31,11 +31,11 @@ Dashboard\Form::register(
 								'templates/form/image',
 								[
 									'name'        => 'avatar',
-									'label'       => I18n::__( 'Profile Settings' ),
+									'label'       => I18n::_t( 'Profile Settings' ),
 									'label_class' => 'fw-600 fs-18',
 									'class'       => '',
-									'description' => I18n::__( 'Click to upload your avatar' ),
-									'tooltip'     => I18n::__( 'This is tooltip' ),
+									'description' => I18n::_t( 'Click to upload your avatar' ),
+									'tooltip'     => I18n::_t( 'This is tooltip' ),
 									'attributes'  => [
 										'required' => false,
 										'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
@@ -50,7 +50,7 @@ Dashboard\Form::register(
 				],
 				[
 					'type'          => 'tab',
-					'label'         => I18n::__( 'Overview' ),
+					'label'         => I18n::_t( 'Overview' ),
 					'name'          => 'profile',
 					'caption'       => '',
 					'description'   => '',
@@ -62,24 +62,24 @@ Dashboard\Form::register(
 						[
 							'name'   => 'theme',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Contact info' ),
+							'label'  => I18n::_t( 'Contact info' ),
 							'fields' => [
 								[
 									'type'        => 'email',
-									'label'       => I18n::__( 'Your email (required)' ),
+									'label'       => I18n::_t( 'Your email (required)' ),
 									'name'        => 'email',
 									'value'       => Grafema\User::current()?->email,
-									'placeholder' => I18n::__( 'Enter user email' ),
+									'placeholder' => I18n::_t( 'Enter user email' ),
 									'class'       => '',
 									'reset'       => 0,
 									'required'    => 1,
 									'before'      => '<i class="ph ph-at"></i>',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'Is not displayed anywhere. It is used to work with the account and system notifications' ),
+									'instruction' => I18n::_t( 'Is not displayed anywhere. It is used to work with the account and system notifications' ),
 									'attributes'  => [
 										'x-autocomplete' => '',
-										'placeholder'    => I18n::__( 'e.g. user@gmail.com' ),
+										'placeholder'    => I18n::_t( 'e.g. user@gmail.com' ),
 									],
 									'conditions' => [],
 								],
@@ -88,12 +88,12 @@ Dashboard\Form::register(
 						[
 							'name'    => 'name',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Name' ),
+							'label'   => I18n::_t( 'Name' ),
 							'columns' => 2,
 							'fields'  => [
 								[
 									'type'        => 'text',
-									'label'       => I18n::__( 'Login' ),
+									'label'       => I18n::_t( 'Login' ),
 									'name'        => 'login',
 									'value'       => Grafema\User::current()?->login,
 									'placeholder' => '',
@@ -104,16 +104,16 @@ Dashboard\Form::register(
 									'before'      => '<i class="ph ph-user"></i>',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'Cannot be changed because used to log in to your account' ),
+									'instruction' => I18n::_t( 'Cannot be changed because used to log in to your account' ),
 									'attributes'  => [
 										'readonly'    => true,
-										'placeholder' => I18n::__( 'e.g. admin' ),
+										'placeholder' => I18n::_t( 'e.g. admin' ),
 									],
 									'conditions'  => [],
 								],
 								[
 									'type'        => 'text',
-									'label'       => I18n::__( 'Nicename (required)' ),
+									'label'       => I18n::_t( 'Nicename (required)' ),
 									'name'        => 'nicename',
 									'value'       => Grafema\User::current()?->nicename,
 									'placeholder' => '',
@@ -124,15 +124,15 @@ Dashboard\Form::register(
 									'before'      => '',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'This field is used as part of the profile page URL' ),
+									'instruction' => I18n::_t( 'This field is used as part of the profile page URL' ),
 									'attributes'  => [
-										'placeholder' => I18n::__( 'Username' ),
+										'placeholder' => I18n::_t( 'Username' ),
 									],
 									'conditions'  => [],
 								],
 								[
 									'type'        => 'text',
-									'label'       => I18n::__( 'First name' ),
+									'label'       => I18n::_t( 'First name' ),
 									'name'        => 'firstname',
 									'value'       => '',
 									'placeholder' => '',
@@ -145,14 +145,14 @@ Dashboard\Form::register(
 									'tooltip'     => '',
 									'instruction' => '',
 									'attributes'  => [
-										'placeholder' => I18n::__( 'e.g. John' ),
+										'placeholder' => I18n::_t( 'e.g. John' ),
 										'@input'      => 'display = `${firstname} ${lastname}`',
 									],
 									'conditions'  => [],
 								],
 								[
 									'type'        => 'text',
-									'label'       => I18n::__( 'Last name' ),
+									'label'       => I18n::_t( 'Last name' ),
 									'name'        => 'lastname',
 									'value'       => '',
 									'placeholder' => '',
@@ -165,14 +165,14 @@ Dashboard\Form::register(
 									'tooltip'     => '',
 									'instruction' => '',
 									'attributes' => [
-										'placeholder' => I18n::__( 'e.g. Doe' ),
+										'placeholder' => I18n::_t( 'e.g. Doe' ),
 										'@input'      => 'display = `${firstname} ${lastname}`',
 									],
 									'conditions'  => [],
 								],
 								[
 									'type'        => 'text',
-									'label'       => I18n::__( 'Display name publicly as' ),
+									'label'       => I18n::_t( 'Display name publicly as' ),
 									'name'        => 'display',
 									'value'       => '',
 									'placeholder' => '',
@@ -182,9 +182,9 @@ Dashboard\Form::register(
 									'before'      => '<i class="ph ph-identification-badge"></i>',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'Your name may appear around website where you contribute or are mentioned' ),
+									'instruction' => I18n::_t( 'Your name may appear around website where you contribute or are mentioned' ),
 									'attributes'  => [
-										'placeholder' => I18n::__( 'Display name' ),
+										'placeholder' => I18n::_t( 'Display name' ),
 									],
 									'conditions'  => [],
 								],
@@ -192,13 +192,13 @@ Dashboard\Form::register(
 						],
 						[
 							'type'    => 'group',
-							'label'   => I18n::__( 'About yourself' ),
+							'label'   => I18n::_t( 'About yourself' ),
 							'name'    => 'about-yourself',
 							'columns' => 1,
 							'fields'  => [
 								[
 									'type'        => 'textarea',
-									'label'       => I18n::__( 'Biographical info' ),
+									'label'       => I18n::_t( 'Biographical info' ),
 									'name'        => 'bio',
 									'value'       => '',
 									'placeholder' => '',
@@ -209,7 +209,7 @@ Dashboard\Form::register(
 									'before'      => '',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ),
+									'instruction' => I18n::_t( 'Share a little biographical information to fill out your profile. This may be shown publicly.' ),
 									'attributes'  => [],
 									'conditions'  => [],
 								],
@@ -220,7 +220,7 @@ Dashboard\Form::register(
 				[
 					'name'          => 'appearance',
 					'type'          => 'tab',
-					'label'         => I18n::__( 'Appearance' ),
+					'label'         => I18n::_t( 'Appearance' ),
 					'description'   => '',
 					'icon'          => 'ph ph-paint-brush-broad',
 					'class_button'  => '',
@@ -229,26 +229,26 @@ Dashboard\Form::register(
 						[
 							'name'    => 'theme',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Theme preferences' ),
+							'label'   => I18n::_t( 'Theme preferences' ),
 							'columns' => 1,
 							'fields'  => [
 								[
 									'name'        => 'format',
 									'type'        => 'radio',
 									'variation'   => 'image',
-									'instruction' => I18n::__( 'Choose how dashboard looks to you. Select a single theme, or sync with your system and automatically switch between day and night themes.' ),
+									'instruction' => I18n::_t( 'Choose how dashboard looks to you. Select a single theme, or sync with your system and automatically switch between day and night themes.' ),
 									'value'       => 'light',
 									'width'       => 280,
 									'options'     => [
 										'light' => [
 											'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
-											'title'   => I18n::__( 'Light mode' ),
-                                            'content' => I18n::__( 'This theme will be active when your system is set to “light mode”' ),
+											'title'   => I18n::_t( 'Light mode' ),
+                                            'content' => I18n::_t( 'This theme will be active when your system is set to “light mode”' ),
 										],
 										'dark' => [
 											'image'   => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
-											'title'   => I18n::__( 'Dark mode' ),
-											'content' => I18n::__( 'This theme will be active when your system is set to “night mode”' ),
+											'title'   => I18n::_t( 'Dark mode' ),
+											'content' => I18n::_t( 'This theme will be active when your system is set to “night mode”' ),
 										],
 									],
 								],
@@ -257,11 +257,11 @@ Dashboard\Form::register(
 						[
 							'name'   => 'theme',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Toolbar' ),
+							'label'  => I18n::_t( 'Toolbar' ),
 							'fields' => [
 								[
 									'type'        => 'toggle',
-									'label'       => I18n::__( 'Show when viewing site' ),
+									'label'       => I18n::_t( 'Show when viewing site' ),
 									'name'        => 'toolbar',
 									'value'       => true,
 									'placeholder' => '',
@@ -271,12 +271,12 @@ Dashboard\Form::register(
 									'before'      => '',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'these settings can be changed for each user separately' ),
+									'instruction' => I18n::_t( 'these settings can be changed for each user separately' ),
 									'attributes'  => [],
 									'conditions'  => [],
 									'options'     => [
-										'yes' => I18n::__( 'Yes' ),
-										'no'  => I18n::__( 'No' ),
+										'yes' => I18n::_t( 'Yes' ),
+										'no'  => I18n::_t( 'No' ),
 									],
 								],
 							],
@@ -284,12 +284,12 @@ Dashboard\Form::register(
 						[
 							'name'   => 'language',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Language' ),
+							'label'  => I18n::_t( 'Language' ),
 							'fields' => [
 								[
 									'name'        => 'language',
 									'type'        => 'select',
-									'instruction' => I18n::__( 'Language for your dashboard panel' ),
+									'instruction' => I18n::_t( 'Language for your dashboard panel' ),
 									'value'       => 'us',
 									'attributes'  => [
 										'x-select' => '{"showSearch":1}',
@@ -297,15 +297,15 @@ Dashboard\Form::register(
 									'options' => [
 										'us' => [
 											'image'   => 'assets/images/flags/us.svg',
-											'content' => I18n::__( 'English - english' ),
+											'content' => I18n::_t( 'English - english' ),
 										],
 										'ru' => [
 											'image'   => 'assets/images/flags/ru.svg',
-											'content' => I18n::__( 'Russian - русский' ),
+											'content' => I18n::_t( 'Russian - русский' ),
 										],
 										'he' => [
 											'image'   => 'assets/images/flags/il.svg',
-											'content' => I18n::__( 'עִבְרִית - Hebrew' ),
+											'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
 										],
 									],
 								],
@@ -316,7 +316,7 @@ Dashboard\Form::register(
 				[
 					'name'          => 'password',
 					'type'          => 'tab',
-					'label'         => I18n::__( 'Security' ),
+					'label'         => I18n::_t( 'Security' ),
 					'caption'       => '',
 					'icon'          => 'ph ph-password',
 					'class_button'  => '',
@@ -325,7 +325,7 @@ Dashboard\Form::register(
 						[
 							'name'   => 'theme',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Web sessions' ),
+							'label'  => I18n::_t( 'Web sessions' ),
 							'fields' => [
 								[
 									'name'     => 'title',
@@ -377,21 +377,21 @@ Dashboard\Form::register(
 						[
 							'name'   => 'theme',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Change password' ),
+							'label'  => I18n::_t( 'Change password' ),
 							'fields' => [
 								[
 									'type'        => 'password',
-									'label'       => I18n::__( 'New password' ),
+									'label'       => I18n::_t( 'New password' ),
 									'name'        => 'password-new',
 									'value'       => '',
-									'placeholder' => I18n::__( 'New password' ),
+									'placeholder' => I18n::_t( 'New password' ),
 									'class'       => '',
 									'reset'       => 0,
 									'required'    => 1,
 									'before'      => '',
 									'after'       => '',
 									'tooltip'     => '',
-									'instruction' => I18n::__( 'Make sure it\'s at least 15 characters OR at least 12 characters including a number and a lowercase letter.' ),
+									'instruction' => I18n::_t( 'Make sure it\'s at least 15 characters OR at least 12 characters including a number and a lowercase letter.' ),
 									'attributes'  => [],
 									'conditions'  => [],
 									'switcher'    => 1,
@@ -407,10 +407,10 @@ Dashboard\Form::register(
 								],
 								[
 									'type'        => 'password',
-									'label'       => I18n::__( 'Old password' ),
+									'label'       => I18n::_t( 'Old password' ),
 									'name'        => 'password-old',
 									'value'       => '',
-									'placeholder' => I18n::__( 'Old password' ),
+									'placeholder' => I18n::_t( 'Old password' ),
 									'class'       => '',
 									'reset'       => 0,
 									'required'    => 1,
@@ -443,7 +443,7 @@ Dashboard\Form::register(
 				[
 					'name'          => 'applications',
 					'type'          => 'tab',
-					'label'         => I18n::__( 'API keys' ),
+					'label'         => I18n::_t( 'API keys' ),
 					'description'   => '',
 					'icon'          => 'ph ph-key',
 					'class_button'  => '',
@@ -452,7 +452,7 @@ Dashboard\Form::register(
 						[
 							'name'   => 'theme',
 							'type'   => 'group',
-							'label'  => I18n::__( 'Authentication keys' ),
+							'label'  => I18n::_t( 'Authentication keys' ),
 							'fields' => [
 								[
 									'name'     => 'title',

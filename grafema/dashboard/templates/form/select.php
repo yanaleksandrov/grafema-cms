@@ -1,4 +1,5 @@
 <?php
+use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
 
@@ -14,14 +15,15 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $label, $name, $value, $class, $reset, $instruction, $tooltip, $attributes, $conditions, $options ] = (
+[ $label, $name, $value, $class, $label_class, $reset, $instruction, $tooltip, $attributes, $conditions, $options ] = (
     new Grafema\Sanitizer(
         $args ?? [],
         [
             'label'       => 'trim',
             'name'        => 'key',
             'value'       => 'attribute',
-            'class'       => 'class:df aic jcsb fw-600',
+	        'class'       => 'class:field',
+	        'label_class' => 'class:field-label',
             'reset'       => 'bool:false',
             'instruction' => 'trim',
             'tooltip'     => 'attribute',
@@ -35,23 +37,22 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 $click = sprintf( "%s = '%s'", $name, $value );
 $show  = sprintf( "%s !== '%s'", $name, $value );
 ?>
-<div class="dg g-1">
-    <?php if ( $label ) : ?>
-        <span class="<?php echo $class; ?>">
-            <?php
-            Grafema\Esc::html( $label );
-            if ( $reset ) :
-                ?>
-                <span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
-                <?php
-            endif;
+<label class="<?php echo $class; ?>">
+	<?php if ( $label ) : ?>
+		<div class="<?php echo $label_class; ?>"><?php
+			Esc::html( $label );
+			if ( $reset ) :
+				?>
+				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
+				<?php
+			endif;
 
 			if ( $tooltip ) :
 				?>
-                <i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
+				<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
 			<?php endif; ?>
-        </span>
-    <?php endif; ?>
+		</div>
+	<?php endif; ?>
 	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 		<?php
 		$get_attributes = function ( $key, $value, $option ) {
@@ -76,7 +77,7 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
 			if ( $optgroup_options ) {
 				$label = Grafema\Sanitizer::trim( $option['label'] ?? '' );
 				?>
-				<optgroup label="<?php Grafema\Esc::attr( $label ); ?>">
+				<optgroup label="<?php Esc::attr( $label ); ?>">
 					<?php
 					foreach ( $optgroup_options as $i => $optgroup_option ) {
 						$content = trim( is_scalar( $optgroup_option ) ? $optgroup_option : strval( $optgroup_option['content'] ?? '' ) );
@@ -85,7 +86,7 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
 						<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php Grafema\Esc::html( $content ); ?></option>
 						<?php
 					}
-				?>
+					?>
 				</optgroup>
 				<?php
 			} else {
@@ -98,7 +99,7 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
 		}
 		?>
 	</select>
-	<?php if ( $instruction ) { ?>
-		<div class="fs-13 t-muted lh-xs"><?php echo $instruction; ?></div>
-	<?php } ?>
-</div>
+	<?php if ( $instruction ) : ?>
+		<div class="field-instruction"><?php echo $instruction; ?></div>
+	<?php endif; ?>
+</label>

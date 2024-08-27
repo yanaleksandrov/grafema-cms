@@ -39,20 +39,20 @@ Dashboard\Form::register(
 					'attributes' => [
 						'class'          => 'pl-8 pr-8',
 						'x-wizard:step'  => 'fields.trim()',
-						'x-wizard:title' => I18n::__( 'Upload CSV file' ),
+						'x-wizard:title' => I18n::_t( 'Upload CSV file' ),
 					],
 					'fields' => [
 						[
 							'name'        => 'title',
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
-							'label'       => I18n::__( 'Import posts from a CSV file' ),
+							'label'       => I18n::_t( 'Import posts from a CSV file' ),
 							'instruction' => I18n::_f( 'This tool allows you to import (or merge) posts data to your website from a CSV or TXT file. %sDownload%s the file for an example or choose a file from your computer:', '<a href="/dashboard/assets/files/example-posts.csv" download>', '</a>' ),
 						],
 						[
 							'name'        => 'uploader',
 							'type'        => 'uploader',
-							'instruction' => I18n::__( 'Click to upload or drag & drop' ),
+							'instruction' => I18n::_t( 'Click to upload or drag & drop' ),
 							'attributes'  => [
 								'accept'  => '.csv,.txt',
 								'@change' => '$ajax("files/upload").then(response => fields = response.fields,$wizard.goNext())',
@@ -66,15 +66,15 @@ Dashboard\Form::register(
 						'class'          => 'pl-8 pr-8',
 						'x-cloak'        => true,
 						'x-wizard:step'  => 'output.trim()',
-						'x-wizard:title' => I18n::__( 'Column mapping' ),
+						'x-wizard:title' => I18n::_t( 'Column mapping' ),
 					],
 					'fields' => [
 						[
 							'name'        => 'title',
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
-							'label'       => I18n::__( 'Map CSV fields to posts' ),
-							'instruction' => I18n::__( 'Select fields from your CSV file that you want to map to fields in the posts, or that you want to ignore during import' ),
+							'label'       => I18n::_t( 'Map CSV fields to posts' ),
+							'instruction' => I18n::_t( 'Select fields from your CSV file that you want to map to fields in the posts, or that you want to ignore during import' ),
 						],
 						[
 							'type'     => 'custom',
@@ -88,7 +88,7 @@ Dashboard\Form::register(
 						'class'          => 'dg p-8',
 						'x-html'         => 'output',
 						'x-cloak'        => true,
-						'x-wizard:title' => I18n::__( 'Import is completed' ),
+						'x-wizard:title' => I18n::_t( 'Import is completed' ),
 					],
 				],
 				[

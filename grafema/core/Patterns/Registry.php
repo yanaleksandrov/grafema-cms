@@ -50,7 +50,7 @@ final class Registry {
 		if ( ! isset( self::$registry[ $key ] ) ) {
 			self::$registry[ $key ] = $value;
 		} else {
-			new Errors( 'registry-set', I18n::__( 'Are you trying to override an existing data.' ) );
+			new Errors( 'registry-set', I18n::_t( 'Are you trying to override an existing data.' ) );
 		}
 	}
 

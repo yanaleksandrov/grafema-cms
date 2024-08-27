@@ -127,10 +127,10 @@ class Files extends Files\Handler
 			]
 		) )->extend(
 			'type:type',
-			I18n::__( 'Sorry, you are not allowed to upload this file type.' )
+			I18n::_t( 'Sorry, you are not allowed to upload this file type.' )
 		)->extend(
 			'error:equal',
-			I18n::__( 'An error occurred while uploading the file, please try again.' ),
+			I18n::_t( 'An error occurred while uploading the file, please try again.' ),
 			function( $validator, $value, $comparison_value ) {
 				$value            = intval( $value );
 				$comparison_value = intval( $comparison_value );
@@ -140,12 +140,12 @@ class Files extends Files\Handler
 					false,
 					I18n::_f( 'The uploaded file exceeds the %1$s directive in %2$s.', 'upload_max_filesize', 'php.ini' ),
 					I18n::_f( 'The uploaded file exceeds the %s directive that was specified in the HTML form.', 'MAX_FILE_SIZE' ),
-					I18n::__( 'The uploaded file was only partially uploaded.' ),
-					I18n::__( 'No file was uploaded.' ),
+					I18n::_t( 'The uploaded file was only partially uploaded.' ),
+					I18n::_t( 'No file was uploaded.' ),
 					'',
-					I18n::__( 'Missing a temporary folder.' ),
-					I18n::__( 'Failed to write file to disk.' ),
-					I18n::__( 'File upload stopped by extension.' ),
+					I18n::_t( 'Missing a temporary folder.' ),
+					I18n::_t( 'Failed to write file to disk.' ),
+					I18n::_t( 'File upload stopped by extension.' ),
 				];
 
 				$validator->messages['error:equal'] = $uploadErrorMessages[ $value ];
@@ -154,7 +154,7 @@ class Files extends Files\Handler
 			}
 		)->extend(
 			'size:min',
-			I18n::__( 'File is empty. Please upload something more substantial.' )
+			I18n::_t( 'File is empty. Please upload something more substantial.' )
 		)->extend(
 			'size:max',
 			I18n::_f( 'The maximum file size is %s.', parent::humanise( $maxFileSize, 'Mb' ) )
@@ -172,7 +172,7 @@ class Files extends Files\Handler
 		$basename = Sanitizer::filename( $file['name'] ?? '' );
 		$filepath = sprintf( '%s%s', $targetDir, $basename );
 		if ( empty( $basename ) ) {
-			return new Errors( 'file-upload', I18n::__( 'File name must not contain illegal characters and must not be empty.' ) );
+			return new Errors( 'file-upload', I18n::_t( 'File name must not contain illegal characters and must not be empty.' ) );
 		}
 
 		/**
@@ -188,7 +188,7 @@ class Files extends Files\Handler
 			if ( hash_file( 'md5', $filepath ) === hash_file( 'md5', $file['tmp_name'] ) ) {
 				unlink( $file['tmp_name'] );
 
-				return new Errors( 'file-upload', I18n::__( 'File already exists.' ) );
+				return new Errors( 'file-upload', I18n::_t( 'File already exists.' ) );
 			} else {
 				// make sure that the file name in the folder is unique
 				$suffix = 1;
@@ -213,7 +213,7 @@ class Files extends Files\Handler
 			if ( $uploaded ) {
 				$_file = new self( $filepath );
 			} else {
-				return new Errors( 'file-upload', I18n::__( 'Something went wrong, upload is failed.' ) );
+				return new Errors( 'file-upload', I18n::_t( 'Something went wrong, upload is failed.' ) );
 			}
 		}
 
@@ -242,7 +242,7 @@ class Files extends Files\Handler
 	{
 		$url = Sanitizer::url( $url );
 		if ( empty( $url ) ) {
-			return new Errors( 'file-grab', I18n::__( 'File URL is not valid.' ) );
+			return new Errors( 'file-grab', I18n::_t( 'File URL is not valid.' ) );
 		}
 
 		$basename   = basename( $url );
@@ -250,7 +250,7 @@ class Files extends Files\Handler
 		$filepath   = sprintf( '%s%s', $targetDir, $basename );
 
 		if ( empty( $extension ) ) {
-			return new Errors( 'file-grab', I18n::__( 'The file cannot be grabbed because it does not contain an extension.' ) );
+			return new Errors( 'file-grab', I18n::_t( 'The file cannot be grabbed because it does not contain an extension.' ) );
 		}
 
 		if ( ! is_dir( $targetDir ) ) {
@@ -270,30 +270,30 @@ class Files extends Files\Handler
 		$error = curl_errno( $ch );
 		if ( $error ) {
 			$errors = [
-				1  => I18n::__('The URL you passed to the libcurl function uses an unsupported protocol.'),
-				3  => I18n::__('The URL you provided is not properly formatted.'),
-				6  => I18n::__('Couldn\'t resolve the host specified in the URL.'),
-				7  => I18n::__('Failed to connect to the remote host.'),
-				8  => I18n::__('The server sent a strange reply to a FTP-related command.'),
-				9  => I18n::__('Access denied to the resource on the server.'),
-				18 => I18n::__('The file transfer was only partially completed.'),
-				22 => I18n::__('The HTTP server returned an error code.'),
-				23 => I18n::__('An error occurred when writing received data to a local file.'),
-				25 => I18n::__('The upload failed.'),
-				27 => I18n::__('A memory allocation request failed.'),
-				28 => I18n::__('The operation timed out.'),
-				35 => I18n::__('A problem occurred while establishing an SSL/TLS connection.'),
-				37 => I18n::__('The FTP server couldn\'t retrieve the specified file.'),
-				47 => I18n::__('Too many redirects were followed during the request.'),
-				51 => I18n::__('The remote server\'s SSL certificate or SSH md5 fingerprint was deemed not OK.'),
-				52 => I18n::__('The server returned nothing during the request.'),
-				56 => I18n::__('Failure with receiving network data.'),
-				58 => I18n::__('Problem with the local client certificate.'),
-				63 => I18n::__('The requested file size exceeds the allowed limits.'),
-				67 => I18n::__('Failure with sending network data.'),
-				94 => I18n::__('The last received HTTP, FTP, or SMTP response code.'),
-				95 => I18n::__('An SSL cipher problem occurred.'),
-				99 => I18n::__('Something went wrong when uploading the file.'),
+				1  => I18n::_t('The URL you passed to the libcurl function uses an unsupported protocol.'),
+				3  => I18n::_t('The URL you provided is not properly formatted.'),
+				6  => I18n::_t('Couldn\'t resolve the host specified in the URL.'),
+				7  => I18n::_t('Failed to connect to the remote host.'),
+				8  => I18n::_t('The server sent a strange reply to a FTP-related command.'),
+				9  => I18n::_t('Access denied to the resource on the server.'),
+				18 => I18n::_t('The file transfer was only partially completed.'),
+				22 => I18n::_t('The HTTP server returned an error code.'),
+				23 => I18n::_t('An error occurred when writing received data to a local file.'),
+				25 => I18n::_t('The upload failed.'),
+				27 => I18n::_t('A memory allocation request failed.'),
+				28 => I18n::_t('The operation timed out.'),
+				35 => I18n::_t('A problem occurred while establishing an SSL/TLS connection.'),
+				37 => I18n::_t('The FTP server couldn\'t retrieve the specified file.'),
+				47 => I18n::_t('Too many redirects were followed during the request.'),
+				51 => I18n::_t('The remote server\'s SSL certificate or SSH md5 fingerprint was deemed not OK.'),
+				52 => I18n::_t('The server returned nothing during the request.'),
+				56 => I18n::_t('Failure with receiving network data.'),
+				58 => I18n::_t('Problem with the local client certificate.'),
+				63 => I18n::_t('The requested file size exceeds the allowed limits.'),
+				67 => I18n::_t('Failure with sending network data.'),
+				94 => I18n::_t('The last received HTTP, FTP, or SMTP response code.'),
+				95 => I18n::_t('An SSL cipher problem occurred.'),
+				99 => I18n::_t('Something went wrong when uploading the file.'),
 			];
 
 			return new Errors( 'file-upload', $errors[ $error ] ?? $errors[99] );
@@ -511,7 +511,7 @@ class Files extends Files\Handler
 	public function setMode( int $mode ): Files
 	{
 		if ( ! chmod( $this->path, $mode ) ) {
-			$this->errors[] = new Errors( 'file-manipulations', I18n::__( 'Failed to update file access rights' ) );
+			$this->errors[] = new Errors( 'file-manipulations', I18n::_t( 'Failed to update file access rights' ) );
 		}
 		return $this;
 	}

@@ -38,7 +38,7 @@ class Field {
 	 */
 	public static function fetch( string $type, int $post ): Errors|array {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-fetch', I18n::__( 'Invalid post type.' ) );
+			return new Errors( 'field-fetch', I18n::_t( 'Invalid post type.' ) );
 		}
 
 		$type   = sprintf( '%s%s_fields', DB_PREFIX, $type );
@@ -67,7 +67,7 @@ class Field {
 	 */
 	public static function add( string $type, int $post, string $field, $value, $unique = true ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-add', I18n::__( 'Invalid Post Type.' ) );
+			return new Errors( 'field-add', I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$fields = self::fetch( $type, $post );
@@ -108,7 +108,7 @@ class Field {
 	 */
 	public static function import( string $type, array $fields ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-import', I18n::__( 'Invalid Post Type.' ) );
+			return new Errors( 'field-import', I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		if ( $fields ) {
@@ -150,7 +150,7 @@ class Field {
 	 */
 	public static function get( string $type, int $post, string $field = '', bool $single = true ) {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::__( 'Invalid Post Type.' ) );
+			return new Errors( Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$fields = self::fetch( $type, $post );
@@ -190,7 +190,7 @@ class Field {
 	 */
 	public static function update( string $type, int $post, string $field, mixed $new_value, mixed $old_value = '' ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors(Debug::get_backtrace(), I18n::__( 'Invalid Post Type.' ) );
+			return new Errors(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$type = sprintf( '%s%s_fields', DB_PREFIX, $type );
@@ -224,7 +224,7 @@ class Field {
 	 */
 	public static function delete( string $type, int $post, string $field = '', mixed $value = '' ): Errors|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors(Debug::get_backtrace(), I18n::__( 'Invalid Post Type.' ) );
+			return new Errors(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$type = sprintf( '%s%s_fields', DB_PREFIX, $type );

@@ -67,7 +67,7 @@ final class Api
 		try {
 			$csrf->check( 'token', $_COOKIE['grafema_token'] ?? '' );
 		} catch ( InvalidCsrfTokenException $e ) {
-			$data = new Errors( 'api-no-route', I18n::__( 'Ajax queries not allows without CSRF token!' ) );
+			$data = new Errors( 'api-no-route', I18n::_t( 'Ajax queries not allows without CSRF token!' ) );
 		}
 
 		if ( empty( $data ) ) {
@@ -77,7 +77,7 @@ final class Api
 				$classMethod = $reflector->getMethod( $method );
 				$data        = $classMethod->isStatic() ? $class::$method() : $class->{$method}();
 			} catch ( \ReflectionException $e ) {
-				$data = new Errors( 'api-no-route', I18n::__( 'No route was found matching the URL and request method.' ) );
+				$data = new Errors( 'api-no-route', I18n::_t( 'No route was found matching the URL and request method.' ) );
 			}
 
 			/**

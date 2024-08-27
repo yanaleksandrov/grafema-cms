@@ -78,19 +78,19 @@ Dashboard\Form::register(
 					'type'       => 'step',
 					'attributes' => [
 						'class'          => 'pl-8 pr-8',
-						'x-wizard:title' => I18n::__( 'Choose project' ),
+						'x-wizard:title' => I18n::_t( 'Choose project' ),
 					],
 					'fields' => [
 						[
 							'name'        => 'title',
 							'type'        => 'header',
 							'class'       => 'p-8 t-center',
-							'label'       => I18n::__( 'Select the project you want to export to docs' ),
-							'instruction' => I18n::__( 'This tool allows you to convert docblock comments into docs pages. You can also use markdown.' ),
+							'label'       => I18n::_t( 'Select the project you want to export to docs' ),
+							'instruction' => I18n::_t( 'This tool allows you to convert docblock comments into docs pages. You can also use markdown.' ),
 						],
 						[
 							'type'        => 'select',
-							'label'       => I18n::__( 'Select a project to document' ),
+							'label'       => I18n::_t( 'Select a project to document' ),
 							'name'        => 'project',
 							'value'       => 'none',
 							'placeholder' => '',
@@ -107,9 +107,9 @@ Dashboard\Form::register(
 							'conditions' => [],
 							'options'    => [
 								'optgroup' => [
-									'label'   => I18n::__( 'Plugins' ),
+									'label'   => I18n::_t( 'Plugins' ),
 									'options' => [
-										'none' => I18n::__( 'Nothing is selected' ),
+										'none' => I18n::_t( 'Nothing is selected' ),
 										...$list,
 									],
 								],
@@ -122,7 +122,7 @@ Dashboard\Form::register(
 					'attributes' => [
 						'class'          => 'pl-8 pr-8',
 						'x-cloak'        => true,
-						'x-wizard:title' => I18n::__( 'Project import is completed' ),
+						'x-wizard:title' => I18n::_t( 'Project import is completed' ),
 					],
 					'fields' => [
 						[

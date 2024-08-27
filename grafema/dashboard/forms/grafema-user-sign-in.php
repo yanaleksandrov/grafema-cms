@@ -18,17 +18,17 @@ Dashboard\Form::register(
 			[
 				[
 					'type'        => 'header',
-					'label'       => I18n::__( 'Welcome to Grafema' ),
+					'label'       => I18n::_t( 'Welcome to Grafema' ),
 					'name'        => 'title',
 					'class'       => '',
-					'instruction' => I18n::__( 'Login to you account and enjoy exclusive features and many more' ),
+					'instruction' => I18n::_t( 'Login to you account and enjoy exclusive features and many more' ),
 				],
 				[
 					'type'        => 'text',
-					'label'       => I18n::__( 'Login or email' ),
+					'label'       => I18n::_t( 'Login or email' ),
 					'name'        => 'login',
 					'value'       => '',
-					'placeholder' => I18n::__( 'Enter login or email' ),
+					'placeholder' => I18n::_t( 'Enter login or email' ),
 					'class'       => '',
 					'reset'       => 0,
 					'required'    => 1,
@@ -41,10 +41,10 @@ Dashboard\Form::register(
 				],
 				[
 					'type'        => 'password',
-					'label'       => I18n::__( 'Password' ),
+					'label'       => I18n::_t( 'Password' ),
 					'name'        => 'password',
 					'value'       => '',
-					'placeholder' => I18n::__( 'Password' ),
+					'placeholder' => I18n::_t( 'Password' ),
 					'class'       => '',
 					'reset'       => 0,
 					'required'    => 1,
@@ -70,13 +70,13 @@ Dashboard\Form::register(
 						'value' => true,
 					],
 					'options' => [
-						'remember' => I18n::__( 'Remember me on this device' ),
+						'remember' => I18n::_t( 'Remember me on this device' ),
 					],
 				],
 				[
 					'name'       => 'sign-in',
 					'type'       => 'submit',
-					'label'      => I18n::__( 'Sign In' ),
+					'label'      => I18n::_t( 'Sign In' ),
 					'attributes' => [
 						'class'     => 'btn btn--primary',
 						'disabled'  => '',

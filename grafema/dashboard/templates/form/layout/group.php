@@ -27,11 +27,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="dg g-7 gtc-5 xs:gtc-1">
 	<?php if ( $label ) : ?>
-		<div class="<?php echo $class; ?>">
-			<?php echo $label; ?>
-		</div>
+		<div class="<?php echo $class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>
 	<div class="dg ga-4 g-7 gtc-<?php echo $columns; ?> sm:gtc-1">
 		<?php echo $content; ?>
+
 	</div>
 </div>

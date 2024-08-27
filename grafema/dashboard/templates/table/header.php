@@ -61,12 +61,10 @@ $show = true;
 				    View::print(
 					    'templates/form/number',
 					    [
-						    'type'        => 'number',
-						    'name'        => 'page',
-						    'class'       => 'dg g-1',
-						    'label'       => 'label',
-						    'description' => 'description',
-						    'attributes'  => [
+						    'type'       => 'number',
+						    'name'       => 'page',
+						    'class'      => 'fields--sm fields--outline',
+						    'attributes' => [
 							    'value' => 3,
 						    ],
 					    ]
@@ -81,7 +79,7 @@ $show = true;
 						'templates/form/details',
 						[
 							'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
-							'instruction' => I18n::__( 'Test content' ),
+							'instruction' => I18n::_t( 'Test content' ),
 							'class'       => 'btn btn--sm btn--outline btn--icon',
 							'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 						]
@@ -103,7 +101,7 @@ $show = true;
 						'templates/form/details',
 						[
 							'label'       => I18n::_f( '%s Bulk actions', '<i class="ph ph-magic-wand"></i>' ),
-							'instruction' => I18n::__( 'Test content' ),
+							'instruction' => I18n::_t( 'Test content' ),
 							'class'       => 'btn btn--sm',
 							'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),
 						]
@@ -144,11 +142,11 @@ $show = true;
 						    'conditions'  => [],
 						    'options'     => [
 							    'ru_RU' => [
-								    'content' => I18n::__( 'Russian' ),
+								    'content' => I18n::_t( 'Russian' ),
 								    'image'   => 'assets/images/flags/ru.svg',
 							    ],
 							    'de_DE' => [
-								    'content' => I18n::__( 'Germany' ),
+								    'content' => I18n::_t( 'Germany' ),
 								    'image'   => 'assets/images/flags/de.svg',
 							    ],
 						    ],
@@ -178,27 +176,27 @@ $show = true;
 						    'conditions'  => [],
 						    'options'     => [
 							    'plugins' => [
-								    'label'   => I18n::__( 'Plugins' ),
+								    'label'   => I18n::_t( 'Plugins' ),
 								    'options' => [
 									    'one' => [
-										    'content'     => I18n::__( 'Plugin #1' ),
+										    'content'     => I18n::_t( 'Plugin #1' ),
 										    'description' => I18n::_f( 'completion %d%%', 11 ),
 									    ],
 									    'two' => [
-										    'content'     => I18n::__( 'Plugin #2' ),
+										    'content'     => I18n::_t( 'Plugin #2' ),
 										    'description' => I18n::_f( 'completion %d%%', 66 ),
 									    ],
 								    ],
 							    ],
 							    'themes' => [
-								    'label'   => I18n::__( 'Themes' ),
+								    'label'   => I18n::_t( 'Themes' ),
 								    'options' => [
 									    'theme1' => [
-										    'content'     => I18n::__( 'Theme #1' ),
+										    'content'     => I18n::_t( 'Theme #1' ),
 										    'description' => I18n::_f( 'completion %d%%', 99 ),
 									    ],
 									    'theme2' => [
-										    'content'     => I18n::__( 'Theme #2' ),
+										    'content'     => I18n::_t( 'Theme #2' ),
 										    'description' => I18n::_f( 'completion %d%%', 55 ),
 									    ],
 								    ],

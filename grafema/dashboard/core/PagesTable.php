@@ -37,20 +37,20 @@ final class PagesTable {
 				->fixedWidth( '2.5rem' )
 				->view( 'image' ),
 			Column::add( 'title' )
-				->title( I18n::__( 'Title' ) )
+				->title( I18n::_t( 'Title' ) )
 				->flexibleWidth( '16rem' )
 				->sortable()
 				->view( 'title' ),
 			Column::add( 'author' )
-				->title( I18n::__( 'Author' ) )
+				->title( I18n::_t( 'Author' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
 			Column::add( 'categories' )
-				->title( I18n::__( 'Categories' ) )
+				->title( I18n::_t( 'Categories' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
 			Column::add( 'date' )
-				->title( I18n::__( 'Date' ) )
+				->title( I18n::_t( 'Date' ) )
 				->fixedWidth( '6rem' )
 				->sortable()
 				->view( 'date' ),
@@ -67,7 +67,7 @@ final class PagesTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::__( 'Pages' ),
+			'title'   => I18n::_t( 'Pages' ),
 			'actions' => true,
 			'filter'  => true,
 		];
@@ -75,8 +75,8 @@ final class PagesTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Pages not found' ),
-			'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'title'       => I18n::_t( 'Pages not found' ),
+			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 		];
 	}
 }

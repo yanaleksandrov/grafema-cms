@@ -19,17 +19,17 @@ Dashboard\Form::register(
 				[
 					'name'        => 'title',
 					'type'        => 'header',
-					'label'       => I18n::__( 'Reset password' ),
+					'label'       => I18n::_t( 'Reset password' ),
 					'class'       => 't-center',
-					'instruction' => I18n::__( 'Enter the email address that you used to register. We will send you an email that will allow you to reset your password.' ),
+					'instruction' => I18n::_t( 'Enter the email address that you used to register. We will send you an email that will allow you to reset your password.' ),
 				],
 				[
 					'name'       => 'email',
 					'type'       => 'email',
-					'label'      => I18n::__( 'Your email' ),
+					'label'      => I18n::_t( 'Your email' ),
 					'attributes' => [
 						'required'       => true,
-						'placeholder'    => I18n::__( 'Enter your email address' ),
+						'placeholder'    => I18n::_t( 'Enter your email address' ),
 						'x-autocomplete' => '',
 						'x-model'        => 'email',
 					],
@@ -37,7 +37,7 @@ Dashboard\Form::register(
 				[
 					'name'       => 'sign-in',
 					'type'       => 'submit',
-					'label'      => I18n::__( 'Send me instructions' ),
+					'label'      => I18n::_t( 'Send me instructions' ),
 					'attributes' => [
 						'class'     => 'btn btn--primary',
 						'disabled'  => '',

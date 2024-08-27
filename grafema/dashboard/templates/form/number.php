@@ -15,41 +15,31 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$type, $name, $label, $label_class, $class, $reset, $description, $attributes] = (
+[ $name, $label, $label_class, $class, $reset, $description, $attributes ] = (
     new Grafema\Sanitizer(
         $args ?? [],
         [
-			'type'        => 'key:number',
 			'name'        => 'attribute|key',
 			'label'       => 'trim',
-			'label_class' => 'class:df aic jcsb fw-600',
-			'class'       => 'class:dg g-1',
+			'label_class' => 'class:fields-label',
+			'class'       => 'class:fields',
 			'reset'       => 'bool:false',
 			'description' => 'trim',
 			'attributes'  => 'array',
         ]
     )
 )->values();
-
-$attributes = [
-	...$attributes,
-	'type'         => $type,
-	'name'         => $name,
-	'x-model.fill' => $name,
-];
-
-$fieldAttributes = [ 'data-before' => '', 'data-after' => 'of 25' ];
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
-		<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>
+		<div class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></div>
 	<?php endif; ?>
-	<label class="field"<?php echo Arr::toHtmlAtts( $fieldAttributes ); ?>>
-		<i class="ph ph-minus fs-12" @click="<?php Esc::attr( $name ); ?>--"></i>
-		<?php printf( '<input%s>', Arr::toHtmlAtts( $attributes ) ); ?>
-		<i class="ph ph-plus fs-12" @click="<?php Esc::attr( $name ); ?>++"></i>
-	</label>
+	<div class="fields-item">
+		<i class="ph ph-minus" @click="<?php Esc::attr( $name ); ?>--"></i>
+		<input type="number" name="<?php Esc::attr( $name ); ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php Esc::attr( $name ); ?>" @keydown.e.prevent>
+		<i class="ph ph-plus" @click="<?php Esc::attr( $name ); ?>++"></i>
+	</div>
 	<?php if ( $description ) : ?>
-		<div class="fs-13 t-muted lh-xs"><?php Esc::html( $description ); ?></div>
+		<div class="fields-description"><?php Esc::html( $description ); ?></div>
 	<?php endif; ?>
 </div>

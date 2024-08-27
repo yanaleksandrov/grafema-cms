@@ -61,12 +61,10 @@ $show = true;
 				    View::print(
 					    'templates/form/number',
 					    [
-						    'type'        => 'number',
-						    'name'        => 'page',
-						    'class'       => 'dg g-1',
-						    'label'       => 'label',
-						    'description' => 'description',
-						    'attributes'  => [
+						    'type'       => 'number',
+						    'name'       => 'page',
+						    'class'      => 'fields fields--sm fields--outline',
+						    'attributes' => [
 							    'value' => 3,
 						    ],
 					    ]

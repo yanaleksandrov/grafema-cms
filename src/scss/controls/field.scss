@@ -1,3 +1,117 @@
+.fields {
+  display: grid;
+  gap: 0.25em;
+  font-size: 0.875rem;
+
+  &:has([disabled]) {
+    pointer-events: none;
+  }
+
+  &--sm {
+    font-size: 0.8125rem;
+  }
+
+  &--lg {
+    font-size: 1rem;
+  }
+
+  &-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    line-height: 1.35em;
+    font-size: 0.9285em;
+  }
+
+  &-description {
+    line-height: 1.2em;
+    font-size: 0.9285em;
+    color: var(--grafema-text-muted);
+  }
+
+  &-item {
+    padding-inline: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    border: 1px solid var(--grafema-border);
+    border-radius: var(--grafema-border-radius);
+    background-color: var(--grafema-bg);
+    height: 2rem;
+
+    i,
+    code,
+    samp {
+      font-size: inherit;
+    }
+
+    &:has(code),
+    &:has(samp) {
+      padding-inline-start: 0.4em;
+    }
+
+    input,
+    select,
+    textarea {
+      border-radius: 0;
+      border-width: 0;
+      border-color: transparent;
+      background-color: transparent;
+      padding-inline: 0;
+      height: inherit;
+      cursor: initial;
+      resize: none;
+      color: inherit;
+      font-size: inherit;
+
+      &.load {
+        background-position: calc(100% - 0.25rem) center;
+      }
+    }
+
+    input {
+
+      &[type="number"] {
+        -moz-appearance: textfield;
+        text-align: center;
+        width: 2.75em;
+      }
+
+      &[type="number"]::-webkit-inner-spin-button,
+      &[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    &:not(:has([readonly])):focus-within {
+      color: inherit;
+      outline: 0;
+      background-color: #fff;
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+    }
+
+    .fields--sm & {
+      padding-block: 0.65em;
+      height: 1.75rem;
+      max-height: 1.75rem;
+    }
+
+    .fields--lg & {
+      padding-block: 1.125em;
+      height: 2.5rem;
+      max-height: 2.5rem;
+    }
+
+    .fields--outline & {
+      border: 1px solid var(--grafema-border);
+      background-color: var(--grafema-white);
+    }
+  }
+}
+
 .field {
   padding: 0 0.75rem;
   overflow: visible;
@@ -13,18 +127,6 @@
   &:has(code),
   &:has(samp) {
     padding-left: 0.3rem;
-  }
-
-  &[data-before]:before {
-    content: attr(data-before);
-    font-size: inherit;
-    color: var(--grafema-text-muted);
-  }
-
-  &[data-after]:after {
-    content: attr(data-after);
-    font-size: inherit;
-    color: var(--grafema-text-muted);
   }
 
   input,

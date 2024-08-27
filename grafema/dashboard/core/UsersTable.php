@@ -9,6 +9,7 @@ use Dashboard\Builders\Column;
 final class UsersTable {
 
 	public function data(): array {
+		return [];
 		return [
 			[
 				'cb'      => '<input type="checkbox" name="post[]" x-bind="switcher">',
@@ -38,12 +39,12 @@ final class UsersTable {
 				->view( 'image' ),
 			Column::add( 'name' )
 				->title( I18n::__( 'Name' ) )
-				->flexibleWidth( '22rem' )
+				->flexibleWidth( '16rem' )
 				->sortable()
 				->view( 'title' ),
 			Column::add( 'author' )
 				->title( I18n::__( 'Role' ) )
-				->flexibleWidth( '22rem' )
+				->flexibleWidth( '8rem' )
 				->view( 'links' ),
 			Column::add( 'categories' )
 				->title( I18n::__( 'Last visit' ) )

@@ -46,8 +46,9 @@ final class TranslationsTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Translations' ),
-			'badge' => I18n::_f( 'translated %d from %d <i class="t-green">(%d%%)</i>', 56, 408, 25 ),
+			'title'       => I18n::__( 'Translations' ),
+			'badge'       => I18n::_f( 'completed %d from %d <i class="t-green">(%d%%)</i>', 56, 408, 25 ),
+			'translation' => true,
 		];
 	}
 

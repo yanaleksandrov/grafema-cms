@@ -83,7 +83,9 @@ final class PluginsTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Plugins' ),
+			'title'   => I18n::__( 'Plugins' ),
+			'actions' => true,
+			'filter'  => true,
 		];
 	}
 

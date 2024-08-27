@@ -62,7 +62,9 @@ final class UsersTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Users' ),
+			'title'   => I18n::__( 'Users' ),
+			'actions' => true,
+			'filter'  => true,
 		];
 	}
 

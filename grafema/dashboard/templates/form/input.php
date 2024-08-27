@@ -22,7 +22,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         [
             'label'       => 'trim',
             'name'        => 'key',
-            'value'       => 'attribute|trim',
+            'value'       => 'trim|attribute',
             'placeholder' => 'trim',
             'class'       => 'class:df aic jcsb fw-600',
             'reset'       => 'bool:false',

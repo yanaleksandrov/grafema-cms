@@ -38,7 +38,7 @@ final class PagesTable {
 				->view( 'image' ),
 			Column::add( 'title' )
 				->title( I18n::__( 'Title' ) )
-				->flexibleWidth( '22rem' )
+				->flexibleWidth( '16rem' )
 				->sortable()
 				->view( 'title' ),
 			Column::add( 'author' )
@@ -51,7 +51,7 @@ final class PagesTable {
 				->view( 'links' ),
 			Column::add( 'date' )
 				->title( I18n::__( 'Date' ) )
-				->fixedWidth( '9rem' )
+				->fixedWidth( '6rem' )
 				->sortable()
 				->view( 'date' ),
 		];
@@ -67,7 +67,9 @@ final class PagesTable {
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Pages' ),
+			'title'   => I18n::__( 'Pages' ),
+			'actions' => true,
+			'filter'  => true,
 		];
 	}
 

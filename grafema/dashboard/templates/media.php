@@ -15,15 +15,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php
-	View::print(
-		'templates/table/header',
-		[
-			'title' => I18n::_t( 'Media Library' ),
-		]
-	);
-
-	( new Dashboard\Builders\Table( new Dashboard\MediaTable() ) )->print();
-	?>
+	<?php ( new Dashboard\Builders\Table( new Dashboard\MediaTable() ) )->print(); ?>
     <div x-intersect="$ajax('media/get').then(response => posts = response.posts)"></div>
 </div>

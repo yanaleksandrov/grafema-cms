@@ -34,4 +34,4 @@ $tag && printf( '<%s>', trim( sprintf( '%s %s', $tag, Arr::toHtmlAtts( $attribut
 foreach ( $columns as $column ) {
 	View::print( $column->view, [ 'key' => $column->key, ...$data ] );
 }
-$tag && printf( '</%s>', $tag );
+$tag && printf( '</%s>' . PHP_EOL, $tag );

@@ -13,10 +13,6 @@ final class MediaTable {
 		return '';
 	}
 
-	public function data(): array {
-		return [];
-	}
-
 	public function rows(): array {
 		return [
 			Row::add()->tag( '' ),
@@ -43,11 +39,13 @@ final class MediaTable {
 	}
 
 	public function headerContent(): array {
-		return [];
-	}
-
-	public function headerTemplate(): string {
-		return '';
+		return [
+			'title'   => I18n::_t( 'Media Library' ),
+			'actions' => false,
+			'filter'  => false,
+			'show'    => 'false',
+			'content' => '',
+		];
 	}
 
 	public function notFoundBefore(): string {
@@ -57,7 +55,7 @@ final class MediaTable {
 		<template x-if="posts.length">
 			<div class="storage">
 				<template x-for="post in posts">
-					<?php View::print( $row->view, [ 'columns' => $this->columns(), 'row' => $row ] ); ?>
+					<?php View::print( $row->view, [ 'columns' => $this->columns(), 'row' => $row, 'data' => [] ] ); ?>
 				</template>
 			</div>
 		</template>

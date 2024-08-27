@@ -52,7 +52,7 @@ if ( empty( $template ) || ! file_exists( $template ) ) {
 							<td style="padding-top:20px;"><?php I18n::t( 'This message is generated automatically. Don\'t reply it.' ); ?></td>
 						</tr>
 						<tr>
-							<td><?php printf( I18n::__( 'All rights reserved © %d' ), date( 'Y' ) ); ?></td>
+							<td><?php printf( I18n::_t( 'All rights reserved © %d' ), date( 'Y' ) ); ?></td>
 						</tr>
 					</tbody>
 				</table>

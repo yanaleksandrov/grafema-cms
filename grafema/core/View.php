@@ -48,7 +48,7 @@ class View
 		}
 
 		if ( $status < 300 || 399 < $status ) {
-			return new Errors( 'view-redirect', I18n::__( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
+			return new Errors( 'view-redirect', I18n::_t( 'HTTP redirect status code must be a redirection code, 3xx.' ) );
 		}
 
 		/**

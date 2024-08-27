@@ -120,7 +120,7 @@ class User extends \Grafema\Api\Handler
 		if ( $user instanceof \Grafema\User ) {
 			$mail_is_sent = Mail::send(
 				$email,
-				I18n::__( 'Instructions for reset password' ),
+				I18n::_t( 'Instructions for reset password' ),
 				View::get(
 					GRFM_DASHBOARD . 'templates/mails/wrapper',
 					[

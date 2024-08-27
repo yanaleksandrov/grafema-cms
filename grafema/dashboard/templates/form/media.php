@@ -21,7 +21,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         [
 			'type'        => 'key:text',
 			'name'        => 'attribute|key',
-			'label'       => 'trim',
+			'label'       => 'trim:field',
 			'label_class' => 'class:df aic jcsb fw-600',
 			'class'       => 'class:dg g-1',
 			'description' => 'trim',
@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 ?>
-<div x-data="{<?php echo $name; ?>: []}" class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>" x-data="{<?php echo $name; ?>: []}">
 	<div class="dg g-1" x-media>
 		<?php if ( $label ) { ?>
 			<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>

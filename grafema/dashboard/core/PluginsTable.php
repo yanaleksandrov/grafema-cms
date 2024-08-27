@@ -55,19 +55,19 @@ final class PluginsTable {
 				->fixedWidth( '2.5rem' )
 				->view( 'image' ),
 			Column::add( 'plugin' )
-				->title( I18n::__( 'Plugin' ) )
+				->title( I18n::_t( 'Plugin' ) )
 				->flexibleWidth( '16rem' )
 				->view( 'plugin' ),
 			Column::add( 'description' )
-				->title( I18n::__( 'Description' ) )
+				->title( I18n::_t( 'Description' ) )
 				->flexibleWidth( '24rem' )
 				->view( 'raw' ),
 			Column::add( 'version' )
-				->title( I18n::__( 'Version' ) )
+				->title( I18n::_t( 'Version' ) )
 				->fixedWidth( '6rem' )
 				->view( 'badge' ),
 			Column::add( 'active' )
-				->title( I18n::__( 'Activity' ) )
+				->title( I18n::_t( 'Activity' ) )
 				->fixedWidth( '6rem' )
 				->view( 'toggle' ),
 		];
@@ -83,7 +83,7 @@ final class PluginsTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::__( 'Plugins' ),
+			'title'   => I18n::_t( 'Plugins' ),
 			'actions' => true,
 			'filter'  => true,
 		];
@@ -91,8 +91,8 @@ final class PluginsTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Plugins are not installed yet' ),
-			'description' => I18n::__( 'You can download them manually or install from the repository' ),
+			'title'       => I18n::_t( 'Plugins are not installed yet' ),
+			'description' => I18n::_t( 'You can download them manually or install from the repository' ),
 		];
 	}
 }

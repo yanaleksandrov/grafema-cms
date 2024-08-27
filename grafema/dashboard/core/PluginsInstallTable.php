@@ -324,14 +324,14 @@ final class PluginsInstallTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Plugins not found' ),
-			'description' => I18n::__( 'You don\'t have any themes installed yet, <a @click="$modal.open(\'grafema-modals-post\')">download them</a>' ),
+			'title'       => I18n::_t( 'Plugins not found' ),
+			'description' => I18n::_t( 'You don\'t have any themes installed yet, <a @click="$modal.open(\'grafema-modals-post\')">download them</a>' ),
 		];
 	}
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Add Plugins' ),
+			'title' => I18n::_t( 'Add Plugins' ),
 		];
 	}
 

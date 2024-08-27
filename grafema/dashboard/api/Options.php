@@ -64,7 +64,7 @@ class Options extends \Grafema\Api\Handler
 
 		return [
 			[
-				'fragment' => I18n::__( 'Options is updated successfully' ),
+				'fragment' => I18n::_t( 'Options is updated successfully' ),
 				'target'   => 'body',
 				'method'   => 'notify',
 				'custom'   => [

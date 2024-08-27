@@ -34,16 +34,16 @@ final class EmailsTable {
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
 			Column::add( 'title' )
-				->title( I18n::__( 'Name' ) )
+				->title( I18n::_t( 'Name' ) )
 				->flexibleWidth( '15rem' )
 				->sortable()
 				->view( 'title' ),
 			Column::add( 'recipients' )
-				->title( I18n::__( 'Recipients' ) )
+				->title( I18n::_t( 'Recipients' ) )
 				->flexibleWidth( '15rem' )
 				->view( 'title' ),
 			Column::add( 'event' )
-				->title( I18n::__( 'Event' ) )
+				->title( I18n::_t( 'Event' ) )
 				->fixedWidth( '9rem' )
 				->view( 'date' ),
 		];
@@ -59,14 +59,14 @@ final class EmailsTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::__( 'Emails' ),
+			'title'   => I18n::_t( 'Emails' ),
 			'actions' => true,
 		];
 	}
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Emails templates is not found' ),
+			'title'       => I18n::_t( 'Emails templates is not found' ),
 			'description' => I18n::_f(
 				'Add %1$snew email template%2$s manually',
 				'<a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">',

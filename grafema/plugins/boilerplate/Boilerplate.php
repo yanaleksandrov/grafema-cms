@@ -20,8 +20,8 @@ class Boilerplate implements Plugins\Skeleton
 	public function manifest(): array
 	{
 		return [
-			'name'         => I18n::__( 'Plugin Boilerplate' ),
-			'description'  => I18n::__( 'Plugin Boilerplate Description' ),
+			'name'         => I18n::_t( 'Plugin Boilerplate' ),
+			'description'  => I18n::_t( 'Plugin Boilerplate Description' ),
 			'author'       => 'Grafema Team',
 			'email'        => '',
 			'url'          => '',

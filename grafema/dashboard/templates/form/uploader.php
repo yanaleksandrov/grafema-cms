@@ -37,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<?php if ( $description ) : ?>
 				<span class="fw-700"><?php Esc::html( $description ); ?></span>
 			<?php endif; ?>
-			<span class="fs-13 t-muted"><?php printf( I18n::__( 'Maximum upload file size is %s' ), $max_size ); ?></span>
+			<span class="fs-13 t-muted"><?php printf( I18n::_t( 'Maximum upload file size is %s' ), $max_size ); ?></span>
 		</span>
 		<input type="file"<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 	</label>

@@ -18,7 +18,7 @@ Dashboard\Form::register(
 			[
 				[
 					'type'        => 'progress',
-					'label'       => I18n::__( 'Storage' ),
+					'label'       => I18n::_t( 'Storage' ),
 					'name'        => 'progress',
 					'value'       => 75,
 					'placeholder' => '',
@@ -30,9 +30,9 @@ Dashboard\Form::register(
 					'before'      => '',
 					'after'       => '',
 					'tooltip'     => '',
-					'instruction' => I18n::__( '25% used of 2GB' ),
+					'instruction' => I18n::_t( '25% used of 2GB' ),
 					'attributes'  => [
-						'placeholder' => I18n::__( 'e.g. image name' ),
+						'placeholder' => I18n::_t( 'e.g. image name' ),
 					],
 					'conditions'  => [],
 					'max'         => 100,
@@ -41,7 +41,7 @@ Dashboard\Form::register(
 				],
 				[
 					'type'        => 'search',
-					'label'       => I18n::__( 'Search' ),
+					'label'       => I18n::_t( 'Search' ),
 					'name'        => 's',
 					'value'       => '',
 					'placeholder' => '',
@@ -54,13 +54,13 @@ Dashboard\Form::register(
 					'tooltip'     => '',
 					'instruction' => '',
 					'attributes'  => [
-						'placeholder' => I18n::__( 'e.g. image name' ),
+						'placeholder' => I18n::_t( 'e.g. image name' ),
 					],
 					'conditions'  => [],
 				],
 				[
 					'type'        => 'checkbox',
-					'label'       => I18n::__( 'File types' ),
+					'label'       => I18n::_t( 'File types' ),
 					'name'        => 'types',
 					'value'       => '',
 					'placeholder' => '',
@@ -75,16 +75,16 @@ Dashboard\Form::register(
 					'attributes'  => [],
 					'conditions'  => [],
 					'options' => [
-						'svg'    => sprintf( '%s%s', I18n::__( 'SVG' ), '<span class="badge badge--blue-lt ml-auto">56</span>' ),
-						'images' => sprintf( '%s%s', I18n::__( 'Images' ), '<span class="badge badge--blue-lt ml-auto">670</span>' ),
-						'video'  => sprintf( '%s%s', I18n::__( 'Video' ), '<span class="badge badge--blue-lt ml-auto">35</span>' ),
-						'audio'  => sprintf( '%s%s', I18n::__( 'Audio' ), '<span class="badge badge--blue-lt ml-auto">147</span>' ),
-						'zip'    => sprintf( '%s%s', I18n::__( 'ZIP' ), '<span class="badge badge--blue-lt ml-auto">74</span>' ),
+						'svg'    => sprintf( '%s%s', I18n::_t( 'SVG' ), '<span class="badge badge--blue-lt ml-auto">56</span>' ),
+						'images' => sprintf( '%s%s', I18n::_t( 'Images' ), '<span class="badge badge--blue-lt ml-auto">670</span>' ),
+						'video'  => sprintf( '%s%s', I18n::_t( 'Video' ), '<span class="badge badge--blue-lt ml-auto">35</span>' ),
+						'audio'  => sprintf( '%s%s', I18n::_t( 'Audio' ), '<span class="badge badge--blue-lt ml-auto">147</span>' ),
+						'zip'    => sprintf( '%s%s', I18n::_t( 'ZIP' ), '<span class="badge badge--blue-lt ml-auto">74</span>' ),
 					],
 				],
 				[
 					'type'        => 'select',
-					'label'       => I18n::__( 'Author' ),
+					'label'       => I18n::_t( 'Author' ),
 					'name'        => 'authors',
 					'value'       => '',
 					'placeholder' => '',
@@ -99,8 +99,8 @@ Dashboard\Form::register(
 					'attributes'  => [],
 					'conditions'  => [],
 					'options' => [
-						''                => I18n::__( 'Select an author' ),
-						'user-registered' => I18n::__( 'New user registered' ),
+						''                => I18n::_t( 'Select an author' ),
+						'user-registered' => I18n::_t( 'New user registered' ),
 					],
 				],
 			]

@@ -22,8 +22,8 @@ class Toolkit implements Plugins\Skeleton
 	public function manifest(): array
 	{
 		return [
-			'name'         => I18n::__( 'Toolkit' ),
-			'description'  => I18n::__( 'The developer tools panel for Grafema.' ),
+			'name'         => I18n::_t( 'Toolkit' ),
+			'description'  => I18n::_t( 'The developer tools panel for Grafema.' ),
 			'author'       => 'Grafema Team',
 			'email'        => '',
 			'url'          => '',
@@ -51,7 +51,7 @@ class Toolkit implements Plugins\Skeleton
 						[
 							'id'           => 'toolkit',
 							'url'          => 'forms-builder',
-							'title'        => I18n::__( 'Dev toolkit' ),
+							'title'        => I18n::_t( 'Dev toolkit' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => 'ph ph-brackets-curly',
 							'position'     => 800,
@@ -59,7 +59,7 @@ class Toolkit implements Plugins\Skeleton
 						[
 							'id'           => 'fields-builder',
 							'url'          => 'fields-builder',
-							'title'        => I18n::__( 'Fields builder' ),
+							'title'        => I18n::_t( 'Fields builder' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => '',
 							'position'     => 0,
@@ -68,7 +68,7 @@ class Toolkit implements Plugins\Skeleton
 						[
 							'id'           => 'forms-builder',
 							'url'          => 'forms-builder',
-							'title'        => I18n::__( 'Forms builder' ),
+							'title'        => I18n::_t( 'Forms builder' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => '',
 							'position'     => 0,
@@ -96,21 +96,21 @@ class Toolkit implements Plugins\Skeleton
 						[
 							'name'    => 'manage',
 							'type'    => 'group',
-							'label'   => I18n::__( 'Managing fields' ),
+							'label'   => I18n::_t( 'Managing fields' ),
 							'class'   => '',
 							'columns' => '',
 							'fields'  => [
 								[
 									'name'        => 'general',
 									'type'        => 'tab',
-									'label'       => I18n::__( 'General' ),
+									'label'       => I18n::_t( 'General' ),
 									'caption'     => '',
 									'description' => '',
 									'icon'        => 'ph ph-cube',
 									'fields'      => [
 										[
 											'type'        => 'select',
-											'label'       => I18n::__( 'Field Type' ),
+											'label'       => I18n::_t( 'Field Type' ),
 											'name'        => 'type',
 											'value'       => '',
 											'placeholder' => '',
@@ -126,138 +126,138 @@ class Toolkit implements Plugins\Skeleton
 											],
 											'options' => [
 												'main' => [
-													'label'   => I18n::__( 'Basic' ),
+													'label'   => I18n::_t( 'Basic' ),
 													'options' => [
 														'input' => [
-															'content' => I18n::__( 'Text' ),
+															'content' => I18n::_t( 'Text' ),
 															'icon'    => 'ph ph-text-t',
 														],
 														'textarea' => [
-															'content' => I18n::__( 'Text Area' ),
+															'content' => I18n::_t( 'Text Area' ),
 															'icon'    => 'ph ph-textbox',
 														],
 														'number' => [
-															'content' => I18n::__( 'Number' ),
+															'content' => I18n::_t( 'Number' ),
 															'icon'    => 'ph ph-hash',
 														],
 														'range' => [
-															'content' => I18n::__( 'Range (TODO)' ),
+															'content' => I18n::_t( 'Range (TODO)' ),
 															'icon'    => 'ph ph-hash',
 														],
 														'email' => [
-															'content' => I18n::__( 'Email (TODO)' ),
+															'content' => I18n::_t( 'Email (TODO)' ),
 															'icon'    => 'ph ph-at',
 														],
 														'url' => [
-															'content' => I18n::__( 'URL (TODO)' ),
+															'content' => I18n::_t( 'URL (TODO)' ),
 															'icon'    => 'ph ph-link',
 														],
 														'password' => [
-															'content' => I18n::__( 'Password' ),
+															'content' => I18n::_t( 'Password' ),
 															'icon'    => 'ph ph-password',
 														],
 														'submit' => [
-															'content' => I18n::__( 'Submit Button' ),
+															'content' => I18n::_t( 'Submit Button' ),
 															'icon'    => 'ph ph-paper-plane-tilt',
 														],
 														'date' => [
-															'content' => I18n::__( 'Date Picker (TODO)' ),
+															'content' => I18n::_t( 'Date Picker (TODO)' ),
 															'icon'    => 'ph ph-calendar',
 														],
 														'date_time' => [
-															'content' => I18n::__( 'Date & Time Picker (TODO)' ),
+															'content' => I18n::_t( 'Date & Time Picker (TODO)' ),
 															'icon'    => 'ph ph-calendar',
 														],
 														'time' => [
-															'content' => I18n::__( 'Time Picker (TODO)' ),
+															'content' => I18n::_t( 'Time Picker (TODO)' ),
 															'icon'    => 'ph ph-clock-countdown',
 														],
 														'color' => [
-															'content' => I18n::__( 'Color Picker (TODO)' ),
+															'content' => I18n::_t( 'Color Picker (TODO)' ),
 															'icon'    => 'ph ph-swatches',
 														],
 													],
 												],
 												'content' => [
-													'label'   => I18n::__( 'Content' ),
+													'label'   => I18n::_t( 'Content' ),
 													'options' => [
 														'image' => [
-															'content' => I18n::__( 'Image' ),
+															'content' => I18n::_t( 'Image' ),
 															'icon'    => 'ph ph-image-square',
 														],
 														'media' => [
-															'content' => I18n::__( 'Media' ), // TODO: gallery instead
+															'content' => I18n::_t( 'Media' ), // TODO: gallery instead
 															'icon'    => 'ph ph-images-square',
 														],
 														'editor' => [
-															'content' => I18n::__( 'WYSIWYG editor (TODO)' ),
+															'content' => I18n::_t( 'WYSIWYG editor (TODO)' ),
 															'icon'    => 'ph ph-image-square',
 														],
 														'uploader' => [
-															'content' => I18n::__( 'Uploader' ),
+															'content' => I18n::_t( 'Uploader' ),
 															'icon'    => 'ph ph-paperclip',
 														],
 														'progress' => [
-															'content' => I18n::__( 'Progress' ),
+															'content' => I18n::_t( 'Progress' ),
 															'icon'    => 'ph ph-spinner-gap',
 														],
 													],
 												],
 												'choice' => [
-													'label'   => I18n::__( 'Choice' ),
+													'label'   => I18n::_t( 'Choice' ),
 													'options' => [
 														'select' => [
-															'content' => I18n::__( 'Select' ),
+															'content' => I18n::_t( 'Select' ),
 															'icon'    => 'ph ph-list-checks',
 														],
 														'checkbox' => [
-															'content' => I18n::__( 'Checkbox' ),
+															'content' => I18n::_t( 'Checkbox' ),
 															'icon'    => 'ph ph-toggle-left',
 														],
 														'radio' => [
-															'content' => I18n::__( 'Radio Button' ),
+															'content' => I18n::_t( 'Radio Button' ),
 															'icon'    => 'ph ph-radio-button',
 														],
 													],
 												],
 												'relations' => [
-													'label'   => I18n::__( 'Relations' ),
+													'label'   => I18n::_t( 'Relations' ),
 													'options' => [
 														'link' => [
-															'content' => I18n::__( 'Link (TODO)' ),
+															'content' => I18n::_t( 'Link (TODO)' ),
 															'icon'    => 'ph ph-link-simple',
 														],
 														'post' => [
-															'content' => I18n::__( 'Post Object (TODO)' ),
+															'content' => I18n::_t( 'Post Object (TODO)' ),
 															'icon'    => 'ph ph-note',
 														],
 														'user' => [
-															'content' => I18n::__( 'User (TODO)' ),
+															'content' => I18n::_t( 'User (TODO)' ),
 															'icon'    => 'ph ph-user',
 														],
 													],
 												],
 												'additional' => [
-													'label'   => I18n::__( 'Layout' ),
+													'label'   => I18n::_t( 'Layout' ),
 													'options' => [
 														'details' => [
-															'content' => I18n::__( 'Details' ), // TODO: rename context menu
+															'content' => I18n::_t( 'Details' ), // TODO: rename context menu
 															'icon'    => 'ph ph-dots-three-outline-vertical',
 														],
 														'divider' => [
-															'content' => I18n::__( 'Divider' ),
+															'content' => I18n::_t( 'Divider' ),
 															'icon'    => 'ph ph-arrows-out-line-vertical',
 														],
 														'step' => [
-															'content' => I18n::__( 'Step' ),
+															'content' => I18n::_t( 'Step' ),
 															'icon'    => 'ph ph-steps',
 														],
 														'tab' => [
-															'content' => I18n::__( 'Tab' ),
+															'content' => I18n::_t( 'Tab' ),
 															'icon'    => 'ph ph-tabs',
 														],
 														'repeater' => [
-															'content' => I18n::__( 'Repeater (TODO)' ),
+															'content' => I18n::_t( 'Repeater (TODO)' ),
 															'icon'    => 'ph ph-infinity',
 														],
 													],
@@ -268,37 +268,37 @@ class Toolkit implements Plugins\Skeleton
 										[
 											'name'        => 'label',
 											'type'        => 'text',
-											'label'       => I18n::__( 'Field Label' ),
+											'label'       => I18n::_t( 'Field Label' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
-											'instruction' => I18n::__( 'This is the name which will appear on the EDIT page' ),
+											'instruction' => I18n::_t( 'This is the name which will appear on the EDIT page' ),
 											'attributes'  => [
 												'value'       => 'Title',
-												'placeholder' => I18n::__( 'Field label' ),
+												'placeholder' => I18n::_t( 'Field label' ),
 											],
 										],
 										[
 											'name'        => 'name',
 											'type'        => 'text',
-											'label'       => I18n::__( 'Field Name' ),
+											'label'       => I18n::_t( 'Field Name' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
-											'instruction' => I18n::__( 'Single word, no spaces. Underscores and dashes allowed' ),
+											'instruction' => I18n::_t( 'Single word, no spaces. Underscores and dashes allowed' ),
 											'attributes'  => [
 												'value'       => '',
-												'placeholder' => I18n::__( 'Field label' ),
+												'placeholder' => I18n::_t( 'Field label' ),
 											],
 										],
 										[
 											'name'        => 'value',
 											'type'        => 'text',
-											'label'       => I18n::__( 'Default Value' ),
+											'label'       => I18n::_t( 'Default Value' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
-											'instruction' => I18n::__( 'Appears when creating a new post' ),
+											'instruction' => I18n::_t( 'Appears when creating a new post' ),
 											'attributes'  => [
 												'value' => '',
 											],
@@ -306,7 +306,7 @@ class Toolkit implements Plugins\Skeleton
 										[
 											'name'        => 'options',
 											'type'        => 'textarea',
-											'label'       => I18n::__( 'Options' ),
+											'label'       => I18n::_t( 'Options' ),
 											'class'       => 'df aic fs-12 t-muted',
 											'value'       => 'red:Red',
 											'before'      => '',
@@ -314,8 +314,8 @@ class Toolkit implements Plugins\Skeleton
 											'tooltip'     => '',
 											'limits'      => 0,
 											'required'    => 0,
-											'placeholder' => I18n::__( 'Placeholder text' ),
-											'instruction' => I18n::__( 'Enter each choice on a new line. You must specify both the value and the label as follows: red:Red' ),
+											'placeholder' => I18n::_t( 'Placeholder text' ),
+											'instruction' => I18n::_t( 'Enter each choice on a new line. You must specify both the value and the label as follows: red:Red' ),
 											'conditions'  => [
 												[
 													'field'    => 'type',
@@ -329,7 +329,7 @@ class Toolkit implements Plugins\Skeleton
 								[
 									'name'        => 'validation',
 									'type'        => 'tab',
-									'label'       => I18n::__( 'Validation' ),
+									'label'       => I18n::_t( 'Validation' ),
 									'caption'     => '',
 									'description' => '',
 									'icon'        => 'ph ph-shield-check',
@@ -346,11 +346,11 @@ class Toolkit implements Plugins\Skeleton
 											'before'      => '',
 											'after'       => '',
 											'tooltip'     => '',
-											'instruction' => I18n::__( 'The form will not be saved if it is not filled in' ),
+											'instruction' => I18n::_t( 'The form will not be saved if it is not filled in' ),
 											'attributes'  => [],
 											'conditions'  => [],
 											'options'     => [
-												'required' => I18n::__( 'Required' ),
+												'required' => I18n::_t( 'Required' ),
 											],
 										],
 									],
@@ -358,7 +358,7 @@ class Toolkit implements Plugins\Skeleton
 								[
 									'name'        => 'presentation',
 									'type'        => 'tab',
-									'label'       => I18n::__( 'Presentation' ),
+									'label'       => I18n::_t( 'Presentation' ),
 									'caption'     => '',
 									'description' => '',
 									'icon'        => 'ph ph-presentation-chart',
@@ -366,43 +366,43 @@ class Toolkit implements Plugins\Skeleton
 										[
 											'name'        => 'label_class',
 											'type'        => 'text',
-											'label'       => I18n::__( 'Label class' ),
+											'label'       => I18n::_t( 'Label class' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
 											'instruction' => '',
 											'attributes'  => [
-												'placeholder' => I18n::__( 'e.g. df aic fs-12 t-muted' ),
+												'placeholder' => I18n::_t( 'e.g. df aic fs-12 t-muted' ),
 											],
 										],
 										[
 											'name'        => 'before',
 											'type'        => 'text',
-											'label'       => I18n::__( 'Before content' ),
+											'label'       => I18n::_t( 'Before content' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
 											'instruction' => '',
 											'attributes'  => [
-												'placeholder' => I18n::__( 'e.g. <i class="ph ph-bug"></i>' ),
+												'placeholder' => I18n::_t( 'e.g. <i class="ph ph-bug"></i>' ),
 											],
 										],
 										[
 											'name'        => 'after',
 											'type'        => 'text',
-											'label'       => I18n::__( 'After content' ),
+											'label'       => I18n::_t( 'After content' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'before'      => '',
 											'tooltip'     => '',
 											'instruction' => '',
 											'attributes'  => [
-												'placeholder' => I18n::__( 'e.g. Mb' ),
+												'placeholder' => I18n::_t( 'e.g. Mb' ),
 											],
 										],
 										[
 											'name'        => 'reset',
 											'type'        => 'select',
-											'label'       => I18n::__( 'Show reset button' ),
+											'label'       => I18n::_t( 'Show reset button' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'value'       => '',
 											'reset'       => false,
@@ -410,14 +410,14 @@ class Toolkit implements Plugins\Skeleton
 												'x-select' => '',
 											],
 											'options' => [
-												'yes' => I18n::__( 'Yes' ),
-												'no'  => I18n::__( 'No' ),
+												'yes' => I18n::_t( 'Yes' ),
+												'no'  => I18n::_t( 'No' ),
 											],
 										],
 										[
 											'name'        => 'copy',
 											'type'        => 'select',
-											'label'       => I18n::__( 'Show copy button' ),
+											'label'       => I18n::_t( 'Show copy button' ),
 											'label_class' => 'df aic fs-12 t-muted',
 											'value'       => '',
 											'reset'       => false,
@@ -425,8 +425,8 @@ class Toolkit implements Plugins\Skeleton
 												'x-select' => '',
 											],
 											'options' => [
-												'yes' => I18n::__( 'Yes' ),
-												'no'  => I18n::__( 'No' ),
+												'yes' => I18n::_t( 'Yes' ),
+												'no'  => I18n::_t( 'No' ),
 											],
 										],
 										[
@@ -434,14 +434,14 @@ class Toolkit implements Plugins\Skeleton
 											'type'        => 'textarea',
 											'value'       => '',
 											'default'     => '',
-											'label'       => I18n::__( 'Description' ),
+											'label'       => I18n::_t( 'Description' ),
 											'class'       => 'df aic fs-12 t-muted',
 											'reset'       => false,
 											'before'      => '',
 											'after'       => '',
 											'tooltip'     => '',
-											'placeholder' => I18n::__( 'e.g. Mb' ),
-											'instruction' => I18n::__( 'Use this field to output instructions or additional explanations' ),
+											'placeholder' => I18n::_t( 'e.g. Mb' ),
+											'instruction' => I18n::_t( 'Use this field to output instructions or additional explanations' ),
 											'attributes'  => [],
 											'conditions'  => [],
 										],

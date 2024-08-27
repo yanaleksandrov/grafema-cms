@@ -78,14 +78,14 @@ final class ThemesTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Themes not found' ),
-			'description' => I18n::__( 'You don\'t have any themes installed yet, <a @click="$modal.open(\'grafema-modals-post\')">download them</a>' ),
+			'title'       => I18n::_t( 'Themes not found' ),
+			'description' => I18n::_t( 'You don\'t have any themes installed yet, <a @click="$modal.open(\'grafema-modals-post\')">download them</a>' ),
 		];
 	}
 
 	public function headerContent(): array {
 		return [
-			'title' => I18n::__( 'Themes' ),
+			'title' => I18n::_t( 'Themes' ),
 		];
 	}
 

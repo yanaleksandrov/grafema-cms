@@ -55,7 +55,7 @@ final class Db {
 		try {
 			self::$connection = new Medoo( $options );
 		} catch ( PDOException $e ) {
-			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Errors( 'database-connection', I18n::_t( 'There is a problem with connecting to the database' ) );
 		}
 	}
 
@@ -377,7 +377,7 @@ final class Db {
 		try {
 			return self::$connection;
 		} catch ( PDOException $e ) {
-			return new Errors( 'database-connection', I18n::__( 'There is a problem with connecting to the database' ) );
+			return new Errors( 'database-connection', I18n::_t( 'There is a problem with connecting to the database' ) );
 		}
 	}
 }

@@ -22,7 +22,7 @@
 // field array
 [
 	'type'        => 'textarea',
-	'label'       => I18n::__( 'Description' ),
+	'label'       => I18n::_t( 'Description' ),
 	'name'        => 'description',
 	'value'       => '',
 	'placeholder' => '',
@@ -55,19 +55,19 @@
 	'content'     => '',
 	// simple select/checkbox/radio options & toggle with 2 options
 	'options'     => [
-		'one' => I18n::__( '#1' ),
-		'two' => I18n::__( '#2' ),
+		'one' => I18n::_t( '#1' ),
+		'two' => I18n::_t( '#2' ),
 	],
 	// select options with additional data
 	'options'     => [
 		'one' => [
-			'content'     => I18n::__( '#1' ),
+			'content'     => I18n::_t( '#1' ),
 			'icon'        => 'ph ph-image-square',
 			'image'       => 'path to image',
 			'description' => '',
 		],
 		'two' => [
-			'content'     => I18n::__( '#2' ),
+			'content'     => I18n::_t( '#2' ),
 			'icon'        => 'ph ph-image-square',
 			'image'       => 'path to image',
 			'description' => '',
@@ -76,10 +76,10 @@
 	// select options with optgroups
 	'options'     => [
 		'optgroup1' => [
-			'label'   => I18n::__( 'Optgroup Label' ),
+			'label'   => I18n::_t( 'Optgroup Label' ),
 			'options' => [
 				'one' => [
-					'content'     => I18n::__( '#1' ),
+					'content'     => I18n::_t( '#1' ),
 					'icon'        => 'ph ph-image-square',
 					'image'       => 'path to image',
 					'description' => '',
@@ -92,7 +92,7 @@
 // header
 [
 	'type'        => 'header',
-	'label'       => I18n::__( 'Welcome to Grafema' ),
+	'label'       => I18n::_t( 'Welcome to Grafema' ),
 	'name'        => 'title',
 	'class'       => '',
 	'instruction' => '',
@@ -123,7 +123,7 @@
 //'class_content' => '', // css class for tab content
 [
 	'type'          => 'tab',
-	'label'         => I18n::__( 'General' ),
+	'label'         => I18n::_t( 'General' ),
 	'name'          => 'general',
 	'caption'       => '',
 	'description'   => '',

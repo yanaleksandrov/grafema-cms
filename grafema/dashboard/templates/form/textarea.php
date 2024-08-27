@@ -15,14 +15,15 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = ( new Grafema\Sanitizer(
+[$label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = ( new Grafema\Sanitizer(
 	$args ?? [],
 	[
 		'label'       => 'trim',
 		'name'        => 'key',
 		'value'       => 'attribute|trim',
 		'placeholder' => 'trim',
-		'class'       => 'class:df aic jcsb fw-600',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
 		'reset'       => 'bool:false',
 		'before'      => 'trim',
 		'after'       => 'trim',
@@ -37,28 +38,28 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $attributes['placeholder'] = $placeholder;
 ?>
-<div class="dg g-1"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
-	<label class="dg g-1">
-        <?php if ( $label ) : ?>
-		    <span class="<?php echo $class; ?>"><?php Esc::html( $label ); ?></span>
-        <?php endif; ?>
-		<span class="field">
-			<?php
-			printf( '%s<textarea%s>%s</textarea>%s', $before, Arr::toHtmlAtts( $attributes ), $value, $after );
-			if ( $copy ) {
-				?>
-				<i class="ph ph-copy" title="<?php Esc::attr( I18n::__( 'Copy' ) ); ?>" @click="$copy(<?php echo $name; ?>)"></i>
-				<?php
-			}
-			if ( $tooltip ) {
-				?>
-				<i class="ph ph-info" x-tooltip.click.prevent="'<?php Esc::attr( $tooltip ); ?>'"></i>
-				<?php
-			}
+<div class="<?php echo $class; ?>"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
+	<?php if ( $label ) : ?>
+		<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>
+	<?php endif; ?>
+	<label class="field-item">
+		<?php echo $before; ?>
+		<textarea<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $value; ?></textarea>
+		<?php
+		echo $after;
+		if ( $copy ) {
 			?>
-		</span>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $name; ?>)"></i>
+			<?php
+		}
+		if ( $tooltip ) {
+			?>
+			<i class="ph ph-info" x-tooltip.click.prevent="'<?php Esc::attr( $tooltip ); ?>'"></i>
+			<?php
+		}
+		?>
 	</label>
-	<?php if ( $instruction ) { ?>
-		<div class="fs-13 t-muted lh-xs"><?php Esc::html( $instruction ); ?></div>
-	<?php } ?>
+	<?php if ( $instruction ) : ?>
+		<div class="field-instruction"><?php echo $instruction; ?></div>
+	<?php endif; ?>
 </div>

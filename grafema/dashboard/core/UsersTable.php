@@ -38,16 +38,16 @@ final class UsersTable {
 				->fixedWidth( '2.5rem' )
 				->view( 'image' ),
 			Column::add( 'name' )
-				->title( I18n::__( 'Name' ) )
+				->title( I18n::_t( 'Name' ) )
 				->flexibleWidth( '16rem' )
 				->sortable()
 				->view( 'title' ),
 			Column::add( 'author' )
-				->title( I18n::__( 'Role' ) )
+				->title( I18n::_t( 'Role' ) )
 				->flexibleWidth( '8rem' )
 				->view( 'links' ),
 			Column::add( 'categories' )
-				->title( I18n::__( 'Last visit' ) )
+				->title( I18n::_t( 'Last visit' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
 		];
@@ -63,7 +63,7 @@ final class UsersTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::__( 'Users' ),
+			'title'   => I18n::_t( 'Users' ),
 			'actions' => true,
 			'filter'  => true,
 		];
@@ -71,7 +71,7 @@ final class UsersTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Users not found' ),
+			'title'       => I18n::_t( 'Users not found' ),
 			'description' => I18n::_f(
 				'You don\'t have any pages yet. %1$sAdd them manually%2$s or %3$simport via CSV%4$s',
 				'<a @click="$modal.open(\'grafema-modals-post\')">',

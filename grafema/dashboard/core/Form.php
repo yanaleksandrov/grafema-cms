@@ -147,7 +147,7 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			return new Errors( 'form-view', I18n::__( 'Form fields is incorrect.' ) );
+			return new Errors( 'form-view', I18n::_t( 'Form fields is incorrect.' ) );
 		}
 
 		/**
@@ -326,7 +326,7 @@ class Form {
 		$fields   = $this->fields ?? [];
 		$field_id = trim( strval( $field['ID'] ?? '' ) );
 		if ( empty( $field_id ) ) {
-			return new Errors( 'form-add-field', I18n::__( 'It is not possible to add a field with an empty ID.' ) );
+			return new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty ID.' ) );
 		}
 
 		$insert_places = array_filter( [ $this->after, $this->before, $this->instead ] );

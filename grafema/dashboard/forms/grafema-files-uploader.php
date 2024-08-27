@@ -18,7 +18,7 @@ Dashboard\Form::register(
 				[
 					'name'        => 'files',
 					'type'        => 'uploader',
-					'instruction' => I18n::__( 'Click to upload or drag & drop' ),
+					'instruction' => I18n::_t( 'Click to upload or drag & drop' ),
 					'attributes'  => [
 						'@change'  => '$ajax("media/upload", $el.files, e => percent = e.percent).then()',
 						'multiple' => true,
@@ -32,12 +32,12 @@ Dashboard\Form::register(
 				[
 					'name'        => 'urls',
 					'type'        => 'textarea',
-					'label'      => I18n::__( 'Or upload from URL' ),
-					'tooltip'    => I18n::__( 'Each URL must be from a new line' ),
+					'label'      => I18n::_t( 'Or upload from URL' ),
+					'tooltip'    => I18n::_t( 'Each URL must be from a new line' ),
 					'attributes' => [
 						'x-model.fill' => 'urls',
 						'required'     => false,
-						'placeholder'  => I18n::__( 'Input file URL(s)' ),
+						'placeholder'  => I18n::_t( 'Input file URL(s)' ),
 						'@change'      => '$ajax("media/grab", {urls}).then(response => files = response)',
 						'x-textarea'   => 19,
 					],

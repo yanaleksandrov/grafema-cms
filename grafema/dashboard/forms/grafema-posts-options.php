@@ -19,7 +19,7 @@ Dashboard\Form::register(
 				[
 					'name'        => 'perpage',
 					'type'        => 'select',
-					'label'       => I18n::__( 'Number of items per page' ),
+					'label'       => I18n::_t( 'Number of items per page' ),
 					'label_class' => 'df aic fs-12 t-muted',
 					'value'       => '',
 					'reset'       => false,
@@ -37,7 +37,7 @@ Dashboard\Form::register(
 				[
 					'name'        => 'remember',
 					'type'        => 'checkbox',
-					'label'       => I18n::__( 'Columns' ),
+					'label'       => I18n::_t( 'Columns' ),
 					'label_class' => 'df aic fs-12 t-muted',
 					'reset'       => false,
 					'instruction' => '',
@@ -45,15 +45,15 @@ Dashboard\Form::register(
 						'value' => true,
 					],
 					'options' => [
-						'author'     => I18n::__( 'Author' ),
-						'categories' => I18n::__( 'Categories' ),
-						'date'       => I18n::__( 'Date' ),
+						'author'     => I18n::_t( 'Author' ),
+						'categories' => I18n::_t( 'Categories' ),
+						'date'       => I18n::_t( 'Date' ),
 					],
 				],
 				[
 					'name'       => 'apply',
 					'type'       => 'submit',
-					'label'      => I18n::__( 'Apply' ),
+					'label'      => I18n::_t( 'Apply' ),
 					'attributes' => [
 						'class' => 'btn btn--primary',
 					],

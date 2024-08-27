@@ -81,7 +81,7 @@ namespace Grafema;
 		)
 		)->extend(
 			'time',
-			I18n::__( 'Time must be in \'%s\' format.' ),
+			I18n::_t( 'Time must be in \'%s\' format.' ),
 			function( $validator, $value, $comparison_value ) {
 				$time = DateTime::createFromFormat( $comparison_value, $value );
 
@@ -89,16 +89,16 @@ namespace Grafema;
 			}
 		)->extend(
 			'array',
-			I18n::__( 'This is not array.' ),
+			I18n::_t( 'This is not array.' ),
 			function( $validator, $value ) {
 				return is_array( $value );
 			}
 		)->extend(
 			'numeric',
-			I18n::__( 'Oh no, must be numeric!!!' )
+			I18n::_t( 'Oh no, must be numeric!!!' )
 		)->extend(
 			'field32:numeric',
-			I18n::__( 'Message for specified field: must be numeric' )
+			I18n::_t( 'Message for specified field: must be numeric' )
 		)->apply()
 	);
  *
@@ -170,41 +170,41 @@ class Validator {
 		$this->messages = array_merge(
 			$this->messages,
 			[
-				'accepted'     => I18n::__( 'Must be accepted.' ),
-				'alpha'        => I18n::__( 'Must contain only letters.' ),
-				'alphanumeric' => I18n::__( 'Must contain only letters and/or numbers.' ),
-				'hex'          => I18n::__( 'The color format should be HEX.' ),
-				'hsl'          => I18n::__( 'The color format should be HSL.' ),
-				'hsla'         => I18n::__( 'The color format should be HSLA.' ),
-				'rgb'          => I18n::__( 'The color format should be RGB.' ),
-				'rgba'         => I18n::__( 'The color format should be RGBA.' ),
-				'date'         => I18n::__( 'Is not a valid date.' ),
-				'later'        => I18n::__( 'Must be date after \'%s\'.' ),
-				'earlier'      => I18n::__( 'Must be date before \'%s\'.' ),
-				'different'    => I18n::__( 'Must be different than \'%s\'.' ),
-				'email'        => I18n::__( 'Is not a valid email address.' ),
-				'equals'       => I18n::__( 'Must be the same as \'%s\'.' ),
-				'ip'           => I18n::__( 'Is not a valid IP address.' ),
-				'ipv4'         => I18n::__( 'Is not a valid IPv4 address.' ),
-				'ipv6'         => I18n::__( 'Is not a valid IPv6 address.' ),
-				'length'       => I18n::__( 'Must be %d characters long.' ),
-				'lengthMin'    => I18n::__( 'Must be at least %d characters long.' ),
-				'lengthMax'    => I18n::__( 'Must not exceed %d characters.' ),
-				'mac'          => I18n::__( 'Is not a valid MAC address.' ),
-				'max'          => I18n::__( 'Must be no more than %s.' ),
-				'min'          => I18n::__( 'Must be at least %s.' ),
-				'numeric'      => I18n::__( 'Must be numeric.' ),
-				'required'     => I18n::__( 'Is required.' ),
-				'regex'        => I18n::__( 'The field is not valid format.' ),
-				'similar'      => I18n::__( 'Value of this field must be same with \'%s\'.' ),
-				'slug'         => I18n::__( 'Must contain only letters, numbers, dashes and underscores.' ),
-				'tld'          => I18n::__( 'Is not a valid top-level domain (TLD).' ),
-				'url'          => I18n::__( 'Is not a valid URL.' ),
-				'uuid'         => I18n::__( 'Is not a valid UUID.' ),
-				'type'         => I18n::__( 'This type of file is not allowed.' ),
-				'minSize'      => I18n::__( 'File size is too small. Must be greater than or equal to %s.' ),
-				'maxSize'      => I18n::__( 'File size is too big. Must be less than %s.' ),
-				'extension'    => I18n::__( 'Invalid file extension. Accepted extensions are: %s.' ),
+				'accepted'     => I18n::_t( 'Must be accepted.' ),
+				'alpha'        => I18n::_t( 'Must contain only letters.' ),
+				'alphanumeric' => I18n::_t( 'Must contain only letters and/or numbers.' ),
+				'hex'          => I18n::_t( 'The color format should be HEX.' ),
+				'hsl'          => I18n::_t( 'The color format should be HSL.' ),
+				'hsla'         => I18n::_t( 'The color format should be HSLA.' ),
+				'rgb'          => I18n::_t( 'The color format should be RGB.' ),
+				'rgba'         => I18n::_t( 'The color format should be RGBA.' ),
+				'date'         => I18n::_t( 'Is not a valid date.' ),
+				'later'        => I18n::_t( 'Must be date after \'%s\'.' ),
+				'earlier'      => I18n::_t( 'Must be date before \'%s\'.' ),
+				'different'    => I18n::_t( 'Must be different than \'%s\'.' ),
+				'email'        => I18n::_t( 'Is not a valid email address.' ),
+				'equals'       => I18n::_t( 'Must be the same as \'%s\'.' ),
+				'ip'           => I18n::_t( 'Is not a valid IP address.' ),
+				'ipv4'         => I18n::_t( 'Is not a valid IPv4 address.' ),
+				'ipv6'         => I18n::_t( 'Is not a valid IPv6 address.' ),
+				'length'       => I18n::_t( 'Must be %d characters long.' ),
+				'lengthMin'    => I18n::_t( 'Must be at least %d characters long.' ),
+				'lengthMax'    => I18n::_t( 'Must not exceed %d characters.' ),
+				'mac'          => I18n::_t( 'Is not a valid MAC address.' ),
+				'max'          => I18n::_t( 'Must be no more than %s.' ),
+				'min'          => I18n::_t( 'Must be at least %s.' ),
+				'numeric'      => I18n::_t( 'Must be numeric.' ),
+				'required'     => I18n::_t( 'Is required.' ),
+				'regex'        => I18n::_t( 'The field is not valid format.' ),
+				'similar'      => I18n::_t( 'Value of this field must be same with \'%s\'.' ),
+				'slug'         => I18n::_t( 'Must contain only letters, numbers, dashes and underscores.' ),
+				'tld'          => I18n::_t( 'Is not a valid top-level domain (TLD).' ),
+				'url'          => I18n::_t( 'Is not a valid URL.' ),
+				'uuid'         => I18n::_t( 'Is not a valid UUID.' ),
+				'type'         => I18n::_t( 'This type of file is not allowed.' ),
+				'minSize'      => I18n::_t( 'File size is too small. Must be greater than or equal to %s.' ),
+				'maxSize'      => I18n::_t( 'File size is too big. Must be less than %s.' ),
+				'extension'    => I18n::_t( 'Invalid file extension. Accepted extensions are: %s.' ),
 			]
 		);
 

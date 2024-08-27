@@ -23,7 +23,7 @@ class Post {
 	 */
 	public static function add( $type, $args ): Error|string|null {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'post-add', I18n::__( 'Post type is not registered.' ) );
+			return new Errors( 'post-add', I18n::_t( 'Post type is not registered.' ) );
 		}
 
 		$author  = trim( strval( $args['author'] ?? '' ) );

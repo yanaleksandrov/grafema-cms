@@ -46,7 +46,7 @@ final class TranslationsTable {
 
 	public function headerContent(): array {
 		return [
-			'title'       => I18n::__( 'Translations' ),
+			'title'       => I18n::_t( 'Translations' ),
 			'badge'       => I18n::_f( 'completed %d from %d <i class="t-green">(%d%%)</i>', 56, 408, 25 ),
 			'translation' => true,
 		];
@@ -54,8 +54,8 @@ final class TranslationsTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::__( 'Translates not found' ),
-			'description' => I18n::__( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'title'       => I18n::_t( 'Translates not found' ),
+			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 		];
 	}
 }

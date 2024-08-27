@@ -100,7 +100,7 @@ class User extends Users {
 			)
 		)->extend(
 			'email:unique',
-			I18n::__( 'Sorry, that email address or login is already used!' ),
+			I18n::_t( 'Sorry, that email address or login is already used!' ),
 			fn( $validator ) => ! self::exists(
 				[
 					'login' => $validator->fields['login'],
@@ -118,7 +118,7 @@ class User extends Users {
 
 		$user_count = Db::insert( self::$table, $userdata )->rowCount();
 		if ( $user_count !== 1 ) {
-			return new Errors( 'user-add', I18n::__( 'Something went wrong, it was not possible to add a user.' ) );
+			return new Errors( 'user-add', I18n::_t( 'Something went wrong, it was not possible to add a user.' ) );
 		}
 
 		$user = self::get( $login, 'login' );
@@ -149,7 +149,7 @@ class User extends Users {
 		}
 
 		if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Errors( 'user-get-by', I18n::__( 'To get a user, use an ID, login, email or nicename.' ) );
+			return new Errors( 'user-get-by', I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
 		}
 
 		$user = Db::select( self::$table, '*', [ $getBy => $value ], [ 'LIMIT' => 1 ] );
@@ -162,7 +162,7 @@ class User extends Users {
 			return $userdata;
 		}
 
-		return new Errors( 'user-get', I18n::__( 'User not found!' ) );
+		return new Errors( 'user-get', I18n::_t( 'User not found!' ) );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class User extends Users {
 	{
 		$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
 		if ( ! $user_id ) {
-			return new Errors( 'user-update-invalid-id', I18n::__( 'Invalid user ID.' ) );
+			return new Errors( 'user-update-invalid-id', I18n::_t( 'Invalid user ID.' ) );
 		}
 
 		$user_id = Sanitizer::absint( $userdata['ID'] ?? 0 );
@@ -190,7 +190,7 @@ class User extends Users {
 
 		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
-			return new Errors( 'user-update', I18n::__( 'User not found.' ) );
+			return new Errors( 'user-update', I18n::_t( 'User not found.' ) );
 		}
 
 		// sanitize incoming data and exclusion of extraneous data
@@ -218,7 +218,7 @@ class User extends Users {
 		];
 
 		if ( ! self::exists( $fields ) ) {
-			return new Errors( 'user-delete', I18n::__( 'The user you are trying to delete does not exist.' ) );
+			return new Errors( 'user-delete', I18n::_t( 'The user you are trying to delete does not exist.' ) );
 		}
 
 		if ( $reassign ) {
@@ -373,10 +373,10 @@ class User extends Users {
 				return self::$current = $user;
 			}
 
-			return new Errors( 'user-login', I18n::__( 'User password is incorrect.' ) );
+			return new Errors( 'user-login', I18n::_t( 'User password is incorrect.' ) );
 		}
 
-		return new Errors( 'user-login', I18n::__( 'User not found: invalid login or email.' ) );
+		return new Errors( 'user-login', I18n::_t( 'User not found: invalid login or email.' ) );
 	}
 
 	/**

@@ -23,7 +23,7 @@ if ( ! $columns ) {
 ?>
 <div class="table__head">
 <?php
-foreach ( $columns as $column ) {
+foreach ( $columns as $column ) :
 	[ $key, $cell, $title, $sortable ] = (
         new Sanitizer(
             (array) $column,
@@ -44,7 +44,5 @@ foreach ( $columns as $column ) {
             <i class="ph ph-sort-ascending"></i>
 		<?php endif; ?>
     </div>
-    <?php
-}
-?>
+<?php endforeach; ?>
 </div>

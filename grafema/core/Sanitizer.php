@@ -557,7 +557,7 @@ class Sanitizer
 			$class = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $class );
 
 			// Limit to A-Z, a-z, 0-9, '_', '-'.
-			$class = preg_replace( '/[^A-Za-z0-9_-]/', '', $class );
+			$class = preg_replace( '/[^A-Za-z0-9:_-]/', '', $class );
 
 			$sanitized[] = self::trim( $class );
 		}

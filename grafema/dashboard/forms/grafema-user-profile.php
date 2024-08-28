@@ -21,11 +21,10 @@ Dashboard\Form::register(
 			[
 				[
 					'type'     => 'custom',
-					'class'    => 'dg p-7 pt-6 pb-5 bg-gray-lt',
 					'callback' => function () {
 						ob_start();
 						?>
-                        <div class="dg g-1 px-7 pt-6 pb-5 bg-gray-lt">
+                        <div class="dg g-1 p-7 sm:p-5 pb-4 sm:pb-4 bg-gray-lt">
 							<?php
 							View::print(
 								'templates/form/image',
@@ -56,8 +55,8 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-user',
 					'class_menu'    => 'bg-gray-lt',
-					'class_button'  => 'ml-7',
-					'class_content' => 'p-7',
+					'class_button'  => 'ml-7 sm:ml-5',
+					'class_content' => 'p-7 sm:p-5',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -224,7 +223,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-paint-brush-broad',
 					'class_button'  => '',
-					'class_content' => 'p-7',
+					'class_content' => 'p-7 sm:p-5',
 					'fields'        => [
 						[
 							'name'    => 'theme',
@@ -320,7 +319,7 @@ Dashboard\Form::register(
 					'caption'       => '',
 					'icon'          => 'ph ph-password',
 					'class_button'  => '',
-					'class_content' => 'p-7',
+					'class_content' => 'p-7 sm:p-5',
 					'fields'        => [
 						[
 							'name'   => 'theme',
@@ -447,7 +446,7 @@ Dashboard\Form::register(
 					'description'   => '',
 					'icon'          => 'ph ph-key',
 					'class_button'  => '',
-					'class_content' => 'p-7',
+					'class_content' => 'p-7 sm:p-5',
 					'fields'        => [
 						[
 							'name'   => 'theme',

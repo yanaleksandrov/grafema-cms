@@ -71,7 +71,7 @@ final class Table {
 		View::print(
 			$this->headerTemplate,
 			[
-				'content' => View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
+				'content' => $this->data && View::get( sprintf( '%s/%s', $this->views, $this->cellHeadTemplate ), $this->columns ),
 				...$this->headerContent
 			]
 		);

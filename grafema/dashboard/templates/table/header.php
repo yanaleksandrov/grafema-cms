@@ -32,7 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <!-- table head start -->
 <div class="table__header">
-    <div class="mw df fww aic jcsb g-3 px-7 py-5">
+    <div class="mw df fww aic jcsb g-3 py-5 px-7 md:p-5">
 		<?php if ( $title ) : ?>
             <h4><?php echo $title; ?>
 	            <?php $badge && print( '<span class="badge">' . $badge . '</span>' ); ?>
@@ -117,9 +117,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			    <?php if ( $actions ) : ?>
 			        <div class="df aic g-1" x-show="bulk" x-cloak>
 						<?php Dashboard\Form::print( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
-			            <button type="button" class="btn btn--sm t-red" x-bind="reset">
-			                <?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?>
-			            </button>
+			            <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
 			        </div>
 			    <?php endif; ?>
 			    <?php if ( $translation ) : ?>

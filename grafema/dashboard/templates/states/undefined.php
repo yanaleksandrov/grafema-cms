@@ -1,4 +1,6 @@
 <?php
+use Grafema\Sanitizer;
+
 /**
  * Not found part.
  *
@@ -11,10 +13,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$title       = $args['title'] ?? '';
-$description = $args['description'] ?? '';
+[ $class, $title, $description ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'class'       => 'class:m-auto t-center p-5 pt-8 mt-8 mw-320',
+			'title'       => 'trim',
+			'description' => 'trim',
+		]
+	)
+)->values();
 ?>
-<div class="m-auto t-center p-4 mw-320">
+<div class="<?php echo $class; ?>">
 	<svg width="196" height="196" viewBox="0 0 196 196" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<rect width="196" height="196" rx="98" fill="#8E8E8E" fill-opacity=".07"/>
 		<path opacity=".99" d="M63 69.01V98H53V74c0-3 2-5 5-4.99h5ZM132 78.01l6-.01c2 0 4 2 4 4v5h-10v-8.99Z" fill="#B3B8C2"/>

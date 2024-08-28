@@ -33,8 +33,7 @@ if ( ! $columns ) {
 	        )
 		)->values();
 	    ?>
-	    <div class="<?php echo $key; ?> df aic g-1">
-			<?php
+	    <div class="<?php echo $key; ?> df aic g-1"><?php
 			$title && print( $title );
 			if ( $sortable ) :
 				?>

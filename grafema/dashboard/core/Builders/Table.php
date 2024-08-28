@@ -6,7 +6,6 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
-
 namespace Dashboard\Builders;
 
 use Grafema\View;
@@ -32,6 +31,7 @@ final class Table {
 			'data',
 			'dataAfter',
 			'dataBefore',
+			'dataVariable',
 			'headerContent',
 			'headerTemplate',
 			'notFoundAfter',
@@ -76,29 +76,49 @@ final class Table {
 			]
 		);
 
-		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
-			echo $this->dataBefore ?? '';
+		ob_start();
+		echo $this->dataBefore ?? '';
 
-			foreach ( $this->data as $i => $data ) {
-				$row = $this->rows[ $i ] ?? end( $this->rows );
+		foreach ( $this->data as $i => $data ) {
+			$row = $this->rows[ $i ] ?? end( $this->rows );
+			View::print(
+				$row->view ?? '',
+				[
+					'data'    => $data,
+					'row'     => $row,
+					'columns' => $this->columns,
+				]
+			);
+		}
 
-				View::print(
-					$row->view ?? '',
-					[
-						'data'    => $data,
-						'row'     => $row,
-						'columns' => $this->columns,
-					]
-				);
-			}
+		echo $this->dataAfter ?? '';
+		$data = ob_get_clean();
 
-			echo $this->dataAfter . PHP_EOL ?? '';
+		ob_start();
+		echo $this->notFoundBefore ?? '';
+
+		View::print( $this->notFoundTemplate, $this->notFoundContent );
+
+		echo $this->notFoundAfter ? $this->notFoundAfter . PHP_EOL : '';
+		$notFound = ob_get_clean();
+
+		if ( $this->dataVariable ) {
+			?>
+			<template x-if="<?php echo Sanitizer::attribute( $this->dataVariable ); ?>.length">
+				<template x-for="item in <?php echo Sanitizer::attribute( $this->dataVariable ); ?>">
+					<?php echo $data; ?>
+				</template>
+			</template>
+			<template x-if="!<?php echo Sanitizer::attribute( $this->dataVariable ); ?>.length">
+				<?php echo $notFound; ?>
+			</template>
+			<?php
 		} else {
-			echo $this->notFoundBefore ?? '';
-
-			View::print( $this->notFoundTemplate, $this->notFoundContent );
-
-			echo $this->notFoundAfter ? $this->notFoundAfter . PHP_EOL : '';
+			if ( $this->data ) {
+				echo $data;
+			} else {
+				echo $notFound;
+			}
 		}
 
 		if ( $this->tag ) {

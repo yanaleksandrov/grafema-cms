@@ -9,7 +9,7 @@ use Grafema\I18n;
 Dashboard\Form::register(
 	'grafema-posts-actions',
 	[
-		'class'           => 'dg g-4',
+		'class'           => 'df fww g-1',
 		'x-data'          => '{email: ""}',
 		'@submit.prevent' => '$ajax("items/options")',
 	],
@@ -19,24 +19,22 @@ Dashboard\Form::register(
 				[
 					'name'        => 'action',
 					'type'        => 'select',
-					'label'       => I18n::_t( 'Number of items per page' ),
-					'label_class' => 'df aic fs-12 t-muted',
-					'value'       => '',
-					'reset'       => false,
 					'attributes'  => [
-						'x-select' => '',
+						'x-select' => true,
+						'class'    => 'select select--sm select--outline',
 					],
 					'options' => [
+						''      => I18n::_t( 'Bulk Actions' ),
 						'edit'  => I18n::_t( 'Edit' ),
 						'trash' => I18n::_t( 'Move to trash' ),
+						'copy'  => I18n::_t( 'Copy' ),
 					],
 				],
 				[
-					'name'       => 'apply',
 					'type'       => 'submit',
-					'label'      => I18n::_t( 'Apply' ),
+					'label'      => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
 					'attributes' => [
-						'class' => 'btn btn--primary',
+						'class' => 'btn btn--sm btn--primary',
 					],
 				],
 			]

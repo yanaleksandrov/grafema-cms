@@ -19,7 +19,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	View::print(
 		'templates/table/header',
 		[
-			'title' => I18n::_t( 'Add Plugins' ),
+			'title'  => I18n::_t( 'Add Plugins' ),
+			'search' => true,
 		]
 	);
 

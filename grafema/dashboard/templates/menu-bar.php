@@ -19,7 +19,7 @@ Tree::view( 'dashboard-menu-bar', function ( $items ) {
     <ul id="dashboard-menu-bar" class="menu mr-auto">
         <?php
         foreach ( $items as $item ) :
-			[$url, $icon, $title] = (
+			[ $url, $icon, $title ] = (
                 new Sanitizer(
 					$item,
                     [
@@ -31,12 +31,7 @@ Tree::view( 'dashboard-menu-bar', function ( $items ) {
 			)->values();
 			?>
             <li class="menu__item">
-                <a class="menu__link" href="<?php echo $url; ?>">
-                    <?php if ( $icon ) : ?>
-                        <i class="<?php echo $icon; ?>"></i>
-                    <?php endif; ?>
-					<?php echo $title; ?>
-                </a>
+                <a class="menu__link" href="<?php echo $url; ?>"><?php $icon && printf( '<i class="%s"></i>', $icon ); ?> <?php echo $title; ?></a>
             </li>
 			<?php
         endforeach;

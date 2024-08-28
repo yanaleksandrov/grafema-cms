@@ -40,8 +40,7 @@ array_map(function ($include) {
 	if ( ! file_exists( GRFM_PATH . '.htaccess' ) ) {
 		file_put_contents(
 			GRFM_PATH . '.htaccess',
-			'<<<HTACCESS
-Options +FollowSymLinks
+			'Options +FollowSymLinks
 # Options +SymLinksIfOwnerMatch
 Options -Indexes
 DirectoryIndex index.php index.html
@@ -64,12 +63,11 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 <IfModule mod_expires.c>
-    <filesmatch ".(jpg|jpeg|gif|png|webp|svg|ico|css|js|woff|woff2)$">
+    <filesmatch ".(jpg|jpeg|gif|png|webp|svg|ico|css|js|woff|woff2|manifest|webmanifest)$">
         ExpiresActive on
         ExpiresDefault "access plus 1 month"
     </filesmatch>
-</IfModule>
-            HTACCESS'
+</IfModule>'
 		);
 	}
 })();
@@ -153,6 +151,7 @@ Db::init();
 	}
 })();
 
+// TODO: disable route for files
 try {
 	$route = new Route();
 	$route->mount('', function() use ( $route ) {

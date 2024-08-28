@@ -2,9 +2,9 @@
 use Grafema\Sanitizer;
 
 /**
- * Form tab markup
+ * Form tab menu.
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/tab.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/tab-menu.php
  *
  * @package Grafema\Templates
  * @since   2025.1
@@ -21,7 +21,7 @@ if ( count( $fields ) === 0 ) {
 	return;
 }
 ?>
-<ul class="tab__nav <?php echo $classMenu; ?>" x-sticky>
+<ul class="<?php echo trim( sprintf( 'tab__nav %s', $classMenu ) ); ?>" x-sticky>
 	<?php
 	foreach ( $fields as $field ) :
 		[ $type, $name, $property, $label, $icon, $class ] = (
@@ -29,16 +29,16 @@ if ( count( $fields ) === 0 ) {
 				$field,
                 [
 					'type'         => 'key',
-					'name'         => 'key',
+					'name'         => 'key|attribute',
 					'property'     => 'key:tab',
 					'label'        => 'trim',
-					'icon'         => 'trim',
+					'icon'         => 'attribute',
 					'class_button' => 'class',
                 ]
             )
 		)->values();
 		?>
-		<li class="tab__title <?php echo $class; ?>" x-bind="tabButton('<?php echo $name; ?>')">
+		<li class="<?php echo trim( sprintf( 'tab__title %s', $class ) ); ?>" x-bind="tabButton('<?php echo $name; ?>')">
             <?php if ( $icon ) : ?>
                 <i class="<?php echo $icon; ?>"></i>
                 <?php

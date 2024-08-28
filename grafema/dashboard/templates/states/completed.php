@@ -1,4 +1,6 @@
 <?php
+use Grafema\Sanitizer;
+
 /**
  * Success completed.
  *
@@ -11,10 +13,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$title       = trim( strval( $args['title'] ?? '' ) );
-$description = trim( strval( $args['description'] ?? '' ) );
+[ $class, $title, $description ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'class'       => 'class:m-auto t-center p-5 pt-8 mt-8 mw-320',
+			'title'       => 'trim',
+			'description' => 'trim',
+		]
+	)
+)->values();
 ?>
-<div class="m-auto t-center p-4 mw-320">
+<div class="<?php echo $class; ?>">
 	<svg xmlns="http://www.w3.org/2000/svg" fill="none" width="196" height="196" viewBox="0 0 196 196">
 		<path fill="#8E8E8E" d="M196 98A98 98 0 1 0 0 98a98 98 0 0 0 196 0Z" fill-opacity="0.07" />
 		<path fill="#FFC107" d="M53 145.2c1.7 2 9.2-1.4 15-4.2L99 128c2.4-1 5.8-2.3 8.3-5.6 2.2-2.9 8-15.2-3.7-27.7-12-12.7-24.2-9.2-28.8-6-2.7 2-5 6.3-6 8.5-4.1 9.3-10 26.2-12.5 32.9-1.7 5-5 13.2-3.3 15.1Z" />

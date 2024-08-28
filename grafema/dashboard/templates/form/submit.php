@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$name, $label, $attributes] = ( new Sanitizer(
+[ $name, $label, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'name'       => 'key|camelcase',

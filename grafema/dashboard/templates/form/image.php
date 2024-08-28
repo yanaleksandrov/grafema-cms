@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $label_class, $class, $description] = (
+[ $label, $label_class, $class, $description ] = (
     new Sanitizer(
         $args ?? [],
         [
@@ -32,7 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<div class="df aife g-4">
 		<div class="image" x-data="avatar, tabs = 'upload'" x-init="content = 'Yan Aleksandrov'">
 			<input type="file" id="fileInputs" x-ref="input" @change="add($event, () => $modal.open('crop-image'))" hidden>
-			<span class="image__close" @click="remove" x-show="image" title="Remove image" x-cloak>
+			<span class="image__close" @click="remove" x-show="image" title="<?php I18n::t_attr( 'Remove image' ); ?>" x-cloak>
 				<i class="ph ph-x"></i>
 			</span>
 			<div class="image__container">
@@ -41,7 +41,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						<span x-text="getInitials(content)" x-show="!image"></span>
 					</span>
 				</label>
-				<span class="image__action" @click="$modal.open('take-selfie')" title="You can take a selfie. Allow the browser to access the camera."><i class="ph ph-webcam"></i></span>
+				<span class="image__action" @click="$modal.open('take-selfie')" title="<?php I18n::t_attr( 'You can take a selfie. Allow the browser to access the camera' ); ?>"><i class="ph ph-webcam"></i></span>
 			</div>
 		</div>
 		<div class="dg g-1 mw50x9">
@@ -49,7 +49,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 			<?php } ?>
 			<div class="fs-13 t-muted lh-xs">
-				<a @click.prevent="$refs.input.click()"><?php echo $description; ?></a> WEBP, PNG, JPG or GIF (max. 400×400px)
+				<a @click.prevent="$refs.input.click()"><?php echo $description; ?></a> <span><?php I18n::t( 'WEBP, PNG, JPG or GIF (max. 400×400px)' ); ?></span>
 			</div>
 		</div>
 	</div>

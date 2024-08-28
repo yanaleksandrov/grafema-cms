@@ -56,19 +56,19 @@ final class PluginsTable {
 				->view( 'image' ),
 			Column::add( 'plugin' )
 				->title( I18n::_t( 'Plugin' ) )
-				->flexibleWidth( '16rem' )
+				->flexibleWidth( '14rem' )
 				->view( 'plugin' ),
 			Column::add( 'description' )
 				->title( I18n::_t( 'Description' ) )
-				->flexibleWidth( '24rem' )
+				->flexibleWidth( '14rem' )
 				->view( 'raw' ),
 			Column::add( 'version' )
 				->title( I18n::_t( 'Version' ) )
-				->fixedWidth( '6rem' )
+				->fixedWidth( '4rem' )
 				->view( 'badge' ),
 			Column::add( 'active' )
 				->title( I18n::_t( 'Activity' ) )
-				->fixedWidth( '6rem' )
+				->fixedWidth( '4rem' )
 				->view( 'toggle' ),
 		];
 	}

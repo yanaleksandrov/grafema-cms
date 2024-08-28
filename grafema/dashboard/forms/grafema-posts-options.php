@@ -9,31 +9,13 @@ use Grafema\I18n;
 Dashboard\Form::register(
 	'grafema-posts-options',
 	[
-		'class'           => 'dg g-4',
+		'class'           => 'dg g-4 pt-2 p-4',
 		'x-data'          => '{email: ""}',
 		'@submit.prevent' => '$ajax("items/options")',
 	],
 	function ( $form ) {
 		$form->addFields(
 			[
-				[
-					'name'        => 'perpage',
-					'type'        => 'select',
-					'label'       => I18n::_t( 'Number of items per page' ),
-					'label_class' => 'df aic fs-12 t-muted',
-					'value'       => '',
-					'reset'       => false,
-					'attributes'  => [
-						'x-select' => '',
-					],
-					'options' => [
-						'25'  => 25,
-						'50'  => 50,
-						'100' => 100,
-						'250' => 250,
-						'500' => 500,
-					],
-				],
 				[
 					'name'        => 'remember',
 					'type'        => 'checkbox',
@@ -53,9 +35,9 @@ Dashboard\Form::register(
 				[
 					'name'       => 'apply',
 					'type'       => 'submit',
-					'label'      => I18n::_t( 'Apply' ),
+					'label'      => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
 					'attributes' => [
-						'class' => 'btn btn--primary',
+						'class' => 'btn btn--sm btn--primary',
 					],
 				],
 			]

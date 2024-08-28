@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = (
+[ $label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions ] = (
     new Sanitizer(
         $args ?? [],
         [
@@ -43,7 +43,7 @@ $attributes['value'] = $value;
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
-		<div class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></div>
+		<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>
 	<label class="field-item">
 		<?php echo $before; ?>

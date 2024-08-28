@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $description, $attributes, $max_size] = (
+[ $label, $description, $attributes, $max_size ] = (
     new Sanitizer(
 		$args ?? [],
         [
@@ -31,11 +31,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="uploader dg g-3">
 	<label class="dg g-1">
 		<?php if ( $label ) : ?>
-			<span class="df aic jcsb fw-600"><?php Esc::html( $label ); ?></span>
+			<span class="df aic jcsb fw-600"><?php echo $label; ?></span>
 		<?php endif; ?>
 		<span class="uploader__container">
 			<?php if ( $description ) : ?>
-				<span class="fw-700"><?php Esc::html( $description ); ?></span>
+				<span class="fw-700"><?php echo $description; ?></span>
 			<?php endif; ?>
 			<span class="fs-13 t-muted"><?php printf( I18n::_t( 'Maximum upload file size is %s' ), $max_size ); ?></span>
 		</span>

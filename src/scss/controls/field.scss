@@ -109,19 +109,19 @@
       box-shadow: 0 0 0 1px var(--grafema-link);
     }
 
-    .fields--sm & {
+    .field--sm & {
       padding-inline: 0.65em;
       height: 1.75rem;
       max-height: 1.75rem;
     }
 
-    .fields--lg & {
+    .field--lg & {
       padding-inline: 1.125em;
       height: 2.5rem;
       max-height: 2.5rem;
     }
 
-    .fields--outline & {
+    .field--outline & {
       border: 1px solid var(--grafema-border);
       background-color: var(--grafema-white);
     }

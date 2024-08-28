@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $title, $badge, $show, $content, $uploader, $filter, $actions, $translation ] = ( new Sanitizer(
+[ $title, $badge, $show, $content, $uploader, $filter, $actions, $search, $translation ] = ( new Sanitizer(
 	$args ?? [],
 	[
 		'title'       => 'trim',
@@ -25,13 +25,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'uploader'    => 'bool:false',
 		'filter'      => 'bool:false',
 		'actions'     => 'bool:false',
+		'search'      => 'bool:false',
 		'translation' => 'bool:false',
 	]
 ) )->values();
 ?>
 <!-- table head start -->
 <div class="table__header">
-    <div class="mw df fww aic jcsb g-3 px-7 py-5">
+    <div class="mw df fww aic jcsb g-3 py-5 px-7 md:p-5">
 		<?php if ( $title ) : ?>
             <h4><?php echo $title; ?>
 	            <?php $badge && print( '<span class="badge">' . $badge . '</span>' ); ?>
@@ -45,7 +46,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					    View::print(
 						    'templates/form/details',
 						    [
-							    'label'       => I18n::_f( '%s Filters', '<i class="ph ph-funnel-simple"></i>' ),
+							    'label'       => I18n::_f( '%s Filter', '<i class="ph ph-funnel"></i>' ),
 							    'instruction' => '',
 							    'class'       => 'btn btn--sm btn--outline',
 							    'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
@@ -57,9 +58,34 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    [
 							    'type'       => 'number',
 							    'name'       => 'page',
-							    'class'      => 'fields--sm fields--outline',
+							    'class'      => 'field--sm field--outline',
 							    'attributes' => [
+							    	'min'   => 0,
 								    'value' => 3,
+							    ],
+						    ]
+					    );
+					    ?>
+				    </div>
+			    <?php endif; ?>
+			    <?php if ( $search ) : ?>
+				    <div class="df aic g-1">
+					    <?php
+					    View::print(
+						    'templates/form/input',
+						    [
+							    'label'       => '',
+							    'reset'       => 0,
+							    'class'       => 'field field--sm field--outline',
+							    'copy'        => 0,
+							    'before'      => '',
+							    'after'       => '',
+							    'tooltip'     => '',
+							    'instruction' => '',
+							    'attributes'  => [
+								    'type'        => 'search',
+								    'name'        => 's',
+								    'placeholder' => I18n::_t( 'Search plugins' ),
 							    ],
 						    ]
 					    );
@@ -90,20 +116,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			    <?php endif; ?>
 			    <?php if ( $actions ) : ?>
 			        <div class="df aic g-1" x-show="bulk" x-cloak>
-						<?php
-						View::print(
-							'templates/form/details',
-							[
-								'label'       => I18n::_f( '%s Bulk actions', '<i class="ph ph-magic-wand"></i>' ),
-								'instruction' => I18n::_t( 'Test content' ),
-								'class'       => 'btn btn--sm',
-								'content'     => Dashboard\Form::view( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ),
-							]
-						);
-						?>
-			            <button type="button" class="btn btn--sm t-red" x-bind="reset">
-			                <?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?>
-			            </button>
+						<?php Dashboard\Form::print( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
+			            <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
 			        </div>
 			    <?php endif; ?>
 			    <?php if ( $translation ) : ?>

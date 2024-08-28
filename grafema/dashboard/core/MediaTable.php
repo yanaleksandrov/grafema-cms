@@ -52,14 +52,14 @@ final class MediaTable {
 		ob_start();
 		$row = current( $this->rows() );
 		?>
-		<template x-if="posts.length">
+		<template x-if="items.length">
 			<div class="storage">
-				<template x-for="post in posts">
+				<template x-for="item in items">
 					<?php View::print( $row->view, [ 'columns' => $this->columns(), 'row' => $row, 'data' => [] ] ); ?>
 				</template>
 			</div>
 		</template>
-		<template x-if="!posts.length">
+		<template x-if="!items.length">
 		<?php
 		return ob_get_clean();
 	}

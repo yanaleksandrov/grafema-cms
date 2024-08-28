@@ -31,7 +31,6 @@ Dashboard\Form::register(
 					],
 				],
 				[
-					'name'       => 'apply',
 					'type'       => 'submit',
 					'label'      => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
 					'attributes' => [

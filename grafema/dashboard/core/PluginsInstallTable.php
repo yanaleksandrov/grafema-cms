@@ -10,6 +10,7 @@ use Dashboard\Builders\Column;
 final class PluginsInstallTable {
 
 	public function data(): array {
+		return [];
 		return [
 			[
 				'title'           => 'Classic Editor 1 and very longadable pluginsnameand hello world',
@@ -302,6 +303,10 @@ final class PluginsInstallTable {
 				'version'         => '1.3.5',
 			],
 		];
+	}
+
+	public function dataVariable(): string {
+		return '';
 	}
 
 	public function rows(): array {

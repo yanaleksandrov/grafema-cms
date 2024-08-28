@@ -785,7 +785,7 @@
     display: grid;
     gap: 1.6rem;
     position: relative;
-    padding: 0.875rem 1.75rem;
+    padding: 0.75rem 1.75rem;
     grid-template-columns: var(--grafema-grid-template-columns);
 
     &:nth-child(1 of .table__row) {
@@ -837,8 +837,9 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 
-    @media ( max-width: 1024px ) {
+    @media screen and (max-width: 1024px) {
       top: 52px;
     }
   }

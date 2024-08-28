@@ -7,7 +7,7 @@
 }
 
 // display
-@each $key in ( flex, inline-flex, block, inline-block, table, inline-table, grid, inline-grid ) {
+@each $key in ( none, flex, inline-flex, block, inline-block, table, inline-table, grid, inline-grid ) {
   $selector: str-split($key, '-');
   .d#{$selector} {
     display: $key;

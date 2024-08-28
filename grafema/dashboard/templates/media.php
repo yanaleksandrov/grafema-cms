@@ -16,5 +16,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Builders\Table( new Dashboard\MediaTable() ) )->print(); ?>
-    <div x-intersect="$ajax('media/get').then(response => posts = response.posts)"></div>
+    <div x-intersect="$ajax('media/get').then(response => items = response.posts)"></div>
 </div>

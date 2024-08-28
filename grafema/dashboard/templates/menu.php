@@ -42,9 +42,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					} elseif ( empty( $item['children'] ) ) {
 						?>
 						<li class="nav__item">
-							<a class="nav__link" href="%url$s">
-								<i class="%icon$s"></i> %title$s
-							</a>
+							<a class="nav__link" href="%url$s"><i class="%icon$s"></i> %title$s</a>
 						</li>
 						<?php
 					} else {

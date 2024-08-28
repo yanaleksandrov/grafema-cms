@@ -173,6 +173,18 @@ class Form {
 	}
 
 	/**
+	 * Form output
+	 *
+	 * @param string $uniqid
+	 * @param bool $without_form_wrapper
+	 * @param string $path               Path to register form.
+	 * @return void
+	 */
+	public static function print( string $uniqid, bool $without_form_wrapper = false, string $path = '' ): void {
+		echo self::view( $uniqid, $without_form_wrapper, $path );
+	}
+
+	/**
 	 * Add 'form' tag wrapper for form content.
 	 *
 	 * @param array $attributes

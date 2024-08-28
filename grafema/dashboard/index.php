@@ -115,63 +115,14 @@ $start_time = microtime( true );
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">
-                <div class="grafema-bar-menu" @click="showMenu = !showMenu">
+                <div class="grafema-bar-menu" :class="showMenu && 'active'" @click="showMenu = !showMenu">
                     <i class="ph ph-list"></i>
                 </div>
-                <?php View::print( 'templates/menu-bar' ); ?>
+                <?php
+                View::print( 'templates/menu-bar' );
 
-				<?php ob_start(); ?>
-                <div class="df fdc">
-                    <div class="fs-13 lh-xs fw-600">Howdy, Yan Aleksandrov</div>
-                </div>
-                <div class="avatar avatar--xs" style="background-image: url(https://i.pravatar.cc/150?img=3)">
-                    <i class="badge bg-green" title="Online"></i>
-                </div>
-				<?php
-				$label = ob_get_clean();
-
-				View::print(
-					'templates/form/details',
-					[
-						'label'       => $label,
-						'instruction' => '',
-						'class'       => 'ml-auto df aic g-3',
-						'content'     => Tree::include(
-							'dashboard-user-menu',
-							$test = function ( $items, $tree ) use ( &$test ) {
-								if ( empty( $items ) || ! is_array( $items ) ) {
-									return false;
-								}
-								?>
-                                <ul class="user-menu">
-									<?php
-									foreach ( $items as $item ) {
-										ob_start();
-
-										if ( empty( $item['url'] ) ) {
-											?>
-                                            <li class="user-menu-divider">%title$s</li>
-											<?php
-										} else {
-											?>
-                                            <li class="user-menu-item">
-                                                <a class="user-menu-link" href="%url$s">
-                                                    <i class="%icon$s"></i> <span>%title$s</span>
-                                                </a>
-                                            </li>
-											<?php
-										}
-
-										echo $tree->vsprintf( ob_get_clean(), $item );
-									}
-									?>
-                                </ul>
-								<?php
-							}
-						),
-					]
-				);
-				?>
+                View::print( 'templates/global/user-account' );
+                ?>
             </div>
 
 			<div class="grafema-panel">

@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = (
+[$label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = (
     new Sanitizer(
         $args ?? [],
         [
@@ -24,7 +24,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'name'        => 'key',
 			'value'       => 'attribute',
 			'placeholder' => 'trim',
-			'class'       => 'class:df aic jcsb fw-600 mb-2',
+	        'class'       => 'class:field',
+	        'label_class' => 'class:field-label',
 			'reset'       => 'bool:false',
 			'before'      => 'trim',
 			'after'       => 'trim',
@@ -38,9 +39,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     )
 )->values();
 ?>
-<div class="field" x-data="{<?php echo $name; ?>: []}">
+<div class="<?php echo $class; ?>" x-data="{<?php echo $name; ?>: []}">
 	<?php if ( $label ) { ?>
-		<div class="<?php echo $class; ?>">
+		<div class="<?php echo $label_class; ?>">
 			<?php
 			Esc::html( $label );
             if ( $reset ) {

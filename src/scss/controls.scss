@@ -791,6 +791,10 @@
     &:nth-child(1 of .table__row) {
       padding-top: 1.75rem;
     }
+
+    @media screen and (max-width: 1024px) {
+      padding-inline: 1.25rem;
+    }
   }
 
   &__grid {

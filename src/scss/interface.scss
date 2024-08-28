@@ -518,6 +518,11 @@
   gap: 1.5rem;
   padding: 1.75rem;
 
+  @media screen and (max-width: 1024px) {
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
   &__item {
     cursor: pointer;
     aspect-ratio: 1 / 1;

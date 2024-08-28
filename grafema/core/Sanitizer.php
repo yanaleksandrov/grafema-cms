@@ -556,7 +556,7 @@ class Sanitizer
 			// Strip out any %-encoded octets.
 			$class = preg_replace( '|%[a-fA-F0-9][a-fA-F0-9]|', '', $class );
 
-			// Limit to A-Z, a-z, 0-9, '_', '-'.
+			// Limit to A-Z, a-z, 0-9, '_', '-' & ':' symbol for support tailwind.
 			$class = preg_replace( '/[^A-Za-z0-9:_-]/', '', $class );
 
 			$sanitized[] = self::trim( $class );

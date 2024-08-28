@@ -8,6 +8,10 @@ use Dashboard\Builders\Column;
 
 final class ThemesTable {
 
+	public function tag(): string {
+		return '';
+	}
+
 	public function data(): array {
 		return [
 			[
@@ -58,6 +62,14 @@ final class ThemesTable {
 		];
 	}
 
+	public function dataBefore(): string {
+		return '<div class="themes">';
+	}
+
+	public function dataAfter(): string {
+		return '</div>';
+	}
+
 	public function rows(): array {
 		return [
 			Row::add()->tag( '' ),
@@ -90,6 +102,14 @@ final class ThemesTable {
 	}
 
 	public function headerTemplate(): string {
+		return '';
+	}
+
+	public function notFoundAfter(): string {
+		return '';
+	}
+
+	public function notFoundBefore(): string {
 		return '';
 	}
 

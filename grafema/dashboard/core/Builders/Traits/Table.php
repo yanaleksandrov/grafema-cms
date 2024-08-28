@@ -31,7 +31,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $dataAfter = '';
+	public string $dataAfter = '</template>';
 
 	/**
 	 * Content before the output of the data.
@@ -39,7 +39,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $dataBefore = '';
+	public string $dataBefore = '<template x-if="items.length">';
 
 	/**
 	 * Rows settings.
@@ -79,7 +79,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $notFoundAfter = '';
+	public string $notFoundAfter = '</template>';
 
 	/**
 	 * Content before not found data.
@@ -87,7 +87,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $notFoundBefore = '';
+	public string $notFoundBefore = '<template x-if="!items.length">';
 
 	/**
 	 * Data for not found template partial.

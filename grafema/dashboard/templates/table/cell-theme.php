@@ -33,34 +33,25 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="themes__item">
 	<div class="themes__image" data-title="<?php I18n::t( 'Details' ); ?>" style="background-image: url(<?php echo $screenshot; ?>)"></div>
-	<div class="dg g-2 py-4 px-2">
-		<div class="fw-600 fs-16 df jcsb aic">
-			<?php
-			echo $title;
-			if ( $installed ) :
-				?>
-				<span class="badge badge--green-lt"><?php I18n::t( 'Active' ); ?></span>
-			<?php endif; ?>
-		</div>
-		<div class="t-muted"><?php echo $description; ?></div>
-		<div class="df jcsb fs-12">
-			<?php
-			if ( $reviews > 0 ) {
-				View::print(
-					'templates/global/rating',
-					[
-						'rating'  => $rating,
-						'reviews' => $reviews,
-					]
-				);
-			} else {
-				I18n::t( 'This theme has not been rated yet' );
-			}
+	<h6 class="themes__title"><?php echo $title, I18n::_c( $installed, ' <i class="badge badge--green-lt">Active</i>' ); ?></h6>
+	<div class="themes__text"><?php echo $description; ?></div>
+	<div class="themes__data">
+		<?php
+		if ( $reviews > 0 ) {
+			View::print(
+				'templates/global/rating',
+				[
+					'rating'  => $rating,
+					'reviews' => $reviews,
+				]
+			);
+		} else {
+			I18n::t( 'This theme has not been rated yet' );
+		}
 
-			if ( $version ) :
-				?>
-				<div class="t-muted" title="<?php I18n::tf( 'Version %s', $version ); ?>"><?php echo $version; ?></div>
-			<?php endif; ?>
-		</div>
+		if ( $version ) :
+			?>
+			<div class="themes__text" title="<?php I18n::tf( 'Version %s', $version ); ?>"><?php echo $version; ?></div>
+		<?php endif; ?>
 	</div>
 </div>

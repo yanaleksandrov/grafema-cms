@@ -76,7 +76,7 @@ class I18n
 	 *
 	 * @since 2025.1
 	 */
-	public static function _c( bool $condition, string $ifString, string $elseString ): string
+	public static function _c( bool $condition, string $ifString, string $elseString = '' ): string
 	{
 		return $condition ? self::_t( $ifString ) : self::_t( $elseString );
 	}
@@ -127,7 +127,7 @@ class I18n
 	 *
 	 * @since 2025.1
 	 */
-	public static function tc( bool $condition, string $ifString, string $elseString ): void {
+	public static function tc( bool $condition, string $ifString, string $elseString = '' ): void {
 		echo self::_c( $condition, $ifString, $elseString );
 	}
 

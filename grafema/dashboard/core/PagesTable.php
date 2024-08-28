@@ -61,7 +61,6 @@ final class PagesTable {
 		return [
 			'class'  => 'table',
 			'x-data' => 'table',
-			'x-init' => '$ajax("posts/get").then(response => items = response.items)',
 		];
 	}
 

@@ -76,10 +76,8 @@ final class Table {
 			]
 		);
 
-		if ( is_array( $this->data ) && $this->data ) {
-			if ( $this->dataBefore ) {
-				echo $this->dataBefore;
-			}
+		if ( is_array( $this->data ) && ! empty( $this->data ) ) {
+			echo $this->dataBefore ?? '';
 
 			foreach ( $this->data as $i => $data ) {
 				$row = $this->rows[ $i ] ?? end( $this->rows );
@@ -94,19 +92,13 @@ final class Table {
 				);
 			}
 
-			if ( $this->dataAfter ) {
-				echo $this->dataAfter;
-			}
+			echo $this->dataAfter . PHP_EOL ?? '';
 		} else {
-			if ( $this->notFoundBefore ) {
-				echo $this->notFoundBefore;
-			}
+			echo $this->notFoundBefore ?? '';
 
 			View::print( $this->notFoundTemplate, $this->notFoundContent );
 
-			if ( $this->notFoundAfter ) {
-				echo $this->notFoundAfter;
-			}
+			echo $this->notFoundAfter ? $this->notFoundAfter . PHP_EOL : '';
 		}
 
 		if ( $this->tag ) {

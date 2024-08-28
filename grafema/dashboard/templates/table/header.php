@@ -41,18 +41,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	    <?php if ( $filter || $show || $uploader || $actions || $translation ) : ?>
 		    <div class="df aic g-1">
 			    <?php if ( $filter ) : ?>
-				    <div class="df aic g-1" x-show="!bulk">
+				    <div class="df aic g-1">
+					    <button class="btn btn--sm btn--outline" @click="showFilter = !showFilter"><i class="ph ph-funnel"></i> <?php I18n::t( 'Filter' ); ?></button>
 					    <?php
-					    View::print(
-						    'templates/form/details',
-						    [
-							    'label'       => I18n::_f( '%s Filter', '<i class="ph ph-funnel"></i>' ),
-							    'instruction' => '',
-							    'class'       => 'btn btn--sm btn--outline',
-							    'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
-						    ]
-					    );
-
 					    View::print(
 						    'templates/form/number',
 						    [
@@ -218,5 +209,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    </div>
 	    <?php endif; ?>
     </div>
+	<div class="table__filter" x-show="showFilter === true" x-cloak>
+		<?php echo Dashboard\Form::view( 'grafema-items-filter', true ); ?>
+	</div>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

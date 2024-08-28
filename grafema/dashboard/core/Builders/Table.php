@@ -27,6 +27,7 @@ final class Table {
 			'tag',
 			'rows',
 			'columns',
+			'filter',
 			'attributes',
 			'data',
 			'dataAfter',

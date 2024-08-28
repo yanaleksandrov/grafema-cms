@@ -474,6 +474,8 @@ Dashboard\Form::register(
 													<button class="btn btn--outline" type="button">Delete</button>
 												</div>
 											</div>
+											inspiration: https://dribbble.com/shots/24532847--API-keys
+											<div class="df aic g-1 t-red fs-13"><i class="ph ph-info"></i> Grafema CMS support will never ask you to share your secret keys.</div>
 										</div>
 										<?php
 										return ob_get_clean();

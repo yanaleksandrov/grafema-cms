@@ -1,10 +1,11 @@
 .grafema {
   $bar-height: 42px;
+  $side-width: 196px;
   $board-height: 24px;
   width: 100%;
   word-break: break-word;
   display: grid;
-  grid-template-columns: 56px 188px 1fr;
+  grid-template-columns: 56px $side-width 1fr;
   grid-template-rows: $bar-height 1fr $board-height;
   min-height: 100dvh;
   background-color: var(--grafema-white);
@@ -90,8 +91,8 @@
 
     @media ( max-width: 1024px ) {
       top: 52px;
-      margin-inline-start: -189px;
-      max-width: 188px;
+      margin-inline-start: -#{$side-width + 1};
+      max-width: $side-width;
       left: 0;
       position: fixed;
       min-height: calc(100dvh - $bar-height);

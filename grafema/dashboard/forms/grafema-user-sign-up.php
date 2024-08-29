@@ -67,9 +67,7 @@ Dashboard\Form::register(
 					'required'    => 1,
 					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [
-						'x-autocomplete' => '',
-					],
+					'attributes'  => [],
 					'conditions' => [],
 					'switcher'   => 1,
 					'generator'  => 1,

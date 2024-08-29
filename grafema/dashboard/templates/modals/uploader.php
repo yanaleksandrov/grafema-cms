@@ -27,7 +27,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			 *
 			 * @since 2025.1
 			 */
-			echo Form::view( 'grafema-files-uploader' );
+			Form::print( 'grafema-files-uploader' );
 			?>
         </div>
     </div>

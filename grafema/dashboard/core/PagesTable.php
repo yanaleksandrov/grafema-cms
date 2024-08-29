@@ -4,7 +4,7 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class PagesTable {
 
@@ -23,38 +23,69 @@ final class PagesTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+			Row::add()->attribute( 'class', 'table__row' )
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Column::add( 'cb' )
+			Cell::add( 'cb' )
 				->title( '<input type="checkbox" x-bind="trigger" />' )
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
-			Column::add( 'image' )
+			Cell::add( 'image' )
 				->fixedWidth( '2.5rem' )
 				->view( 'image' ),
-			Column::add( 'title' )
+			Cell::add( 'title' )
 				->title( I18n::_t( 'Title' ) )
 				->flexibleWidth( '16rem' )
 				->sortable()
 				->view( 'title' ),
-			Column::add( 'author' )
+			Cell::add( 'author' )
 				->title( I18n::_t( 'Author' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
-			Column::add( 'categories' )
+			Cell::add( 'categories' )
 				->title( I18n::_t( 'Categories' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
-			Column::add( 'date' )
+			Cell::add( 'date' )
 				->title( I18n::_t( 'Date' ) )
 				->fixedWidth( '6rem' )
 				->sortable()
 				->view( 'date' ),
 		];
+	}
+
+	public function filter() {
+		Form::override( 'grafema-items-filter', function( Form $form ) {
+			$form->before( 'submit' )->insert(
+				[
+					'type'        => 'select',
+					'label'       => '',
+					'name'        => 'authors',
+					'value'       => '',
+					'placeholder' => '',
+					'class'       => '',
+					'label_class' => '',
+					'reset'       => 1,
+					'required'    => 0,
+					'copy'        => 0,
+					'before'      => '',
+					'after'       => '',
+					'tooltip'     => '',
+					'instruction' => '',
+					'attributes'  => [
+						'class' => 'select select--sm select--outline',
+					],
+					'conditions'  => [],
+					'options'     => [
+						''                => I18n::_t( 'Select an author' ),
+						'user-registered' => I18n::_t( 'New user registered' ),
+					],
+				]
+			);
+		} );
 	}
 
 	public function attributes(): array {

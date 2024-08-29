@@ -9,6 +9,16 @@ namespace Grafema\Helpers;
 class Arr {
 
 	/**
+	 * TODO: Memory-saving array iteration.
+	 *
+	 * @param array $array
+	 * @return mixed
+	 */
+	public static function each( array $array ): mixed {
+
+	}
+
+	/**
 	 * Recursively delete array elements with an empty values.
 	 *
 	 * @param array $array
@@ -46,7 +56,7 @@ class Arr {
 	}
 
 	/**
-	 * Adding new data to the array after the specified key.
+	 * Adding new data to the array after the specified key. TODO: Support nested arrays with using "dot" notation.
 	 *
 	 * @param array      $array
 	 * @param int|string $position

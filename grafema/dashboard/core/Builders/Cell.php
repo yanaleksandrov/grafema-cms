@@ -1,20 +1,19 @@
 <?php
-
 namespace Dashboard\Builders;
 
 use Grafema\Sanitizer;
 
-final class Column
+final class Cell
 {
-	use Traits\Column;
+	use Traits\Cell;
 
 	/**
 	 * Add new column.
 	 *
 	 * @param string $key
-	 * @return Column
+	 * @return Cell
 	 */
-	public static function add( string $key ): Column {
+	public static function add( string $key ): Cell {
         return new self( $key );
 	}
 
@@ -22,9 +21,9 @@ final class Column
 	 * Set column title.
 	 *
 	 * @param string $title
-	 * @return Column
+	 * @return Cell
 	 */
-	public function title( string $title ): Column {
+	public function title( string $title ): Cell {
 		$this->title = $title;
 
 		return $this;
@@ -33,9 +32,9 @@ final class Column
 	/**
 	 * Make column sortable.
 	 *
-	 * @return Column
+	 * @return Cell
 	 */
-	public function sortable(): Column {
+	public function sortable(): Cell {
         $this->sortable = true;
 
 		return $this;
@@ -45,9 +44,9 @@ final class Column
 	 * Default sort ordering.
 	 *
 	 * @param string $order
-	 * @return Column
+	 * @return Cell
 	 */
-	public function sortOrder( string $order = 'DESC' ): Column {
+	public function sortOrder( string $order = 'DESC' ): Cell {
 		$order = Sanitizer::uppercase( $order );
         if ( in_array( $order, [ 'ASC', 'DESC' ], true ) ) {
 			$this->sortOrder = $order;
@@ -60,9 +59,9 @@ final class Column
 	/**
 	 * Make column searchable.
 	 *
-	 * @return Column
+	 * @return Cell
 	 */
-	public function searchable(): Column {
+	public function searchable(): Cell {
 		$this->searchable = true;
 
 		return $this;
@@ -72,9 +71,9 @@ final class Column
 	 * Set column width.
 	 *
 	 * @param string $width
-	 * @return Column
+	 * @return Cell
 	 */
-	public function fixedWidth( string $width ): Column {
+	public function fixedWidth( string $width ): Cell {
 		$this->flexible = false;
 		$this->width    = $width;
 
@@ -85,9 +84,9 @@ final class Column
 	 * Set column width flexible.
 	 *
 	 * @param string $width
-	 * @return Column
+	 * @return Cell
 	 */
-	public function flexibleWidth( string $width ): Column {
+	public function flexibleWidth( string $width ): Cell {
 		$this->flexible = true;
 		$this->width    = $width;
 
@@ -98,9 +97,9 @@ final class Column
 	 * Get view template.
 	 *
 	 * @param string $template
-	 * @return Column
+	 * @return Cell
 	 */
-	public function view( string $template ): Column {
+	public function view( string $template ): Cell {
 		if ( file_exists( $template ) ) {
 			$this->view = $template;
 		} else {

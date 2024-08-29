@@ -5,7 +5,7 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class PluginsTable {
 
@@ -41,32 +41,32 @@ final class PluginsTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+			Row::add()->attribute( 'class', 'table__row' )
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Column::add( 'cb' )
+			Cell::add( 'cb' )
 				->title( '<input type="checkbox" x-bind="trigger" />' )
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
-			Column::add( 'image' )
+			Cell::add( 'image' )
 				->fixedWidth( '2.5rem' )
 				->view( 'image' ),
-			Column::add( 'plugin' )
+			Cell::add( 'plugin' )
 				->title( I18n::_t( 'Plugin' ) )
 				->flexibleWidth( '14rem' )
 				->view( 'plugin' ),
-			Column::add( 'description' )
+			Cell::add( 'description' )
 				->title( I18n::_t( 'Description' ) )
 				->flexibleWidth( '14rem' )
 				->view( 'raw' ),
-			Column::add( 'version' )
+			Cell::add( 'version' )
 				->title( I18n::_t( 'Version' ) )
 				->fixedWidth( '4rem' )
 				->view( 'badge' ),
-			Column::add( 'active' )
+			Cell::add( 'active' )
 				->title( I18n::_t( 'Activity' ) )
 				->fixedWidth( '4rem' )
 				->view( 'toggle' ),

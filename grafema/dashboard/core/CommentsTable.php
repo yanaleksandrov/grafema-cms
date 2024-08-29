@@ -4,7 +4,7 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class CommentsTable {
 
@@ -23,30 +23,30 @@ final class CommentsTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+			Row::add()->attribute( 'class', 'table__row' )
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Column::add( 'cb' )
+			Cell::add( 'cb' )
 				->title( '<input type="checkbox" x-bind="trigger" />' )
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
-			Column::add( 'author' )
+			Cell::add( 'author' )
 				->title( I18n::_t( 'Author' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'links' ),
-			Column::add( 'comment' )
+			Cell::add( 'comment' )
 				->title( I18n::_t( 'Comment' ) )
 				->flexibleWidth( '6rem' )
 				->view( 'raw' ),
-			Column::add( 'date' )
+			Cell::add( 'date' )
 				->title( I18n::_t( 'In response to' ) )
 				->fixedWidth( '9rem' )
 				->sortable()
 				->view( 'date' ),
-			Column::add( 'date' )
+			Cell::add( 'date' )
 				->title( I18n::_t( 'Date' ) )
 				->fixedWidth( '9rem' )
 				->sortable()

@@ -740,6 +740,17 @@
   margin-bottom: auto;
   grid-template-rows: max-content;
 
+  &__filter {
+    display: flex;
+    gap: 0.25rem;
+    padding-inline: 1.75rem;
+    padding-bottom: 1rem;
+
+    @media screen and (max-width: 1024px) {
+      padding-inline: 1.25rem;
+    }
+  }
+
   &__head {
     white-space: nowrap;
     width: 100%;

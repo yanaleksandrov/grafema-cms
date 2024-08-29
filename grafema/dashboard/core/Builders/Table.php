@@ -23,10 +23,14 @@ final class Table {
 	use Traits\Table;
 
 	public function __construct( $table ) {
+		// include filter
+		require_once GRFM_DASHBOARD . 'forms/grafema-items-filter.php';
+
 		$methods = [
 			'tag',
 			'rows',
 			'columns',
+			'filter',
 			'attributes',
 			'data',
 			'dataAfter',
@@ -54,6 +58,7 @@ final class Table {
 	 * @return string
 	 */
 	public function get(): string {
+
 		$styles = $this->stylize( $this->columns );
 		if ( $styles ) {
 			$this->attributes['style'] = $styles;

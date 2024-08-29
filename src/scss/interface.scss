@@ -1,10 +1,11 @@
 .grafema {
   $bar-height: 42px;
+  $side-width: 196px;
   $board-height: 24px;
   width: 100%;
   word-break: break-word;
   display: grid;
-  grid-template-columns: 56px 188px 1fr;
+  grid-template-columns: 56px $side-width 1fr;
   grid-template-rows: $bar-height 1fr $board-height;
   min-height: 100dvh;
   background-color: var(--grafema-white);
@@ -90,8 +91,8 @@
 
     @media ( max-width: 1024px ) {
       top: 52px;
-      margin-inline-start: -189px;
-      max-width: 188px;
+      margin-inline-start: -#{$side-width + 1};
+      max-width: $side-width;
       left: 0;
       position: fixed;
       min-height: calc(100dvh - $bar-height);
@@ -583,95 +584,6 @@
 
   &__text {
     color: var(--grafema-text-muted);
-  }
-}
-
-.builder {
-  padding: 2rem;
-  border-radius: var(--grafema-border-radius);
-  border: 1px solid var(--grafema-border);
-  background-color: var(--grafema-white);
-  display: grid;
-  gap: 1rem;
-  container: builder / inline-size;
-
-  @media (max-width: 576px) {
-    padding: 1rem;
-    gap: 4rem;
-  }
-
-  &__group {
-    display: grid;
-    gap: calc(0.5rem - 0.55px);
-    position: relative;
-    padding: 1rem;
-    border-radius: var(--grafema-border-radius);
-    border: 1px solid var(--grafema-border);
-    margin-left: 3rem;
-
-    &:before {
-      content: '';
-      width: 1.8rem;
-      height: 7rem;
-      bottom: -2.85rem;
-      left: -1.8rem;
-      position: absolute;
-      border: 1px solid var(--grafema-border);
-      border-right: none;
-      border-radius: var(--grafema-border-radius) 0 0 var(--grafema-border-radius);
-    }
-
-    &:after {
-      content: 'or';
-      position: absolute;
-      padding: 0.3395rem 0.5rem;
-      text-transform: uppercase;
-      margin-inline-end: auto;
-      border-radius: var(--grafema-border-radius);
-      color: var(--grafema-secondary);
-      border: 1px solid var(--grafema-border);
-      background: var(--grafema-bg);
-      line-height: initial;
-      font-weight: 600;
-      font-size: 0.625rem;
-      letter-spacing: 0.04em;
-      bottom: 0;
-      left: -3rem;
-    }
-
-    @media (max-width: 576px) {
-      margin-left: 0;
-
-      &:before {
-        width: 1px;
-        height: 4rem;
-        bottom: -4rem;
-        left: 1rem;
-      }
-
-      &:after {
-        left: 0;
-        bottom: -2.85rem;
-      }
-    }
-  }
-
-  &__rules {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: 1fr 9rem 1fr 2.25rem;
-    position: relative;
-
-    @container builder (max-width: 576px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__buttons {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
   }
 }
 

@@ -41,18 +41,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	    <?php if ( $filter || $show || $uploader || $actions || $translation ) : ?>
 		    <div class="df aic g-1">
 			    <?php if ( $filter ) : ?>
-				    <div class="df aic g-1" x-show="!bulk">
+				    <div class="df aic g-1">
+					    <button class="btn btn--sm btn--outline" type="reset" form="grafema-items-filter" @click="showFilter = !showFilter" :class="showFilter && 't-red'" :title="showFilter ? '<?php I18n::t_attr( 'Reset Filter' ); ?>' : '<?php I18n::t( 'Filter' ); ?>'">
+						    <i class="ph ph-funnel" :class="showFilter ? 'ph-funnel-x' : 'ph-funnel'"></i>
+						    <span x-text="showFilter ? '<?php I18n::t_attr( 'Reset' ); ?>' : '<?php I18n::t_attr( 'Filter' ); ?>'"><?php I18n::t( 'Filter' ); ?></span>
+					    </button>
 					    <?php
-					    View::print(
-						    'templates/form/details',
-						    [
-							    'label'       => I18n::_f( '%s Filter', '<i class="ph ph-funnel"></i>' ),
-							    'instruction' => '',
-							    'class'       => 'btn btn--sm btn--outline',
-							    'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
-						    ]
-					    );
-
 					    View::print(
 						    'templates/form/number',
 						    [
@@ -101,7 +95,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 								'instruction' => I18n::_t( 'Test content' ),
 								'class'       => 'btn btn--sm btn--outline btn--icon',
-								'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
+								'content'     => Dashboard\Form::get( 'grafema-posts-options', GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 							]
 						);
 						?>
@@ -218,5 +212,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    </div>
 	    <?php endif; ?>
     </div>
+	<?php Dashboard\Form::print( 'grafema-fields-builder', path: GRFM_DASHBOARD . 'forms/grafema-fields-builder.php' ); ?>
+	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

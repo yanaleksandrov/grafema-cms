@@ -13,34 +13,30 @@ Dashboard\Form::register(
 		'x-data'          => '{email: ""}',
 		'@submit.prevent' => '$ajax("items/options")',
 	],
-	function ( $form ) {
-		$form->addFields(
-			[
-				[
-					'name'        => 'remember',
-					'type'        => 'checkbox',
-					'label'       => I18n::_t( 'Columns' ),
-					'label_class' => 'df aic fs-12 t-muted',
-					'reset'       => false,
-					'instruction' => '',
-					'attributes'  => [
-						'value' => true,
-					],
-					'options' => [
-						'author'     => I18n::_t( 'Author' ),
-						'categories' => I18n::_t( 'Categories' ),
-						'date'       => I18n::_t( 'Date' ),
-					],
-				],
-				[
-					'name'       => 'apply',
-					'type'       => 'submit',
-					'label'      => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
-					'attributes' => [
-						'class' => 'btn btn--sm btn--primary',
-					],
-				],
-			]
-		);
-	}
+	[
+		[
+			'name'        => 'remember',
+			'type'        => 'checkbox',
+			'label'       => I18n::_t( 'Columns' ),
+			'label_class' => 'df aic fs-12 t-muted',
+			'reset'       => false,
+			'instruction' => '',
+			'attributes'  => [
+				'value' => true,
+			],
+			'options' => [
+				'author'     => I18n::_t( 'Author' ),
+				'categories' => I18n::_t( 'Categories' ),
+				'date'       => I18n::_t( 'Date' ),
+			],
+		],
+		[
+			'name'       => 'apply',
+			'type'       => 'submit',
+			'label'      => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
+			'attributes' => [
+				'class' => 'btn btn--sm btn--primary',
+			],
+		],
+	]
 );

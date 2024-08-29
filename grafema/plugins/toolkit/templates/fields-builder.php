@@ -21,7 +21,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<div class="fields-builder__header">
 				<h4>Fields Builder</h4>
 			</div>
-			<?php echo Dashboard\Form::view( 'builder/fields' ); ?>
+			<?php Dashboard\Form::print( 'builder/fields' ); ?>
 		</div>
 		<div class="fields-builder__main">
 			<div class="fields-builder__code">

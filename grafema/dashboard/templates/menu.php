@@ -14,6 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-side">
+	<?php Dashboard\Form::print( 'grafema-fields-builder', path: GRFM_DASHBOARD . 'forms/grafema-fields-builder.php' ); ?>
     <?php
 	Tree::view(
 		'dashboard-main-menu',

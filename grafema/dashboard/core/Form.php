@@ -216,6 +216,9 @@ class Form {
 	 */
 	public function parseFields( array $fields, int $step = 1 ): string {
 		$content = '';
+//		echo '<pre>';
+//		print_r( $fields );
+//		echo '</pre>';
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
 			$name     = Sanitizer::name( $field['name'] ?? '' );

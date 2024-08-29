@@ -94,7 +94,7 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			new Errors( 'form-view', I18n::_t( 'Form fields is incorrect.' ) );
+			new Errors( 'form-view', I18n::_f( 'Form fields with ID "%s" is incorrect.', $uniqid ) );
 
 			return '';
 		}

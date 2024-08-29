@@ -58,72 +58,34 @@ final class PagesTable {
 	}
 
 	public function filter() {
-		Form::register(
-			'grafema-items-filter',
-			[
-				'class'           => 'table__filter',
-				'x-show'          => 'showFilter === true',
-				'x-cloak'         => true,
-				'@submit.prevent' => '$ajax("items/filter")',
-			],
-			function ( $form ) {
-				$form->addFields(
-					[
-						[
-							'type'        => 'search',
-							'label'       => '',
-							'name'        => 's',
-							'value'       => '',
-							'placeholder' => '',
-							'class'       => 'field field--outline',
-							'label_class' => '',
-							'reset'       => 1,
-							'required'    => 0,
-							'copy'        => 0,
-							'before'      => '',
-							'after'       => '',
-							'tooltip'     => '',
-							'instruction' => '',
-							'attributes'  => [
-								'placeholder' => I18n::_t( 'e.g. search text' ),
-							],
-							'conditions'  => [],
-						],
-						[
-							'type'        => 'select',
-							'label'       => '',
-							'name'        => 'authors',
-							'value'       => '',
-							'placeholder' => '',
-							'class'       => '',
-							'label_class' => '',
-							'reset'       => 1,
-							'required'    => 0,
-							'copy'        => 0,
-							'before'      => '',
-							'after'       => '',
-							'tooltip'     => '',
-							'instruction' => '',
-							'attributes'  => [
-								'class' => 'select select--outline',
-							],
-							'conditions'  => [],
-							'options'     => [
-								''                => I18n::_t( 'Select an author' ),
-								'user-registered' => I18n::_t( 'New user registered' ),
-							],
-						],
-						[
-							'type'       => 'submit',
-							'label'      => I18n::_t( 'Apply filters' ),
-							'attributes' => [
-								'class' => 'btn btn--primary',
-							],
-						],
-					]
-				);
-			}
-		);
+		Form::override( 'grafema-items-filter', function( Form $form ) {
+			$form->before( 'submit' )->insert(
+				[
+					'type'        => 'select',
+					'label'       => '',
+					'name'        => 'authors',
+					'value'       => '',
+					'placeholder' => '',
+					'class'       => '',
+					'label_class' => '',
+					'reset'       => 1,
+					'required'    => 0,
+					'copy'        => 0,
+					'before'      => '',
+					'after'       => '',
+					'tooltip'     => '',
+					'instruction' => '',
+					'attributes'  => [
+						'class' => 'select select--sm select--outline',
+					],
+					'conditions'  => [],
+					'options'     => [
+						''                => I18n::_t( 'Select an author' ),
+						'user-registered' => I18n::_t( 'New user registered' ),
+					],
+				]
+			);
+		} );
 	}
 
 	public function attributes(): array {

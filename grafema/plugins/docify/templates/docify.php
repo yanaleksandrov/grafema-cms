@@ -53,105 +53,101 @@ Dashboard\Form::register(
 		'@submit.prevent' => "\$ajax('import/documents').then(response => {completed = response})",
 		'x-data'          => '{project:"",completed:""}',
 	],
-	function ( $form ) use ( $list ) {
-		$form->addFields(
-			[
-				[
-					'name'     => 'title',
-					'type'     => 'custom',
-					'callback' => function () {
-						ob_start();
-						?>
-						<div class="progress" :style="'--grafema-progress:' + $wizard.progress().progress"></div>
-						<div class="p-8 pt-7 pb-7 df aic jcsb">
-							<span x-text="$wizard.current().title"><?php I18n::t( 'Choose project' ); ?></span>
-							<span class="t-muted">
+	[
+		[
+			'name'     => 'title',
+			'type'     => 'custom',
+			'callback' => function () {
+				ob_start();
+				?>
+				<div class="progress" :style="'--grafema-progress:' + $wizard.progress().progress"></div>
+				<div class="p-8 pt-7 pb-7 df aic jcsb">
+					<span x-text="$wizard.current().title"><?php I18n::t( 'Choose project' ); ?></span>
+					<span class="t-muted">
 								step <strong x-text="$wizard.progress().current">1</strong> from <strong x-text="$wizard.progress().total">2</strong>
 							</span>
-						</div>
-						<div class="card-hr"></div>
-						<?php
-						return ob_get_clean();
-					},
+				</div>
+				<div class="card-hr"></div>
+				<?php
+				return ob_get_clean();
+			},
+		],
+		[
+			'type'       => 'step',
+			'attributes' => [
+				'class'          => 'pl-8 pr-8',
+				'x-wizard:title' => I18n::_t( 'Choose project' ),
+			],
+			'fields' => [
+				[
+					'name'        => 'title',
+					'type'        => 'header',
+					'class'       => 'p-8 t-center',
+					'label'       => I18n::_t( 'Select the project you want to export to docs' ),
+					'instruction' => I18n::_t( 'This tool allows you to convert docblock comments into docs pages. You can also use markdown.' ),
 				],
 				[
-					'type'       => 'step',
-					'attributes' => [
-						'class'          => 'pl-8 pr-8',
-						'x-wizard:title' => I18n::_t( 'Choose project' ),
+					'type'        => 'select',
+					'label'       => I18n::_t( 'Select a project to document' ),
+					'name'        => 'project',
+					'value'       => 'none',
+					'placeholder' => '',
+					'class'       => '',
+					'reset'       => 0,
+					'required'    => 0,
+					'before'      => '',
+					'after'       => '',
+					'tooltip'     => '',
+					'instruction' => '',
+					'attributes'  => [
+						'x-select' => '{"showSearch":1}',
 					],
-					'fields' => [
-						[
-							'name'        => 'title',
-							'type'        => 'header',
-							'class'       => 'p-8 t-center',
-							'label'       => I18n::_t( 'Select the project you want to export to docs' ),
-							'instruction' => I18n::_t( 'This tool allows you to convert docblock comments into docs pages. You can also use markdown.' ),
-						],
-						[
-							'type'        => 'select',
-							'label'       => I18n::_t( 'Select a project to document' ),
-							'name'        => 'project',
-							'value'       => 'none',
-							'placeholder' => '',
-							'class'       => '',
-							'reset'       => 0,
-							'required'    => 0,
-							'before'      => '',
-							'after'       => '',
-							'tooltip'     => '',
-							'instruction' => '',
-							'attributes'  => [
-								'x-select' => '{"showSearch":1}',
-							],
-							'conditions' => [],
-							'options'    => [
-								'optgroup' => [
-									'label'   => I18n::_t( 'Plugins' ),
-									'options' => [
-										'none' => I18n::_t( 'Nothing is selected' ),
-										...$list,
-									],
-								],
+					'conditions' => [],
+					'options'    => [
+						'optgroup' => [
+							'label'   => I18n::_t( 'Plugins' ),
+							'options' => [
+								'none' => I18n::_t( 'Nothing is selected' ),
+								...$list,
 							],
 						],
 					],
 				],
-				[
-					'type'       => 'step',
-					'attributes' => [
-						'class'          => 'pl-8 pr-8',
-						'x-cloak'        => true,
-						'x-wizard:title' => I18n::_t( 'Project import is completed' ),
-					],
-					'fields' => [
-						[
-							'type'     => 'custom',
-							'callback' => fn () => '<div class="dg" x-html="completed"></div>',
-						],
-					],
-				],
+			],
+		],
+		[
+			'type'       => 'step',
+			'attributes' => [
+				'class'          => 'pl-8 pr-8',
+				'x-cloak'        => true,
+				'x-wizard:title' => I18n::_t( 'Project import is completed' ),
+			],
+			'fields' => [
 				[
 					'type'     => 'custom',
-					'callback' => function () {
-						ob_start();
-						?>
-						<!-- buttons -->
-						<div class="p-8 df jcfe g-2">
-							<button type="submit" class="btn btn--primary" :disabled="project.trim() === 'none'" disabled><?php I18n::t( 'Run the importer' ); ?></button>
-						</div>
-						<?php
-						return ob_get_clean();
-					},
+					'callback' => fn () => '<div class="dg" x-html="completed"></div>',
 				],
-			]
-		);
-	}
+			],
+		],
+		[
+			'type'     => 'custom',
+			'callback' => function () {
+				ob_start();
+				?>
+				<!-- buttons -->
+				<div class="p-8 df jcfe g-2">
+					<button type="submit" class="btn btn--primary" :disabled="project.trim() === 'none'" disabled><?php I18n::t( 'Run the importer' ); ?></button>
+				</div>
+				<?php
+				return ob_get_clean();
+			},
+		],
+	]
 );
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php echo Dashboard\Form::view( 'import/documents' ); ?>
+		<?php Dashboard\Form::print( 'import/documents' ); ?>
 	</div>
 </div>
 

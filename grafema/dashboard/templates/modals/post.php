@@ -36,7 +36,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			 *
 			 * @since 2025.1
 			 */
-            echo Dashboard\Form::view( 'grafema-posts-creator', path: GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' );
+            Dashboard\Form::print( 'grafema-posts-creator', path: GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' );
             ?>
         </div>
     </div>

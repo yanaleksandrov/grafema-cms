@@ -2,14 +2,10 @@
 namespace Dashboard;
 
 use Grafema\{
-	Esc,
 	I18n,
-	Json,
-	View,
 	Hook,
 	Errors,
 	Sanitizer,
-	Helpers\Arr
 };
 
 /**
@@ -21,73 +17,22 @@ use Grafema\{
  */
 class Form {
 
-	use \Grafema\Patterns\Multiton;
-
-	/**
-	 * Unique ID of form class instance.
-	 *
-	 * @since 2025.1
-	 * @var   string
-	 */
-	public string $uniqid;
-
-	/**
-	 * List of all form fields
-	 *
-	 * @since 2025.1
-	 * @var   array
-	 */
-	public array $fields = [];
-
-	/**
-	 * Form default attributes
-	 *
-	 * @since 2025.1
-	 * @var   array
-	 */
-	public array $attributes = [
-		'method' => 'POST',
-	];
-
-	/**
-	 * ID of the field before which the new field will be added
-	 *
-	 * @since 2025.1
-	 * @var   string
-	 */
-	public string $before = '';
-
-	/**
-	 * ID of the field after which the new field will be added
-	 *
-	 * @since 2025.1
-	 * @var   string
-	 */
-	public string $after = '';
-
-	/**
-	 * ID of the field to be replaced with new field
-	 *
-	 * @since 2025.1
-	 * @var   string
-	 */
-	public string $instead = '';
+	use Form\Traits;
 
 	/**
 	 * Register new form.
 	 *
-	 * @param string $uniqid
-	 * @param array $attributes
-	 * @param callable|null $function
-	 * @return void|Form
+	 * @param string $uniqid    Unique Form ID.
+	 * @param array $attributes Html attributes list.
+	 * @param array $fields     Fields list. Contains a nested array of arrays.
+	 * @return Form
+	 *
+	 * @since 2025.1
 	 */
-	public static function register( string $uniqid, array $attributes = [], ?callable $function = null ) {
-		// TODO:: wrong escaping, use sanitize
-		$uniqid = Sanitizer::class( $uniqid );
-		if ( empty( $uniqid ) ) {
+	public static function register( string $uniqid, array $attributes = [], array $fields = [] ): Form {
+		$uniqid = Sanitizer::key( $uniqid );
+		if ( ! $uniqid ) {
 			new Errors( 'form-register', I18n::_f( 'The $uniqid of the form is empty.', $uniqid ) );
-
-			return;
 		}
 
 		$form = self::init( $uniqid );
@@ -96,11 +41,8 @@ class Form {
 		}
 
 		$form->uniqid     = $uniqid;
-		$form->attributes = array_merge( [ 'id' => $uniqid ], $form->attributes, $attributes );
-
-		if ( is_callable( $function ) ) {
-			call_user_func( $function, $form );
-		}
+		$form->fields     = $fields;
+		$form->attributes = [ 'id' => $uniqid, 'method' => 'POST', ...$attributes ];
 
 		return $form;
 	}
@@ -111,8 +53,10 @@ class Form {
 	 * @param string $uniqid
 	 * @param callable|null $function
 	 * @return Form
+	 *
+	 * @since 2025.1
 	 */
-	public static function get( string $uniqid, ?callable $function = null ): Form {
+	public static function override( string $uniqid, ?callable $function = null ): Form {
 		$form = self::init( $uniqid );
 
 		if ( is_callable( $function ) ) {
@@ -126,11 +70,13 @@ class Form {
 	 * Form output
 	 *
 	 * @param string $uniqid
-	 * @param bool $without_form_wrapper
 	 * @param string $path               Path to register form.
-	 * @return string|Errors
+	 * @param bool $without_form_wrapper
+	 * @return string
+	 *
+	 * @since 2025.1
 	 */
-	public static function view( string $uniqid, bool $without_form_wrapper = false, string $path = '' ): Errors|string {
+	public static function get( string $uniqid, string $path = '', bool $without_form_wrapper = false ): string {
 		if ( file_exists( $path ) ) {
 			require_once $path;
 		}
@@ -147,7 +93,9 @@ class Form {
 		 */
 		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			return new Errors( 'form-view', I18n::_t( 'Form fields is incorrect.' ) );
+			new Errors( 'form-view', I18n::_t( 'Form fields is incorrect.' ) );
+
+			return '';
 		}
 
 		/**
@@ -156,8 +104,7 @@ class Form {
 		 * @since 2025.1
 		 * @param string $content Parsed fields html
 		 */
-		$content = $form->parseFields( $fields );
-		$content = Hook::apply( 'grafema_form_view_html_' . $uniqid, $content );
+		$content = Hook::apply( 'grafema_form_view_html_' . $uniqid, $form->parseFields( $fields ) );
 
 		/**
 		 * Return only the contents of the form without its wrapper
@@ -176,258 +123,58 @@ class Form {
 	 * Form output
 	 *
 	 * @param string $uniqid
-	 * @param bool $without_form_wrapper
 	 * @param string $path               Path to register form.
+	 * @param bool $without_form_wrapper
 	 * @return void
-	 */
-	public static function print( string $uniqid, bool $without_form_wrapper = false, string $path = '' ): void {
-		echo self::view( $uniqid, $without_form_wrapper, $path );
-	}
-
-	/**
-	 * Add 'form' tag wrapper for form content.
 	 *
-	 * @param array $attributes
-	 * @param string $content
-	 * @return string
+	 * @since 2025.1
 	 */
-	public function wrap( array $attributes, string $content = '' ): string {
-		$wrapper = sprintf( "<form%s>\n%s</form>\n", Arr::toHtmlAtts( $attributes ), $content );
-
-		/**
-		 * Override form wrapper
-		 *
-		 * @since 2025.1
-		 * @param array  $wrapper    Form wrapper markup.
-		 * @param array  $attributes Form html attributes.
-		 * @param string $content    Parsed form content.
-		 * @param Form   $this       Instance of current class.
-		 */
-		return Hook::apply( 'grafema_form_wrap', $wrapper, $attributes, $content, $this );
+	public static function print( string $uniqid, string $path = '', bool $without_form_wrapper = false ): void {
+		echo self::get( $uniqid, $without_form_wrapper, $path );
 	}
 
 	/**
-	 * Get fields html from array.
-	 *
-	 * @param array $fields
-	 * @param int $step
-	 * @return string
-	 * @throws JsonException
-	 */
-	public function parseFields( array $fields, int $step = 1 ): string {
-		$content = '';
-//		echo '<pre>';
-//		print_r( $fields );
-//		echo '</pre>';
-		foreach ( $fields as $field ) {
-			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$name     = Sanitizer::name( $field['name'] ?? '' );
-			$callback = $field['callback'] ?? null;
-
-			if ( $type === 'tab' && ! isset( $startTab ) ) {
-				$startTab = true;
-				$content .= View::get(
-					GRFM_DASHBOARD . 'templates/form/layout/tab-menu',
-					[
-						'fields' => $fields
-					]
-				);
-			}
-
-			// add required attributes & other manipulations
-			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
-			if ( ! in_array( $type, [ 'tab', 'group' ], true ) ) {
-				match ( $type ) {
-					'step'     => $field['attributes']['x-wizard:step'] ??= '',
-					'textarea' => $field['attributes']['x-textarea']    ??= '',
-					'select'   => $field['attributes']['x-select']      ??= '',
-					default    => '',
-				};
-
-				if ( in_array( $type, [ 'date' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => $type,
-							'x-datepicker' => '{}',
-						],
-						$field['attributes']
-					);
-				}
-
-				if ( in_array( $type, [ 'toggle' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => 'checkbox',
-							'x-model.fill' => Sanitizer::dot( $name ),
-						],
-						$field['attributes']
-					);
-				}
-
-				if ( ! in_array( $type, [ 'submit' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => $type,
-							'name'         => $name,
-							'x-model.fill' => Sanitizer::dot( $name ),
-						],
-						$field['attributes']
-					);
-				}
-
-				if ( $type === 'step' ) {
-					unset( $field['attributes']['x-model.fill'] );
-				}
-			}
-
-			// parse conditions
-			if ( ! empty( $field['conditions'] ) ) {
-				$field['conditions'] = $this->parseConditions( $field['conditions'] );
-			}
-
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
-				$type = 'input';
-			}
-
-			$content .= match ($type) {
-				'tab',
-				'step',
-				'group' => View::get(
-					GRFM_DASHBOARD . "templates/form/layout/{$type}",
-					array_merge(
-						[
-							'columns'    => 2,
-							'width'      => 100,
-							'content'    => $this->parseFields($field['fields'] ?? [], $step + 1),
-							'step'       => $step++,
-							'attributes' => array_merge(
-								[
-									'x-wizard:step' => '',
-								],
-								$field['attributes']
-							),
-						],
-						$field
-					)
-				),
-    			'custom' => is_callable($callback) ? call_user_func($callback) : '',
-   				default  => View::get(
-   					GRFM_DASHBOARD . "templates/form/{$type}",
-					$field
-				),
-			};
-		}
-
-		return $content;
-	}
-
-	/**
-	 * Add fields to form
-	 *
-	 * @param array $fields
-	 * @return void
-	 */
-	public function addFields( array $fields ): void {
-		$this->fields = $fields;
-	}
-
-	/**
-	 * Adding a new field to the end of the array with all fields.
+	 * Adding a new field to any place of the fields list. TODO: Support nested arrays with using "dot" notation.
 	 *
 	 * @param array $field
-	 * @return void|Errors
+	 * @return void
+	 *
+	 * @since 2025.1
 	 */
-	public function addField( array $field ) {
-		$fields   = $this->fields ?? [];
-		$field_id = trim( strval( $field['ID'] ?? '' ) );
-		if ( empty( $field_id ) ) {
-			return new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty ID.' ) );
+	public function insert( array $field ): void {
+		$name = Sanitizer::key( $field['name'] ?? '' );
+		if ( empty( $name ) ) {
+			new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty "name".' ) );
 		}
 
-		$insert_places = array_filter( [ $this->after, $this->before, $this->instead ] );
-		$last_place    = end( $insert_places ) ?? 0;
-		$position      = array_search( $last_place, array_column( $fields, 'ID' ), true );
+		$location = current( array_filter( [ $this->after, $this->before, $this->instead ] ) );
+		$index    = array_search( $location, array_column( $this->fields, 'name' ), true );
 
-		if ( $this->after ) {
-			if ( $position === array_key_last( $fields ) ) {
-				$this->fields[] = $field;
-			} else {
-				$this->fields = Arr::insert( $fields, $position, [ $field ] );
-			}
-		} elseif ( $this->before ) {
-			$position--;
-			if ( $position < 0 ) {
-				array_unshift( $this->fields, $field );
-			} else {
-				$this->fields = Arr::insert( $fields, $position, [ $field ] );
-			}
-		} elseif ( $this->instead && $position >= 0 ) {
-			$this->fields[ $position ] = $field;
-		} else {
+		if ( $index !== false ) {
+			match ( true ) {
+				!!$this->after   => array_splice( $this->fields, $index + 1, 0, [ $field ] ),
+				!!$this->before  => array_splice( $this->fields, $index, 0, [ $field ] ),
+				!!$this->instead => $this->fields[ $index ] = $field,
+			};
+
+			$this->after   = '';
+			$this->before  = '';
+			$this->instead = '';
+		} else  {
 			$this->fields[] = $field;
 		}
-
-		$this->after   = '';
-		$this->before  = '';
-		$this->instead = '';
-	}
-
-	/**
-	 * @param $conditions_list
-	 * @return string
-	 */
-	public function parseConditions( $conditions_list ) {
-		$jsString = '';
-		if ( $conditions_list ) {
-			$conditions = [];
-
-			foreach ( $conditions_list as $condition ) {
-				$field    = $condition['field'];
-				$operator = $condition['operator'];
-				$value    = $condition['value'];
-
-				$condition = '';
-
-				switch ( $operator ) {
-					case '!==':
-						$condition = "$field !== ''";
-						break;
-					case '===':
-						if ( is_array( $value ) ) {
-							$values    = Json::encode( $value );
-							$condition = "$values.includes($field)";
-						} else {
-							$condition = "$field === '$value'";
-						}
-						break;
-					case 'contains':
-						$values    = str_replace( '"', "'", Json::encode( $value ) );
-						$condition = "$values.includes($field)";
-						break;
-					case 'pattern':
-						$values    = Json::encode( $value );
-						$condition = "$values.some(value => value.test($field))";
-						break;
-				}
-
-				if ( $condition !== '' ) {
-					$conditions[] = $condition;
-				}
-			}
-
-			$jsString = implode( ' && ', $conditions );
-		}
-		return $jsString;
 	}
 
 	/**
 	 * Insert a new field after the specified one.
 	 *
-	 * @param string $field_id
+	 * @param string $field_name
 	 * @return Form
+	 *
+	 * @since 2025.1
 	 */
-	public function after( string $field_id ): Form {
-		$this->after = $field_id;
+	public function after( string $field_name ): Form {
+		$this->after = $field_name;
 
 		return $this;
 	}
@@ -435,11 +182,13 @@ class Form {
 	/**
 	 * Insert a new field before the specified one.
 	 *
-	 * @param string $field_id
+	 * @param string $field_name
 	 * @return Form
+	 *
+	 * @since 2025.1
 	 */
-	public function before( string $field_id ): Form {
-		$this->before = $field_id;
+	public function before( string $field_name ): Form {
+		$this->before = $field_name;
 
 		return $this;
 	}
@@ -447,11 +196,13 @@ class Form {
 	/**
 	 * Insert a new field instead the specified one.
 	 *
-	 * @param string $field_id
+	 * @param string $field_name
 	 * @return Form
+	 *
+	 * @since 2025.1
 	 */
-	public function instead( string $field_id ): Form {
-		$this->instead = $field_id;
+	public function instead( string $field_name ): Form {
+		$this->instead = $field_name;
 
 		return $this;
 	}

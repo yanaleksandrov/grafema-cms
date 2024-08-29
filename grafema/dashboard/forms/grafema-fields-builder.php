@@ -11,14 +11,10 @@ Dashboard\Form::register(
 		'x-data'          => 'builder',
 		'@submit.prevent' => 'submit()',
 	],
-	function ( $form ) {
-		$form->addFields(
-			[
-				[
-					'name' => 'builder',
-					'type' => 'builder',
-				],
-			]
-		);
-	}
+	[
+		[
+			'name' => 'builder',
+			'type' => 'builder',
+		],
+	]
 );

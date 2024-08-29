@@ -95,7 +95,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 								'instruction' => I18n::_t( 'Test content' ),
 								'class'       => 'btn btn--sm btn--outline btn--icon',
-								'content'     => Dashboard\Form::view( 'grafema-posts-options', path: GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
+								'content'     => Dashboard\Form::get( 'grafema-posts-options', GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 							]
 						);
 						?>

@@ -7,7 +7,8 @@
     padding: 0 1.75rem 1.75rem;
     display: grid;
     width: 100%;
-    gap: 0.25rem;
+    gap: 0.4rem;
+    max-width: 80rem;
 
     @container builder (max-width: 640px) {
       padding: 1.25rem;
@@ -18,24 +19,24 @@
     }
   }
 
+  &-header {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  }
+
   &-group {
     display: grid;
-    gap: 0.25rem;
+    gap: 0.2rem;
     position: relative;
-    padding: 0.5rem;
-    border-radius: var(--grafema-border-radius);
-    border: 1px solid var(--grafema-border);
+    border-inline-start: 1px solid var(--grafema-border);
     margin-left: 2rem;
-
-    border-width: 0 0 0 1px;
-    border-radius: 0;
-    padding: 0;
-    padding-inline-start: 0.5rem !important;
+    padding-inline-start: 0.5rem;
 
     &:before {
       border: 1px solid var(--grafema-border);
-      border-radius: var(--grafema-border-radius) 0 0 var(--grafema-border-radius);
-      border-right: none;
+      border-inline-end: none;
       bottom: -1.25rem;
       top: 50%;
       content: '';
@@ -47,7 +48,7 @@
     &:after {
       content: attr(data-or);
       position: absolute;
-      padding: 0.4em 0.6em;
+      padding: 0.4em 0;
       text-transform: uppercase;
       margin-inline-end: auto;
       border-radius: var(--grafema-border-radius);
@@ -58,10 +59,11 @@
       font-weight: 600;
       font-size: 0.6rem;
       bottom: 0;
-      left: -2rem;
-      max-width: 3.5em;
+      left: -3.5em;
+      width: 3em;
       white-space: nowrap;
       overflow: hidden;
+      text-align: center;
     }
 
     @container builder (max-width: 640px) {
@@ -69,16 +71,12 @@
       margin-bottom: 1.5rem;
 
       &:before {
-        top: 100%;
-        height: 2.125rem;
-        left: 0.75rem;
-        border-radius: 0;
-        border-width: 0 0 0 1px;
+        content: none;
       }
 
       &:after {
-        left: 0;
-        bottom: -1.75rem;
+        bottom: -1.5rem;
+        left: -1.5em;
         z-index: 2;
       }
     }

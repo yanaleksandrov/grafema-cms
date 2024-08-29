@@ -110,7 +110,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			    <?php endif; ?>
 			    <?php if ( $actions ) : ?>
 			        <div class="df aic g-1" x-show="bulk" x-cloak>
-						<?php Dashboard\Form::print( 'grafema-posts-actions', path: GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
+						<?php Dashboard\Form::print( 'grafema-posts-actions', GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
 			            <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
 			        </div>
 			    <?php endif; ?>
@@ -212,7 +212,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    </div>
 	    <?php endif; ?>
     </div>
-	<?php Dashboard\Form::print( 'grafema-fields-builder', path: GRFM_DASHBOARD . 'forms/grafema-fields-builder.php' ); ?>
+	<?php Dashboard\Form::print( 'grafema-fields-builder', GRFM_DASHBOARD . 'forms/grafema-fields-builder.php' ); ?>
 	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

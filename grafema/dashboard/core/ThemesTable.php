@@ -4,7 +4,7 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class ThemesTable {
 
@@ -72,13 +72,13 @@ final class ThemesTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->tag( '' ),
+			Row::add( '' ),
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Column::add( 'theme' )->view( 'theme' ),
+			Cell::add( 'theme' )->view( 'theme' ),
 		];
 	}
 

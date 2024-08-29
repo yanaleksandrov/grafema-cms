@@ -4,7 +4,7 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class EmailsTable {
 
@@ -23,26 +23,26 @@ final class EmailsTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->tag( 'div' )->attribute( 'class', 'table__row' )
+			Row::add()->attribute( 'class', 'table__row' )
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Column::add( 'cb' )
+			Cell::add( 'cb' )
 				->title( '<input type="checkbox" x-bind="trigger" />' )
 				->fixedWidth( '1rem' )
 				->view( 'cb' ),
-			Column::add( 'title' )
+			Cell::add( 'title' )
 				->title( I18n::_t( 'Name' ) )
 				->flexibleWidth( '15rem' )
 				->sortable()
 				->view( 'title' ),
-			Column::add( 'recipients' )
+			Cell::add( 'recipients' )
 				->title( I18n::_t( 'Recipients' ) )
 				->flexibleWidth( '15rem' )
 				->view( 'title' ),
-			Column::add( 'event' )
+			Cell::add( 'event' )
 				->title( I18n::_t( 'Event' ) )
 				->fixedWidth( '9rem' )
 				->view( 'date' ),

@@ -83,7 +83,7 @@ class Form {
 	 */
 	public static function register( string $uniqid, array $attributes = [], ?callable $function = null ) {
 		// TODO:: wrong escaping, use sanitize
-		$uniqid = Esc::html( $uniqid, false );
+		$uniqid = Sanitizer::class( $uniqid );
 		if ( empty( $uniqid ) ) {
 			new Errors( 'form-register', I18n::_f( 'The $uniqid of the form is empty.', $uniqid ) );
 
@@ -96,7 +96,7 @@ class Form {
 		}
 
 		$form->uniqid     = $uniqid;
-		$form->attributes = array_merge( $form->attributes, $attributes );
+		$form->attributes = array_merge( [ 'id' => $uniqid ], $form->attributes, $attributes );
 
 		if ( is_callable( $function ) ) {
 			call_user_func( $function, $form );

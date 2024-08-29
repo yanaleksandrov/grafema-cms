@@ -5,7 +5,7 @@ use Grafema\I18n;
 use Grafema\View;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class MediaTable {
 
@@ -21,7 +21,7 @@ final class MediaTable {
 
 	public function columns(): array {
 		return [
-			Column::add( 'media' )->view( 'media' ),
+			Cell::add( 'media' )->view( 'media' ),
 		];
 	}
 

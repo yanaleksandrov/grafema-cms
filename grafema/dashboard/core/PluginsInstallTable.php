@@ -5,12 +5,11 @@ namespace Dashboard;
 use Grafema\I18n;
 
 use Dashboard\Builders\Row;
-use Dashboard\Builders\Column;
+use Dashboard\Builders\Cell;
 
 final class PluginsInstallTable {
 
 	public function data(): array {
-		return [];
 		return [
 			[
 				'title'           => 'Classic Editor 1 and very longadable pluginsnameand hello world',
@@ -317,7 +316,7 @@ final class PluginsInstallTable {
 
 	public function columns(): array {
 		return [
-			Column::add( 'extension' )->view( 'extension' ),
+			Cell::add( 'extension' )->view( 'extension' ),
 		];
 	}
 

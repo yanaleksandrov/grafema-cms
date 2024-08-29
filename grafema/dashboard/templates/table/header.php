@@ -42,7 +42,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    <div class="df aic g-1">
 			    <?php if ( $filter ) : ?>
 				    <div class="df aic g-1">
-					    <button class="btn btn--sm btn--outline" @click="showFilter = !showFilter" :class="showFilter && 't-red'" :title="showFilter ? '<?php I18n::t_attr( 'Reset Filter' ); ?>' : '<?php I18n::t( 'Filter' ); ?>'">
+					    <button class="btn btn--sm btn--outline" type="reset" form="grafema-items-filter" @click="showFilter = !showFilter" :class="showFilter && 't-red'" :title="showFilter ? '<?php I18n::t_attr( 'Reset Filter' ); ?>' : '<?php I18n::t( 'Filter' ); ?>'">
 						    <i class="ph ph-funnel" :class="showFilter ? 'ph-funnel-x' : 'ph-funnel'"></i>
 						    <span x-text="showFilter ? '<?php I18n::t_attr( 'Reset' ); ?>' : '<?php I18n::t_attr( 'Filter' ); ?>'"><?php I18n::t( 'Filter' ); ?></span>
 					    </button>
@@ -212,8 +212,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    </div>
 	    <?php endif; ?>
     </div>
-	<div class="table__filter" x-show="showFilter === true" x-cloak>
-		<?php echo Dashboard\Form::view( 'grafema-items-filter', true ); ?>
-	</div>
+	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

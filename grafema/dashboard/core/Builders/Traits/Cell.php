@@ -1,7 +1,7 @@
 <?php
 namespace Dashboard\Builders\Traits;
 
-trait Column {
+trait Cell {
 
 	/**
 	 * Unique column key.
@@ -66,5 +66,7 @@ trait Column {
 	 */
 	public function __construct( string $key ) {
 		$this->key = $key;
+
+		return $this;
 	}
 }

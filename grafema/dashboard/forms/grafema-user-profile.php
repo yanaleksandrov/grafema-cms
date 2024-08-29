@@ -9,7 +9,7 @@ use Grafema\View;
  *
  * @since 2025.1
  */
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'grafema-user-profile',
 	[
 		'class'           => 'tab',

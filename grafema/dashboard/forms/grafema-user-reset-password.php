@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * @since 2025.1
  */
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'grafema-user-reset-password',
 	[
 		'class'           => 'dg g-6',

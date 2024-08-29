@@ -4,7 +4,7 @@
  *
  * @since 2025.1
  */
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'grafema-fields-builder',
 	[
 		'class'           => 'builder',

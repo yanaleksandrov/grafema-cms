@@ -46,7 +46,7 @@ if ( $plugins->plugins ) {
 	}
 }
 
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'import/documents',
 	[
 		'class'           => 'card card-border',

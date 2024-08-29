@@ -19,6 +19,7 @@ use Grafema\{
 class Form {
 
 	use Form\Traits;
+	use \Grafema\Patterns\Multiton;
 
 	/**
 	 * Register new form.
@@ -26,11 +27,11 @@ class Form {
 	 * @param string $uniqid    Unique Form ID.
 	 * @param array $attributes Html attributes list.
 	 * @param array $fields     Fields list. Contains a nested array of arrays.
-	 * @return Form
+	 * @return void
 	 *
 	 * @since 2025.1
 	 */
-	public static function register( string $uniqid, array $attributes = [], array $fields = [] ): Form {
+	public static function enqueue( string $uniqid, array $attributes = [], array $fields = [] ): void {
 		$uniqid = Sanitizer::key( $uniqid );
 		if ( ! $uniqid ) {
 			new Errors( 'form-register', I18n::_f( 'The $uniqid of the form is empty.', $uniqid ) );
@@ -44,8 +45,19 @@ class Form {
 		$form->uniqid     = $uniqid;
 		$form->fields     = $fields;
 		$form->attributes = [ 'id' => $uniqid, 'method' => 'POST', ...$attributes ];
+	}
 
-		return $form;
+	/**
+	 * Deregister form.
+	 * TODO: write this part
+	 *
+	 * @param string $uniqid Unique Form ID.
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public static function dequeue( string $uniqid ) {
+
 	}
 
 	/**
@@ -68,7 +80,7 @@ class Form {
 	}
 
 	/**
-	 * Form output
+	 * Get form markup.
 	 *
 	 * @param string $uniqid
 	 * @param string $path               Path to register form.
@@ -121,7 +133,7 @@ class Form {
 	}
 
 	/**
-	 * Form output
+	 * Output form markup.
 	 *
 	 * @param string $uniqid
 	 * @param string $path               Path to register form.
@@ -131,7 +143,7 @@ class Form {
 	 * @since 2025.1
 	 */
 	public static function print( string $uniqid, string $path = '', bool $without_form_wrapper = false ): void {
-		echo self::get( $uniqid, $without_form_wrapper, $path );
+		echo self::get( $uniqid, $path, $without_form_wrapper );
 	}
 
 	/**
@@ -148,22 +160,41 @@ class Form {
 			new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty "name".' ) );
 		}
 
-		$location = current( array_filter( [ $this->after, $this->before, $this->instead ] ) );
-		$index    = array_search( $location, array_column( $this->fields, 'name' ), true );
+		$this->insertField( $this->fields, $field, $this );
 
-		if ( $index !== false ) {
-			match ( true ) {
-				!!$this->after   => array_splice( $this->fields, $index + 1, 0, [ $field ] ),
-				!!$this->before  => array_splice( $this->fields, $index, 0, [ $field ] ),
-				!!$this->instead => $this->fields[ $index ] = $field,
-			};
+		$this->after   = '';
+		$this->before  = '';
+		$this->instead = '';
+	}
 
-			$this->after   = '';
-			$this->before  = '';
-			$this->instead = '';
-		} else  {
-			$this->fields[] = $field;
+	/**
+	 * Bulk adding fields.
+	 *
+	 * @param array $fields
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public function attach( array $fields ): void {
+		foreach ( $fields as $field ) {
+			$this->insertField( $this->fields, $field, $this );
 		}
+
+		$this->after   = '';
+		$this->before  = '';
+		$this->instead = '';
+	}
+
+	/**
+	 * Override form attributes.
+	 *
+	 * @param array $attributes
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public function attributes( array $attributes ): void {
+		$this->attributes = [ ...$this->attributes, ...$attributes ];
 	}
 
 	/**

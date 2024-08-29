@@ -7,7 +7,7 @@ use Grafema\View;
  *
  * @since 2025.1
  */
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'system-install',
 	[
 		'class'           => 'dg g-6',

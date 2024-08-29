@@ -12,5 +12,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php Dashboard\Form::print( 'grafema-user-profile', path: GRFM_DASHBOARD . 'forms/grafema-user-profile.php' ); ?>
+	<?php Dashboard\Form::print( 'grafema-user-profile', GRFM_DASHBOARD . 'forms/grafema-user-profile.php' ); ?>
 </div>

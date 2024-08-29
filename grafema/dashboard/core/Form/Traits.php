@@ -1,6 +1,8 @@
 <?php
 namespace Dashboard\Form;
 
+use Dashboard\Form;
+
 use Grafema\Helpers\Arr;
 use Grafema\Hook;
 use Grafema\Json;
@@ -8,8 +10,6 @@ use Grafema\Sanitizer;
 use Grafema\View;
 
 trait Traits {
-
-	use \Grafema\Patterns\Multiton;
 
 	/**
 	 * Unique ID of form class instance.
@@ -58,6 +58,7 @@ trait Traits {
 	 * @var   string
 	 */
 	private string $instead = '';
+
 	/**
 	 * Add 'form' tag wrapper for form content.
 	 *
@@ -81,12 +82,36 @@ trait Traits {
 	}
 
 	/**
+	 * Insert new fields to any place in existing form.
+	 *
+	 * @param array $fields
+	 * @param array $field
+	 * @param Form $form
+	 */
+	private function insertField( array &$fields, array $field, Form $form ): void {
+		$index    = false;
+		$location = current( array_filter( [ $form->after, $form->before, $form->instead ] ) );
+		if ( $location ) {
+			$index = array_search( $location, array_column( $fields, 'name' ), true );
+		}
+
+		if ( $index !== false ) {
+			match ( true ) {
+				!!$form->after   => array_splice( $fields, $index + 1, 0, [ $field ] ),
+				!!$form->before  => array_splice( $fields, $index, 0, [ $field ] ),
+				!!$form->instead => $fields[ $index ] = $field,
+			};
+		} else  {
+			$fields[] = $field;
+		}
+	}
+
+	/**
 	 * Get fields html from array.
 	 *
 	 * @param array $fields
 	 * @param int $step
 	 * @return string
-	 * @throws JsonException
 	 */
 	private function parseFields( array $fields, int $step = 1 ): string {
 		$content = '';
@@ -204,7 +229,7 @@ trait Traits {
 			$conditions = [];
 
 			foreach ( $conditions_list as $condition ) {
-				[ $field, $operator, $value ] = $condition;
+				[ 'field' => $field, 'operator' => $operator, 'value' => $value ] = $condition;
 
 				$condition = '';
 

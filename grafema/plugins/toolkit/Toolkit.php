@@ -84,7 +84,7 @@ class Toolkit implements Plugins\Skeleton
 		 *
 		 * @since 2025.1
 		 */
-		Dashboard\Form::register(
+		Dashboard\Form::enqueue(
 			'builder/fields',
 			[
 				'class'  => 'dg p-7 g-7',

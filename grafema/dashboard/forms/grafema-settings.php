@@ -8,7 +8,7 @@ use Grafema\Sanitizer;
  *
  * @since 2025.1
  */
-Dashboard\Form::register(
+Dashboard\Form::enqueue(
 	'grafema-settings',
 	[
 		'class'   => 'tab tab--vertical',

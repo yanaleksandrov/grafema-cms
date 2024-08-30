@@ -59,29 +59,49 @@ final class PagesTable {
 
 	public function filter() {
 		Form::override( 'grafema-items-filter', function( Form $form ) {
-			$form->before( 'submit' )->insert(
+			$form->before( 'submit' )->attach(
 				[
-					'type'        => 'select',
-					'label'       => '',
-					'name'        => 'authors',
-					'value'       => '',
-					'placeholder' => '',
-					'class'       => '',
-					'label_class' => '',
-					'reset'       => 1,
-					'required'    => 0,
-					'copy'        => 0,
-					'before'      => '',
-					'after'       => '',
-					'tooltip'     => '',
-					'instruction' => '',
-					'attributes'  => [
-						'class' => 'select select--sm select--outline',
+					[
+						'type'        => 'select',
+						'label'       => '',
+						'name'        => 'authors',
+						'value'       => '',
+						'placeholder' => '',
+						'class'       => '',
+						'label_class' => '',
+						'reset'       => 1,
+						'required'    => 0,
+						'copy'        => 0,
+						'before'      => '',
+						'after'       => '',
+						'tooltip'     => '',
+						'instruction' => '',
+						'attributes'  => [
+							'class' => 'select select--sm select--outline',
+						],
+						'conditions'  => [],
+						'options'     => [
+							''                => I18n::_t( 'Select an author' ),
+							'user-registered' => I18n::_t( 'New user registered' ),
+						],
 					],
-					'conditions'  => [],
-					'options'     => [
-						''                => I18n::_t( 'Select an author' ),
-						'user-registered' => I18n::_t( 'New user registered' ),
+					[
+						'type'        => 'date',
+						'label'       => '',
+						'name'        => 'date',
+						'value'       => '',
+						'placeholder' => '',
+						'class'       => 'field field--sm field--outline',
+						'label_class' => '',
+						'reset'       => 1,
+						'required'    => 0,
+						'copy'        => 0,
+						'before'      => '',
+						'after'       => '',
+						'tooltip'     => '',
+						'instruction' => '',
+						'attributes'  => [],
+						'conditions'  => [],
 					],
 				]
 			);

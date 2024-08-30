@@ -143,8 +143,8 @@ trait Traits {
 				if ( in_array( $type, [ 'date' ], true ) ) {
 					$field['attributes'] = array_merge(
 						[
-							'type'         => $type,
-							'x-datepicker' => '{}',
+							'type'         => 'date',
+							'x-datepicker' => '',
 						],
 						$field['attributes']
 					);

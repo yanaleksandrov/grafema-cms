@@ -40,7 +40,7 @@ $show  = sprintf( "%s !== '%s'", $name, $value );
 <label class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
-			Esc::html( $label );
+			echo $label;
 			if ( $reset ) :
 				?>
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>

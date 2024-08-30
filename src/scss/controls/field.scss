@@ -98,6 +98,15 @@
         -webkit-appearance: none;
         margin: 0;
       }
+
+      &[x-datepicker][readonly] {
+        color: inherit !important;
+      }
+    }
+
+    &:has([x-datepicker][readonly]):focus-within {
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
     }
 
     &:not(:has([readonly])):focus-within {

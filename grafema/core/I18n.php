@@ -155,7 +155,7 @@ class I18n
         if ( ! isset( self::$locale ) && function_exists( 'locale_accept_from_http' ) ) {
             self::$locale = locale_accept_from_http( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? $default );
         }
-        return self::$locale ?? $default;
+        return str_replace( '_', '-', self::$locale ?? $default );
     }
 
 	/**

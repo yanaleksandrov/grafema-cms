@@ -51,7 +51,7 @@ class Dashboard extends \Grafema\App\App
 		$scripts = ['index', 'ajax', 'alpine'];
 		if ( ! Is::install() ) {
 			$styles  = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'prism', 'slimselect', 'main'];
-			$scripts = ['grafema', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'alpine', 'dragula', 'croppr', 'prism'];
+			$scripts = ['grafema', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'prism', 'alpine'];
 		}
 
 		foreach ( $styles as $style ) {
@@ -67,6 +67,9 @@ class Dashboard extends \Grafema\App\App
 				$data['data'] = [
 					'apiurl'     => 'https://cms.codyshop.ru/api/',
 					'items'      => [],
+					'lang'       => I18n::getLocale(),
+					'dateFormat' => 'j M, Y',
+					'weekStart'  => 1,
 					'showMenu'   => false,
 					'showFilter' => false,
 				];

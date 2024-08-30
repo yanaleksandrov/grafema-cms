@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Sanitizer;
@@ -16,49 +15,45 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-			'label'       => 'trim',
-			'name'        => 'key',
-			'value'       => 'attribute',
-			'placeholder' => 'trim',
-	        'class'       => 'class:field',
-	        'label_class' => 'class:field-label',
-			'reset'       => 'bool:false',
-			'before'      => 'trim',
-			'after'       => 'trim',
-			'instruction' => 'trim',
-			'tooltip'     => 'attribute',
-			'copy'        => 'bool:false',
-			'attributes'  => 'array',
-			'conditions'  => 'trim',
-			'options'     => 'array',
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		'options'     => 'array',
+	]
+) )->values();
 ?>
-<div class="<?php echo $class; ?>" x-data="{<?php echo $name; ?>: []}">
+<div class="<?php echo $class; ?>" x-data="{<?php echo $uid; ?>: []}">
 	<?php if ( $label ) { ?>
 		<div class="<?php echo $label_class; ?>">
 			<?php
-			Esc::html( $label );
+			echo $label;
             if ( $reset ) {
                 ?>
-				<span class="ml-auto t-red" @click.prevent="<?php echo $name; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $name; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
+				<span class="ml-auto t-red" @click.prevent="<?php echo $uid; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $uid; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
 	}
 
 	foreach ( $options as $option => $text ) {
-	    $optionName = sprintf( '%s.%s', $name, $option );
+	    $optionName = sprintf( '%s.%s', $uid, $option );
 		$attributes = [
 			'type'         => 'checkbox',
 		    'value'        => $option,
-            'name'         => $name,
-			'x-model.fill' => $name,
+            'name'         => $uid,
+			'x-model.fill' => $uid,
         ];
 		?>
 		<label class="df aic">
@@ -70,6 +65,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 	if ( $instruction ) :
 	    ?>
-		<div class="field-instruction ml-7"><?php Esc::html( $instruction ); ?></div>
+		<div class="field-instruction ml-7"><?php echo $instruction; ?></div>
 	<?php endif; ?>
 </div>

@@ -1,41 +1,58 @@
 <?php
-[ $label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options ] = ( new Grafema\Sanitizer(
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
+		'uid'         => 'key',
 		'label'       => 'trim',
-		'name'        => 'key',
-		'value'       => 'attribute',
-		'placeholder' => 'trim',
-		'class'       => 'class:df aic jcsb fw-600',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
 		'reset'       => 'bool:false',
 		'before'      => 'trim',
 		'after'       => 'trim',
 		'instruction' => 'trim',
 		'tooltip'     => 'attribute',
 		'copy'        => 'bool:false',
-		'attributes'  => 'array',
 		'conditions'  => 'array',
+		'attributes'  => 'array',
+		// select, checkbox, radio
 		'options'     => 'array',
+		// progress
+		'max'         => 'absint:0',
+		'min'         => 'absint:0',
+		'value'       => 'absint:100',
+		'speed'       => 'absint:1000',
+		// password
+		'switcher'    => 'bool:true',
+		'indicator'   => 'bool:true',
+		'generator'   => 'bool:true',
+		'characters'  => 'array',
+		// details: dropdown with button
+		'content'     => 'trim',
+		// uploader
+		'max_size'    => 'trim:' . ini_get( 'upload_max_filesize' ),
 	]
 ) )->values();
 
 // field array
 [
 	'type'        => 'textarea',
-	'label'       => I18n::_t( 'Description' ),
-	'name'        => 'description',
-	'value'       => '',
-	'placeholder' => '',
-	'class'       => 'df aic fs-12 t-muted',
+	'uid'         => 'uid',
+	'label'       => I18n::_t( 'Label' ),
+	'class'       => '',
+	'label_class' => '',
 	'reset'       => 0,
-	'required'    => 0,
-	'copy'        => 0,
 	'before'      => '',
 	'after'       => '',
-	'tooltip'     => '',
 	'instruction' => '',
-	'attributes'  => [],
+	'tooltip'     => '',
+	'copy'        => 0,
+	'sanitizer'   => '',
+	'validator'   => '',
 	'conditions'  => [],
+	'attributes'  => [
+		'value'       => '',
+		'placeholder' => '',
+	],
 	// password
 	'switcher'    => 1,
 	'generator'   => 0,
@@ -48,8 +65,8 @@
 		'digit'     => 2,
 	],
 	// progress
-	'max'         => 100,
 	'min'         => 0,
+	'max'         => 100,
 	'speed'       => 500,
 	// details: dropdown with button
 	'content'     => '',
@@ -58,6 +75,9 @@
 		'one' => I18n::_t( '#1' ),
 		'two' => I18n::_t( '#2' ),
 	],
+	// radio
+	'variation'   => 'class:simple',
+	'width'       => 'absint:200',
 	// select options with additional data
 	'options'     => [
 		'one' => [

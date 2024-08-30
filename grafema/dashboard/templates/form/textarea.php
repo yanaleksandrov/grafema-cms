@@ -1,7 +1,7 @@
 <?php
-use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
+use Grafema\Sanitizer;
 
 /*
  * Textarea field
@@ -15,32 +15,30 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions] = ( new Grafema\Sanitizer(
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
 	$args ?? [],
 	[
+		'uid'         => 'key',
 		'label'       => 'trim',
-		'name'        => 'key',
-		'value'       => 'attribute|trim',
-		'placeholder' => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
 		'reset'       => 'bool:false',
 		'before'      => 'trim',
 		'after'       => 'trim',
 		'instruction' => 'trim',
-		'tooltip'     => 'trim|attribute',
+		'tooltip'     => 'attribute',
 		'copy'        => 'bool:false',
-		'attributes'  => 'array',
 		'conditions'  => 'array',
+		'attributes'  => 'array',
 		'options'     => 'array',
 	]
 ) )->values();
 
-$attributes['placeholder'] = $placeholder;
+$value = Sanitizer::attribute( $attributes['value'] ?? '' );
 ?>
 <div class="<?php echo $class; ?>"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<?php if ( $label ) : ?>
-		<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>
+		<span class="<?php echo $label_class; ?>"><?php echo $label; ?></span>
 	<?php endif; ?>
 	<label class="field-item">
 		<?php echo $before; ?>
@@ -49,12 +47,12 @@ $attributes['placeholder'] = $placeholder;
 		echo $after;
 		if ( $copy ) {
 			?>
-			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $name; ?>)"></i>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $uid; ?>)"></i>
 			<?php
 		}
 		if ( $tooltip ) {
 			?>
-			<i class="ph ph-info" x-tooltip.click.prevent="'<?php Esc::attr( $tooltip ); ?>'"></i>
+			<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
 			<?php
 		}
 		?>

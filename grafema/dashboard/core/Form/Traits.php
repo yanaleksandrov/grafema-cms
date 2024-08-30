@@ -92,7 +92,7 @@ trait Traits {
 		$index    = false;
 		$location = current( array_filter( [ $form->after, $form->before, $form->instead ] ) );
 		if ( $location ) {
-			$index = array_search( $location, array_column( $fields, 'name' ), true );
+			$index = array_search( $location, array_column( $fields, 'uid' ), true );
 		}
 
 		if ( $index !== false ) {
@@ -117,7 +117,7 @@ trait Traits {
 		$content = '';
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$name     = Sanitizer::name( $field['name'] ?? '' );
+			$uid      = Sanitizer::name( $field['uid'] ?? '' );
 			$callback = $field['callback'] ?? null;
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
@@ -140,36 +140,25 @@ trait Traits {
 					default    => '',
 				};
 
-				if ( in_array( $type, [ 'date' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => 'date',
-							'x-datepicker' => '',
-						],
-						$field['attributes']
-					);
-				}
-
-				if ( in_array( $type, [ 'toggle' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => 'checkbox',
-							'x-model.fill' => Sanitizer::dot( $name ),
-						],
-						$field['attributes']
-					);
-				}
-
-				if ( ! in_array( $type, [ 'submit' ], true ) ) {
-					$field['attributes'] = array_merge(
-						[
-							'type'         => $type,
-							'name'         => $name,
-							'x-model.fill' => Sanitizer::dot( $name ),
-						],
-						$field['attributes']
-					);
-				}
+				$field['attributes'] = match ( $type ) {
+					'date'   => [
+						'type'         => 'date',
+						'x-datepicker' => '',
+						...$field['attributes']
+					],
+					'toggle' => [
+						'type'         => 'checkbox',
+						'x-model.fill' => Sanitizer::dot( $uid ),
+						...$field['attributes']
+					],
+					'submit' => $field['attributes'],
+					default  => [
+						'type'         => $type,
+						'name'         => $uid,
+						'x-model.fill' => Sanitizer::dot( $uid ),
+						...$field['attributes']
+					],
+				};
 
 				if ( $type === 'step' ) {
 					unset( $field['attributes']['x-model.fill'] );

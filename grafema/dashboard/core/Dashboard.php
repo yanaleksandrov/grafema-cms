@@ -65,7 +65,7 @@ class Dashboard extends \Grafema\App\App
 			$data = [];
 			if ( $script === 'grafema' ) {
 				$data['data'] = [
-					'apiurl'     => 'https://cms.codyshop.ru/api/',
+					'apiurl'     => Url::site( '/api/' ),
 					'items'      => [],
 					'lang'       => I18n::getLocale(),
 					'dateFormat' => 'j M, Y',

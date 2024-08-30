@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
@@ -16,30 +15,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $label, $name, $value, $placeholder, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions ] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-            'label'       => 'trim',
-            'name'        => 'key',
-            'value'       => 'trim|attribute',
-            'placeholder' => 'trim',
-            'class'       => 'class:field',
-	        'label_class' => 'class:field-label',
-            'reset'       => 'bool:false',
-            'before'      => 'trim',
-            'after'       => 'trim',
-            'instruction' => 'trim',
-            'tooltip'     => 'trim|attribute',
-            'copy'        => 'bool:false',
-            'attributes'  => 'array',
-            'conditions'  => 'trim',
-            'options'     => 'array',
-        ]
-    )
-)->values();
-
-$attributes['value'] = $value;
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+	]
+) )->values();
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
@@ -52,7 +44,7 @@ $attributes['value'] = $value;
 		echo $after;
 		if ( $copy ) :
 			?>
-			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $name; ?>)"></i>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $uid; ?>)"></i>
 		<?php
 		endif;
 		if ( $tooltip ) :

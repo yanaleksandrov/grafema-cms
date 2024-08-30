@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\Sanitizer;
 use Grafema\Helpers\Arr;
 
@@ -15,31 +14,34 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $name, $label, $label_class, $class, $reset, $instruction, $attributes ] = (
-    new Grafema\Sanitizer(
-        $args ?? [],
-        [
-			'name'        => 'attribute|key',
-			'label'       => 'trim',
-			'label_class' => 'class:field-label',
-			'class'       => 'class:field',
-			'reset'       => 'bool:false',
-			'instruction' => 'trim',
-			'attributes'  => 'array',
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+	]
+) )->values();
 ?>
 <div class="field <?php echo $class; ?>">
 	<?php if ( $label ) : ?>
-		<div class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></div>
+		<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>
 	<div class="field-item">
-		<i class="ph ph-minus" @click="<?php Esc::attr( $name ); ?>--"></i>
-		<input type="number" name="<?php Esc::attr( $name ); ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php Esc::attr( $name ); ?>" @keydown.e.prevent>
-		<i class="ph ph-plus" @click="<?php Esc::attr( $name ); ?>++"></i>
+		<i class="ph ph-minus" @click="<?php echo $uid; ?>--"></i>
+		<input type="number" name="<?php echo $uid; ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php echo $uid; ?>" @keydown.e.prevent>
+		<i class="ph ph-plus" @click="<?php echo $uid; ?>++"></i>
 	</div>
 	<?php if ( $instruction ) : ?>
-		<div class="field-instruction"><?php Esc::html( $instruction ); ?></div>
+		<div class="field-instruction"><?php echo $instruction; ?></div>
 	<?php endif; ?>
 </div>

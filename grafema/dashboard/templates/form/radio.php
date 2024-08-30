@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
 
@@ -15,33 +14,40 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $class, $instruction, $tooltip, $width, $options, $variation] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-            'label'       => 'trim',
-            'name'        => 'key',
-            'value'       => 'attribute',
-            'class'       => 'class:dg g-1',
-            'instruction' => 'trim',
-            'tooltip'     => 'attribute',
-            'width'       => 'absint:200',
-            'options'     => 'array',
-            'variation'   => 'trim:simple',
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options, $variation, $width ] = ( new Grafema\Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:dg g-1',
+		'label_class' => 'class:df aic jcsb fw-600',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		// radio
+		'options'     => 'array',
+		'variation'   => 'class:simple',
+		'width'       => 'absint:200',
+	]
+) )->values();
+
+$value = Sanitizer::attribute( $attributes['value'] ?? '' );
 ?>
 <div class="<?php echo $class; ?>">
-	<div class="df aic jcsb fw-600"><?php Esc::html( $label ); ?></div>
-	<div class="dg g-4 mb-2" style="grid-template-columns: repeat(auto-fill, minmax(<?php Esc::attr( $width ); ?>px, 1fr))">
+	<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
+	<div class="dg g-4 mb-2" style="grid-template-columns: repeat(auto-fill, minmax(<?php echo $width; ?>px, 1fr))">
 		<?php
 		foreach ( $options as $v => $option ) :
-			[$image, $title, $content, $hidden] = (
+			[ $image, $title, $content, $hidden ] = (
                 new Sanitizer(
 					$option,
                     [
-                        'image'   => 'trim',
+                        'image'   => 'attribute',
                         'title'   => 'trim',
                         'content' => 'trim',
                         'hidden'  => 'trim',
@@ -57,14 +63,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				unset( $attributes['checked'] );
 			}
 			?>
-			<label class="radio radio--<?php Esc::attr( $variation ); ?>">
+			<label class="radio radio--<?php echo $variation; ?>">
 				<?php
                 printf( '<input%s>', Arr::toHtmlAtts( $attributes ) );
 				switch ( $variation ) {
 					case 'image':
 						?>
                         <div class="radio-title"><?php echo $title; ?></div>
-						<img src="<?php Esc::attr( $image ); ?>" alt="<?php Esc::attr( $title ); ?>">
+						<img src="<?php echo $image; ?>" alt="<?php Sanitizer::attribute( $title ); ?>">
                         <div class="radio-content"><?php echo $content; ?></div>
 						<?php
 						break;
@@ -88,6 +94,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<?php endforeach; ?>
 	</div>
 	<?php if ( $instruction ) : ?>
-		<div class="fs-13 t-muted lh-xs"><?php Esc::html( $instruction ); ?></div>
+		<div class="fs-13 t-muted lh-xs"><?php echo $instruction; ?></div>
 	<?php endif; ?>
 </div>

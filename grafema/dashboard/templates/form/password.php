@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Sanitizer;
@@ -16,43 +15,44 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $label_class, $instruction, $tooltip, $copy, $attributes, $conditions, $switcher, $indicator, $generator, $characters] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-			'label'       => 'trim',
-			'name'        => 'name',
-			'value'       => 'attribute|trim',
-			'placeholder' => 'trim',
-			'class'       => 'class:field',
-	        'label_class' => 'class:field-label',
-			'instruction' => 'trim',
-			'tooltip'     => 'trim|attribute',
-			'copy'        => 'bool:false',
-			'attributes'  => 'array',
-			'conditions'  => 'array',
-			'switcher'    => 'bool:false',
-			'indicator'   => 'bool:false',
-			'generator'   => 'bool:false',
-			'characters'  => 'array',
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $switcher, $indicator, $generator, $characters ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		// password
+		'switcher'    => 'bool:true',
+		'indicator'   => 'bool:true',
+		'generator'   => 'bool:true',
+		'characters'  => 'array',
+	]
+) )->values();
 
-$variable   = Sanitizer::dot( $name );
+$variable   = Sanitizer::dot( $uid );
+$variable   = Sanitizer::attribute( $variable );
 $attributes = [
 	...$attributes,
-	'name'          => $name,
+	'name'          => $uid,
 	':type'         => "show ? 'password' : 'text'",
 	'@input.window' => $generator ? 'data = $password.check(' . $variable . ')' : '',
 ];
 ?>
 <div class="<?php echo $class; ?>" x-data="{show: true, data: {}}">
 	<div class="<?php echo $label_class; ?>"><?php
-		Esc::html( $label );
+		echo $label;
         if ( $generator ) {
             ?>
-			<span class="fw-400 fs-13 t-muted" @click="<?php Esc::attr( $variable ); ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
+			<span class="fw-400 fs-13 t-muted" @click="<?php echo $variable; ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
 		<?php } ?>
 	</div>
 	<div class="field-item">
@@ -63,7 +63,7 @@ $attributes = [
         endif;
         if ( $copy ) :
             ?>
-			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" x-copy="<?php Esc::attr( $variable ); ?>"></i>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" x-copy="<?php echo $variable; ?>"></i>
 		<?php endif; ?>
 	</div>
 	<?php if ( $instruction ) : ?>

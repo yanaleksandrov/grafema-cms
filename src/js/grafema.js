@@ -1088,47 +1088,111 @@ document.addEventListener( 'alpine:init', () => {
 	}));
 
 	/**
-	 * Datepicker
+	 * Datepicker.
+	 *
+	 * Based on https://wwilsman.github.io/Datepicker.js/#methods
 	 *
 	 * @since 1.0
 	 */
 	Alpine.directive( 'datepicker', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {
-		let evaluate = evaluateLater(expression);
+		el.setAttribute('readonly', true);
+
+		let evaluate = evaluateLater(expression || '{}');
 		effect(() => {
 			evaluate( content => {
-				//console.log(elem);
+				let format = grafema?.dateFormat,
+					lang   = (grafema?.lang || navigator.language || navigator.userLanguage || 'en-US');
 
-				// see option https://wwilsman.github.io/Datepicker.js/#methods
-				//console.log( new Date('2018-07-22') );
-				let opts = Object.assign( {}, {
-					inline: true,
-					multiple: false,
-					ranged: true,
-					time: true,
-					lang: 'ru',
-					months: 2,
-					timeAmPm: false,
-					/*min: (function(){
-                        var date = new Date();
-                        return date.setDate( date.getDate() - 200);
-                    })(),
-                    max: (function(){
-                        var date = new Date();
-                        return date.setDate(date.getDate() + 405);
-                    })(),*/
-					within: false,
-					without: false,
-					yearRange: 5,
-					weekStart: 1,
-					/* defaultTime: {
-                        start: [12, 0],
-                        end: [12, 0]
-                    }, */
-				}, content || {} );
+				let translateWeekdays = length => {
+					return Array.from({ length: 7 }, (_, i) => {
+						return new Intl.DateTimeFormat(lang, { weekday: length }).format(new Date(2024, 0, i + 1));
+					});
+				}
+
+				let translateMonths = length => {
+					return Array.from({ length: 12 }, (_, i) => {
+						let month = new Intl.DateTimeFormat(lang, { month: length }).format(new Date(2024, i, 1));
+							month = month.endsWith('.') ? month.slice(0, -1) : month;
+
+						return month.charAt(0).toUpperCase() + month.slice(1);
+					});
+				}
+
+				let formatter = (date, format) => {
+					let s           = date.toString(),
+						f           = date.getTime(),
+						fullYear    = date.getFullYear(),
+						monthNumber = date.getMonth(),
+						day         = date.getDate(),
+						hours       = date.getHours(),
+						minutes     = date.getMinutes(),
+						seconds     = date.getSeconds();
+
+					return format.replace( /a|A|d|D|F|g|G|h|H|i|I|j|l|L|m|M|n|s|S|t|T|U|w|y|Y|z|Z/g, format => {
+						switch ( format ) {
+							case 'a' : return hours > 11 ? 'pm' : 'am';
+							case 'A' : return hours > 11 ? 'PM' : 'AM';
+							case 'd' : return ( '0' + day ).slice(-2);
+							case 'D' : return translateWeekdays('short')[ date.getDay() ];
+							case 'F' : return translateMonths('long')[ monthNumber ];
+							case 'g' : return ( s = ( hours || 12 ) ) > 12 ? s - 12 : s;
+							case 'G' : return hours;
+							case 'h' : return ( '0' + ( ( s = hours || 12 ) > 12 ? s - 12 : s ) ).slice(-2);
+							case 'H' : return ( '0' + hours ).slice(-2);
+							case 'i' : return ( '0' + minutes ).slice(-2);
+							case 'I' : return (() => {
+								let a = new Date(fullYear, 0),
+									c = Date.UTC(fullYear, 0),
+									b = new Date(fullYear, 6),
+									d = Date.UTC(fullYear, 6);
+								return ((a - c) !== (b - d)) ? 1 : 0;
+							})();
+							case 'j' : return day;
+							case 'l' : return translateWeekdays('long')[ date.getDay() ];
+							case 'L' : return ( s = fullYear ) % 4 === 0 && ( s % 100 !== 0 || s % 400 === 0 ) ? 1 : 0;
+							case 'm' : return ( '0' + ( monthNumber + 1 ) ).slice(-2);
+							case 'M' : return translateMonths('short')[ monthNumber ];
+							case 'n' : return monthNumber + 1;
+							case 's' : return ( '0' + seconds ).slice(-2);
+							case 'S' : return [ 'th', 'st', 'nd', 'rd' ][ ( s = day ) < 4 ? s : 0 ];
+							case 't' : return (new Date(fullYear, monthNumber, 0)).getDate();
+							case 'T' : return 'UTC';
+							case 'U' : return ( '' + f ).slice( 0, -3 );
+							case 'w' : return date.getDay();
+							case 'y' : return ( '' + fullYear ).slice(-2);
+							case 'Y' : return fullYear;
+							case 'z' : return Math.ceil((date - new Date(fullYear, 0, 1)) / 86400000);
+							default : return -date.getTimezoneOffset() * 60;
+						}
+					});
+				}
 
 				try {
-					let datepicker = new Datepicker( el, opts );
-					//console.log( datepicker );
+					new Datepicker( el, {
+						...{
+							inline: false,
+							multiple: false,
+							ranged: true,
+							time: false,
+							lang: lang.substr( 0, 2 ).toLowerCase(),
+							months: 1,
+							openOn: 'today',
+							timeAmPm: false,
+							within: false,
+							without: false,
+							yearRange: 5,
+							weekStart: grafema?.weekStart,
+							separator: ' — ',
+							serialize: value => {
+								let date = new Date(value);
+								if (format) {
+									return formatter(date, format);
+								}
+								return date.toLocaleDateString(lang);
+							},
+						},
+						...content
+					});
 				} catch (e) {
 					console.error( 'Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js' );
 				}

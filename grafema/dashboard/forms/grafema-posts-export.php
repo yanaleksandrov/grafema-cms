@@ -23,13 +23,22 @@ Dashboard\Form::enqueue(
 			'instruction' => I18n::_t( 'Select fields from your CSV file that you want to map to fields in the posts, or that you want to ignore during import' ),
 		],
 		[
-			'name'        => 'types[]',
 			'type'        => 'select',
+			'uid'         => 'types[]',
 			'label'       => I18n::_t( 'Post types' ),
+			'class'       => '',
+			'label_class' => '',
+			'reset'       => 0,
+			'before'      => '',
+			'after'       => '',
 			'instruction' => I18n::_t( 'Choose which types of posts you want to export' ),
-			'value'       => 'pages',
+			'tooltip'     => '',
+			'copy'        => 0,
+			'sanitizer'   => '',
+			'validator'   => '',
+			'conditions'  => [],
 			'attributes'  => [
-				'x-select' => '{"showSearch":1}',
+				'value'    => 'pages',
 				'multiple' => true,
 			],
 			'options' => [
@@ -38,12 +47,24 @@ Dashboard\Form::enqueue(
 			],
 		],
 		[
-			'name'        => 'format',
 			'type'        => 'radio',
-			'variation'   => 'described', // can be: simple, image, described
+			'uid'         => 'format',
 			'label'       => I18n::_t( 'File format' ),
+			'class'       => '',
+			'label_class' => '',
+			'reset'       => 0,
+			'before'      => '',
+			'after'       => '',
 			'instruction' => I18n::_t( 'Select the appropriate format for subsequent work' ),
-			'value'       => 'csv',
+			'tooltip'     => '',
+			'copy'        => 0,
+			'sanitizer'   => '',
+			'validator'   => '',
+			'conditions'  => [],
+			'attributes'  => [
+				'value' => 'csv',
+			],
+			'variation'   => 'described', // can be: simple, image, described
 			'width'       => 180,
 			'options'     => [
 				'csv' => [

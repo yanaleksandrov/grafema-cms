@@ -49,6 +49,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 	</div>
 	<?php if ( $description ) { ?>
-		<div class="fs-13 t-muted lh-xs"><?php Esc::html( $description ); ?></div>
+		<div class="fs-13 t-muted lh-xs"><?php echo $description; ?></div>
 	<?php } ?>
 </div>

@@ -2,7 +2,7 @@
 use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Submit button
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/submit.php
@@ -14,15 +14,24 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $name, $label, $attributes ] = ( new Sanitizer(
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'name'       => 'key|camelcase',
-		'label'      => 'html',
-		'attributes' => 'array',
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
 	]
 ) )->values();
 ?>
-<div class="field">
+<div class="<?php echo $class; ?>">
 	<button type="submit"<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>
 </div>

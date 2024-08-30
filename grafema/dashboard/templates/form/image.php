@@ -16,17 +16,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $label, $label_class, $class, $description ] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-            'label'       => 'trim',
-            'label_class' => 'class:dg ga-1 fw-600',
-            'class'       => 'class:dg',
-			'description' => 'trim:' . I18n::_t( 'Click to upload your avatar' ),
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+	]
+) )->values();
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="df aife g-4">
@@ -45,11 +51,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			</div>
 		</div>
 		<div class="dg g-1 mw50x9">
-			<?php if ( $label ) { ?>
+			<?php if ( $label ) : ?>
 				<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
-			<?php } ?>
+			<?php endif; ?>
 			<div class="fs-13 t-muted lh-xs">
-				<a @click.prevent="$refs.input.click()"><?php echo $description; ?></a> <span><?php I18n::t( 'WEBP, PNG, JPG or GIF (max. 400×400px)' ); ?></span>
+				<a @click.prevent="$refs.input.click()"><?php echo $instruction; ?></a> <span><?php I18n::t( 'WEBP, PNG, JPG or GIF (max. 400×400px)' ); ?></span>
 			</div>
 		</div>
 	</div>

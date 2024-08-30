@@ -1,5 +1,4 @@
 <?php
-use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
@@ -16,17 +15,25 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $label, $description, $attributes, $max_size ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'label'       => 'trim',
-            'instruction' => 'trim',
-            'attributes'  => 'array',
-            'max_size'    => 'trim:' . ini_get( 'upload_max_filesize' ),
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $max_size ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:field',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		// uploader
+		'max_size'    => 'trim:' . ini_get( 'upload_max_filesize' ),
+	]
+) )->values();
 ?>
 <div class="uploader dg g-3">
 	<label class="dg g-1">
@@ -34,10 +41,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			<span class="df aic jcsb fw-600"><?php echo $label; ?></span>
 		<?php endif; ?>
 		<span class="uploader__container">
-			<?php if ( $description ) : ?>
-				<span class="fw-700"><?php echo $description; ?></span>
+			<?php if ( $instruction ) : ?>
+				<span class="fw-700"><?php echo $instruction; ?></span>
 			<?php endif; ?>
-			<span class="fs-13 t-muted"><?php printf( I18n::_t( 'Maximum upload file size is %s' ), $max_size ); ?></span>
+			<span class="fs-13 t-muted"><?php I18n::tf( 'Maximum upload file size is %s', $max_size ); ?></span>
 		</span>
 		<input type="file"<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 	</label>

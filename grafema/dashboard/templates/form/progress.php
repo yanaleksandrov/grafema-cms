@@ -14,29 +14,35 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$name, $label, $label_class, $class, $instruction, $max, $min, $value, $speed] = (
-    new Grafema\Sanitizer(
-        $args ?? [],
-        [
-            'name'        => 'attribute|key',
-            'label'       => 'trim',
-            'label_class' => 'class:df aic jcsb fw-600 mb-1',
-            'class'       => 'class:dg g-1',
-            'instruction' => 'trim',
-            'max'         => 'absint:0',
-            'min'         => 'absint:0',
-            'value'       => 'absint:100',
-            'speed'       => 'absint:1000',
-        ]
-    )
-)->values();
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $max, $min, $value, $speed ] = ( new Grafema\Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:dg g-1',
+		'label_class' => 'class:df aic jcsb fw-600 mb-1',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		// progress
+		'max'         => 'absint:0',
+		'min'         => 'absint:0',
+		'value'       => 'absint:100',
+		'speed'       => 'absint:1000',
+	]
+) )->values();
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="<?php echo $label_class; ?>">
-		<?php Esc::html( $label ); ?>
+		<?php echo $label; ?>
 	</div>
 	<div class="progress" x-progress.<?php printf( '%d.%d.%d.%d', $max, $min, $value, $speed ); ?>ms></div>
 	<?php if ( $instruction ) : ?>
-		<div class="mt-1 fw-600 lh-xs"><?php Esc::html( $instruction ); ?></div>
+		<div class="mt-1 fw-600 lh-xs"><?php echo $instruction; ?></div>
 	<?php endif; ?>
 </div>

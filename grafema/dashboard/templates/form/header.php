@@ -13,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $class, $instruction] = (
+[ $label, $name, $class, $instruction ] = (
     new Sanitizer(
         $args ?? [],
         [

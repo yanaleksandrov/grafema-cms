@@ -1,10 +1,8 @@
 <?php
-use Grafema\Esc;
 use Grafema\Helpers\Arr;
-use Grafema\I18n;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Toggle
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/toggle.php
@@ -16,53 +14,36 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$label, $name, $value, $placeholder, $class, $reset, $before, $after, $instruction, $tooltip, $copy, $attributes, $conditions, $options] = (
-    new Sanitizer(
-        $args ?? [],
-        [
-			'label'       => 'trim',
-			'name'        => 'key',
-			'value'       => 'attribute',
-			'placeholder' => 'trim',
-			'class'       => 'class:df aic jcsb fw-600 mb-2',
-			'reset'       => 'bool:false',
-			'before'      => 'trim',
-			'after'       => 'trim',
-			'instruction' => 'trim',
-			'tooltip'     => 'attribute',
-			'copy'        => 'bool:false',
-			'attributes'  => 'array',
-			'conditions'  => 'array',
-			'options'     => 'array',
-        ]
-    )
-)->values();
-
-$attributes = [
-	...$attributes,
-	'type' => 'checkbox',
-];
-
-if ( $name ) {
-	$attributes = [
-		...$attributes,
-		'name'         => $name,
-		'x-model.fill' => $name,
-	];
-}
+[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+	$args ?? [],
+	[
+		'uid'         => 'key',
+		'label'       => 'trim',
+		'class'       => 'class:toggle',
+		'label_class' => 'class:field-label',
+		'reset'       => 'bool:false',
+		'before'      => 'trim',
+		'after'       => 'trim',
+		'instruction' => 'trim',
+		'tooltip'     => 'attribute',
+		'copy'        => 'bool:false',
+		'conditions'  => 'array',
+		'attributes'  => 'array',
+		'options'     => 'array',
+	]
+) )->values();
 ?>
-<div class="dg g-1">
-    <label class="toggle">
-        <input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( $attributes ); ?>>
-        <span class="toggle__switch"></span>
-        <?php if ( $label || $instruction ) : ?>
-            <span class="toggle__label">
-                <?php Esc::html( $label ); ?>
-
-                <?php if ( $instruction ) : ?>
-                    <span class="toggle__description"><?php Esc::html( $instruction ); ?></span>
-                <?php endif; ?>
-            </span>
-        <?php endif; ?>
-    </label>
-</div>
+<label class="<?php echo $class; ?>">
+	<input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $uid, 'x-model.fill' => $uid ] ); ?>>
+	<span class="toggle__switch"></span>
+	<?php if ( $label || $instruction ) : ?>
+		<span class="toggle__label">
+			<?php
+			echo $label;
+			if ( $instruction ) :
+				?>
+				<span class="toggle__description"><?php echo $instruction; ?></span>
+			<?php endif; ?>
+		</span>
+	<?php endif; ?>
+</label>

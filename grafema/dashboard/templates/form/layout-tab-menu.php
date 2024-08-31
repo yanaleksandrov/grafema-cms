@@ -39,12 +39,9 @@ if ( count( $fields ) === 0 ) {
 		)->values();
 		?>
 		<li class="<?php echo trim( sprintf( 'tab__title %s', $class ) ); ?>" x-bind="tabButton('<?php echo $name; ?>')">
-            <?php if ( $icon ) : ?>
-                <i class="<?php echo $icon; ?>"></i>
-                <?php
-            endif;
-            echo $label;
-            ?>
+			<?php $icon && print( '<i class="' . $icon . '"></i> ' ); ?>
+			<?php echo $label; ?>
+
 		</li>
 	<?php endforeach; ?>
 </ul>

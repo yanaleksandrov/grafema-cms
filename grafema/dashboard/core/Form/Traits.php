@@ -141,11 +141,11 @@ trait Traits {
 
 			if ( in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
 				$field = [
-					...$field,
 					'columns' => 2,
 					'width'   => 100,
 					'content' => $this->parseFields( $field['fields'] ?? [], $step + 1 ),
 					'step'    => $step++,
+					...$field,
 				];
 			}
 

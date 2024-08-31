@@ -1,7 +1,6 @@
 <?php
 use Grafema\I18n;
 use Grafema\View;
-use Grafema\Esc;
 
 /**
  * Fields builder

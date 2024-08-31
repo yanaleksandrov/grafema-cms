@@ -22,24 +22,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/select',
 				[
 					'type'        => 'select',
+					'uid'         => 'type',
 					'label'       => I18n::_t( 'Type' ),
-					'name'        => 'type',
-					'value'       => '',
-					'placeholder' => '',
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
-					'required'    => 0,
-					'copy'        => 0,
 					'before'      => '',
 					'after'       => '',
-					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [
-						'class'    => 'select',
-						'x-select' => true,
-					],
+					'tooltip'     => '',
+					'copy'        => 0,
+					'sanitizer'   => '',
+					'validator'   => '',
 					'conditions'  => [],
+					'attributes'  => [
+						'name'     => 'type',
+						'required' => 1,
+					],
 					'options'     => [
 						'type'     => I18n::_t( 'Post Type' ),
 						'template' => I18n::_t( 'Post Template' ),
@@ -55,63 +54,69 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/input',
 				[
 					'type'        => 'text',
+					'uid'         => 'label',
 					'label'       => I18n::_t( 'Label' ),
-					'name'        => 'label',
-					'value'       => '',
-					'placeholder' => '',
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
-					'required'    => 1,
-					'copy'        => 0,
 					'before'      => '',
 					'after'       => '',
-					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [],
+					'tooltip'     => '',
+					'copy'        => 0,
+					'sanitizer'   => '',
+					'validator'   => '',
 					'conditions'  => [],
+					'attributes'  => [
+						'name'     => 'label',
+						'required' => 1,
+					],
 				],
 			);
 			View::print(
 				'templates/form/input',
 				[
 					'type'        => 'text',
+					'uid'         => 'name',
 					'label'       => I18n::_t( 'Name' ),
-					'name'        => 'name',
-					'value'       => '',
-					'placeholder' => '',
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
-					'required'    => 1,
-					'copy'        => 0,
 					'before'      => '',
 					'after'       => '',
-					'tooltip'     => I18n::_t( 'Single word, no spaces. Underscores and dashes allowed' ),
 					'instruction' => '',
-					'attributes'  => [],
+					'tooltip'     => I18n::_t( 'Single word, no spaces. Underscores and dashes allowed' ),
+					'copy'        => 0,
+					'sanitizer'   => '',
+					'validator'   => '',
 					'conditions'  => [],
+					'attributes'  => [
+						'name'     => 'name',
+						'required' => 1,
+					],
 				],
 			);
 			View::print(
 				'templates/form/input',
 				[
 					'type'        => 'text',
+					'uid'         => 'default',
 					'label'       => I18n::_t( 'Default value' ),
-					'name'        => 'default',
-					'value'       => '',
-					'placeholder' => '',
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
-					'required'    => 1,
-					'copy'        => 0,
 					'before'      => '',
 					'after'       => '',
-					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [],
+					'tooltip'     => '',
+					'copy'        => 0,
+					'sanitizer'   => '',
+					'validator'   => '',
 					'conditions'  => [],
+					'attributes'  => [
+						'name'     => 'default',
+						'required' => 1,
+					],
 				],
 			);
 			?>
@@ -121,7 +126,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<template x-for="(rule, i) in group.rules">
 					<div class="builder__rules">
 						<div class="dg g-1">
-							<select class="select" id="location" :name="`group.rules[${i}][location]`" x-model="rule.location">
+							<select class="select" :name="`group.rules[${i}][location]`">
 								<optgroup label="Post">
 									<option value="post_type">Post Type</option>
 									<option value="post_template">Post Template</option>
@@ -134,13 +139,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							</select>
 						</div>
 						<div class="dg g-1">
-							<select class="select" id="operator" :name="`group.rules[${i}][operator]`" x-model="rule.operator">
+							<select class="select" :name="`group.rules[${i}][operator]`">
 								<option value="===">is equal to</option>
 								<option value="!=">is not equal to</option>
 							</select>
 						</div>
 						<div class="dg g-1">
-							<select class="select" id="value" :name="`group.rules[${i}][value]`" x-model="rule.value">
+							<select class="select" :name="`group.rules[${i}][value]`">
 								<option value="subscriber">Subscriber</option>
 								<option value="contributor">Contributor</option>
 								<option value="author">Author</option>

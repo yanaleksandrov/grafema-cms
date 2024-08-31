@@ -31,7 +31,7 @@
   }
 
   &-item {
-    padding-inline: 0.85em;
+    padding-inline: 0.8em;
     display: flex;
     align-items: center;
     gap: 0.25em;
@@ -101,7 +101,70 @@
 
       &[x-datepicker][readonly] {
         color: inherit !important;
+        pointer-events: initial;
+        cursor: pointer;
       }
+    }
+
+    select {
+      padding-inline: 0.8em 1.65em;
+
+      + .ss-main {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        height: 100%;
+        padding-inline: 0.8em 2.25em;
+      }
+
+      &[multiple] + .ss-main {
+        padding-inline-start: 0.25em;
+      }
+    }
+
+    .field--sm & {
+      padding-inline: 0.65em;
+      height: 1.75rem;
+      max-height: 1.75rem;
+
+      .ss-content {
+        font-size: 0.8125rem;
+        height: 1.75rem;
+        max-height: 1.75rem;
+        line-height: 1.2;
+      }
+    }
+
+    .field--lg & {
+      padding-inline: 1.125em;
+      height: 2.5rem;
+      max-height: 2.5rem;
+
+      .ss-content {
+        font-size: 1rem;
+        height: 2.5rem;
+        max-height: 2.5rem;
+        line-height: 1.6;
+      }
+    }
+
+    .field--outline & {
+      border: 1px solid var(--grafema-border);
+      background-color: var(--grafema-white);
+
+      .ss-content {
+        background-color: var(--grafema-white) !important;
+        border: 1px solid var(--grafema-border);
+      }
+    }
+
+    &:has(select),
+    &:has(.ss-main) {
+      padding-inline: 0;
+    }
+
+    &:has(.datepicker select) {
+      padding-inline: 0.65em;
     }
 
     &:has([x-datepicker][readonly]):focus-within {
@@ -115,23 +178,6 @@
       background-color: #fff;
       border-color: var(--grafema-link);
       box-shadow: 0 0 0 1px var(--grafema-link);
-    }
-
-    .field--sm & {
-      padding-inline: 0.65em;
-      height: 1.75rem;
-      max-height: 1.75rem;
-    }
-
-    .field--lg & {
-      padding-inline: 1.125em;
-      height: 2.5rem;
-      max-height: 2.5rem;
-    }
-
-    .field--outline & {
-      border: 1px solid var(--grafema-border);
-      background-color: var(--grafema-white);
     }
   }
 }

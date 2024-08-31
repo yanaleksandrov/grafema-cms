@@ -17,7 +17,7 @@ trait Traits {
 	 * @since 2025.1
 	 * @var   string
 	 */
-	private string $uniqid;
+	private string $uid;
 
 	/**
 	 * List of all form fields
@@ -116,53 +116,41 @@ trait Traits {
 	private function parseFields( array $fields, int $step = 1 ): string {
 		$content = '';
 		foreach ( $fields as $field ) {
-			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$uid      = Sanitizer::name( $field['uid'] ?? '' );
-			$callback = $field['callback'] ?? null;
+			$name = Sanitizer::name( $field['uid'] ?? '' );
+			$type = Sanitizer::key( $field['type'] ?? '' );
+			$uid  = Sanitizer::dot( $name );
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
-				$content .= View::get(
-					GRFM_DASHBOARD . 'templates/form/layout/tab-menu',
-					[
-						'fields' => $fields
-					]
-				);
+				$content .= View::get( 'templates/form/layout-tab-menu', [ 'fields' => $fields ] );
 			}
 
 			// add required attributes & other manipulations
-			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
-			if ( ! in_array( $type, [ 'tab', 'group' ], true ) ) {
-				match ( $type ) {
-					'step'     => $field['attributes']['x-wizard:step'] ??= '',
-					'textarea' => $field['attributes']['x-textarea']    ??= '',
-					'select'   => $field['attributes']['x-select']      ??= '',
-					default    => '',
-				};
+			$field['attributes'] = Sanitizer::array( $field['attributes'] ?? [] );
+			if ( ! in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
+				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
+			}
 
-				$field['attributes'] = match ( $type ) {
-					'date'   => [
-						'type'         => 'date',
-						'x-datepicker' => '',
-						...$field['attributes']
-					],
-					'toggle' => [
-						'type'         => 'checkbox',
-						'x-model.fill' => Sanitizer::dot( $uid ),
-						...$field['attributes']
-					],
-					'submit' => $field['attributes'],
-					default  => [
-						'type'         => $type,
-						'name'         => $uid,
-						'x-model.fill' => Sanitizer::dot( $uid ),
-						...$field['attributes']
-					],
-				};
+			match ( $type ) {
+				'step'     => $field['attributes']['x-wizard:step'] ??= '',
+				'textarea' => $field['attributes']['x-textarea'] ??= '',
+				'select'   => $field['attributes']['x-select'] ??= '',
+				'date'     => $field['attributes']['x-datepicker'] ??= '',
+				default    => '',
+			};
 
-				if ( $type === 'step' ) {
-					unset( $field['attributes']['x-model.fill'] );
-				}
+			if ( in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
+				$field = [
+					...$field,
+					'columns' => 2,
+					'width'   => 100,
+					'content' => $this->parseFields( $field['fields'] ?? [], $step + 1 ),
+					'step'    => $step++,
+				];
+			}
+
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+				$type = 'input';
 			}
 
 			// parse conditions
@@ -170,37 +158,8 @@ trait Traits {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
 			}
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
-				$type = 'input';
-			}
-
-			$content .= match ($type) {
-				'tab',
-				'step',
-				'group' => View::get(
-					GRFM_DASHBOARD . "templates/form/layout/{$type}",
-					array_merge(
-						[
-							'columns'    => 2,
-							'width'      => 100,
-							'content'    => $this->parseFields($field['fields'] ?? [], $step + 1),
-							'step'       => $step++,
-							'attributes' => array_merge(
-								[
-									'x-wizard:step' => '',
-								],
-								$field['attributes']
-							),
-						],
-						$field
-					)
-				),
-				'custom' => is_callable($callback) ? call_user_func($callback) : '',
-				default  => View::get(
-					GRFM_DASHBOARD . "templates/form/{$type}",
-					$field
-				),
-			};
+			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
+			$content .= View::get( GRFM_DASHBOARD . "templates/form/{$prefix}{$type}", $field );
 		}
 
 		return $content;

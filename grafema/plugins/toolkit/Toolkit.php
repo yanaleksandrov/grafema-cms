@@ -119,9 +119,7 @@ class Toolkit implements Plugins\Skeleton
 									'after'       => '',
 									'tooltip'     => '',
 									'instruction' => '',
-									'attributes'  => [
-										'x-select' => '{"showSearch": 1}',
-									],
+									'attributes'  => [],
 									'options' => [
 										'main' => [
 											'label'   => I18n::_t( 'Basic' ),
@@ -404,9 +402,7 @@ class Toolkit implements Plugins\Skeleton
 									'label_class' => 'df aic fs-12 t-muted',
 									'value'       => '',
 									'reset'       => false,
-									'attributes'  => [
-										'x-select' => '',
-									],
+									'attributes'  => [],
 									'options' => [
 										'yes' => I18n::_t( 'Yes' ),
 										'no'  => I18n::_t( 'No' ),
@@ -419,9 +415,7 @@ class Toolkit implements Plugins\Skeleton
 									'label_class' => 'df aic fs-12 t-muted',
 									'value'       => '',
 									'reset'       => false,
-									'attributes'  => [
-										'x-select' => '',
-									],
+									'attributes'  => [],
 									'options' => [
 										'yes' => I18n::_t( 'Yes' ),
 										'no'  => I18n::_t( 'No' ),

@@ -32,7 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 ?>
-<div class="field <?php echo $class; ?>">
+<div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>

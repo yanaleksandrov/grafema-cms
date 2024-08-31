@@ -24,53 +24,53 @@ class Form {
 	/**
 	 * Register new form.
 	 *
-	 * @param string $uniqid    Unique Form ID.
+	 * @param string $uid    Unique Form ID.
 	 * @param array $attributes Html attributes list.
 	 * @param array $fields     Fields list. Contains a nested array of arrays.
 	 * @return void
 	 *
 	 * @since 2025.1
 	 */
-	public static function enqueue( string $uniqid, array $attributes = [], array $fields = [] ): void {
-		$uniqid = Sanitizer::key( $uniqid );
-		if ( ! $uniqid ) {
-			new Errors( 'form-register', I18n::_f( 'The $uniqid of the form is empty.', $uniqid ) );
+	public static function enqueue( string $uid, array $attributes = [], array $fields = [] ): void {
+		$uid = Sanitizer::key( $uid );
+		if ( ! $uid ) {
+			new Errors( 'form-register', I18n::_f( 'The $uid of the form is empty.', $uid ) );
 		}
 
-		$form = self::init( $uniqid );
-		if ( isset( $form->uniqid ) ) {
-			new Errors( 'form-register', I18n::_f( 'The form identified by %s already exists! Potential conflicts detected!', $uniqid ) );
+		$form = self::init( $uid );
+		if ( isset( $form->uid ) ) {
+			new Errors( 'form-register', I18n::_f( 'The form identified by %s already exists! Potential conflicts detected!', $uid ) );
 		}
 
-		$form->uniqid     = $uniqid;
+		$form->uid        = $uid;
 		$form->fields     = $fields;
-		$form->attributes = [ 'id' => $uniqid, 'method' => 'POST', ...$attributes ];
+		$form->attributes = [ 'id' => $uid, 'method' => 'POST', ...$attributes ];
 	}
 
 	/**
 	 * Deregister form.
 	 * TODO: write this part
 	 *
-	 * @param string $uniqid Unique Form ID.
+	 * @param string $uid Unique Form ID.
 	 * @return void
 	 *
 	 * @since 2025.1
 	 */
-	public static function dequeue( string $uniqid ) {
+	public static function dequeue( string $uid ) {
 
 	}
 
 	/**
 	 * Get all data of form by name.
 	 *
-	 * @param string $uniqid
+	 * @param string $uid
 	 * @param callable|null $function
 	 * @return Form
 	 *
 	 * @since 2025.1
 	 */
-	public static function override( string $uniqid, ?callable $function = null ): Form {
-		$form = self::init( $uniqid );
+	public static function override( string $uid, ?callable $function = null ): Form {
+		$form = self::init( $uid );
 
 		if ( is_callable( $function ) ) {
 			call_user_func( $function, $form );
@@ -82,19 +82,19 @@ class Form {
 	/**
 	 * Get form markup.
 	 *
-	 * @param string $uniqid
+	 * @param string $uid
 	 * @param string $path               Path to register form.
 	 * @param bool $without_form_wrapper
 	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $uniqid, string $path = '', bool $without_form_wrapper = false ): string {
+	public static function get( string $uid, string $path = '', bool $without_form_wrapper = false ): string {
 		if ( file_exists( $path ) ) {
 			require_once $path;
 		}
 
-		$form   = self::init( $uniqid );
+		$form   = self::init( $uid );
 		$fields = $form->fields ?? [];
 
 		/**
@@ -102,11 +102,11 @@ class Form {
 		 *
 		 * @since 2025.1
 		 * @param array $fields Fields list of form.
-		 * @param array $uniqid ID of form.
+		 * @param array $uid ID of form.
 		 */
-		$fields = Hook::apply( 'grafema_form_view_' . $uniqid, $fields, $form );
+		$fields = Hook::apply( 'grafema_form_view_' . $uid, $fields, $form );
 		if ( ! array( $fields ) ) {
-			new Errors( 'form-view', I18n::_f( 'Form fields with ID "%s" is incorrect.', $uniqid ) );
+			new Errors( 'form-view', I18n::_f( 'Form fields with ID "%s" is incorrect.', $uid ) );
 
 			return '';
 		}
@@ -117,7 +117,7 @@ class Form {
 		 * @since 2025.1
 		 * @param string $content Parsed fields html
 		 */
-		$content = Hook::apply( 'grafema_form_view_html_' . $uniqid, $form->parseFields( $fields ) );
+		$content = Hook::apply( 'grafema_form_view_html_' . $uid, $form->parseFields( $fields ) );
 
 		/**
 		 * Return only the contents of the form without its wrapper
@@ -135,15 +135,15 @@ class Form {
 	/**
 	 * Output form markup.
 	 *
-	 * @param string $uniqid
+	 * @param string $uid
 	 * @param string $path               Path to register form.
 	 * @param bool $without_form_wrapper
 	 * @return void
 	 *
 	 * @since 2025.1
 	 */
-	public static function print( string $uniqid, string $path = '', bool $without_form_wrapper = false ): void {
-		echo self::get( $uniqid, $path, $without_form_wrapper );
+	public static function print( string $uid, string $path = '', bool $without_form_wrapper = false ): void {
+		echo self::get( $uid, $path, $without_form_wrapper );
 	}
 
 	/**

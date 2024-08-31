@@ -3,7 +3,7 @@ use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Select field
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/select.php
@@ -35,14 +35,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
-$click = sprintf( "%s = '%s'", $uid, $value );
-$show  = sprintf( "%s !== '%s'", $uid, $value );
 ?>
-<label class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
 			echo $label;
 			if ( $reset ) :
+				$click = sprintf( "%s = '%s'", $uid, $value );
+				$show  = sprintf( "%s !== '%s'", $uid, $value );
 				?>
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 				<?php
@@ -54,53 +54,55 @@ $show  = sprintf( "%s !== '%s'", $uid, $value );
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
-	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
-		<?php
-		$get_attributes = function ( $key, $value, $option ) {
-			$attributes = [
-				'value'    => trim( (string) $key ),
-				'selected' => $key === $value,
-			];
+	<label class="field-item">
+		<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
+			<?php
+			$get_attributes = function ( $key, $value, $option ) {
+				$attributes = [
+					'value'    => trim( (string) $key ),
+					'selected' => $key === $value,
+				];
 
-			if ( is_array( $option ) ) {
-				unset( $option['content'] );
+				if ( is_array( $option ) ) {
+					unset( $option['content'] );
 
-				foreach ( $option as $attribute => $value ) {
-					$attributes['data-' . $attribute] = trim( (string) $value );
+					foreach ( $option as $attribute => $value ) {
+						$attributes['data-' . $attribute] = trim( (string) $value );
+					}
+				}
+
+				return $attributes;
+			};
+
+			foreach ( $options as $option_key => $option ) {
+				$optgroup_options = $option['options'] ?? [];
+				if ( $optgroup_options ) {
+					$label = Sanitizer::attribute( $option['label'] ?? '' );
+					?>
+					<optgroup label="<?php echo $label; ?>">
+						<?php
+						foreach ( $optgroup_options as $i => $optgroup_option ) {
+							$content = trim( is_scalar( $optgroup_option ) ? $optgroup_option : strval( $optgroup_option['content'] ?? '' ) );
+							$atts    = $get_attributes( $i, $value, $optgroup_option );
+							?>
+							<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
+							<?php
+						}
+						?>
+					</optgroup>
+					<?php
+				} else {
+					$content = trim( is_scalar( $option ) ? $option : strval( $option['content'] ?? '' ) );
+					$atts    = $get_attributes( $option_key, $value, $option );
+					?>
+					<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
+					<?php
 				}
 			}
-
-			return $attributes;
-		};
-
-		foreach ( $options as $option_key => $option ) {
-			$optgroup_options = $option['options'] ?? [];
-			if ( $optgroup_options ) {
-				$label = Sanitizer::attribute( $option['label'] ?? '' );
-				?>
-				<optgroup label="<?php echo $label; ?>">
-					<?php
-					foreach ( $optgroup_options as $i => $optgroup_option ) {
-						$content = trim( is_scalar( $optgroup_option ) ? $optgroup_option : strval( $optgroup_option['content'] ?? '' ) );
-						$atts    = $get_attributes( $i, $value, $optgroup_option );
-						?>
-						<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
-						<?php
-					}
-					?>
-				</optgroup>
-				<?php
-			} else {
-				$content = trim( is_scalar( $option ) ? $option : strval( $option['content'] ?? '' ) );
-				$atts    = $get_attributes( $option_key, $value, $option );
-				?>
-				<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
-				<?php
-			}
-		}
-		?>
-	</select>
+			?>
+		</select>
+	</label>
 	<?php if ( $instruction ) : ?>
 		<div class="field-instruction"><?php echo $instruction; ?></div>
 	<?php endif; ?>
-</label>
+</div>

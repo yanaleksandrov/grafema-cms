@@ -19,7 +19,7 @@ Dashboard\Form::enqueue(
 			'type'        => 'search',
 			'uid'         => 's',
 			'label'       => '',
-			'class'       => '',
+			'class'       => 'field field--sm field--outline',
 			'label_class' => '',
 			'reset'       => 0,
 			'before'      => '',

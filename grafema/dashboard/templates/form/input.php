@@ -37,7 +37,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>
-	<label class="field-item">
+	<div class="field-item">
 		<?php echo $before; ?>
 		<input<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 		<?php
@@ -51,7 +51,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			?>
 			<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
 		<?php endif; ?>
-	</label>
+	</div>
 	<?php if ( $instruction ) : ?>
 		<div class="field-instruction"><?php echo $instruction; ?></div>
 	<?php endif; ?>

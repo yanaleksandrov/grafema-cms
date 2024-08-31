@@ -3,7 +3,7 @@ use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Select field
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/select.php
@@ -35,18 +35,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
-$click = sprintf( "%s = '%s'", $uid, $value );
-$show  = sprintf( "%s !== '%s'", $uid, $value );
-
-echo '<pre>';
-print_r( $attributes );
-echo '</pre>';
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
 			echo $label;
 			if ( $reset ) :
+				$click = sprintf( "%s = '%s'", $uid, $value );
+				$show  = sprintf( "%s !== '%s'", $uid, $value );
 				?>
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 				<?php

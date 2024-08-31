@@ -117,51 +117,37 @@ trait Traits {
 		$content = '';
 		foreach ( $fields as $field ) {
 			$type     = Sanitizer::key( $field['type'] ?? '' );
-			$uid      = Sanitizer::name( $field['uid'] ?? '' );
+			$name     = Sanitizer::name( $field['uid'] ?? '' );
+			$uid      = Sanitizer::dot( $name );
 			$callback = $field['callback'] ?? null;
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
-				$content .= View::get(
-					GRFM_DASHBOARD . 'templates/form/layout/tab-menu',
-					[
-						'fields' => $fields
-					]
-				);
+				$content .= View::get( GRFM_DASHBOARD . 'templates/form/layout/tab-menu', [ 'fields' => $fields ] );
 			}
 
 			// add required attributes & other manipulations
-			$field['attributes'] = isset( $field['attributes'] ) && is_array( $field['attributes'] ) ? $field['attributes'] : [];
+			$field['attributes'] = Sanitizer::array( $field['attributes'] ?? [] );
 			if ( ! in_array( $type, [ 'tab', 'group' ], true ) ) {
+				$field['attributes'] = [ 'type' => $type, 'name' => $name, ...$field['attributes'] ];
+				if ( ! in_array( $type, [ 'step' ], true ) ) {
+					$field['attributes']['x-model.fill'] = $uid;
+				}
+
 				match ( $type ) {
 					'step'     => $field['attributes']['x-wizard:step'] ??= '',
-					'textarea' => $field['attributes']['x-textarea']    ??= '',
-					'select'   => $field['attributes']['x-select']      ??= '',
+					'textarea' => $field['attributes']['x-textarea'] ??= '',
+					'select'   => $field['attributes']['x-select'] ??= '',
+					'date'     => $field['attributes']['x-datepicker'] ??= '',
 					default    => '',
 				};
 
-				$field['attributes'] = match ( $type ) {
-					'date'   => [
-						'type'         => 'date',
-						'x-datepicker' => '',
-						...$field['attributes']
-					],
-					'toggle' => [
-						'type'         => 'checkbox',
-						'x-model.fill' => Sanitizer::dot( $uid ),
-						...$field['attributes']
-					],
-					'submit' => $field['attributes'],
-					default  => [
-						'type'         => $type,
-						'name'         => $uid,
-						'x-model.fill' => Sanitizer::dot( $uid ),
-						...$field['attributes']
-					],
-				};
+				if ( in_array( $type, [ 'select', 'submit' ], true ) ) {
+					unset( $field['attributes']['type'] );
+				}
 
-				if ( $type === 'step' ) {
-					unset( $field['attributes']['x-model.fill'] );
+				if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+					$type = 'input';
 				}
 			}
 
@@ -170,36 +156,25 @@ trait Traits {
 				$field['conditions'] = $this->parseConditions( $field['conditions'] );
 			}
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
-				$type = 'input';
-			}
-
-			$content .= match ($type) {
+			$content .= match ( $type ) {
 				'tab',
 				'step',
 				'group' => View::get(
 					GRFM_DASHBOARD . "templates/form/layout/{$type}",
-					array_merge(
-						[
-							'columns'    => 2,
-							'width'      => 100,
-							'content'    => $this->parseFields($field['fields'] ?? [], $step + 1),
-							'step'       => $step++,
-							'attributes' => array_merge(
-								[
-									'x-wizard:step' => '',
-								],
-								$field['attributes']
-							),
+					[
+						'columns'    => 2,
+						'width'      => 100,
+						'content'    => $this->parseFields( $field['fields'] ?? [], $step + 1 ),
+						'step'       => $step++,
+						'attributes' => [
+							'x-wizard:step' => '',
+							...$field['attributes']
 						],
-						$field
-					)
+						...$field
+					]
 				),
-				'custom' => is_callable($callback) ? call_user_func($callback) : '',
-				default  => View::get(
-					GRFM_DASHBOARD . "templates/form/{$type}",
-					$field
-				),
+				'custom' => is_callable( $callback ) ? call_user_func( $callback ) : '',
+				default  => View::get( GRFM_DASHBOARD . "templates/form/{$type}", $field ),
 			};
 		}
 

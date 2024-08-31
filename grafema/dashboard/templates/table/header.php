@@ -79,7 +79,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					    View::print(
 						    'templates/form/input',
 						    [
-							    'type'        => 'text',
+							    'type'        => 'search',
 							    'uid'         => 's',
 							    'label'       => '',
 							    'class'       => 'field field--sm field--outline',

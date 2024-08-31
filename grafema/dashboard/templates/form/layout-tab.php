@@ -47,5 +47,6 @@ if ( empty( $content ) ) {
 	<?php endif; ?>
 	<div class="dg g-8">
 		<?php echo $content; ?>
+
 	</div>
 </div>

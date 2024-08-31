@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -35,14 +35,15 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
+$prop  = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
 			echo $label;
 			if ( $reset ) :
-				$click = sprintf( "%s = '%s'", $uid, $value );
-				$show  = sprintf( "%s !== '%s'", $uid, $value );
+				$click = sprintf( "%s = '%s'", $prop, $value );
+				$show  = sprintf( "%s !== '%s'", $prop, $value );
 				?>
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 				<?php

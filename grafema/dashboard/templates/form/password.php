@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $switcher, $indicator, $generator, $characters ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $switcher, $indicator, $generator, $characters ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -38,13 +38,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 
-$variable   = Sanitizer::dot( $uid );
-$variable   = Sanitizer::attribute( $variable );
+$prop       = Sanitizer::prop( $attributes['name'] ?? $name );
 $attributes = [
 	...$attributes,
-	'name'          => $uid,
+	'name'          => $name,
 	':type'         => "show ? 'password' : 'text'",
-	'@input.window' => $generator ? 'data = $password.check(' . $variable . ')' : '',
+	'@input.window' => $generator ? 'data = $password.check(' . $prop . ')' : '',
 ];
 ?>
 <div class="<?php echo $class; ?>" x-data="{show: true, data: {}}">
@@ -52,7 +51,7 @@ $attributes = [
 		echo $label;
         if ( $generator ) {
             ?>
-			<span class="fw-400 fs-13 t-muted" @click="<?php echo $variable; ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
+			<span class="fw-400 fs-13 t-muted" @click="<?php echo $prop; ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
 		<?php } ?>
 	</div>
 	<div class="field-item">
@@ -63,7 +62,7 @@ $attributes = [
         endif;
         if ( $copy ) :
             ?>
-			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" x-copy="<?php echo $variable; ?>"></i>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" x-copy="<?php echo $prop; ?>"></i>
 		<?php endif; ?>
 	</div>
 	<?php if ( $instruction ) : ?>

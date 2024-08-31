@@ -13,7 +13,7 @@ Dashboard\Form::enqueue(
 	'grafema-settings',
 	[
 		'class'   => 'tab tab--vertical',
-		'x-data'  => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'general' ) ),
+		'x-data'  => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'general' ) ),
 		'@change' => '$ajax("options/update")',
 	],
 	[
@@ -31,14 +31,14 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'text',
-							'uid'         => 'site[name]',
+							'name'        => 'site[name]',
 							'label'       => I18n::_t( 'Name' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
 							'after'       => '',
-							'instruction' => I18n::_t( 'A quick snapshot of your website.' ),
+							'instruction' => I18n::_t( 'A quick snapshot of your website' ),
 							'tooltip'     => '',
 							'copy'        => 0,
 							'sanitizer'   => '',
@@ -52,14 +52,14 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'site[tagline]',
+							'name'        => 'site[tagline]',
 							'label'       => I18n::_t( 'Tagline' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
 							'after'       => '',
-							'instruction' => I18n::_t( 'In a few words, explain what this site is about.' ),
+							'instruction' => I18n::_t( 'In a few words, explain what this site is about' ),
 							'tooltip'     => '',
 							'copy'        => 0,
 							'sanitizer'   => '',
@@ -67,13 +67,12 @@ Dashboard\Form::enqueue(
 							'conditions'  => [],
 							'attributes'  => [
 								'value'       => Option::get( 'site.tagline' ),
-								'required'    => true,
 								'placeholder' => I18n::_t( 'e.g. Just another Grafema site' ),
 							],
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'site[language]',
+							'name'        => 'site[language]',
 							'label'       => I18n::_t( 'Language' ),
 							'class'       => '',
 							'label_class' => '',
@@ -106,14 +105,14 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'site[url]',
+							'name'        => 'site[url]',
 							'label'       => I18n::_t( 'Site address (URL)' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
 							'after'       => '',
-							'instruction' => I18n::_t( 'A quick snapshot of your website.' ),
+							'instruction' => I18n::_t( 'A quick snapshot of your website' ),
 							'tooltip'     => '',
 							'copy'        => 0,
 							'sanitizer'   => '',
@@ -134,14 +133,14 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'text',
-							'uid'         => 'owner[email]',
+							'name'        => 'owner[email]',
 							'label'       => I18n::_t( 'Owner email address' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '<i class="ph ph-at"></i>',
 							'after'       => '',
-							'instruction' => I18n::_t( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. The new address will not become active until confirmed.' ),
+							'instruction' => I18n::_t( 'This address is used for admin purposes. If you change this, an email will be sent to your new address to confirm it. The new address will not become active until confirmed' ),
 							'tooltip'     => '',
 							'copy'        => 0,
 							'sanitizer'   => '',
@@ -163,7 +162,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'toggle',
-							'uid'         => 'users[membership]',
+							'name'        => 'users[membership]',
 							'label'       => I18n::_t( 'Anyone can register' ),
 							'class'       => '',
 							'label_class' => '',
@@ -182,7 +181,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'users[role]',
+							'name'        => 'users[role]',
 							'label'       => I18n::_t( 'New user default role' ),
 							'class'       => '',
 							'label_class' => '',
@@ -277,7 +276,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'week-starts-on',
+							'name'        => 'week-starts-on',
 							'label'       => I18n::_t( 'Week Starts On' ),
 							'class'       => '',
 							'label_class' => '',
@@ -305,7 +304,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'timezone',
+							'name'        => 'timezone',
 							'label'       => I18n::_t( 'Timezone' ),
 							'class'       => '',
 							'label_class' => '',
@@ -348,7 +347,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'toggle',
-							'uid'         => 'discourage',
+							'name'        => 'discourage',
 							'label'       => I18n::_t( 'Discourage search engines from indexing this site' ),
 							'class'       => '',
 							'label_class' => '',
@@ -384,7 +383,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'toggle',
-							'uid'         => 'comments[default_status]',
+							'name'        => 'comments[default_status]',
 							'label'       => I18n::_t( 'Allow people to submit comments on new posts' ),
 							'class'       => '',
 							'label_class' => '',
@@ -403,7 +402,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'toggle',
-							'uid'         => 'comments[registration]',
+							'name'        => 'comments[registration]',
 							'label'       => I18n::_t( 'Allow people to submit comments on new posts' ),
 							'class'       => '',
 							'label_class' => '',
@@ -422,7 +421,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'toggle',
-							'uid'         => 'comments[close][after]',
+							'name'        => 'comments[close][after]',
 							'label'       => I18n::_t( 'Automatically close comments on posts older than' ),
 							'class'       => '',
 							'label_class' => '',
@@ -449,7 +448,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'toggle',
-							'uid'         => 'comments[notify][posts]',
+							'name'        => 'comments[notify][posts]',
 							'label'       => I18n::_t( 'Anyone posts a comment' ),
 							'class'       => '',
 							'label_class' => '',
@@ -468,7 +467,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'toggle',
-							'uid'         => 'comments[notify][moderation]',
+							'name'        => 'comments[notify][moderation]',
 							'label'       => I18n::_t( 'A comment is held for moderation' ),
 							'class'       => '',
 							'label_class' => '',
@@ -504,7 +503,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'select',
-							'uid'         => 'images[format]',
+							'name'        => 'images[format]',
 							'label'       => I18n::_t( 'Convert images to format' ),
 							'class'       => '',
 							'label_class' => '',
@@ -525,7 +524,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'images[organization]',
+							'name'        => 'images[organization]',
 							'label'       => I18n::_t( 'Files organization' ),
 							'class'       => '',
 							'label_class' => '',
@@ -554,7 +553,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'number',
-							'uid'         => 'limits[owner]',
+							'name'        => 'limits[owner]',
 							'label'       => I18n::_t( 'For owner' ),
 							'class'       => '',
 							'label_class' => '',
@@ -573,7 +572,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'number',
-							'uid'         => 'limits[users]',
+							'name'        => 'limits[users]',
 							'label'       => I18n::_t( 'For users' ),
 							'class'       => '',
 							'label_class' => '',
@@ -610,7 +609,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'text',
-							'uid'         => 'permalinks[pages][single]',
+							'name'        => 'permalinks[pages][single]',
 							'label'       => I18n::_t( 'Single page' ),
 							'class'       => '',
 							'label_class' => '',
@@ -630,7 +629,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'permalinks[pages][categories]',
+							'name'        => 'permalinks[pages][categories]',
 							'label'       => I18n::_t( 'Categories' ),
 							'class'       => '',
 							'label_class' => '',

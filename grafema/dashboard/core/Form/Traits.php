@@ -93,7 +93,7 @@ trait Traits {
 		$index    = false;
 		$location = current( array_filter( [ $form->after, $form->before, $form->instead ] ) );
 		if ( $location ) {
-			$index = array_search( $location, array_column( $fields, 'uid' ), true );
+			$index = array_search( $location, array_column( $fields, 'name' ), true );
 		}
 
 		if ( $index !== false ) {
@@ -117,9 +117,9 @@ trait Traits {
 	private function parseFields( array $fields, int $step = 1 ): string {
 		$content = '';
 		foreach ( $fields as $field ) {
-			$name = Sanitizer::name( $field['uid'] ?? '' );
-			$type = Sanitizer::key( $field['type'] ?? '' );
-			$uid  = Sanitizer::dot( $name );
+			$name = Sanitizer::name( $field['name'] ?? '' );
+			$prop = Sanitizer::prop( $field['name'] ?? '' );
+			$type = Sanitizer::id( $field['type'] ?? '' );
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
@@ -139,7 +139,7 @@ trait Traits {
 			};
 
 			if ( ! in_array( $type, [ 'tab', 'step', 'group', 'submit' ], true ) ) {
-				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
+				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $prop, ...$field['attributes'] ];
 			}
 
 			if ( in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
@@ -148,6 +148,10 @@ trait Traits {
 					'step'    => $step++,
 					...$field,
 				];
+			}
+
+			if ( in_array( $type, [ 'select' ], true ) ) {
+				unset( $field['attributes']['type'] );
 			}
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {

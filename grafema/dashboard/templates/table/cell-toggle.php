@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$key = Sanitizer::key($args['key'] ?? [] );
+$key = Sanitizer::prop($args['key'] ?? [] );
 ?>
 <div class="<?php echo $key; ?>">
 	<?php
@@ -22,7 +22,7 @@ $key = Sanitizer::key($args['key'] ?? [] );
 		'templates/form/toggle',
 		[
 			'type'        => 'toggle',
-			'uid'         => 'uid',
+			'name'        => 'uid',
 			'label'       => '',
 			'class'       => '',
 			'label_class' => '',

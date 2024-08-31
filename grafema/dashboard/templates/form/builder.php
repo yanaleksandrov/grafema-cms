@@ -22,7 +22,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/select',
 				[
 					'type'        => 'select',
-					'uid'         => 'type',
+					'name'        => 'type',
 					'label'       => I18n::_t( 'Type' ),
 					'class'       => '',
 					'label_class' => '',
@@ -54,7 +54,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/input',
 				[
 					'type'        => 'text',
-					'uid'         => 'label',
+					'name'        => 'label',
 					'label'       => I18n::_t( 'Label' ),
 					'class'       => '',
 					'label_class' => '',
@@ -77,7 +77,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/input',
 				[
 					'type'        => 'text',
-					'uid'         => 'name',
+					'name'        => 'name',
 					'label'       => I18n::_t( 'Name' ),
 					'class'       => '',
 					'label_class' => '',
@@ -100,7 +100,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				'templates/form/input',
 				[
 					'type'        => 'text',
-					'uid'         => 'default',
+					'name'        => 'default',
 					'label'       => I18n::_t( 'Default value' ),
 					'class'       => '',
 					'label_class' => '',

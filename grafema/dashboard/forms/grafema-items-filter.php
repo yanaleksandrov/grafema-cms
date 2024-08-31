@@ -17,7 +17,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'search',
-			'uid'         => 's',
+			'name'        => 's',
 			'label'       => '',
 			'class'       => 'field field--sm field--outline',
 			'label_class' => '',
@@ -36,7 +36,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'submit',
-			'uid'         => 'submit',
+			'name'        => 'submit',
 			'label'       => I18n::_t( 'Apply filter' ),
 			'class'       => '',
 			'label_class' => '',

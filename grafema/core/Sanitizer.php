@@ -215,7 +215,7 @@ class Sanitizer
 	 */
 	public static function bool( mixed $value ): bool
 	{
-		return ! in_array( $value, ['false', false, '0', 0, '', null], true );
+		return ! in_array( $value, ['false', false, '0', 0, '', null, 'off'], true );
 	}
 
 	/**
@@ -316,21 +316,57 @@ class Sanitizer
 	 * @param mixed $value Value to change
 	 * @return string
 	 */
-	public static function key( mixed $value ): string
+	public static function id( mixed $value ): string
 	{
 		return preg_replace( '/[^a-z0-9_\-]/', '', self::lowercase( $value ) );
 	}
 
 	/**
-	 * Clears the string to use it as a name attribute. Removes everything
-	 * from the string except a-zA-Z0-9_[] and converts the string to lowercase.
+	 * Clears the string to use it as a value of name attribute.
+	 * Removes everything from the string except a-zA-Z0-9_[].
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
 	 */
 	public static function name( mixed $value ): string
 	{
-		return preg_replace( '/[^a-zA-Z0-9_\[\]]/', '', self::lowercase( $value ) );
+		return preg_replace( '/[^a-zA-Z0-9_\-\[\]]/', '', self::trim( $value ) );
+	}
+
+	/**
+	 * Strips out all characters not allowed in a locale name.
+	 *
+	 * @param string $value The locale name to be sanitized.
+	 * @return string       The sanitized value.
+	 */
+	public static function local( mixed $value ): string
+	{
+		// limit to A-Z, a-z, 0-9, '_', '-'.
+		return preg_replace( '/[^A-Za-z0-9_-]/', '', self::trim( $value ) );
+	}
+
+	/**
+	 * Sanitize HTML tag.
+	 *
+	 * @param string $value The tag to be sanitized.
+	 * @return string       The sanitized value.
+	 */
+	public static function tag( mixed $value ): string
+	{
+		// limit to a-z, '-'.
+		return preg_replace( '/[^a-z-]/', '', self::trim( $value ) );
+	}
+
+	/**
+	 * Convert incoming data to valid javascript variable. Support "dot" notation.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 */
+	public static function prop( mixed $value ): string
+	{
+		$value = self::dot( $value );
+		return self::camelcase( $value );
 	}
 
 	/**

@@ -24,7 +24,7 @@ class Form {
 	/**
 	 * Register new form.
 	 *
-	 * @param string $uid    Unique Form ID.
+	 * @param string $uid       Unique Form ID.
 	 * @param array $attributes Html attributes list.
 	 * @param array $fields     Fields list. Contains a nested array of arrays.
 	 * @return void
@@ -32,7 +32,7 @@ class Form {
 	 * @since 2025.1
 	 */
 	public static function enqueue( string $uid, array $attributes = [], array $fields = [] ): void {
-		$uid = Sanitizer::key( $uid );
+		$uid = Sanitizer::id( $uid );
 		if ( ! $uid ) {
 			new Errors( 'form-register', I18n::_f( 'The $uid of the form is empty.', $uid ) );
 		}
@@ -155,7 +155,7 @@ class Form {
 	 * @since 2025.1
 	 */
 	public function insert( array $field ): void {
-		$name = Sanitizer::key( $field['name'] ?? '' );
+		$name = Sanitizer::name( $field['name'] ?? '' );
 		if ( empty( $name ) ) {
 			new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty "name".' ) );
 		}

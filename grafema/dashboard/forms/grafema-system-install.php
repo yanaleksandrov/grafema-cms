@@ -37,7 +37,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'text',
-					'uid'         => 'site[name]',
+					'name'        => 'site[name]',
 					'label'       => I18n::_t( 'Site name' ),
 					'class'       => '',
 					'label_class' => '',
@@ -58,7 +58,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'text',
-					'uid'         => 'site[tagline]',
+					'name'        => 'site[tagline]',
 					'label'       => I18n::_t( 'Site tagline' ),
 					'class'       => '',
 					'label_class' => '',
@@ -101,7 +101,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'text',
-					'uid'         => 'db[database]',
+					'name'        => 'db[database]',
 					'label'       => I18n::_t( 'Database name' ),
 					'class'       => '',
 					'label_class' => '',
@@ -122,7 +122,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'text',
-					'uid'         => 'db[username]',
+					'name'        => 'db[username]',
 					'label'       => I18n::_t( 'MySQL database user name' ),
 					'class'       => '',
 					'label_class' => '',
@@ -142,7 +142,7 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[	'type'        => 'text',
-					'uid'         => 'db[password]',
+					'name'        => 'db[password]',
 					'label'       => I18n::_t( 'MySQL password' ),
 					'class'       => '',
 					'label_class' => '',
@@ -168,7 +168,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'text',
-							'uid'         => 'db[host]',
+							'name'        => 'db[host]',
 							'label'       => I18n::_t( 'Hostname' ),
 							'class'       => '',
 							'label_class' => '',
@@ -190,7 +190,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'db[prefix]',
+							'name'        => 'db[prefix]',
 							'label'       => I18n::_t( 'Prefix' ),
 							'class'       => '',
 							'label_class' => '',
@@ -287,7 +287,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'text',
-					'uid'         => 'user[login]',
+					'name'        => 'user[login]',
 					'label'       => I18n::_t( 'User login' ),
 					'class'       => '',
 					'label_class' => '',
@@ -308,7 +308,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'email',
-					'uid'         => 'user[email]',
+					'name'        => 'user[email]',
 					'label'       => I18n::_t( 'Email address' ),
 					'class'       => '',
 					'label_class' => '',
@@ -329,7 +329,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'password',
-					'uid'         => 'user[password]',
+					'name'        => 'user[password]',
 					'label'       => I18n::_t( 'Label' ),
 					'class'       => '',
 					'label_class' => '',

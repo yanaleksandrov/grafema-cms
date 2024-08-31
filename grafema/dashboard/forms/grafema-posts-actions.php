@@ -16,7 +16,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'select',
-			'uid'         => 'action',
+			'name'        => 'action',
 			'label'       => I18n::_t( 'Label' ),
 			'class'       => '',
 			'label_class' => '',
@@ -39,7 +39,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'textarea',
-			'uid'         => 'uid',
+			'name'        => 'uid',
 			'label'       => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
 			'class'       => '',
 			'label_class' => '',

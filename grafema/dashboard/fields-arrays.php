@@ -1,8 +1,8 @@
 <?php
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -36,7 +36,7 @@
 // field array
 [
 	'type'        => 'textarea',
-	'uid'         => 'uid',
+	'name'        => 'uid',
 	'label'       => I18n::_t( 'Label' ),
 	'class'       => '',
 	'label_class' => '',
@@ -112,7 +112,7 @@
 // header
 [
 	'type'        => 'header',
-	'uid'         => 'title',
+	'name'        => 'title',
 	'label'       => I18n::_t( 'Welcome to Grafema' ),
 	'class'       => '',
 	'instruction' => '',
@@ -145,7 +145,7 @@
 
 	'type'          => 'tab',
 	'label'         => I18n::_t( 'General' ),
-	'uid'           => 'general',
+	'name'          => 'general',
 	'class_menu'    => '',
 	'class_button'  => '',
 	'class_content' => '',

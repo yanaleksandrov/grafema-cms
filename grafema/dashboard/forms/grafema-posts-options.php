@@ -16,7 +16,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'checkbox',
-			'uid'         => 'remember',
+			'name'        => 'remember',
 			'label'       => I18n::_t( 'Columns' ),
 			'class'       => '',
 			'label_class' => '',
@@ -40,7 +40,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'submit',
-			'uid'         => 'apply',
+			'name'        => 'apply',
 			'label'       => I18n::_f( '%s Apply', '<i class="ph ph-paper-plane-tilt"></i>' ),
 			'class'       => '',
 			'label_class' => '',

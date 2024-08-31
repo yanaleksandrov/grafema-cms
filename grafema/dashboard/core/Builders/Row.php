@@ -23,7 +23,7 @@ final class Row
 	 * @return Row
 	 */
 	public function tag( string $tag ): Row {
-		$this->tag = Sanitizer::key( $tag );
+		$this->tag = Sanitizer::tag( $tag );
 
 		return $this;
 	}
@@ -36,7 +36,7 @@ final class Row
 	 * @return Row
 	 */
 	public function attribute( string $attribute, string|int $value = '' ): Row {
-		$attribute = Sanitizer::key( $attribute );
+		$attribute = Sanitizer::name( $attribute );
 		$value     = Sanitizer::attribute( $value );
 		if ( $attribute && $value ) {
 			$this->attributes[ $attribute ] = $value;

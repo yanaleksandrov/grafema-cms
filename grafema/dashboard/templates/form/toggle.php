@@ -14,10 +14,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:toggle',
 		'label_class' => 'class:field-label',
@@ -32,9 +32,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'options'     => 'array',
 	]
 ) )->values();
+
+$prop = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
 <label class="<?php echo $class; ?>">
-	<input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $uid, 'x-model.fill' => $uid ] ); ?>>
+	<input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $name, 'x-model.fill' => $prop ] ); ?>>
 	<span class="toggle__switch"></span>
 	<?php if ( $label || $instruction ) : ?>
 		<span class="toggle__label">

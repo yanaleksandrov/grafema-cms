@@ -20,7 +20,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'label'   => 'trim',
 			'class'   => 'class:ga-1 fw-600',
 			'content' => 'trim',
-			'columns' => 'absint:1',
+			'columns' => 'absint:2',
         ]
     )
 )->values();

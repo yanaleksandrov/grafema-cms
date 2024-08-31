@@ -26,8 +26,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 )->values();
 ?>
 <header class="<?php echo $class; ?>">
-	<h4><?php echo $label; ?></h4>
-	<?php if ( $instruction ) { ?>
+	<?php if ( $label ) : ?>
+		<h4><?php echo $label; ?></h4>
+	<?php endif; ?>
+	<?php if ( $instruction ) : ?>
 		<p class="t-muted"><?php echo $instruction; ?></p>
-	<?php } ?>
+	<?php endif; ?>
 </header>

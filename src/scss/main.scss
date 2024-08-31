@@ -278,6 +278,16 @@ select {
   }
 }
 
+//form:has(:invalid) [type="submit"] {
+//  background-color: #f7f7f7;
+//  border-color: #f7f7f7 !important;
+//  color: var(--grafema-text-muted) !important;
+//  cursor: not-allowed;
+//  pointer-events: none;
+//  resize: none;
+//  transition: none;
+//}
+
 label {
   cursor: pointer;
 }

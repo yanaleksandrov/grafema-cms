@@ -14,7 +14,7 @@ Dashboard\Form::enqueue(
 	[
 		'class'           => 'tab',
 		'x-data'          => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'profile' ) ),
-		'@change.prevent' => '$ajax("user/update")',
+		'@submit.prevent' => '$ajax("user/update")',
 	],
 	[
 		[
@@ -430,7 +430,6 @@ Dashboard\Form::enqueue(
 							'conditions'  => [],
 							'attributes'  => [
 								'placeholder' => I18n::_t( 'New password' ),
-								'required'    => 1,
 							],
 							'switcher'    => 1,
 							'generator'   => 1,
@@ -460,7 +459,6 @@ Dashboard\Form::enqueue(
 							'conditions'  => [],
 							'attributes'  => [
 								'placeholder' => I18n::_t( 'Old password' ),
-								'required'    => 1,
 							],
 							'switcher'    => 1,
 							'generator'   => 0,
@@ -483,6 +481,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
+								'type'      => 'button',
 								'class'     => 'btn btn--primary',
 								'@click'    => '$ajax("user/password-update", $data)',
 								'disabled'  => '',
@@ -546,7 +545,7 @@ Dashboard\Form::enqueue(
 				?>
 				<div class="submit" x-cloak>
 					<button class="t-red" type="reset" @click="submit = false"><?php I18n::t( 'Cancel' ); ?></button>
-					<button class="t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
+					<button class="btn btn--sm btn--primary t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
 				</div>
 				<?php
 				return ob_get_clean();

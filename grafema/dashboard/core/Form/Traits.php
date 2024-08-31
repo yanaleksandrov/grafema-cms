@@ -5,6 +5,7 @@ use Dashboard\Form;
 
 use Grafema\Helpers\Arr;
 use Grafema\Hook;
+use Grafema\I18n;
 use Grafema\Json;
 use Grafema\Sanitizer;
 use Grafema\View;
@@ -122,35 +123,39 @@ trait Traits {
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
-				$content .= View::get( 'templates/form/layout-tab-menu', [ 'fields' => $fields ] );
+				$content .= View::get( 'templates/form/layout-tab-menu', $fields );
 			}
 
 			// add required attributes & other manipulations
 			$field['attributes'] = Sanitizer::array( $field['attributes'] ?? [] );
-			if ( ! in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
-				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
-			}
 
 			match ( $type ) {
 				'step'     => $field['attributes']['x-wizard:step'] ??= '',
 				'textarea' => $field['attributes']['x-textarea'] ??= '',
 				'select'   => $field['attributes']['x-select'] ??= '',
 				'date'     => $field['attributes']['x-datepicker'] ??= '',
+				'submit'   => $field['attributes']['name'] ??= $name,
 				default    => '',
 			};
 
+			if ( ! in_array( $type, [ 'tab', 'step', 'group', 'submit' ], true ) ) {
+				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
+			}
+
 			if ( in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
 				$field = [
-					...$field,
-					'columns' => 2,
-					'width'   => 100,
 					'content' => $this->parseFields( $field['fields'] ?? [], $step + 1 ),
 					'step'    => $step++,
+					...$field,
 				];
 			}
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
+			}
+
+			if ( ! empty( $field['label'] ) && ( $field['attributes']['required'] ?? false ) ) {
+				$field['label'] = I18n::_f( '%s (required)', $field['label'] );
 			}
 
 			// parse conditions

@@ -160,7 +160,7 @@
 
     &:has(select),
     &:has(.ss-main) {
-      padding-inline: 0;
+      padding-inline: 0 !important;
     }
 
     &:has(.datepicker select) {
@@ -178,6 +178,13 @@
       background-color: #fff;
       border-color: var(--grafema-link);
       box-shadow: 0 0 0 1px var(--grafema-link);
+    }
+
+    &:has(input:invalid):focus-within,
+    &:has(select:invalid):focus-within,
+    &:has(textarea:invalid):focus-within {
+      border-color: var(--grafema-error);
+      box-shadow: 0 0 0 1px var(--grafema-error);
     }
   }
 }

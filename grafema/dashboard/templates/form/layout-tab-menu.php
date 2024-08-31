@@ -13,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$fields    = Sanitizer::array( $args['fields'] ?? [] );
+$fields    = Sanitizer::array( $args ?? [] );
 $fields    = array_filter( $fields, fn( $field ) => $field['type'] === 'tab' );
 $classMenu = array_filter( array_column( $fields, 'class_menu' ), fn ( $field ) => $field )[0] ?? '';
 
@@ -39,12 +39,9 @@ if ( count( $fields ) === 0 ) {
 		)->values();
 		?>
 		<li class="<?php echo trim( sprintf( 'tab__title %s', $class ) ); ?>" x-bind="tabButton('<?php echo $name; ?>')">
-            <?php if ( $icon ) : ?>
-                <i class="<?php echo $icon; ?>"></i>
-                <?php
-            endif;
-            echo $label;
-            ?>
+			<?php $icon && print( '<i class="' . $icon . '"></i> ' ); ?>
+			<?php echo $label; ?>
+
 		</li>
 	<?php endforeach; ?>
 </ul>

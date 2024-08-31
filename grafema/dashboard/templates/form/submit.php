@@ -31,7 +31,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'attributes'  => 'array',
 	]
 ) )->values();
+
+$attributes['type'] ??= 'submit';
 ?>
 <div class="<?php echo $class; ?>">
-	<button type="submit"<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>
+	<button<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>
 </div>

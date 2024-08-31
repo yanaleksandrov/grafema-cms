@@ -13,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$fields    = Sanitizer::array( $args['fields'] ?? [] );
+$fields    = Sanitizer::array( $args ?? [] );
 $fields    = array_filter( $fields, fn( $field ) => $field['type'] === 'tab' );
 $classMenu = array_filter( array_column( $fields, 'class_menu' ), fn ( $field ) => $field )[0] ?? '';
 

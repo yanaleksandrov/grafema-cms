@@ -5,6 +5,7 @@ use Dashboard\Form;
 
 use Grafema\Helpers\Arr;
 use Grafema\Hook;
+use Grafema\I18n;
 use Grafema\Json;
 use Grafema\Sanitizer;
 use Grafema\View;
@@ -122,7 +123,7 @@ trait Traits {
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
-				$content .= View::get( 'templates/form/layout-tab-menu', [ 'fields' => $fields ] );
+				$content .= View::get( 'templates/form/layout-tab-menu', $fields );
 			}
 
 			// add required attributes & other manipulations
@@ -149,6 +150,10 @@ trait Traits {
 
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
+			}
+
+			if ( ! empty( $field['label'] ) && ( $field['attributes']['required'] ?? false ) ) {
+				$field['label'] = I18n::_f( '%s (required)', $field['label'] );
 			}
 
 			// parse conditions

@@ -787,7 +787,8 @@ document.addEventListener( 'alpine:init', () => {
 	 */
 	const BYTES_IN_MB = 1048576;
 	Alpine.magic( 'ajax', el => (route, data, callback) => {
-		let formData = new FormData(),
+		let onloadEvent,
+			formData = new FormData(),
 			xhr      = new XMLHttpRequest(),
 			buttons  = el.querySelectorAll("[type='submit']");
 
@@ -823,14 +824,21 @@ document.addEventListener( 'alpine:init', () => {
 			switch (el.tagName) {
 				case 'BUTTON':
 					el.classList.add('btn--load');
+
+					onloadEvent = () => el.classList.remove('btn--load');
 					break;
 				case 'FORM':
 					formData = new FormData(el);
+
 					let inputs = el.querySelectorAll("input[type='file']");
 					[...inputs].forEach(input => {
 						let files = input.files;
 						files && [...files].forEach((file, index) => formData.append(index, file));
 					});
+
+					buttons && buttons.forEach(button => button.classList.add('btn--load'));
+
+					onloadEvent = () => buttons && buttons.forEach(button => button.classList.remove('btn--load'));
 					break;
 				case 'TEXTAREA':
 				case 'SELECT':
@@ -844,16 +852,6 @@ document.addEventListener( 'alpine:init', () => {
 					formData.append(key, value);
 				}
 			}
-
-			buttons && buttons.forEach(button => Object.assign(button.style, {
-				"background-image": "url(\"data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Z' stroke='%23fff' stroke-opacity='.35' stroke-width='2'/%3E%3Cpath d='M15 8a7 7 0 0 0-7-7' stroke='%23fff' stroke-width='2'%3E%3CanimateTransform attributeName='transform' type='rotate' from='0 8 8' to='360 8 8' dur='0.5s' repeatCount='indefinite'/%3E%3C/path%3E%3C/svg%3E\")",
-				"background-repeat": "no-repeat",
-				"background-position": "center center",
-				"background-size": "16px",
-				"pointer-events": "none",
-				"color": "transparent",
-				"transition": "none",
-			}));
 
 			xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', grafema.apiurl + route);
 
@@ -873,10 +871,7 @@ document.addEventListener( 'alpine:init', () => {
 						cancelable: true
 					})
 				);
-
-				el.classList.remove('btn--load');
-
-				buttons && buttons.forEach(button => button.removeAttribute('style'));
+				onloadEvent && onloadEvent();
 			};
 
 			xhr.send(formData);

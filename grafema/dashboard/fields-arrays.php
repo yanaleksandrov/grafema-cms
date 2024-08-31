@@ -112,8 +112,8 @@
 // header
 [
 	'type'        => 'header',
+	'uid'         => 'title',
 	'label'       => I18n::_t( 'Welcome to Grafema' ),
-	'name'        => 'title',
 	'class'       => '',
 	'instruction' => '',
 ];
@@ -142,14 +142,15 @@
 //'class_button'  => '', // css class for tab menu button
 //'class_content' => '', // css class for tab content
 [
+
 	'type'          => 'tab',
 	'label'         => I18n::_t( 'General' ),
-	'name'          => 'general',
-	'caption'       => '',
-	'description'   => '',
-	'icon'          => 'ph ph-cube',
+	'uid'           => 'general',
 	'class_menu'    => '',
 	'class_button'  => '',
 	'class_content' => '',
+	'instruction'   => '',
+	'caption'       => '',
+	'icon'          => 'ph ph-cube',
 	'fields'        => [],
 ];

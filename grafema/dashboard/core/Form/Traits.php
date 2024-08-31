@@ -128,17 +128,19 @@ trait Traits {
 
 			// add required attributes & other manipulations
 			$field['attributes'] = Sanitizer::array( $field['attributes'] ?? [] );
-			if ( ! in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
-				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
-			}
 
 			match ( $type ) {
 				'step'     => $field['attributes']['x-wizard:step'] ??= '',
 				'textarea' => $field['attributes']['x-textarea'] ??= '',
 				'select'   => $field['attributes']['x-select'] ??= '',
 				'date'     => $field['attributes']['x-datepicker'] ??= '',
+				'submit'   => $field['attributes']['name'] ??= $name,
 				default    => '',
 			};
+
+			if ( ! in_array( $type, [ 'tab', 'step', 'group', 'submit' ], true ) ) {
+				$field['attributes'] = [ 'type' => $type, 'name' => $name, 'x-model.fill' => $uid, ...$field['attributes'] ];
+			}
 
 			if ( in_array( $type, [ 'tab', 'step', 'group' ], true ) ) {
 				$field = [

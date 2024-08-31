@@ -32,9 +32,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 
-if ( empty( $attributes['type'] ) ) {
-	$attributes['type'] = 'submit';
-}
+$attributes['type'] ??= 'submit';
 ?>
 <div class="<?php echo $class; ?>">
 	<button<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>

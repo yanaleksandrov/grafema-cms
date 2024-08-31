@@ -49,7 +49,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'uploader',
-					'uid'         => 'uploader',
+					'name'        => 'uploader',
 					'label'       => '',
 					'class'       => '',
 					'label_class' => '',

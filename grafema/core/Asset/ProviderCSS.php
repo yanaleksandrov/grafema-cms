@@ -35,7 +35,7 @@ class ProviderCSS implements ProviderInterface
 				'media' => '',
 				// and custom data
 				'type'  => 'css',
-				'uuid'  => $id,
+				'uid'   => $id,
 				'path'  => \Grafema\Url::toPath( $src ),
 			],
 			$args

@@ -15,7 +15,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'uploader',
-			'uid'         => 'files',
+			'name'        => 'files',
 			'label'       => '',
 			'class'       => '',
 			'label_class' => '',
@@ -40,7 +40,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'textarea',
-			'uid'         => 'urls',
+			'name'        => 'urls',
 			'label'       => I18n::_t( 'Or upload from URL' ),
 			'class'       => '',
 			'label_class' => '',

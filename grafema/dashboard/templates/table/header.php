@@ -51,7 +51,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    'templates/form/number',
 						    [
 							    'type'        => 'number',
-							    'uid'         => 'page',
+							    'name'        => 'page',
 							    'label'       => '',
 							    'class'       => 'field field--sm field--outline',
 							    'label_class' => '',
@@ -80,7 +80,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    'templates/form/input',
 						    [
 							    'type'        => 'search',
-							    'uid'         => 's',
+							    'name'        => 's',
 							    'label'       => '',
 							    'class'       => 'field field--sm field--outline',
 							    'label_class' => '',
@@ -142,7 +142,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    'templates/form/select',
 						    [
 							    'type'        => 'select',
-							    'uid'         => 'language',
+							    'name'        => 'language',
 							    'label'       => '',
 							    'class'       => 'field field--sm field--outline',
 							    'label_class' => '',
@@ -175,7 +175,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    'templates/form/select',
 						    [
 							    'type'        => 'select',
-							    'uid'         => 'project',
+							    'name'        => 'project',
 							    'label'       => '',
 							    'class'       => 'field field--sm field--outline',
 							    'label_class' => '',

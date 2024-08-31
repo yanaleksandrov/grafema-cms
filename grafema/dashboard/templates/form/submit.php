@@ -14,10 +14,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',

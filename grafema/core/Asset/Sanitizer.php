@@ -13,15 +13,15 @@ class Sanitizer {
 	/**
 	 * Sanitize ID of asset.
 	 *
-	 * @param string $uuid
+	 * @param string $uid
 	 * @return string
 	 * @since 2025.1
 	 */
-	public static function id( string $uuid ): string
+	public static function id( string $uid ): string
 	{
-		$uuid = str_replace( ['_', '.', ',', ' '], '-', $uuid );
+		$uid = str_replace( ['_', '.', ',', ' '], '-', $uid );
 
-		return trim( preg_replace( '/\W-/', '', $uuid ) );
+		return trim( preg_replace( '/\W-/', '', $uid ) );
 	}
 
 	/**

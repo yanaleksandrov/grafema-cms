@@ -17,8 +17,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
     new Sanitizer(
         $args ?? [],
         [
-			'name'          => 'key',
-			'property'      => 'key:tab',
+			'name'          => 'name',
+			'property'      => 'prop:tab',
 			'caption'       => 'trim|ucfirst',
 			'description'   => 'trim',
 			'content'       => 'trim',

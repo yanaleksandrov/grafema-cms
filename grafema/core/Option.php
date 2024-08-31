@@ -73,7 +73,7 @@ class Option extends Options {
 	 */
 	public static function add( string $option, mixed $value ) {
 		$options = self::fetch();
-		$option  = Sanitizer::key( $option );
+		$option  = Sanitizer::id( $option );
 		if ( empty( $option ) ) {
 			return false;
 		}
@@ -124,8 +124,7 @@ class Option extends Options {
 	 * @since 2025.1
 	 */
 	public static function update( string $option, mixed $value ) {
-		$options = self::fetch();
-		$option  = Sanitizer::key( $option );
+		$option = Sanitizer::id( $option );
 		if ( empty( $option ) ) {
 			return false;
 		}
@@ -135,6 +134,7 @@ class Option extends Options {
 		 *
 		 * @since 1.0.1
 		 */
+		$options = self::fetch();
 		if ( str_contains( $option, '.' ) ) {
 			$new = [];
 			$old = Arr::get( $options, $option );

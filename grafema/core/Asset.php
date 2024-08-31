@@ -40,7 +40,7 @@ final class Asset
 
 		if ( $id && $src ) {
 			$extension = pathinfo( $src, PATHINFO_EXTENSION );
-			$uuid      = sprintf( '%s-%s', $id, $extension );
+			$uid      = sprintf( '%s-%s', $id, $extension );
 
 			if ( $version ) {
 				$src = sprintf( '%s?%s', $src, http_build_query( [ 'v' => $version ] ) );
@@ -51,11 +51,11 @@ final class Asset
 			 *
 			 * @since 2025.1
 			 */
-			$args = Hook::apply( 'grafema_asset_enqueue_args', $args, $uuid, $src );
+			$args = Hook::apply( 'grafema_asset_enqueue_args', $args, $uid, $src );
 
 			// add to assets
-			if ( ! isset( self::$assets[ $uuid ] ) ) {
-				self::$assets[ $uuid ] = match ( $extension ) {
+			if ( ! isset( self::$assets[ $uid ] ) ) {
+				self::$assets[ $uid ] = match ( $extension ) {
 					'js'  => ( new Asset\ProviderJS() )->add( $id, $src, $args ),
 					'css' => ( new Asset\ProviderCSS() )->add( $id, $src, $args ),
 				};

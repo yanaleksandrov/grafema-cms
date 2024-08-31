@@ -156,7 +156,7 @@ class Query {
 		 * @since 2025.1
 		 */
 		if ( ! empty( $args['type'] ) ) {
-			$types = array_map( 'Grafema\Sanitizer::key', is_array( $args['type'] ) ? $args['type'] : [ $args['type'] ] );
+			$types = array_map( 'Grafema\Sanitizer::id', is_array( $args['type'] ) ? $args['type'] : [ $args['type'] ] );
 		} else {
 			return new Errors( 'query', I18n::_t( '"Type" parameter can not be empty.' ) );
 		}

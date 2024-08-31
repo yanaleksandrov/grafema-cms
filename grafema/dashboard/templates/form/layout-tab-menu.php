@@ -24,13 +24,11 @@ if ( count( $fields ) === 0 ) {
 <ul class="<?php echo trim( sprintf( 'tab__nav %s', $classMenu ) ); ?>" x-sticky>
 	<?php
 	foreach ( $fields as $field ) :
-		[ $type, $name, $property, $label, $icon, $class ] = (
+		[ $prop, $label, $icon, $class ] = (
             new Sanitizer(
 				$field,
                 [
-					'type'         => 'key',
-					'name'         => 'key|attribute',
-					'property'     => 'key:tab',
+					'name'         => 'prop:tab',
 					'label'        => 'trim',
 					'icon'         => 'attribute',
 					'class_button' => 'class',
@@ -38,8 +36,8 @@ if ( count( $fields ) === 0 ) {
             )
 		)->values();
 		?>
-		<li class="<?php echo trim( sprintf( 'tab__title %s', $class ) ); ?>" x-bind="tabButton('<?php echo $name; ?>')">
-			<?php $icon && print( '<i class="' . $icon . '"></i> ' ); ?>
+		<li class="<?php echo trim( sprintf( 'tab__title %s', $class ) ); ?>" x-bind="tabButton('<?php echo $prop; ?>')">
+			<?php $icon && printf( '<i class="%s"></i> ', $icon ); ?>
 			<?php echo $label; ?>
 
 		</li>

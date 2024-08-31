@@ -24,7 +24,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'select',
-			'uid'         => 'types[]',
+			'name'        => 'types[]',
 			'label'       => I18n::_t( 'Post types' ),
 			'class'       => '',
 			'label_class' => '',
@@ -48,7 +48,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'radio',
-			'uid'         => 'format',
+			'name'        => 'format',
 			'label'       => I18n::_t( 'File format' ),
 			'class'       => '',
 			'label_class' => '',

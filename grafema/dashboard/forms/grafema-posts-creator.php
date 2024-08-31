@@ -16,7 +16,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'image',
-			'uid'         => 'avatar',
+			'name'        => 'avatar',
 			'label'       => I18n::_t( 'Upload avatar' ),
 			'class'       => 'dg p-6 pb-3 bg-gray-lt',
 			'label_class' => '',
@@ -54,7 +54,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'textarea',
-							'uid'         => 'title',
+							'name'        => 'title',
 							'label'       => I18n::_t( 'Label' ),
 							'class'       => '',
 							'label_class' => '',
@@ -75,7 +75,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'permalink',
+							'name'        => 'permalink',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -103,7 +103,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'textarea',
-							'uid'         => 'excerpt',
+							'name'        => 'excerpt',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -132,7 +132,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'select',
-							'uid'         => 'status',
+							'name'        => 'status',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -156,7 +156,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'select',
-							'uid'         => 'visibility',
+							'name'        => 'visibility',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -188,7 +188,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'date',
-							'uid'         => 'from',
+							'name'        => 'from',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -207,7 +207,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'date',
-							'uid'         => 'to',
+							'name'        => 'to',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -235,7 +235,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'select',
-							'uid'         => 'language',
+							'name'        => 'language',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -290,7 +290,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'select',
-							'uid'         => 'discussion',
+							'name'        => 'discussion',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',

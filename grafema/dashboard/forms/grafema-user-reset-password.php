@@ -23,7 +23,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'email',
-			'uid'         => 'email',
+			'name'        => 'email',
 			'label'       => I18n::_t( 'Your email' ),
 			'class'       => '',
 			'label_class' => '',
@@ -44,7 +44,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'submit',
-			'uid'         => 'sign-in',
+			'name'        => 'sign-in',
 			'label'       => I18n::_t( 'Send me instructions' ),
 			'class'       => '',
 			'label_class' => '',

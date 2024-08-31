@@ -63,7 +63,7 @@ final class PagesTable {
 				[
 					[
 						'type'        => 'select',
-						'uid'         => 'authors',
+						'name'        => 'authors',
 						'label'       => '',
 						'class'       => 'field field--sm field--outline',
 						'label_class' => '',
@@ -84,7 +84,7 @@ final class PagesTable {
 					],
 					[
 						'type'        => 'date',
-						'uid'         => 'date',
+						'name'        => 'date',
 						'label'       => '',
 						'class'       => 'field field--sm field--outline',
 						'label_class' => '',

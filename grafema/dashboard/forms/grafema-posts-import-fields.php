@@ -22,7 +22,7 @@ Dashboard\Form::enqueue(
 			'fields' => [
 				[
 					'type'        => 'select',
-					'uid'         => 'type',
+					'name'        => 'type',
 					'label'       => I18n::_t( 'Post type' ),
 					'class'       => '',
 					'label_class' => '',
@@ -40,7 +40,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'select',
-					'uid'         => 'status',
+					'name'        => 'status',
 					'label'       => I18n::_t( 'Post status' ),
 					'class'       => '',
 					'label_class' => '',
@@ -58,7 +58,7 @@ Dashboard\Form::enqueue(
 				],
 				[
 					'type'        => 'select',
-					'uid'         => 'author',
+					'name'        => 'author',
 					'label'       => I18n::_t( 'Post author' ),
 					'class'       => '',
 					'label_class' => '',

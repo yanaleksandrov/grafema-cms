@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -33,27 +33,29 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'options'     => 'array',
 	]
 ) )->values();
+
+$prop = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
-<div class="<?php echo $class; ?>" x-data="{<?php echo $uid; ?>: []}">
+<div class="<?php echo $class; ?>" x-data="{<?php echo $prop; ?>: []}">
 	<?php if ( $label ) { ?>
 		<div class="<?php echo $label_class; ?>">
 			<?php
 			echo $label;
             if ( $reset ) {
                 ?>
-				<span class="ml-auto t-red" @click.prevent="<?php echo $uid; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $uid; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
+				<span class="ml-auto t-red" @click.prevent="<?php echo $prop; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $prop; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 			<?php } ?>
 		</div>
 		<?php
 	}
 
 	foreach ( $options as $option => $text ) {
-	    $optionName = sprintf( '%s.%s', $uid, $option );
+	    $optionName = sprintf( '%s.%s', $name, $option );
 		$attributes = [
 			'type'         => 'checkbox',
 		    'value'        => $option,
-            'name'         => $uid,
-			'x-model.fill' => $uid,
+            'name'         => $name,
+			'x-model.fill' => $prop,
         ];
 		?>
 		<label class="df aic">

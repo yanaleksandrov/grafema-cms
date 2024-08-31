@@ -16,10 +16,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -33,6 +33,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'attributes'  => 'array',
 	]
 ) )->values();
+
+$prop = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="df aife g-4">

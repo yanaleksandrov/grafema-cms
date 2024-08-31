@@ -15,10 +15,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes, $options ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -35,6 +35,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
+$prop  = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
 <div class="<?php echo $class; ?>"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<?php if ( $label ) : ?>
@@ -47,7 +48,7 @@ $value = Sanitizer::attribute( $attributes['value'] ?? '' );
 		echo $after;
 		if ( $copy ) {
 			?>
-			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $uid; ?>)"></i>
+			<i class="ph ph-copy" title="<?php I18n::t_attr( 'Copy' ); ?>" @click="$copy(<?php echo $prop; ?>)"></i>
 			<?php
 		}
 		if ( $tooltip ) {

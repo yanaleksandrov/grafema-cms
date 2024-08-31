@@ -35,7 +35,7 @@ class ProviderJS implements ProviderInterface
 				'defer'        => false,
 				'media'        => '',
 				// and custom data
-				'uuid'         => $id,
+				'uid'          => $id,
 				'type'         => 'js',
 				'dependencies' => [],
 				'data'         => [],
@@ -51,7 +51,7 @@ class ProviderJS implements ProviderInterface
 	 */
 	public function plug( array $asset ): string
 	{
-		$key     = Sanitizer::key( $asset['uuid'] ?? '' );
+		$key     = Sanitizer::id( $asset['uid'] ?? '' );
 		$data    = Sanitizer::array( $asset['data'] ?? [] );
 		$return  = '';
 

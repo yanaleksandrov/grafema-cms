@@ -14,10 +14,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $uid, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
+[ $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ] = ( new Sanitizer(
 	$args ?? [],
 	[
-		'uid'         => 'key',
+		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
@@ -31,15 +31,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'attributes'  => 'array',
 	]
 ) )->values();
+
+$prop = Sanitizer::prop( $attributes['name'] ?? $name );
 ?>
 <div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php echo $label; ?></div>
 	<?php endif; ?>
 	<div class="field-item">
-		<i class="ph ph-minus" @click="<?php echo $uid; ?>--"></i>
-		<input type="number" name="<?php echo $uid; ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php echo $uid; ?>" @keydown.e.prevent>
-		<i class="ph ph-plus" @click="<?php echo $uid; ?>++"></i>
+		<i class="ph ph-minus" @click="<?php echo $prop; ?>--"></i>
+		<input type="number" name="<?php echo $prop; ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php echo $prop; ?>" @keydown.e.prevent>
+		<i class="ph ph-plus" @click="<?php echo $prop; ?>++"></i>
 	</div>
 	<?php if ( $instruction ) : ?>
 		<div class="field-instruction"><?php echo $instruction; ?></div>

@@ -13,7 +13,7 @@ Dashboard\Form::enqueue(
 	'grafema-user-profile',
 	[
 		'class'           => 'tab',
-		'x-data'          => sprintf( "tab('%s')", Sanitizer::key( $_GET['tab'] ?? 'profile' ) ),
+		'x-data'          => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'profile' ) ),
 		'@submit.prevent' => '$ajax("user/update")',
 	],
 	[
@@ -28,7 +28,7 @@ Dashboard\Form::enqueue(
 						'templates/form/image',
 						[
 							'type'        => 'image',
-							'uid'         => 'avatar',
+							'name'        => 'avatar',
 							'label'       => I18n::_t( 'Profile Settings' ),
 							'class'       => '',
 							'label_class' => 'field-label fw-600 fs-18',
@@ -71,7 +71,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'email',
-							'uid'         => 'email',
+							'name'        => 'email',
 							'label'       => I18n::_t( 'Your email' ),
 							'class'       => '',
 							'label_class' => '',
@@ -100,7 +100,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'text',
-							'uid'         => 'login',
+							'name'        => 'login',
 							'label'       => I18n::_t( 'Login' ),
 							'class'       => '',
 							'label_class' => '',
@@ -122,7 +122,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'nicename',
+							'name'        => 'nicename',
 							'label'       => I18n::_t( 'Nicename' ),
 							'class'       => '',
 							'label_class' => '',
@@ -143,7 +143,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'firstname',
+							'name'        => 'firstname',
 							'label'       => I18n::_t( 'First name' ),
 							'class'       => '',
 							'label_class' => '',
@@ -163,7 +163,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'lastname',
+							'name'        => 'lastname',
 							'label'       => I18n::_t( 'Last name' ),
 							'class'       => '',
 							'label_class' => '',
@@ -183,7 +183,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'text',
-							'uid'         => 'display',
+							'name'        => 'display',
 							'label'       => I18n::_t( 'Display name publicly as' ),
 							'class'       => '',
 							'label_class' => '',
@@ -210,7 +210,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'textarea',
-							'uid'         => 'bio',
+							'name'        => 'bio',
 							'label'       => I18n::_t( 'Biographical info' ),
 							'class'       => '',
 							'label_class' => '',
@@ -246,7 +246,7 @@ Dashboard\Form::enqueue(
 					'fields'  => [
 						[
 							'type'        => 'radio',
-							'uid'         => 'format',
+							'name'        => 'format',
 							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
@@ -286,7 +286,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'toggle',
-							'uid'         => 'toolbar',
+							'name'        => 'toolbar',
 							'label'       => I18n::_t( 'Show when viewing site' ),
 							'class'       => '',
 							'label_class' => '',
@@ -314,7 +314,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'select',
-							'uid'         => 'language',
+							'name'        => 'language',
 							'label'       => I18n::_t( 'Language' ),
 							'class'       => '',
 							'label_class' => '',
@@ -415,7 +415,7 @@ Dashboard\Form::enqueue(
 					'fields' => [
 						[
 							'type'        => 'password',
-							'uid'         => 'password-new',
+							'name'        => 'password-new',
 							'label'       => I18n::_t( 'New password' ),
 							'class'       => '',
 							'label_class' => '',
@@ -444,7 +444,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'password',
-							'uid'         => 'password-old',
+							'name'        => 'password-old',
 							'label'       => I18n::_t( 'Old password' ),
 							'class'       => '',
 							'label_class' => '',
@@ -467,7 +467,7 @@ Dashboard\Form::enqueue(
 						],
 						[
 							'type'        => 'submit',
-							'uid'         => 'password-save',
+							'name'        => 'password-save',
 							'label'       => I18n::_t( 'Update password' ),
 							'class'       => '',
 							'label_class' => '',
@@ -485,7 +485,7 @@ Dashboard\Form::enqueue(
 								'class'     => 'btn btn--primary',
 								'@click'    => '$ajax("user/password-update", $data)',
 								'disabled'  => '',
-								':disabled' => '!(passwordnew && passwordold)',
+								':disabled' => '!(passwordNew && passwordOld)',
 							],
 						],
 					],

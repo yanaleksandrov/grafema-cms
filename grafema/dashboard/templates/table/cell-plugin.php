@@ -13,7 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$key = Sanitizer::key($args['key'] ?? [] );
+$key = Sanitizer::prop( $args['key'] ?? [] );
 ?>
 <div class="<?php echo $key; ?>">
 	<div class="fs-15 lh-sm fw-600" x-text="item.title"></div>

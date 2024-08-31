@@ -15,7 +15,7 @@ Dashboard\Form::enqueue(
 	[
 		[
 			'type'        => 'text',
-			'uid'         => 'title',
+			'name'        => 'title',
 			'label'       => I18n::_t( 'Email heading' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',
@@ -36,7 +36,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'select',
-			'uid'         => 'event',
+			'name'        => 'event',
 			'label'       => I18n::_t( 'Events' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',
@@ -60,7 +60,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'text',
-			'uid'         => 'subtitle',
+			'name'        => 'subtitle',
 			'label'       => I18n::_t( 'Subtitle' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',
@@ -80,7 +80,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'textarea',
-			'uid'         => 'content',
+			'name'        => 'content',
 			'label'       => I18n::_t( 'Content' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',
@@ -102,7 +102,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'textarea',
-			'uid'         => 'recipients',
+			'name'        => 'recipients',
 			'label'       => I18n::_t( 'Recipient(s)' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',

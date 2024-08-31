@@ -23,7 +23,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'email',
-			'uid'         => 'email',
+			'name'        => 'email',
 			'label'       => I18n::_t( 'User Email' ),
 			'class'       => '',
 			'label_class' => '',
@@ -44,7 +44,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'text',
-			'uid'         => 'login',
+			'name'        => 'login',
 			'label'       => I18n::_t( 'User Login' ),
 			'class'       => '',
 			'label_class' => '',
@@ -64,7 +64,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'password',
-			'uid'         => 'password',
+			'name'        => 'password',
 			'label'       => I18n::_t( 'Password' ),
 			'class'       => '',
 			'label_class' => '',
@@ -94,7 +94,7 @@ Dashboard\Form::enqueue(
 		],
 		[
 			'type'        => 'submit',
-			'uid'         => 'sign-up',
+			'name'        => 'sign-up',
 			'label'      => I18n::_t( 'Sign Up' ),
 			'class'       => '',
 			'label_class' => '',

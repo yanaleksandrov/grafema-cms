@@ -127,6 +127,7 @@
   width: 100%;
   position: relative;
   text-align: start;
+  container: tab / inline-size;
 
   &__nav {
     -webkit-user-select: none;
@@ -141,7 +142,6 @@
     min-width: 100%;
     gap: 1.75rem;
     height: 3em;
-    container: tab-nav / inline-size;
   }
 
   &__title {
@@ -187,7 +187,7 @@
   &__content {
     max-width: 60rem;
     width: 100%;
-    container: tab-content / inline-size;
+    flex: 1;
 
     @media screen and (max-width: 768px) {
       padding: 1.25rem;
@@ -239,7 +239,7 @@
       gap: 0.25rem;
       padding: 1.75rem 1rem 1.75rem 1.75rem;
 
-      @container tab-nav (max-width: 768px) {
+      @container tab (max-width: 768px) {
         max-width: 100%;
         width: 100%;
         min-width: 100%;

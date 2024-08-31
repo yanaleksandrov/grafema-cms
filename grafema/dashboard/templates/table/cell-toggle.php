@@ -21,23 +21,24 @@ $key = Sanitizer::key($args['key'] ?? [] );
 	View::print(
 		'templates/form/toggle',
 		[
+			'type'        => 'toggle',
+			'uid'         => 'uid',
 			'label'       => '',
-			'name'        => '',
-			'value'       => '',
-			'placeholder' => '',
 			'class'       => '',
+			'label_class' => '',
 			'reset'       => 0,
-			'required'    => 0,
-			'copy'        => 0,
 			'before'      => '',
 			'after'       => '',
-			'tooltip'     => '',
 			'instruction' => '',
-			'attributes'  => [
-			    ':checked' => "item.$key === true",
-				'@change'  => '$ajax("plugin/deactivate")',
-            ],
+			'tooltip'     => '',
+			'copy'        => 0,
+			'sanitizer'   => '',
+			'validator'   => '',
 			'conditions'  => [],
+			'attributes'  => [
+				':checked' => "item.$key === true",
+				'@change'  => '$ajax("plugin/deactivate")',
+			],
 		]
 	);
 	?>

@@ -27,15 +27,23 @@ Dashboard\Form::enqueue(
 					View::print(
 						'templates/form/image',
 						[
-							'name'        => 'avatar',
+							'type'        => 'image',
+							'uid'         => 'avatar',
 							'label'       => I18n::_t( 'Profile Settings' ),
-							'label_class' => 'fw-600 fs-18',
 							'class'       => '',
-							'description' => I18n::_t( 'Click to upload your avatar' ),
+							'label_class' => 'field-label fw-600 fs-18',
+							'reset'       => 0,
+							'before'      => '',
+							'after'       => '',
+							'instruction' => I18n::_t( 'Click to upload your avatar' ),
 							'tooltip'     => I18n::_t( 'This is tooltip' ),
+							'copy'        => 0,
+							'sanitizer'   => '',
+							'validator'   => '',
+							'conditions'  => [],
 							'attributes'  => [
-								'required' => false,
-								'@change'  => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
+								'name'    => 'avatar',
+								'@change' => '[...$refs.uploader.files].map(file => $ajax("upload/media").then(response => files.unshift(response[0])))',
 							],
 						]
 					);
@@ -307,7 +315,7 @@ Dashboard\Form::enqueue(
 						[
 							'type'        => 'select',
 							'uid'         => 'language',
-							'label'       => I18n::_t( 'Label' ),
+							'label'       => I18n::_t( 'Language' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,

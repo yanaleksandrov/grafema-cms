@@ -99,9 +99,7 @@ Dashboard\Form::enqueue(
 					'after'       => '',
 					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [
-						'x-select' => '{"showSearch":1}',
-					],
+					'attributes'  => [],
 					'conditions' => [],
 					'options'    => [
 						'optgroup' => [

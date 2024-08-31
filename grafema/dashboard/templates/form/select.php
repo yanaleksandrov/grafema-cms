@@ -37,8 +37,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
 $click = sprintf( "%s = '%s'", $uid, $value );
 $show  = sprintf( "%s !== '%s'", $uid, $value );
+
+echo '<pre>';
+print_r( $attributes );
+echo '</pre>';
 ?>
-<label class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>">
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
 			echo $label;
@@ -54,53 +58,55 @@ $show  = sprintf( "%s !== '%s'", $uid, $value );
 			<?php endif; ?>
 		</div>
 	<?php endif; ?>
-	<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
-		<?php
-		$get_attributes = function ( $key, $value, $option ) {
-			$attributes = [
-				'value'    => trim( (string) $key ),
-				'selected' => $key === $value,
-			];
+	<label class="field-item">
+		<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
+			<?php
+			$get_attributes = function ( $key, $value, $option ) {
+				$attributes = [
+					'value'    => trim( (string) $key ),
+					'selected' => $key === $value,
+				];
 
-			if ( is_array( $option ) ) {
-				unset( $option['content'] );
+				if ( is_array( $option ) ) {
+					unset( $option['content'] );
 
-				foreach ( $option as $attribute => $value ) {
-					$attributes['data-' . $attribute] = trim( (string) $value );
+					foreach ( $option as $attribute => $value ) {
+						$attributes['data-' . $attribute] = trim( (string) $value );
+					}
+				}
+
+				return $attributes;
+			};
+
+			foreach ( $options as $option_key => $option ) {
+				$optgroup_options = $option['options'] ?? [];
+				if ( $optgroup_options ) {
+					$label = Sanitizer::attribute( $option['label'] ?? '' );
+					?>
+					<optgroup label="<?php echo $label; ?>">
+						<?php
+						foreach ( $optgroup_options as $i => $optgroup_option ) {
+							$content = trim( is_scalar( $optgroup_option ) ? $optgroup_option : strval( $optgroup_option['content'] ?? '' ) );
+							$atts    = $get_attributes( $i, $value, $optgroup_option );
+							?>
+							<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
+							<?php
+						}
+						?>
+					</optgroup>
+					<?php
+				} else {
+					$content = trim( is_scalar( $option ) ? $option : strval( $option['content'] ?? '' ) );
+					$atts    = $get_attributes( $option_key, $value, $option );
+					?>
+					<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
+					<?php
 				}
 			}
-
-			return $attributes;
-		};
-
-		foreach ( $options as $option_key => $option ) {
-			$optgroup_options = $option['options'] ?? [];
-			if ( $optgroup_options ) {
-				$label = Sanitizer::attribute( $option['label'] ?? '' );
-				?>
-				<optgroup label="<?php echo $label; ?>">
-					<?php
-					foreach ( $optgroup_options as $i => $optgroup_option ) {
-						$content = trim( is_scalar( $optgroup_option ) ? $optgroup_option : strval( $optgroup_option['content'] ?? '' ) );
-						$atts    = $get_attributes( $i, $value, $optgroup_option );
-						?>
-						<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
-						<?php
-					}
-					?>
-				</optgroup>
-				<?php
-			} else {
-				$content = trim( is_scalar( $option ) ? $option : strval( $option['content'] ?? '' ) );
-				$atts    = $get_attributes( $option_key, $value, $option );
-				?>
-				<option<?php echo Arr::toHtmlAtts( $atts ); ?>><?php echo $content; ?></option>
-				<?php
-			}
-		}
-		?>
-	</select>
+			?>
+		</select>
+	</label>
 	<?php if ( $instruction ) : ?>
 		<div class="field-instruction"><?php echo $instruction; ?></div>
 	<?php endif; ?>
-</label>
+</div>

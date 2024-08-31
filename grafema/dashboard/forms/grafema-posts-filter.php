@@ -88,7 +88,7 @@ Dashboard\Form::enqueue(
 			'name'        => 'authors',
 			'value'       => '',
 			'placeholder' => '',
-			'class'       => '',
+			'class'       => 'field field--sm field--outline',
 			'label_class' => 'df jcsb fs-12 fw-400 t-muted',
 			'reset'       => 0,
 			'required'    => 0,
@@ -97,9 +97,7 @@ Dashboard\Form::enqueue(
 			'after'       => '',
 			'tooltip'     => '',
 			'instruction' => '',
-			'attributes'  => [
-				'class' => 'select select--outline',
-			],
+			'attributes'  => [],
 			'conditions'  => [],
 			'options' => [
 				''                => I18n::_t( 'Select an author' ),

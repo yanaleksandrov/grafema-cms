@@ -35,10 +35,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					'after'       => '',
 					'tooltip'     => '',
 					'instruction' => '',
-					'attributes'  => [
-						'class'    => 'select',
-						'x-select' => true,
-					],
+					'attributes'  => [],
 					'conditions'  => [],
 					'options'     => [
 						'type'     => I18n::_t( 'Post Type' ),

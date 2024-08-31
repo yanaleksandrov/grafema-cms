@@ -67,7 +67,7 @@ final class PagesTable {
 						'name'        => 'authors',
 						'value'       => '',
 						'placeholder' => '',
-						'class'       => '',
+						'class'       => 'field field--sm field--outline',
 						'label_class' => '',
 						'reset'       => 1,
 						'required'    => 0,
@@ -76,9 +76,7 @@ final class PagesTable {
 						'after'       => '',
 						'tooltip'     => '',
 						'instruction' => '',
-						'attributes'  => [
-							'class' => 'select select--sm select--outline',
-						],
+						'attributes'  => [],
 						'conditions'  => [],
 						'options'     => [
 							''                => I18n::_t( 'Select an author' ),

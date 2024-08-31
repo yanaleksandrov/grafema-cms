@@ -32,8 +32,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'attributes'  => 'array',
 		// password
 		'switcher'    => 'bool:true',
-		'indicator'   => 'bool:true',
-		'generator'   => 'bool:true',
+		'indicator'   => 'bool:false',
+		'generator'   => 'bool:false',
 		'characters'  => 'array',
 	]
 ) )->values();

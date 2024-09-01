@@ -227,7 +227,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		    </div>
 	    <?php endif; ?>
     </div>
-	<?php Dashboard\Form::print( 'grafema-fields-builder', GRFM_DASHBOARD . 'forms/grafema-fields-builder.php' ); ?>
 	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

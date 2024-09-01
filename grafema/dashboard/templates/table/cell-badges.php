@@ -13,17 +13,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
-	<template x-for="(badge, index) in item.<?php echo $key; ?>">
+<div class="<?php echo $class; ?>">
+	<template x-for="(badge, index) in item.<?php echo $prop; ?>">
 		<span class="badge badge--lg" :class="badge.class" x-text="badge.title"></span>
 	</template>
 </div>

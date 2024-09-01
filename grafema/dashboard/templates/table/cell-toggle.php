@@ -14,8 +14,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::attribute($args['key'] ?? [] );
-$key   = Sanitizer::prop($args['key'] ?? [] );
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
 <div class="<?php echo $class; ?>">
 	<?php
@@ -37,7 +37,7 @@ $key   = Sanitizer::prop($args['key'] ?? [] );
 			'validator'   => '',
 			'conditions'  => [],
 			'attributes'  => [
-				':checked' => "item.$key === true",
+				':checked' => "item.$prop === true",
 				'@change'  => '$ajax("plugin/deactivate")',
 			],
 		]

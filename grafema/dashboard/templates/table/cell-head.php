@@ -25,7 +25,7 @@ if ( ! $columns ) {
 	        new Sanitizer(
 	            (array) $column,
 	            [
-	                'key'      => 'key',
+	                'key'      => 'class',
 	                'cell'     => 'key',
 	                'title'    => 'trim',
 	                'sortable' => 'bool',
@@ -33,7 +33,7 @@ if ( ! $columns ) {
 	        )
 		)->values();
 	    ?>
-	    <div class="<?php echo $key; ?> df aic g-1"><?php
+	    <div class="<?php echo trim( sprintf( '%s df aic g-1', $key ) ); ?>"><?php
 			$title && print( $title );
 			if ( $sortable ) :
 				?>

@@ -13,16 +13,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
+<div class="<?php echo $prop; ?>">
 	Published
-	<div x-text="item.<?php echo $key; ?>"></div>
+	<div x-text="item.<?php echo $prop; ?>"></div>
 </div>

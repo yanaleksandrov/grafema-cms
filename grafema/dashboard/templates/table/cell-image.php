@@ -13,15 +13,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
-    <span class="avatar avatar--rounded" :style="`background-image: url(${item.<?php echo $key; ?>})`"></span>
+<div class="<?php echo $class; ?>">
+    <span class="avatar avatar--rounded" :style="`background-image: url(${item.<?php echo $prop; ?>})`"></span>
 </div>

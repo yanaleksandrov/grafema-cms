@@ -26,9 +26,7 @@ Tree::view(
 				ob_start();
 				?>
 				<li class="panel__item" x-tooltip.hover.right="'%title$s'">
-					<a class="panel__link" href="%url$s">
-						<i class="%icon$s"></i>
-					</a>
+					<a class="panel__link" href="%url$s"><i class="%icon$s"></i></a>
 				</li>
 				<?php
 				echo $tree->vsprintf( ob_get_clean(), $item );

@@ -124,28 +124,26 @@ $start_time = microtime( true );
                 View::print( 'templates/global/user-account' );
                 ?>
             </div>
-
+			<!-- interface panel start -->
 			<div class="grafema-panel">
                 <a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
 	                <img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
                 </a>
                 <?php View::print( 'templates/menu-panel' ); ?>
 			</div>
-
+			<!-- interface side bar start -->
             <?php
             View::print( 'templates/menu' );
 
             View::print( 'templates/' . $slug );
             ?>
-
+			<!-- interface board start -->
 			<div class="grafema-board">
 				<a href="#" class="dif aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
 				<a href="#" class="dif aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
 			</div>
 		</div>
     	<?php
-		View::print( 'templates/modals/uploader' );
-
 	} else {
 	    ?>
 		<div class="df aic jcc p-6">
@@ -154,7 +152,7 @@ $start_time = microtime( true );
 		<?php
 	}
 	?>
-
+	<!-- interface notices start -->
     <div class="notice" x-data>
         <template x-for="(item, id) in $store.notice.items">
             <div class="notice__item" :class="item.classes()">
@@ -164,7 +162,6 @@ $start_time = microtime( true );
         </template>
     </div>
     <?php
-
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *

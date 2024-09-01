@@ -2,7 +2,7 @@
 use Grafema\Sanitizer;
 
 /**
- * Comma-separated list of links
+ * Badge
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cell-badge.php
  *
@@ -13,15 +13,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
-    <span class="badge badge--green-lt" x-text="item.<?php echo $key; ?>"></span>
+<div class="<?php echo $class; ?>">
+    <span class="badge badge--green-lt" x-text="item.<?php echo $prop; ?>"></span>
 </div>

@@ -13,18 +13,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
+<div class="<?php echo $class; ?>">
 	<div class="fs-14 lh-sm">
-		<a href="#" class="fw-600 t-dark" x-text="item.title" @click="$modal.open('jb-add-item')"></a> <span class="t-muted">— Draft</span>
+		<a href="#" class="fw-600 t-dark" x-text="item.<?php echo $prop; ?>" @click="$modal.open('jb-add-item')"></a> <span class="t-muted">— Draft</span>
 	</div>
 	<div class="df aic g-2 mt-1 hover--show">
 		<a href="#">View</a>

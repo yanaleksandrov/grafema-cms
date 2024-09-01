@@ -302,10 +302,7 @@ Dashboard\Form::enqueue(
 							'attributes'  => [
 								'checked' => true,
 							],
-							'options'     => [
-								'yes' => I18n::_t( 'Yes' ),
-								'no'  => I18n::_t( 'No' ),
-							],
+							'options'     => [],
 						],
 					],
 				],

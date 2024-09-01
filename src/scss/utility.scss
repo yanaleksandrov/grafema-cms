@@ -61,7 +61,7 @@
 // font-size
 @each $size in (96, 64, 48, 40, 32, 24, 18, 16, 15, 14, 13, 12) {
   .fs-#{$size} {
-    font-size: #{calc($size / 16)}rem;
+    font-size: #{$size / 16}rem;
   }
 }
 
@@ -122,7 +122,7 @@ $colors: (
 }
 @each $size in (40, 80, 120, 160, 200, 240, 280, 320, 360, 400, 600, 800, 1000, 1200, 1400, 1600) {
   .mw-#{$size} {
-    max-width: #{calc($size / 16)}rem;
+    max-width: #{$size / 16}rem;
     width: 100%;
   }
 }

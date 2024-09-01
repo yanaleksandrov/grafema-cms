@@ -538,7 +538,5 @@ I18n::tf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_pe
 
 	$route->run();
 } catch ( Error $e ) {
-	echo '<pre>';
-	printf( 'On line %d in file %s, fatal error: "%s"', $e->getLine(), $e->getFile(), $e->getMessage() );
-	echo '</pre>';
+	echo Debug::print( $e );
 }

@@ -70,10 +70,11 @@
       background-color: transparent;
       padding-inline: 0;
       height: inherit;
-      cursor: initial;
+      cursor: inherit;
       resize: none;
       color: inherit;
       font-size: inherit;
+      box-shadow: none;
 
       &:focus,
       &:hover {
@@ -97,6 +98,16 @@
       &[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
+      }
+
+      &[type="checkbox"] {
+        border: 1px solid var(--grafema-border);
+        border-radius: calc(var(--grafema-border-radius) / 1.5);
+        margin: 0 0 auto;
+
+        &:checked {
+          border-color: var(--grafema-primary);
+        }
       }
 
       &[x-datepicker][readonly] {
@@ -123,95 +134,27 @@
       }
     }
 
+    textarea {
+
+      &:hover {
+        background-color: inherit;
+        color: inherit;
+      }
+    }
+
     // checkbox
     &:has([type="checkbox"]) {
-      $width: 2.25rem;
-      $height: 1.35rem;
-      $gap: 0.16rem;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      height: auto;
-      padding: 1rem 1.5rem;
+      background-color: transparent;
       border: none;
-      gap: 0.65rem;
-
-      &:focus-within {
-        border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
-        border-color: var(--grafema-border) !important;
-        box-shadow: none !important;
-        background-color: var(--grafema-bg) !important;
-      }
-
-      &:not(:first-child) {
-        border-radius: 0;
-        border-top: 1px dotted var(--grafema-border);
-        margin-top: -0.25rem;
-      }
-
-      &:not(:only-child):first-child {
-        border-radius: var(--grafema-border-radius) var(--grafema-border-radius) 0 0;
-      }
-
-      &:not(:only-child):last-child {
-        border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
-      }
-
-      .field-checkbox {
-        position: absolute !important;
-        visibility: hidden;
-
-        &:checked ~ {
-
-          .field-switcher {
-            background: var(--grafema-success);
-            border: 1px solid var(--grafema-success);
-
-            &:before {
-              left: calc(100% - #{$height - $gap});
-              background: var(--grafema-white);
-            }
-          }
-        }
-      }
+      box-shadow: none !important;
+      font-weight: 400;
+      height: auto;
+      margin: 0.25rem 0;
+      padding: 0;
+      gap: 0.5rem;
 
       .field-switcher {
-        position: relative;
-        display: flex;
-        min-width: $width;
-        width: $width;
-        height: $height;
-        border-radius: $width;
-        background: var(--grafema-bg-universal);
-        border: 1px solid var(--grafema-border);
-        transition: background 0.25s;
-        margin: 0 0 auto;
-        order: 2;
-
-        &:before {
-          content: '';
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          left: $gap;
-          margin: auto 0;
-          width: #{$height - $gap * 2};
-          height: #{$height - $gap * 2};
-          background: var(--grafema-border-hover);
-          border-radius: 50%;
-          transition: all 0.25s;
-        }
-      }
-
-      .field-icon {
-        background-color: var(--grafema-white);
-        border-radius: 100%;
-        display: flex;
-        height: 2.5rem;
-        align-items: center;
-        justify-content: center;
-        width: 2.5rem;
-        margin-inline-start: -0.5rem;
-        margin-bottom: auto;
+        display: none;
       }
 
       .field-label {
@@ -223,9 +166,111 @@
         gap: 0.25rem;
       }
 
-      .field-instruction {
-        order: 3;
-        min-width: 100%;
+      .field-icon {
+        background-color: var(--grafema-bg);
+        border-radius: 100%;
+        display: flex;
+        height: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        margin-bottom: auto;
+      }
+
+      .field--switcher & {
+        $width: 2.25rem;
+        $height: 1.35rem;
+        $gap: 0.16rem;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        height: auto;
+        padding: 1rem 1.5rem;
+        border: none;
+        gap: 0.65rem;
+        margin: 0;
+        background-color: var(--grafema-bg);
+
+        &:focus-within {
+          border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
+          border-color: var(--grafema-border) !important;
+          box-shadow: none !important;
+          background-color: var(--grafema-bg) !important;
+        }
+
+        &:not(:first-child) {
+          border-radius: 0;
+          border-top: 1px dotted var(--grafema-border);
+          margin-top: -0.25rem;
+        }
+
+        &:not(:only-child):first-child {
+          border-radius: var(--grafema-border-radius) var(--grafema-border-radius) 0 0;
+        }
+
+        &:not(:only-child):last-child {
+          border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
+        }
+
+        .field-checkbox {
+          position: absolute !important;
+          visibility: hidden;
+
+          &:checked ~ {
+
+            .field-switcher {
+              background: var(--grafema-success);
+              border: 1px solid var(--grafema-success);
+
+              &:before {
+                left: calc(100% - #{$height - $gap});
+                background: var(--grafema-white);
+              }
+            }
+          }
+        }
+
+        .field-label {
+          font-weight: 600;
+        }
+
+        .field-switcher {
+          position: relative;
+          display: flex;
+          min-width: $width;
+          width: $width;
+          height: $height;
+          border-radius: $width;
+          background: var(--grafema-bg-universal);
+          border: 1px solid var(--grafema-border);
+          transition: background 0.25s;
+          margin: 0 0 auto;
+          order: 2;
+
+          &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: $gap;
+            margin: auto 0;
+            width: #{$height - $gap * 2};
+            height: #{$height - $gap * 2};
+            background: var(--grafema-border-hover);
+            border-radius: 50%;
+            transition: all 0.25s;
+          }
+        }
+
+        .field-icon {
+          background-color: var(--grafema-white);
+          margin-inline-start: -0.5rem;
+        }
+
+        .field-instruction {
+          order: 3;
+          min-width: 100%;
+          font-weight: normal;
+        }
       }
     }
 

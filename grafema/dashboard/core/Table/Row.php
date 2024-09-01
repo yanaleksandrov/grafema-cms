@@ -1,5 +1,5 @@
 <?php
-namespace Dashboard\Builders;
+namespace Dashboard\Table;
 
 use Grafema\Sanitizer;
 

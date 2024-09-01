@@ -17,7 +17,7 @@ Dashboard\Form::enqueue(
 		[
 			'type'        => 'checkbox',
 			'name'        => 'remember',
-			'label'       => I18n::_t( 'Columns' ),
+			'label'       => '',
 			'class'       => '',
 			'label_class' => '',
 			'reset'       => 0,
@@ -29,13 +29,17 @@ Dashboard\Form::enqueue(
 			'sanitizer'   => '',
 			'validator'   => '',
 			'conditions'  => [],
-			'attributes'  => [
-				'checked' => true,
-			],
+			'attributes'  => [],
 			'options' => [
-				'author'     => I18n::_t( 'Author' ),
-				'categories' => I18n::_t( 'Categories' ),
-				'date'       => I18n::_t( 'Date' ),
+				'author'     => [
+					'content' => I18n::_t( 'Author' ),
+				],
+				'categories' => [
+					'content' => I18n::_t( 'Categories' ),
+				],
+				'date'       => [
+					'content' => I18n::_t( 'Date' ),
+				],
 			],
 		],
 		[

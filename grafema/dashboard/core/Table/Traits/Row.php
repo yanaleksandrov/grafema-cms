@@ -1,5 +1,5 @@
 <?php
-namespace Dashboard\Builders\Traits;
+namespace Dashboard\Table\Traits;
 
 trait Row {
 

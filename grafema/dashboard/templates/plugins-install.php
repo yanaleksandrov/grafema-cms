@@ -24,6 +24,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-	( new Dashboard\Builders\Table( new Dashboard\PluginsInstallTable() ) )->print();
+	( new Dashboard\Table( new Dashboard\PluginsInstallTable() ) )->print();
 	?>
 </div>

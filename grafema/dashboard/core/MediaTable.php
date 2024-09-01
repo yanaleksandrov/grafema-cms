@@ -4,8 +4,8 @@ namespace Dashboard;
 use Grafema\I18n;
 use Grafema\View;
 
-use Dashboard\Builders\Row;
-use Dashboard\Builders\Cell;
+use Dashboard\Table\Row;
+use Dashboard\Table\Cell;
 
 final class MediaTable {
 

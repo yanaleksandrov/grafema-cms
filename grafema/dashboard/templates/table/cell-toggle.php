@@ -3,9 +3,9 @@ use Grafema\Sanitizer;
 use Grafema\View;
 
 /**
- * Table raw text cell
+ * Table checkbox
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cell-toggle.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cell-checkbox.php
  *
  * @package Grafema\Templates
  * @since   2025.1
@@ -14,14 +14,15 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$key = Sanitizer::prop($args['key'] ?? [] );
+$class = Sanitizer::attribute($args['key'] ?? [] );
+$key   = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
+<div class="<?php echo $class; ?>">
 	<?php
 	View::print(
-		'templates/form/toggle',
+		'templates/form/checkbox',
 		[
-			'type'        => 'toggle',
+			'type'        => 'checkbox',
 			'name'        => 'uid',
 			'label'       => '',
 			'class'       => '',

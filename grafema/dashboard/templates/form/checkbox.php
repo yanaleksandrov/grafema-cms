@@ -1,10 +1,9 @@
 <?php
 use Grafema\Helpers\Arr;
-use Grafema\I18n;
 use Grafema\Sanitizer;
 
-/*
- * Checkbox
+/**
+ * Single and multiple checkboxes.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/checkbox.php
  *
@@ -34,39 +33,45 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 
-$prop = Sanitizer::prop( $attributes['name'] ?? $name );
-?>
-<div class="<?php echo $class; ?>" x-data="{<?php echo $prop; ?>: []}">
-	<?php if ( $label ) { ?>
-		<div class="<?php echo $label_class; ?>">
-			<?php
-			echo $label;
-            if ( $reset ) :
-                ?>
-				<span class="ml-auto t-red" @click.prevent="<?php echo $prop; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $prop; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
+$prop   = Sanitizer::prop( $attributes['name'] ?? $name );
+$render = function( $key = '', $option = [] ) use ( $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ) {
+	$prop = Sanitizer::prop( $key ?: $name );
+
+	[ $label, $icon, $instruction, $checked ] = ( new Sanitizer(
+		$option,
+		[
+			'content'     => 'trim:' . $label,
+			'icon'        => 'attribute',
+			'description' => 'trim:' . $instruction,
+			'checked'     => 'bool:' . strval( $attributes['checked'] ?? false ),
+		]
+	) )->values();
+
+	ob_start();
+	?>
+	<label class="field-item">
+		<?php if ( $icon ) : ?>
+			<span class="field-icon"><i class="<?php echo $icon; ?>"></i></span>
+		<?php endif; ?>
+		<input class="field-checkbox"<?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $key ?: $name, 'x-model.fill' => $prop, 'checked' => $checked ] ); ?>>
+		<span class="field-switcher"></span>
+		<span class="<?php echo $label_class; ?>">
+			<?php echo $label; ?>
+			<?php if ( $instruction ) : ?>
+				<span class="field-instruction"><?php echo $instruction; ?></span>
 			<?php endif; ?>
-		</div>
-		<?php
-	}
+		</span>
+	</label>
+	<?php
+	return ob_get_clean();
+};
 
-	foreach ( $options as $option => $text ) {
-	    $optionName = sprintf( '%s.%s', $name, $option );
-		$attributes = [
-			'type'         => 'checkbox',
-		    'value'        => $option,
-            'name'         => $name,
-			'x-model.fill' => $prop,
-        ];
-		?>
-		<label class="df aic">
-			<input <?php echo Arr::toHtmlAtts( $attributes ); ?>>
-			<span class="df aic mw"><?php echo $text; ?></span>
-		</label>
-		<?php
+echo '<div class="' . $class . '">';
+if ( $options ) {
+	foreach ( $options as $key => $option ) {
+		echo $render( $key, $option );
 	}
-
-	if ( $instruction ) :
-	    ?>
-		<div class="field-instruction ml-7"><?php echo $instruction; ?></div>
-	<?php endif; ?>
-</div>
+} else {
+	echo $render();
+}
+echo '</div>';

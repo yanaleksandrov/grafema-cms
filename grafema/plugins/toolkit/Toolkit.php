@@ -332,8 +332,8 @@ class Toolkit implements Plugins\Skeleton
 							'fields'      => [
 								[
 									'type'        => 'checkbox',
-									'label'       => '',
-									'name'        => 'requirements',
+									'label'       => I18n::_t( 'Required' ),
+									'name'        => 'required',
 									'value'       => '',
 									'placeholder' => '',
 									'class'       => '',
@@ -345,9 +345,7 @@ class Toolkit implements Plugins\Skeleton
 									'instruction' => I18n::_t( 'The form will not be saved if it is not filled in' ),
 									'attributes'  => [],
 									'conditions'  => [],
-									'options'     => [
-										'required' => I18n::_t( 'Required' ),
-									],
+									'options'     => [],
 								],
 							],
 						],

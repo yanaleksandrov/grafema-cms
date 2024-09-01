@@ -67,7 +67,7 @@ Dashboard\Form::enqueue(
 		[
 			'type'        => 'checkbox',
 			'name'        => 'remember',
-			'label'       => '',
+			'label'       => I18n::_t( 'Remember me on this device' ),
 			'class'       => '',
 			'label_class' => '',
 			'reset'       => 0,
@@ -82,9 +82,7 @@ Dashboard\Form::enqueue(
 			'attributes'  => [
 				'checked' => true,
 			],
-			'options' => [
-				'remember' => I18n::_t( 'Remember me on this device' ),
-			],
+			'options' => [],
 		],
 		[
 			'type'        => 'submit',

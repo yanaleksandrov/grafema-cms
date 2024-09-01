@@ -69,7 +69,7 @@ final class PluginsTable {
 			Cell::add( 'active' )
 				->title( I18n::_t( 'Activity' ) )
 				->fixedWidth( '4rem' )
-				->view( 'toggle' ),
+				->view( 'checkbox' ),
 		];
 	}
 

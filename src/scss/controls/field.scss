@@ -316,7 +316,7 @@
     }
 
     &:has(.datepicker select) {
-      padding-inline: 0.65em;
+      padding-inline: 0.65em !important;
     }
 
     &:not(:has([readonly])):focus-within {

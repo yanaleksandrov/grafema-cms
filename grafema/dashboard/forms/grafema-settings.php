@@ -161,7 +161,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'users[membership]',
 							'label'       => I18n::_t( 'Anyone can register' ),
 							'class'       => '',
@@ -346,7 +346,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'discourage',
 							'label'       => I18n::_t( 'Discourage search engines from indexing this site' ),
 							'class'       => '',
@@ -382,7 +382,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'comments',
 							'label'       => I18n::_t( 'Allow people to submit comments on new posts' ),
 							'class'       => 'field field--switcher',
@@ -439,7 +439,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'comments[notify_posts]',
 							'label'       => I18n::_t( 'Anyone posts a comment' ),
 							'class'       => 'field field--switcher',
@@ -478,7 +478,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'comments',
 							'label'       => '',
 							'class'       => 'field field--switcher',
@@ -517,7 +517,7 @@ Dashboard\Form::enqueue(
 					'columns' => 1,
 					'fields'  => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'avatars[show]',
 							'label'       => I18n::_t( 'Show Avatars' ),
 							'class'       => 'field field--switcher',

@@ -40,7 +40,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 	<?php endif; ?>
 	<div class="field-item">
 		<i class="ph ph-minus" @click="<?php echo $prop; ?>--"></i>
-		<input type="number" name="<?php echo $prop; ?>"<?php echo Arr::toHtmlAtts( $attributes ); ?> x-model.fill="<?php echo $prop; ?>" @keydown.e.prevent>
+		<input type="number"<?php echo Arr::toHtmlAtts( $attributes ); ?> @keydown.e.prevent>
 		<i class="ph ph-plus" @click="<?php echo $prop; ?>++"></i>
 	</div>
 	<?php if ( $instruction ) : ?>

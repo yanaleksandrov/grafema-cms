@@ -285,7 +285,7 @@ Dashboard\Form::enqueue(
 					'label'  => I18n::_t( 'Toolbar' ),
 					'fields' => [
 						[
-							'type'        => 'toggle',
+							'type'        => 'checkbox',
 							'name'        => 'toolbar',
 							'label'       => I18n::_t( 'Show when viewing site' ),
 							'class'       => '',

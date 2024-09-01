@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'attributes'  => 'array',
 		// radio
 		'options'     => 'array',
-		'variation'   => 'class:simple',
+		'variation'   => 'class:simple', // simple, image, described
 		'width'       => 'absint:200',
 	]
 ) )->values();
@@ -80,7 +80,9 @@ $prop  = Sanitizer::prop( $attributes['name'] ?? $name );
 						<div>
 							<div class="fw-600"><?php echo $title; ?></div>
 							<div class="fs-13 t-muted"><?php echo $content; ?></div>
-							<div><?php echo $hidden; ?></div>
+							<?php if ( $hidden ) : ?>
+								<div><?php echo $hidden; ?></div>
+							<?php endif; ?>
 						</div>
 						<?php
 						break;

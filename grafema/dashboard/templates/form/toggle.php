@@ -19,7 +19,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	[
 		'name'        => 'name',
 		'label'       => 'trim',
-		'class'       => 'class:toggle',
+		'class'       => 'class:field',
 		'label_class' => 'class:field-label',
 		'reset'       => 'bool:false',
 		'before'      => 'trim',
@@ -33,19 +33,45 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 
-$prop = Sanitizer::prop( $attributes['name'] ?? $name );
-?>
-<label class="<?php echo $class; ?>">
-	<input class="toggle__checkbox" <?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $name, 'x-model.fill' => $prop ] ); ?>>
-	<span class="toggle__switch"></span>
-	<?php if ( $label || $instruction ) : ?>
-		<span class="toggle__label">
-			<?php
-			echo $label;
-			if ( $instruction ) :
-				?>
-				<span class="toggle__description"><?php echo $instruction; ?></span>
+$prop   = Sanitizer::prop( $attributes['name'] ?? $name );
+$render = function( $key = '', $option = [] ) use ( $name, $label, $class, $label_class, $reset, $before, $after, $instruction, $tooltip, $copy, $conditions, $attributes ) {
+	$prop = Sanitizer::prop( $key ?: $name );
+
+	[ $label, $icon, $instruction, $checked ] = ( new Sanitizer(
+		$option,
+		[
+			'content'     => 'trim:' . $label,
+			'icon'        => 'attribute',
+			'description' => 'trim:' . $instruction,
+			'checked'     => 'bool:' . strval( $attributes['checked'] ?? false ),
+		]
+	) )->values();
+
+	ob_start();
+	?>
+	<label class="field-item">
+		<?php if ( $icon ) : ?>
+			<span class="field-icon"><i class="<?php echo $icon; ?>"></i></span>
+		<?php endif; ?>
+		<input class="field-checkbox"<?php echo Arr::toHtmlAtts( [ ...$attributes, 'type' => 'checkbox', 'name' => $key ?: $name, 'x-model.fill' => $prop, 'checked' => $checked ] ); ?>>
+		<span class="field-switcher"></span>
+		<span class="<?php echo $label_class; ?>">
+			<?php echo $label; ?>
+			<?php if ( $instruction ) : ?>
+				<span class="field-instruction"><?php echo $instruction; ?></span>
 			<?php endif; ?>
 		</span>
-	<?php endif; ?>
-</label>
+	</label>
+	<?php
+	return ob_get_clean();
+};
+
+echo '<div class="' . $class . '">';
+if ( $options ) {
+	foreach ( $options as $key => $option ) {
+		echo $render( $key, $option );
+	}
+} else {
+	echo $render();
+}
+echo '</div>';

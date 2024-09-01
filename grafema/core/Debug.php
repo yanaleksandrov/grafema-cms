@@ -179,4 +179,62 @@ class Debug
 	{
 		return debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
 	}
+
+	/**
+	 * A readable display of a php fatal error.
+	 *
+	 * @param mixed $error
+	 * @return string
+	 * @since 2025.1
+	 */
+	public static function print( mixed $error ): string {
+		$msg = $error->getMessage();
+		$msg = preg_replace( '/[a-z0-9_\-]*\.php/i','$1<u>$0</u>', $msg );
+		$msg = preg_replace( '/[0-9]/i','$1<em>$0</em>', $msg );
+		$msg = preg_replace( '/[\(\)#\[\]\':]/i','$1<ss>$0</ss>', $msg );
+
+		ob_start();
+		?>
+		<pre>
+			<style>
+				h3 {
+					color: #c40000;
+				}
+				u {
+					color: #a5751f;
+					text-decoration:none;
+				}
+                em {
+	                color: #c333ac;
+	                font-style:normal;
+                }
+			</style>
+			<h3><?php I18n::t( 'Fatal Error' ); ?></h3>
+			<?php printf( 'Find on line %d in file %s', $error->getLine(), $error->getFile() ); ?><br>
+			<strong><?php I18n::t( 'Message text:' ); ?></strong><br>
+			<?php echo nl2br( $msg ); ?>
+			<?php
+			switch ( true ) {
+				case $error instanceof \TypeError:
+					$last = current( $error->getTrace() );
+					$args = $last['args'] ?? [];
+					if ( $args ) {
+						foreach ( $args as $key => $arg ) {
+							I18n::tf( '<br><br><strong>Argument #%s with "%s" type and value:</strong><br>', $key, gettype( $arg ) );
+							if ( is_scalar( $arg ) ) {
+								printf( '"%s"', $arg );
+							} else {
+								print_r( $arg );
+							}
+						}
+					}
+					?>
+					<?php
+					break;
+			}
+			?>
+		</pre>
+		<?php
+		return ob_get_clean();
+	}
 }

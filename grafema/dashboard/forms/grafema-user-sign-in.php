@@ -80,7 +80,7 @@ Dashboard\Form::enqueue(
 			'validator'   => '',
 			'conditions'  => [],
 			'attributes'  => [
-				'value' => true,
+				'checked' => true,
 			],
 			'options' => [
 				'remember' => I18n::_t( 'Remember me on this device' ),

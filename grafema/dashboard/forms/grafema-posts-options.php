@@ -30,7 +30,7 @@ Dashboard\Form::enqueue(
 			'validator'   => '',
 			'conditions'  => [],
 			'attributes'  => [
-				'value' => true,
+				'checked' => true,
 			],
 			'options' => [
 				'author'     => I18n::_t( 'Author' ),

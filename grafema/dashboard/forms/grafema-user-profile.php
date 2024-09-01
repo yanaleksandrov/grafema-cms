@@ -299,11 +299,10 @@ Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
-							'options'     => [
-								'yes' => I18n::_t( 'Yes' ),
-								'no'  => I18n::_t( 'No' ),
+							'attributes'  => [
+								'checked' => true,
 							],
+							'options'     => [],
 						],
 					],
 				],

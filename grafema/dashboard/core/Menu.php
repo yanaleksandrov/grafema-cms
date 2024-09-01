@@ -235,7 +235,7 @@ final class Menu
 						[
 							'id'           => 'dialogs',
 							'url'          => 'comments',
-							'title'        => I18n::_t( 'Dialogs' ),
+							'title'        => I18n::_t( 'Discussions' ),
 							'capabilities' => ['manage_options'],
 							'icon'         => 'ph ph-chats',
 							'position'     => 200,

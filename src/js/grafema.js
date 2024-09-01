@@ -1562,7 +1562,6 @@ document.addEventListener( 'alpine:init', () => {
 			shift: false,
 			addMore: true,
 		},
-		items: [],
 		bulk: false,
 		trigger: {
 			['@change']( e ) {

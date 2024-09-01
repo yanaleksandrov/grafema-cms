@@ -13,15 +13,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $key ] = (
-    new Sanitizer(
-		$args ?? [],
-        [
-            'key' => 'key',
-        ]
-    )
-)->values();
+$class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $key; ?>">
+<div class="<?php echo $class; ?>">
 	<input type="checkbox" name="item[]" :value="item.ID" x-bind="switcher" />
 </div>

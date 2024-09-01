@@ -30,7 +30,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				<?php
 				foreach ( $items as $item ) {
 					ob_start();
-
 					if ( empty( $item['url'] ) ) {
 						?>
 						<li class="nav__item nav__item--divider">%title$s</li>

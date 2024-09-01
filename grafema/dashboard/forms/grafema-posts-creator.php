@@ -314,15 +314,5 @@ Dashboard\Form::enqueue(
 				],
 			],
 		],
-		[
-			'name'          => 'submit',
-			'type'          => 'tab',
-			'label'         => '<button type="submit" class="btn btn--primary">Publish</button>',
-			'description'   => '',
-			'icon'          => '',
-			'class_button'  => 'ml-auto mr-7',
-			'class_content' => 'p-7',
-			'fields'        => [],
-		],
 	]
 );

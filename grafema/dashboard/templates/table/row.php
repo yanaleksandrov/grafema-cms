@@ -23,7 +23,7 @@ if ( ! is_array( $data ) || empty( $row ) || empty( $columns ) ) {
 	new Sanitizer(
 		(array) $row,
 		[
-			'tag'        => 'trim',
+			'tag'        => 'tag',
 			'view'       => 'trim',
 			'attributes' => 'array',
 		]

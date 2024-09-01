@@ -14,9 +14,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$key   = Sanitizer::attribute($args['key'] ?? '' );
+$class = Sanitizer::class($args['key'] ?? [] );
 $value = Sanitizer::trim($args['value'] ?? '' );
 ?>
-<label class="<?php echo $key; ?>">
+<label class="<?php echo $class; ?>">
 	<textarea class="empty" name="<?php echo 'name'; ?>" x-textarea="8"><?php echo $value; ?></textarea>
 </label>

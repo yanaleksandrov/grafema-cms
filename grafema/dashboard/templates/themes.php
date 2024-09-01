@@ -23,6 +23,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		]
 	);
 
-	( new Dashboard\Builders\Table( new Dashboard\ThemesTable() ) )->print();
+	( new Dashboard\Table( new Dashboard\ThemesTable() ) )->print();
     ?>
 </div>

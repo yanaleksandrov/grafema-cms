@@ -6,7 +6,7 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
-namespace Dashboard\Builders;
+namespace Dashboard;
 
 use Grafema\View;
 use Grafema\Sanitizer;
@@ -20,7 +20,8 @@ use Grafema\Helpers\Arr;
  * @package Dashboard\Tables
  */
 final class Table {
-	use Traits\Table;
+
+	use Table\Traits\Table;
 
 	public function __construct( $table ) {
 		// include filter

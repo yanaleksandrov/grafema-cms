@@ -13,5 +13,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php ( new Dashboard\Builders\Table( new Dashboard\PluginsTable() ) )->print(); ?>
+	<?php ( new Dashboard\Table( new Dashboard\PluginsTable() ) )->print(); ?>
 </div>

@@ -170,7 +170,6 @@ trait Traits {
 			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
 			$content .= View::get( GRFM_DASHBOARD . "templates/form/{$prefix}{$type}", $field );
 		}
-
 		return $content;
 	}
 

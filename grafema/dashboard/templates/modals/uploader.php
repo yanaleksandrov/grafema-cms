@@ -1,15 +1,15 @@
 <?php
+use Dashboard\Form;
+use Grafema\I18n;
+
 /**
  * Popup for upload new files to storage.
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/modals/post.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/modals/uploader.php
  *
  * @package     Grafema\Templates
  * @version     2025.1
  */
-use Dashboard\Form;
-use Grafema\I18n;
-
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
@@ -27,7 +27,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			 *
 			 * @since 2025.1
 			 */
-			Form::print( 'grafema-files-uploader' );
+			Form::print( 'grafema-files-uploader', GRFM_DASHBOARD . 'forms/grafema-files-uploader.php' );
 			?>
         </div>
     </div>

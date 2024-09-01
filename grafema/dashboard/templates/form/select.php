@@ -48,7 +48,6 @@ $prop  = Sanitizer::prop( $attributes['name'] ?? $name );
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 				<?php
 			endif;
-
 			if ( $tooltip ) :
 				?>
 				<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>

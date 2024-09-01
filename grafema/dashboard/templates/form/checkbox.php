@@ -41,10 +41,10 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 		<div class="<?php echo $label_class; ?>">
 			<?php
 			echo $label;
-            if ( $reset ) {
+            if ( $reset ) :
                 ?>
 				<span class="ml-auto t-red" @click.prevent="<?php echo $prop; ?> = []; setTimeout(() => $dispatch('change'), 0)" x-show="<?php echo $prop; ?>.length > 0" x-cloak><?php I18n::t( 'Reset' ); ?></span>
-			<?php } ?>
+			<?php endif; ?>
 		</div>
 		<?php
 	}

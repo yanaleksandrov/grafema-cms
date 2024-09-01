@@ -17,6 +17,7 @@
   }
 
   &-label {
+    gap: 0.25rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -52,8 +53,7 @@
     }
 
     &:has([type="number"]),
-    &:has(:nth-child(1 of code)),
-    &:has(:nth-child(1 of samp)) {
+    &:has(:nth-child(1 of code)) {
       padding-inline-start: 0.4em;
     }
 
@@ -106,6 +106,7 @@
       }
     }
 
+    // select
     select {
       padding-inline: 0.8em 1.65em;
 
@@ -119,6 +120,112 @@
 
       &[multiple] + .ss-main {
         padding-inline-start: 0.25em;
+      }
+    }
+
+    // checkbox
+    &:has([type="checkbox"]) {
+      $width: 2.25rem;
+      $height: 1.35rem;
+      $gap: 0.16rem;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      height: auto;
+      padding: 1rem 1.5rem;
+      border: none;
+      gap: 0.65rem;
+
+      &:focus-within {
+        border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
+        border-color: var(--grafema-border) !important;
+        box-shadow: none !important;
+        background-color: var(--grafema-bg) !important;
+      }
+
+      &:not(:first-child) {
+        border-radius: 0;
+        border-top: 1px dotted var(--grafema-border);
+        margin-top: -0.25rem;
+      }
+
+      &:not(:only-child):first-child {
+        border-radius: var(--grafema-border-radius) var(--grafema-border-radius) 0 0;
+      }
+
+      &:not(:only-child):last-child {
+        border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
+      }
+
+      .field-checkbox {
+        position: absolute !important;
+        visibility: hidden;
+
+        &:checked ~ {
+
+          .field-switcher {
+            background: var(--grafema-success);
+            border: 1px solid var(--grafema-success);
+
+            &:before {
+              left: calc(100% - #{$height - $gap});
+              background: var(--grafema-white);
+            }
+          }
+        }
+      }
+
+      .field-switcher {
+        position: relative;
+        display: flex;
+        min-width: $width;
+        width: $width;
+        height: $height;
+        border-radius: $width;
+        background: var(--grafema-bg-universal);
+        border: 1px solid var(--grafema-border);
+        transition: background 0.25s;
+        margin: 0 0 auto;
+        order: 2;
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: $gap;
+          margin: auto 0;
+          width: #{$height - $gap * 2};
+          height: #{$height - $gap * 2};
+          background: var(--grafema-border-hover);
+          border-radius: 50%;
+          transition: all 0.25s;
+        }
+      }
+
+      .field-icon {
+        background-color: var(--grafema-white);
+        border-radius: 100%;
+        display: flex;
+        height: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        margin-inline-start: -0.5rem;
+        margin-bottom: auto;
+      }
+
+      .field-label {
+        font-weight: 400;
+        justify-content: flex-start;
+        order: 1;
+        flex-wrap: wrap;
+        flex: 1;
+        gap: 0.25rem;
+      }
+
+      .field-instruction {
+        order: 3;
+        min-width: 100%;
       }
     }
 
@@ -167,15 +274,16 @@
       padding-inline: 0.65em;
     }
 
-    &:has([x-datepicker][readonly]):focus-within {
-      border-color: var(--grafema-link);
-      box-shadow: 0 0 0 1px var(--grafema-link);
-    }
-
     &:not(:has([readonly])):focus-within {
       color: inherit;
       outline: 0;
       background-color: #fff;
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+      z-index: 1;
+    }
+
+    &:has([x-datepicker][readonly]):focus-within {
       border-color: var(--grafema-link);
       box-shadow: 0 0 0 1px var(--grafema-link);
     }

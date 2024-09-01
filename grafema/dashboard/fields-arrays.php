@@ -78,7 +78,7 @@
 	// radio
 	'variation'   => 'class:simple',
 	'width'       => 'absint:200',
-	// select options with additional data
+	// select/checkbox/radio options with additional data
 	'options'     => [
 		'one' => [
 			'content'     => I18n::_t( '#1' ),

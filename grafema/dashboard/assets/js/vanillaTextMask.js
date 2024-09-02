@@ -1,1 +1,316 @@
-!function(e,r){"object"==typeof exports&&"object"==typeof module?module.exports=r():"function"==typeof define&&define.amd?define([],r):"object"==typeof exports?exports.vanillaTextMask=r():e.vanillaTextMask=r()}(this,(function(){return function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,r),o.loaded=!0,o.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e){var r=e.inputElement,t=(0,a.default)(e),n=function(e){var r=e.target.value;return t.update(r)};return r.addEventListener("input",n),t.update(r.value),{textMaskInputElement:t,destroy:function(){r.removeEventListener("input",n)}}}Object.defineProperty(r,"__esModule",{value:!0}),r.conformToMask=void 0,r.maskInput=o;var i=t(2);Object.defineProperty(r,"conformToMask",{enumerable:!0,get:function(){return n(i).default}});var a=n(t(5));r.default=o},function(e,r){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),r.placeholderChar="_",r.strFunction="function"},function(e,r,t){"use strict";Object.defineProperty(r,"__esModule",{value:!0});var n="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};r.default=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:u,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:a,t=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{};if(!(0,o.isArray)(r)){if((void 0===r?"undefined":n(r))!==i.strFunction)throw new Error("Text-mask:conformToMask; The mask property must be an array.");r=r(e,t),r=(0,o.processCaretTraps)(r).maskWithoutCaretTraps}var l=t.guide,s=void 0===l||l,f=t.previousConformedValue,d=void 0===f?u:f,c=t.placeholderChar,v=void 0===c?i.placeholderChar:c,p=t.placeholder,h=void 0===p?(0,o.convertMaskToPlaceholder)(r,v):p,m=t.currentCaretPosition,y=t.keepCharPositions,g=!1===s&&void 0!==d,b=e.length,C=d.length,k=h.length,x=r.length,P=b-C,T=P>0,O=m+(T?-P:0),M=O+Math.abs(P);if(!0===y&&!T){for(var w=u,S=O;S<M;S++)h[S]===v&&(w+=v);e=e.slice(0,O)+w+e.slice(O,b)}for(var _=e.split(u).map((function(e,r){return{char:e,isNew:r>=O&&r<M}})),j=b-1;j>=0;j--){var V=_[j].char;if(V!==v)V===h[j>=O&&C===x?j-P:j]&&_.splice(j,1)}var A=u,E=!1;e:for(var N=0;N<k;N++){var F=h[N];if(F===v){if(_.length>0)for(;_.length>0;){var I=_.shift(),L=I.char,R=I.isNew;if(L===v&&!0!==g){A+=v;continue e}if(r[N].test(L)){if(!0===y&&!1!==R&&d!==u&&!1!==s&&T){for(var J=_.length,W=null,q=0;q<J;q++){var z=_[q];if(z.char!==v&&!1===z.isNew)break;if(z.char===v){W=q;break}}null!==W?(A+=L,_.splice(W,1)):N--}else A+=L;continue e}E=!0}!1===g&&(A+=h.substr(N,k));break}A+=F}if(g&&!1===T){for(var B=null,D=0;D<A.length;D++)h[D]===v&&(B=D);A=null!==B?A.substr(0,B+1):u}return{conformedValue:A,meta:{someCharsRejected:E}}};var o=t(3),i=t(1),a=[],u=""},function(e,r,t){"use strict";function n(e){return Array.isArray&&Array.isArray(e)||e instanceof Array}Object.defineProperty(r,"__esModule",{value:!0}),r.convertMaskToPlaceholder=function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:i,r=arguments.length>1&&void 0!==arguments[1]?arguments[1]:o.placeholderChar;if(!n(e))throw new Error("Text-mask:convertMaskToPlaceholder; The mask property must be an array.");if(-1!==e.indexOf(r))throw new Error("Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\nThe placeholder character that was received is: "+JSON.stringify(r)+"\n\nThe mask that was received is: "+JSON.stringify(e));return e.map((function(e){return e instanceof RegExp?r:e})).join("")},r.isArray=n,r.isString=function(e){return"string"==typeof e||e instanceof String},r.isNumber=function(e){return"number"==typeof e&&void 0===e.length&&!isNaN(e)},r.processCaretTraps=function(e){for(var r=[],t=void 0;-1!==(t=e.indexOf(a));)r.push(t),e.splice(t,1);return{maskWithoutCaretTraps:e,indexes:r}};var o=t(1),i=[],a="[]"},function(e,r){"use strict";Object.defineProperty(r,"__esModule",{value:!0}),r.default=function(e){var r=e.previousConformedValue,o=void 0===r?n:r,i=e.previousPlaceholder,a=void 0===i?n:i,u=e.currentCaretPosition,l=void 0===u?0:u,s=e.conformedValue,f=e.rawValue,d=e.placeholderChar,c=e.placeholder,v=e.indexesOfPipedChars,p=void 0===v?t:v,h=e.caretTrapIndexes,m=void 0===h?t:h;if(0===l||!f.length)return 0;var y=f.length,g=o.length,b=c.length,C=s.length,k=y-g,x=k>0;if(k>1&&!x&&!(0===g))return l;var P=0,T=void 0,O=void 0;if(x&&(o===s||s===c))P=l-k;else{var M=s.toLowerCase(),w=f.toLowerCase().substr(0,l).split(n).filter((function(e){return-1!==M.indexOf(e)}));O=w[w.length-1];var S=a.substr(0,w.length).split(n).filter((function(e){return e!==d})).length,_=c.substr(0,w.length).split(n).filter((function(e){return e!==d})).length,j=_!==S,V=void 0!==a[w.length-1]&&void 0!==c[w.length-2]&&a[w.length-1]!==d&&a[w.length-1]!==c[w.length-1]&&a[w.length-1]===c[w.length-2];!x&&(j||V)&&S>0&&c.indexOf(O)>-1&&void 0!==f[l]&&(T=!0,O=f[l]);for(var A=p.map((function(e){return M[e]})),E=A.filter((function(e){return e===O})).length,N=w.filter((function(e){return e===O})).length,F=c.substr(0,c.indexOf(d)).split(n).filter((function(e,r){return e===O&&f[r]!==e})).length,I=F+N+E+(T?1:0),L=0,R=0;R<C;R++){if(P=R+1,M[R]===O&&L++,L>=I)break}}if(x){for(var J=P,W=P;W<=b;W++)if(c[W]===d&&(J=W),c[W]===d||-1!==m.indexOf(W)||W===b)return J}else if(T){for(var q=P-1;q>=0;q--)if(s[q]===O||-1!==m.indexOf(q)||0===q)return q}else for(var z=P;z>=0;z--)if(c[z-1]===d||-1!==m.indexOf(z)||0===z)return z};var t=[],n=""},function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{default:e}}function o(e,r){document.activeElement===e&&(p?h((function(){return e.setSelectionRange(r,r,c)}),0):e.setSelectionRange(r,r,c))}Object.defineProperty(r,"__esModule",{value:!0});var i=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e},a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};r.default=function(e){var r={previousConformedValue:void 0,previousPlaceholder:void 0};return{state:r,update:function(t){var n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:e,c=n.inputElement,p=n.mask,h=n.guide,m=n.pipe,y=n.placeholderChar,g=void 0===y?f.placeholderChar:y,b=n.keepCharPositions,C=void 0!==b&&b,k=n.showMask,x=void 0!==k&&k;if(void 0===t&&(t=c.value),t!==r.previousConformedValue){(void 0===p?"undefined":a(p))===v&&void 0!==p.pipe&&void 0!==p.mask&&(m=p.pipe,p=p.mask);var P=void 0,T=void 0;if(p instanceof Array&&(P=(0,s.convertMaskToPlaceholder)(p,g)),!1!==p){var O=function(e){if((0,s.isString)(e))return e;if((0,s.isNumber)(e))return String(e);if(null==e)return d;throw new Error("The 'value' provided to Text Mask needs to be a string or a number. The value received was:\n\n "+JSON.stringify(e))}(t),M=c.selectionEnd,w=r.previousConformedValue,S=r.previousPlaceholder,_=void 0;if((void 0===p?"undefined":a(p))===f.strFunction){if(!1===(T=p(O,{currentCaretPosition:M,previousConformedValue:w,placeholderChar:g})))return;var j=(0,s.processCaretTraps)(T);T=j.maskWithoutCaretTraps,_=j.indexes,P=(0,s.convertMaskToPlaceholder)(T,g)}else T=p;var V={previousConformedValue:w,guide:h,placeholderChar:g,pipe:m,placeholder:P,currentCaretPosition:M,keepCharPositions:C},A=(0,l.default)(O,T,V).conformedValue,E=(void 0===m?"undefined":a(m))===f.strFunction,N={};E&&(!1===(N=m(A,i({rawValue:O},V)))?N={value:w,rejected:!0}:(0,s.isString)(N)&&(N={value:N}));var F=E?N.value:A,I=(0,u.default)({previousConformedValue:w,previousPlaceholder:S,conformedValue:F,placeholder:P,rawValue:O,currentCaretPosition:M,placeholderChar:g,indexesOfPipedChars:N.indexesOfPipedChars,caretTrapIndexes:_}),L=F===P&&0===I?x?P:d:F;r.previousConformedValue=L,r.previousPlaceholder=P,c.value!==L&&(c.value=L,o(c,I))}}}}};var u=n(t(4)),l=n(t(2)),s=t(3),f=t(1),d="",c="none",v="object",p="undefined"!=typeof navigator&&/Android/i.test(navigator.userAgent),h="undefined"!=typeof requestAnimationFrame?requestAnimationFrame:setTimeout}])}));
+(() => {
+    var __webpack_modules__ = {
+        910: function(module) {
+            !function(e, r) {
+                true ? module.exports = r() : 0;
+            }(this, (function() {
+                return function(e) {
+                    function r(n) {
+                        if (t[n]) return t[n].exports;
+                        var o = t[n] = {
+                            exports: {},
+                            id: n,
+                            loaded: !1
+                        };
+                        return e[n].call(o.exports, o, o.exports, r), o.loaded = !0, o.exports;
+                    }
+                    var t = {};
+                    return r.m = e, r.c = t, r.p = '', r(0);
+                }([ function(e, r, t) {
+                    'use strict';
+                    function n(e) {
+                        return e && e.__esModule ? e : {
+                            default: e
+                        };
+                    }
+                    function o(e) {
+                        var r = e.inputElement, t = (0, u.default)(e), n = function(e) {
+                            var r = e.target.value;
+                            return t.update(r);
+                        };
+                        return r.addEventListener('input', n), t.update(r.value), {
+                            textMaskInputElement: t,
+                            destroy: function() {
+                                r.removeEventListener('input', n);
+                            }
+                        };
+                    }
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    }), r.conformToMask = void 0, r.maskInput = o;
+                    var i = t(2);
+                    Object.defineProperty(r, 'conformToMask', {
+                        enumerable: !0,
+                        get: function() {
+                            return n(i).default;
+                        }
+                    });
+                    var a = t(5), u = n(a);
+                    r.default = o;
+                }, function(e, r) {
+                    'use strict';
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    }), r.placeholderChar = '_', r.strFunction = 'function';
+                }, function(e, r, t) {
+                    'use strict';
+                    function n() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : l, r = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : u, t = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
+                        if (!(0, i.isArray)(r)) {
+                            if (('undefined' == typeof r ? 'undefined' : o(r)) !== a.strFunction) throw new Error('Text-mask:conformToMask; The mask property must be an array.');
+                            r = r(e, t), r = (0, i.processCaretTraps)(r).maskWithoutCaretTraps;
+                        }
+                        var n = t.guide, s = void 0 === n || n, f = t.previousConformedValue, d = void 0 === f ? l : f, c = t.placeholderChar, p = void 0 === c ? a.placeholderChar : c, v = t.placeholder, h = void 0 === v ? (0, 
+                        i.convertMaskToPlaceholder)(r, p) : v, m = t.currentCaretPosition, y = t.keepCharPositions, g = s === !1 && void 0 !== d, b = e.length, C = d.length, k = h.length, x = r.length, P = b - C, T = P > 0, O = m + (T ? -P : 0), M = O + Math.abs(P);
+                        if (y === !0 && !T) {
+                            for (var w = l, S = O; S < M; S++) h[S] === p && (w += p);
+                            e = e.slice(0, O) + w + e.slice(O, b);
+                        }
+                        for (var _ = e.split(l).map((function(e, r) {
+                            return {
+                                char: e,
+                                isNew: r >= O && r < M
+                            };
+                        })), j = b - 1; j >= 0; j--) {
+                            var V = _[j].char;
+                            if (V !== p) {
+                                var A = j >= O && C === x;
+                                V === h[A ? j - P : j] && _.splice(j, 1);
+                            }
+                        }
+                        var E = l, N = !1;
+                        e: for (var F = 0; F < k; F++) {
+                            var I = h[F];
+                            if (I === p) {
+                                if (_.length > 0) for (;_.length > 0; ) {
+                                    var L = _.shift(), R = L.char, J = L.isNew;
+                                    if (R === p && g !== !0) {
+                                        E += p;
+                                        continue e;
+                                    }
+                                    if (r[F].test(R)) {
+                                        if (y === !0 && J !== !1 && d !== l && s !== !1 && T) {
+                                            for (var W = _.length, q = null, z = 0; z < W; z++) {
+                                                var B = _[z];
+                                                if (B.char !== p && B.isNew === !1) break;
+                                                if (B.char === p) {
+                                                    q = z;
+                                                    break;
+                                                }
+                                            }
+                                            null !== q ? (E += R, _.splice(q, 1)) : F--;
+                                        } else E += R;
+                                        continue e;
+                                    }
+                                    N = !0;
+                                }
+                                g === !1 && (E += h.substr(F, k));
+                                break;
+                            }
+                            E += I;
+                        }
+                        if (g && T === !1) {
+                            for (var D = null, G = 0; G < E.length; G++) h[G] === p && (D = G);
+                            E = null !== D ? E.substr(0, D + 1) : l;
+                        }
+                        return {
+                            conformedValue: E,
+                            meta: {
+                                someCharsRejected: N
+                            }
+                        };
+                    }
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    });
+                    var o = 'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator ? function(e) {
+                        return typeof e;
+                    } : function(e) {
+                        return e && 'function' == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? 'symbol' : typeof e;
+                    };
+                    r.default = n;
+                    var i = t(3), a = t(1), u = [], l = '';
+                }, function(e, r, t) {
+                    'use strict';
+                    function n() {
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : s, r = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : l.placeholderChar;
+                        if (!o(e)) throw new Error('Text-mask:convertMaskToPlaceholder; The mask property must be an array.');
+                        if (e.indexOf(r) !== -1) throw new Error('Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n' + ('The placeholder character that was received is: ' + JSON.stringify(r) + '\n\n') + ('The mask that was received is: ' + JSON.stringify(e)));
+                        return e.map((function(e) {
+                            return e instanceof RegExp ? r : e;
+                        })).join('');
+                    }
+                    function o(e) {
+                        return Array.isArray && Array.isArray(e) || e instanceof Array;
+                    }
+                    function i(e) {
+                        return 'string' == typeof e || e instanceof String;
+                    }
+                    function a(e) {
+                        return 'number' == typeof e && void 0 === e.length && !isNaN(e);
+                    }
+                    function u(e) {
+                        for (var r = [], t = void 0; t = e.indexOf(f), t !== -1; ) r.push(t), e.splice(t, 1);
+                        return {
+                            maskWithoutCaretTraps: e,
+                            indexes: r
+                        };
+                    }
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    }), r.convertMaskToPlaceholder = n, r.isArray = o, r.isString = i, r.isNumber = a, 
+                    r.processCaretTraps = u;
+                    var l = t(1), s = [], f = '[]';
+                }, function(e, r) {
+                    'use strict';
+                    function t(e) {
+                        var r = e.previousConformedValue, t = void 0 === r ? o : r, i = e.previousPlaceholder, a = void 0 === i ? o : i, u = e.currentCaretPosition, l = void 0 === u ? 0 : u, s = e.conformedValue, f = e.rawValue, d = e.placeholderChar, c = e.placeholder, p = e.indexesOfPipedChars, v = void 0 === p ? n : p, h = e.caretTrapIndexes, m = void 0 === h ? n : h;
+                        if (0 === l || !f.length) return 0;
+                        var y = f.length, g = t.length, b = c.length, C = s.length, k = y - g, x = k > 0, P = 0 === g, T = k > 1 && !x && !P;
+                        if (T) return l;
+                        var O = x && (t === s || s === c), M = 0, w = void 0, S = void 0;
+                        if (O) M = l - k; else {
+                            var _ = s.toLowerCase(), j = f.toLowerCase(), V = j.substr(0, l).split(o), A = V.filter((function(e) {
+                                return _.indexOf(e) !== -1;
+                            }));
+                            S = A[A.length - 1];
+                            var E = a.substr(0, A.length).split(o).filter((function(e) {
+                                return e !== d;
+                            })).length, N = c.substr(0, A.length).split(o).filter((function(e) {
+                                return e !== d;
+                            })).length, F = N !== E, I = void 0 !== a[A.length - 1] && void 0 !== c[A.length - 2] && a[A.length - 1] !== d && a[A.length - 1] !== c[A.length - 1] && a[A.length - 1] === c[A.length - 2];
+                            !x && (F || I) && E > 0 && c.indexOf(S) > -1 && void 0 !== f[l] && (w = !0, S = f[l]);
+                            for (var L = v.map((function(e) {
+                                return _[e];
+                            })), R = L.filter((function(e) {
+                                return e === S;
+                            })).length, J = A.filter((function(e) {
+                                return e === S;
+                            })).length, W = c.substr(0, c.indexOf(d)).split(o).filter((function(e, r) {
+                                return e === S && f[r] !== e;
+                            })).length, q = W + J + R + (w ? 1 : 0), z = 0, B = 0; B < C; B++) {
+                                var D = _[B];
+                                if (M = B + 1, D === S && z++, z >= q) break;
+                            }
+                        }
+                        if (x) {
+                            for (var G = M, H = M; H <= b; H++) if (c[H] === d && (G = H), c[H] === d || m.indexOf(H) !== -1 || H === b) return G;
+                        } else if (w) {
+                            for (var K = M - 1; K >= 0; K--) if (s[K] === S || m.indexOf(K) !== -1 || 0 === K) return K;
+                        } else for (var Q = M; Q >= 0; Q--) if (c[Q - 1] === d || m.indexOf(Q) !== -1 || 0 === Q) return Q;
+                    }
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    }), r.default = t;
+                    var n = [], o = '';
+                }, function(e, r, t) {
+                    'use strict';
+                    function n(e) {
+                        return e && e.__esModule ? e : {
+                            default: e
+                        };
+                    }
+                    function o(e) {
+                        var r = {
+                            previousConformedValue: void 0,
+                            previousPlaceholder: void 0
+                        };
+                        return {
+                            state: r,
+                            update: function(t) {
+                                var n = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : e, o = n.inputElement, s = n.mask, d = n.guide, m = n.pipe, g = n.placeholderChar, b = void 0 === g ? v.placeholderChar : g, C = n.keepCharPositions, k = void 0 !== C && C, x = n.showMask, P = void 0 !== x && x;
+                                if ('undefined' == typeof t && (t = o.value), t !== r.previousConformedValue) {
+                                    ('undefined' == typeof s ? 'undefined' : l(s)) === y && void 0 !== s.pipe && void 0 !== s.mask && (m = s.pipe, 
+                                    s = s.mask);
+                                    var T = void 0, O = void 0;
+                                    if (s instanceof Array && (T = (0, p.convertMaskToPlaceholder)(s, b)), s !== !1) {
+                                        var M = a(t), w = o.selectionEnd, S = r.previousConformedValue, _ = r.previousPlaceholder, j = void 0;
+                                        if (('undefined' == typeof s ? 'undefined' : l(s)) === v.strFunction) {
+                                            if (O = s(M, {
+                                                currentCaretPosition: w,
+                                                previousConformedValue: S,
+                                                placeholderChar: b
+                                            }), O === !1) return;
+                                            var V = (0, p.processCaretTraps)(O), A = V.maskWithoutCaretTraps, E = V.indexes;
+                                            O = A, j = E, T = (0, p.convertMaskToPlaceholder)(O, b);
+                                        } else O = s;
+                                        var N = {
+                                            previousConformedValue: S,
+                                            guide: d,
+                                            placeholderChar: b,
+                                            pipe: m,
+                                            placeholder: T,
+                                            currentCaretPosition: w,
+                                            keepCharPositions: k
+                                        }, F = (0, c.default)(M, O, N), I = F.conformedValue, L = ('undefined' == typeof m ? 'undefined' : l(m)) === v.strFunction, R = {};
+                                        L && (R = m(I, u({
+                                            rawValue: M
+                                        }, N)), R === !1 ? R = {
+                                            value: S,
+                                            rejected: !0
+                                        } : (0, p.isString)(R) && (R = {
+                                            value: R
+                                        }));
+                                        var J = L ? R.value : I, W = (0, f.default)({
+                                            previousConformedValue: S,
+                                            previousPlaceholder: _,
+                                            conformedValue: J,
+                                            placeholder: T,
+                                            rawValue: M,
+                                            currentCaretPosition: w,
+                                            placeholderChar: b,
+                                            indexesOfPipedChars: R.indexesOfPipedChars,
+                                            caretTrapIndexes: j
+                                        }), q = J === T && 0 === W, z = P ? T : h, B = q ? z : J;
+                                        r.previousConformedValue = B, r.previousPlaceholder = T, o.value !== B && (o.value = B, 
+                                        i(o, W));
+                                    }
+                                }
+                            }
+                        };
+                    }
+                    function i(e, r) {
+                        document.activeElement === e && (g ? b((function() {
+                            return e.setSelectionRange(r, r, m);
+                        }), 0) : e.setSelectionRange(r, r, m));
+                    }
+                    function a(e) {
+                        if ((0, p.isString)(e)) return e;
+                        if ((0, p.isNumber)(e)) return String(e);
+                        if (void 0 === e || null === e) return h;
+                        throw new Error('The \'value\' provided to Text Mask needs to be a string or a number. The value received was:\n\n ' + JSON.stringify(e));
+                    }
+                    Object.defineProperty(r, '__esModule', {
+                        value: !0
+                    });
+                    var u = Object.assign || function(e) {
+                        for (var r = 1; r < arguments.length; r++) {
+                            var t = arguments[r];
+                            for (var n in t) Object.prototype.hasOwnProperty.call(t, n) && (e[n] = t[n]);
+                        }
+                        return e;
+                    }, l = 'function' == typeof Symbol && 'symbol' == typeof Symbol.iterator ? function(e) {
+                        return typeof e;
+                    } : function(e) {
+                        return e && 'function' == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? 'symbol' : typeof e;
+                    };
+                    r.default = o;
+                    var s = t(4), f = n(s), d = t(2), c = n(d), p = t(3), v = t(1), h = '', m = 'none', y = 'object', g = 'undefined' != typeof navigator && /Android/i.test(navigator.userAgent), b = 'undefined' != typeof requestAnimationFrame ? requestAnimationFrame : setTimeout;
+                } ]);
+            }));
+        }
+    };
+    var __webpack_module_cache__ = {};
+    function __webpack_require__(moduleId) {
+        var cachedModule = __webpack_module_cache__[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+        var module = __webpack_module_cache__[moduleId] = {
+            exports: {}
+        };
+        __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        return module.exports;
+    }
+    var __webpack_exports__ = __webpack_require__(910);
+})();

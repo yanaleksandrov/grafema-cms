@@ -1,1 +1,1410 @@
-(()=>{var e={17:()=>{},749:function(){document.addEventListener("alpine:init",(()=>{Alpine.directive("intersect",((e,{value:t,expression:i,modifiers:s},{evaluateLater:n,cleanup:r})=>{function a(e){let t=e.match(/^(-?[0-9]+)(px|%)?$/);return t?t[1]+(t[2]||"px"):void 0}let l=n(i),o={rootMargin:function(e){const t="0px 0px 0px 0px",i=e.indexOf("margin");if(-1===i)return t;let s=[];for(let t=1;t<5;t++)s.push(a(e[i+t]||""));return s=s.filter((e=>void 0!==e)),s.length?s.join(" ").trim():t}(s),threshold:function(e){if(e.includes("full"))return.99;if(e.includes("half"))return.5;if(!e.includes("threshold"))return 0;let t=e[e.indexOf("threshold")+1];return"100"===t?1:"0"===t?0:Number(`.${t}`)}(s)},c=new IntersectionObserver((e=>{e.forEach((e=>{e.isIntersecting!==("leave"===t)&&(l(),s.includes("once")&&c.disconnect())}))}),o);c.observe(e),r((()=>c.disconnect()))})),Alpine.directive("sticky",(e=>{let t=e.parentElement.currentStyle||window.getComputedStyle(e.parentElement);if("relative"!==t.position)return!1;let i=e.getBoundingClientRect().height-document.scrollingElement.offsetHeight,s=parseInt(t.paddingTop)+42,n=parseInt(t.paddingBottom),r=0,a=0,l="top: "+s+"px";function o(){if(i>0){let e=document.scrollingElement.scrollTop;window.scrollY>r?e>i?(a=-1*i-n,l="top: "+a+"px"):l="top: "+(-1*e-n)+"px":(a+=r-window.scrollY,a<s&&(l="top: "+a+"px"))}e.setAttribute("style","position: sticky;"+l),r=window.scrollY}window.addEventListener("load",(()=>o())),window.addEventListener("scroll",(()=>o())),window.addEventListener("resize",(()=>o()))})),Alpine.directive("autocomplete",(e=>{e.setAttribute("readonly",!0),e.onfocus=()=>setTimeout((()=>e.removeAttribute("readonly")),10),e.onblur=()=>e.setAttribute("readonly",!0)})),Alpine.directive("highlight",((e,{modifiers:t})=>{let i=t[0]||"html",s=document.createElement("code");s.classList.add("language-"+i),s.innerHTML=e.innerHTML,e.classList.add("line-numbers"),e.innerHTML="",e.setAttribute("data-lang",i.toUpperCase()),e.appendChild(s)})),Alpine.directive("collapse",((e,{modifiers:t})=>{let i=((e,t="duration",i=350)=>{if(-1===e.indexOf(t))return i;const s=e[e.indexOf(t)+1];if(!s)return i;if("duration"===t){let e=s.match(/([0-9]+)ms/);if(e)return e[1]}return s})(t)/1e3;e._x_isShown||(e.style.height="0px",e.style.overflow="hidden",e.hidden=!0);let s=(e,t)=>{let i=Alpine.setStyles(e,t);return t.height?()=>{}:i},n={overflow:"hidden",transitionProperty:"height",transitionDuration:`${i}s`,transitionTimingFunction:"cubic-bezier(0.4, 0.0, 0.2, 1)"};e._x_transition={in(t=(()=>{}),i=(()=>{})){e.hidden=!1;let s=e.getBoundingClientRect().height;Alpine.setStyles(e,{display:null,height:"auto"});let r=e.getBoundingClientRect().height;Alpine.setStyles(e,{overflow:"hidden"}),s===r&&(s=0),Alpine.transition(e,Alpine.setStyles,{during:n,start:{height:s+"px"},end:{height:r+"px"}},(()=>e._x_isShown=!0),(()=>{}))},out(t=(()=>{}),i=(()=>{})){let r=e.getBoundingClientRect().height;Alpine.transition(e,s,{during:n,start:{height:r+"px"},end:{height:"0px"}},(()=>{}),(()=>{e._x_isShown=!1,"0px"===e.style.height&&Alpine.nextTick((()=>{Alpine.setStyles(e,{display:"none",overflow:"hidden"}),e.hidden=!0}))}))}}})),Alpine.magic("copy",(e=>t=>{window.navigator.clipboard.writeText(t).then((()=>{let t="ph-copy ph-check".split(" ");t.forEach((t=>e.classList.toggle(t))),setTimeout((()=>t.forEach((t=>e.classList.toggle(t)))),1e3)}),(()=>{console.log("Oops, your browser is not support clipboard!")}))}));let e=0,t=!1;Alpine.magic("countdown",(()=>({start:(i,s,n)=>{t||(e=i,t=!0,function i(){s&&s(!0),0===e?(n&&n(!0),t=!1):(e--,setTimeout(i,1e3))}())},second:e})));let s=null;Alpine.magic("stream",(()=>({check(e){let t=e.canvas,i=e.video,s=e.image;return t?i?s?void 0:(console.error("Image for output selfie is undefined"),!1):(console.error("Video for selfie preview is undefined"),!1):(console.error("Canvas element is undefined"),!1)},isVisible(e){const t=window.getComputedStyle(e);return!!t&&!("hidden"===t.visibility||"none"===t.display||0===parseFloat(t.opacity))},start(e){let t=e.video;new MutationObserver((e=>{for(let i of e)i.target!==document.body||s||setTimeout((async()=>{this.isVisible(t)&&(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia?t.srcObject=s=await navigator.mediaDevices.getUserMedia({video:!0}):console.error("The browser does not support the getUserMedia API"))}),500)})).observe(document,{childList:!0,subtree:!0,attributes:!0})},snapshot(e){this.check(e),this.start(e);let t=e.canvas,i=e.video,s=e.image,n=i.offsetWidth,r=i.offsetHeight,a=window.getComputedStyle(s),l=parseInt(a.width,10),o=parseInt(a.height,10);t.width=l,t.height=o;let c=(r-o)/2,h=(n-l)/2,d=t.getContext("2d");d.imageSmoothingQuality="low";console.log((c+h)/2),d.drawImage(i,1.5*h,1.5*c,1.5*r,1.5*r,0,0,l,o);let u=t.toDataURL("image/png");return u&&(s.src=u,d.clearRect(0,0,t.width,t.height)),u},stop(){s&&s.getTracks().forEach((e=>e.stop())),s=null}}))),Alpine.directive("anchor",((e,{value:t,expression:i,modifiers:s},{evaluateLater:n,cleanup:r})=>{let a=window.location.hash.replace("#",""),l=e.innerText.toLowerCase().replaceAll(" ","-");a&&a===l&&e.scrollIntoView({behavior:"smooth"}),e.addEventListener("click",(t=>{t.preventDefault(),window.location.hash=l,e.scrollIntoView({behavior:"smooth"})}),!1);let o=n(i||null),c=new IntersectionObserver((e=>{e.forEach((e=>{e.isIntersecting&&1===e.intersectionRatio&&(o(),window.location.hash=l)}))}),{threshold:.5});c.observe(e),r((()=>c.disconnect()))})),Alpine.directive("listen",((e,{value:t,expression:s,modifiers:n},{evaluateLater:r,effect:a})=>{if(console.log(e),console.log(t),console.log(s),console.log(n),!s)return!1;let l=r(s);a((()=>{l((t=>{if(t){let n,r,a="listen-node";function s(e,t){e.pause(),e.setAttribute("data-playing","false"),t.classList.remove("playing")}let l=document.createElement("style");l.type="text/css",l.innerHTML=".listen-node {display: inline-block; background:rgba(0, 0, 0, 0.05); padding: 1px 8px 2px; border-radius:3px; cursor: pointer;} .listen-node i {font-size: 0.65em; border: 0.5em solid transparent; border-left: 0.75em solid; display: inline-block; margin-right: 2px;margin-bottom: 1px;} .listen-node .playing { border: 0; border-left: 0.75em double; border-right: 0.5em solid transparent; height: 1em;}",document.getElementsByTagName("head")[0].appendChild(l),n=document.createElement("audio"),r=document.createElement("i"),n.src=e.getAttribute("data-src"),n.setAttribute("data-playing","false"),e.id=a+"-"+i,e.insertBefore(r,e.firstChild),e.appendChild(n),document.addEventListener("click",(e=>{let t,i,n;e.target.className===a?(t=e.target.children[1],i=e.target,n=e.target.children[0]):e.target.parentElement&&e.target.parentElement.className===a&&(t=e.target.parentElement.children[1],i=e.target.parentElement,n=e.target),t&&i&&n&&(t.srt=parseInt(i.getAttribute("data-start"))||0,t.end=parseInt(i.getAttribute("data-end"))||t.duration,t&&"false"===t.getAttribute("data-playing")?((t.srt>t.currentTime||t.end<t.currentTime)&&(t.currentTime=t.srt),function(e,t){t.classList.add("playing"),e.play(),e.setAttribute("data-playing","true"),e.addEventListener("ended",(function(){return s(e,t),e.parentNode.style.background=null,!1}))}(t,n)):s(t,n),function e(){let r=requestAnimationFrame(e),a=100*(t.currentTime-t.srt)/(t.end-t.srt);a=a<100?a:100,i.style.background="linear-gradient(to right, rgba(0, 0, 0, 0.1)"+a+"%, rgba(0, 0, 0, 0.05)"+a+"%)",t.end<t.currentTime&&(s(t,n),cancelAnimationFrame(r))}())})),e.addEventListener("click",(()=>{}),!1)}}))}))})),Alpine.directive("textarea",((e,{expression:t})=>{if("TEXTAREA"!==e.tagName.toUpperCase())return!1;e.addEventListener("input",(()=>{let i=parseInt(t)||99;if(parseInt(e.value.split(/\r|\r\n|\n/).length)>i)return!1;e.style.height="auto",e.style.height=e.scrollHeight+1+"px"}),!1)})),Alpine.directive("tooltip",((e,{value:t,expression:i,modifiers:s},{evaluateLater:n,effect:r})=>{let a=n(i);r((()=>{a((t=>{let i,n;s&&s.forEach((e=>{i=["top","right","bottom","left"].includes(e)?e:"top",n=["hover","click"].includes(e)?e:"hover"})),i&&n&&new Drooltip({element:e,trigger:n,position:i,background:"#fff",color:"var(--grafema-dark)",animation:"bounce",content:t||null,callback:null})}))}))})),Alpine.directive("wizard",((e,{value:t,expression:i,modifiers:s},{Alpine:n,evaluate:a,cleanup:l})=>{const o=r(e,n).getStep(e);l((()=>o.cleanup()));const c=()=>[!!a(i),{}];n.effect((()=>{if(o.evaluate=e=>a(e),""!==i){if("step"===t){const[e,t]=c();o.is_complete=e,o.errors=t}"action"===t&&(o.action=i)}"if"===t&&(o.is_applicable=c()[0]),"title"===t&&(s.includes("dynamic")?o.title=`${a(i)}`:o.title=i)}))})),Alpine.magic("wizard",((e,{Alpine:t})=>r(e,t)));let n=new WeakMap,r=(e,t)=>{const i=t.closestRoot(e);return n.has(i)||n.set(i,a(t)),n.get(i)},a=e=>e.reactive({steps:[],current_index:0,progress(){let e=0,t=0,i=0;for(let s=0;s<this.steps.length;s++){const n=this.steps[s];n.is_applicable&&(i++,s<=this.current_index&&e++,s<=this.current_index&&n.is_complete&&t++)}return{total:i,complete:t,current:e,incomplete:i-t,progress:`${Math.floor(e/i*100)}%`,completion:`${Math.floor(t/i*100)}%`,percentage:Math.floor(t/i*100)}},current(){return this.steps[this.current_index]||{el:null,title:null}},previous(){return this.steps[this.previousIndex()]||{el:null,title:null}},next(){return this.steps[this.nextIndex()]||{el:null,title:null}},previousIndex(){return l(this.steps,this.current_index,-1)},nextIndex(){return l(this.steps,this.current_index,1)},isStep(e){return Array.isArray(e)||(e=[e]),e.includes(this.current_index)},isFirst(){return null===this.previousIndex()},isNotFirst(){return!this.isFirst()},isLast(){return null===this.nextIndex()},isNotLast(){return!this.isLast()},isCompleted(){return this.current().is_complete&&null===this.nextIndex()},isUncompleted(){return!this.isCompleted()},goNext(){this.goTo(this.nextIndex())},canGoNext(){return this.current().is_complete&&null!==this.nextIndex()},cannotGoNext(){return!this.canGoNext()},goBack(){this.goTo(this.previousIndex())},canGoBack(){return null!==this.previousIndex()},cannotGoBack(){return!this.canGoBack()},goTo(e){if(null!==e&&void 0!==this.steps[e]){this.current_index=e;let t=this.steps[e].action||"";t&&this.steps[e].evaluate(t)}return this.current()},getStep(t){let i=this.steps.find((e=>e.el===t));return i||(t.setAttribute("x-show","$wizard.current().el === $el"),i=e.reactive({el:t,title:"",is_applicable:!0,is_complete:!0,errors:{},cleanup:()=>{this.steps=this.steps.filter((e=>e.el===t))}}),this.steps.push(i)),i}}),l=(e,t,i=1)=>{for(let s=t+i;s>=0&&s<e.length;s+=i)if(e[s]&&e[s].is_applicable)return s;return null};Alpine.magic("ajax",(e=>(t,i,s)=>{let n,r=new FormData,a=new XMLHttpRequest,l=e.querySelectorAll("[type='submit']");function o(e,t){const{loaded:i=0,total:s=0,type:n}=e,{response:r="",status:a="",responseURL:l=""}=t;let o={blob:new Blob([r]),raw:r,status:a,url:l,loaded:c(i),total:c(s),percent:s>0?Math.round(i/s*100):0,start:"loadstart"===n,progress:"progress"===n,end:"loadend"===n};return o.end&&console.log(o),o}function c(e){return Math.round(e/1048576*100)/100}return new Promise((c=>{switch(e.tagName){case"BUTTON":e.classList.add("btn--load"),n=()=>e.classList.remove("btn--load");break;case"FORM":r=new FormData(e),[...e.querySelectorAll("input[type='file']")].forEach((e=>{let t=e.files;t&&[...t].forEach(((e,t)=>r.append(t,e)))})),l&&l.forEach((e=>e.classList.add("btn--load"))),n=()=>l&&l.forEach((e=>e.classList.remove("btn--load")));break;case"TEXTAREA":case"SELECT":case"INPUT":"file"!==e.type&&e.name&&r.append(e.name,e.value)}if("object"==typeof i)for(const[e,t]of Object.entries(i))r.append(e,t);a.open(e.getAttribute("method")?.toUpperCase()??"POST",grafema.apiurl+t),a.withCredentials=!0,a.responseType="json",a.onloadstart=a.upload.onprogress=e=>s?.(o(e,a)),a.onloadend=e=>s?.(o(e,a)),a.onload=i=>{document.dispatchEvent(new CustomEvent(t,{detail:{data:a.response?.data,event:i,el:e,resolve:c},bubbles:!0,composed:!0,cancelable:!0})),n&&n()},a.send(r)}))})),Alpine.magic("notice",((e,{Alpine:t})=>({items:[],notify(e){this.items.push(e)}}))),Alpine.store("notice",{items:{},duration:4e3,setDuration(e){this.duration=parseInt(e)||4e3},info(e){this.notify(e,"info")},success(e){this.notify(e,"success")},warning(e){this.notify(e,"warning")},error(e){this.notify(e,"error")},loading(e){this.notify(e,"loading")},close(e){void 0!==this.items[e]&&(this.items[e].selectors.push("hide"),setTimeout((()=>{delete this.items[e]}),1e3))},notify(e,t){if(e){let i=Math.random().toString(36).replace(/[^a-z]+/g,"").substr(0,5),s=Date.now();this.items[s]={anim:`url("data:image/svg+xml;charset=UTF-8,%3csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3ecircle %7b animation: ${this.duration}ms ${i} linear;%7d%40keyframes ${i} %7bfrom%7bstroke-dasharray:0 70%7dto%7bstroke-dasharray:70 0%7d%7d%3c/style%3e%3ccircle cx='12' cy='12' r='11' stroke='%23000' stroke-opacity='.2' stroke-width='2'/%3e%3c/svg%3e")`,message:e,closable:!0,selectors:[t||"info"],classes(){return this.selectors.map((e=>"notice__item--"+e)).join(" ")}},setTimeout((()=>this.close(s)),this.duration)}}}),Alpine.magic("password",(()=>({min:{lowercase:2,uppercase:2,special:2,digit:2,length:12},valid:{lowercase:!1,uppercase:!1,special:!1,digit:!1,length:!1},charsets:{lowercase:"abcdefghijklmnopqrstuvwxyz",uppercase:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",special:"!@#$%^&*(){|}~",digit:"0123456789"},switch:e=>!e,check(e){let t=0,i=0;for(const s in this.charsets){let n=this.min[s],r=new RegExp(`[${this.charsets[s]}]`,"g"),a=(e.match(r)||[]).length;t+=Math.min(a,n),i+=n,this.valid[s]=a>=n}return e.length>=this.min.length&&(t+=1,i+=1,this.valid.length=e.length>=this.min.length),Object.assign({progress:0===i?i:t/i*100},this.valid)},generate(){let e="",t=Object.keys(this.charsets);for(t.forEach((t=>{let i=Math.max(this.min[t],0),s=this.charsets[t];for(let t=0;t<i;t++){let t=Math.floor(Math.random()*s.length);e+=s[t]}}));e.length<this.min.length;){let i=t[Math.floor(Math.random()*t.length)],s=this.charsets[i],n=Math.floor(Math.random()*s.length);e+=s[n]}return this.check(e),this.shuffle(e)},shuffle(e){let t,i,s=e.split(""),n=s.length;for(;0!==n;)i=Math.floor(Math.random()*n),n-=1,t=s[n],s[n]=s[i],s[i]=t;return s.join("")}}))),Alpine.data("avatar",(()=>({content:"",image:"",add(e,t){let i=e.target.files[0];if(i){let e=new FileReader;e.onload=e=>{this.image=e.target.result},e.readAsDataURL(i)}t&&t()},remove(){let e=this.$el.closest("[x-data]"),t=e&&e.querySelector('input[type="file"]');t&&(t.value=""),this.image=""},getInitials(e,t=2){const i=e.split(" ").slice(0,t);return i.length>=2?i.reduce(((e,t)=>`${e}${t[0].charAt(0)}`.toUpperCase()),""):i[0].charAt(0).toUpperCase()}}))),Alpine.directive("datepicker",((e,{value:t,expression:i,modifiers:s},{evaluateLater:n,effect:r})=>{e.setAttribute("readonly",!0);let a=n(i||"{}");r((()=>{a((t=>{let i=grafema?.dateFormat,s=grafema?.lang||navigator.language||navigator.userLanguage||"en-US",n=e=>Array.from({length:7},((t,i)=>new Intl.DateTimeFormat(s,{weekday:e}).format(new Date(2024,0,i+1)))),r=e=>Array.from({length:12},((t,i)=>{let n=new Intl.DateTimeFormat(s,{month:e}).format(new Date(2024,i,1));return n=n.endsWith(".")?n.slice(0,-1):n,n.charAt(0).toUpperCase()+n.slice(1)}));try{new Datepicker(e,{inline:!1,multiple:!1,ranged:!0,time:!1,lang:s.substr(0,2).toLowerCase(),months:1,openOn:"today",timeAmPm:!1,within:!1,without:!1,yearRange:5,weekStart:grafema?.weekStart,separator:" — ",serialize:e=>{let t=new Date(e);return i?((e,t)=>{let i=e.toString(),s=e.getTime(),a=e.getFullYear(),l=e.getMonth(),o=e.getDate(),c=e.getHours(),h=e.getMinutes(),d=e.getSeconds();return t.replace(/a|A|d|D|F|g|G|h|H|i|I|j|l|L|m|M|n|s|S|t|T|U|w|y|Y|z|Z/g,(t=>{switch(t){case"a":return c>11?"pm":"am";case"A":return c>11?"PM":"AM";case"d":return("0"+o).slice(-2);case"D":return n("short")[e.getDay()];case"F":return r("long")[l];case"g":return(i=c||12)>12?i-12:i;case"G":return c;case"h":return("0"+((i=c||12)>12?i-12:i)).slice(-2);case"H":return("0"+c).slice(-2);case"i":return("0"+h).slice(-2);case"I":return new Date(a,0)-Date.UTC(a,0)!=new Date(a,6)-Date.UTC(a,6)?1:0;case"j":return o;case"l":return n("long")[e.getDay()];case"L":return(i=a)%4!=0||i%100==0&&i%400!=0?0:1;case"m":return("0"+(l+1)).slice(-2);case"M":return r("short")[l];case"n":return l+1;case"s":return("0"+d).slice(-2);case"S":return["th","st","nd","rd"][(i=o)<4?i:0];case"t":return new Date(a,l,0).getDate();case"T":return"UTC";case"U":return(""+s).slice(0,-3);case"w":return e.getDay();case"y":return(""+a).slice(-2);case"Y":return a;case"z":return Math.ceil((e-new Date(a,0,1))/864e5);default:return 60*-e.getTimezoneOffset()}}))})(t,i):t.toLocaleDateString(s)},...t})}catch(e){console.error('Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js')}}))}))})),Alpine.data("mask",(()=>({run:e=>{let t=this.$el;if(void 0===e){let s=t.getAttribute("type");if(s){let n="";switch(s){case"tel":n=/[^ \-()+\d]/g;break;case"number":n=/[^.-\d]/g;break;case"color":n=/[^ a-zA-Z(),\d]/g}n&&(t.value=t.value.replace(n,""))}}else if(e===Object(e))t.value=t.value.replace(e,"");else try{function i(i,s,n){let r=i;return n=n.toString(),e.charAt(--r)===s?t.value.charAt(r)===n.charAt(0)?new RegExp("[0-"+n.charAt(1)+"]"):/\d/:new RegExp("[0-"+n.charAt(0)+"]")}let r=e.match(/(\{[^}]+?\})|(.)/g),a=-1;r=r.map((function(e){switch(++a,e){case"i":return i(a,e,59);case"H":return i(a,e,23);case"D":return i(a,e,31);case"M":return i(a,e,12);case"Y":case"0":return/\d/;default:return/\{[^}]+?\}/.test(e)?new RegExp(e.slice(2,-2)):e}})),vanillaTextMask.maskInput({inputElement:t,guide:!1,mask:r})}catch(l){console.error('Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask')}}}))),Alpine.magic("modal",(e=>({open:(e,t)=>{setTimeout((()=>{let i=document.getElementById(e);i&&i.classList.add("is-active",t||"fade"),document.body.style.overflow="hidden"}),25)},close:t=>{let i=e.closest(".modal");null!==i&&i.classList.contains("is-active")&&(i.classList.remove("is-active",t||"fade"),document.body.style.overflow="")}}))),Alpine.directive("progress",((e,{modifiers:t})=>{new IntersectionObserver(((i,s)=>{i.forEach((i=>{if(i.isIntersecting){let[i=100,n=0,r=100,a="400ms"]=t,l=parseInt(n)/parseInt(i)*100,o=parseInt(r)/parseInt(i)*100;l>o&&([o,l]=[l,o]),e.style.setProperty("--grafema-progress",(l<0?0:l)+"%"),setTimeout((()=>{e.style.setProperty("--grafema-transition"," width "+a),e.style.setProperty("--grafema-progress",(o>100?100:o)+"%")}),500),s.unobserve(e)}}))})).observe(e)})),Alpine.directive("select",((e,{expression:t})=>{const i={showSearch:!1,hideSelected:!1,closeOnSelect:!0};e.hasAttribute("multiple")&&(i.hideSelected=!0,i.closeOnSelect=!1);const s=JSON.parse(t||"{}");"object"==typeof s&&Object.assign(i,s);try{new SlimSelect({settings:i,select:e,data:Array.from(e.options).reduce(((e,t)=>{let i=t.getAttribute("data-image"),s=t.getAttribute("data-icon"),n=t.getAttribute("data-description")||"",r=n?`<span class="ss-description">${n}</span>`:"",a=`${i?`<img src="${i}" alt />`:""}${s?`<i class="${s}"></i>`:""}<span class="ss-text">${t.text}${r}</span>`,l={text:t.text,value:t.value,html:a,selected:t.selected,display:!0,disabled:!1,mandatory:!1,placeholder:!1,class:"",style:"",data:{}};if("OPTGROUP"===t.parentElement.tagName){const i=t.parentElement.getAttribute("label"),s=e.find((e=>e.label===i));s?s.options.push(l):e.push({label:i,options:[l]})}else e.push(l);return e}),[])})}catch{console.error("The SlimSelect library is not connected")}})),Alpine.directive("media",((e,{expression:t})=>{console.log(e)})),Alpine.data("builder",(()=>({default:{location:"post",operator:"===",value:"editor"},groups:[{rules:[{location:"post_status",operator:"!=",value:"contributor"}]}],addGroup(){let e=JSON.parse(JSON.stringify(this.default));this.groups.push({rules:[e]})},removeGroup(e){this.groups.splice(e,1)},addRule(e){let t=JSON.parse(JSON.stringify(this.default));this.groups[e].rules.push(t)},removeRule(e,t){this.groups[e].rules.splice(t,1)},submit(){let e=JSON.parse(JSON.stringify(this.groups));console.log(e)}}))),Alpine.data("sortable",(()=>({init(){let e=[].slice.call(document.querySelectorAll(".sortable"));for(let t=0;t<e.length;t++)new Sortable(e[t],{multiDrag:!0,selectedClass:"is-active",fallbackTolerance:3,group:"nested",easing:"cubic-bezier(1, 0, 0, 1)",animation:100,fallbackOnBody:!0,swapThreshold:.5,dataIdAttr:"data-id"})}}))),Alpine.data("tab",(e=>({tab:e,tabButton:e=>({"@click"(){this.tab=e;let t=new FormData;t.append("tab",e),function(e,t=window.location.href){const i=new URL(t),s=new URLSearchParams(i.search);for(const[t]of s)e.has(t)||s.delete(t);for(const[t,i]of e.entries())s.set(t,i);i.search=s.toString(),window.history.replaceState({},"",i.toString())}(t)},":class"(){return this.tab===e?"active":""}}),tabContent:e=>({"x-show"(){return this.tab===e}})}))),Alpine.data("table",(()=>({init(){document.addEventListener("keydown",(e=>{(window.event?event:e).shiftKey&&(this.selection.shift=!0)})),document.addEventListener("keyup",(e=>{(window.event?event:e).shiftKey||(this.selection.shift=!1)}))},selection:{box:{},shift:!1,addMore:!0},bulk:!1,trigger:{"@change"(e){let t=0,i=document.querySelectorAll('input[name="item[]"]');i.length&&i.forEach((i=>(i.checked=e.target.checked,i.checked&&t++))),this.bulk=t>0}},reset:{"@click"(e){let t=document.querySelectorAll('input[name="item[]"], input[x-bind="trigger"]');t.length&&t.forEach((e=>e.checked=!1)),this.bulk=!1}},switcher:{"@click"(e){let t=document.querySelectorAll('input[name="item[]"]'),i=Array.prototype.slice.call(document.getElementsByClassName("cb"));if(this.selection.addMore=!!e.target.checked,this.selection.shift){this.selection.box[1]=i.indexOf(e.target.parentNode);let s=this.selection.box[0],n=this.selection.box[1];if(s>n)for(;n<s;n++)t[n].checked=this.selection.addMore;if(s<n)for(;s<n;s++)t[s].checked=this.selection.addMore;this.selection.box[0]=void 0,this.selection.box[1]=void 0}else this.selection.box[0]=i.indexOf(e.target.parentNode);let s=document.querySelectorAll('input[name="item[]"]:checked');this.bulk=s.length>0}}}))),Alpine.magic("password",(()=>({min:{lowercase:2,uppercase:2,special:2,digit:2,length:12},valid:{lowercase:!1,uppercase:!1,special:!1,digit:!1,length:!1},charsets:{lowercase:"abcdefghijklmnopqrstuvwxyz",uppercase:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",special:"!@#$%^&*(){|}~",digit:"0123456789"},switch:e=>!e,check(e){let t=0,i=0;for(const s in this.charsets){let n=this.min[s],r=new RegExp(`[${this.charsets[s]}]`,"g"),a=(e.match(r)||[]).length;t+=Math.min(a,n),i+=n,this.valid[s]=a>=n}return e.length>=this.min.length&&(t+=1,i+=1,this.valid.length=e.length>=this.min.length),Object.assign({progress:0===i?i:t/i*100},this.valid)},generate(){let e="",t=Object.keys(this.charsets);for(t.forEach((t=>{let i=Math.max(this.min[t],0),s=this.charsets[t];for(let t=0;t<i;t++){let t=Math.floor(Math.random()*s.length);e+=s[t]}}));e.length<this.min.length;){let i=t[Math.floor(Math.random()*t.length)],s=this.charsets[i],n=Math.floor(Math.random()*s.length);e+=s[n]}return this.check(e),this.shuffle(e)},shuffle(e){let t,i,s=e.split(""),n=s.length;for(;0!==n;)i=Math.floor(Math.random()*n),n-=1,t=s[n],s[n]=s[i],s[i]=t;return s.join("")}}))),Alpine.data("timer",((e,t)=>({end:e,day:"00",hour:"00",min:"00",sec:"00",init(){let e=t||(new Date).valueOf(),i=new Date(this.end).valueOf();if(e<i){let t=Math.round((i-e)/1e3),s=this;setInterval((function(){s.day=("0"+parseInt(t/86400,10)).slice(-2),s.hour=("0"+parseInt(t/3600%24,10)).slice(-2),s.min=("0"+parseInt(t/60%60,10)).slice(-2),s.sec=("0"+parseInt(t%60,10)).slice(-2),--t<0&&(s.days=s.hour=s.min=s.sec="00")}),1e3)}}})))}))},593:()=>{"use strict";class e{constructor(e,t=0,i=0){this.id=e.id||"selectionArea",this.class=e.class||!1,this.x=t,this.y=i,this.w=0,this.h=0}instance(e){let t=document.createElement("div");t.setAttribute("id",this.id),t.setAttribute("style","position: absolute; z-index: 1000; top: 0; left: 0;"),this.class&&t.setAttribute("class",this.class),e.appendChild(t),this.parent=e,this.elem=document.getElementById(this.id)}resize(e,t){this.w=Math.abs(this.x-e),this.h=Math.abs(this.y-t)}move(e,t){let i=this.y>=t?t:this.y,s=this.x>=e?e:this.x,n=this.w,r=this.h;this.elem.style.top=`${i}px`,this.elem.style.left=`${s}px`,this.elem.style.width=`${n}px`,this.elem.style.height=`${r}px`}destroy(){this.parent.contains(this.elem)&&this.parent.removeChild(this.elem)}isOver(e){let t=this.elem.getBoundingClientRect(),i=e.getBoundingClientRect(),s=t.top,n=t.left,r=t.top+t.height,a=t.left+t.width,l=i.top,o=i.left,c=i.top+i.height,h=i.left+i.width;return!(o>a||h<n||l>r||c<s)}}const t="mousedown",i="mousemove",s="mouseup",n="touchstart",r="touchmove",a="touchend";const l=class{constructor(e){try{this.nodes=[],this.container=this.validateContainer(e.container||document.querySelector(".parent")),this.selector=this.validateSelector(e.selector||".child"),this.areaAttributes=e.areaAttributes||{id:"my-custom-area",class:""},this.touchable=e.touchable||"ontouchstart"in window||navigator.maxTouchPoints||!0,this.autostart=e.autostart||!0,this.onSelectEnd=e.onSelectEnd||null,this.classSelected="selected"}catch(e){throw e}this.autostart&&this.start()}validateContainer(e){if(!(e&&e instanceof HTMLElement))throw new Error('"container" attribute must be HTMLElement');return e}validateSelector(e){if(!e)throw new Error('"elements" attribute must be defined');if("string"==typeof e)return e;throw new Error('"elements" property must be a String')}start(){this.container.addEventListener(t,this),this.container.addEventListener(i,this),this.container.addEventListener(s,this),this.touchable&&(this.container.addEventListener(n,this),this.container.addEventListener(r,this),this.container.addEventListener(a,this))}stop(){this.container.removeEventListener(t,this),this.container.removeEventListener(i,this),this.container.removeEventListener(s,this),this.touchable&&(this.container.removeEventListener(n,this),this.container.removeEventListener(r,this),this.container.removeEventListener(a,this))}handleEvent(e){e.preventDefault();let l=this.touchable&&e.targetTouches&&e.targetTouches.length?e.targetTouches[0]:e,[o,c]=[l.pageX,l.pageY];switch(e.type){case t:case n:this.init(o,c);break;case i:case r:this.update(o,c);break;case s:case a:this.end(o,c)}}init(t,i){this.selected=[],this.area=new e(this.areaAttributes,t,i),this.area.instance(this.container)}update(e,t){this.area&&(Array.from(this.container.querySelectorAll(this.selector)).forEach((e=>{this.nodes.includes(e)||(this.area.isOver(e)?e.classList.add(this.classSelected):e.classList.remove(this.classSelected))})),this.area.resize(e,t),this.area.move(e,t))}end(){if(this.area){let e=Array.from(this.container.querySelectorAll(this.selector));this.selected=e.filter((e=>this.area.isOver(e)&&-1===this.selected.indexOf(e))),this.nodes=this.nodes.concat(this.selected.filter((e=>!this.nodes.includes(e)))),this.selected.forEach((e=>{e.classList.contains(this.classSelected)||e.classList.add(this.classSelected)})),this.area.destroy(),this.area=null,"function"==typeof this.onSelectEnd&&this.onSelectEnd(this)}}};document.addEventListener("alpine:init",(()=>{Alpine.directive("storage",((e,{value:t,expression:i,modifiers:s},{evaluateLater:n,cleanup:r})=>{let a=new l({container:document.querySelector(".parent"),onSelectEnd:e=>{console.log(e)}});console.log(a)}))}))}};e[749](),e[593](),e[17]()})();
+(() => {
+    var __webpack_modules__ = {
+        749: function() {
+            document.addEventListener('alpine:init', (() => {
+                function updateUrlParams(formData, url = window.location.href) {
+                    const urlObj = new URL(url);
+                    const params = new URLSearchParams(urlObj.search);
+                    for (const [key] of params) {
+                        if (!formData.has(key)) {
+                            params.delete(key);
+                        }
+                    }
+                    for (const [key, value] of formData.entries()) {
+                        params.set(key, value);
+                    }
+                    urlObj.search = params.toString();
+                    window.history.replaceState({}, '', urlObj.toString());
+                }
+                Alpine.directive('intersect', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
+                    function getThreshold(modifiers) {
+                        if (modifiers.includes('full')) return .99;
+                        if (modifiers.includes('half')) return .5;
+                        if (!modifiers.includes('threshold')) return 0;
+                        let threshold = modifiers[modifiers.indexOf('threshold') + 1];
+                        if (threshold === '100') return 1;
+                        if (threshold === '0') return 0;
+                        return Number(`.${threshold}`);
+                    }
+                    function getLengthValue(rawValue) {
+                        let match = rawValue.match(/^(-?[0-9]+)(px|%)?$/);
+                        return match ? match[1] + (match[2] || 'px') : void 0;
+                    }
+                    function getRootMargin(modifiers) {
+                        const key = 'margin';
+                        const fallback = '0px 0px 0px 0px';
+                        const index = modifiers.indexOf(key);
+                        if (index === -1) return fallback;
+                        let values = [];
+                        for (let i = 1; i < 5; i++) {
+                            values.push(getLengthValue(modifiers[index + i] || ''));
+                        }
+                        values = values.filter((v => v !== void 0));
+                        return values.length ? values.join(' ').trim() : fallback;
+                    }
+                    let evaluate = evaluateLater(expression);
+                    let options = {
+                        rootMargin: getRootMargin(modifiers),
+                        threshold: getThreshold(modifiers)
+                    };
+                    let observer = new IntersectionObserver((entries => {
+                        entries.forEach((entry => {
+                            if (entry.isIntersecting === (value === 'leave')) {
+                                return;
+                            }
+                            evaluate();
+                            modifiers.includes('once') && observer.disconnect();
+                        }));
+                    }), options);
+                    observer.observe(el);
+                    cleanup((() => observer.disconnect()));
+                }));
+                Alpine.directive('sticky', (el => {
+                    let style = el.parentElement.currentStyle || window.getComputedStyle(el.parentElement);
+                    if (style.position !== 'relative') {
+                        return false;
+                    }
+                    let rect = el.getBoundingClientRect();
+                    let diff = rect.height - document.scrollingElement.offsetHeight;
+                    let paddingTop = parseInt(style.paddingTop) + 42;
+                    let paddingBottom = parseInt(style.paddingBottom);
+                    let lastScroll = 0;
+                    let bottomPoint = 0;
+                    let value = 'top: ' + paddingTop + 'px';
+                    function calcPosition() {
+                        if (diff > 0) {
+                            let y = document.scrollingElement.scrollTop;
+                            if (window.scrollY > lastScroll) {
+                                if (y > diff) {
+                                    bottomPoint = diff * -1 - paddingBottom;
+                                    value = 'top: ' + bottomPoint + 'px';
+                                } else {
+                                    value = 'top: ' + (y * -1 - paddingBottom) + 'px';
+                                }
+                            } else {
+                                bottomPoint = bottomPoint + (lastScroll - window.scrollY);
+                                if (bottomPoint < paddingTop) {
+                                    value = 'top: ' + bottomPoint + 'px';
+                                }
+                            }
+                        }
+                        el.setAttribute('style', 'position: sticky;' + value);
+                        lastScroll = window.scrollY;
+                    }
+                    window.addEventListener('load', (() => calcPosition()));
+                    window.addEventListener('scroll', (() => calcPosition()));
+                    window.addEventListener('resize', (() => calcPosition()));
+                }));
+                Alpine.directive('autocomplete', (el => {
+                    el.setAttribute('readonly', true);
+                    el.onfocus = () => setTimeout((() => el.removeAttribute('readonly')), 10);
+                    el.onblur = () => el.setAttribute('readonly', true);
+                }));
+                Alpine.directive('highlight', ((el, {modifiers}) => {
+                    let lang = modifiers[0] || 'html', wrapper = document.createElement('code');
+                    wrapper.classList.add('language-' + lang);
+                    wrapper.innerHTML = el.innerHTML;
+                    el.classList.add('line-numbers');
+                    el.innerHTML = '';
+                    el.setAttribute('data-lang', lang.toUpperCase());
+                    el.appendChild(wrapper);
+                }));
+                Alpine.directive('collapse', ((el, {modifiers}) => {
+                    let duration = ((modifiers, key = 'duration', fallback = 350) => {
+                        if (modifiers.indexOf(key) === -1) return fallback;
+                        const rawValue = modifiers[modifiers.indexOf(key) + 1];
+                        if (!rawValue) return fallback;
+                        if (key === 'duration') {
+                            let match = rawValue.match(/([0-9]+)ms/);
+                            if (match) return match[1];
+                        }
+                        return rawValue;
+                    })(modifiers) / 1e3;
+                    let floor = 0;
+                    if (!el._x_isShown) {
+                        el.style.height = `${floor}px`;
+                        el.style.overflow = 'hidden';
+                        el.hidden = true;
+                    }
+                    let setFunction = (el2, styles) => {
+                        let revertFunction = Alpine.setStyles(el2, styles);
+                        return styles.height ? () => {} : revertFunction;
+                    };
+                    let transitionStyles = {
+                        overflow: 'hidden',
+                        transitionProperty: 'height',
+                        transitionDuration: `${duration}s`,
+                        transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+                    };
+                    el._x_transition = {
+                        in(before = (() => {}), after = (() => {})) {
+                            el.hidden = false;
+                            let current = el.getBoundingClientRect().height;
+                            Alpine.setStyles(el, {
+                                display: null,
+                                height: 'auto'
+                            });
+                            let full = el.getBoundingClientRect().height;
+                            Alpine.setStyles(el, {
+                                overflow: 'hidden'
+                            });
+                            if (current === full) {
+                                current = floor;
+                            }
+                            Alpine.transition(el, Alpine.setStyles, {
+                                during: transitionStyles,
+                                start: {
+                                    height: current + 'px'
+                                },
+                                end: {
+                                    height: full + 'px'
+                                }
+                            }, (() => el._x_isShown = true), (() => {}));
+                        },
+                        out(before = (() => {}), after = (() => {})) {
+                            let full = el.getBoundingClientRect().height;
+                            Alpine.transition(el, setFunction, {
+                                during: transitionStyles,
+                                start: {
+                                    height: full + 'px'
+                                },
+                                end: {
+                                    height: floor + 'px'
+                                }
+                            }, (() => {}), (() => {
+                                el._x_isShown = false;
+                                if (el.style.height === `${floor}px`) {
+                                    Alpine.nextTick((() => {
+                                        Alpine.setStyles(el, {
+                                            display: 'none',
+                                            overflow: 'hidden'
+                                        });
+                                        el.hidden = true;
+                                    }));
+                                }
+                            }));
+                        }
+                    };
+                }));
+                Alpine.magic('copy', (el => subject => {
+                    window.navigator.clipboard.writeText(subject).then((() => {
+                        let classes = 'ph-copy ph-check'.split(' ');
+                        classes.forEach((s => el.classList.toggle(s)));
+                        setTimeout((() => classes.forEach((s => el.classList.toggle(s)))), 1e3);
+                    }), (() => {
+                        console.log('Oops, your browser is not support clipboard!');
+                    }));
+                }));
+                let seconds = 0, isCountingDown = false;
+                Alpine.magic('countdown', (() => ({
+                    start: (initialSeconds, processCallback, endCallback) => {
+                        if (isCountingDown) {
+                            return;
+                        }
+                        seconds = initialSeconds;
+                        isCountingDown = true;
+                        function countdown() {
+                            processCallback && processCallback(true);
+                            if (seconds === 0) {
+                                endCallback && endCallback(true);
+                                isCountingDown = false;
+                            } else {
+                                seconds--;
+                                setTimeout(countdown, 1e3);
+                            }
+                        }
+                        countdown();
+                    },
+                    second: seconds
+                })));
+                let stream = null;
+                Alpine.magic('stream', (() => ({
+                    check(refs) {
+                        let canvas = refs.canvas, video = refs.video, image = refs.image;
+                        if (!canvas) {
+                            console.error('Canvas element is undefined');
+                            return false;
+                        }
+                        if (!video) {
+                            console.error('Video for selfie preview is undefined');
+                            return false;
+                        }
+                        if (!image) {
+                            console.error('Image for output selfie is undefined');
+                            return false;
+                        }
+                    },
+                    isVisible(element) {
+                        const styles = window.getComputedStyle(element);
+                        if (styles) {
+                            return !(styles.visibility === 'hidden' || styles.display === 'none' || parseFloat(styles.opacity) === 0);
+                        }
+                        return false;
+                    },
+                    start(refs) {
+                        let video = refs.video;
+                        const observer = new MutationObserver((mutations => {
+                            for (let mutation of mutations) {
+                                if (mutation.target === document.body && !stream) {
+                                    setTimeout((async () => {
+                                        if (this.isVisible(video)) {
+                                            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                                                video.srcObject = stream = await navigator.mediaDevices.getUserMedia({
+                                                    video: true
+                                                });
+                                            } else {
+                                                console.error('The browser does not support the getUserMedia API');
+                                            }
+                                        }
+                                    }), 500);
+                                }
+                            }
+                        }));
+                        observer.observe(document, {
+                            childList: true,
+                            subtree: true,
+                            attributes: true
+                        });
+                    },
+                    snapshot(refs) {
+                        this.check(refs);
+                        this.start(refs);
+                        let canvas = refs.canvas, video = refs.video, image = refs.image;
+                        let width = video.offsetWidth, height = video.offsetHeight;
+                        let imageStyles = window.getComputedStyle(image), imageWidth = parseInt(imageStyles.width, 10), imageHeight = parseInt(imageStyles.height, 10);
+                        canvas.width = imageWidth;
+                        canvas.height = imageHeight;
+                        let offsetTop = (height - imageHeight) / 2, offsetLeft = (width - imageWidth) / 2;
+                        let ctx = canvas.getContext('2d');
+                        ctx.imageSmoothingQuality = 'low';
+                        let scale = height / imageHeight;
+                        console.log((offsetTop + offsetLeft) / 2);
+                        ctx.drawImage(video, offsetLeft * 1.5, offsetTop * 1.5, height * 1.5, height * 1.5, 0, 0, imageWidth, imageHeight);
+                        let imageData = canvas.toDataURL('image/png');
+                        if (imageData) {
+                            image.src = imageData;
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        }
+                        return imageData;
+                    },
+                    stop() {
+                        if (stream) {
+                            stream.getTracks().forEach((track => track.stop()));
+                        }
+                        stream = null;
+                    }
+                })));
+                Alpine.directive('anchor', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
+                    let hash = window.location.hash.replace('#', ''), anchor = el.innerText.toLowerCase().replaceAll(' ', '-');
+                    if (hash && hash === anchor) {
+                        el.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                    el.addEventListener('click', (e => {
+                        e.preventDefault();
+                        window.location.hash = anchor;
+                        el.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }), false);
+                    let evaluate = evaluateLater(expression || null);
+                    let observer = new IntersectionObserver((entries => {
+                        entries.forEach((entry => {
+                            if (!entry.isIntersecting || entry.intersectionRatio !== 1) {
+                                return;
+                            }
+                            evaluate();
+                            window.location.hash = anchor;
+                        }));
+                    }), {
+                        threshold: .5
+                    });
+                    observer.observe(el);
+                    cleanup((() => observer.disconnect()));
+                }));
+                Alpine.directive('listen', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                    console.log(el);
+                    console.log(value);
+                    console.log(expression);
+                    console.log(modifiers);
+                    if (!expression) {
+                        return false;
+                    }
+                    let evaluate = evaluateLater(expression);
+                    effect((() => {
+                        evaluate((content => {
+                            if (content) {
+                                let name = 'listen-node';
+                                function _play(aud, icn) {
+                                    icn.classList.add('playing');
+                                    aud.play();
+                                    aud.setAttribute('data-playing', 'true');
+                                    aud.addEventListener('ended', (function() {
+                                        _pause(aud, icn);
+                                        aud.parentNode.style.background = null;
+                                        return false;
+                                    }));
+                                }
+                                function _pause(aud, icn) {
+                                    aud.pause();
+                                    aud.setAttribute('data-playing', 'false');
+                                    icn.classList.remove('playing');
+                                }
+                                let aud, icn;
+                                let css = document.createElement('style');
+                                css.type = 'text/css';
+                                css.innerHTML = '.listen-node {display: inline-block; background:rgba(0, 0, 0, 0.05); padding: 1px 8px 2px; border-radius:3px; cursor: pointer;} .listen-node i {font-size: 0.65em; border: 0.5em solid transparent; border-left: 0.75em solid; display: inline-block; margin-right: 2px;margin-bottom: 1px;} .listen-node .playing { border: 0; border-left: 0.75em double; border-right: 0.5em solid transparent; height: 1em;}';
+                                document.getElementsByTagName('head')[0].appendChild(css);
+                                aud = document.createElement('audio');
+                                icn = document.createElement('i');
+                                aud.src = el.getAttribute('data-src');
+                                aud.setAttribute('data-playing', 'false');
+                                el.id = name + '-' + i;
+                                el.insertBefore(icn, el.firstChild);
+                                el.appendChild(aud);
+                                document.addEventListener('click', (e => {
+                                    let aud, elm, icn;
+                                    if (e.target.className === name) {
+                                        aud = e.target.children[1];
+                                        elm = e.target;
+                                        icn = e.target.children[0];
+                                    } else if (e.target.parentElement && e.target.parentElement.className === name) {
+                                        aud = e.target.parentElement.children[1];
+                                        elm = e.target.parentElement;
+                                        icn = e.target;
+                                    }
+                                    if (aud && elm && icn) {
+                                        aud.srt = parseInt(elm.getAttribute('data-start')) || 0;
+                                        aud.end = parseInt(elm.getAttribute('data-end')) || aud.duration;
+                                        if (aud && aud.getAttribute('data-playing') === 'false') {
+                                            if (aud.srt > aud.currentTime || aud.end < aud.currentTime) {
+                                                aud.currentTime = aud.srt;
+                                            }
+                                            _play(aud, icn);
+                                        } else {
+                                            _pause(aud, icn);
+                                        }
+                                        (function loop() {
+                                            let d = requestAnimationFrame(loop);
+                                            let percent = (aud.currentTime - aud.srt) * 100 / (aud.end - aud.srt);
+                                            percent = percent < 100 ? percent : 100;
+                                            elm.style.background = 'linear-gradient(to right, rgba(0, 0, 0, 0.1)' + percent + '%, rgba(0, 0, 0, 0.05)' + percent + '%)';
+                                            if (aud.end < aud.currentTime) {
+                                                _pause(aud, icn);
+                                                cancelAnimationFrame(d);
+                                            }
+                                        })();
+                                    }
+                                }));
+                                el.addEventListener('click', (() => {}), false);
+                            }
+                        }));
+                    }));
+                }));
+                Alpine.directive('textarea', ((el, {expression}) => {
+                    if ('TEXTAREA' !== el.tagName.toUpperCase()) {
+                        return false;
+                    }
+                    el.addEventListener('input', (() => {
+                        let max = parseInt(expression) || 99, rows = parseInt(el.value.split(/\r|\r\n|\n/).length);
+                        if (rows > max) {
+                            return false;
+                        }
+                        el.style.height = 'auto';
+                        el.style.height = el.scrollHeight + 1 + 'px';
+                    }), false);
+                }));
+                Alpine.directive('tooltip', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                    let evaluate = evaluateLater(expression);
+                    effect((() => {
+                        evaluate((content => {
+                            let position, trigger;
+                            if (modifiers) {
+                                modifiers.forEach((modifier => {
+                                    position = [ 'top', 'right', 'bottom', 'left' ].includes(modifier) ? modifier : 'top';
+                                    trigger = [ 'hover', 'click' ].includes(modifier) ? modifier : 'hover';
+                                }));
+                            }
+                            if (position && trigger) {
+                                new Drooltip({
+                                    element: el,
+                                    trigger,
+                                    position,
+                                    background: '#fff',
+                                    color: 'var(--grafema-dark)',
+                                    animation: 'bounce',
+                                    content: content || null,
+                                    callback: null
+                                });
+                            }
+                        }));
+                    }));
+                }));
+                Alpine.directive('wizard', ((el, {value, expression, modifiers}, {Alpine: Alpine2, evaluate, cleanup}) => {
+                    const wizard2 = getWizard(el, Alpine2);
+                    const step = wizard2.getStep(el);
+                    cleanup((() => step.cleanup()));
+                    const evaluateCheck = () => [ !!evaluate(expression), {} ];
+                    Alpine2.effect((() => {
+                        step.evaluate = content => evaluate(content);
+                        if (expression !== '') {
+                            if (value === 'step') {
+                                const [passes, errors] = evaluateCheck();
+                                step.is_complete = passes;
+                                step.errors = errors;
+                            }
+                            if (value === 'action') {
+                                step.action = expression;
+                            }
+                        }
+                        if (value === 'if') {
+                            step.is_applicable = evaluateCheck()[0];
+                        }
+                        if (value === 'title') {
+                            if (modifiers.includes('dynamic')) {
+                                step.title = `${evaluate(expression)}`;
+                            } else {
+                                step.title = expression;
+                            }
+                        }
+                    }));
+                }));
+                Alpine.magic('wizard', ((el, {Alpine: Alpine2}) => getWizard(el, Alpine2)));
+                let wizards = new WeakMap;
+                let getWizard = (el, Alpine) => {
+                    const root = Alpine.closestRoot(el);
+                    if (!wizards.has(root)) {
+                        wizards.set(root, initWizardRoot(Alpine));
+                    }
+                    return wizards.get(root);
+                };
+                let initWizardRoot = Alpine => Alpine.reactive({
+                    steps: [],
+                    current_index: 0,
+                    progress() {
+                        let current = 0;
+                        let complete = 0;
+                        let total = 0;
+                        for (let index = 0; index < this.steps.length; index++) {
+                            const step = this.steps[index];
+                            if (!step.is_applicable) {
+                                continue;
+                            }
+                            total++;
+                            if (index <= this.current_index) {
+                                current++;
+                            }
+                            if (index <= this.current_index && step.is_complete) {
+                                complete++;
+                            }
+                        }
+                        return {
+                            total,
+                            complete,
+                            current,
+                            incomplete: total - complete,
+                            progress: `${Math.floor(current / total * 100)}%`,
+                            completion: `${Math.floor(complete / total * 100)}%`,
+                            percentage: Math.floor(complete / total * 100)
+                        };
+                    },
+                    current() {
+                        return this.steps[this.current_index] || {
+                            el: null,
+                            title: null
+                        };
+                    },
+                    previous() {
+                        return this.steps[this.previousIndex()] || {
+                            el: null,
+                            title: null
+                        };
+                    },
+                    next() {
+                        return this.steps[this.nextIndex()] || {
+                            el: null,
+                            title: null
+                        };
+                    },
+                    previousIndex() {
+                        return findNextIndex(this.steps, this.current_index, -1);
+                    },
+                    nextIndex() {
+                        return findNextIndex(this.steps, this.current_index, 1);
+                    },
+                    isStep(index) {
+                        if (!Array.isArray(index)) {
+                            index = [ index ];
+                        }
+                        return index.includes(this.current_index);
+                    },
+                    isFirst() {
+                        return this.previousIndex() === null;
+                    },
+                    isNotFirst() {
+                        return !this.isFirst();
+                    },
+                    isLast() {
+                        return this.nextIndex() === null;
+                    },
+                    isNotLast() {
+                        return !this.isLast();
+                    },
+                    isCompleted() {
+                        return this.current().is_complete && this.nextIndex() === null;
+                    },
+                    isUncompleted() {
+                        return !this.isCompleted();
+                    },
+                    goNext() {
+                        this.goTo(this.nextIndex());
+                    },
+                    canGoNext() {
+                        return this.current().is_complete && this.nextIndex() !== null;
+                    },
+                    cannotGoNext() {
+                        return !this.canGoNext();
+                    },
+                    goBack() {
+                        this.goTo(this.previousIndex());
+                    },
+                    canGoBack() {
+                        return this.previousIndex() !== null;
+                    },
+                    cannotGoBack() {
+                        return !this.canGoBack();
+                    },
+                    goTo(index) {
+                        if (index !== null && this.steps[index] !== void 0) {
+                            this.current_index = index;
+                            let action = this.steps[index].action || '';
+                            if (action) {
+                                this.steps[index].evaluate(action);
+                            }
+                        }
+                        return this.current();
+                    },
+                    getStep(el) {
+                        let step = this.steps.find((step2 => step2.el === el));
+                        if (!step) {
+                            el.setAttribute('x-show', '$wizard.current().el === $el');
+                            step = Alpine.reactive({
+                                el,
+                                title: '',
+                                is_applicable: true,
+                                is_complete: true,
+                                errors: {},
+                                cleanup: () => {
+                                    this.steps = this.steps.filter((step2 => step2.el === el));
+                                }
+                            });
+                            this.steps.push(step);
+                        }
+                        return step;
+                    }
+                });
+                let findNextIndex = (steps, current, direction = 1) => {
+                    for (let index = current + direction; index >= 0 && index < steps.length; index += direction) {
+                        if (steps[index] && steps[index].is_applicable) {
+                            return index;
+                        }
+                    }
+                    return null;
+                };
+                const BYTES_IN_MB = 1048576;
+                Alpine.magic('ajax', (el => (route, data, callback) => {
+                    let onloadEvent, formData = new FormData, xhr = new XMLHttpRequest, buttons = el.querySelectorAll('[type=\'submit\']');
+                    function onProgress(event, xhr) {
+                        const {loaded = 0, total = 0, type} = event;
+                        const {response = '', status = '', responseURL = ''} = xhr;
+                        let data = {
+                            blob: new Blob([ response ]),
+                            raw: response,
+                            status,
+                            url: responseURL,
+                            loaded: convertTo(loaded),
+                            total: convertTo(total),
+                            percent: total > 0 ? Math.round(loaded / total * 100) : 0,
+                            start: type === 'loadstart',
+                            progress: type === 'progress',
+                            end: type === 'loadend'
+                        };
+                        if (data.end) {
+                            console.log(data);
+                        }
+                        return data;
+                    }
+                    function convertTo(number) {
+                        return Math.round(number / BYTES_IN_MB * 100) / 100;
+                    }
+                    return new Promise((resolve => {
+                        switch (el.tagName) {
+                          case 'BUTTON':
+                            el.classList.add('btn--load');
+                            onloadEvent = () => el.classList.remove('btn--load');
+                            break;
+
+                          case 'FORM':
+                            formData = new FormData(el);
+                            let inputs = el.querySelectorAll('input[type=\'file\']');
+                            [ ...inputs ].forEach((input => {
+                                let files = input.files;
+                                files && [ ...files ].forEach(((file, index) => formData.append(index, file)));
+                            }));
+                            buttons && buttons.forEach((button => button.classList.add('btn--load')));
+                            onloadEvent = () => buttons && buttons.forEach((button => button.classList.remove('btn--load')));
+                            break;
+
+                          case 'TEXTAREA':
+                          case 'SELECT':
+                          case 'INPUT':
+                            el.type !== 'file' && el.name && formData.append(el.name, el.value);
+                            break;
+                        }
+                        if (typeof data === 'object') {
+                            for (const [key, value] of Object.entries(data)) {
+                                formData.append(key, value);
+                            }
+                        }
+                        xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', grafema.apiurl + route);
+                        xhr.withCredentials = true;
+                        xhr.responseType = 'json';
+                        xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
+                        xhr.onloadend = event => callback?.(onProgress(event, xhr));
+                        xhr.onload = event => {
+                            document.dispatchEvent(new CustomEvent(route, {
+                                detail: {
+                                    data: xhr.response?.data,
+                                    event,
+                                    el,
+                                    resolve
+                                },
+                                bubbles: true,
+                                composed: true,
+                                cancelable: true
+                            }));
+                            onloadEvent && onloadEvent();
+                        };
+                        xhr.send(formData);
+                    }));
+                }));
+                Alpine.magic('notice', ((el, {Alpine}) => ({
+                    items: [],
+                    notify(message) {
+                        this.items.push(message);
+                    }
+                })));
+                Alpine.store('notice', {
+                    items: {},
+                    duration: 4e3,
+                    setDuration(duration) {
+                        this.duration = parseInt(duration) || 4e3;
+                    },
+                    info(message) {
+                        this.notify(message, 'info');
+                    },
+                    success(message) {
+                        this.notify(message, 'success');
+                    },
+                    warning(message) {
+                        this.notify(message, 'warning');
+                    },
+                    error(message) {
+                        this.notify(message, 'error');
+                    },
+                    loading(message) {
+                        this.notify(message, 'loading');
+                    },
+                    close(id) {
+                        if (typeof this.items[id] !== 'undefined') {
+                            this.items[id].selectors.push('hide');
+                            setTimeout((() => {
+                                delete this.items[id];
+                            }), 1e3);
+                        }
+                    },
+                    notify(message, type) {
+                        if (message) {
+                            let animationName = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5), timestamp = Date.now();
+                            this.items[timestamp] = {
+                                anim: `url("data:image/svg+xml;charset=UTF-8,%3csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3ecircle %7b animation: ${this.duration}ms ${animationName} linear;%7d%40keyframes ${animationName} %7bfrom%7bstroke-dasharray:0 70%7dto%7bstroke-dasharray:70 0%7d%7d%3c/style%3e%3ccircle cx='12' cy='12' r='11' stroke='%23000' stroke-opacity='.2' stroke-width='2'/%3e%3c/svg%3e")`,
+                                message,
+                                closable: true,
+                                selectors: [ type || 'info' ],
+                                classes() {
+                                    return this.selectors.map((x => 'notice__item--' + x)).join(' ');
+                                }
+                            };
+                            setTimeout((() => this.close(timestamp)), this.duration);
+                        }
+                    }
+                });
+                Alpine.magic('password', (() => ({
+                    min: {
+                        lowercase: 2,
+                        uppercase: 2,
+                        special: 2,
+                        digit: 2,
+                        length: 12
+                    },
+                    valid: {
+                        lowercase: false,
+                        uppercase: false,
+                        special: false,
+                        digit: false,
+                        length: false
+                    },
+                    charsets: {
+                        lowercase: 'abcdefghijklmnopqrstuvwxyz',
+                        uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                        special: '!@#$%^&*(){|}~',
+                        digit: '0123456789'
+                    },
+                    switch(value) {
+                        return !!!value;
+                    },
+                    check(value) {
+                        let matchCount = 0;
+                        let totalCount = 0;
+                        for (const charset in this.charsets) {
+                            let requiredCount = this.min[charset], charsetRegex = new RegExp(`[${this.charsets[charset]}]`, 'g'), charsetCount = (value.match(charsetRegex) || []).length;
+                            matchCount += Math.min(charsetCount, requiredCount);
+                            totalCount += requiredCount;
+                            this.valid[charset] = charsetCount >= requiredCount;
+                        }
+                        if (value.length >= this.min.length) {
+                            matchCount += 1;
+                            totalCount += 1;
+                            this.valid.length = value.length >= this.min.length;
+                        }
+                        return Object.assign({
+                            progress: totalCount === 0 ? totalCount : matchCount / totalCount * 100
+                        }, this.valid);
+                    },
+                    generate() {
+                        let password = '';
+                        let types = Object.keys(this.charsets);
+                        types.forEach((type => {
+                            let count = Math.max(this.min[type], 0), charset = this.charsets[type];
+                            for (let i = 0; i < count; i++) {
+                                let randomIndex = Math.floor(Math.random() * charset.length);
+                                password += charset[randomIndex];
+                            }
+                        }));
+                        while (password.length < this.min.length) {
+                            let randomIndex = Math.floor(Math.random() * types.length), charType = types[randomIndex], charset = this.charsets[charType], randomCharIndex = Math.floor(Math.random() * charset.length);
+                            password += charset[randomCharIndex];
+                        }
+                        this.check(password);
+                        return this.shuffle(password);
+                    },
+                    shuffle(password) {
+                        let array = password.split('');
+                        let currentIndex = array.length;
+                        let temporaryValue, randomIndex;
+                        while (currentIndex !== 0) {
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex -= 1;
+                            temporaryValue = array[currentIndex];
+                            array[currentIndex] = array[randomIndex];
+                            array[randomIndex] = temporaryValue;
+                        }
+                        return array.join('');
+                    }
+                })));
+                Alpine.data('avatar', (() => ({
+                    content: '',
+                    image: '',
+                    add(event, callback) {
+                        let file = event.target.files[0];
+                        if (file) {
+                            let reader = new FileReader;
+                            reader.onload = e => {
+                                this.image = e.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                        if (callback) {
+                            callback();
+                        }
+                    },
+                    remove() {
+                        let root = this.$el.closest('[x-data]'), input = root && root.querySelector('input[type="file"]');
+                        if (input) {
+                            input.value = '';
+                        }
+                        this.image = '';
+                    },
+                    getInitials(string, letters = 2) {
+                        const wordArray = string.split(' ').slice(0, letters);
+                        if (wordArray.length >= 2) {
+                            return wordArray.reduce(((accumulator, currentValue) => `${accumulator}${currentValue[0].charAt(0)}`.toUpperCase()), '');
+                        }
+                        return wordArray[0].charAt(0).toUpperCase();
+                    }
+                })));
+                Alpine.directive('datepicker', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                    el.setAttribute('readonly', true);
+                    let evaluate = evaluateLater(expression || '{}');
+                    effect((() => {
+                        evaluate((content => {
+                            let format = grafema?.dateFormat, lang = grafema?.lang || navigator.language || navigator.userLanguage || 'en-US';
+                            let translateWeekdays = length => Array.from({
+                                length: 7
+                            }, ((_, i) => new Intl.DateTimeFormat(lang, {
+                                weekday: length
+                            }).format(new Date(2024, 0, i + 1))));
+                            let translateMonths = length => Array.from({
+                                length: 12
+                            }, ((_, i) => {
+                                let month = new Intl.DateTimeFormat(lang, {
+                                    month: length
+                                }).format(new Date(2024, i, 1));
+                                month = month.endsWith('.') ? month.slice(0, -1) : month;
+                                return month.charAt(0).toUpperCase() + month.slice(1);
+                            }));
+                            let formatter = (date, format) => {
+                                let s = date.toString(), f = date.getTime(), fullYear = date.getFullYear(), monthNumber = date.getMonth(), day = date.getDate(), hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds();
+                                return format.replace(/a|A|d|D|F|g|G|h|H|i|I|j|l|L|m|M|n|s|S|t|T|U|w|y|Y|z|Z/g, (format => {
+                                    switch (format) {
+                                      case 'a':
+                                        return hours > 11 ? 'pm' : 'am';
+
+                                      case 'A':
+                                        return hours > 11 ? 'PM' : 'AM';
+
+                                      case 'd':
+                                        return ('0' + day).slice(-2);
+
+                                      case 'D':
+                                        return translateWeekdays('short')[date.getDay()];
+
+                                      case 'F':
+                                        return translateMonths('long')[monthNumber];
+
+                                      case 'g':
+                                        return (s = hours || 12) > 12 ? s - 12 : s;
+
+                                      case 'G':
+                                        return hours;
+
+                                      case 'h':
+                                        return ('0' + ((s = hours || 12) > 12 ? s - 12 : s)).slice(-2);
+
+                                      case 'H':
+                                        return ('0' + hours).slice(-2);
+
+                                      case 'i':
+                                        return ('0' + minutes).slice(-2);
+
+                                      case 'I':
+                                        return (() => {
+                                            let a = new Date(fullYear, 0), c = Date.UTC(fullYear, 0), b = new Date(fullYear, 6), d = Date.UTC(fullYear, 6);
+                                            return a - c !== b - d ? 1 : 0;
+                                        })();
+
+                                      case 'j':
+                                        return day;
+
+                                      case 'l':
+                                        return translateWeekdays('long')[date.getDay()];
+
+                                      case 'L':
+                                        return (s = fullYear) % 4 === 0 && (s % 100 !== 0 || s % 400 === 0) ? 1 : 0;
+
+                                      case 'm':
+                                        return ('0' + (monthNumber + 1)).slice(-2);
+
+                                      case 'M':
+                                        return translateMonths('short')[monthNumber];
+
+                                      case 'n':
+                                        return monthNumber + 1;
+
+                                      case 's':
+                                        return ('0' + seconds).slice(-2);
+
+                                      case 'S':
+                                        return [ 'th', 'st', 'nd', 'rd' ][(s = day) < 4 ? s : 0];
+
+                                      case 't':
+                                        return new Date(fullYear, monthNumber, 0).getDate();
+
+                                      case 'T':
+                                        return 'UTC';
+
+                                      case 'U':
+                                        return ('' + f).slice(0, -3);
+
+                                      case 'w':
+                                        return date.getDay();
+
+                                      case 'y':
+                                        return ('' + fullYear).slice(-2);
+
+                                      case 'Y':
+                                        return fullYear;
+
+                                      case 'z':
+                                        return Math.ceil((date - new Date(fullYear, 0, 1)) / 864e5);
+
+                                      default:
+                                        return -date.getTimezoneOffset() * 60;
+                                    }
+                                }));
+                            };
+                            try {
+                                new Datepicker(el, {
+                                    ...{
+                                        inline: false,
+                                        multiple: false,
+                                        ranged: true,
+                                        time: false,
+                                        lang: lang.substr(0, 2).toLowerCase(),
+                                        months: 1,
+                                        openOn: 'today',
+                                        timeAmPm: false,
+                                        within: false,
+                                        without: false,
+                                        yearRange: 5,
+                                        weekStart: grafema?.weekStart,
+                                        separator: ' — ',
+                                        serialize: value => {
+                                            let date = new Date(value);
+                                            if (format) {
+                                                return formatter(date, format);
+                                            }
+                                            return date.toLocaleDateString(lang);
+                                        }
+                                    },
+                                    ...content
+                                });
+                            } catch (e) {
+                                console.error('Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js');
+                            }
+                        }));
+                    }));
+                }));
+                Alpine.data('mask', (() => ({
+                    run: mask => {
+                        let elem = this.$el;
+                        if (typeof mask === 'undefined') {
+                            let type = elem.getAttribute('type');
+                            if (type) {
+                                let exp = '';
+                                switch (type) {
+                                  case 'tel':
+                                    exp = /[^ \-()+\d]/g;
+                                    break;
+
+                                  case 'number':
+                                    exp = /[^.-\d]/g;
+                                    break;
+
+                                  case 'color':
+                                    exp = /[^ a-zA-Z(),\d]/g;
+                                    break;
+
+                                  case 'domain':
+                                    break;
+                                }
+                                if (exp) {
+                                    elem.value = elem.value.replace(exp, '');
+                                }
+                            }
+                        } else if (mask === Object(mask)) {
+                            elem.value = elem.value.replace(mask, '');
+                        } else {
+                            try {
+                                function limit(position, symbol, max) {
+                                    let pos = position;
+                                    max = max.toString();
+                                    if (mask.charAt(--pos) === symbol) {
+                                        if (elem.value.charAt(pos) === max.charAt(0)) {
+                                            return new RegExp('[0-' + max.charAt(1) + ']');
+                                        } else {
+                                            return /\d/;
+                                        }
+                                    }
+                                    return new RegExp('[0-' + max.charAt(0) + ']');
+                                }
+                                let maskArr = mask.match(/(\{[^}]+?\})|(.)/g), position = -1;
+                                maskArr = maskArr.map((function(symbol) {
+                                    ++position;
+                                    switch (symbol) {
+                                      case 'i':
+                                        return limit(position, symbol, 59);
+
+                                      case 'H':
+                                        return limit(position, symbol, 23);
+
+                                      case 'D':
+                                        return limit(position, symbol, 31);
+
+                                      case 'M':
+                                        return limit(position, symbol, 12);
+
+                                      case 'Y':
+                                      case '0':
+                                        return /\d/;
+
+                                      default:
+                                        if (/\{[^}]+?\}/.test(symbol)) {
+                                            return new RegExp(symbol.slice(2, -2));
+                                        }
+                                        return symbol;
+                                    }
+                                }));
+                                vanillaTextMask.maskInput({
+                                    inputElement: elem,
+                                    guide: false,
+                                    mask: maskArr
+                                });
+                            } catch (e) {
+                                console.error('Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask');
+                            }
+                        }
+                    }
+                })));
+                Alpine.magic('modal', (el => ({
+                    open: (id, animation) => {
+                        setTimeout((() => {
+                            let modal = document.getElementById(id);
+                            if (modal) {
+                                modal.classList.add('is-active', animation || 'fade');
+                            }
+                            document.body.style.overflow = 'hidden';
+                        }), 25);
+                    },
+                    close: animation => {
+                        let modal = el.closest('.modal');
+                        if (modal !== null && modal.classList.contains('is-active')) {
+                            modal.classList.remove('is-active', animation || 'fade');
+                            document.body.style.overflow = '';
+                        }
+                    }
+                })));
+                Alpine.directive('progress', ((el, {modifiers}) => {
+                    new IntersectionObserver(((entries, observer) => {
+                        entries.forEach((entry => {
+                            if (entry.isIntersecting) {
+                                let [value = 100, from = 0, to = 100, duration = '400ms'] = modifiers;
+                                let start = parseInt(from) / parseInt(value) * 100;
+                                let end = parseInt(to) / parseInt(value) * 100;
+                                if (start > end) {
+                                    [end, start] = [ start, end ];
+                                }
+                                el.style.setProperty('--grafema-progress', (start < 0 ? 0 : start) + '%');
+                                setTimeout((() => {
+                                    el.style.setProperty('--grafema-transition', ' width ' + duration);
+                                    el.style.setProperty('--grafema-progress', (end > 100 ? 100 : end) + '%');
+                                }), 500);
+                                observer.unobserve(el);
+                            }
+                        }));
+                    })).observe(el);
+                }));
+                Alpine.directive('select', ((el, {expression}) => {
+                    const settings = {
+                        showSearch: false,
+                        hideSelected: false,
+                        closeOnSelect: true
+                    };
+                    if (el.hasAttribute('multiple')) {
+                        settings.hideSelected = true;
+                        settings.closeOnSelect = false;
+                    }
+                    const custom = JSON.parse(expression || '{}');
+                    if (typeof custom === 'object') {
+                        Object.assign(settings, custom);
+                    }
+                    try {
+                        new SlimSelect({
+                            settings,
+                            select: el,
+                            data: Array.from(el.options).reduce(((acc, option) => {
+                                let image = option.getAttribute('data-image'), icon = option.getAttribute('data-icon'), description = option.getAttribute('data-description') || '';
+                                let images = image ? `<img src="${image}" alt />` : '', icons = icon ? `<i class="${icon}"></i>` : '', descriptions = description ? `<span class="ss-description">${description}</span>` : '', html = `${images}${icons}<span class="ss-text">${option.text}${descriptions}</span>`;
+                                let optionData = {
+                                    text: option.text,
+                                    value: option.value,
+                                    html,
+                                    selected: option.selected,
+                                    display: true,
+                                    disabled: false,
+                                    mandatory: false,
+                                    placeholder: false,
+                                    class: '',
+                                    style: '',
+                                    data: {}
+                                };
+                                if (option.parentElement.tagName === 'OPTGROUP') {
+                                    const optgroupLabel = option.parentElement.getAttribute('label');
+                                    const optgroup = acc.find((item => item.label === optgroupLabel));
+                                    if (optgroup) {
+                                        optgroup.options.push(optionData);
+                                    } else {
+                                        acc.push({
+                                            label: optgroupLabel,
+                                            options: [ optionData ]
+                                        });
+                                    }
+                                } else {
+                                    acc.push(optionData);
+                                }
+                                return acc;
+                            }), [])
+                        });
+                    } catch {
+                        console.error('The SlimSelect library is not connected');
+                    }
+                }));
+                Alpine.directive('media', ((el, {expression}) => {
+                    console.log(el);
+                }));
+                Alpine.data('builder', (() => ({
+                    default: {
+                        location: 'post',
+                        operator: '===',
+                        value: 'editor'
+                    },
+                    groups: [ {
+                        rules: [ {
+                            location: 'post_status',
+                            operator: '!=',
+                            value: 'contributor'
+                        } ]
+                    } ],
+                    addGroup() {
+                        let pattern = JSON.parse(JSON.stringify(this.default));
+                        this.groups.push({
+                            rules: [ pattern ]
+                        });
+                    },
+                    removeGroup(index) {
+                        this.groups.splice(index, 1);
+                    },
+                    addRule(key) {
+                        let pattern = JSON.parse(JSON.stringify(this.default));
+                        this.groups[key].rules.push(pattern);
+                    },
+                    removeRule(key, index) {
+                        this.groups[key].rules.splice(index, 1);
+                    },
+                    submit() {
+                        let groups = JSON.parse(JSON.stringify(this.groups));
+                        console.log(groups);
+                    }
+                })));
+                Alpine.data('sortable', (() => ({
+                    init() {
+                        let nestedSortables = [].slice.call(document.querySelectorAll('.sortable'));
+                        for (let i = 0; i < nestedSortables.length; i++) {
+                            new Sortable(nestedSortables[i], {
+                                multiDrag: true,
+                                selectedClass: 'is-active',
+                                fallbackTolerance: 3,
+                                group: 'nested',
+                                easing: 'cubic-bezier(1, 0, 0, 1)',
+                                animation: 100,
+                                fallbackOnBody: true,
+                                swapThreshold: .5,
+                                dataIdAttr: 'data-id'
+                            });
+                        }
+                    }
+                })));
+                Alpine.data('tab', (id => ({
+                    tab: id,
+                    tabButton(id) {
+                        return {
+                            ['@click']() {
+                                this.tab = id;
+                                let formData = new FormData;
+                                formData.append('tab', id);
+                                updateUrlParams(formData);
+                            },
+                            [':class']() {
+                                return this.tab === id ? 'active' : '';
+                            }
+                        };
+                    },
+                    tabContent(id) {
+                        return {
+                            ['x-show']() {
+                                return this.tab === id;
+                            }
+                        };
+                    }
+                })));
+                Alpine.data('table', (() => ({
+                    init() {
+                        document.addEventListener('keydown', (e => {
+                            let key = window.event ? event : e;
+                            if (!!key.shiftKey) {
+                                this.selection.shift = true;
+                            }
+                        }));
+                        document.addEventListener('keyup', (e => {
+                            let key = window.event ? event : e;
+                            if (!key.shiftKey) {
+                                this.selection.shift = false;
+                            }
+                        }));
+                    },
+                    selection: {
+                        box: {},
+                        shift: false,
+                        addMore: true
+                    },
+                    bulk: false,
+                    trigger: {
+                        ['@change'](e) {
+                            let checked = 0;
+                            let inputs = document.querySelectorAll('input[name="item[]"]');
+                            if (inputs.length) {
+                                inputs.forEach((input => (input.checked = e.target.checked, input.checked && checked++)));
+                            }
+                            this.bulk = checked > 0;
+                        }
+                    },
+                    reset: {
+                        ['@click'](e) {
+                            let inputs = document.querySelectorAll('input[name="item[]"], input[x-bind="trigger"]');
+                            if (inputs.length) {
+                                inputs.forEach((input => input.checked = false));
+                            }
+                            this.bulk = false;
+                        }
+                    },
+                    switcher: {
+                        ['@click'](e) {
+                            let checkboxes = document.querySelectorAll('input[name="item[]"]');
+                            let nodeList = Array.prototype.slice.call(document.getElementsByClassName('cb'));
+                            this.selection.addMore = !!e.target.checked;
+                            if (this.selection.shift) {
+                                this.selection.box[1] = nodeList.indexOf(e.target.parentNode);
+                                let i = this.selection.box[0], x = this.selection.box[1];
+                                if (i > x) {
+                                    for (;x < i; x++) {
+                                        checkboxes[x].checked = this.selection.addMore;
+                                    }
+                                }
+                                if (i < x) {
+                                    for (;i < x; i++) {
+                                        checkboxes[i].checked = this.selection.addMore;
+                                    }
+                                }
+                                this.selection.box[0] = undefined;
+                                this.selection.box[1] = undefined;
+                            } else {
+                                this.selection.box[0] = nodeList.indexOf(e.target.parentNode);
+                            }
+                            let checked = document.querySelectorAll('input[name="item[]"]:checked');
+                            this.bulk = checked.length > 0;
+                        }
+                    }
+                })));
+                Alpine.magic('password', (() => ({
+                    min: {
+                        lowercase: 2,
+                        uppercase: 2,
+                        special: 2,
+                        digit: 2,
+                        length: 12
+                    },
+                    valid: {
+                        lowercase: false,
+                        uppercase: false,
+                        special: false,
+                        digit: false,
+                        length: false
+                    },
+                    charsets: {
+                        lowercase: 'abcdefghijklmnopqrstuvwxyz',
+                        uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                        special: '!@#$%^&*(){|}~',
+                        digit: '0123456789'
+                    },
+                    switch(value) {
+                        return !!!value;
+                    },
+                    check(value) {
+                        let matchCount = 0;
+                        let totalCount = 0;
+                        for (const charset in this.charsets) {
+                            let requiredCount = this.min[charset], charsetRegex = new RegExp(`[${this.charsets[charset]}]`, 'g'), charsetCount = (value.match(charsetRegex) || []).length;
+                            matchCount += Math.min(charsetCount, requiredCount);
+                            totalCount += requiredCount;
+                            this.valid[charset] = charsetCount >= requiredCount;
+                        }
+                        if (value.length >= this.min.length) {
+                            matchCount += 1;
+                            totalCount += 1;
+                            this.valid.length = value.length >= this.min.length;
+                        }
+                        return Object.assign({
+                            progress: totalCount === 0 ? totalCount : matchCount / totalCount * 100
+                        }, this.valid);
+                    },
+                    generate() {
+                        let password = '';
+                        let types = Object.keys(this.charsets);
+                        types.forEach((type => {
+                            let count = Math.max(this.min[type], 0), charset = this.charsets[type];
+                            for (let i = 0; i < count; i++) {
+                                let randomIndex = Math.floor(Math.random() * charset.length);
+                                password += charset[randomIndex];
+                            }
+                        }));
+                        while (password.length < this.min.length) {
+                            let randomIndex = Math.floor(Math.random() * types.length), charType = types[randomIndex], charset = this.charsets[charType], randomCharIndex = Math.floor(Math.random() * charset.length);
+                            password += charset[randomCharIndex];
+                        }
+                        this.check(password);
+                        return this.shuffle(password);
+                    },
+                    shuffle(password) {
+                        let array = password.split('');
+                        let currentIndex = array.length;
+                        let temporaryValue, randomIndex;
+                        while (currentIndex !== 0) {
+                            randomIndex = Math.floor(Math.random() * currentIndex);
+                            currentIndex -= 1;
+                            temporaryValue = array[currentIndex];
+                            array[currentIndex] = array[randomIndex];
+                            array[randomIndex] = temporaryValue;
+                        }
+                        return array.join('');
+                    }
+                })));
+                Alpine.data('timer', ((endDate, startDate) => ({
+                    end: endDate,
+                    day: '00',
+                    hour: '00',
+                    min: '00',
+                    sec: '00',
+                    init() {
+                        let start = startDate || (new Date).valueOf(), end = new Date(this.end).valueOf();
+                        if (start < end) {
+                            let diff = Math.round((end - start) / 1e3);
+                            let t = this;
+                            setInterval((function() {
+                                t.day = ('0' + parseInt(diff / (60 * 60 * 24), 10)).slice(-2);
+                                t.hour = ('0' + parseInt(diff / (60 * 60) % 24, 10)).slice(-2);
+                                t.min = ('0' + parseInt(diff / 60 % 60, 10)).slice(-2);
+                                t.sec = ('0' + parseInt(diff % 60, 10)).slice(-2);
+                                if (--diff < 0) {
+                                    t.days = t.hour = t.min = t.sec = '00';
+                                }
+                            }), 1e3);
+                        }
+                    }
+                })));
+            }));
+        }
+    };
+    var __webpack_exports__ = {};
+    __webpack_modules__[749]();
+})();

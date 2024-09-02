@@ -1,3 +1,12 @@
+/**
+ * Slimselect is an advanced select dropdown.
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 2.7.0
+ * @source  https://github.com/brianvoe/slim-select
+ * @author	Brian Voelker
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
         typeof define === 'function' && define.amd ? define(factory) :

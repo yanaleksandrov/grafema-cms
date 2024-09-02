@@ -1,13 +1,12 @@
 /**
- * Croppr.js
- * https://github.com/jamesssooi/Croppr.js
+ * Croppr.js is a JavaScript image cropper that's lightweight, awesome, and has zero dependencies.
  *
- * A JavaScript image cropper that's lightweight, awesome, and has
- * zero dependencies.
+ * License: MIT <https://opensource.org/licenses/MIT>
  *
- * (C) 2017 James Ooi. Released under the MIT License.
+ * @version 2.3.0
+ * @source  https://github.com/jamesssooi/Croppr.js
+ * @author	James Ooi
  */
-
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 		typeof define === 'function' && define.amd ? define(factory) :

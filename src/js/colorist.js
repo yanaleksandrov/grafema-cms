@@ -1,8 +1,10 @@
 /**
- * colorist.js v1.0.0
- * Yan Alexandrov (c) 2021
- * https://codyshop.ru
- * Released under the MIT License
+ * Colorist.js
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 1.0.0
+ * @author	Yan Alexandrov (c) 2021
  */
 ( function( global, factory ) {
 	if( typeof define === 'function' && define.amd ) {

@@ -1,9 +1,12 @@
 /**
- * Drooltip.js
- * Developed by: Prev Wong	(imprev.co)
- * Documentation: https://prevwong.github.io/drooltip.js/
- * Github: https://github.com/prevwong/drooltip.js/
- * License: MIT (https://raw.githubusercontent.com/prevwong/drooltip.js/master/LICENSE)
+ * Drooltip.js is a lightweight native-js plugin/extension that allows you to create beautiful tooltips
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 1.0.2
+ * @source  https://prevwong.github.io/drooltip.js/
+ * @source  https://github.com/prevwong/drooltip.js/
+ * @author	Prev Wong	(imprev.co)
  */
 (function() {
     window["Drooltip"] = function() {

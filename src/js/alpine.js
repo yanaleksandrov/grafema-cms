@@ -1,8 +1,11 @@
 /**
- * Alpine.js 3.13.10
- * @see     https://github.com/alpinejs/alpine
+ * Alpine.js
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 3.13.10
+ * @source  https://github.com/alpinejs/alpine
  * @author	Copyright © 2019-2020 Caleb Porzio and contributors
- * @license MIT
  */
 (() => {
 	// packages/alpinejs/src/scheduler.js

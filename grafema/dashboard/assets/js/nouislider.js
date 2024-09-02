@@ -1,1 +1,1784 @@
-!function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?module.exports=t():window.noUiSlider=t()}((function(){"use strict";var t="14.6.4";function e(t){t.parentElement.removeChild(t)}function r(t){return null!=t}function n(t){t.preventDefault()}function i(t){return"number"==typeof t&&!isNaN(t)&&isFinite(t)}function o(t,e,r){r>0&&(u(t,e),setTimeout((function(){c(t,e)}),r))}function s(t){return Math.max(Math.min(t,100),0)}function a(t){return Array.isArray(t)?t:[t]}function l(t){var e=(t=String(t)).split(".");return e.length>1?e[1].length:0}function u(t,e){t.classList&&!/\s/.test(e)?t.classList.add(e):t.className+=" "+e}function c(t,e){t.classList&&!/\s/.test(e)?t.classList.remove(e):t.className=t.className.replace(new RegExp("(^|\\b)"+e.split(" ").join("|")+"(\\b|$)","gi")," ")}function p(t){var e=void 0!==window.pageXOffset,r="CSS1Compat"===(t.compatMode||"");return{x:e?window.pageXOffset:r?t.documentElement.scrollLeft:t.body.scrollLeft,y:e?window.pageYOffset:r?t.documentElement.scrollTop:t.body.scrollTop}}function f(t,e){return 100/(e-t)}function d(t,e,r){return 100*e/(t[r+1]-t[r])}function h(t,e){for(var r=1;t>=e[r];)r+=1;return r}function m(t,e,r){if(r>=t.slice(-1)[0])return 100;var n=h(r,t),i=t[n-1],o=t[n],s=e[n-1],a=e[n];return s+function(t,e){return d(t,t[0]<0?e+Math.abs(t[0]):e-t[0],0)}([i,o],r)/f(s,a)}function g(t,e,r,n){if(100===n)return n;var i=h(n,t),o=t[i-1],s=t[i];return r?n-o>(s-o)/2?s:o:e[i-1]?t[i-1]+function(t,e){return Math.round(t/e)*e}(n-t[i-1],e[i-1]):n}function v(e,r,n){var o;if("number"==typeof r&&(r=[r]),!Array.isArray(r))throw new Error("noUiSlider ("+t+"): 'range' contains invalid value.");if(!i(o="min"===e?0:"max"===e?100:parseFloat(e))||!i(r[0]))throw new Error("noUiSlider ("+t+"): 'range' value isn't numeric.");n.xPct.push(o),n.xVal.push(r[0]),o?n.xSteps.push(!isNaN(r[1])&&r[1]):isNaN(r[1])||(n.xSteps[0]=r[1]),n.xHighestCompleteStep.push(0)}function b(t,e,r){if(e)if(r.xVal[t]!==r.xVal[t+1]){r.xSteps[t]=d([r.xVal[t],r.xVal[t+1]],e,0)/f(r.xPct[t],r.xPct[t+1]);var n=(r.xVal[t+1]-r.xVal[t])/r.xNumSteps[t],i=Math.ceil(Number(n.toFixed(3))-1),o=r.xVal[t]+r.xNumSteps[t]*i;r.xHighestCompleteStep[t]=o}else r.xSteps[t]=r.xHighestCompleteStep[t]=r.xVal[t]}function x(t,e,r){var n;this.xPct=[],this.xVal=[],this.xSteps=[r||!1],this.xNumSteps=[!1],this.xHighestCompleteStep=[],this.snap=e;var i=[];for(n in t)t.hasOwnProperty(n)&&i.push([t[n],n]);for(i.length&&"object"==typeof i[0][0]?i.sort((function(t,e){return t[0][0]-e[0][0]})):i.sort((function(t,e){return t[0]-e[0]})),n=0;n<i.length;n++)v(i[n][1],i[n][0],this);for(this.xNumSteps=this.xSteps.slice(0),n=0;n<this.xNumSteps.length;n++)b(n,this.xNumSteps[n],this)}x.prototype.getDistance=function(e){var r,n=[];for(r=0;r<this.xNumSteps.length-1;r++){var i=this.xNumSteps[r];if(i&&e/i%1!=0)throw new Error("noUiSlider ("+t+"): 'limit', 'margin' and 'padding' of "+this.xPct[r]+"% range must be divisible by step.");n[r]=d(this.xVal,e,r)}return n},x.prototype.getAbsoluteDistance=function(t,e,r){var n,i=0;if(t<this.xPct[this.xPct.length-1])for(;t>this.xPct[i+1];)i++;else t===this.xPct[this.xPct.length-1]&&(i=this.xPct.length-2);r||t!==this.xPct[i+1]||i++;var o=1,s=e[i],a=0,l=0,u=0,c=0;for(n=r?(t-this.xPct[i])/(this.xPct[i+1]-this.xPct[i]):(this.xPct[i+1]-t)/(this.xPct[i+1]-this.xPct[i]);s>0;)a=this.xPct[i+1+c]-this.xPct[i+c],e[i+c]*o+100-100*n>100?(l=a*n,o=(s-100*n)/e[i+c],n=1):(l=e[i+c]*a/100*o,o=0),r?(u-=l,this.xPct.length+c>=1&&c--):(u+=l,this.xPct.length-c>=1&&c++),s=e[i+c]*o;return t+u},x.prototype.toStepping=function(t){return t=m(this.xVal,this.xPct,t)},x.prototype.fromStepping=function(t){return function(t,e,r){if(r>=100)return t.slice(-1)[0];var n=h(r,e),i=t[n-1],o=t[n],s=e[n-1];return function(t,e){return e*(t[1]-t[0])/100+t[0]}([i,o],(r-s)*f(s,e[n]))}(this.xVal,this.xPct,t)},x.prototype.getStep=function(t){return t=g(this.xPct,this.xSteps,this.snap,t)},x.prototype.getDefaultStep=function(t,e,r){var n=h(t,this.xPct);return(100===t||e&&t===this.xPct[n-1])&&(n=Math.max(n-1,1)),(this.xVal[n]-this.xVal[n-1])/r},x.prototype.getNearbySteps=function(t){var e=h(t,this.xPct);return{stepBefore:{startValue:this.xVal[e-2],step:this.xNumSteps[e-2],highestStep:this.xHighestCompleteStep[e-2]},thisStep:{startValue:this.xVal[e-1],step:this.xNumSteps[e-1],highestStep:this.xHighestCompleteStep[e-1]},stepAfter:{startValue:this.xVal[e],step:this.xNumSteps[e],highestStep:this.xHighestCompleteStep[e]}}},x.prototype.countStepDecimals=function(){var t=this.xNumSteps.map(l);return Math.max.apply(null,t)},x.prototype.convert=function(t){return this.getStep(this.toStepping(t))};var S={to:function(t){return void 0!==t&&t.toFixed(2)},from:Number},w={target:"target",base:"base",origin:"origin",handle:"handle",handleLower:"handle-lower",handleUpper:"handle-upper",touchArea:"touch-area",horizontal:"horizontal",vertical:"vertical",background:"background",connect:"connect",connects:"connects",ltr:"ltr",rtl:"rtl",textDirectionLtr:"txt-dir-ltr",textDirectionRtl:"txt-dir-rtl",draggable:"draggable",drag:"state-drag",tap:"state-tap",active:"active",tooltip:"tooltip",pips:"pips",pipsHorizontal:"pips-horizontal",pipsVertical:"pips-vertical",marker:"marker",markerHorizontal:"marker-horizontal",markerVertical:"marker-vertical",markerNormal:"marker-normal",markerLarge:"marker-large",markerSub:"marker-sub",value:"value",valueHorizontal:"value-horizontal",valueVertical:"value-vertical",valueNormal:"value-normal",valueLarge:"value-large",valueSub:"value-sub"},y={tooltips:".__tooltips",aria:".__aria"};function E(e){if(function(t){return"object"==typeof t&&"function"==typeof t.to&&"function"==typeof t.from}(e))return!0;throw new Error("noUiSlider ("+t+"): 'format' requires 'to' and 'from' methods.")}function C(e,r){if(!i(r))throw new Error("noUiSlider ("+t+"): 'step' is not numeric.");e.singleStep=r}function P(e,r){if(!i(r))throw new Error("noUiSlider ("+t+"): 'keyboardPageMultiplier' is not numeric.");e.keyboardPageMultiplier=r}function N(e,r){if(!i(r))throw new Error("noUiSlider ("+t+"): 'keyboardDefaultStep' is not numeric.");e.keyboardDefaultStep=r}function k(e,r){if("object"!=typeof r||Array.isArray(r))throw new Error("noUiSlider ("+t+"): 'range' is not an object.");if(void 0===r.min||void 0===r.max)throw new Error("noUiSlider ("+t+"): Missing 'min' or 'max' in 'range'.");if(r.min===r.max)throw new Error("noUiSlider ("+t+"): 'range' 'min' and 'max' cannot be equal.");e.spectrum=new x(r,e.snap,e.singleStep)}function U(e,r){if(r=a(r),!Array.isArray(r)||!r.length)throw new Error("noUiSlider ("+t+"): 'start' option is incorrect.");e.handles=r.length,e.start=r}function A(e,r){if(e.snap=r,"boolean"!=typeof r)throw new Error("noUiSlider ("+t+"): 'snap' option must be a boolean.")}function V(e,r){if(e.animate=r,"boolean"!=typeof r)throw new Error("noUiSlider ("+t+"): 'animate' option must be a boolean.")}function D(e,r){if(e.animationDuration=r,"number"!=typeof r)throw new Error("noUiSlider ("+t+"): 'animationDuration' option must be a number.")}function M(e,r){var n,i=[!1];if("lower"===r?r=[!0,!1]:"upper"===r&&(r=[!1,!0]),!0===r||!1===r){for(n=1;n<e.handles;n++)i.push(r);i.push(!1)}else{if(!Array.isArray(r)||!r.length||r.length!==e.handles+1)throw new Error("noUiSlider ("+t+"): 'connect' option doesn't match handle count.");i=r}e.connect=i}function O(e,r){switch(r){case"horizontal":e.ort=0;break;case"vertical":e.ort=1;break;default:throw new Error("noUiSlider ("+t+"): 'orientation' option is invalid.")}}function L(e,r){if(!i(r))throw new Error("noUiSlider ("+t+"): 'margin' option must be numeric.");0!==r&&(e.margin=e.spectrum.getDistance(r))}function z(e,r){if(!i(r))throw new Error("noUiSlider ("+t+"): 'limit' option must be numeric.");if(e.limit=e.spectrum.getDistance(r),!e.limit||e.handles<2)throw new Error("noUiSlider ("+t+"): 'limit' option is only supported on linear sliders with 2 or more handles.")}function H(e,r){var n;if(!i(r)&&!Array.isArray(r))throw new Error("noUiSlider ("+t+"): 'padding' option must be numeric or array of exactly 2 numbers.");if(Array.isArray(r)&&2!==r.length&&!i(r[0])&&!i(r[1]))throw new Error("noUiSlider ("+t+"): 'padding' option must be numeric or array of exactly 2 numbers.");if(0!==r){for(Array.isArray(r)||(r=[r,r]),e.padding=[e.spectrum.getDistance(r[0]),e.spectrum.getDistance(r[1])],n=0;n<e.spectrum.xNumSteps.length-1;n++)if(e.padding[0][n]<0||e.padding[1][n]<0)throw new Error("noUiSlider ("+t+"): 'padding' option must be a positive number(s).");var o=r[0]+r[1],s=e.spectrum.xVal[0];if(o/(e.spectrum.xVal[e.spectrum.xVal.length-1]-s)>1)throw new Error("noUiSlider ("+t+"): 'padding' option must not exceed 100% of the range.")}}function j(e,r){switch(r){case"ltr":e.dir=0;break;case"rtl":e.dir=1;break;default:throw new Error("noUiSlider ("+t+"): 'direction' option was not recognized.")}}function F(e,r){if("string"!=typeof r)throw new Error("noUiSlider ("+t+"): 'behaviour' must be a string containing options.");var n=r.indexOf("tap")>=0,i=r.indexOf("drag")>=0,o=r.indexOf("fixed")>=0,s=r.indexOf("snap")>=0,a=r.indexOf("hover")>=0,l=r.indexOf("unconstrained")>=0;if(o){if(2!==e.handles)throw new Error("noUiSlider ("+t+"): 'fixed' behaviour must be used with 2 handles");L(e,e.start[1]-e.start[0])}if(l&&(e.margin||e.limit))throw new Error("noUiSlider ("+t+"): 'unconstrained' behaviour cannot be used with margin or limit");e.events={tap:n||s,drag:i,fixed:o,snap:s,hover:a,unconstrained:l}}function R(e,r){if(!1!==r)if(!0===r){e.tooltips=[];for(var n=0;n<e.handles;n++)e.tooltips.push(!0)}else{if(e.tooltips=a(r),e.tooltips.length!==e.handles)throw new Error("noUiSlider ("+t+"): must pass a formatter for all handles.");e.tooltips.forEach((function(e){if("boolean"!=typeof e&&("object"!=typeof e||"function"!=typeof e.to))throw new Error("noUiSlider ("+t+"): 'tooltips' must be passed a formatter or 'false'.")}))}}function T(t,e){t.ariaFormat=e,E(e)}function _(t,e){t.format=e,E(e)}function B(e,r){if(e.keyboardSupport=r,"boolean"!=typeof r)throw new Error("noUiSlider ("+t+"): 'keyboardSupport' option must be a boolean.")}function q(t,e){t.documentElement=e}function X(e,r){if("string"!=typeof r&&!1!==r)throw new Error("noUiSlider ("+t+"): 'cssPrefix' must be a string or `false`.");e.cssPrefix=r}function Y(e,r){if("object"!=typeof r)throw new Error("noUiSlider ("+t+"): 'cssClasses' must be an object.");if("string"==typeof e.cssPrefix)for(var n in e.cssClasses={},r)r.hasOwnProperty(n)&&(e.cssClasses[n]=e.cssPrefix+r[n]);else e.cssClasses=r}function I(e){var n={margin:0,limit:0,padding:0,animate:!0,animationDuration:300,ariaFormat:S,format:S},i={step:{r:!1,t:C},keyboardPageMultiplier:{r:!1,t:P},keyboardDefaultStep:{r:!1,t:N},start:{r:!0,t:U},connect:{r:!0,t:M},direction:{r:!0,t:j},snap:{r:!1,t:A},animate:{r:!1,t:V},animationDuration:{r:!1,t:D},range:{r:!0,t:k},orientation:{r:!1,t:O},margin:{r:!1,t:L},limit:{r:!1,t:z},padding:{r:!1,t:H},behaviour:{r:!0,t:F},ariaFormat:{r:!1,t:T},format:{r:!1,t:_},tooltips:{r:!1,t:R},keyboardSupport:{r:!0,t:B},documentElement:{r:!1,t:q},cssPrefix:{r:!0,t:X},cssClasses:{r:!0,t:Y}},o={connect:!1,direction:"ltr",behaviour:"tap",orientation:"horizontal",keyboardSupport:!0,cssPrefix:"noUi-",cssClasses:w,keyboardPageMultiplier:5,keyboardDefaultStep:10};e.format&&!e.ariaFormat&&(e.ariaFormat=e.format),Object.keys(i).forEach((function(s){if(!r(e[s])&&void 0===o[s]){if(i[s].r)throw new Error("noUiSlider ("+t+"): '"+s+"' is required.");return!0}i[s].t(n,r(e[s])?e[s]:o[s])})),n.pips=e.pips;var s=document.createElement("div"),a=void 0!==s.style.msTransform,l=void 0!==s.style.transform;n.transformRule=l?"transform":a?"msTransform":"webkitTransform";return n.style=[["left","top"],["right","bottom"]][n.dir][n.ort],n}function W(i,l,f){var d,h,m,g,v,b,x,S,w=window.navigator.pointerEnabled?{start:"pointerdown",move:"pointermove",end:"pointerup"}:window.navigator.msPointerEnabled?{start:"MSPointerDown",move:"MSPointerMove",end:"MSPointerUp"}:{start:"mousedown touchstart",move:"mousemove touchmove",end:"mouseup touchend"},E=window.CSS&&CSS.supports&&CSS.supports("touch-action","none")&&function(){var t=!1;try{var e=Object.defineProperty({},"passive",{get:function(){t=!0}});window.addEventListener("test",null,e)}catch(t){}return t}(),C=i,P=l.spectrum,N=[],k=[],U=[],A=0,V={},D=i.ownerDocument,M=l.documentElement||D.documentElement,O=D.body,L=-1,z=0,H=1,j=2,F="rtl"===D.dir||1===l.ort?0:100;function R(t,e){var r=D.createElement("div");return e&&u(r,e),t.appendChild(r),r}function T(t,e){var r=R(t,l.cssClasses.origin),n=R(r,l.cssClasses.handle);return R(n,l.cssClasses.touchArea),n.setAttribute("data-handle",e),l.keyboardSupport&&(n.setAttribute("tabindex","0"),n.addEventListener("keydown",(function(t){return function(t,e){if(q()||X(e))return!1;var r=["Left","Right"],n=["Down","Up"],i=["PageDown","PageUp"],o=["Home","End"];l.dir&&!l.ort?r.reverse():l.ort&&!l.dir&&(n.reverse(),i.reverse());var s,a=t.key.replace("Arrow",""),u=a===i[0],c=a===i[1],p=a===n[0]||a===r[0]||u,f=a===n[1]||a===r[1]||c,d=a===o[0],h=a===o[1];if(!(p||f||d||h))return!0;if(t.preventDefault(),f||p){var m=l.keyboardPageMultiplier,g=p?0:1,v=xt(e)[g];if(null===v)return!1;!1===v&&(v=P.getDefaultStep(k[e],p,l.keyboardDefaultStep)),(c||u)&&(v*=m),v=Math.max(v,1e-7),v*=p?-1:1,s=N[e]+v}else s=h?l.spectrum.xVal[l.spectrum.xVal.length-1]:l.spectrum.xVal[0];return ht(e,P.toStepping(s),!0,!0),lt("slide",e),lt("update",e),lt("change",e),lt("set",e),!1}(t,e)}))),n.setAttribute("role","slider"),n.setAttribute("aria-orientation",l.ort?"vertical":"horizontal"),0===e?u(n,l.cssClasses.handleLower):e===l.handles-1&&u(n,l.cssClasses.handleUpper),r}function _(t,e){return!!e&&R(t,l.cssClasses.connect)}function B(t,e){return!!l.tooltips[e]&&R(t.firstChild,l.cssClasses.tooltip)}function q(){return C.hasAttribute("disabled")}function X(t){return h[t].hasAttribute("disabled")}function Y(){v&&(at("update"+y.tooltips),v.forEach((function(t){t&&e(t)})),v=null)}function W(){Y(),v=h.map(B),st("update"+y.tooltips,(function(t,e,r){if(v[e]){var n=t[e];!0!==l.tooltips[e]&&(n=l.tooltips[e].to(r[e])),v[e].innerHTML=n}}))}function $(t,e,r){var n=D.createElement("div"),i=[];i[z]=l.cssClasses.valueNormal,i[H]=l.cssClasses.valueLarge,i[j]=l.cssClasses.valueSub;var o=[];o[z]=l.cssClasses.markerNormal,o[H]=l.cssClasses.markerLarge,o[j]=l.cssClasses.markerSub;var s=[l.cssClasses.valueHorizontal,l.cssClasses.valueVertical],a=[l.cssClasses.markerHorizontal,l.cssClasses.markerVertical];function c(t,e){var r=e===l.cssClasses.value,n=r?i:o;return e+" "+(r?s:a)[l.ort]+" "+n[t]}return u(n,l.cssClasses.pips),u(n,0===l.ort?l.cssClasses.pipsHorizontal:l.cssClasses.pipsVertical),Object.keys(t).forEach((function(i){!function(t,i,o){if((o=e?e(i,o):o)!==L){var s=R(n,!1);s.className=c(o,l.cssClasses.marker),s.style[l.style]=t+"%",o>z&&((s=R(n,!1)).className=c(o,l.cssClasses.value),s.setAttribute("data-value",i),s.style[l.style]=t+"%",s.innerHTML=r.to(i))}}(i,t[i][0],t[i][1])})),n}function G(){g&&(e(g),g=null)}function J(e){G();var r=e.mode,n=e.density||1,i=e.filter||!1,o=function(e,r,n){if("range"===e||"steps"===e)return P.xVal;if("count"===e){if(r<2)throw new Error("noUiSlider ("+t+"): 'values' (>= 2) required for mode 'count'.");var i=r-1,o=100/i;for(r=[];i--;)r[i]=i*o;r.push(100),e="positions"}return"positions"===e?r.map((function(t){return P.fromStepping(n?P.getStep(t):t)})):"values"===e?n?r.map((function(t){return P.fromStepping(P.getStep(P.toStepping(t)))})):r:void 0}(r,e.values||!1,e.stepped||!1),s=function(t,e,r){var n,i={},o=P.xVal[0],s=P.xVal[P.xVal.length-1],a=!1,l=!1,u=0;return n=r.slice().sort((function(t,e){return t-e})),(r=n.filter((function(t){return!this[t]&&(this[t]=!0)}),{}))[0]!==o&&(r.unshift(o),a=!0),r[r.length-1]!==s&&(r.push(s),l=!0),r.forEach((function(n,o){var s,c,p,f,d,h,m,g,v,b,x=n,S=r[o+1],w="steps"===e;if(w&&(s=P.xNumSteps[o]),s||(s=S-x),!1!==x)for(void 0===S&&(S=x),s=Math.max(s,1e-7),c=x;c<=S;c=(c+s).toFixed(7)/1){for(g=(d=(f=P.toStepping(c))-u)/t,b=d/(v=Math.round(g)),p=1;p<=v;p+=1)i[(h=u+p*b).toFixed(5)]=[P.fromStepping(h),0];m=r.indexOf(c)>-1?H:w?j:z,!o&&a&&c!==S&&(m=0),c===S&&l||(i[f.toFixed(5)]=[c,m]),u=f}})),i}(n,r,o),a=e.format||{to:Math.round};return g=C.appendChild($(s,i,a))}function K(){var t=d.getBoundingClientRect(),e="offset"+["Width","Height"][l.ort];return 0===l.ort?t.width||d[e]:t.height||d[e]}function Q(t,e,r,n){var i=function(i){return!!(i=function(t,e,r){var n,i,o=0===t.type.indexOf("touch"),s=0===t.type.indexOf("mouse"),a=0===t.type.indexOf("pointer");0===t.type.indexOf("MSPointer")&&(a=!0);if("mousedown"===t.type&&!t.buttons&&!t.touches)return!1;if(o){var l=function(t){return t.target===r||r.contains(t.target)||t.target.shadowRoot&&t.target.shadowRoot.contains(r)};if("touchstart"===t.type){var u=Array.prototype.filter.call(t.touches,l);if(u.length>1)return!1;n=u[0].pageX,i=u[0].pageY}else{var c=Array.prototype.find.call(t.changedTouches,l);if(!c)return!1;n=c.pageX,i=c.pageY}}e=e||p(D),(s||a)&&(n=t.clientX+e.x,i=t.clientY+e.y);return t.pageOffset=e,t.points=[n,i],t.cursor=s||a,t}(i,n.pageOffset,n.target||e))&&(!(q()&&!n.doNotReject)&&(o=C,s=l.cssClasses.tap,!((o.classList?o.classList.contains(s):new RegExp("\\b"+s+"\\b").test(o.className))&&!n.doNotReject)&&(!(t===w.start&&void 0!==i.buttons&&i.buttons>1)&&((!n.hover||!i.buttons)&&(E||i.preventDefault(),i.calcPoint=i.points[l.ort],void r(i,n))))));var o,s},o=[];return t.split(" ").forEach((function(t){e.addEventListener(t,i,!!E&&{passive:!0}),o.push([t,i])})),o}function Z(t){var e,r,n,i,o,a,u=100*(t-(e=d,r=l.ort,n=e.getBoundingClientRect(),i=e.ownerDocument,o=i.documentElement,a=p(i),/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)&&(a.x=0),r?n.top+a.y-o.clientTop:n.left+a.x-o.clientLeft))/K();return u=s(u),l.dir?100-u:u}function tt(t,e){"mouseout"===t.type&&"HTML"===t.target.nodeName&&null===t.relatedTarget&&rt(t,e)}function et(t,e){if(-1===navigator.appVersion.indexOf("MSIE 9")&&0===t.buttons&&0!==e.buttonsProperty)return rt(t,e);var r=(l.dir?-1:1)*(t.calcPoint-e.startCalcPoint);pt(r>0,100*r/e.baseSize,e.locations,e.handleNumbers)}function rt(t,e){e.handle&&(c(e.handle,l.cssClasses.active),A-=1),e.listeners.forEach((function(t){M.removeEventListener(t[0],t[1])})),0===A&&(c(C,l.cssClasses.drag),dt(),t.cursor&&(O.style.cursor="",O.removeEventListener("selectstart",n))),e.handleNumbers.forEach((function(t){lt("change",t),lt("set",t),lt("end",t)}))}function nt(t,e){if(e.handleNumbers.some(X))return!1;var r;1===e.handleNumbers.length&&(r=h[e.handleNumbers[0]].children[0],A+=1,u(r,l.cssClasses.active));t.stopPropagation();var i=[],o=Q(w.move,M,et,{target:t.target,handle:r,listeners:i,startCalcPoint:t.calcPoint,baseSize:K(),pageOffset:t.pageOffset,handleNumbers:e.handleNumbers,buttonsProperty:t.buttons,locations:k.slice()}),s=Q(w.end,M,rt,{target:t.target,handle:r,listeners:i,doNotReject:!0,handleNumbers:e.handleNumbers}),a=Q("mouseout",M,tt,{target:t.target,handle:r,listeners:i,doNotReject:!0,handleNumbers:e.handleNumbers});i.push.apply(i,o.concat(s,a)),t.cursor&&(O.style.cursor=getComputedStyle(t.target).cursor,h.length>1&&u(C,l.cssClasses.drag),O.addEventListener("selectstart",n,!1)),e.handleNumbers.forEach((function(t){lt("start",t)}))}function it(t){t.stopPropagation();var e=Z(t.calcPoint),r=function(t){var e=100,r=!1;return h.forEach((function(n,i){if(!X(i)){var o=k[i],s=Math.abs(o-t);(s<e||s<=e&&t>o||100===s&&100===e)&&(r=i,e=s)}})),r}(e);if(!1===r)return!1;l.events.snap||o(C,l.cssClasses.tap,l.animationDuration),ht(r,e,!0,!0),dt(),lt("slide",r,!0),lt("update",r,!0),lt("change",r,!0),lt("set",r,!0),l.events.snap&&nt(t,{handleNumbers:[r]})}function ot(t){var e=Z(t.calcPoint),r=P.getStep(e),n=P.fromStepping(r);Object.keys(V).forEach((function(t){"hover"===t.split(".")[0]&&V[t].forEach((function(t){t.call(b,n)}))}))}function st(t,e){V[t]=V[t]||[],V[t].push(e),"update"===t.split(".")[0]&&h.forEach((function(t,e){lt("update",e)}))}function at(t){var e=t&&t.split(".")[0],r=e?t.substring(e.length):t;Object.keys(V).forEach((function(t){var n=t.split(".")[0],i=t.substring(n.length);e&&e!==n||r&&r!==i||function(t){return t===y.aria||t===y.tooltips}(i)&&r!==i||delete V[t]}))}function lt(t,e,r){Object.keys(V).forEach((function(n){var i=n.split(".")[0];t===i&&V[n].forEach((function(t){t.call(b,N.map(l.format.to),e,N.slice(),r||!1,k.slice(),b)}))}))}function ut(t,e,r,n,i,o){var a;return h.length>1&&!l.events.unconstrained&&(n&&e>0&&(a=P.getAbsoluteDistance(t[e-1],l.margin,0),r=Math.max(r,a)),i&&e<h.length-1&&(a=P.getAbsoluteDistance(t[e+1],l.margin,1),r=Math.min(r,a))),h.length>1&&l.limit&&(n&&e>0&&(a=P.getAbsoluteDistance(t[e-1],l.limit,0),r=Math.min(r,a)),i&&e<h.length-1&&(a=P.getAbsoluteDistance(t[e+1],l.limit,1),r=Math.max(r,a))),l.padding&&(0===e&&(a=P.getAbsoluteDistance(0,l.padding[0],0),r=Math.max(r,a)),e===h.length-1&&(a=P.getAbsoluteDistance(100,l.padding[1],1),r=Math.min(r,a))),!((r=s(r=P.getStep(r)))===t[e]&&!o)&&r}function ct(t,e){var r=l.ort;return(r?e:t)+", "+(r?t:e)}function pt(t,e,r,n){var i=r.slice(),o=[!t,t],s=[t,!t];n=n.slice(),t&&n.reverse(),n.length>1?n.forEach((function(t,r){var n=ut(i,t,i[t]+e,o[r],s[r],!1);!1===n?e=0:(e=n-i[t],i[t]=n)})):o=s=[!0];var a=!1;n.forEach((function(t,n){a=ht(t,r[t]+e,o[n],s[n])||a})),a&&n.forEach((function(t){lt("update",t),lt("slide",t)}))}function ft(t,e){return l.dir?100-t-e:t}function dt(){U.forEach((function(t){var e=k[t]>50?-1:1,r=3+(h.length+e*t);h[t].style.zIndex=r}))}function ht(t,e,r,n,i){return i||(e=ut(k,t,e,r,n,!1)),!1!==e&&(function(t,e){k[t]=e,N[t]=P.fromStepping(e);var r="translate("+ct(10*(ft(e,0)-F)+"%","0")+")";h[t].style[l.transformRule]=r,mt(t),mt(t+1)}(t,e),!0)}function mt(t){if(m[t]){var e=0,r=100;0!==t&&(e=k[t-1]),t!==m.length-1&&(r=k[t]);var n=r-e,i="translate("+ct(ft(e,n)+"%","0")+")",o="scale("+ct(n/100,"1")+")";m[t].style[l.transformRule]=i+" "+o}}function gt(t,e){return null===t||!1===t||void 0===t?k[e]:("number"==typeof t&&(t=String(t)),t=l.format.from(t),!1===(t=P.toStepping(t))||isNaN(t)?k[e]:t)}function vt(t,e,r){var n=a(t),i=void 0===k[0];e=void 0===e||!!e,l.animate&&!i&&o(C,l.cssClasses.tap,l.animationDuration),U.forEach((function(t){ht(t,gt(n[t],t),!0,!1,r)}));for(var s=1===U.length?0:1;s<U.length;++s)U.forEach((function(t){ht(t,k[t],!0,!0,r)}));dt(),U.forEach((function(t){lt("update",t),null!==n[t]&&e&&lt("set",t)}))}function bt(){var t=N.map(l.format.to);return 1===t.length?t[0]:t}function xt(t){var e=k[t],r=P.getNearbySteps(e),n=N[t],i=r.thisStep.step,o=null;if(l.snap)return[n-r.stepBefore.startValue||null,r.stepAfter.startValue-n||null];!1!==i&&n+i>r.stepAfter.startValue&&(i=r.stepAfter.startValue-n),o=n>r.thisStep.startValue?r.thisStep.step:!1!==r.stepBefore.step&&n-r.stepBefore.highestStep,100===e?i=null:0===e&&(o=null);var s=P.countStepDecimals();return null!==i&&!1!==i&&(i=Number(i.toFixed(s))),null!==o&&!1!==o&&(o=Number(o.toFixed(s))),[o,i]}return u(x=C,l.cssClasses.target),0===l.dir?u(x,l.cssClasses.ltr):u(x,l.cssClasses.rtl),0===l.ort?u(x,l.cssClasses.horizontal):u(x,l.cssClasses.vertical),u(x,"rtl"===getComputedStyle(x).direction?l.cssClasses.textDirectionRtl:l.cssClasses.textDirectionLtr),d=R(x,l.cssClasses.base),function(t,e){var r=R(e,l.cssClasses.connects);h=[],(m=[]).push(_(r,t[0]));for(var n=0;n<l.handles;n++)h.push(T(e,n)),U[n]=n,m.push(_(r,t[n+1]))}(l.connect,d),(S=l.events).fixed||h.forEach((function(t,e){Q(w.start,t.children[0],nt,{handleNumbers:[e]})})),S.tap&&Q(w.start,d,it,{}),S.hover&&Q(w.move,d,ot,{hover:!0}),S.drag&&m.forEach((function(t,e){if(!1!==t&&0!==e&&e!==m.length-1){var r=h[e-1],n=h[e],i=[t];u(t,l.cssClasses.draggable),S.fixed&&(i.push(r.children[0]),i.push(n.children[0])),i.forEach((function(t){Q(w.start,t,nt,{handles:[r,n],handleNumbers:[e-1,e]})}))}})),vt(l.start),l.pips&&J(l.pips),l.tooltips&&W(),at("update"+y.aria),st("update"+y.aria,(function(t,e,r,n,i){U.forEach((function(t){var e=h[t],n=ut(k,t,0,!0,!0,!0),o=ut(k,t,100,!0,!0,!0),s=i[t],a=l.ariaFormat.to(r[t]);n=P.fromStepping(n).toFixed(1),o=P.fromStepping(o).toFixed(1),s=P.fromStepping(s).toFixed(1),e.children[0].setAttribute("aria-valuemin",n),e.children[0].setAttribute("aria-valuemax",o),e.children[0].setAttribute("aria-valuenow",s),e.children[0].setAttribute("aria-valuetext",a)}))})),b={destroy:function(){for(var t in at(y.aria),at(y.tooltips),l.cssClasses)l.cssClasses.hasOwnProperty(t)&&c(C,l.cssClasses[t]);for(;C.firstChild;)C.removeChild(C.firstChild);delete C.noUiSlider},steps:function(){return U.map(xt)},on:st,off:at,get:bt,set:vt,setHandle:function(e,r,n,i){if(!((e=Number(e))>=0&&e<U.length))throw new Error("noUiSlider ("+t+"): invalid handle number, got: "+e);ht(e,gt(r,e),!0,!0,i),lt("update",e),n&&lt("set",e)},reset:function(t){vt(l.start,t)},__moveHandles:function(t,e,r){pt(t,e,k,r)},options:f,updateOptions:function(t,e){var n=bt(),i=["margin","limit","padding","range","animate","snap","step","format","pips","tooltips"];i.forEach((function(e){void 0!==t[e]&&(f[e]=t[e])}));var o=I(f);i.forEach((function(e){void 0!==t[e]&&(l[e]=o[e])})),P=o.spectrum,l.margin=o.margin,l.limit=o.limit,l.padding=o.padding,l.pips?J(l.pips):G(),l.tooltips?W():Y(),k=[],vt(r(t.start)?t.start:n,e)},target:C,removePips:G,removeTooltips:Y,getTooltips:function(){return v},getOrigins:function(){return h},pips:J}}return{__spectrum:x,version:t,cssClasses:w,create:function(e,r){if(!e||!e.nodeName)throw new Error("noUiSlider ("+t+"): create requires a single element, got: "+e);if(e.noUiSlider)throw new Error("noUiSlider ("+t+"): Slider was already initialized.");var n=W(e,I(r),r);return e.noUiSlider=n,n}}}));
+(() => {
+    var __webpack_modules__ = {
+        764: (module, exports) => {
+            var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;
+            (function(factory) {
+                if (true) {
+                    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = factory, __WEBPACK_AMD_DEFINE_RESULT__ = typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? __WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__) : __WEBPACK_AMD_DEFINE_FACTORY__, 
+                    __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+                } else {}
+            })((function() {
+                'use strict';
+                var VERSION = '14.6.4';
+                function isValidFormatter(entry) {
+                    return typeof entry === 'object' && typeof entry.to === 'function' && typeof entry.from === 'function';
+                }
+                function removeElement(el) {
+                    el.parentElement.removeChild(el);
+                }
+                function isSet(value) {
+                    return value !== null && value !== undefined;
+                }
+                function preventDefault(e) {
+                    e.preventDefault();
+                }
+                function unique(array) {
+                    return array.filter((function(a) {
+                        return !this[a] ? this[a] = true : false;
+                    }), {});
+                }
+                function closest(value, to) {
+                    return Math.round(value / to) * to;
+                }
+                function offset(elem, orientation) {
+                    var rect = elem.getBoundingClientRect();
+                    var doc = elem.ownerDocument;
+                    var docElem = doc.documentElement;
+                    var pageOffset = getPageOffset(doc);
+                    if (/webkit.*Chrome.*Mobile/i.test(navigator.userAgent)) {
+                        pageOffset.x = 0;
+                    }
+                    return orientation ? rect.top + pageOffset.y - docElem.clientTop : rect.left + pageOffset.x - docElem.clientLeft;
+                }
+                function isNumeric(a) {
+                    return typeof a === 'number' && !isNaN(a) && isFinite(a);
+                }
+                function addClassFor(element, className, duration) {
+                    if (duration > 0) {
+                        addClass(element, className);
+                        setTimeout((function() {
+                            removeClass(element, className);
+                        }), duration);
+                    }
+                }
+                function limit(a) {
+                    return Math.max(Math.min(a, 100), 0);
+                }
+                function asArray(a) {
+                    return Array.isArray(a) ? a : [ a ];
+                }
+                function countDecimals(numStr) {
+                    numStr = String(numStr);
+                    var pieces = numStr.split('.');
+                    return pieces.length > 1 ? pieces[1].length : 0;
+                }
+                function addClass(el, className) {
+                    if (el.classList && !/\s/.test(className)) {
+                        el.classList.add(className);
+                    } else {
+                        el.className += ' ' + className;
+                    }
+                }
+                function removeClass(el, className) {
+                    if (el.classList && !/\s/.test(className)) {
+                        el.classList.remove(className);
+                    } else {
+                        el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                    }
+                }
+                function hasClass(el, className) {
+                    return el.classList ? el.classList.contains(className) : new RegExp('\\b' + className + '\\b').test(el.className);
+                }
+                function getPageOffset(doc) {
+                    var supportPageOffset = window.pageXOffset !== undefined;
+                    var isCSS1Compat = (doc.compatMode || '') === 'CSS1Compat';
+                    var x = supportPageOffset ? window.pageXOffset : isCSS1Compat ? doc.documentElement.scrollLeft : doc.body.scrollLeft;
+                    var y = supportPageOffset ? window.pageYOffset : isCSS1Compat ? doc.documentElement.scrollTop : doc.body.scrollTop;
+                    return {
+                        x,
+                        y
+                    };
+                }
+                function getActions() {
+                    return window.navigator.pointerEnabled ? {
+                        start: 'pointerdown',
+                        move: 'pointermove',
+                        end: 'pointerup'
+                    } : window.navigator.msPointerEnabled ? {
+                        start: 'MSPointerDown',
+                        move: 'MSPointerMove',
+                        end: 'MSPointerUp'
+                    } : {
+                        start: 'mousedown touchstart',
+                        move: 'mousemove touchmove',
+                        end: 'mouseup touchend'
+                    };
+                }
+                function getSupportsPassive() {
+                    var supportsPassive = false;
+                    try {
+                        var opts = Object.defineProperty({}, 'passive', {
+                            get: function() {
+                                supportsPassive = true;
+                            }
+                        });
+                        window.addEventListener('test', null, opts);
+                    } catch (e) {}
+                    return supportsPassive;
+                }
+                function getSupportsTouchActionNone() {
+                    return window.CSS && CSS.supports && CSS.supports('touch-action', 'none');
+                }
+                function subRangeRatio(pa, pb) {
+                    return 100 / (pb - pa);
+                }
+                function fromPercentage(range, value, startRange) {
+                    return value * 100 / (range[startRange + 1] - range[startRange]);
+                }
+                function toPercentage(range, value) {
+                    return fromPercentage(range, range[0] < 0 ? value + Math.abs(range[0]) : value - range[0], 0);
+                }
+                function isPercentage(range, value) {
+                    return value * (range[1] - range[0]) / 100 + range[0];
+                }
+                function getJ(value, arr) {
+                    var j = 1;
+                    while (value >= arr[j]) {
+                        j += 1;
+                    }
+                    return j;
+                }
+                function toStepping(xVal, xPct, value) {
+                    if (value >= xVal.slice(-1)[0]) {
+                        return 100;
+                    }
+                    var j = getJ(value, xVal);
+                    var va = xVal[j - 1];
+                    var vb = xVal[j];
+                    var pa = xPct[j - 1];
+                    var pb = xPct[j];
+                    return pa + toPercentage([ va, vb ], value) / subRangeRatio(pa, pb);
+                }
+                function fromStepping(xVal, xPct, value) {
+                    if (value >= 100) {
+                        return xVal.slice(-1)[0];
+                    }
+                    var j = getJ(value, xPct);
+                    var va = xVal[j - 1];
+                    var vb = xVal[j];
+                    var pa = xPct[j - 1];
+                    var pb = xPct[j];
+                    return isPercentage([ va, vb ], (value - pa) * subRangeRatio(pa, pb));
+                }
+                function getStep(xPct, xSteps, snap, value) {
+                    if (value === 100) {
+                        return value;
+                    }
+                    var j = getJ(value, xPct);
+                    var a = xPct[j - 1];
+                    var b = xPct[j];
+                    if (snap) {
+                        if (value - a > (b - a) / 2) {
+                            return b;
+                        }
+                        return a;
+                    }
+                    if (!xSteps[j - 1]) {
+                        return value;
+                    }
+                    return xPct[j - 1] + closest(value - xPct[j - 1], xSteps[j - 1]);
+                }
+                function handleEntryPoint(index, value, that) {
+                    var percentage;
+                    if (typeof value === 'number') {
+                        value = [ value ];
+                    }
+                    if (!Array.isArray(value)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'range\' contains invalid value.');
+                    }
+                    if (index === 'min') {
+                        percentage = 0;
+                    } else if (index === 'max') {
+                        percentage = 100;
+                    } else {
+                        percentage = parseFloat(index);
+                    }
+                    if (!isNumeric(percentage) || !isNumeric(value[0])) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'range\' value isn\'t numeric.');
+                    }
+                    that.xPct.push(percentage);
+                    that.xVal.push(value[0]);
+                    if (!percentage) {
+                        if (!isNaN(value[1])) {
+                            that.xSteps[0] = value[1];
+                        }
+                    } else {
+                        that.xSteps.push(isNaN(value[1]) ? false : value[1]);
+                    }
+                    that.xHighestCompleteStep.push(0);
+                }
+                function handleStepPoint(i, n, that) {
+                    if (!n) {
+                        return;
+                    }
+                    if (that.xVal[i] === that.xVal[i + 1]) {
+                        that.xSteps[i] = that.xHighestCompleteStep[i] = that.xVal[i];
+                        return;
+                    }
+                    that.xSteps[i] = fromPercentage([ that.xVal[i], that.xVal[i + 1] ], n, 0) / subRangeRatio(that.xPct[i], that.xPct[i + 1]);
+                    var totalSteps = (that.xVal[i + 1] - that.xVal[i]) / that.xNumSteps[i];
+                    var highestStep = Math.ceil(Number(totalSteps.toFixed(3)) - 1);
+                    var step = that.xVal[i] + that.xNumSteps[i] * highestStep;
+                    that.xHighestCompleteStep[i] = step;
+                }
+                function Spectrum(entry, snap, singleStep) {
+                    this.xPct = [];
+                    this.xVal = [];
+                    this.xSteps = [ singleStep || false ];
+                    this.xNumSteps = [ false ];
+                    this.xHighestCompleteStep = [];
+                    this.snap = snap;
+                    var index;
+                    var ordered = [];
+                    for (index in entry) {
+                        if (entry.hasOwnProperty(index)) {
+                            ordered.push([ entry[index], index ]);
+                        }
+                    }
+                    if (ordered.length && typeof ordered[0][0] === 'object') {
+                        ordered.sort((function(a, b) {
+                            return a[0][0] - b[0][0];
+                        }));
+                    } else {
+                        ordered.sort((function(a, b) {
+                            return a[0] - b[0];
+                        }));
+                    }
+                    for (index = 0; index < ordered.length; index++) {
+                        handleEntryPoint(ordered[index][1], ordered[index][0], this);
+                    }
+                    this.xNumSteps = this.xSteps.slice(0);
+                    for (index = 0; index < this.xNumSteps.length; index++) {
+                        handleStepPoint(index, this.xNumSteps[index], this);
+                    }
+                }
+                Spectrum.prototype.getDistance = function(value) {
+                    var index;
+                    var distances = [];
+                    for (index = 0; index < this.xNumSteps.length - 1; index++) {
+                        var step = this.xNumSteps[index];
+                        if (step && value / step % 1 !== 0) {
+                            throw new Error('noUiSlider (' + VERSION + '): \'limit\', \'margin\' and \'padding\' of ' + this.xPct[index] + '% range must be divisible by step.');
+                        }
+                        distances[index] = fromPercentage(this.xVal, value, index);
+                    }
+                    return distances;
+                };
+                Spectrum.prototype.getAbsoluteDistance = function(value, distances, direction) {
+                    var xPct_index = 0;
+                    if (value < this.xPct[this.xPct.length - 1]) {
+                        while (value > this.xPct[xPct_index + 1]) {
+                            xPct_index++;
+                        }
+                    } else if (value === this.xPct[this.xPct.length - 1]) {
+                        xPct_index = this.xPct.length - 2;
+                    }
+                    if (!direction && value === this.xPct[xPct_index + 1]) {
+                        xPct_index++;
+                    }
+                    var start_factor;
+                    var rest_factor = 1;
+                    var rest_rel_distance = distances[xPct_index];
+                    var range_pct = 0;
+                    var rel_range_distance = 0;
+                    var abs_distance_counter = 0;
+                    var range_counter = 0;
+                    if (direction) {
+                        start_factor = (value - this.xPct[xPct_index]) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
+                    } else {
+                        start_factor = (this.xPct[xPct_index + 1] - value) / (this.xPct[xPct_index + 1] - this.xPct[xPct_index]);
+                    }
+                    while (rest_rel_distance > 0) {
+                        range_pct = this.xPct[xPct_index + 1 + range_counter] - this.xPct[xPct_index + range_counter];
+                        if (distances[xPct_index + range_counter] * rest_factor + 100 - start_factor * 100 > 100) {
+                            rel_range_distance = range_pct * start_factor;
+                            rest_factor = (rest_rel_distance - 100 * start_factor) / distances[xPct_index + range_counter];
+                            start_factor = 1;
+                        } else {
+                            rel_range_distance = distances[xPct_index + range_counter] * range_pct / 100 * rest_factor;
+                            rest_factor = 0;
+                        }
+                        if (direction) {
+                            abs_distance_counter = abs_distance_counter - rel_range_distance;
+                            if (this.xPct.length + range_counter >= 1) {
+                                range_counter--;
+                            }
+                        } else {
+                            abs_distance_counter = abs_distance_counter + rel_range_distance;
+                            if (this.xPct.length - range_counter >= 1) {
+                                range_counter++;
+                            }
+                        }
+                        rest_rel_distance = distances[xPct_index + range_counter] * rest_factor;
+                    }
+                    return value + abs_distance_counter;
+                };
+                Spectrum.prototype.toStepping = function(value) {
+                    value = toStepping(this.xVal, this.xPct, value);
+                    return value;
+                };
+                Spectrum.prototype.fromStepping = function(value) {
+                    return fromStepping(this.xVal, this.xPct, value);
+                };
+                Spectrum.prototype.getStep = function(value) {
+                    value = getStep(this.xPct, this.xSteps, this.snap, value);
+                    return value;
+                };
+                Spectrum.prototype.getDefaultStep = function(value, isDown, size) {
+                    var j = getJ(value, this.xPct);
+                    if (value === 100 || isDown && value === this.xPct[j - 1]) {
+                        j = Math.max(j - 1, 1);
+                    }
+                    return (this.xVal[j] - this.xVal[j - 1]) / size;
+                };
+                Spectrum.prototype.getNearbySteps = function(value) {
+                    var j = getJ(value, this.xPct);
+                    return {
+                        stepBefore: {
+                            startValue: this.xVal[j - 2],
+                            step: this.xNumSteps[j - 2],
+                            highestStep: this.xHighestCompleteStep[j - 2]
+                        },
+                        thisStep: {
+                            startValue: this.xVal[j - 1],
+                            step: this.xNumSteps[j - 1],
+                            highestStep: this.xHighestCompleteStep[j - 1]
+                        },
+                        stepAfter: {
+                            startValue: this.xVal[j],
+                            step: this.xNumSteps[j],
+                            highestStep: this.xHighestCompleteStep[j]
+                        }
+                    };
+                };
+                Spectrum.prototype.countStepDecimals = function() {
+                    var stepDecimals = this.xNumSteps.map(countDecimals);
+                    return Math.max.apply(null, stepDecimals);
+                };
+                Spectrum.prototype.convert = function(value) {
+                    return this.getStep(this.toStepping(value));
+                };
+                var defaultFormatter = {
+                    to: function(value) {
+                        return value !== undefined && value.toFixed(2);
+                    },
+                    from: Number
+                };
+                var cssClasses = {
+                    target: 'target',
+                    base: 'base',
+                    origin: 'origin',
+                    handle: 'handle',
+                    handleLower: 'handle-lower',
+                    handleUpper: 'handle-upper',
+                    touchArea: 'touch-area',
+                    horizontal: 'horizontal',
+                    vertical: 'vertical',
+                    background: 'background',
+                    connect: 'connect',
+                    connects: 'connects',
+                    ltr: 'ltr',
+                    rtl: 'rtl',
+                    textDirectionLtr: 'txt-dir-ltr',
+                    textDirectionRtl: 'txt-dir-rtl',
+                    draggable: 'draggable',
+                    drag: 'state-drag',
+                    tap: 'state-tap',
+                    active: 'active',
+                    tooltip: 'tooltip',
+                    pips: 'pips',
+                    pipsHorizontal: 'pips-horizontal',
+                    pipsVertical: 'pips-vertical',
+                    marker: 'marker',
+                    markerHorizontal: 'marker-horizontal',
+                    markerVertical: 'marker-vertical',
+                    markerNormal: 'marker-normal',
+                    markerLarge: 'marker-large',
+                    markerSub: 'marker-sub',
+                    value: 'value',
+                    valueHorizontal: 'value-horizontal',
+                    valueVertical: 'value-vertical',
+                    valueNormal: 'value-normal',
+                    valueLarge: 'value-large',
+                    valueSub: 'value-sub'
+                };
+                var INTERNAL_EVENT_NS = {
+                    tooltips: '.__tooltips',
+                    aria: '.__aria'
+                };
+                function validateFormat(entry) {
+                    if (isValidFormatter(entry)) {
+                        return true;
+                    }
+                    throw new Error('noUiSlider (' + VERSION + '): \'format\' requires \'to\' and \'from\' methods.');
+                }
+                function testStep(parsed, entry) {
+                    if (!isNumeric(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'step\' is not numeric.');
+                    }
+                    parsed.singleStep = entry;
+                }
+                function testKeyboardPageMultiplier(parsed, entry) {
+                    if (!isNumeric(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'keyboardPageMultiplier\' is not numeric.');
+                    }
+                    parsed.keyboardPageMultiplier = entry;
+                }
+                function testKeyboardDefaultStep(parsed, entry) {
+                    if (!isNumeric(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'keyboardDefaultStep\' is not numeric.');
+                    }
+                    parsed.keyboardDefaultStep = entry;
+                }
+                function testRange(parsed, entry) {
+                    if (typeof entry !== 'object' || Array.isArray(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'range\' is not an object.');
+                    }
+                    if (entry.min === undefined || entry.max === undefined) {
+                        throw new Error('noUiSlider (' + VERSION + '): Missing \'min\' or \'max\' in \'range\'.');
+                    }
+                    if (entry.min === entry.max) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'range\' \'min\' and \'max\' cannot be equal.');
+                    }
+                    parsed.spectrum = new Spectrum(entry, parsed.snap, parsed.singleStep);
+                }
+                function testStart(parsed, entry) {
+                    entry = asArray(entry);
+                    if (!Array.isArray(entry) || !entry.length) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'start\' option is incorrect.');
+                    }
+                    parsed.handles = entry.length;
+                    parsed.start = entry;
+                }
+                function testSnap(parsed, entry) {
+                    parsed.snap = entry;
+                    if (typeof entry !== 'boolean') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'snap\' option must be a boolean.');
+                    }
+                }
+                function testAnimate(parsed, entry) {
+                    parsed.animate = entry;
+                    if (typeof entry !== 'boolean') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'animate\' option must be a boolean.');
+                    }
+                }
+                function testAnimationDuration(parsed, entry) {
+                    parsed.animationDuration = entry;
+                    if (typeof entry !== 'number') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'animationDuration\' option must be a number.');
+                    }
+                }
+                function testConnect(parsed, entry) {
+                    var connect = [ false ];
+                    var i;
+                    if (entry === 'lower') {
+                        entry = [ true, false ];
+                    } else if (entry === 'upper') {
+                        entry = [ false, true ];
+                    }
+                    if (entry === true || entry === false) {
+                        for (i = 1; i < parsed.handles; i++) {
+                            connect.push(entry);
+                        }
+                        connect.push(false);
+                    } else if (!Array.isArray(entry) || !entry.length || entry.length !== parsed.handles + 1) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'connect\' option doesn\'t match handle count.');
+                    } else {
+                        connect = entry;
+                    }
+                    parsed.connect = connect;
+                }
+                function testOrientation(parsed, entry) {
+                    switch (entry) {
+                      case 'horizontal':
+                        parsed.ort = 0;
+                        break;
+
+                      case 'vertical':
+                        parsed.ort = 1;
+                        break;
+
+                      default:
+                        throw new Error('noUiSlider (' + VERSION + '): \'orientation\' option is invalid.');
+                    }
+                }
+                function testMargin(parsed, entry) {
+                    if (!isNumeric(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'margin\' option must be numeric.');
+                    }
+                    if (entry === 0) {
+                        return;
+                    }
+                    parsed.margin = parsed.spectrum.getDistance(entry);
+                }
+                function testLimit(parsed, entry) {
+                    if (!isNumeric(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'limit\' option must be numeric.');
+                    }
+                    parsed.limit = parsed.spectrum.getDistance(entry);
+                    if (!parsed.limit || parsed.handles < 2) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'limit\' option is only supported on linear sliders with 2 or more handles.');
+                    }
+                }
+                function testPadding(parsed, entry) {
+                    var index;
+                    if (!isNumeric(entry) && !Array.isArray(entry)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'padding\' option must be numeric or array of exactly 2 numbers.');
+                    }
+                    if (Array.isArray(entry) && !(entry.length === 2 || isNumeric(entry[0]) || isNumeric(entry[1]))) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'padding\' option must be numeric or array of exactly 2 numbers.');
+                    }
+                    if (entry === 0) {
+                        return;
+                    }
+                    if (!Array.isArray(entry)) {
+                        entry = [ entry, entry ];
+                    }
+                    parsed.padding = [ parsed.spectrum.getDistance(entry[0]), parsed.spectrum.getDistance(entry[1]) ];
+                    for (index = 0; index < parsed.spectrum.xNumSteps.length - 1; index++) {
+                        if (parsed.padding[0][index] < 0 || parsed.padding[1][index] < 0) {
+                            throw new Error('noUiSlider (' + VERSION + '): \'padding\' option must be a positive number(s).');
+                        }
+                    }
+                    var totalPadding = entry[0] + entry[1];
+                    var firstValue = parsed.spectrum.xVal[0];
+                    var lastValue = parsed.spectrum.xVal[parsed.spectrum.xVal.length - 1];
+                    if (totalPadding / (lastValue - firstValue) > 1) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'padding\' option must not exceed 100% of the range.');
+                    }
+                }
+                function testDirection(parsed, entry) {
+                    switch (entry) {
+                      case 'ltr':
+                        parsed.dir = 0;
+                        break;
+
+                      case 'rtl':
+                        parsed.dir = 1;
+                        break;
+
+                      default:
+                        throw new Error('noUiSlider (' + VERSION + '): \'direction\' option was not recognized.');
+                    }
+                }
+                function testBehaviour(parsed, entry) {
+                    if (typeof entry !== 'string') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'behaviour\' must be a string containing options.');
+                    }
+                    var tap = entry.indexOf('tap') >= 0;
+                    var drag = entry.indexOf('drag') >= 0;
+                    var fixed = entry.indexOf('fixed') >= 0;
+                    var snap = entry.indexOf('snap') >= 0;
+                    var hover = entry.indexOf('hover') >= 0;
+                    var unconstrained = entry.indexOf('unconstrained') >= 0;
+                    if (fixed) {
+                        if (parsed.handles !== 2) {
+                            throw new Error('noUiSlider (' + VERSION + '): \'fixed\' behaviour must be used with 2 handles');
+                        }
+                        testMargin(parsed, parsed.start[1] - parsed.start[0]);
+                    }
+                    if (unconstrained && (parsed.margin || parsed.limit)) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'unconstrained\' behaviour cannot be used with margin or limit');
+                    }
+                    parsed.events = {
+                        tap: tap || snap,
+                        drag,
+                        fixed,
+                        snap,
+                        hover,
+                        unconstrained
+                    };
+                }
+                function testTooltips(parsed, entry) {
+                    if (entry === false) {
+                        return;
+                    }
+                    if (entry === true) {
+                        parsed.tooltips = [];
+                        for (var i = 0; i < parsed.handles; i++) {
+                            parsed.tooltips.push(true);
+                        }
+                    } else {
+                        parsed.tooltips = asArray(entry);
+                        if (parsed.tooltips.length !== parsed.handles) {
+                            throw new Error('noUiSlider (' + VERSION + '): must pass a formatter for all handles.');
+                        }
+                        parsed.tooltips.forEach((function(formatter) {
+                            if (typeof formatter !== 'boolean' && (typeof formatter !== 'object' || typeof formatter.to !== 'function')) {
+                                throw new Error('noUiSlider (' + VERSION + '): \'tooltips\' must be passed a formatter or \'false\'.');
+                            }
+                        }));
+                    }
+                }
+                function testAriaFormat(parsed, entry) {
+                    parsed.ariaFormat = entry;
+                    validateFormat(entry);
+                }
+                function testFormat(parsed, entry) {
+                    parsed.format = entry;
+                    validateFormat(entry);
+                }
+                function testKeyboardSupport(parsed, entry) {
+                    parsed.keyboardSupport = entry;
+                    if (typeof entry !== 'boolean') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'keyboardSupport\' option must be a boolean.');
+                    }
+                }
+                function testDocumentElement(parsed, entry) {
+                    parsed.documentElement = entry;
+                }
+                function testCssPrefix(parsed, entry) {
+                    if (typeof entry !== 'string' && entry !== false) {
+                        throw new Error('noUiSlider (' + VERSION + '): \'cssPrefix\' must be a string or `false`.');
+                    }
+                    parsed.cssPrefix = entry;
+                }
+                function testCssClasses(parsed, entry) {
+                    if (typeof entry !== 'object') {
+                        throw new Error('noUiSlider (' + VERSION + '): \'cssClasses\' must be an object.');
+                    }
+                    if (typeof parsed.cssPrefix === 'string') {
+                        parsed.cssClasses = {};
+                        for (var key in entry) {
+                            if (!entry.hasOwnProperty(key)) {
+                                continue;
+                            }
+                            parsed.cssClasses[key] = parsed.cssPrefix + entry[key];
+                        }
+                    } else {
+                        parsed.cssClasses = entry;
+                    }
+                }
+                function testOptions(options) {
+                    var parsed = {
+                        margin: 0,
+                        limit: 0,
+                        padding: 0,
+                        animate: true,
+                        animationDuration: 300,
+                        ariaFormat: defaultFormatter,
+                        format: defaultFormatter
+                    };
+                    var tests = {
+                        step: {
+                            r: false,
+                            t: testStep
+                        },
+                        keyboardPageMultiplier: {
+                            r: false,
+                            t: testKeyboardPageMultiplier
+                        },
+                        keyboardDefaultStep: {
+                            r: false,
+                            t: testKeyboardDefaultStep
+                        },
+                        start: {
+                            r: true,
+                            t: testStart
+                        },
+                        connect: {
+                            r: true,
+                            t: testConnect
+                        },
+                        direction: {
+                            r: true,
+                            t: testDirection
+                        },
+                        snap: {
+                            r: false,
+                            t: testSnap
+                        },
+                        animate: {
+                            r: false,
+                            t: testAnimate
+                        },
+                        animationDuration: {
+                            r: false,
+                            t: testAnimationDuration
+                        },
+                        range: {
+                            r: true,
+                            t: testRange
+                        },
+                        orientation: {
+                            r: false,
+                            t: testOrientation
+                        },
+                        margin: {
+                            r: false,
+                            t: testMargin
+                        },
+                        limit: {
+                            r: false,
+                            t: testLimit
+                        },
+                        padding: {
+                            r: false,
+                            t: testPadding
+                        },
+                        behaviour: {
+                            r: true,
+                            t: testBehaviour
+                        },
+                        ariaFormat: {
+                            r: false,
+                            t: testAriaFormat
+                        },
+                        format: {
+                            r: false,
+                            t: testFormat
+                        },
+                        tooltips: {
+                            r: false,
+                            t: testTooltips
+                        },
+                        keyboardSupport: {
+                            r: true,
+                            t: testKeyboardSupport
+                        },
+                        documentElement: {
+                            r: false,
+                            t: testDocumentElement
+                        },
+                        cssPrefix: {
+                            r: true,
+                            t: testCssPrefix
+                        },
+                        cssClasses: {
+                            r: true,
+                            t: testCssClasses
+                        }
+                    };
+                    var defaults = {
+                        connect: false,
+                        direction: 'ltr',
+                        behaviour: 'tap',
+                        orientation: 'horizontal',
+                        keyboardSupport: true,
+                        cssPrefix: 'noUi-',
+                        cssClasses,
+                        keyboardPageMultiplier: 5,
+                        keyboardDefaultStep: 10
+                    };
+                    if (options.format && !options.ariaFormat) {
+                        options.ariaFormat = options.format;
+                    }
+                    Object.keys(tests).forEach((function(name) {
+                        if (!isSet(options[name]) && defaults[name] === undefined) {
+                            if (tests[name].r) {
+                                throw new Error('noUiSlider (' + VERSION + '): \'' + name + '\' is required.');
+                            }
+                            return true;
+                        }
+                        tests[name].t(parsed, !isSet(options[name]) ? defaults[name] : options[name]);
+                    }));
+                    parsed.pips = options.pips;
+                    var d = document.createElement('div');
+                    var msPrefix = d.style.msTransform !== undefined;
+                    var noPrefix = d.style.transform !== undefined;
+                    parsed.transformRule = noPrefix ? 'transform' : msPrefix ? 'msTransform' : 'webkitTransform';
+                    var styles = [ [ 'left', 'top' ], [ 'right', 'bottom' ] ];
+                    parsed.style = styles[parsed.dir][parsed.ort];
+                    return parsed;
+                }
+                function scope(target, options, originalOptions) {
+                    var actions = getActions();
+                    var supportsTouchActionNone = getSupportsTouchActionNone();
+                    var supportsPassive = supportsTouchActionNone && getSupportsPassive();
+                    var scope_Target = target;
+                    var scope_Base;
+                    var scope_Handles;
+                    var scope_Connects;
+                    var scope_Pips;
+                    var scope_Tooltips;
+                    var scope_Spectrum = options.spectrum;
+                    var scope_Values = [];
+                    var scope_Locations = [];
+                    var scope_HandleNumbers = [];
+                    var scope_ActiveHandlesCount = 0;
+                    var scope_Events = {};
+                    var scope_Self;
+                    var scope_Document = target.ownerDocument;
+                    var scope_DocumentElement = options.documentElement || scope_Document.documentElement;
+                    var scope_Body = scope_Document.body;
+                    var PIPS_NONE = -1;
+                    var PIPS_NO_VALUE = 0;
+                    var PIPS_LARGE_VALUE = 1;
+                    var PIPS_SMALL_VALUE = 2;
+                    var scope_DirOffset = scope_Document.dir === 'rtl' || options.ort === 1 ? 0 : 100;
+                    function addNodeTo(addTarget, className) {
+                        var div = scope_Document.createElement('div');
+                        if (className) {
+                            addClass(div, className);
+                        }
+                        addTarget.appendChild(div);
+                        return div;
+                    }
+                    function addOrigin(base, handleNumber) {
+                        var origin = addNodeTo(base, options.cssClasses.origin);
+                        var handle = addNodeTo(origin, options.cssClasses.handle);
+                        addNodeTo(handle, options.cssClasses.touchArea);
+                        handle.setAttribute('data-handle', handleNumber);
+                        if (options.keyboardSupport) {
+                            handle.setAttribute('tabindex', '0');
+                            handle.addEventListener('keydown', (function(event) {
+                                return eventKeydown(event, handleNumber);
+                            }));
+                        }
+                        handle.setAttribute('role', 'slider');
+                        handle.setAttribute('aria-orientation', options.ort ? 'vertical' : 'horizontal');
+                        if (handleNumber === 0) {
+                            addClass(handle, options.cssClasses.handleLower);
+                        } else if (handleNumber === options.handles - 1) {
+                            addClass(handle, options.cssClasses.handleUpper);
+                        }
+                        return origin;
+                    }
+                    function addConnect(base, add) {
+                        if (!add) {
+                            return false;
+                        }
+                        return addNodeTo(base, options.cssClasses.connect);
+                    }
+                    function addElements(connectOptions, base) {
+                        var connectBase = addNodeTo(base, options.cssClasses.connects);
+                        scope_Handles = [];
+                        scope_Connects = [];
+                        scope_Connects.push(addConnect(connectBase, connectOptions[0]));
+                        for (var i = 0; i < options.handles; i++) {
+                            scope_Handles.push(addOrigin(base, i));
+                            scope_HandleNumbers[i] = i;
+                            scope_Connects.push(addConnect(connectBase, connectOptions[i + 1]));
+                        }
+                    }
+                    function addSlider(addTarget) {
+                        addClass(addTarget, options.cssClasses.target);
+                        if (options.dir === 0) {
+                            addClass(addTarget, options.cssClasses.ltr);
+                        } else {
+                            addClass(addTarget, options.cssClasses.rtl);
+                        }
+                        if (options.ort === 0) {
+                            addClass(addTarget, options.cssClasses.horizontal);
+                        } else {
+                            addClass(addTarget, options.cssClasses.vertical);
+                        }
+                        var textDirection = getComputedStyle(addTarget).direction;
+                        if (textDirection === 'rtl') {
+                            addClass(addTarget, options.cssClasses.textDirectionRtl);
+                        } else {
+                            addClass(addTarget, options.cssClasses.textDirectionLtr);
+                        }
+                        return addNodeTo(addTarget, options.cssClasses.base);
+                    }
+                    function addTooltip(handle, handleNumber) {
+                        if (!options.tooltips[handleNumber]) {
+                            return false;
+                        }
+                        return addNodeTo(handle.firstChild, options.cssClasses.tooltip);
+                    }
+                    function isSliderDisabled() {
+                        return scope_Target.hasAttribute('disabled');
+                    }
+                    function isHandleDisabled(handleNumber) {
+                        var handleOrigin = scope_Handles[handleNumber];
+                        return handleOrigin.hasAttribute('disabled');
+                    }
+                    function removeTooltips() {
+                        if (scope_Tooltips) {
+                            removeEvent('update' + INTERNAL_EVENT_NS.tooltips);
+                            scope_Tooltips.forEach((function(tooltip) {
+                                if (tooltip) {
+                                    removeElement(tooltip);
+                                }
+                            }));
+                            scope_Tooltips = null;
+                        }
+                    }
+                    function tooltips() {
+                        removeTooltips();
+                        scope_Tooltips = scope_Handles.map(addTooltip);
+                        bindEvent('update' + INTERNAL_EVENT_NS.tooltips, (function(values, handleNumber, unencoded) {
+                            if (!scope_Tooltips[handleNumber]) {
+                                return;
+                            }
+                            var formattedValue = values[handleNumber];
+                            if (options.tooltips[handleNumber] !== true) {
+                                formattedValue = options.tooltips[handleNumber].to(unencoded[handleNumber]);
+                            }
+                            scope_Tooltips[handleNumber].innerHTML = formattedValue;
+                        }));
+                    }
+                    function aria() {
+                        removeEvent('update' + INTERNAL_EVENT_NS.aria);
+                        bindEvent('update' + INTERNAL_EVENT_NS.aria, (function(values, handleNumber, unencoded, tap, positions) {
+                            scope_HandleNumbers.forEach((function(index) {
+                                var handle = scope_Handles[index];
+                                var min = checkHandlePosition(scope_Locations, index, 0, true, true, true);
+                                var max = checkHandlePosition(scope_Locations, index, 100, true, true, true);
+                                var now = positions[index];
+                                var text = options.ariaFormat.to(unencoded[index]);
+                                min = scope_Spectrum.fromStepping(min).toFixed(1);
+                                max = scope_Spectrum.fromStepping(max).toFixed(1);
+                                now = scope_Spectrum.fromStepping(now).toFixed(1);
+                                handle.children[0].setAttribute('aria-valuemin', min);
+                                handle.children[0].setAttribute('aria-valuemax', max);
+                                handle.children[0].setAttribute('aria-valuenow', now);
+                                handle.children[0].setAttribute('aria-valuetext', text);
+                            }));
+                        }));
+                    }
+                    function getGroup(mode, values, stepped) {
+                        if (mode === 'range' || mode === 'steps') {
+                            return scope_Spectrum.xVal;
+                        }
+                        if (mode === 'count') {
+                            if (values < 2) {
+                                throw new Error('noUiSlider (' + VERSION + '): \'values\' (>= 2) required for mode \'count\'.');
+                            }
+                            var interval = values - 1;
+                            var spread = 100 / interval;
+                            values = [];
+                            while (interval--) {
+                                values[interval] = interval * spread;
+                            }
+                            values.push(100);
+                            mode = 'positions';
+                        }
+                        if (mode === 'positions') {
+                            return values.map((function(value) {
+                                return scope_Spectrum.fromStepping(stepped ? scope_Spectrum.getStep(value) : value);
+                            }));
+                        }
+                        if (mode === 'values') {
+                            if (stepped) {
+                                return values.map((function(value) {
+                                    return scope_Spectrum.fromStepping(scope_Spectrum.getStep(scope_Spectrum.toStepping(value)));
+                                }));
+                            }
+                            return values;
+                        }
+                    }
+                    function generateSpread(density, mode, group) {
+                        function safeIncrement(value, increment) {
+                            return (value + increment).toFixed(7) / 1;
+                        }
+                        var indexes = {};
+                        var firstInRange = scope_Spectrum.xVal[0];
+                        var lastInRange = scope_Spectrum.xVal[scope_Spectrum.xVal.length - 1];
+                        var ignoreFirst = false;
+                        var ignoreLast = false;
+                        var prevPct = 0;
+                        group = unique(group.slice().sort((function(a, b) {
+                            return a - b;
+                        })));
+                        if (group[0] !== firstInRange) {
+                            group.unshift(firstInRange);
+                            ignoreFirst = true;
+                        }
+                        if (group[group.length - 1] !== lastInRange) {
+                            group.push(lastInRange);
+                            ignoreLast = true;
+                        }
+                        group.forEach((function(current, index) {
+                            var step;
+                            var i;
+                            var q;
+                            var low = current;
+                            var high = group[index + 1];
+                            var newPct;
+                            var pctDifference;
+                            var pctPos;
+                            var type;
+                            var steps;
+                            var realSteps;
+                            var stepSize;
+                            var isSteps = mode === 'steps';
+                            if (isSteps) {
+                                step = scope_Spectrum.xNumSteps[index];
+                            }
+                            if (!step) {
+                                step = high - low;
+                            }
+                            if (low === false) {
+                                return;
+                            }
+                            if (high === undefined) {
+                                high = low;
+                            }
+                            step = Math.max(step, 1e-7);
+                            for (i = low; i <= high; i = safeIncrement(i, step)) {
+                                newPct = scope_Spectrum.toStepping(i);
+                                pctDifference = newPct - prevPct;
+                                steps = pctDifference / density;
+                                realSteps = Math.round(steps);
+                                stepSize = pctDifference / realSteps;
+                                for (q = 1; q <= realSteps; q += 1) {
+                                    pctPos = prevPct + q * stepSize;
+                                    indexes[pctPos.toFixed(5)] = [ scope_Spectrum.fromStepping(pctPos), 0 ];
+                                }
+                                type = group.indexOf(i) > -1 ? PIPS_LARGE_VALUE : isSteps ? PIPS_SMALL_VALUE : PIPS_NO_VALUE;
+                                if (!index && ignoreFirst && i !== high) {
+                                    type = 0;
+                                }
+                                if (!(i === high && ignoreLast)) {
+                                    indexes[newPct.toFixed(5)] = [ i, type ];
+                                }
+                                prevPct = newPct;
+                            }
+                        }));
+                        return indexes;
+                    }
+                    function addMarking(spread, filterFunc, formatter) {
+                        var element = scope_Document.createElement('div');
+                        var valueSizeClasses = [];
+                        valueSizeClasses[PIPS_NO_VALUE] = options.cssClasses.valueNormal;
+                        valueSizeClasses[PIPS_LARGE_VALUE] = options.cssClasses.valueLarge;
+                        valueSizeClasses[PIPS_SMALL_VALUE] = options.cssClasses.valueSub;
+                        var markerSizeClasses = [];
+                        markerSizeClasses[PIPS_NO_VALUE] = options.cssClasses.markerNormal;
+                        markerSizeClasses[PIPS_LARGE_VALUE] = options.cssClasses.markerLarge;
+                        markerSizeClasses[PIPS_SMALL_VALUE] = options.cssClasses.markerSub;
+                        var valueOrientationClasses = [ options.cssClasses.valueHorizontal, options.cssClasses.valueVertical ];
+                        var markerOrientationClasses = [ options.cssClasses.markerHorizontal, options.cssClasses.markerVertical ];
+                        addClass(element, options.cssClasses.pips);
+                        addClass(element, options.ort === 0 ? options.cssClasses.pipsHorizontal : options.cssClasses.pipsVertical);
+                        function getClasses(type, source) {
+                            var a = source === options.cssClasses.value;
+                            var orientationClasses = a ? valueOrientationClasses : markerOrientationClasses;
+                            var sizeClasses = a ? valueSizeClasses : markerSizeClasses;
+                            return source + ' ' + orientationClasses[options.ort] + ' ' + sizeClasses[type];
+                        }
+                        function addSpread(offset, value, type) {
+                            type = filterFunc ? filterFunc(value, type) : type;
+                            if (type === PIPS_NONE) {
+                                return;
+                            }
+                            var node = addNodeTo(element, false);
+                            node.className = getClasses(type, options.cssClasses.marker);
+                            node.style[options.style] = offset + '%';
+                            if (type > PIPS_NO_VALUE) {
+                                node = addNodeTo(element, false);
+                                node.className = getClasses(type, options.cssClasses.value);
+                                node.setAttribute('data-value', value);
+                                node.style[options.style] = offset + '%';
+                                node.innerHTML = formatter.to(value);
+                            }
+                        }
+                        Object.keys(spread).forEach((function(offset) {
+                            addSpread(offset, spread[offset][0], spread[offset][1]);
+                        }));
+                        return element;
+                    }
+                    function removePips() {
+                        if (scope_Pips) {
+                            removeElement(scope_Pips);
+                            scope_Pips = null;
+                        }
+                    }
+                    function pips(grid) {
+                        removePips();
+                        var mode = grid.mode;
+                        var density = grid.density || 1;
+                        var filter = grid.filter || false;
+                        var values = grid.values || false;
+                        var stepped = grid.stepped || false;
+                        var group = getGroup(mode, values, stepped);
+                        var spread = generateSpread(density, mode, group);
+                        var format = grid.format || {
+                            to: Math.round
+                        };
+                        scope_Pips = scope_Target.appendChild(addMarking(spread, filter, format));
+                        return scope_Pips;
+                    }
+                    function baseSize() {
+                        var rect = scope_Base.getBoundingClientRect();
+                        var alt = 'offset' + [ 'Width', 'Height' ][options.ort];
+                        return options.ort === 0 ? rect.width || scope_Base[alt] : rect.height || scope_Base[alt];
+                    }
+                    function attachEvent(events, element, callback, data) {
+                        var method = function(e) {
+                            e = fixEvent(e, data.pageOffset, data.target || element);
+                            if (!e) {
+                                return false;
+                            }
+                            if (isSliderDisabled() && !data.doNotReject) {
+                                return false;
+                            }
+                            if (hasClass(scope_Target, options.cssClasses.tap) && !data.doNotReject) {
+                                return false;
+                            }
+                            if (events === actions.start && e.buttons !== undefined && e.buttons > 1) {
+                                return false;
+                            }
+                            if (data.hover && e.buttons) {
+                                return false;
+                            }
+                            if (!supportsPassive) {
+                                e.preventDefault();
+                            }
+                            e.calcPoint = e.points[options.ort];
+                            callback(e, data);
+                        };
+                        var methods = [];
+                        events.split(' ').forEach((function(eventName) {
+                            element.addEventListener(eventName, method, supportsPassive ? {
+                                passive: true
+                            } : false);
+                            methods.push([ eventName, method ]);
+                        }));
+                        return methods;
+                    }
+                    function fixEvent(e, pageOffset, eventTarget) {
+                        var touch = e.type.indexOf('touch') === 0;
+                        var mouse = e.type.indexOf('mouse') === 0;
+                        var pointer = e.type.indexOf('pointer') === 0;
+                        var x;
+                        var y;
+                        if (e.type.indexOf('MSPointer') === 0) {
+                            pointer = true;
+                        }
+                        if (e.type === 'mousedown' && !e.buttons && !e.touches) {
+                            return false;
+                        }
+                        if (touch) {
+                            var isTouchOnTarget = function(checkTouch) {
+                                return checkTouch.target === eventTarget || eventTarget.contains(checkTouch.target) || checkTouch.target.shadowRoot && checkTouch.target.shadowRoot.contains(eventTarget);
+                            };
+                            if (e.type === 'touchstart') {
+                                var targetTouches = Array.prototype.filter.call(e.touches, isTouchOnTarget);
+                                if (targetTouches.length > 1) {
+                                    return false;
+                                }
+                                x = targetTouches[0].pageX;
+                                y = targetTouches[0].pageY;
+                            } else {
+                                var targetTouch = Array.prototype.find.call(e.changedTouches, isTouchOnTarget);
+                                if (!targetTouch) {
+                                    return false;
+                                }
+                                x = targetTouch.pageX;
+                                y = targetTouch.pageY;
+                            }
+                        }
+                        pageOffset = pageOffset || getPageOffset(scope_Document);
+                        if (mouse || pointer) {
+                            x = e.clientX + pageOffset.x;
+                            y = e.clientY + pageOffset.y;
+                        }
+                        e.pageOffset = pageOffset;
+                        e.points = [ x, y ];
+                        e.cursor = mouse || pointer;
+                        return e;
+                    }
+                    function calcPointToPercentage(calcPoint) {
+                        var location = calcPoint - offset(scope_Base, options.ort);
+                        var proposal = location * 100 / baseSize();
+                        proposal = limit(proposal);
+                        return options.dir ? 100 - proposal : proposal;
+                    }
+                    function getClosestHandle(clickedPosition) {
+                        var smallestDifference = 100;
+                        var handleNumber = false;
+                        scope_Handles.forEach((function(handle, index) {
+                            if (isHandleDisabled(index)) {
+                                return;
+                            }
+                            var handlePosition = scope_Locations[index];
+                            var differenceWithThisHandle = Math.abs(handlePosition - clickedPosition);
+                            var clickAtEdge = differenceWithThisHandle === 100 && smallestDifference === 100;
+                            var isCloser = differenceWithThisHandle < smallestDifference;
+                            var isCloserAfter = differenceWithThisHandle <= smallestDifference && clickedPosition > handlePosition;
+                            if (isCloser || isCloserAfter || clickAtEdge) {
+                                handleNumber = index;
+                                smallestDifference = differenceWithThisHandle;
+                            }
+                        }));
+                        return handleNumber;
+                    }
+                    function documentLeave(event, data) {
+                        if (event.type === 'mouseout' && event.target.nodeName === 'HTML' && event.relatedTarget === null) {
+                            eventEnd(event, data);
+                        }
+                    }
+                    function eventMove(event, data) {
+                        if (navigator.appVersion.indexOf('MSIE 9') === -1 && event.buttons === 0 && data.buttonsProperty !== 0) {
+                            return eventEnd(event, data);
+                        }
+                        var movement = (options.dir ? -1 : 1) * (event.calcPoint - data.startCalcPoint);
+                        var proposal = movement * 100 / data.baseSize;
+                        moveHandles(movement > 0, proposal, data.locations, data.handleNumbers);
+                    }
+                    function eventEnd(event, data) {
+                        if (data.handle) {
+                            removeClass(data.handle, options.cssClasses.active);
+                            scope_ActiveHandlesCount -= 1;
+                        }
+                        data.listeners.forEach((function(c) {
+                            scope_DocumentElement.removeEventListener(c[0], c[1]);
+                        }));
+                        if (scope_ActiveHandlesCount === 0) {
+                            removeClass(scope_Target, options.cssClasses.drag);
+                            setZindex();
+                            if (event.cursor) {
+                                scope_Body.style.cursor = '';
+                                scope_Body.removeEventListener('selectstart', preventDefault);
+                            }
+                        }
+                        data.handleNumbers.forEach((function(handleNumber) {
+                            fireEvent('change', handleNumber);
+                            fireEvent('set', handleNumber);
+                            fireEvent('end', handleNumber);
+                        }));
+                    }
+                    function eventStart(event, data) {
+                        if (data.handleNumbers.some(isHandleDisabled)) {
+                            return false;
+                        }
+                        var handle;
+                        if (data.handleNumbers.length === 1) {
+                            var handleOrigin = scope_Handles[data.handleNumbers[0]];
+                            handle = handleOrigin.children[0];
+                            scope_ActiveHandlesCount += 1;
+                            addClass(handle, options.cssClasses.active);
+                        }
+                        event.stopPropagation();
+                        var listeners = [];
+                        var moveEvent = attachEvent(actions.move, scope_DocumentElement, eventMove, {
+                            target: event.target,
+                            handle,
+                            listeners,
+                            startCalcPoint: event.calcPoint,
+                            baseSize: baseSize(),
+                            pageOffset: event.pageOffset,
+                            handleNumbers: data.handleNumbers,
+                            buttonsProperty: event.buttons,
+                            locations: scope_Locations.slice()
+                        });
+                        var endEvent = attachEvent(actions.end, scope_DocumentElement, eventEnd, {
+                            target: event.target,
+                            handle,
+                            listeners,
+                            doNotReject: true,
+                            handleNumbers: data.handleNumbers
+                        });
+                        var outEvent = attachEvent('mouseout', scope_DocumentElement, documentLeave, {
+                            target: event.target,
+                            handle,
+                            listeners,
+                            doNotReject: true,
+                            handleNumbers: data.handleNumbers
+                        });
+                        listeners.push.apply(listeners, moveEvent.concat(endEvent, outEvent));
+                        if (event.cursor) {
+                            scope_Body.style.cursor = getComputedStyle(event.target).cursor;
+                            if (scope_Handles.length > 1) {
+                                addClass(scope_Target, options.cssClasses.drag);
+                            }
+                            scope_Body.addEventListener('selectstart', preventDefault, false);
+                        }
+                        data.handleNumbers.forEach((function(handleNumber) {
+                            fireEvent('start', handleNumber);
+                        }));
+                    }
+                    function eventTap(event) {
+                        event.stopPropagation();
+                        var proposal = calcPointToPercentage(event.calcPoint);
+                        var handleNumber = getClosestHandle(proposal);
+                        if (handleNumber === false) {
+                            return false;
+                        }
+                        if (!options.events.snap) {
+                            addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+                        }
+                        setHandle(handleNumber, proposal, true, true);
+                        setZindex();
+                        fireEvent('slide', handleNumber, true);
+                        fireEvent('update', handleNumber, true);
+                        fireEvent('change', handleNumber, true);
+                        fireEvent('set', handleNumber, true);
+                        if (options.events.snap) {
+                            eventStart(event, {
+                                handleNumbers: [ handleNumber ]
+                            });
+                        }
+                    }
+                    function eventHover(event) {
+                        var proposal = calcPointToPercentage(event.calcPoint);
+                        var to = scope_Spectrum.getStep(proposal);
+                        var value = scope_Spectrum.fromStepping(to);
+                        Object.keys(scope_Events).forEach((function(targetEvent) {
+                            if ('hover' === targetEvent.split('.')[0]) {
+                                scope_Events[targetEvent].forEach((function(callback) {
+                                    callback.call(scope_Self, value);
+                                }));
+                            }
+                        }));
+                    }
+                    function eventKeydown(event, handleNumber) {
+                        if (isSliderDisabled() || isHandleDisabled(handleNumber)) {
+                            return false;
+                        }
+                        var horizontalKeys = [ 'Left', 'Right' ];
+                        var verticalKeys = [ 'Down', 'Up' ];
+                        var largeStepKeys = [ 'PageDown', 'PageUp' ];
+                        var edgeKeys = [ 'Home', 'End' ];
+                        if (options.dir && !options.ort) {
+                            horizontalKeys.reverse();
+                        } else if (options.ort && !options.dir) {
+                            verticalKeys.reverse();
+                            largeStepKeys.reverse();
+                        }
+                        var key = event.key.replace('Arrow', '');
+                        var isLargeDown = key === largeStepKeys[0];
+                        var isLargeUp = key === largeStepKeys[1];
+                        var isDown = key === verticalKeys[0] || key === horizontalKeys[0] || isLargeDown;
+                        var isUp = key === verticalKeys[1] || key === horizontalKeys[1] || isLargeUp;
+                        var isMin = key === edgeKeys[0];
+                        var isMax = key === edgeKeys[1];
+                        if (!isDown && !isUp && !isMin && !isMax) {
+                            return true;
+                        }
+                        event.preventDefault();
+                        var to;
+                        if (isUp || isDown) {
+                            var multiplier = options.keyboardPageMultiplier;
+                            var direction = isDown ? 0 : 1;
+                            var steps = getNextStepsForHandle(handleNumber);
+                            var step = steps[direction];
+                            if (step === null) {
+                                return false;
+                            }
+                            if (step === false) {
+                                step = scope_Spectrum.getDefaultStep(scope_Locations[handleNumber], isDown, options.keyboardDefaultStep);
+                            }
+                            if (isLargeUp || isLargeDown) {
+                                step *= multiplier;
+                            }
+                            step = Math.max(step, 1e-7);
+                            step = (isDown ? -1 : 1) * step;
+                            to = scope_Values[handleNumber] + step;
+                        } else if (isMax) {
+                            to = options.spectrum.xVal[options.spectrum.xVal.length - 1];
+                        } else {
+                            to = options.spectrum.xVal[0];
+                        }
+                        setHandle(handleNumber, scope_Spectrum.toStepping(to), true, true);
+                        fireEvent('slide', handleNumber);
+                        fireEvent('update', handleNumber);
+                        fireEvent('change', handleNumber);
+                        fireEvent('set', handleNumber);
+                        return false;
+                    }
+                    function bindSliderEvents(behaviour) {
+                        if (!behaviour.fixed) {
+                            scope_Handles.forEach((function(handle, index) {
+                                attachEvent(actions.start, handle.children[0], eventStart, {
+                                    handleNumbers: [ index ]
+                                });
+                            }));
+                        }
+                        if (behaviour.tap) {
+                            attachEvent(actions.start, scope_Base, eventTap, {});
+                        }
+                        if (behaviour.hover) {
+                            attachEvent(actions.move, scope_Base, eventHover, {
+                                hover: true
+                            });
+                        }
+                        if (behaviour.drag) {
+                            scope_Connects.forEach((function(connect, index) {
+                                if (connect === false || index === 0 || index === scope_Connects.length - 1) {
+                                    return;
+                                }
+                                var handleBefore = scope_Handles[index - 1];
+                                var handleAfter = scope_Handles[index];
+                                var eventHolders = [ connect ];
+                                addClass(connect, options.cssClasses.draggable);
+                                if (behaviour.fixed) {
+                                    eventHolders.push(handleBefore.children[0]);
+                                    eventHolders.push(handleAfter.children[0]);
+                                }
+                                eventHolders.forEach((function(eventHolder) {
+                                    attachEvent(actions.start, eventHolder, eventStart, {
+                                        handles: [ handleBefore, handleAfter ],
+                                        handleNumbers: [ index - 1, index ]
+                                    });
+                                }));
+                            }));
+                        }
+                    }
+                    function bindEvent(namespacedEvent, callback) {
+                        scope_Events[namespacedEvent] = scope_Events[namespacedEvent] || [];
+                        scope_Events[namespacedEvent].push(callback);
+                        if (namespacedEvent.split('.')[0] === 'update') {
+                            scope_Handles.forEach((function(a, index) {
+                                fireEvent('update', index);
+                            }));
+                        }
+                    }
+                    function isInternalNamespace(namespace) {
+                        return namespace === INTERNAL_EVENT_NS.aria || namespace === INTERNAL_EVENT_NS.tooltips;
+                    }
+                    function removeEvent(namespacedEvent) {
+                        var event = namespacedEvent && namespacedEvent.split('.')[0];
+                        var namespace = event ? namespacedEvent.substring(event.length) : namespacedEvent;
+                        Object.keys(scope_Events).forEach((function(bind) {
+                            var tEvent = bind.split('.')[0];
+                            var tNamespace = bind.substring(tEvent.length);
+                            if ((!event || event === tEvent) && (!namespace || namespace === tNamespace)) {
+                                if (!isInternalNamespace(tNamespace) || namespace === tNamespace) {
+                                    delete scope_Events[bind];
+                                }
+                            }
+                        }));
+                    }
+                    function fireEvent(eventName, handleNumber, tap) {
+                        Object.keys(scope_Events).forEach((function(targetEvent) {
+                            var eventType = targetEvent.split('.')[0];
+                            if (eventName === eventType) {
+                                scope_Events[targetEvent].forEach((function(callback) {
+                                    callback.call(scope_Self, scope_Values.map(options.format.to), handleNumber, scope_Values.slice(), tap || false, scope_Locations.slice(), scope_Self);
+                                }));
+                            }
+                        }));
+                    }
+                    function checkHandlePosition(reference, handleNumber, to, lookBackward, lookForward, getValue) {
+                        var distance;
+                        if (scope_Handles.length > 1 && !options.events.unconstrained) {
+                            if (lookBackward && handleNumber > 0) {
+                                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.margin, 0);
+                                to = Math.max(to, distance);
+                            }
+                            if (lookForward && handleNumber < scope_Handles.length - 1) {
+                                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.margin, 1);
+                                to = Math.min(to, distance);
+                            }
+                        }
+                        if (scope_Handles.length > 1 && options.limit) {
+                            if (lookBackward && handleNumber > 0) {
+                                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber - 1], options.limit, 0);
+                                to = Math.min(to, distance);
+                            }
+                            if (lookForward && handleNumber < scope_Handles.length - 1) {
+                                distance = scope_Spectrum.getAbsoluteDistance(reference[handleNumber + 1], options.limit, 1);
+                                to = Math.max(to, distance);
+                            }
+                        }
+                        if (options.padding) {
+                            if (handleNumber === 0) {
+                                distance = scope_Spectrum.getAbsoluteDistance(0, options.padding[0], 0);
+                                to = Math.max(to, distance);
+                            }
+                            if (handleNumber === scope_Handles.length - 1) {
+                                distance = scope_Spectrum.getAbsoluteDistance(100, options.padding[1], 1);
+                                to = Math.min(to, distance);
+                            }
+                        }
+                        to = scope_Spectrum.getStep(to);
+                        to = limit(to);
+                        if (to === reference[handleNumber] && !getValue) {
+                            return false;
+                        }
+                        return to;
+                    }
+                    function inRuleOrder(v, a) {
+                        var o = options.ort;
+                        return (o ? a : v) + ', ' + (o ? v : a);
+                    }
+                    function moveHandles(upward, proposal, locations, handleNumbers) {
+                        var proposals = locations.slice();
+                        var b = [ !upward, upward ];
+                        var f = [ upward, !upward ];
+                        handleNumbers = handleNumbers.slice();
+                        if (upward) {
+                            handleNumbers.reverse();
+                        }
+                        if (handleNumbers.length > 1) {
+                            handleNumbers.forEach((function(handleNumber, o) {
+                                var to = checkHandlePosition(proposals, handleNumber, proposals[handleNumber] + proposal, b[o], f[o], false);
+                                if (to === false) {
+                                    proposal = 0;
+                                } else {
+                                    proposal = to - proposals[handleNumber];
+                                    proposals[handleNumber] = to;
+                                }
+                            }));
+                        } else {
+                            b = f = [ true ];
+                        }
+                        var state = false;
+                        handleNumbers.forEach((function(handleNumber, o) {
+                            state = setHandle(handleNumber, locations[handleNumber] + proposal, b[o], f[o]) || state;
+                        }));
+                        if (state) {
+                            handleNumbers.forEach((function(handleNumber) {
+                                fireEvent('update', handleNumber);
+                                fireEvent('slide', handleNumber);
+                            }));
+                        }
+                    }
+                    function transformDirection(a, b) {
+                        return options.dir ? 100 - a - b : a;
+                    }
+                    function updateHandlePosition(handleNumber, to) {
+                        scope_Locations[handleNumber] = to;
+                        scope_Values[handleNumber] = scope_Spectrum.fromStepping(to);
+                        var translation = 10 * (transformDirection(to, 0) - scope_DirOffset);
+                        var translateRule = 'translate(' + inRuleOrder(translation + '%', '0') + ')';
+                        scope_Handles[handleNumber].style[options.transformRule] = translateRule;
+                        updateConnect(handleNumber);
+                        updateConnect(handleNumber + 1);
+                    }
+                    function setZindex() {
+                        scope_HandleNumbers.forEach((function(handleNumber) {
+                            var dir = scope_Locations[handleNumber] > 50 ? -1 : 1;
+                            var zIndex = 3 + (scope_Handles.length + dir * handleNumber);
+                            scope_Handles[handleNumber].style.zIndex = zIndex;
+                        }));
+                    }
+                    function setHandle(handleNumber, to, lookBackward, lookForward, exactInput) {
+                        if (!exactInput) {
+                            to = checkHandlePosition(scope_Locations, handleNumber, to, lookBackward, lookForward, false);
+                        }
+                        if (to === false) {
+                            return false;
+                        }
+                        updateHandlePosition(handleNumber, to);
+                        return true;
+                    }
+                    function updateConnect(index) {
+                        if (!scope_Connects[index]) {
+                            return;
+                        }
+                        var l = 0;
+                        var h = 100;
+                        if (index !== 0) {
+                            l = scope_Locations[index - 1];
+                        }
+                        if (index !== scope_Connects.length - 1) {
+                            h = scope_Locations[index];
+                        }
+                        var connectWidth = h - l;
+                        var translateRule = 'translate(' + inRuleOrder(transformDirection(l, connectWidth) + '%', '0') + ')';
+                        var scaleRule = 'scale(' + inRuleOrder(connectWidth / 100, '1') + ')';
+                        scope_Connects[index].style[options.transformRule] = translateRule + ' ' + scaleRule;
+                    }
+                    function resolveToValue(to, handleNumber) {
+                        if (to === null || to === false || to === undefined) {
+                            return scope_Locations[handleNumber];
+                        }
+                        if (typeof to === 'number') {
+                            to = String(to);
+                        }
+                        to = options.format.from(to);
+                        to = scope_Spectrum.toStepping(to);
+                        if (to === false || isNaN(to)) {
+                            return scope_Locations[handleNumber];
+                        }
+                        return to;
+                    }
+                    function valueSet(input, fireSetEvent, exactInput) {
+                        var values = asArray(input);
+                        var isInit = scope_Locations[0] === undefined;
+                        fireSetEvent = fireSetEvent === undefined ? true : !!fireSetEvent;
+                        if (options.animate && !isInit) {
+                            addClassFor(scope_Target, options.cssClasses.tap, options.animationDuration);
+                        }
+                        scope_HandleNumbers.forEach((function(handleNumber) {
+                            setHandle(handleNumber, resolveToValue(values[handleNumber], handleNumber), true, false, exactInput);
+                        }));
+                        var i = scope_HandleNumbers.length === 1 ? 0 : 1;
+                        for (;i < scope_HandleNumbers.length; ++i) {
+                            scope_HandleNumbers.forEach((function(handleNumber) {
+                                setHandle(handleNumber, scope_Locations[handleNumber], true, true, exactInput);
+                            }));
+                        }
+                        setZindex();
+                        scope_HandleNumbers.forEach((function(handleNumber) {
+                            fireEvent('update', handleNumber);
+                            if (values[handleNumber] !== null && fireSetEvent) {
+                                fireEvent('set', handleNumber);
+                            }
+                        }));
+                    }
+                    function valueReset(fireSetEvent) {
+                        valueSet(options.start, fireSetEvent);
+                    }
+                    function valueSetHandle(handleNumber, value, fireSetEvent, exactInput) {
+                        handleNumber = Number(handleNumber);
+                        if (!(handleNumber >= 0 && handleNumber < scope_HandleNumbers.length)) {
+                            throw new Error('noUiSlider (' + VERSION + '): invalid handle number, got: ' + handleNumber);
+                        }
+                        setHandle(handleNumber, resolveToValue(value, handleNumber), true, true, exactInput);
+                        fireEvent('update', handleNumber);
+                        if (fireSetEvent) {
+                            fireEvent('set', handleNumber);
+                        }
+                    }
+                    function valueGet() {
+                        var values = scope_Values.map(options.format.to);
+                        if (values.length === 1) {
+                            return values[0];
+                        }
+                        return values;
+                    }
+                    function destroy() {
+                        removeEvent(INTERNAL_EVENT_NS.aria);
+                        removeEvent(INTERNAL_EVENT_NS.tooltips);
+                        for (var key in options.cssClasses) {
+                            if (!options.cssClasses.hasOwnProperty(key)) {
+                                continue;
+                            }
+                            removeClass(scope_Target, options.cssClasses[key]);
+                        }
+                        while (scope_Target.firstChild) {
+                            scope_Target.removeChild(scope_Target.firstChild);
+                        }
+                        delete scope_Target.noUiSlider;
+                    }
+                    function getNextStepsForHandle(handleNumber) {
+                        var location = scope_Locations[handleNumber];
+                        var nearbySteps = scope_Spectrum.getNearbySteps(location);
+                        var value = scope_Values[handleNumber];
+                        var increment = nearbySteps.thisStep.step;
+                        var decrement = null;
+                        if (options.snap) {
+                            return [ value - nearbySteps.stepBefore.startValue || null, nearbySteps.stepAfter.startValue - value || null ];
+                        }
+                        if (increment !== false) {
+                            if (value + increment > nearbySteps.stepAfter.startValue) {
+                                increment = nearbySteps.stepAfter.startValue - value;
+                            }
+                        }
+                        if (value > nearbySteps.thisStep.startValue) {
+                            decrement = nearbySteps.thisStep.step;
+                        } else if (nearbySteps.stepBefore.step === false) {
+                            decrement = false;
+                        } else {
+                            decrement = value - nearbySteps.stepBefore.highestStep;
+                        }
+                        if (location === 100) {
+                            increment = null;
+                        } else if (location === 0) {
+                            decrement = null;
+                        }
+                        var stepDecimals = scope_Spectrum.countStepDecimals();
+                        if (increment !== null && increment !== false) {
+                            increment = Number(increment.toFixed(stepDecimals));
+                        }
+                        if (decrement !== null && decrement !== false) {
+                            decrement = Number(decrement.toFixed(stepDecimals));
+                        }
+                        return [ decrement, increment ];
+                    }
+                    function getNextSteps() {
+                        return scope_HandleNumbers.map(getNextStepsForHandle);
+                    }
+                    function updateOptions(optionsToUpdate, fireSetEvent) {
+                        var v = valueGet();
+                        var updateAble = [ 'margin', 'limit', 'padding', 'range', 'animate', 'snap', 'step', 'format', 'pips', 'tooltips' ];
+                        updateAble.forEach((function(name) {
+                            if (optionsToUpdate[name] !== undefined) {
+                                originalOptions[name] = optionsToUpdate[name];
+                            }
+                        }));
+                        var newOptions = testOptions(originalOptions);
+                        updateAble.forEach((function(name) {
+                            if (optionsToUpdate[name] !== undefined) {
+                                options[name] = newOptions[name];
+                            }
+                        }));
+                        scope_Spectrum = newOptions.spectrum;
+                        options.margin = newOptions.margin;
+                        options.limit = newOptions.limit;
+                        options.padding = newOptions.padding;
+                        if (options.pips) {
+                            pips(options.pips);
+                        } else {
+                            removePips();
+                        }
+                        if (options.tooltips) {
+                            tooltips();
+                        } else {
+                            removeTooltips();
+                        }
+                        scope_Locations = [];
+                        valueSet(isSet(optionsToUpdate.start) ? optionsToUpdate.start : v, fireSetEvent);
+                    }
+                    function setupSlider() {
+                        scope_Base = addSlider(scope_Target);
+                        addElements(options.connect, scope_Base);
+                        bindSliderEvents(options.events);
+                        valueSet(options.start);
+                        if (options.pips) {
+                            pips(options.pips);
+                        }
+                        if (options.tooltips) {
+                            tooltips();
+                        }
+                        aria();
+                    }
+                    setupSlider();
+                    scope_Self = {
+                        destroy,
+                        steps: getNextSteps,
+                        on: bindEvent,
+                        off: removeEvent,
+                        get: valueGet,
+                        set: valueSet,
+                        setHandle: valueSetHandle,
+                        reset: valueReset,
+                        __moveHandles: function(a, b, c) {
+                            moveHandles(a, b, scope_Locations, c);
+                        },
+                        options: originalOptions,
+                        updateOptions,
+                        target: scope_Target,
+                        removePips,
+                        removeTooltips,
+                        getTooltips: function() {
+                            return scope_Tooltips;
+                        },
+                        getOrigins: function() {
+                            return scope_Handles;
+                        },
+                        pips
+                    };
+                    return scope_Self;
+                }
+                function initialize(target, originalOptions) {
+                    if (!target || !target.nodeName) {
+                        throw new Error('noUiSlider (' + VERSION + '): create requires a single element, got: ' + target);
+                    }
+                    if (target.noUiSlider) {
+                        throw new Error('noUiSlider (' + VERSION + '): Slider was already initialized.');
+                    }
+                    var options = testOptions(originalOptions, target);
+                    var api = scope(target, options, originalOptions);
+                    target.noUiSlider = api;
+                    return api;
+                }
+                return {
+                    __spectrum: Spectrum,
+                    version: VERSION,
+                    cssClasses,
+                    create: initialize
+                };
+            }));
+        }
+    };
+    var __webpack_module_cache__ = {};
+    function __webpack_require__(moduleId) {
+        var cachedModule = __webpack_module_cache__[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+        var module = __webpack_module_cache__[moduleId] = {
+            exports: {}
+        };
+        __webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+        return module.exports;
+    }
+    var __webpack_exports__ = __webpack_require__(764);
+})();

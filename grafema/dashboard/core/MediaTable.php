@@ -20,7 +20,7 @@ final class MediaTable {
 	}
 
 	public function dataBefore(): string {
-		return '<div class="storage">';
+		return '<div class="storage" x-storage>';
 	}
 
 	public function dataAfter(): string {

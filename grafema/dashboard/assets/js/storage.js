@@ -81,7 +81,7 @@
                 this.touchable = config.touchable || 'ontouchstart' in window || navigator.maxTouchPoints || true;
                 this.autostart = config.autostart || true;
                 this.onSelectEnd = config.onSelectEnd || null;
-                this.classSelected = 'selected';
+                this.classSelected = config.classSelected || 'selected';
             } catch (e) {
                 throw e;
             }
@@ -188,7 +188,9 @@
     document.addEventListener('alpine:init', (() => {
         Alpine.directive('storage', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
             let selection = new storage_selection({
-                container: document.querySelector('.parent'),
+                container: document.querySelector('.storage'),
+                selector: '.storage__item',
+                classSelected: 'active',
                 onSelectEnd: selection => {
                     console.log(selection);
                 }

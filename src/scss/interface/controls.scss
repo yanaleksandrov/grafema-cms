@@ -1068,11 +1068,10 @@
   grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
   gap: 0.65rem;
   padding: 1.75rem;
+  position: initial;
 
   &__item {
     background-color: var(--grafema-bg-universal);
-    background-position: 0 0,10px 10px;
-    border-radius: 2px;
     border: 1px solid var(--grafema-border);
     overflow: hidden;
     color: var(--grafema-text-muted);
@@ -1084,6 +1083,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &.active {
+      border-color: var(--grafema-primary);
+      outline: 1px solid var(--grafema-primary);
+    }
   }
 
   &__preview {

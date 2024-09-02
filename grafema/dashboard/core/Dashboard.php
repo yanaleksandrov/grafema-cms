@@ -51,7 +51,7 @@ class Dashboard extends \Grafema\App\App
 		$scripts = ['index', 'ajax', 'alpine'];
 		if ( ! Is::install() ) {
 			$styles  = ['phosphor', 'colorist', 'datepicker', 'drooltip', 'flags', 'slimselect', 'grafema', 'controls'];
-			$scripts = ['grafema', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'alpine'];
+			$scripts = ['grafema', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'storage', 'alpine'];
 		}
 
 		foreach ( $styles as $style ) {

@@ -55,7 +55,6 @@ View::print(
 					<?php
 					foreach ( $items as $item ) {
 						ob_start();
-
 						if ( empty( $item['url'] ) ) {
 							?>
 							<li class="user-menu-divider">%title$s</li>
@@ -63,13 +62,10 @@ View::print(
 						} else {
 							?>
 							<li class="user-menu-item">
-								<a class="user-menu-link" href="%url$s">
-									<i class="%icon$s"></i> %title$s
-								</a>
+								<a class="user-menu-link" href="%url$s"><i class="%icon$s"></i> %title$s</a>
 							</li>
 							<?php
 						}
-
 						echo $tree->vsprintf( ob_get_clean(), $item );
 					}
 					?>

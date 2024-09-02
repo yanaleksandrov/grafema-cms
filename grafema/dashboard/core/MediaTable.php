@@ -19,6 +19,14 @@ final class MediaTable {
 		];
 	}
 
+	public function dataBefore(): string {
+		return '<div class="storage">';
+	}
+
+	public function dataAfter(): string {
+		return '</div>';
+	}
+
 	public function columns(): array {
 		return [
 			Cell::add( 'media' )->view( 'media' ),
@@ -46,25 +54,5 @@ final class MediaTable {
 			'show'    => 'false',
 			'content' => '',
 		];
-	}
-
-	public function notFoundBefore(): string {
-		ob_start();
-		$row = current( $this->rows() );
-		?>
-		<template x-if="items.length">
-			<div class="storage">
-				<template x-for="item in items">
-					<?php View::print( $row->view, [ 'columns' => $this->columns(), 'row' => $row, 'data' => [] ] ); ?>
-				</template>
-			</div>
-		</template>
-		<template x-if="!items.length">
-		<?php
-		return ob_get_clean();
-	}
-
-	public function notFoundAfter(): string {
-		return '</template>';
 	}
 }

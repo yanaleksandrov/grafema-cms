@@ -14,12 +14,13 @@ Dashboard\Form::enqueue(
 	'posts-import-fields',
 	fields: [
 		[
-			'type'    => 'group',
-			'label'  => I18n::_t( 'Required Data' ),
-			'name'    => 'data',
-			'class'   => '',
-			'columns' => 1,
-			'fields' => [
+			'type'          => 'group',
+			'name'          => 'data',
+			'label'         => I18n::_t( 'Required Data' ),
+			'class'         => '',
+			'label_class'   => '',
+			'content_class' => '',
+			'fields'        => [
 				[
 					'type'        => 'select',
 					'name'        => 'type',
@@ -79,12 +80,13 @@ Dashboard\Form::enqueue(
 			],
 		],
 		[
-			'type'    => 'group',
-			'label'   => I18n::_t( 'Map Data' ),
-			'name'    => 'map-data',
-			'class'   => '',
-			'columns' => 1,
-			'fields'  => array_map(fn($index, $sample) => [
+			'type'          => 'group',
+			'name'          => 'map-data',
+			'label'         => I18n::_t( 'Map Data' ),
+			'class'         => '',
+			'label_class'   => '',
+			'content_class' => '',
+			'fields'        => array_map(fn($index, $sample) => [
 				'type'        => 'select',
 				'label'       => '',
 				'name'        => 'map[' . $index . ']',

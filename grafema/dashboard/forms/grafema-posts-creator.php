@@ -46,16 +46,17 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7',
 			'fields'        => [
 				[
-					'name'    => 'excerpt',
-					'type'    => 'group',
-					'class'  => 'ga-1 fs-12 t-muted',
-					'label'   => I18n::_t( 'Title' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'excerpt',
+					'label'         => I18n::_t( 'Title' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'textarea',
 							'name'        => 'title',
-							'label'       => I18n::_t( 'Label' ),
+							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
@@ -95,12 +96,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'excerpt',
-					'type'    => 'group',
-					'class'   => 'ga-1 fs-12 t-muted',
-					'label'   => I18n::_t( 'Excerpt' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'excerpt',
+					'label'         => I18n::_t( 'Excerpt' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'textarea',
 							'name'        => 'excerpt',
@@ -125,11 +127,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'summary',
-					'type'   => 'group',
-					'class'  => 'ga-1 fs-12 t-muted',
-					'label'  => I18n::_t( 'Visibility & status' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'summary',
+					'label'         => I18n::_t( 'Visibility & status' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'select',
 							'name'        => 'status',
@@ -181,11 +185,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'dates',
-					'type'   => 'group',
-					'class'  => 'ga-1 fs-12 t-muted',
-					'label'  => I18n::_t( 'Publication dates' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'dates',
+					'label'         => I18n::_t( 'Publication dates' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'date',
 							'name'        => 'from',
@@ -227,12 +233,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'authors',
-					'type'    => 'group',
-					'class'   => 'ga-1 fs-12 t-muted',
-					'label'   => I18n::_t( 'Authors' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'authors',
+					'label'         => I18n::_t( 'Authors' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'select',
 							'name'        => 'language',
@@ -282,12 +289,13 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7',
 			'fields'        => [
 				[
-					'name'    => 'discussion',
-					'type'    => 'group',
-					'class'   => 'ga-1 fs-12 t-muted',
-					'label'   => I18n::_t( 'Discussion' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'discussion',
+					'label'         => I18n::_t( 'Discussion' ),
+					'class'         => '',
+					'label_class'   => 'ga-1 fs-12 t-muted',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'select',
 							'name'        => 'discussion',

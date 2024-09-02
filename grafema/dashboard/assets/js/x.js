@@ -1,1 +1,669 @@
-!function(){"use strict";function e(e,t){if(Array.isArray(t))t=t.join(" ");else if("function"==typeof t)t=t();else if("object"==typeof t&&null!==t)return function(e,t){let n=Object.entries(t),r=e=>e.split(" ").filter(Boolean),s=n.flatMap((([e,t])=>!!t&&r(e))).filter(Boolean),a=n.flatMap((([e,t])=>!t&&r(e))).filter(Boolean);const i=s.filter((t=>!e.classList.contains(t)&&(e.classList.add(t),!0))),o=a.filter((t=>e.classList.contains(t)&&(e.classList.remove(t),!0)));return()=>{o.forEach((t=>e.classList.add(t))),i.forEach((t=>e.classList.remove(t)))}}(e,t);return function(e,t){let n=t=>t.split(" ").filter((t=>!e.classList.contains(t))).filter(Boolean),r=t=>(e.classList.add(...t),()=>e.classList.remove(...t));return r(n(t=!0===t?"":t||""))}(e,t)}function t(e,n){return"object"==typeof n&&null!==n?function(e,n){let r={};return Object.entries(n).forEach((([t,n])=>{r[t]=e.style[t],t.startsWith("--")||(t=t.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase()),e.style.setProperty(t,n)})),setTimeout((()=>0===e.style.length&&e.removeAttribute("style"))),()=>t(e,r)}(e,n):((e,t)=>{let n=e.getAttribute("style",t);return e.setAttribute("style",t),()=>{e.setAttribute("style",n||"")}})(e,n)}function n(e,t,n){let r;return function(){let s=this,a=arguments,i=n&&!r;clearTimeout(r),r=setTimeout((function(){r=null,n||e.apply(s,a)}),t),i&&e.apply(s,a)}}function r(e,t,n={},r=!1){return e=r?`with($data){${e}}`:/^[a-z][a-z\d]*(-[a-z\d]+)+$/.test(e)?`var result;with($data){result=$data['${e}']};return result`:`var result;with($data){result=${e}};return result`,new Function(["$data",...Object.keys(n)],e)(t,...Object.values(n))}function s(e){const t=/^(x-|x.|@|:)/;return[...e.attributes].filter((({name:e})=>t.test(e))).map((({name:e,value:n})=>{const r=e.match(t)[0],s=e.replace(r,""),a=s.split(".");return{name:e,directive:"x-"===r?e:":"===r?"x-bind":"",event:"@"===r?a[0]:"",expression:n,prop:"x."===r?a[0]:"",modifiers:"x."===r?a.slice(1):s.split(".").slice(1)}}))}function a(n,r,s){"value"===r?"radio"===n.type?n.checked=n.value===s:"checkbox"===n.type?n.checked=Array.isArray(s)?s.some((e=>e===n.value)):!!s:"SELECT"===n.tagName?function(e,t){const n=[].concat(t).map((e=>e+""));Array.from(e.options).forEach((e=>{e.selected=n.includes(e.value||e.text)}))}(n,s):n.value=s:"class"===r?function(t,n){t._x_undoAddedClasses&&t._x_undoAddedClasses();t._x_undoAddedClasses=e(t,n)}(n,s):"style"===r?function(e,n){e._x_undoAddedStyles&&e._x_undoAddedStyles();e._x_undoAddedStyles=t(e,n)}(n,s):["disabled","readonly","required","checked","autofocus","autoplay","hidden"].includes(r)?s?n.setAttribute(r,""):n.removeAttribute(r):n.setAttribute(r,s)}function i(e,t={}){return new CustomEvent(e,{detail:t,bubbles:!0,cancelable:!0})}function o(e,t,n=""){return e[e.indexOf(t)+1]||n}function l(e,t){t(e);let n=e.firstElementChild;for(;n;){if(n.hasAttribute("x-data"))return;l(n,t),n=n.nextElementSibling}}function c(e,t){const n=[];return l(e,(a=>{s(a).forEach((s=>{let{modifiers:i,prop:o,name:l}=s;if(o){if("checkbox"===a.type&&void 0===t[o]&&(t[o]=e.querySelectorAll(`[${CSS.escape(l)}]`).length>1?[]:""),function(e){return["input","select","textarea"].includes(e.tagName.toLowerCase())}(a)){let e=u(a,t,o,i),n=void 0!==t[o]?t[o]:null,s=r(e,t,{$el:a});t[o]=n&&(""===(c=s)||null===c||Array.isArray(c)&&0===c.length||"object"==typeof c&&0===Object.keys(c).length)?n:s}n.push({el:a,attribute:s})}var c}))})),document.dispatchEvent(i("x:fetched",{data:t,fetched:n})),t}function u(e,t,n,r){let s,a=e.tagName.toLowerCase();return s="checkbox"===e.type?Array.isArray(t[n])?`$el.checked ? ${n}.concat([$el.value]) : [...${n}.splice(0, ${n}.indexOf($el.value)), ...${n}.splice(${n}.indexOf($el.value)+1)]`:"$el.checked":"radio"===e.type?`$el.checked ? $el.value : (typeof ${n} !== 'undefined' ? ${n} : '')`:"select"===a&&e.multiple?`Array.from($el.selectedOptions).map(option => ${r.includes("number")?"parseFloat(option.value || option.text)":"option.value || option.text"})`:r.includes("number")?"parseFloat($el.value)":r.includes("trim")?"$el.value.trim()":"$el.value",e.hasAttribute("name")||e.setAttribute("name",n),`$data['${n}'] = ${s}`}class d{constructor(e){this.el=e,this.rawData=r(e.getAttribute("x-data")||"{}",{}),this.rawData=c(e,this.rawData),this.data=this.wrapDataInObservable(this.rawData),this.initialize(e,this.data)}evaluate(e,t){let n=[];return{output:r(e,new Proxy(this.data,{get:(e,t)=>(n.push(t),e[t])}),t),deps:n}}wrapDataInObservable(e){let t=this;return t.concernedData=[],new Proxy(e,{set(e,n,r){const s=Reflect.set(e,n,r);return-1===t.concernedData.indexOf(n)&&t.concernedData.push(n),t.refresh(),s}})}initialize(e,t,n){const r=this;l(e,(e=>{s(e).forEach((s=>{let{directive:i,event:o,expression:l,modifiers:c,prop:d}=s;if(o&&r.registerListener(e,o,c,l),d){let s=["select-multiple","select","checkbox","radio"].includes(e.type)||c.includes("lazy")?"change":"input";r.registerListener(e,s,c,u(e,t,d,c));let{output:i}=r.evaluate(d,n);a(e,"value",i)}if(i in x.directives){let t=l;if("x-for"!==i)try{({output:t}=r.evaluate(l,n))}catch(e){}x.directives[i](e,t,s,x,r)}}))}))}refresh(){const e=this;n((()=>{l(e.el,(t=>{s(t).forEach((n=>{let{directive:r,expression:s,prop:o}=n;if(o){let{output:r,deps:s}=e.evaluate(o);e.concernedData.filter((e=>s.includes(e))).length>0&&(a(t,"value",r),document.dispatchEvent(i("x:refreshed",{attribute:n,output:r})))}if(r in x.directives){let a=s,i=[];if("x-for"!==r)try{({output:a,deps:i}=e.evaluate(s))}catch(e){}else[,i]=s.split(" in ");e.concernedData.filter((e=>i.includes(e))).length>0&&x.directives[r](t,a,n,x,e)}}))})),e.concernedData=[]}),0)()}registerListener(e,t,r,s){const a=this,l=[];function c(i){r.includes("prevent")&&i.preventDefault(),r.includes("stop")&&i.stopPropagation();let u=0;if(r.includes("delay")){const e=o(r,"delay").split("ms")[0];u=isNaN(e)?250:Number(e)}n((()=>{a.runListenerHandler(s,i),r.includes("once")&&(e.removeEventListener(t,c),i instanceof IntersectionObserverEntry&&function(e){const t=l.findIndex((t=>t.el===e));if(t>=0){const{observer:n}=l[t];n.unobserve(e),l.splice(t,1)}}(i.target))}),u)()}if(r.includes("outside"))document.addEventListener(t,(t=>{e.contains(t.target)||e.offsetWidth<1&&e.offsetHeight<1||this.runListenerHandler(s,t)}));else if("load"===t)c(i("load",{}));else if("intersect"===t){const t=new IntersectionObserver((e=>e.forEach((e=>e.isIntersecting&&c(e)))));t.observe(e),l.push({el:e,observer:t})}else e.addEventListener(t,c)}runListenerHandler(e,t){const n={};Object.keys(x.methods).forEach((e=>n[e]=x.methods[e](t,t.target)));let s={},a=t.target;for(;a&&!(s=a.__x_for_data);)a=a.parentElement;r(e,this.data,{$el:t.target,$event:t,$refs:this.getRefsProxy(),...s,...n},!0)}getRefsProxy(){let e=this;return new Proxy({},{get(t,n){let r;return l(e.el,(e=>{e.hasAttribute("x-ref")&&e.getAttribute("x-ref")===n&&(r=e)})),r}})}}const f={directives:{},methods:{},start:async function(){await new Promise((e=>{"loading"===document.readyState?document.addEventListener("DOMContentLoaded",e):e()})),this.discoverComponents((e=>this.initializeElement(e))),this.listenUninitializedComponentsAtRunTime((e=>this.initializeElement(e)))},discoverComponents:e=>{Array.from(document.querySelectorAll("[x-data]")).forEach(e)},listenUninitializedComponentsAtRunTime:e=>{new MutationObserver((t=>t.forEach((t=>Array.from(t.addedNodes).filter((e=>1===e.nodeType&&e.matches("[x-data]"))).forEach(e))))).observe(document.querySelector("body"),{childList:!0,attributes:!0,subtree:!0})},initializeElement:e=>{e.__x=new d(e)}},p=(e,t)=>{if(e){if("cookie"===t){let t=document.cookie.match(new RegExp("(?:^|; )"+e.replace(/([.$?*|{}()\[\]\\\/+^])/g,"\\$1")+"=([^;]*)"));if(t){let e=decodeURIComponent(t[1]);try{return JSON.parse(e)}catch(t){return e}}}return"local"===t?localStorage.getItem(e):void 0}},h=(e,t,n,r={path:"/"})=>{if(e){if(t instanceof Object&&(t=JSON.stringify(t)),"cookie"===n){(r=r||{}).expires instanceof Date&&(r.expires=r.expires.toUTCString());let n=encodeURIComponent(e)+"="+encodeURIComponent(t);for(let e in r){n+="; "+e;let t=r[e];!0!==t&&(n+="="+t)}document.cookie=n}"local"===n&&(t?localStorage.setItem(e,t):localStorage.removeItem(e))}};function m(e){let t=e.charAt(e.length-1),n=parseInt(e,10);const r={y:"FullYear",m:"Month",d:"Date",h:"Hours",i:"Minutes",s:"Seconds"};if(t in r){const e=new Date,s=r[t];return e[`set${s}`](e[`get${s}`]()+n),e}return null}function y(e){return["cookie","local"].some((t=>e.includes(t)))}function v(e){return e.includes("cookie")?"cookie":"local"}document.addEventListener("x:refreshed",(({detail:e})=>{const{modifiers:t,prop:n}=e.attribute;if(y(t)){const r=v(t),s=o(t,r);e.output?h(n,e.output,r,{expires:m(s),secure:!0}):h(n,null,r,{expires:new Date,path:"/"})}})),document.addEventListener("x:fetched",(({detail:e})=>{const{data:t,fetched:n}=e;n.forEach((e=>{const{attribute:{modifiers:n,prop:r}}=e;if(y(n)){const e=v(n),s=p(r,e);t[r]=function(e,t){switch(typeof e){case"string":return String(t);case"number":return Number.isInteger(e)?parseInt(t,10):parseFloat(t);case"boolean":return Boolean(t);case"object":return e instanceof Date?new Date(t):Array.isArray(e)?Array.from(t):Object(t);case"undefined":return null===e?null:"true"===t||"false"!==t&&t;default:return t}}(t[r],s||t[r])}}))}));function b(e,t){e=`x-${e}`,f.directives[e]?console.warn(`X.js: directive '${e}' is already exists.`):f.directives[e]=t}b("for",((e,t,n,s,a)=>{if("string"!=typeof t)return;const[,i,o="key",l]=t.match(/^\(?(\w+)(?:,\s*(\w+))?\)?\s+in\s+(\w+)$/)||[],c=r(`${l}`,a.data);for(;e.nextSibling;)e.nextSibling.remove();c.forEach(((t,n)=>{const r=e.cloneNode(!0);r.removeAttribute("x-for"),(async()=>{r.__x_for_data={[i]:t,[o]:n},await a.initialize(r,a.data,r.__x_for_data),e.parentNode.appendChild(r)})()}))})),b("bind",((e,t,{name:n},r,s)=>{":attributes"===n&&"object"==typeof t?Object.entries(t).forEach((([t,n])=>a(e,t,n))):a(e,n.replace(":",""),t)})),b("html",((e,t,n,r,s)=>{e.innerHTML=t})),b("text",((e,t,n,r,s)=>{e.innerText=t})),b("show",((e,t,n,r,s)=>{e.style.display=t?"block":"none"}));const g=1048576;var $,w;function A(e,t){const{loaded:n=0,total:r=0,type:s}=e,{response:a="",responseText:i="",status:o="",responseURL:l=""}=t;return{blob:new Blob([a]),json:JSON.parse(i||"[]"),raw:a,status:o,url:l,loaded:E(n),total:E(r),percent:r>0?Math.round(n/r*100):0,start:"loadstart"===s,progress:"progress"===s,end:"loadend"===s}}function E(e){return Math.round(e/g*100)/100}w=(e,t)=>(e,n={},r)=>{let s=t.tagName.toLowerCase(),a="form"===s?"post":"get",i="form"===s?new FormData(t):new FormData,o=new XMLHttpRequest;switch(s){case"form":Array.from(t.querySelectorAll("input[type='file']")).forEach((e=>{e.files&&[...e.files].forEach((t=>i.append(e.name,t)))}));break;case"textarea":case"select":case"input":"file"===t.type&&t.files?Array.from(t.files).forEach((e=>i.append(t.name,e))):t.name&&i.append(t.name,t.value)}return new Promise((t=>{o.open(a,e);for(const e in n.headers)o.setRequestHeader(e,n.headers[e]);o.withCredentials="include"===n.credentials,o.onloadstart=o.upload.onprogress=e=>r?.(A(e,o)),o.onloadend=e=>t((()=>r?.(A(e,o)))),o.send(i)})).then((e=>e()))},$=`$${$="fetch"}`,f.methods[$]?console.warn(`X.js: method '${$}' is already exists.`):f.methods[$]=w,window.x=f,window.x.start()}();
+(() => {
+    var __webpack_exports__ = {};
+    (function() {
+        'use strict';
+        function setClasses(el, value) {
+            if (Array.isArray(value)) {
+                value = value.join(' ');
+            } else if (typeof value === 'function') {
+                value = value();
+            } else if (typeof value === 'object' && value !== null) {
+                return setClassesFromObject(el, value);
+            }
+            return setClassesFromString(el, value);
+        }
+        function setClassesFromString(el, classString) {
+            let missingClasses = classString => classString.split(' ').filter((i => !el.classList.contains(i))).filter(Boolean);
+            let addClassesAndReturnUndo = classes => {
+                el.classList.add(...classes);
+                return () => el.classList.remove(...classes);
+            };
+            classString = classString === true ? '' : classString || '';
+            return addClassesAndReturnUndo(missingClasses(classString));
+        }
+        function setClassesFromObject(el, classObject) {
+            let classes = Object.entries(classObject), split = classString => classString.split(' ').filter(Boolean);
+            let forAdd = classes.flatMap((([classString, bool]) => bool ? split(classString) : false)).filter(Boolean);
+            let forRemove = classes.flatMap((([classString, bool]) => !bool ? split(classString) : false)).filter(Boolean);
+            const added = forAdd.filter((i => !el.classList.contains(i) && (el.classList.add(i), 
+            true)));
+            const removed = forRemove.filter((i => el.classList.contains(i) && (el.classList.remove(i), 
+            true)));
+            return () => {
+                removed.forEach((i => el.classList.add(i)));
+                added.forEach((i => el.classList.remove(i)));
+            };
+        }
+        function setStyles(el, value) {
+            if (typeof value === 'object' && value !== null) {
+                return setStylesFromObject(el, value);
+            }
+            return ((el, value) => {
+                let cache = el.getAttribute('style', value);
+                el.setAttribute('style', value);
+                return () => {
+                    el.setAttribute('style', cache || '');
+                };
+            })(el, value);
+        }
+        function setStylesFromObject(el, value) {
+            let previousStyles = {};
+            Object.entries(value).forEach((([key, value]) => {
+                previousStyles[key] = el.style[key];
+                if (!key.startsWith('--')) {
+                    key = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+                }
+                el.style.setProperty(key, value);
+            }));
+            setTimeout((() => el.style.length === 0 && el.removeAttribute('style')));
+            return () => setStyles(el, previousStyles);
+        }
+        function debounce(func, wait, immediate) {
+            let timeout;
+            return function() {
+                let context = this, args = arguments;
+                let later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                let callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+        function saferEval(expression, dataContext, additionalHelperVariables = {}, noReturn = false) {
+            expression = noReturn ? `with($data){${expression}}` : isKebabCase(expression) ? `var result;with($data){result=$data['${expression}']};return result` : `var result;with($data){result=${expression}};return result`;
+            return new Function([ '$data', ...Object.keys(additionalHelperVariables) ], expression)(dataContext, ...Object.values(additionalHelperVariables));
+        }
+        function getAttributes(el) {
+            const regexp = /^(x-|x.|@|:)/;
+            return [ ...el.attributes ].filter((({name}) => regexp.test(name))).map((({name, value}) => {
+                const startsWith = name.match(regexp)[0];
+                const root = name.replace(startsWith, '');
+                const parts = root.split('.');
+                return {
+                    name,
+                    directive: startsWith === 'x-' ? name : startsWith === ':' ? 'x-bind' : '',
+                    event: startsWith === '@' ? parts[0] : '',
+                    expression: value,
+                    prop: startsWith === 'x.' ? parts[0] : '',
+                    modifiers: startsWith === 'x.' ? parts.slice(1) : root.split('.').slice(1)
+                };
+            }));
+        }
+        function updateAttribute(el, name, value) {
+            if (name === 'value') {
+                if (el.type === 'radio') {
+                    el.checked = el.value === value;
+                } else if (el.type === 'checkbox') {
+                    el.checked = Array.isArray(value) ? value.some((val => val === el.value)) : !!value;
+                } else if (el.tagName === 'SELECT') {
+                    updateSelect(el, value);
+                } else {
+                    el.value = value;
+                }
+            } else if (name === 'class') {
+                bindClasses(el, value);
+            } else if (name === 'style') {
+                bindStyles(el, value);
+            } else if ([ 'disabled', 'readonly', 'required', 'checked', 'autofocus', 'autoplay', 'hidden' ].includes(name)) {
+                !!value ? el.setAttribute(name, '') : el.removeAttribute(name);
+            } else {
+                el.setAttribute(name, value);
+            }
+        }
+        function bindClasses(el, value) {
+            if (el._x_undoAddedClasses) {
+                el._x_undoAddedClasses();
+            }
+            el._x_undoAddedClasses = setClasses(el, value);
+        }
+        function bindStyles(el, value) {
+            if (el._x_undoAddedStyles) {
+                el._x_undoAddedStyles();
+            }
+            el._x_undoAddedStyles = setStyles(el, value);
+        }
+        function updateSelect(el, value) {
+            const arrayWrappedValue = [].concat(value).map((value => value + ''));
+            Array.from(el.options).forEach((option => {
+                option.selected = arrayWrappedValue.includes(option.value || option.text);
+            }));
+        }
+        function eventCreate(eventName, detail = {}) {
+            return new CustomEvent(eventName, {
+                detail,
+                bubbles: true,
+                cancelable: true
+            });
+        }
+        function getNextModifier(modifiers, modifier, defaultValue = '') {
+            return modifiers[modifiers.indexOf(modifier) + 1] || defaultValue;
+        }
+        function isInputField(el) {
+            return [ 'input', 'select', 'textarea' ].includes(el.tagName.toLowerCase());
+        }
+        function isKebabCase(str) {
+            return /^[a-z][a-z\d]*(-[a-z\d]+)+$/.test(str);
+        }
+        function isEmpty(variable) {
+            return variable === '' || variable === null || Array.isArray(variable) && variable.length === 0 || typeof variable === 'object' && Object.keys(variable).length === 0;
+        }
+        function domReady() {
+            return new Promise((resolve => {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', resolve);
+                } else {
+                    resolve();
+                }
+            }));
+        }
+        function domWalk(el, callback) {
+            callback(el);
+            let node = el.firstElementChild;
+            while (node) {
+                if (node.hasAttribute('x-data')) return;
+                domWalk(node, callback);
+                node = node.nextElementSibling;
+            }
+        }
+        function fetchProps(rootElement, data) {
+            const fetched = [];
+            domWalk(rootElement, (el => {
+                getAttributes(el).forEach((attribute => {
+                    let {modifiers, prop, name} = attribute;
+                    if (prop) {
+                        if (el.type === 'checkbox' && data[prop] === undefined) {
+                            data[prop] = rootElement.querySelectorAll(`[${CSS.escape(name)}]`).length > 1 ? [] : '';
+                        }
+                        if (isInputField(el)) {
+                            let modelExpression = generateExpressionForProp(el, data, prop, modifiers);
+                            let oldValue = data[prop] !== undefined ? data[prop] : null, newValue = saferEval(modelExpression, data, {
+                                $el: el
+                            });
+                            data[prop] = oldValue && isEmpty(newValue) ? oldValue : newValue;
+                        }
+                        fetched.push({
+                            el,
+                            attribute
+                        });
+                    }
+                }));
+            }));
+            document.dispatchEvent(eventCreate('x:fetched', {
+                data,
+                fetched
+            }));
+            return data;
+        }
+        function generateExpressionForProp(el, data, prop, modifiers) {
+            let rightSideOfExpression, tag = el.tagName.toLowerCase();
+            if (el.type === 'checkbox') {
+                if (Array.isArray(data[prop])) {
+                    rightSideOfExpression = `$el.checked ? ${prop}.concat([$el.value]) : [...${prop}.splice(0, ${prop}.indexOf($el.value)), ...${prop}.splice(${prop}.indexOf($el.value)+1)]`;
+                } else {
+                    rightSideOfExpression = `$el.checked`;
+                }
+            } else if (el.type === 'radio') {
+                rightSideOfExpression = `$el.checked ? $el.value : (typeof ${prop} !== 'undefined' ? ${prop} : '')`;
+            } else if (tag === 'select' && el.multiple) {
+                rightSideOfExpression = `Array.from($el.selectedOptions).map(option => ${modifiers.includes('number') ? 'parseFloat(option.value || option.text)' : 'option.value || option.text'})`;
+            } else {
+                rightSideOfExpression = modifiers.includes('number') ? 'parseFloat($el.value)' : modifiers.includes('trim') ? '$el.value.trim()' : '$el.value';
+            }
+            if (!el.hasAttribute('name')) {
+                el.setAttribute('name', prop);
+            }
+            return `$data['${prop}'] = ${rightSideOfExpression}`;
+        }
+        class Component {
+            constructor(el) {
+                this.el = el;
+                this.rawData = saferEval(el.getAttribute('x-data') || '{}', {});
+                this.rawData = fetchProps(el, this.rawData);
+                this.data = this.wrapDataInObservable(this.rawData);
+                this.initialize(el, this.data);
+            }
+            evaluate(expression, additionalHelperVariables) {
+                let affectedDataKeys = [];
+                const proxiedData = new Proxy(this.data, {
+                    get(object, prop) {
+                        affectedDataKeys.push(prop);
+                        return object[prop];
+                    }
+                });
+                const result = saferEval(expression, proxiedData, additionalHelperVariables);
+                return {
+                    output: result,
+                    deps: affectedDataKeys
+                };
+            }
+            wrapDataInObservable(data) {
+                let self = this;
+                self.concernedData = [];
+                return new Proxy(data, {
+                    set(obj, property, value) {
+                        const setWasSuccessful = Reflect.set(obj, property, value);
+                        if (self.concernedData.indexOf(property) === -1) {
+                            self.concernedData.push(property);
+                        }
+                        self.refresh();
+                        return setWasSuccessful;
+                    }
+                });
+            }
+            initialize(rootElement, data, additionalHelperVariables) {
+                const self = this;
+                domWalk(rootElement, (el => {
+                    getAttributes(el).forEach((attribute => {
+                        let {directive, event, expression, modifiers, prop} = attribute;
+                        if (event) {
+                            self.registerListener(el, event, modifiers, expression);
+                        }
+                        if (prop) {
+                            let event = [ 'select-multiple', 'select', 'checkbox', 'radio' ].includes(el.type) || modifiers.includes('lazy') ? 'change' : 'input';
+                            self.registerListener(el, event, modifiers, generateExpressionForProp(el, data, prop, modifiers));
+                            let {output} = self.evaluate(prop, additionalHelperVariables);
+                            updateAttribute(el, 'value', output);
+                        }
+                        if (directive in x.directives) {
+                            let output = expression;
+                            if (directive !== 'x-for') {
+                                try {
+                                    ({output} = self.evaluate(expression, additionalHelperVariables));
+                                } catch (error) {}
+                            }
+                            x.directives[directive](el, output, attribute, x, self);
+                        }
+                    }));
+                }));
+            }
+            refresh() {
+                const self = this;
+                debounce((() => {
+                    domWalk(self.el, (el => {
+                        getAttributes(el).forEach((attribute => {
+                            let {directive, expression, prop} = attribute;
+                            if (prop) {
+                                let {output, deps} = self.evaluate(prop);
+                                if (self.concernedData.filter((i => deps.includes(i))).length > 0) {
+                                    updateAttribute(el, 'value', output);
+                                    document.dispatchEvent(eventCreate('x:refreshed', {
+                                        attribute,
+                                        output
+                                    }));
+                                }
+                            }
+                            if (directive in x.directives) {
+                                let output = expression, deps = [];
+                                if (directive !== 'x-for') {
+                                    try {
+                                        ({output, deps} = self.evaluate(expression));
+                                    } catch (error) {}
+                                } else {
+                                    [, deps] = expression.split(' in ');
+                                }
+                                if (self.concernedData.filter((i => deps.includes(i))).length > 0) {
+                                    x.directives[directive](el, output, attribute, x, self);
+                                }
+                            }
+                        }));
+                    }));
+                    self.concernedData = [];
+                }), 0)();
+            }
+            registerListener(el, event, modifiers, expression) {
+                const self = this;
+                const observers = [];
+                function removeIntersectionObserver(element) {
+                    const index = observers.findIndex((item => item.el === element));
+                    if (index >= 0) {
+                        const {observer} = observers[index];
+                        observer.unobserve(element);
+                        observers.splice(index, 1);
+                    }
+                }
+                function eventHandler(e) {
+                    if (modifiers.includes('prevent')) {
+                        e.preventDefault();
+                    }
+                    if (modifiers.includes('stop')) {
+                        e.stopPropagation();
+                    }
+                    let wait = 0;
+                    if (modifiers.includes('delay')) {
+                        const numericValue = getNextModifier(modifiers, 'delay').split('ms')[0];
+                        wait = !isNaN(numericValue) ? Number(numericValue) : 250;
+                    }
+                    debounce((() => {
+                        self.runListenerHandler(expression, e);
+                        if (modifiers.includes('once')) {
+                            el.removeEventListener(event, eventHandler);
+                            if (e instanceof IntersectionObserverEntry) {
+                                removeIntersectionObserver(e.target);
+                            }
+                        }
+                    }), wait)();
+                }
+                if (modifiers.includes('outside')) {
+                    document.addEventListener(event, (e => {
+                        if (el.contains(e.target)) return;
+                        if (el.offsetWidth < 1 && el.offsetHeight < 1) return;
+                        this.runListenerHandler(expression, e);
+                    }));
+                } else {
+                    if (event === 'load') {
+                        eventHandler(eventCreate('load', {}));
+                    } else if (event === 'intersect') {
+                        const observer = new IntersectionObserver((entries => entries.forEach((entry => entry.isIntersecting && eventHandler(entry)))));
+                        observer.observe(el);
+                        observers.push({
+                            el,
+                            observer
+                        });
+                    } else {
+                        el.addEventListener(event, eventHandler);
+                    }
+                }
+            }
+            runListenerHandler(expression, e) {
+                const methods = {};
+                Object.keys(x.methods).forEach((key => methods[key] = x.methods[key](e, e.target)));
+                let data = {}, el = e.target;
+                while (el && !(data = el.__x_for_data)) {
+                    el = el.parentElement;
+                }
+                saferEval(expression, this.data, {
+                    ...{
+                        $el: e.target,
+                        $event: e,
+                        $refs: this.getRefsProxy()
+                    },
+                    ...data,
+                    ...methods
+                }, true);
+            }
+            getRefsProxy() {
+                let self = this;
+                return new Proxy({}, {
+                    get(object, property) {
+                        let ref;
+                        domWalk(self.el, (el => {
+                            if (el.hasAttribute('x-ref') && el.getAttribute('x-ref') === property) {
+                                ref = el;
+                            }
+                        }));
+                        return ref;
+                    }
+                });
+            }
+        }
+        const scripts_x = {
+            directives: {},
+            methods: {},
+            start: async function() {
+                await domReady();
+                this.discoverComponents((el => this.initializeElement(el)));
+                this.listenUninitializedComponentsAtRunTime((el => this.initializeElement(el)));
+            },
+            discoverComponents: callback => {
+                Array.from(document.querySelectorAll('[x-data]')).forEach(callback);
+            },
+            listenUninitializedComponentsAtRunTime: callback => {
+                let observer = new MutationObserver((mutations => mutations.forEach((mutation => Array.from(mutation.addedNodes).filter((node => node.nodeType === 1 && node.matches('[x-data]'))).forEach(callback)))));
+                observer.observe(document.querySelector('body'), {
+                    childList: true,
+                    attributes: true,
+                    subtree: true
+                });
+            },
+            initializeElement: el => {
+                el.__x = new Component(el);
+            }
+        };
+        const storage = {
+            get: (name, type) => {
+                if (!name) return;
+                if (type === 'cookie') {
+                    let matches = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()\[\]\\\/+^])/g, '\\$1') + '=([^;]*)'));
+                    if (matches) {
+                        let res = decodeURIComponent(matches[1]);
+                        try {
+                            return JSON.parse(res);
+                        } catch (e) {
+                            return res;
+                        }
+                    }
+                }
+                if (type === 'local') {
+                    return localStorage.getItem(name);
+                }
+            },
+            set: (name, value, type, options = {
+                path: '/'
+            }) => {
+                if (!name) return;
+                if (value instanceof Object) {
+                    value = JSON.stringify(value);
+                }
+                if (type === 'cookie') {
+                    options = options || {};
+                    if (options.expires instanceof Date) {
+                        options.expires = options.expires.toUTCString();
+                    }
+                    let updatedCookie = encodeURIComponent(name) + '=' + encodeURIComponent(value);
+                    for (let optionKey in options) {
+                        updatedCookie += '; ' + optionKey;
+                        let optionValue = options[optionKey];
+                        if (optionValue !== true) {
+                            updatedCookie += '=' + optionValue;
+                        }
+                    }
+                    document.cookie = updatedCookie;
+                }
+                if (type === 'local') {
+                    if (value) {
+                        localStorage.setItem(name, value);
+                    } else {
+                        localStorage.removeItem(name);
+                    }
+                }
+            }
+        };
+        function computeExpires(str) {
+            let lastCh = str.charAt(str.length - 1), value = parseInt(str, 10);
+            const methods = {
+                y: 'FullYear',
+                m: 'Month',
+                d: 'Date',
+                h: 'Hours',
+                i: 'Minutes',
+                s: 'Seconds'
+            };
+            if (lastCh in methods) {
+                const date = new Date;
+                const method = methods[lastCh];
+                date[`set${method}`](date[`get${method}`]() + value);
+                return date;
+            }
+            return null;
+        }
+        function isStorageModifier(modifiers) {
+            return [ 'cookie', 'local' ].some((modifier => modifiers.includes(modifier)));
+        }
+        function getStorageType(modifiers) {
+            return modifiers.includes('cookie') ? 'cookie' : 'local';
+        }
+        function castToType(a, value) {
+            const type = typeof a;
+            switch (type) {
+              case 'string':
+                return String(value);
+
+              case 'number':
+                return Number.isInteger(a) ? parseInt(value, 10) : parseFloat(value);
+
+              case 'boolean':
+                return Boolean(value);
+
+              case 'object':
+                if (a instanceof Date) {
+                    return new Date(value);
+                } else if (Array.isArray(a)) {
+                    return Array.from(value);
+                } else {
+                    return Object(value);
+                }
+
+              case 'undefined':
+                if (a === null) {
+                    return null;
+                }
+                return value === 'true' ? true : value === 'false' ? false : value;
+
+              default:
+                return value;
+            }
+        }
+        document.addEventListener('x:refreshed', (({detail}) => {
+            const {modifiers, prop} = detail.attribute;
+            if (isStorageModifier(modifiers)) {
+                const type = getStorageType(modifiers);
+                const expire = getNextModifier(modifiers, type);
+                if (detail.output) {
+                    storage.set(prop, detail.output, type, {
+                        expires: computeExpires(expire),
+                        secure: true
+                    });
+                } else {
+                    storage.set(prop, null, type, {
+                        expires: new Date,
+                        path: '/'
+                    });
+                }
+            }
+        }));
+        document.addEventListener('x:fetched', (({detail}) => {
+            const {data, fetched} = detail;
+            fetched.forEach((item => {
+                const {attribute: {modifiers, prop}} = item;
+                if (isStorageModifier(modifiers)) {
+                    const type = getStorageType(modifiers);
+                    const value = storage.get(prop, type);
+                    data[prop] = castToType(data[prop], value || data[prop]);
+                }
+            }));
+        }));
+        const prefix = 'x-';
+        function directive(name, callback) {
+            name = `${prefix}${name}`;
+            if (!scripts_x.directives[name]) {
+                scripts_x.directives[name] = callback;
+            } else {
+                console.warn(`X.js: directive '${name}' is already exists.`);
+            }
+        }
+        directive('for', ((el, expression, attribute, x, component) => {
+            if (typeof expression !== 'string') {
+                return;
+            }
+            const regex = /^\(?(\w+)(?:,\s*(\w+))?\)?\s+in\s+(\w+)$/;
+            const [, item, index = 'key', items] = expression.match(regex) || [];
+            const dataItems = saferEval(`${items}`, component.data);
+            while (el.nextSibling) {
+                el.nextSibling.remove();
+            }
+            dataItems.forEach(((dataItem, key) => {
+                const clone = el.cloneNode(true);
+                clone.removeAttribute('x-for');
+                (async () => {
+                    clone.__x_for_data = {
+                        [item]: dataItem,
+                        [index]: key
+                    };
+                    await component.initialize(clone, component.data, clone.__x_for_data);
+                    el.parentNode.appendChild(clone);
+                })();
+            }));
+        }));
+        directive('bind', ((el, expression, {name}, x, component) => {
+            if (name === ':attributes' && typeof expression === 'object') {
+                Object.entries(expression).forEach((([key, value]) => updateAttribute(el, key, value)));
+            } else {
+                updateAttribute(el, name.replace(':', ''), expression);
+            }
+        }));
+        directive('html', ((el, expression, attribute, x, component) => {
+            el.innerHTML = expression;
+        }));
+        directive('text', ((el, expression, attribute, x, component) => {
+            el.innerText = expression;
+        }));
+        directive('show', ((el, expression, attribute, x, component) => {
+            el.style.display = expression ? 'block' : 'none';
+        }));
+        const methods_prefix = '$';
+        function method(name, callback) {
+            name = `${methods_prefix}${name}`;
+            if (!scripts_x.methods[name]) {
+                scripts_x.methods[name] = callback;
+            } else {
+                console.warn(`X.js: method '${name}' is already exists.`);
+            }
+        }
+        const BYTES_IN_MB = 1048576;
+        method('fetch', ((e, el) => (url, options = {}, callback) => {
+            let tagName = el.tagName.toLowerCase(), method = tagName === 'form' ? 'post' : 'get', data = tagName === 'form' ? new FormData(el) : new FormData, xhr = new XMLHttpRequest;
+            switch (tagName) {
+              case 'form':
+                Array.from(el.querySelectorAll('input[type=\'file\']')).forEach((input => {
+                    input.files && [ ...input.files ].forEach((file => data.append(input.name, file)));
+                }));
+                break;
+
+              case 'textarea':
+              case 'select':
+              case 'input':
+                if (el.type === 'file' && el.files) {
+                    Array.from(el.files).forEach((file => data.append(el.name, file)));
+                } else {
+                    el.name && data.append(el.name, el.value);
+                }
+                break;
+            }
+            return new Promise((resolve => {
+                xhr.open(method, url);
+                for (const i in options.headers) {
+                    xhr.setRequestHeader(i, options.headers[i]);
+                }
+                xhr.withCredentials = options.credentials === 'include';
+                xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
+                xhr.onloadend = event => resolve((() => callback?.(onProgress(event, xhr))));
+                xhr.send(data);
+            })).then((response => response()));
+        }));
+        function onProgress(event, xhr) {
+            const {loaded = 0, total = 0, type} = event;
+            const {response = '', responseText = '', status = '', responseURL = ''} = xhr;
+            return {
+                blob: new Blob([ response ]),
+                json: JSON.parse(responseText || '[]'),
+                raw: response,
+                status,
+                url: responseURL,
+                loaded: convertTo(loaded),
+                total: convertTo(total),
+                percent: total > 0 ? Math.round(loaded / total * 100) : 0,
+                start: type === 'loadstart',
+                progress: type === 'progress',
+                end: type === 'loadend'
+            };
+        }
+        function convertTo(number) {
+            return Math.round(number / BYTES_IN_MB * 100) / 100;
+        }
+        window.x = scripts_x;
+        window.x.start();
+    })();
+})();

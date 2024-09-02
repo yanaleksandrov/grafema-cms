@@ -1,4 +1,11 @@
-/*! nouislider - 14.6.4 - 3/18/2021 MIT Licence https://github.com/leongersen/noUiSlider */
+/**
+ * noUiSlider is a lightweight JavaScript range slider.
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 14.6.4
+ * @source  https://github.com/leongersen/noUiSlider
+ */
 (function(factory) {
 	if (typeof define === "function" && define.amd) {
 		// AMD. Register as an anonymous module.

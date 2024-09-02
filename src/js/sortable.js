@@ -1,9 +1,12 @@
-/**!
- * Sortable 1.13.0
+/**
+ * Sortable is a JavaScript library for reorderable drag-and-drop lists.
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 1.13.0
+ * @source  https://github.com/SortableJS/Sortable.git
  * @author	RubaXa   <trash@rubaxa.org>
  * @author	owenm    <owen23355@gmail.com>
- * @license MIT
- * @source  https://github.com/SortableJS/Sortable.git
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :

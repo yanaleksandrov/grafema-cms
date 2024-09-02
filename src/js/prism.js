@@ -1,7 +1,13 @@
-/* PrismJS 1.29.0
-https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+css-extras+csv+javadoclike+json+json5+jsonp+markup-templating+php+phpdoc+php-extras+jsx+scss+sql+typescript&plugins=line-numbers */
-/// <reference lib="WebWorker"/>
-
+/**
+ * Prism is a lightweight, robust, and elegant syntax highlighting library.
+ *
+ * License: MIT <https://opensource.org/licenses/MIT>
+ *
+ * @version 1.29.0
+ * @source  https://github.com/PrismJS/prism
+ * @source  https://prismjs.com/download.html#themes=prism&languages=markup+css+clike+javascript+css-extras+csv+javadoclike+json+json5+jsonp+markup-templating+php+phpdoc+php-extras+jsx+scss+sql+typescript&plugins=line-numbers
+ * @author	Lea Verou <https://lea.verou.me>
+ */
 var _self = (typeof window !== 'undefined')
 	? window   // if in browser
 	: (
@@ -10,14 +16,6 @@ var _self = (typeof window !== 'undefined')
 			: {}   // if in node js
 	);
 
-/**
- * Prism: Lightweight, robust, elegant syntax highlighting
- *
- * @license MIT <https://opensource.org/licenses/MIT>
- * @author Lea Verou <https://lea.verou.me>
- * @namespace
- * @public
- */
 var Prism = (function (_self) {
 
 	// Private helper vars

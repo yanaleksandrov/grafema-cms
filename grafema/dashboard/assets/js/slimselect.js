@@ -1,1 +1,1788 @@
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e="undefined"!=typeof globalThis?globalThis:e||self).SlimSelect=t()}(this,(function(){"use strict";function e(){return Math.random().toString(36).substring(2,10)}function t(e,t=50,s=!1){let i;return function(...n){const a=self,l=s&&!i;clearTimeout(i),i=setTimeout((()=>{i=null,s||e.apply(a,n)}),t),l&&e.apply(a,n)}}function s(e,t){return JSON.stringify(e)===JSON.stringify(t)}class i{constructor(t){this.id="",this.style="",this.class=[],this.isMultiple=!1,this.isOpen=!1,this.isFullOpen=!1,this.intervalMove=null,t||(t={}),this.id="ss-"+e(),this.style=t.style||"",this.class=t.class||[],this.disabled=void 0!==t.disabled&&t.disabled,this.alwaysOpen=void 0!==t.alwaysOpen&&t.alwaysOpen,this.showSearch=void 0===t.showSearch||t.showSearch,this.searchPlaceholder=t.searchPlaceholder||"Search",this.searchText=t.searchText||"No Results",this.searchingText=t.searchingText||"Searching...",this.searchHighlight=void 0!==t.searchHighlight&&t.searchHighlight,this.closeOnSelect=void 0===t.closeOnSelect||t.closeOnSelect,this.contentLocation=t.contentLocation||document.body,this.contentPosition=t.contentPosition||"absolute",this.openPosition=t.openPosition||"auto",this.placeholderText=void 0!==t.placeholderText?t.placeholderText:"Select Value",this.allowDeselect=void 0!==t.allowDeselect&&t.allowDeselect,this.hideSelected=void 0!==t.hideSelected&&t.hideSelected,this.showOptionTooltips=void 0!==t.showOptionTooltips&&t.showOptionTooltips,this.minSelected=t.minSelected||0,this.maxSelected=t.maxSelected||1e3,this.timeoutDelay=t.timeoutDelay||200,this.maxValuesShown=t.maxValuesShown||20,this.maxValuesMessage=t.maxValuesMessage||"{number} selected"}}class n{constructor(t){if(this.id=t.id&&""!==t.id?t.id:e(),this.label=t.label||"",this.selectAll=void 0!==t.selectAll&&t.selectAll,this.selectAllText=t.selectAllText||"Select All",this.closable=t.closable||"off",this.options=[],t.options)for(const e of t.options)this.options.push(new a(e))}}class a{constructor(t){this.id=t.id&&""!==t.id?t.id:e(),this.value=void 0===t.value?t.text:t.value,this.text=t.text||"",this.html=t.html||"",this.selected=void 0!==t.selected&&t.selected,this.display=void 0===t.display||t.display,this.disabled=void 0!==t.disabled&&t.disabled,this.mandatory=void 0!==t.mandatory&&t.mandatory,this.placeholder=void 0!==t.placeholder&&t.placeholder,this.class=t.class||"",this.style=t.style||"",this.data=t.data||{}}}class l{constructor(e,t){this.selectType="single",this.data=[],this.selectType=e,this.setData(t)}validateDataArray(e){if(!Array.isArray(e))return new Error("Data must be an array");for(let t of e){if(!(t instanceof n||"label"in t))return t instanceof a||"text"in t?this.validateOption(t):new Error("Data object must be a valid optgroup or option");if(!("label"in t))return new Error("Optgroup must have a label");if("options"in t&&t.options)for(let e of t.options)return this.validateOption(e)}return null}validateOption(e){return"text"in e?null:new Error("Option must have a text")}partialToFullData(e){let t=[];return e.forEach((e=>{if(e instanceof n||"label"in e){let s=[];"options"in e&&e.options&&e.options.forEach((e=>{s.push(new a(e))})),s.length>0&&t.push(new n(e))}(e instanceof a||"text"in e)&&t.push(new a(e))})),t}setData(e){this.data=this.partialToFullData(e),"single"===this.selectType&&this.setSelectedBy("value",this.getSelected())}getData(){return this.filter(null,!0)}getDataOptions(){return this.filter(null,!1)}addOption(e){this.setData(this.getData().concat(new a(e)))}setSelectedBy(e,t){let s=null,i=!1;for(let l of this.data){if(l instanceof n)for(let n of l.options)s||(s=n),n.selected=!i&&t.includes(n[e]),n.selected&&"single"===this.selectType&&(i=!0);l instanceof a&&(s||(s=l),l.selected=!i&&t.includes(l[e]),l.selected&&"single"===this.selectType&&(i=!0))}"single"===this.selectType&&s&&!i&&(s.selected=!0)}getSelected(){let e=this.getSelectedOptions(),t=[];return e.forEach((e=>{t.push(e.value)})),t}getSelectedOptions(){return this.filter((e=>e.selected),!1)}getSelectedIDs(){let e=this.getSelectedOptions(),t=[];return e.forEach((e=>{t.push(e.id)})),t}getOptgroupByID(e){for(let t of this.data)if(t instanceof n&&t.id===e)return t;return null}getOptionByID(e){let t=this.filter((t=>t.id===e),!1);return t.length?t[0]:null}search(e,t){return""===(e=e.trim())?this.getData():this.filter((s=>t(s,e)),!0)}filter(e,t){const s=[];return this.data.forEach((i=>{if(i instanceof n){let l=[];if(i.options.forEach((i=>{e&&!e(i)||(t?l.push(new a(i)):s.push(new a(i)))})),l.length>0){let e=new n(i);e.options=l,s.push(e)}}i instanceof a&&(e&&!e(i)||s.push(new a(i)))})),s}getSelectType(){return this.selectType}}class o{constructor(e,t,s){this.classes={main:"ss-main",placeholder:"ss-placeholder",values:"ss-values",single:"ss-single",max:"ss-max",value:"ss-value",valueText:"ss-value-text",valueDelete:"ss-value-delete",valueOut:"ss-value-out",deselect:"ss-deselect",deselectPath:"M10,10 L90,90 M10,90 L90,10",arrow:"ss-arrow",arrowClose:"M10,30 L50,70 L90,30",arrowOpen:"M10,70 L50,30 L90,70",content:"ss-content",openAbove:"ss-open-above",openBelow:"ss-open-below",search:"ss-search",searchHighlighter:"ss-search-highlight",searching:"ss-searching",addable:"ss-addable",addablePath:"M50,10 L50,90 M10,50 L90,50",list:"ss-list",optgroup:"ss-optgroup",optgroupLabel:"ss-optgroup-label",optgroupLabelText:"ss-optgroup-label-text",optgroupActions:"ss-optgroup-actions",optgroupSelectAll:"ss-selectall",optgroupSelectAllBox:"M60,10 L10,10 L10,90 L90,90 L90,50",optgroupSelectAllCheck:"M30,45 L50,70 L90,10",optgroupClosable:"ss-closable",option:"ss-option",optionDelete:"M10,10 L90,90 M10,90 L90,10",highlighted:"ss-highlighted",open:"ss-open",close:"ss-close",selected:"ss-selected",error:"ss-error",disabled:"ss-disabled",hide:"ss-hide"},this.store=t,this.settings=e,this.callbacks=s,this.main=this.mainDiv(),this.content=this.contentDiv(),this.updateClassStyles(),this.updateAriaAttributes(),this.settings.contentLocation.appendChild(this.content.main)}enable(){this.main.main.classList.remove(this.classes.disabled),this.content.search.input.disabled=!1}disable(){this.main.main.classList.add(this.classes.disabled),this.content.search.input.disabled=!0}open(){this.main.arrow.path.setAttribute("d",this.classes.arrowOpen),this.main.main.classList.add("up"===this.settings.openPosition?this.classes.openAbove:this.classes.openBelow),this.main.main.setAttribute("aria-expanded","true"),this.moveContent();const e=this.store.getSelectedOptions();if(e.length){const t=e[e.length-1].id,s=this.content.list.querySelector('[data-id="'+t+'"]');s&&this.ensureElementInView(this.content.list,s)}}close(){this.main.main.classList.remove(this.classes.openAbove),this.main.main.classList.remove(this.classes.openBelow),this.main.main.setAttribute("aria-expanded","false"),this.content.main.classList.remove(this.classes.openAbove),this.content.main.classList.remove(this.classes.openBelow),this.main.arrow.path.setAttribute("d",this.classes.arrowClose)}updateClassStyles(){if(this.main.main.className="",this.main.main.removeAttribute("style"),this.content.main.className="",this.content.main.removeAttribute("style"),this.main.main.classList.add(this.classes.main),this.content.main.classList.add(this.classes.content),""!==this.settings.style&&(this.main.main.style.cssText=this.settings.style,this.content.main.style.cssText=this.settings.style),this.settings.class.length)for(const e of this.settings.class)""!==e.trim()&&(this.main.main.classList.add(e.trim()),this.content.main.classList.add(e.trim()));"relative"===this.settings.contentPosition&&this.content.main.classList.add("ss-"+this.settings.contentPosition)}updateAriaAttributes(){this.main.main.role="combobox",this.main.main.setAttribute("aria-haspopup","listbox"),this.main.main.setAttribute("aria-controls",this.content.main.id),this.main.main.setAttribute("aria-expanded","false"),this.content.main.setAttribute("role","listbox")}mainDiv(){var e;const t=document.createElement("div");t.dataset.id=this.settings.id,t.id=this.settings.id,t.tabIndex=0,t.onkeydown=e=>{switch(e.key){case"ArrowUp":case"ArrowDown":return this.callbacks.open(),"ArrowDown"===e.key?this.highlight("down"):this.highlight("up"),!1;case"Tab":return this.callbacks.close(),!0;case"Enter":case" ":this.callbacks.open();const t=this.content.list.querySelector("."+this.classes.highlighted);return t&&t.click(),!1;case"Escape":return this.callbacks.close(),!1}},t.onclick=e=>{this.settings.disabled||(this.settings.isOpen?this.callbacks.close():this.callbacks.open())};const s=document.createElement("div");s.classList.add(this.classes.values),t.appendChild(s);const i=document.createElement("div");i.classList.add(this.classes.deselect);const n=null===(e=this.store)||void 0===e?void 0:e.getSelectedOptions();!this.settings.allowDeselect||this.settings.isMultiple&&n&&n.length<=0?i.classList.add(this.classes.hide):i.classList.remove(this.classes.hide),i.onclick=e=>{if(e.stopPropagation(),this.settings.disabled)return;let t=!0;const s=this.store.getSelectedOptions(),i=[];this.callbacks.beforeChange&&(t=!0===this.callbacks.beforeChange(i,s)),t&&(this.settings.isMultiple?(this.callbacks.setSelected([],!1),this.updateDeselectAll()):this.callbacks.setSelected([""],!1),this.settings.closeOnSelect&&this.callbacks.close(),this.callbacks.afterChange&&this.callbacks.afterChange(i))};const a=document.createElementNS("http://www.w3.org/2000/svg","svg");a.setAttribute("viewBox","0 0 100 100");const l=document.createElementNS("http://www.w3.org/2000/svg","path");l.setAttribute("d",this.classes.deselectPath),a.appendChild(l),i.appendChild(a),t.appendChild(i);const o=document.createElementNS("http://www.w3.org/2000/svg","svg");o.classList.add(this.classes.arrow),o.setAttribute("viewBox","0 0 100 100");const c=document.createElementNS("http://www.w3.org/2000/svg","path");return c.setAttribute("d",this.classes.arrowClose),this.settings.alwaysOpen&&o.classList.add(this.classes.hide),o.appendChild(c),t.appendChild(o),{main:t,values:s,deselect:{main:i,svg:a,path:l},arrow:{main:o,path:c}}}mainFocus(e){"click"!==e&&this.main.main.focus({preventScroll:!0})}placeholder(){const e=this.store.filter((e=>e.placeholder),!1);let t=this.settings.placeholderText;e.length&&(""!==e[0].html?t=e[0].html:""!==e[0].text&&(t=e[0].text));const s=document.createElement("div");return s.classList.add(this.classes.placeholder),s.innerHTML=t,s}renderValues(){this.settings.isMultiple?this.renderMultipleValues():this.renderSingleValue()}renderSingleValue(){const e=this.store.filter((e=>e.selected&&!e.placeholder),!1),t=e.length>0?e[0]:null;if(t){const e=document.createElement("div");e.classList.add(this.classes.single),t.html?e.innerHTML=t.html:e.innerText=t.text,this.main.values.innerHTML=e.outerHTML}else this.main.values.innerHTML=this.placeholder().outerHTML;this.settings.allowDeselect&&e.length?this.main.deselect.main.classList.remove(this.classes.hide):this.main.deselect.main.classList.add(this.classes.hide)}renderMultipleValues(){let e=this.main.values.childNodes,t=this.store.filter((e=>e.selected&&e.display),!1);if(0===t.length)return void(this.main.values.innerHTML=this.placeholder().outerHTML);{const e=this.main.values.querySelector("."+this.classes.placeholder);e&&e.remove()}if(t.length>this.settings.maxValuesShown){const e=document.createElement("div");return e.classList.add(this.classes.max),e.textContent=this.settings.maxValuesMessage.replace("{number}",t.length.toString()),void(this.main.values.innerHTML=e.outerHTML)}{const e=this.main.values.querySelector("."+this.classes.max);e&&e.remove()}let s=[];for(let i=0;i<e.length;i++){const n=e[i],a=n.getAttribute("data-id");if(a){t.filter((e=>e.id===a),!1).length||s.push(n)}}for(const e of s)e.classList.add(this.classes.valueOut),setTimeout((()=>{this.main.values.hasChildNodes()&&this.main.values.contains(e)&&this.main.values.removeChild(e)}),100);e=this.main.values.childNodes;for(let s=0;s<t.length;s++){let i=!0;for(let n=0;n<e.length;n++)t[s].id===String(e[n].dataset.id)&&(i=!1);i&&(0===e.length?this.main.values.appendChild(this.multipleValue(t[s])):0===s?this.main.values.insertBefore(this.multipleValue(t[s]),e[s]):e[s-1].insertAdjacentElement("afterend",this.multipleValue(t[s])))}this.updateDeselectAll()}multipleValue(e){const t=document.createElement("div");t.classList.add(this.classes.value),t.dataset.id=e.id;const s=document.createElement("div");if(s.classList.add(this.classes.valueText),s.innerText=e.text,t.appendChild(s),!e.mandatory){const s=document.createElement("div");s.classList.add(this.classes.valueDelete),s.onclick=t=>{if(t.preventDefault(),t.stopPropagation(),this.settings.disabled)return;let s=!0;const i=this.store.getSelectedOptions(),l=i.filter((t=>t.selected&&t.id!==e.id),!0);if(!(this.settings.minSelected&&l.length<this.settings.minSelected)&&(this.callbacks.beforeChange&&(s=!0===this.callbacks.beforeChange(l,i)),s)){let e=[];for(const t of l){if(t instanceof n)for(const s of t.options)e.push(s.value);t instanceof a&&e.push(t.value)}this.callbacks.setSelected(e,!1),this.settings.closeOnSelect&&this.callbacks.close(),this.callbacks.afterChange&&this.callbacks.afterChange(l),this.updateDeselectAll()}};const i=document.createElementNS("http://www.w3.org/2000/svg","svg");i.setAttribute("viewBox","0 0 100 100");const l=document.createElementNS("http://www.w3.org/2000/svg","path");l.setAttribute("d",this.classes.optionDelete),i.appendChild(l),s.appendChild(i),t.appendChild(s)}return t}contentDiv(){const e=document.createElement("div");e.dataset.id=this.settings.id,e.id=this.settings.id;const t=this.searchDiv();e.appendChild(t.main);const s=this.listDiv();return e.appendChild(s),{main:e,search:t,list:s}}moveContent(){"relative"!==this.settings.contentPosition&&"down"!==this.settings.openPosition?"up"!==this.settings.openPosition?"up"===this.putContent()?this.moveContentAbove():this.moveContentBelow():this.moveContentAbove():this.moveContentBelow()}searchDiv(){const e=document.createElement("div"),s=document.createElement("input"),i=document.createElement("div");e.classList.add(this.classes.search);const n={main:e,input:s};if(this.settings.showSearch||(e.classList.add(this.classes.hide),s.readOnly=!0),s.type="search",s.placeholder=this.settings.searchPlaceholder,s.tabIndex=-1,s.setAttribute("aria-label",this.settings.searchPlaceholder),s.setAttribute("autocapitalize","off"),s.setAttribute("autocomplete","off"),s.setAttribute("autocorrect","off"),s.oninput=t((e=>{this.callbacks.search(e.target.value)}),100),s.onkeydown=e=>{switch(e.key){case"ArrowUp":case"ArrowDown":return"ArrowDown"===e.key?this.highlight("down"):this.highlight("up"),!1;case"Tab":return this.callbacks.close(),!0;case"Escape":return this.callbacks.close(),!1;case"Enter":case" ":if(this.callbacks.addable&&e.ctrlKey)return i.click(),!1;{const e=this.content.list.querySelector("."+this.classes.highlighted);if(e)return e.click(),!1}return!0}},e.appendChild(s),this.callbacks.addable){i.classList.add(this.classes.addable);const t=document.createElementNS("http://www.w3.org/2000/svg","svg");t.setAttribute("viewBox","0 0 100 100");const s=document.createElementNS("http://www.w3.org/2000/svg","path");s.setAttribute("d",this.classes.addablePath),t.appendChild(s),i.appendChild(t),i.onclick=e=>{if(e.preventDefault(),e.stopPropagation(),!this.callbacks.addable)return;const t=this.content.search.input.value.trim();if(""===t)return void this.content.search.input.focus();const s=e=>{let t=new a(e);if(this.callbacks.addOption(t),this.settings.isMultiple){let e=this.store.getSelected();e.push(t.value),this.callbacks.setSelected(e,!0)}else this.callbacks.setSelected([t.value],!0);this.callbacks.search(""),this.settings.closeOnSelect&&setTimeout((()=>{this.callbacks.close()}),100)},i=this.callbacks.addable(t);!1!==i&&null!=i&&(i instanceof Promise?i.then((e=>{s("string"==typeof e?{text:e,value:e}:e)})):s("string"==typeof i?{text:i,value:i}:i))},e.appendChild(i),n.addable={main:i,svg:t,path:s}}return n}searchFocus(){this.content.search.input.focus()}getOptions(e=!1,t=!1,s=!1){let i="."+this.classes.option;return e&&(i+=":not(."+this.classes.placeholder+")"),t&&(i+=":not(."+this.classes.disabled+")"),s&&(i+=":not(."+this.classes.hide+")"),Array.from(this.content.list.querySelectorAll(i))}highlight(e){const t=this.getOptions(!0,!0,!0);if(0!==t.length)if(1!==t.length||t[0].classList.contains(this.classes.highlighted)){for(let s=0;s<t.length;s++)if(t[s].classList.contains(this.classes.highlighted)){const i=t[s];i.classList.remove(this.classes.highlighted);const n=i.parentElement;if(n&&n.classList.contains(this.classes.open)){const e=n.querySelector("."+this.classes.optgroupLabel);e&&e.click()}let a=t["down"===e?s+1<t.length?s+1:0:s-1>=0?s-1:t.length-1];a.classList.add(this.classes.highlighted),this.ensureElementInView(this.content.list,a);const l=a.parentElement;if(l&&l.classList.contains(this.classes.close)){const e=l.querySelector("."+this.classes.optgroupLabel);e&&e.click()}return}t["down"===e?0:t.length-1].classList.add(this.classes.highlighted),this.ensureElementInView(this.content.list,t["down"===e?0:t.length-1])}else t[0].classList.add(this.classes.highlighted)}listDiv(){const e=document.createElement("div");return e.classList.add(this.classes.list),e}renderError(e){this.content.list.innerHTML="";const t=document.createElement("div");t.classList.add(this.classes.error),t.textContent=e,this.content.list.appendChild(t)}renderSearching(){this.content.list.innerHTML="";const e=document.createElement("div");e.classList.add(this.classes.searching),e.textContent=this.settings.searchingText,this.content.list.appendChild(e)}renderOptions(e){if(this.content.list.innerHTML="",0===e.length){const e=document.createElement("div");return e.classList.add(this.classes.search),e.innerHTML=this.settings.searchText,void this.content.list.appendChild(e)}for(const t of e){if(t instanceof n){const e=document.createElement("div");e.classList.add(this.classes.optgroup);const s=document.createElement("div");s.classList.add(this.classes.optgroupLabel),e.appendChild(s);const i=document.createElement("div");i.classList.add(this.classes.optgroupLabelText),i.textContent=t.label,s.appendChild(i);const n=document.createElement("div");if(n.classList.add(this.classes.optgroupActions),s.appendChild(n),this.settings.isMultiple&&t.selectAll){const e=document.createElement("div");e.classList.add(this.classes.optgroupSelectAll);let s=!0;for(const e of t.options)if(!e.selected){s=!1;break}s&&e.classList.add(this.classes.selected);const i=document.createElement("span");i.textContent=t.selectAllText,e.appendChild(i);const a=document.createElementNS("http://www.w3.org/2000/svg","svg");a.setAttribute("viewBox","0 0 100 100"),e.appendChild(a);const l=document.createElementNS("http://www.w3.org/2000/svg","path");l.setAttribute("d",this.classes.optgroupSelectAllBox),a.appendChild(l);const o=document.createElementNS("http://www.w3.org/2000/svg","path");o.setAttribute("d",this.classes.optgroupSelectAllCheck),a.appendChild(o),e.addEventListener("click",(e=>{e.preventDefault(),e.stopPropagation();const i=this.store.getSelected();if(s){const e=i.filter((e=>{for(const s of t.options)if(e===s.value)return!1;return!0}));this.callbacks.setSelected(e,!0)}else{const e=i.concat(t.options.map((e=>e.value)));for(const e of t.options)this.store.getOptionByID(e.id)||this.callbacks.addOption(e);this.callbacks.setSelected(e,!0)}})),n.appendChild(e)}if("off"!==t.closable){const i=document.createElement("div");i.classList.add(this.classes.optgroupClosable);const a=document.createElementNS("http://www.w3.org/2000/svg","svg");a.setAttribute("viewBox","0 0 100 100"),a.classList.add(this.classes.arrow),i.appendChild(a);const l=document.createElementNS("http://www.w3.org/2000/svg","path");a.appendChild(l),t.options.some((e=>e.selected))||""!==this.content.search.input.value.trim()?(i.classList.add(this.classes.open),l.setAttribute("d",this.classes.arrowOpen)):"open"===t.closable?(e.classList.add(this.classes.open),l.setAttribute("d",this.classes.arrowOpen)):"close"===t.closable&&(e.classList.add(this.classes.close),l.setAttribute("d",this.classes.arrowClose)),s.addEventListener("click",(t=>{t.preventDefault(),t.stopPropagation(),e.classList.contains(this.classes.close)?(e.classList.remove(this.classes.close),e.classList.add(this.classes.open),l.setAttribute("d",this.classes.arrowOpen)):(e.classList.remove(this.classes.open),e.classList.add(this.classes.close),l.setAttribute("d",this.classes.arrowClose))})),n.appendChild(i)}e.appendChild(s);for(const s of t.options)e.appendChild(this.option(s));this.content.list.appendChild(e)}t instanceof a&&this.content.list.appendChild(this.option(t))}}option(e){if(e.placeholder){const e=document.createElement("div");return e.classList.add(this.classes.option),e.classList.add(this.classes.hide),e}const t=document.createElement("div");return t.dataset.id=e.id,t.id=e.id,t.classList.add(this.classes.option),t.setAttribute("role","option"),e.class&&e.class.split(" ").forEach((e=>{t.classList.add(e)})),e.style&&(t.style.cssText=e.style),this.settings.searchHighlight&&""!==this.content.search.input.value.trim()?t.innerHTML=this.highlightText(""!==e.html?e.html:e.text,this.content.search.input.value,this.classes.searchHighlighter):""!==e.html?t.innerHTML=e.html:t.textContent=e.text,this.settings.showOptionTooltips&&t.textContent&&t.setAttribute("title",t.textContent),e.display||t.classList.add(this.classes.hide),e.disabled&&t.classList.add(this.classes.disabled),e.selected&&this.settings.hideSelected&&t.classList.add(this.classes.hide),e.selected?(t.classList.add(this.classes.selected),t.setAttribute("aria-selected","true"),this.main.main.setAttribute("aria-activedescendant",t.id)):(t.classList.remove(this.classes.selected),t.setAttribute("aria-selected","false")),t.addEventListener("click",(t=>{t.preventDefault(),t.stopPropagation();const s=this.store.getSelected(),i=t.currentTarget,n=String(i.dataset.id);if(e.disabled||e.selected&&!this.settings.allowDeselect)return;if(this.settings.isMultiple&&this.settings.maxSelected<=s.length&&!e.selected||this.settings.isMultiple&&this.settings.minSelected>=s.length&&e.selected)return;let a=!1;const l=this.store.getSelectedOptions();let o=[];this.settings.isMultiple&&(o=e.selected?l.filter((e=>e.id!==n)):l.concat(e)),this.settings.isMultiple||(o=e.selected?[]:[e]),this.callbacks.beforeChange||(a=!0),this.callbacks.beforeChange&&(a=!1!==this.callbacks.beforeChange(o,l)),a&&(this.store.getOptionByID(n)||this.callbacks.addOption(e),this.callbacks.setSelected(o.map((e=>e.value)),!1),this.settings.closeOnSelect&&this.callbacks.close(),this.callbacks.afterChange&&this.callbacks.afterChange(o))})),t}destroy(){this.main.main.remove(),this.content.main.remove()}highlightText(e,t,s){let i=e;const n=new RegExp("("+t.trim()+")(?![^<]*>[^<>]*</)","i");if(!e.match(n))return e;const a=e.match(n).index,l=a+e.match(n)[0].toString().length,o=e.substring(a,l);return i=i.replace(n,`<mark class="${s}">${o}</mark>`),i}moveContentAbove(){const e=this.main.main.offsetHeight,t=this.content.main.offsetHeight;this.main.main.classList.remove(this.classes.openBelow),this.main.main.classList.add(this.classes.openAbove),this.content.main.classList.remove(this.classes.openBelow),this.content.main.classList.add(this.classes.openAbove);const s=this.main.main.getBoundingClientRect();this.content.main.style.margin="-"+(e+t-1)+"px 0px 0px 0px",this.content.main.style.top=s.top+s.height+window.scrollY+"px",this.content.main.style.left=s.left+window.scrollX+"px",this.content.main.style.width=s.width+"px"}moveContentBelow(){this.main.main.classList.remove(this.classes.openAbove),this.main.main.classList.add(this.classes.openBelow),this.content.main.classList.remove(this.classes.openAbove),this.content.main.classList.add(this.classes.openBelow);const e=this.main.main.getBoundingClientRect();this.content.main.style.margin="-1px 0px 0px 0px","relative"!==this.settings.contentPosition&&(this.content.main.style.top=e.top+e.height+window.scrollY+"px",this.content.main.style.left=e.left+window.scrollX+"px",this.content.main.style.width=e.width+"px")}ensureElementInView(e,t){const s=e.scrollTop+e.offsetTop,i=s+e.clientHeight,n=t.offsetTop,a=n+t.clientHeight;n<s?e.scrollTop-=s-n:a>i&&(e.scrollTop+=a-i)}putContent(){const e=this.main.main.offsetHeight,t=this.main.main.getBoundingClientRect(),s=this.content.main.offsetHeight;return window.innerHeight-(t.top+e)<=s&&t.top>s?"up":"down"}updateDeselectAll(){if(!this.store||!this.settings)return;const e=this.store.getSelectedOptions(),t=e&&e.length>0,s=this.settings.isMultiple,i=this.settings.allowDeselect,n=this.main.deselect.main,a=this.classes.hide;!i||s&&!t?n.classList.add(a):n.classList.remove(a)}}class c{constructor(e){this.listen=!1,this.observer=null,this.select=e,this.select.addEventListener("change",this.valueChange.bind(this),{passive:!0}),this.observer=new MutationObserver(this.observeCall.bind(this)),this.changeListen(!0)}enable(){this.select.disabled=!1}disable(){this.select.disabled=!0}hideUI(){this.select.tabIndex=-1,this.select.style.display="none",this.select.setAttribute("aria-hidden","true")}showUI(){this.select.removeAttribute("tabindex"),this.select.style.display="",this.select.removeAttribute("aria-hidden")}changeListen(e){this.listen=e,e&&this.observer&&this.observer.observe(this.select,{subtree:!0,childList:!0,attributes:!0}),e||this.observer&&this.observer.disconnect()}valueChange(e){return this.listen&&this.onValueChange&&this.onValueChange(this.getSelectedValues()),!0}observeCall(e){if(!this.listen)return;let t=!1,s=!1,i=!1;for(const n of e)n.target===this.select&&("disabled"===n.attributeName&&(s=!0),"class"===n.attributeName&&(t=!0)),"OPTGROUP"!==n.target.nodeName&&"OPTION"!==n.target.nodeName||(i=!0);t&&this.onClassChange&&this.onClassChange(this.select.className.split(" ")),s&&this.onDisabledChange&&(this.changeListen(!1),this.onDisabledChange(this.select.disabled),this.changeListen(!0)),i&&this.onOptionsChange&&(this.changeListen(!1),this.onOptionsChange(this.getData()),this.changeListen(!0))}getData(){let e=[];const t=this.select.childNodes;for(const s of t)"OPTGROUP"===s.nodeName&&e.push(this.getDataFromOptgroup(s)),"OPTION"===s.nodeName&&e.push(this.getDataFromOption(s));return e}getDataFromOptgroup(e){let t={id:e.id,label:e.label,selectAll:!!e.dataset&&"true"===e.dataset.selectall,selectAllText:e.dataset?e.dataset.selectalltext:"Select all",closable:e.dataset?e.dataset.closable:"off",options:[]};const s=e.childNodes;for(const e of s)"OPTION"===e.nodeName&&t.options.push(this.getDataFromOption(e));return t}getDataFromOption(e){return{id:e.id,value:e.value,text:e.text,html:e.dataset&&e.dataset.html?e.dataset.html:"",selected:e.selected,display:"none"!==e.style.display,disabled:e.disabled,mandatory:!!e.dataset&&"true"===e.dataset.mandatory,placeholder:"true"===e.dataset.placeholder,class:e.className,style:e.style.cssText,data:e.dataset}}getSelectedValues(){let e=[];const t=this.select.childNodes;for(const s of t){if("OPTGROUP"===s.nodeName){const t=s.childNodes;for(const s of t)if("OPTION"===s.nodeName){const t=s;t.selected&&e.push(t.value)}}if("OPTION"===s.nodeName){const t=s;t.selected&&e.push(t.value)}}return e}setSelected(e){this.changeListen(!1);const t=this.select.childNodes;for(const s of t){if("OPTGROUP"===s.nodeName){const t=s.childNodes;for(const s of t)if("OPTION"===s.nodeName){const t=s;t.selected=e.includes(t.value)}}if("OPTION"===s.nodeName){const t=s;t.selected=e.includes(t.value)}}this.changeListen(!0)}updateSelect(e,t,s){this.changeListen(!1),e&&(this.select.dataset.id=e),t&&(this.select.style.cssText=t),s&&(this.select.className="",s.forEach((e=>{""!==e.trim()&&this.select.classList.add(e.trim())}))),this.changeListen(!0)}updateOptions(e){this.changeListen(!1),this.select.innerHTML="";for(const t of e)t instanceof n&&this.select.appendChild(this.createOptgroup(t)),t instanceof a&&this.select.appendChild(this.createOption(t));this.select.dispatchEvent(new Event("change")),this.changeListen(!0)}createOptgroup(e){const t=document.createElement("optgroup");if(t.id=e.id,t.label=e.label,e.selectAll&&(t.dataset.selectAll="true"),"off"!==e.closable&&(t.dataset.closable=e.closable),e.options)for(const s of e.options)t.appendChild(this.createOption(s));return t}createOption(e){const t=document.createElement("option");return t.id=e.id,t.value=e.value,t.innerHTML=e.text,""!==e.html&&t.setAttribute("data-html",e.html),e.selected&&(t.selected=e.selected),e.disabled&&(t.disabled=!0),!1===e.display&&(t.style.display="none"),e.placeholder&&t.setAttribute("data-placeholder","true"),e.mandatory&&t.setAttribute("data-mandatory","true"),e.class&&e.class.split(" ").forEach((e=>{t.classList.add(e)})),e.data&&"object"==typeof e.data&&Object.keys(e.data).forEach((s=>{t.setAttribute("data-"+function(e){const t=e.replace(/[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g,(e=>"-"+e.toLowerCase()));return e[0]===e[0].toUpperCase()?t.substring(1):t}(s),e.data[s])})),t}destroy(){this.changeListen(!1),this.select.removeEventListener("change",this.valueChange.bind(this)),this.observer&&(this.observer.disconnect(),this.observer=null),delete this.select.dataset.id,this.showUI()}}return class{constructor(e){var s;if(this.events={search:void 0,searchFilter:(e,t)=>-1!==e.text.toLowerCase().indexOf(t.toLowerCase()),addable:void 0,beforeChange:void 0,afterChange:void 0,beforeOpen:void 0,afterOpen:void 0,beforeClose:void 0,afterClose:void 0},this.windowResize=t((()=>{(this.settings.isOpen||this.settings.isFullOpen)&&this.render.moveContent()})),this.windowScroll=t((()=>{(this.settings.isOpen||this.settings.isFullOpen)&&this.render.moveContent()})),this.documentClick=e=>{this.settings.isOpen&&e.target&&!function(e,t){function s(e,s){return s&&e&&e.classList&&e.classList.contains(s)||s&&e&&e.dataset&&e.dataset.id&&e.dataset.id===t?e:null}return s(e,t)||function e(t,i){return t&&t!==document?s(t,i)?t:e(t.parentNode,i):null}(e,t)}(e.target,this.settings.id)&&this.close(e.type)},this.windowVisibilityChange=()=>{document.hidden&&this.close()},this.selectEl="string"==typeof e.select?document.querySelector(e.select):e.select,!this.selectEl)return void(e.events&&e.events.error&&e.events.error(new Error("Could not find select element")));if("SELECT"!==this.selectEl.tagName)return void(e.events&&e.events.error&&e.events.error(new Error("Element isnt of type select")));this.selectEl.dataset.ssid&&this.destroy(),this.settings=new i(e.settings);const n=["afterChange","beforeOpen","afterOpen","beforeClose","afterClose"];for(const s in e.events)e.events.hasOwnProperty(s)&&(-1!==n.indexOf(s)?this.events[s]=t(e.events[s],100):this.events[s]=e.events[s]);this.settings.disabled=(null===(s=e.settings)||void 0===s?void 0:s.disabled)?e.settings.disabled:this.selectEl.disabled,this.settings.isMultiple=this.selectEl.multiple,this.settings.style=this.selectEl.style.cssText,this.settings.class=this.selectEl.className.split(" "),this.select=new c(this.selectEl),this.select.updateSelect(this.settings.id,this.settings.style,this.settings.class),this.select.hideUI(),this.select.onValueChange=e=>{this.setSelected(e)},this.select.onClassChange=e=>{this.settings.class=e,this.render.updateClassStyles()},this.select.onDisabledChange=e=>{e?this.disable():this.enable()},this.select.onOptionsChange=e=>{this.setData(e)},this.store=new l(this.settings.isMultiple?"multiple":"single",e.data?e.data:this.select.getData()),e.data&&this.select.updateOptions(this.store.getData());const a={open:this.open.bind(this),close:this.close.bind(this),addable:this.events.addable?this.events.addable:void 0,setSelected:this.setSelected.bind(this),addOption:this.addOption.bind(this),search:this.search.bind(this),beforeChange:this.events.beforeChange,afterChange:this.events.afterChange};this.render=new o(this.settings,this.store,a),this.render.renderValues(),this.render.renderOptions(this.store.getData());const h=this.selectEl.getAttribute("aria-label"),r=this.selectEl.getAttribute("aria-labelledby");h?this.render.main.main.setAttribute("aria-label",h):r&&this.render.main.main.setAttribute("aria-labelledby",r),this.selectEl.parentNode&&this.selectEl.parentNode.insertBefore(this.render.main.main,this.selectEl.nextSibling),document.addEventListener("click",this.documentClick),window.addEventListener("resize",this.windowResize,!1),"auto"===this.settings.openPosition&&window.addEventListener("scroll",this.windowScroll,!1),document.addEventListener("visibilitychange",this.windowVisibilityChange),this.settings.disabled&&this.disable(),this.settings.alwaysOpen&&this.open(),this.selectEl.slim=this}enable(){this.settings.disabled=!1,this.select.enable(),this.render.enable()}disable(){this.settings.disabled=!0,this.select.disable(),this.render.disable()}getData(){return this.store.getData()}setData(e){const t=this.store.getSelected(),i=this.store.validateDataArray(e);if(i)return void(this.events.error&&this.events.error(i));this.store.setData(e);const n=this.store.getData();this.select.updateOptions(n),this.render.renderValues(),this.render.renderOptions(n),this.events.afterChange&&!s(t,this.store.getSelected())&&this.events.afterChange(this.store.getSelectedOptions())}getSelected(){return this.store.getSelected()}setSelected(e,t=!0){const i=this.store.getSelected();this.store.setSelectedBy("value",Array.isArray(e)?e:[e]);const n=this.store.getData();this.select.updateOptions(n),this.render.renderValues(),""!==this.render.content.search.input.value?this.search(this.render.content.search.input.value):this.render.renderOptions(n),t&&this.events.afterChange&&!s(i,this.store.getSelected())&&this.events.afterChange(this.store.getSelectedOptions())}addOption(e){const t=this.store.getSelected();this.store.getDataOptions().some((t=>{var s;return t.value===(null!==(s=e.value)&&void 0!==s?s:e.text)}))||this.store.addOption(e);const i=this.store.getData();this.select.updateOptions(i),this.render.renderValues(),this.render.renderOptions(i),this.events.afterChange&&!s(t,this.store.getSelected())&&this.events.afterChange(this.store.getSelectedOptions())}open(){this.settings.disabled||this.settings.isOpen||(this.events.beforeOpen&&this.events.beforeOpen(),this.render.open(),this.settings.showSearch&&this.render.searchFocus(),this.settings.isOpen=!0,setTimeout((()=>{this.events.afterOpen&&this.events.afterOpen(),this.settings.isOpen&&(this.settings.isFullOpen=!0)}),this.settings.timeoutDelay),"absolute"===this.settings.contentPosition&&(this.settings.intervalMove&&clearInterval(this.settings.intervalMove),this.settings.intervalMove=setInterval(this.render.moveContent.bind(this.render),500)))}close(e=null){this.settings.isOpen&&!this.settings.alwaysOpen&&(this.events.beforeClose&&this.events.beforeClose(),this.render.close(),""!==this.render.content.search.input.value&&this.search(""),this.render.mainFocus(e),this.settings.isOpen=!1,this.settings.isFullOpen=!1,setTimeout((()=>{this.events.afterClose&&this.events.afterClose()}),this.settings.timeoutDelay),this.settings.intervalMove&&clearInterval(this.settings.intervalMove))}search(e){if(this.render.content.search.input.value!==e&&(this.render.content.search.input.value=e),!this.events.search)return void this.render.renderOptions(""===e?this.store.getData():this.store.search(e,this.events.searchFilter));this.render.renderSearching();const t=this.events.search(e,this.store.getSelectedOptions());t instanceof Promise?t.then((e=>{this.render.renderOptions(this.store.partialToFullData(e))})).catch((e=>{this.render.renderError("string"==typeof e?e:e.message)})):Array.isArray(t)?this.render.renderOptions(this.store.partialToFullData(t)):this.render.renderError("Search event must return a promise or an array of data")}destroy(){document.removeEventListener("click",this.documentClick),window.removeEventListener("resize",this.windowResize,!1),"auto"===this.settings.openPosition&&window.removeEventListener("scroll",this.windowScroll,!1),document.removeEventListener("visibilitychange",this.windowVisibilityChange),this.store.setData([]),this.render.destroy(),this.select.destroy()}}}));
+(() => {
+    var __webpack_modules__ = {
+        177: function(module) {
+            (function(global, factory) {
+                true ? module.exports = factory() : 0;
+            })(this, (function() {
+                'use strict';
+                function generateID() {
+                    return Math.random().toString(36).substring(2, 10);
+                }
+                function hasClassInTree(element, className) {
+                    function hasClass(e, c) {
+                        if (c && e && e.classList && e.classList.contains(c)) {
+                            return e;
+                        }
+                        if (c && e && e.dataset && e.dataset.id && e.dataset.id === className) {
+                            return e;
+                        }
+                        return null;
+                    }
+                    function parentByClass(e, c) {
+                        if (!e || e === document) {
+                            return null;
+                        } else if (hasClass(e, c)) {
+                            return e;
+                        } else {
+                            return parentByClass(e.parentNode, c);
+                        }
+                    }
+                    return hasClass(element, className) || parentByClass(element, className);
+                }
+                function debounce(func, wait = 50, immediate = false) {
+                    let timeout;
+                    return function(...args) {
+                        const context = self;
+                        const later = () => {
+                            timeout = null;
+                            if (!immediate) {
+                                func.apply(context, args);
+                            }
+                        };
+                        const callNow = immediate && !timeout;
+                        clearTimeout(timeout);
+                        timeout = setTimeout(later, wait);
+                        if (callNow) {
+                            func.apply(context, args);
+                        }
+                    };
+                }
+                function isEqual(a, b) {
+                    return JSON.stringify(a) === JSON.stringify(b);
+                }
+                function kebabCase(str) {
+                    const result = str.replace(/[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g, (match => '-' + match.toLowerCase()));
+                    return str[0] === str[0].toUpperCase() ? result.substring(1) : result;
+                }
+                class Settings {
+                    constructor(settings) {
+                        this.id = '';
+                        this.style = '';
+                        this.class = [];
+                        this.isMultiple = false;
+                        this.isOpen = false;
+                        this.isFullOpen = false;
+                        this.intervalMove = null;
+                        if (!settings) {
+                            settings = {};
+                        }
+                        this.id = 'ss-' + generateID();
+                        this.style = settings.style || '';
+                        this.class = settings.class || [];
+                        this.disabled = settings.disabled !== undefined ? settings.disabled : false;
+                        this.alwaysOpen = settings.alwaysOpen !== undefined ? settings.alwaysOpen : false;
+                        this.showSearch = settings.showSearch !== undefined ? settings.showSearch : true;
+                        this.searchPlaceholder = settings.searchPlaceholder || 'Search';
+                        this.searchText = settings.searchText || 'No Results';
+                        this.searchingText = settings.searchingText || 'Searching...';
+                        this.searchHighlight = settings.searchHighlight !== undefined ? settings.searchHighlight : false;
+                        this.closeOnSelect = settings.closeOnSelect !== undefined ? settings.closeOnSelect : true;
+                        this.contentLocation = settings.contentLocation || document.body;
+                        this.contentPosition = settings.contentPosition || 'absolute';
+                        this.openPosition = settings.openPosition || 'auto';
+                        this.placeholderText = settings.placeholderText !== undefined ? settings.placeholderText : 'Select Value';
+                        this.allowDeselect = settings.allowDeselect !== undefined ? settings.allowDeselect : false;
+                        this.hideSelected = settings.hideSelected !== undefined ? settings.hideSelected : false;
+                        this.showOptionTooltips = settings.showOptionTooltips !== undefined ? settings.showOptionTooltips : false;
+                        this.minSelected = settings.minSelected || 0;
+                        this.maxSelected = settings.maxSelected || 1e3;
+                        this.timeoutDelay = settings.timeoutDelay || 200;
+                        this.maxValuesShown = settings.maxValuesShown || 20;
+                        this.maxValuesMessage = settings.maxValuesMessage || '{number} selected';
+                    }
+                }
+                class Optgroup {
+                    constructor(optgroup) {
+                        this.id = !optgroup.id || optgroup.id === '' ? generateID() : optgroup.id;
+                        this.label = optgroup.label || '';
+                        this.selectAll = optgroup.selectAll === undefined ? false : optgroup.selectAll;
+                        this.selectAllText = optgroup.selectAllText || 'Select All';
+                        this.closable = optgroup.closable || 'off';
+                        this.options = [];
+                        if (optgroup.options) {
+                            for (const o of optgroup.options) {
+                                this.options.push(new Option(o));
+                            }
+                        }
+                    }
+                }
+                class Option {
+                    constructor(option) {
+                        this.id = !option.id || option.id === '' ? generateID() : option.id;
+                        this.value = option.value === undefined ? option.text : option.value;
+                        this.text = option.text || '';
+                        this.html = option.html || '';
+                        this.selected = option.selected !== undefined ? option.selected : false;
+                        this.display = option.display !== undefined ? option.display : true;
+                        this.disabled = option.disabled !== undefined ? option.disabled : false;
+                        this.mandatory = option.mandatory !== undefined ? option.mandatory : false;
+                        this.placeholder = option.placeholder !== undefined ? option.placeholder : false;
+                        this.class = option.class || '';
+                        this.style = option.style || '';
+                        this.data = option.data || {};
+                    }
+                }
+                class Store {
+                    constructor(type, data) {
+                        this.selectType = 'single';
+                        this.data = [];
+                        this.selectType = type;
+                        this.setData(data);
+                    }
+                    validateDataArray(data) {
+                        if (!Array.isArray(data)) {
+                            return new Error('Data must be an array');
+                        }
+                        for (let dataObj of data) {
+                            if (dataObj instanceof Optgroup || 'label' in dataObj) {
+                                if (!('label' in dataObj)) {
+                                    return new Error('Optgroup must have a label');
+                                }
+                                if ('options' in dataObj && dataObj.options) {
+                                    for (let option of dataObj.options) {
+                                        return this.validateOption(option);
+                                    }
+                                }
+                            } else if (dataObj instanceof Option || 'text' in dataObj) {
+                                return this.validateOption(dataObj);
+                            } else {
+                                return new Error('Data object must be a valid optgroup or option');
+                            }
+                        }
+                        return null;
+                    }
+                    validateOption(option) {
+                        if (!('text' in option)) {
+                            return new Error('Option must have a text');
+                        }
+                        return null;
+                    }
+                    partialToFullData(data) {
+                        let dataFinal = [];
+                        data.forEach((dataObj => {
+                            if (dataObj instanceof Optgroup || 'label' in dataObj) {
+                                let optOptions = [];
+                                if ('options' in dataObj && dataObj.options) {
+                                    dataObj.options.forEach((option => {
+                                        optOptions.push(new Option(option));
+                                    }));
+                                }
+                                if (optOptions.length > 0) {
+                                    dataFinal.push(new Optgroup(dataObj));
+                                }
+                            }
+                            if (dataObj instanceof Option || 'text' in dataObj) {
+                                dataFinal.push(new Option(dataObj));
+                            }
+                        }));
+                        return dataFinal;
+                    }
+                    setData(data) {
+                        this.data = this.partialToFullData(data);
+                        if (this.selectType === 'single') {
+                            this.setSelectedBy('value', this.getSelected());
+                        }
+                    }
+                    getData() {
+                        return this.filter(null, true);
+                    }
+                    getDataOptions() {
+                        return this.filter(null, false);
+                    }
+                    addOption(option) {
+                        this.setData(this.getData().concat(new Option(option)));
+                    }
+                    setSelectedBy(selectedType, selectedValues) {
+                        let firstOption = null;
+                        let hasSelected = false;
+                        for (let dataObj of this.data) {
+                            if (dataObj instanceof Optgroup) {
+                                for (let option of dataObj.options) {
+                                    if (!firstOption) {
+                                        firstOption = option;
+                                    }
+                                    option.selected = hasSelected ? false : selectedValues.includes(option[selectedType]);
+                                    if (option.selected && this.selectType === 'single') {
+                                        hasSelected = true;
+                                    }
+                                }
+                            }
+                            if (dataObj instanceof Option) {
+                                if (!firstOption) {
+                                    firstOption = dataObj;
+                                }
+                                dataObj.selected = hasSelected ? false : selectedValues.includes(dataObj[selectedType]);
+                                if (dataObj.selected && this.selectType === 'single') {
+                                    hasSelected = true;
+                                }
+                            }
+                        }
+                        if (this.selectType === 'single' && firstOption && !hasSelected) {
+                            firstOption.selected = true;
+                        }
+                    }
+                    getSelected() {
+                        let selectedOptions = this.getSelectedOptions();
+                        let selectedValues = [];
+                        selectedOptions.forEach((option => {
+                            selectedValues.push(option.value);
+                        }));
+                        return selectedValues;
+                    }
+                    getSelectedOptions() {
+                        return this.filter((opt => opt.selected), false);
+                    }
+                    getSelectedIDs() {
+                        let selectedOptions = this.getSelectedOptions();
+                        let selectedIDs = [];
+                        selectedOptions.forEach((op => {
+                            selectedIDs.push(op.id);
+                        }));
+                        return selectedIDs;
+                    }
+                    getOptgroupByID(id) {
+                        for (let dataObj of this.data) {
+                            if (dataObj instanceof Optgroup && dataObj.id === id) {
+                                return dataObj;
+                            }
+                        }
+                        return null;
+                    }
+                    getOptionByID(id) {
+                        let options = this.filter((opt => opt.id === id), false);
+                        return options.length ? options[0] : null;
+                    }
+                    search(search, searchFilter) {
+                        search = search.trim();
+                        if (search === '') {
+                            return this.getData();
+                        }
+                        return this.filter((opt => searchFilter(opt, search)), true);
+                    }
+                    filter(filter, includeOptgroup) {
+                        const dataSearch = [];
+                        this.data.forEach((dataObj => {
+                            if (dataObj instanceof Optgroup) {
+                                let optOptions = [];
+                                dataObj.options.forEach((option => {
+                                    if (!filter || filter(option)) {
+                                        if (!includeOptgroup) {
+                                            dataSearch.push(new Option(option));
+                                        } else {
+                                            optOptions.push(new Option(option));
+                                        }
+                                    }
+                                }));
+                                if (optOptions.length > 0) {
+                                    let optgroup = new Optgroup(dataObj);
+                                    optgroup.options = optOptions;
+                                    dataSearch.push(optgroup);
+                                }
+                            }
+                            if (dataObj instanceof Option) {
+                                if (!filter || filter(dataObj)) {
+                                    dataSearch.push(new Option(dataObj));
+                                }
+                            }
+                        }));
+                        return dataSearch;
+                    }
+                    getSelectType() {
+                        return this.selectType;
+                    }
+                }
+                class Render {
+                    constructor(settings, store, callbacks) {
+                        this.classes = {
+                            main: 'ss-main',
+                            placeholder: 'ss-placeholder',
+                            values: 'ss-values',
+                            single: 'ss-single',
+                            max: 'ss-max',
+                            value: 'ss-value',
+                            valueText: 'ss-value-text',
+                            valueDelete: 'ss-value-delete',
+                            valueOut: 'ss-value-out',
+                            deselect: 'ss-deselect',
+                            deselectPath: 'M10,10 L90,90 M10,90 L90,10',
+                            arrow: 'ss-arrow',
+                            arrowClose: 'M10,30 L50,70 L90,30',
+                            arrowOpen: 'M10,70 L50,30 L90,70',
+                            content: 'ss-content',
+                            openAbove: 'ss-open-above',
+                            openBelow: 'ss-open-below',
+                            search: 'ss-search',
+                            searchHighlighter: 'ss-search-highlight',
+                            searching: 'ss-searching',
+                            addable: 'ss-addable',
+                            addablePath: 'M50,10 L50,90 M10,50 L90,50',
+                            list: 'ss-list',
+                            optgroup: 'ss-optgroup',
+                            optgroupLabel: 'ss-optgroup-label',
+                            optgroupLabelText: 'ss-optgroup-label-text',
+                            optgroupActions: 'ss-optgroup-actions',
+                            optgroupSelectAll: 'ss-selectall',
+                            optgroupSelectAllBox: 'M60,10 L10,10 L10,90 L90,90 L90,50',
+                            optgroupSelectAllCheck: 'M30,45 L50,70 L90,10',
+                            optgroupClosable: 'ss-closable',
+                            option: 'ss-option',
+                            optionDelete: 'M10,10 L90,90 M10,90 L90,10',
+                            highlighted: 'ss-highlighted',
+                            open: 'ss-open',
+                            close: 'ss-close',
+                            selected: 'ss-selected',
+                            error: 'ss-error',
+                            disabled: 'ss-disabled',
+                            hide: 'ss-hide'
+                        };
+                        this.store = store;
+                        this.settings = settings;
+                        this.callbacks = callbacks;
+                        this.main = this.mainDiv();
+                        this.content = this.contentDiv();
+                        this.updateClassStyles();
+                        this.updateAriaAttributes();
+                        this.settings.contentLocation.appendChild(this.content.main);
+                    }
+                    enable() {
+                        this.main.main.classList.remove(this.classes.disabled);
+                        this.content.search.input.disabled = false;
+                    }
+                    disable() {
+                        this.main.main.classList.add(this.classes.disabled);
+                        this.content.search.input.disabled = true;
+                    }
+                    open() {
+                        this.main.arrow.path.setAttribute('d', this.classes.arrowOpen);
+                        this.main.main.classList.add(this.settings.openPosition === 'up' ? this.classes.openAbove : this.classes.openBelow);
+                        this.main.main.setAttribute('aria-expanded', 'true');
+                        this.moveContent();
+                        const selectedOptions = this.store.getSelectedOptions();
+                        if (selectedOptions.length) {
+                            const selectedId = selectedOptions[selectedOptions.length - 1].id;
+                            const selectedOption = this.content.list.querySelector('[data-id="' + selectedId + '"]');
+                            if (selectedOption) {
+                                this.ensureElementInView(this.content.list, selectedOption);
+                            }
+                        }
+                    }
+                    close() {
+                        this.main.main.classList.remove(this.classes.openAbove);
+                        this.main.main.classList.remove(this.classes.openBelow);
+                        this.main.main.setAttribute('aria-expanded', 'false');
+                        this.content.main.classList.remove(this.classes.openAbove);
+                        this.content.main.classList.remove(this.classes.openBelow);
+                        this.main.arrow.path.setAttribute('d', this.classes.arrowClose);
+                    }
+                    updateClassStyles() {
+                        this.main.main.className = '';
+                        this.main.main.removeAttribute('style');
+                        this.content.main.className = '';
+                        this.content.main.removeAttribute('style');
+                        this.main.main.classList.add(this.classes.main);
+                        this.content.main.classList.add(this.classes.content);
+                        if (this.settings.style !== '') {
+                            this.main.main.style.cssText = this.settings.style;
+                            this.content.main.style.cssText = this.settings.style;
+                        }
+                        if (this.settings.class.length) {
+                            for (const c of this.settings.class) {
+                                if (c.trim() !== '') {
+                                    this.main.main.classList.add(c.trim());
+                                    this.content.main.classList.add(c.trim());
+                                }
+                            }
+                        }
+                        if (this.settings.contentPosition === 'relative') {
+                            this.content.main.classList.add('ss-' + this.settings.contentPosition);
+                        }
+                    }
+                    updateAriaAttributes() {
+                        this.main.main.role = 'combobox';
+                        this.main.main.setAttribute('aria-haspopup', 'listbox');
+                        this.main.main.setAttribute('aria-controls', this.content.main.id);
+                        this.main.main.setAttribute('aria-expanded', 'false');
+                        this.content.main.setAttribute('role', 'listbox');
+                    }
+                    mainDiv() {
+                        var _a;
+                        const main = document.createElement('div');
+                        main.dataset.id = this.settings.id;
+                        main.id = this.settings.id;
+                        main.tabIndex = 0;
+                        main.onkeydown = e => {
+                            switch (e.key) {
+                              case 'ArrowUp':
+                              case 'ArrowDown':
+                                this.callbacks.open();
+                                e.key === 'ArrowDown' ? this.highlight('down') : this.highlight('up');
+                                return false;
+
+                              case 'Tab':
+                                this.callbacks.close();
+                                return true;
+
+                              case 'Enter':
+                              case ' ':
+                                this.callbacks.open();
+                                const highlighted = this.content.list.querySelector('.' + this.classes.highlighted);
+                                if (highlighted) {
+                                    highlighted.click();
+                                }
+                                return false;
+
+                              case 'Escape':
+                                this.callbacks.close();
+                                return false;
+                            }
+                        };
+                        main.onclick = e => {
+                            if (this.settings.disabled) {
+                                return;
+                            }
+                            this.settings.isOpen ? this.callbacks.close() : this.callbacks.open();
+                        };
+                        const values = document.createElement('div');
+                        values.classList.add(this.classes.values);
+                        main.appendChild(values);
+                        const deselect = document.createElement('div');
+                        deselect.classList.add(this.classes.deselect);
+                        const selectedOptions = (_a = this.store) === null || _a === void 0 ? void 0 : _a.getSelectedOptions();
+                        if (!this.settings.allowDeselect || this.settings.isMultiple && selectedOptions && selectedOptions.length <= 0) {
+                            deselect.classList.add(this.classes.hide);
+                        } else {
+                            deselect.classList.remove(this.classes.hide);
+                        }
+                        deselect.onclick = e => {
+                            e.stopPropagation();
+                            if (this.settings.disabled) {
+                                return;
+                            }
+                            let shouldDelete = true;
+                            const before = this.store.getSelectedOptions();
+                            const after = [];
+                            if (this.callbacks.beforeChange) {
+                                shouldDelete = this.callbacks.beforeChange(after, before) === true;
+                            }
+                            if (shouldDelete) {
+                                if (this.settings.isMultiple) {
+                                    this.callbacks.setSelected([], false);
+                                    this.updateDeselectAll();
+                                } else {
+                                    this.callbacks.setSelected([ '' ], false);
+                                }
+                                if (this.settings.closeOnSelect) {
+                                    this.callbacks.close();
+                                }
+                                if (this.callbacks.afterChange) {
+                                    this.callbacks.afterChange(after);
+                                }
+                            }
+                        };
+                        const deselectSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        deselectSvg.setAttribute('viewBox', '0 0 100 100');
+                        const deselectPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        deselectPath.setAttribute('d', this.classes.deselectPath);
+                        deselectSvg.appendChild(deselectPath);
+                        deselect.appendChild(deselectSvg);
+                        main.appendChild(deselect);
+                        const arrow = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                        arrow.classList.add(this.classes.arrow);
+                        arrow.setAttribute('viewBox', '0 0 100 100');
+                        const arrowPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                        arrowPath.setAttribute('d', this.classes.arrowClose);
+                        if (this.settings.alwaysOpen) {
+                            arrow.classList.add(this.classes.hide);
+                        }
+                        arrow.appendChild(arrowPath);
+                        main.appendChild(arrow);
+                        return {
+                            main,
+                            values,
+                            deselect: {
+                                main: deselect,
+                                svg: deselectSvg,
+                                path: deselectPath
+                            },
+                            arrow: {
+                                main: arrow,
+                                path: arrowPath
+                            }
+                        };
+                    }
+                    mainFocus(eventType) {
+                        if (eventType !== 'click') {
+                            this.main.main.focus({
+                                preventScroll: true
+                            });
+                        }
+                    }
+                    placeholder() {
+                        const placeholderOption = this.store.filter((o => o.placeholder), false);
+                        let placeholderText = this.settings.placeholderText;
+                        if (placeholderOption.length) {
+                            if (placeholderOption[0].html !== '') {
+                                placeholderText = placeholderOption[0].html;
+                            } else if (placeholderOption[0].text !== '') {
+                                placeholderText = placeholderOption[0].text;
+                            }
+                        }
+                        const placeholder = document.createElement('div');
+                        placeholder.classList.add(this.classes.placeholder);
+                        placeholder.innerHTML = placeholderText;
+                        return placeholder;
+                    }
+                    renderValues() {
+                        if (!this.settings.isMultiple) {
+                            this.renderSingleValue();
+                            return;
+                        }
+                        this.renderMultipleValues();
+                    }
+                    renderSingleValue() {
+                        const selected = this.store.filter((o => o.selected && !o.placeholder), false);
+                        const selectedSingle = selected.length > 0 ? selected[0] : null;
+                        if (!selectedSingle) {
+                            this.main.values.innerHTML = this.placeholder().outerHTML;
+                        } else {
+                            const singleValue = document.createElement('div');
+                            singleValue.classList.add(this.classes.single);
+                            if (selectedSingle.html) {
+                                singleValue.innerHTML = selectedSingle.html;
+                            } else {
+                                singleValue.innerText = selectedSingle.text;
+                            }
+                            this.main.values.innerHTML = singleValue.outerHTML;
+                        }
+                        if (!this.settings.allowDeselect || !selected.length) {
+                            this.main.deselect.main.classList.add(this.classes.hide);
+                        } else {
+                            this.main.deselect.main.classList.remove(this.classes.hide);
+                        }
+                    }
+                    renderMultipleValues() {
+                        let currentNodes = this.main.values.childNodes;
+                        let selectedOptions = this.store.filter((opt => opt.selected && opt.display), false);
+                        if (selectedOptions.length === 0) {
+                            this.main.values.innerHTML = this.placeholder().outerHTML;
+                            return;
+                        } else {
+                            const placeholder = this.main.values.querySelector('.' + this.classes.placeholder);
+                            if (placeholder) {
+                                placeholder.remove();
+                            }
+                        }
+                        if (selectedOptions.length > this.settings.maxValuesShown) {
+                            const singleValue = document.createElement('div');
+                            singleValue.classList.add(this.classes.max);
+                            singleValue.textContent = this.settings.maxValuesMessage.replace('{number}', selectedOptions.length.toString());
+                            this.main.values.innerHTML = singleValue.outerHTML;
+                            return;
+                        } else {
+                            const maxValuesMessage = this.main.values.querySelector('.' + this.classes.max);
+                            if (maxValuesMessage) {
+                                maxValuesMessage.remove();
+                            }
+                        }
+                        let removeNodes = [];
+                        for (let i = 0; i < currentNodes.length; i++) {
+                            const node = currentNodes[i];
+                            const id = node.getAttribute('data-id');
+                            if (id) {
+                                const found = selectedOptions.filter((opt => opt.id === id), false);
+                                if (!found.length) {
+                                    removeNodes.push(node);
+                                }
+                            }
+                        }
+                        for (const n of removeNodes) {
+                            n.classList.add(this.classes.valueOut);
+                            setTimeout((() => {
+                                if (this.main.values.hasChildNodes() && this.main.values.contains(n)) {
+                                    this.main.values.removeChild(n);
+                                }
+                            }), 100);
+                        }
+                        currentNodes = this.main.values.childNodes;
+                        for (let d = 0; d < selectedOptions.length; d++) {
+                            let shouldAdd = true;
+                            for (let i = 0; i < currentNodes.length; i++) {
+                                if (selectedOptions[d].id === String(currentNodes[i].dataset.id)) {
+                                    shouldAdd = false;
+                                }
+                            }
+                            if (shouldAdd) {
+                                if (currentNodes.length === 0) {
+                                    this.main.values.appendChild(this.multipleValue(selectedOptions[d]));
+                                } else if (d === 0) {
+                                    this.main.values.insertBefore(this.multipleValue(selectedOptions[d]), currentNodes[d]);
+                                } else {
+                                    currentNodes[d - 1].insertAdjacentElement('afterend', this.multipleValue(selectedOptions[d]));
+                                }
+                            }
+                        }
+                        this.updateDeselectAll();
+                    }
+                    multipleValue(option) {
+                        const value = document.createElement('div');
+                        value.classList.add(this.classes.value);
+                        value.dataset.id = option.id;
+                        const text = document.createElement('div');
+                        text.classList.add(this.classes.valueText);
+                        text.innerText = option.text;
+                        value.appendChild(text);
+                        if (!option.mandatory) {
+                            const deleteDiv = document.createElement('div');
+                            deleteDiv.classList.add(this.classes.valueDelete);
+                            deleteDiv.onclick = e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (this.settings.disabled) {
+                                    return;
+                                }
+                                let shouldDelete = true;
+                                const before = this.store.getSelectedOptions();
+                                const after = before.filter((o => o.selected && o.id !== option.id), true);
+                                if (this.settings.minSelected && after.length < this.settings.minSelected) {
+                                    return;
+                                }
+                                if (this.callbacks.beforeChange) {
+                                    shouldDelete = this.callbacks.beforeChange(after, before) === true;
+                                }
+                                if (shouldDelete) {
+                                    let selectedValues = [];
+                                    for (const o of after) {
+                                        if (o instanceof Optgroup) {
+                                            for (const c of o.options) {
+                                                selectedValues.push(c.value);
+                                            }
+                                        }
+                                        if (o instanceof Option) {
+                                            selectedValues.push(o.value);
+                                        }
+                                    }
+                                    this.callbacks.setSelected(selectedValues, false);
+                                    if (this.settings.closeOnSelect) {
+                                        this.callbacks.close();
+                                    }
+                                    if (this.callbacks.afterChange) {
+                                        this.callbacks.afterChange(after);
+                                    }
+                                    this.updateDeselectAll();
+                                }
+                            };
+                            const deleteSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                            deleteSvg.setAttribute('viewBox', '0 0 100 100');
+                            const deletePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                            deletePath.setAttribute('d', this.classes.optionDelete);
+                            deleteSvg.appendChild(deletePath);
+                            deleteDiv.appendChild(deleteSvg);
+                            value.appendChild(deleteDiv);
+                        }
+                        return value;
+                    }
+                    contentDiv() {
+                        const main = document.createElement('div');
+                        main.dataset.id = this.settings.id;
+                        main.id = this.settings.id;
+                        const search = this.searchDiv();
+                        main.appendChild(search.main);
+                        const list = this.listDiv();
+                        main.appendChild(list);
+                        return {
+                            main,
+                            search,
+                            list
+                        };
+                    }
+                    moveContent() {
+                        if (this.settings.contentPosition === 'relative') {
+                            this.moveContentBelow();
+                            return;
+                        }
+                        if (this.settings.openPosition === 'down') {
+                            this.moveContentBelow();
+                            return;
+                        } else if (this.settings.openPosition === 'up') {
+                            this.moveContentAbove();
+                            return;
+                        }
+                        if (this.putContent() === 'up') {
+                            this.moveContentAbove();
+                        } else {
+                            this.moveContentBelow();
+                        }
+                    }
+                    searchDiv() {
+                        const main = document.createElement('div');
+                        const input = document.createElement('input');
+                        const addable = document.createElement('div');
+                        main.classList.add(this.classes.search);
+                        const searchReturn = {
+                            main,
+                            input
+                        };
+                        if (!this.settings.showSearch) {
+                            main.classList.add(this.classes.hide);
+                            input.readOnly = true;
+                        }
+                        input.type = 'search';
+                        input.placeholder = this.settings.searchPlaceholder;
+                        input.tabIndex = -1;
+                        input.setAttribute('aria-label', this.settings.searchPlaceholder);
+                        input.setAttribute('autocapitalize', 'off');
+                        input.setAttribute('autocomplete', 'off');
+                        input.setAttribute('autocorrect', 'off');
+                        input.oninput = debounce((e => {
+                            this.callbacks.search(e.target.value);
+                        }), 100);
+                        input.onkeydown = e => {
+                            switch (e.key) {
+                              case 'ArrowUp':
+                              case 'ArrowDown':
+                                e.key === 'ArrowDown' ? this.highlight('down') : this.highlight('up');
+                                return false;
+
+                              case 'Tab':
+                                this.callbacks.close();
+                                return true;
+
+                              case 'Escape':
+                                this.callbacks.close();
+                                return false;
+
+                              case 'Enter':
+                              case ' ':
+                                if (this.callbacks.addable && e.ctrlKey) {
+                                    addable.click();
+                                    return false;
+                                } else {
+                                    const highlighted = this.content.list.querySelector('.' + this.classes.highlighted);
+                                    if (highlighted) {
+                                        highlighted.click();
+                                        return false;
+                                    }
+                                }
+                                return true;
+                            }
+                        };
+                        main.appendChild(input);
+                        if (this.callbacks.addable) {
+                            addable.classList.add(this.classes.addable);
+                            const plus = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                            plus.setAttribute('viewBox', '0 0 100 100');
+                            const plusPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                            plusPath.setAttribute('d', this.classes.addablePath);
+                            plus.appendChild(plusPath);
+                            addable.appendChild(plus);
+                            addable.onclick = e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                if (!this.callbacks.addable) {
+                                    return;
+                                }
+                                const inputValue = this.content.search.input.value.trim();
+                                if (inputValue === '') {
+                                    this.content.search.input.focus();
+                                    return;
+                                }
+                                const runFinish = oo => {
+                                    let newOption = new Option(oo);
+                                    this.callbacks.addOption(newOption);
+                                    if (this.settings.isMultiple) {
+                                        let values = this.store.getSelected();
+                                        values.push(newOption.value);
+                                        this.callbacks.setSelected(values, true);
+                                    } else {
+                                        this.callbacks.setSelected([ newOption.value ], true);
+                                    }
+                                    this.callbacks.search('');
+                                    if (this.settings.closeOnSelect) {
+                                        setTimeout((() => {
+                                            this.callbacks.close();
+                                        }), 100);
+                                    }
+                                };
+                                const addableValue = this.callbacks.addable(inputValue);
+                                if (addableValue === false || addableValue === undefined || addableValue === null) {
+                                    return;
+                                }
+                                if (addableValue instanceof Promise) {
+                                    addableValue.then((value => {
+                                        if (typeof value === 'string') {
+                                            runFinish({
+                                                text: value,
+                                                value
+                                            });
+                                        } else {
+                                            runFinish(value);
+                                        }
+                                    }));
+                                } else if (typeof addableValue === 'string') {
+                                    runFinish({
+                                        text: addableValue,
+                                        value: addableValue
+                                    });
+                                } else {
+                                    runFinish(addableValue);
+                                }
+                                return;
+                            };
+                            main.appendChild(addable);
+                            searchReturn.addable = {
+                                main: addable,
+                                svg: plus,
+                                path: plusPath
+                            };
+                        }
+                        return searchReturn;
+                    }
+                    searchFocus() {
+                        this.content.search.input.focus();
+                    }
+                    getOptions(notPlaceholder = false, notDisabled = false, notHidden = false) {
+                        let query = '.' + this.classes.option;
+                        if (notPlaceholder) {
+                            query += ':not(.' + this.classes.placeholder + ')';
+                        }
+                        if (notDisabled) {
+                            query += ':not(.' + this.classes.disabled + ')';
+                        }
+                        if (notHidden) {
+                            query += ':not(.' + this.classes.hide + ')';
+                        }
+                        return Array.from(this.content.list.querySelectorAll(query));
+                    }
+                    highlight(dir) {
+                        const options = this.getOptions(true, true, true);
+                        if (options.length === 0) {
+                            return;
+                        }
+                        if (options.length === 1) {
+                            if (!options[0].classList.contains(this.classes.highlighted)) {
+                                options[0].classList.add(this.classes.highlighted);
+                                return;
+                            }
+                        }
+                        for (let i = 0; i < options.length; i++) {
+                            if (options[i].classList.contains(this.classes.highlighted)) {
+                                const prevOption = options[i];
+                                prevOption.classList.remove(this.classes.highlighted);
+                                const prevParent = prevOption.parentElement;
+                                if (prevParent && prevParent.classList.contains(this.classes.open)) {
+                                    const optgroupLabel = prevParent.querySelector('.' + this.classes.optgroupLabel);
+                                    if (optgroupLabel) {
+                                        optgroupLabel.click();
+                                    }
+                                }
+                                let selectOption = options[dir === 'down' ? i + 1 < options.length ? i + 1 : 0 : i - 1 >= 0 ? i - 1 : options.length - 1];
+                                selectOption.classList.add(this.classes.highlighted);
+                                this.ensureElementInView(this.content.list, selectOption);
+                                const selectParent = selectOption.parentElement;
+                                if (selectParent && selectParent.classList.contains(this.classes.close)) {
+                                    const optgroupLabel = selectParent.querySelector('.' + this.classes.optgroupLabel);
+                                    if (optgroupLabel) {
+                                        optgroupLabel.click();
+                                    }
+                                }
+                                return;
+                            }
+                        }
+                        options[dir === 'down' ? 0 : options.length - 1].classList.add(this.classes.highlighted);
+                        this.ensureElementInView(this.content.list, options[dir === 'down' ? 0 : options.length - 1]);
+                    }
+                    listDiv() {
+                        const options = document.createElement('div');
+                        options.classList.add(this.classes.list);
+                        return options;
+                    }
+                    renderError(error) {
+                        this.content.list.innerHTML = '';
+                        const errorDiv = document.createElement('div');
+                        errorDiv.classList.add(this.classes.error);
+                        errorDiv.textContent = error;
+                        this.content.list.appendChild(errorDiv);
+                    }
+                    renderSearching() {
+                        this.content.list.innerHTML = '';
+                        const searchingDiv = document.createElement('div');
+                        searchingDiv.classList.add(this.classes.searching);
+                        searchingDiv.textContent = this.settings.searchingText;
+                        this.content.list.appendChild(searchingDiv);
+                    }
+                    renderOptions(data) {
+                        this.content.list.innerHTML = '';
+                        if (data.length === 0) {
+                            const noResults = document.createElement('div');
+                            noResults.classList.add(this.classes.search);
+                            noResults.innerHTML = this.settings.searchText;
+                            this.content.list.appendChild(noResults);
+                            return;
+                        }
+                        for (const d of data) {
+                            if (d instanceof Optgroup) {
+                                const optgroupEl = document.createElement('div');
+                                optgroupEl.classList.add(this.classes.optgroup);
+                                const optgroupLabel = document.createElement('div');
+                                optgroupLabel.classList.add(this.classes.optgroupLabel);
+                                optgroupEl.appendChild(optgroupLabel);
+                                const optgroupLabelText = document.createElement('div');
+                                optgroupLabelText.classList.add(this.classes.optgroupLabelText);
+                                optgroupLabelText.textContent = d.label;
+                                optgroupLabel.appendChild(optgroupLabelText);
+                                const optgroupActions = document.createElement('div');
+                                optgroupActions.classList.add(this.classes.optgroupActions);
+                                optgroupLabel.appendChild(optgroupActions);
+                                if (this.settings.isMultiple && d.selectAll) {
+                                    const selectAll = document.createElement('div');
+                                    selectAll.classList.add(this.classes.optgroupSelectAll);
+                                    let allSelected = true;
+                                    for (const o of d.options) {
+                                        if (!o.selected) {
+                                            allSelected = false;
+                                            break;
+                                        }
+                                    }
+                                    if (allSelected) {
+                                        selectAll.classList.add(this.classes.selected);
+                                    }
+                                    const selectAllText = document.createElement('span');
+                                    selectAllText.textContent = d.selectAllText;
+                                    selectAll.appendChild(selectAllText);
+                                    const selectAllSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                                    selectAllSvg.setAttribute('viewBox', '0 0 100 100');
+                                    selectAll.appendChild(selectAllSvg);
+                                    const selectAllBox = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                                    selectAllBox.setAttribute('d', this.classes.optgroupSelectAllBox);
+                                    selectAllSvg.appendChild(selectAllBox);
+                                    const selectAllCheck = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                                    selectAllCheck.setAttribute('d', this.classes.optgroupSelectAllCheck);
+                                    selectAllSvg.appendChild(selectAllCheck);
+                                    selectAll.addEventListener('click', (e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const currentSelected = this.store.getSelected();
+                                        if (allSelected) {
+                                            const newSelected = currentSelected.filter((s => {
+                                                for (const o of d.options) {
+                                                    if (s === o.value) {
+                                                        return false;
+                                                    }
+                                                }
+                                                return true;
+                                            }));
+                                            this.callbacks.setSelected(newSelected, true);
+                                            return;
+                                        } else {
+                                            const newSelected = currentSelected.concat(d.options.map((o => o.value)));
+                                            for (const o of d.options) {
+                                                if (!this.store.getOptionByID(o.id)) {
+                                                    this.callbacks.addOption(o);
+                                                }
+                                            }
+                                            this.callbacks.setSelected(newSelected, true);
+                                            return;
+                                        }
+                                    }));
+                                    optgroupActions.appendChild(selectAll);
+                                }
+                                if (d.closable !== 'off') {
+                                    const optgroupClosable = document.createElement('div');
+                                    optgroupClosable.classList.add(this.classes.optgroupClosable);
+                                    const optgroupClosableSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                                    optgroupClosableSvg.setAttribute('viewBox', '0 0 100 100');
+                                    optgroupClosableSvg.classList.add(this.classes.arrow);
+                                    optgroupClosable.appendChild(optgroupClosableSvg);
+                                    const optgroupClosableArrow = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                                    optgroupClosableSvg.appendChild(optgroupClosableArrow);
+                                    if (d.options.some((o => o.selected)) || this.content.search.input.value.trim() !== '') {
+                                        optgroupClosable.classList.add(this.classes.open);
+                                        optgroupClosableArrow.setAttribute('d', this.classes.arrowOpen);
+                                    } else if (d.closable === 'open') {
+                                        optgroupEl.classList.add(this.classes.open);
+                                        optgroupClosableArrow.setAttribute('d', this.classes.arrowOpen);
+                                    } else if (d.closable === 'close') {
+                                        optgroupEl.classList.add(this.classes.close);
+                                        optgroupClosableArrow.setAttribute('d', this.classes.arrowClose);
+                                    }
+                                    optgroupLabel.addEventListener('click', (e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        if (optgroupEl.classList.contains(this.classes.close)) {
+                                            optgroupEl.classList.remove(this.classes.close);
+                                            optgroupEl.classList.add(this.classes.open);
+                                            optgroupClosableArrow.setAttribute('d', this.classes.arrowOpen);
+                                        } else {
+                                            optgroupEl.classList.remove(this.classes.open);
+                                            optgroupEl.classList.add(this.classes.close);
+                                            optgroupClosableArrow.setAttribute('d', this.classes.arrowClose);
+                                        }
+                                    }));
+                                    optgroupActions.appendChild(optgroupClosable);
+                                }
+                                optgroupEl.appendChild(optgroupLabel);
+                                for (const o of d.options) {
+                                    optgroupEl.appendChild(this.option(o));
+                                }
+                                this.content.list.appendChild(optgroupEl);
+                            }
+                            if (d instanceof Option) {
+                                this.content.list.appendChild(this.option(d));
+                            }
+                        }
+                    }
+                    option(option) {
+                        if (option.placeholder) {
+                            const placeholder = document.createElement('div');
+                            placeholder.classList.add(this.classes.option);
+                            placeholder.classList.add(this.classes.hide);
+                            return placeholder;
+                        }
+                        const optionEl = document.createElement('div');
+                        optionEl.dataset.id = option.id;
+                        optionEl.id = option.id;
+                        optionEl.classList.add(this.classes.option);
+                        optionEl.setAttribute('role', 'option');
+                        if (option.class) {
+                            option.class.split(' ').forEach((dataClass => {
+                                optionEl.classList.add(dataClass);
+                            }));
+                        }
+                        if (option.style) {
+                            optionEl.style.cssText = option.style;
+                        }
+                        if (this.settings.searchHighlight && this.content.search.input.value.trim() !== '') {
+                            optionEl.innerHTML = this.highlightText(option.html !== '' ? option.html : option.text, this.content.search.input.value, this.classes.searchHighlighter);
+                        } else if (option.html !== '') {
+                            optionEl.innerHTML = option.html;
+                        } else {
+                            optionEl.textContent = option.text;
+                        }
+                        if (this.settings.showOptionTooltips && optionEl.textContent) {
+                            optionEl.setAttribute('title', optionEl.textContent);
+                        }
+                        if (!option.display) {
+                            optionEl.classList.add(this.classes.hide);
+                        }
+                        if (option.disabled) {
+                            optionEl.classList.add(this.classes.disabled);
+                        }
+                        if (option.selected && this.settings.hideSelected) {
+                            optionEl.classList.add(this.classes.hide);
+                        }
+                        if (option.selected) {
+                            optionEl.classList.add(this.classes.selected);
+                            optionEl.setAttribute('aria-selected', 'true');
+                            this.main.main.setAttribute('aria-activedescendant', optionEl.id);
+                        } else {
+                            optionEl.classList.remove(this.classes.selected);
+                            optionEl.setAttribute('aria-selected', 'false');
+                        }
+                        optionEl.addEventListener('click', (e => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const selectedOptions = this.store.getSelected();
+                            const element = e.currentTarget;
+                            const elementID = String(element.dataset.id);
+                            if (option.disabled || option.selected && !this.settings.allowDeselect) {
+                                return;
+                            }
+                            if (this.settings.isMultiple && this.settings.maxSelected <= selectedOptions.length && !option.selected || this.settings.isMultiple && this.settings.minSelected >= selectedOptions.length && option.selected) {
+                                return;
+                            }
+                            let shouldUpdate = false;
+                            const before = this.store.getSelectedOptions();
+                            let after = [];
+                            if (this.settings.isMultiple) {
+                                if (option.selected) {
+                                    after = before.filter((o => o.id !== elementID));
+                                } else {
+                                    after = before.concat(option);
+                                }
+                            }
+                            if (!this.settings.isMultiple) {
+                                if (option.selected) {
+                                    after = [];
+                                } else {
+                                    after = [ option ];
+                                }
+                            }
+                            if (!this.callbacks.beforeChange) {
+                                shouldUpdate = true;
+                            }
+                            if (this.callbacks.beforeChange) {
+                                if (this.callbacks.beforeChange(after, before) === false) {
+                                    shouldUpdate = false;
+                                } else {
+                                    shouldUpdate = true;
+                                }
+                            }
+                            if (shouldUpdate) {
+                                if (!this.store.getOptionByID(elementID)) {
+                                    this.callbacks.addOption(option);
+                                }
+                                this.callbacks.setSelected(after.map((o => o.value)), false);
+                                if (this.settings.closeOnSelect) {
+                                    this.callbacks.close();
+                                }
+                                if (this.callbacks.afterChange) {
+                                    this.callbacks.afterChange(after);
+                                }
+                            }
+                        }));
+                        return optionEl;
+                    }
+                    destroy() {
+                        this.main.main.remove();
+                        this.content.main.remove();
+                    }
+                    highlightText(str, search, className) {
+                        let completedString = str;
+                        const regex = new RegExp('(' + search.trim() + ')(?![^<]*>[^<>]*</)', 'i');
+                        if (!str.match(regex)) {
+                            return str;
+                        }
+                        const matchStartPosition = str.match(regex).index;
+                        const matchEndPosition = matchStartPosition + str.match(regex)[0].toString().length;
+                        const originalTextFoundByRegex = str.substring(matchStartPosition, matchEndPosition);
+                        completedString = completedString.replace(regex, `<mark class="${className}">${originalTextFoundByRegex}</mark>`);
+                        return completedString;
+                    }
+                    moveContentAbove() {
+                        const mainHeight = this.main.main.offsetHeight;
+                        const contentHeight = this.content.main.offsetHeight;
+                        this.main.main.classList.remove(this.classes.openBelow);
+                        this.main.main.classList.add(this.classes.openAbove);
+                        this.content.main.classList.remove(this.classes.openBelow);
+                        this.content.main.classList.add(this.classes.openAbove);
+                        const containerRect = this.main.main.getBoundingClientRect();
+                        this.content.main.style.margin = '-' + (mainHeight + contentHeight - 1) + 'px 0px 0px 0px';
+                        this.content.main.style.top = containerRect.top + containerRect.height + window.scrollY + 'px';
+                        this.content.main.style.left = containerRect.left + window.scrollX + 'px';
+                        this.content.main.style.width = containerRect.width + 'px';
+                    }
+                    moveContentBelow() {
+                        this.main.main.classList.remove(this.classes.openAbove);
+                        this.main.main.classList.add(this.classes.openBelow);
+                        this.content.main.classList.remove(this.classes.openAbove);
+                        this.content.main.classList.add(this.classes.openBelow);
+                        const containerRect = this.main.main.getBoundingClientRect();
+                        this.content.main.style.margin = '-1px 0px 0px 0px';
+                        if (this.settings.contentPosition !== 'relative') {
+                            this.content.main.style.top = containerRect.top + containerRect.height + window.scrollY + 'px';
+                            this.content.main.style.left = containerRect.left + window.scrollX + 'px';
+                            this.content.main.style.width = containerRect.width + 'px';
+                        }
+                    }
+                    ensureElementInView(container, element) {
+                        const cTop = container.scrollTop + container.offsetTop;
+                        const cBottom = cTop + container.clientHeight;
+                        const eTop = element.offsetTop;
+                        const eBottom = eTop + element.clientHeight;
+                        if (eTop < cTop) {
+                            container.scrollTop -= cTop - eTop;
+                        } else if (eBottom > cBottom) {
+                            container.scrollTop += eBottom - cBottom;
+                        }
+                    }
+                    putContent() {
+                        const mainHeight = this.main.main.offsetHeight;
+                        const mainRect = this.main.main.getBoundingClientRect();
+                        const contentHeight = this.content.main.offsetHeight;
+                        const spaceBelow = window.innerHeight - (mainRect.top + mainHeight);
+                        if (spaceBelow <= contentHeight) {
+                            if (mainRect.top > contentHeight) {
+                                return 'up';
+                            } else {
+                                return 'down';
+                            }
+                        }
+                        return 'down';
+                    }
+                    updateDeselectAll() {
+                        if (!this.store || !this.settings) {
+                            return;
+                        }
+                        const selected = this.store.getSelectedOptions();
+                        const hasSelectedItems = selected && selected.length > 0;
+                        const isMultiple = this.settings.isMultiple;
+                        const allowDeselect = this.settings.allowDeselect;
+                        const deselectButton = this.main.deselect.main;
+                        const hideClass = this.classes.hide;
+                        if (allowDeselect && !(isMultiple && !hasSelectedItems)) {
+                            deselectButton.classList.remove(hideClass);
+                        } else {
+                            deselectButton.classList.add(hideClass);
+                        }
+                    }
+                }
+                class Select {
+                    constructor(select) {
+                        this.listen = false;
+                        this.observer = null;
+                        this.select = select;
+                        this.select.addEventListener('change', this.valueChange.bind(this), {
+                            passive: true
+                        });
+                        this.observer = new MutationObserver(this.observeCall.bind(this));
+                        this.changeListen(true);
+                    }
+                    enable() {
+                        this.select.disabled = false;
+                    }
+                    disable() {
+                        this.select.disabled = true;
+                    }
+                    hideUI() {
+                        this.select.tabIndex = -1;
+                        this.select.style.display = 'none';
+                        this.select.setAttribute('aria-hidden', 'true');
+                    }
+                    showUI() {
+                        this.select.removeAttribute('tabindex');
+                        this.select.style.display = '';
+                        this.select.removeAttribute('aria-hidden');
+                    }
+                    changeListen(listen) {
+                        this.listen = listen;
+                        if (listen) {
+                            if (this.observer) {
+                                this.observer.observe(this.select, {
+                                    subtree: true,
+                                    childList: true,
+                                    attributes: true
+                                });
+                            }
+                        }
+                        if (!listen) {
+                            if (this.observer) {
+                                this.observer.disconnect();
+                            }
+                        }
+                    }
+                    valueChange(ev) {
+                        if (this.listen && this.onValueChange) {
+                            this.onValueChange(this.getSelectedValues());
+                        }
+                        return true;
+                    }
+                    observeCall(mutations) {
+                        if (!this.listen) {
+                            return;
+                        }
+                        let classChanged = false;
+                        let disabledChanged = false;
+                        let optgroupOptionChanged = false;
+                        for (const m of mutations) {
+                            if (m.target === this.select) {
+                                if (m.attributeName === 'disabled') {
+                                    disabledChanged = true;
+                                }
+                                if (m.attributeName === 'class') {
+                                    classChanged = true;
+                                }
+                            }
+                            if (m.target.nodeName === 'OPTGROUP' || m.target.nodeName === 'OPTION') {
+                                optgroupOptionChanged = true;
+                            }
+                        }
+                        if (classChanged && this.onClassChange) {
+                            this.onClassChange(this.select.className.split(' '));
+                        }
+                        if (disabledChanged && this.onDisabledChange) {
+                            this.changeListen(false);
+                            this.onDisabledChange(this.select.disabled);
+                            this.changeListen(true);
+                        }
+                        if (optgroupOptionChanged && this.onOptionsChange) {
+                            this.changeListen(false);
+                            this.onOptionsChange(this.getData());
+                            this.changeListen(true);
+                        }
+                    }
+                    getData() {
+                        let data = [];
+                        const nodes = this.select.childNodes;
+                        for (const n of nodes) {
+                            if (n.nodeName === 'OPTGROUP') {
+                                data.push(this.getDataFromOptgroup(n));
+                            }
+                            if (n.nodeName === 'OPTION') {
+                                data.push(this.getDataFromOption(n));
+                            }
+                        }
+                        return data;
+                    }
+                    getDataFromOptgroup(optgroup) {
+                        let data = {
+                            id: optgroup.id,
+                            label: optgroup.label,
+                            selectAll: optgroup.dataset ? optgroup.dataset.selectall === 'true' : false,
+                            selectAllText: optgroup.dataset ? optgroup.dataset.selectalltext : 'Select all',
+                            closable: optgroup.dataset ? optgroup.dataset.closable : 'off',
+                            options: []
+                        };
+                        const options = optgroup.childNodes;
+                        for (const o of options) {
+                            if (o.nodeName === 'OPTION') {
+                                data.options.push(this.getDataFromOption(o));
+                            }
+                        }
+                        return data;
+                    }
+                    getDataFromOption(option) {
+                        return {
+                            id: option.id,
+                            value: option.value,
+                            text: option.text,
+                            html: option.dataset && option.dataset.html ? option.dataset.html : '',
+                            selected: option.selected,
+                            display: option.style.display === 'none' ? false : true,
+                            disabled: option.disabled,
+                            mandatory: option.dataset ? option.dataset.mandatory === 'true' : false,
+                            placeholder: option.dataset.placeholder === 'true',
+                            class: option.className,
+                            style: option.style.cssText,
+                            data: option.dataset
+                        };
+                    }
+                    getSelectedValues() {
+                        let values = [];
+                        const options = this.select.childNodes;
+                        for (const o of options) {
+                            if (o.nodeName === 'OPTGROUP') {
+                                const optgroupOptions = o.childNodes;
+                                for (const oo of optgroupOptions) {
+                                    if (oo.nodeName === 'OPTION') {
+                                        const option = oo;
+                                        if (option.selected) {
+                                            values.push(option.value);
+                                        }
+                                    }
+                                }
+                            }
+                            if (o.nodeName === 'OPTION') {
+                                const option = o;
+                                if (option.selected) {
+                                    values.push(option.value);
+                                }
+                            }
+                        }
+                        return values;
+                    }
+                    setSelected(value) {
+                        this.changeListen(false);
+                        const options = this.select.childNodes;
+                        for (const o of options) {
+                            if (o.nodeName === 'OPTGROUP') {
+                                const optgroup = o;
+                                const optgroupOptions = optgroup.childNodes;
+                                for (const oo of optgroupOptions) {
+                                    if (oo.nodeName === 'OPTION') {
+                                        const option = oo;
+                                        option.selected = value.includes(option.value);
+                                    }
+                                }
+                            }
+                            if (o.nodeName === 'OPTION') {
+                                const option = o;
+                                option.selected = value.includes(option.value);
+                            }
+                        }
+                        this.changeListen(true);
+                    }
+                    updateSelect(id, style, classes) {
+                        this.changeListen(false);
+                        if (id) {
+                            this.select.dataset.id = id;
+                        }
+                        if (style) {
+                            this.select.style.cssText = style;
+                        }
+                        if (classes) {
+                            this.select.className = '';
+                            classes.forEach((c => {
+                                if (c.trim() !== '') {
+                                    this.select.classList.add(c.trim());
+                                }
+                            }));
+                        }
+                        this.changeListen(true);
+                    }
+                    updateOptions(data) {
+                        this.changeListen(false);
+                        this.select.innerHTML = '';
+                        for (const d of data) {
+                            if (d instanceof Optgroup) {
+                                this.select.appendChild(this.createOptgroup(d));
+                            }
+                            if (d instanceof Option) {
+                                this.select.appendChild(this.createOption(d));
+                            }
+                        }
+                        this.select.dispatchEvent(new Event('change'));
+                        this.changeListen(true);
+                    }
+                    createOptgroup(optgroup) {
+                        const optgroupEl = document.createElement('optgroup');
+                        optgroupEl.id = optgroup.id;
+                        optgroupEl.label = optgroup.label;
+                        if (optgroup.selectAll) {
+                            optgroupEl.dataset.selectAll = 'true';
+                        }
+                        if (optgroup.closable !== 'off') {
+                            optgroupEl.dataset.closable = optgroup.closable;
+                        }
+                        if (optgroup.options) {
+                            for (const o of optgroup.options) {
+                                optgroupEl.appendChild(this.createOption(o));
+                            }
+                        }
+                        return optgroupEl;
+                    }
+                    createOption(info) {
+                        const optionEl = document.createElement('option');
+                        optionEl.id = info.id;
+                        optionEl.value = info.value;
+                        optionEl.innerHTML = info.text;
+                        if (info.html !== '') {
+                            optionEl.setAttribute('data-html', info.html);
+                        }
+                        if (info.selected) {
+                            optionEl.selected = info.selected;
+                        }
+                        if (info.disabled) {
+                            optionEl.disabled = true;
+                        }
+                        if (info.display === false) {
+                            optionEl.style.display = 'none';
+                        }
+                        if (info.placeholder) {
+                            optionEl.setAttribute('data-placeholder', 'true');
+                        }
+                        if (info.mandatory) {
+                            optionEl.setAttribute('data-mandatory', 'true');
+                        }
+                        if (info.class) {
+                            info.class.split(' ').forEach((optionClass => {
+                                optionEl.classList.add(optionClass);
+                            }));
+                        }
+                        if (info.data && typeof info.data === 'object') {
+                            Object.keys(info.data).forEach((key => {
+                                optionEl.setAttribute('data-' + kebabCase(key), info.data[key]);
+                            }));
+                        }
+                        return optionEl;
+                    }
+                    destroy() {
+                        this.changeListen(false);
+                        this.select.removeEventListener('change', this.valueChange.bind(this));
+                        if (this.observer) {
+                            this.observer.disconnect();
+                            this.observer = null;
+                        }
+                        delete this.select.dataset.id;
+                        this.showUI();
+                    }
+                }
+                class SlimSelect {
+                    constructor(config) {
+                        var _a;
+                        this.events = {
+                            search: undefined,
+                            searchFilter: (opt, search) => opt.text.toLowerCase().indexOf(search.toLowerCase()) !== -1,
+                            addable: undefined,
+                            beforeChange: undefined,
+                            afterChange: undefined,
+                            beforeOpen: undefined,
+                            afterOpen: undefined,
+                            beforeClose: undefined,
+                            afterClose: undefined
+                        };
+                        this.windowResize = debounce((() => {
+                            if (!this.settings.isOpen && !this.settings.isFullOpen) {
+                                return;
+                            }
+                            this.render.moveContent();
+                        }));
+                        this.windowScroll = debounce((() => {
+                            if (!this.settings.isOpen && !this.settings.isFullOpen) {
+                                return;
+                            }
+                            this.render.moveContent();
+                        }));
+                        this.documentClick = e => {
+                            if (!this.settings.isOpen) {
+                                return;
+                            }
+                            if (e.target && !hasClassInTree(e.target, this.settings.id)) {
+                                this.close(e.type);
+                            }
+                        };
+                        this.windowVisibilityChange = () => {
+                            if (document.hidden) {
+                                this.close();
+                            }
+                        };
+                        this.selectEl = typeof config.select === 'string' ? document.querySelector(config.select) : config.select;
+                        if (!this.selectEl) {
+                            if (config.events && config.events.error) {
+                                config.events.error(new Error('Could not find select element'));
+                            }
+                            return;
+                        }
+                        if (this.selectEl.tagName !== 'SELECT') {
+                            if (config.events && config.events.error) {
+                                config.events.error(new Error('Element isnt of type select'));
+                            }
+                            return;
+                        }
+                        if (this.selectEl.dataset.ssid) {
+                            this.destroy();
+                        }
+                        this.settings = new Settings(config.settings);
+                        const debounceEvents = [ 'afterChange', 'beforeOpen', 'afterOpen', 'beforeClose', 'afterClose' ];
+                        for (const key in config.events) {
+                            if (!config.events.hasOwnProperty(key)) {
+                                continue;
+                            }
+                            if (debounceEvents.indexOf(key) !== -1) {
+                                this.events[key] = debounce(config.events[key], 100);
+                            } else {
+                                this.events[key] = config.events[key];
+                            }
+                        }
+                        this.settings.disabled = ((_a = config.settings) === null || _a === void 0 ? void 0 : _a.disabled) ? config.settings.disabled : this.selectEl.disabled;
+                        this.settings.isMultiple = this.selectEl.multiple;
+                        this.settings.style = this.selectEl.style.cssText;
+                        this.settings.class = this.selectEl.className.split(' ');
+                        this.select = new Select(this.selectEl);
+                        this.select.updateSelect(this.settings.id, this.settings.style, this.settings.class);
+                        this.select.hideUI();
+                        this.select.onValueChange = values => {
+                            this.setSelected(values);
+                        };
+                        this.select.onClassChange = classes => {
+                            this.settings.class = classes;
+                            this.render.updateClassStyles();
+                        };
+                        this.select.onDisabledChange = disabled => {
+                            if (disabled) {
+                                this.disable();
+                            } else {
+                                this.enable();
+                            }
+                        };
+                        this.select.onOptionsChange = data => {
+                            this.setData(data);
+                        };
+                        this.store = new Store(this.settings.isMultiple ? 'multiple' : 'single', config.data ? config.data : this.select.getData());
+                        if (config.data) {
+                            this.select.updateOptions(this.store.getData());
+                        }
+                        const callbacks = {
+                            open: this.open.bind(this),
+                            close: this.close.bind(this),
+                            addable: this.events.addable ? this.events.addable : undefined,
+                            setSelected: this.setSelected.bind(this),
+                            addOption: this.addOption.bind(this),
+                            search: this.search.bind(this),
+                            beforeChange: this.events.beforeChange,
+                            afterChange: this.events.afterChange
+                        };
+                        this.render = new Render(this.settings, this.store, callbacks);
+                        this.render.renderValues();
+                        this.render.renderOptions(this.store.getData());
+                        const selectAriaLabel = this.selectEl.getAttribute('aria-label');
+                        const selectAriaLabelledBy = this.selectEl.getAttribute('aria-labelledby');
+                        if (selectAriaLabel) {
+                            this.render.main.main.setAttribute('aria-label', selectAriaLabel);
+                        } else if (selectAriaLabelledBy) {
+                            this.render.main.main.setAttribute('aria-labelledby', selectAriaLabelledBy);
+                        }
+                        if (this.selectEl.parentNode) {
+                            this.selectEl.parentNode.insertBefore(this.render.main.main, this.selectEl.nextSibling);
+                        }
+                        document.addEventListener('click', this.documentClick);
+                        window.addEventListener('resize', this.windowResize, false);
+                        if (this.settings.openPosition === 'auto') {
+                            window.addEventListener('scroll', this.windowScroll, false);
+                        }
+                        document.addEventListener('visibilitychange', this.windowVisibilityChange);
+                        if (this.settings.disabled) {
+                            this.disable();
+                        }
+                        if (this.settings.alwaysOpen) {
+                            this.open();
+                        }
+                        this.selectEl.slim = this;
+                    }
+                    enable() {
+                        this.settings.disabled = false;
+                        this.select.enable();
+                        this.render.enable();
+                    }
+                    disable() {
+                        this.settings.disabled = true;
+                        this.select.disable();
+                        this.render.disable();
+                    }
+                    getData() {
+                        return this.store.getData();
+                    }
+                    setData(data) {
+                        const selected = this.store.getSelected();
+                        const err = this.store.validateDataArray(data);
+                        if (err) {
+                            if (this.events.error) {
+                                this.events.error(err);
+                            }
+                            return;
+                        }
+                        this.store.setData(data);
+                        const dataClean = this.store.getData();
+                        this.select.updateOptions(dataClean);
+                        this.render.renderValues();
+                        this.render.renderOptions(dataClean);
+                        if (this.events.afterChange && !isEqual(selected, this.store.getSelected())) {
+                            this.events.afterChange(this.store.getSelectedOptions());
+                        }
+                    }
+                    getSelected() {
+                        return this.store.getSelected();
+                    }
+                    setSelected(value, runAfterChange = true) {
+                        const selected = this.store.getSelected();
+                        this.store.setSelectedBy('value', Array.isArray(value) ? value : [ value ]);
+                        const data = this.store.getData();
+                        this.select.updateOptions(data);
+                        this.render.renderValues();
+                        if (this.render.content.search.input.value !== '') {
+                            this.search(this.render.content.search.input.value);
+                        } else {
+                            this.render.renderOptions(data);
+                        }
+                        if (runAfterChange && this.events.afterChange && !isEqual(selected, this.store.getSelected())) {
+                            this.events.afterChange(this.store.getSelectedOptions());
+                        }
+                    }
+                    addOption(option) {
+                        const selected = this.store.getSelected();
+                        if (!this.store.getDataOptions().some((o => {
+                            var _a;
+                            return o.value === ((_a = option.value) !== null && _a !== void 0 ? _a : option.text);
+                        }))) {
+                            this.store.addOption(option);
+                        }
+                        const data = this.store.getData();
+                        this.select.updateOptions(data);
+                        this.render.renderValues();
+                        this.render.renderOptions(data);
+                        if (this.events.afterChange && !isEqual(selected, this.store.getSelected())) {
+                            this.events.afterChange(this.store.getSelectedOptions());
+                        }
+                    }
+                    open() {
+                        if (this.settings.disabled || this.settings.isOpen) {
+                            return;
+                        }
+                        if (this.events.beforeOpen) {
+                            this.events.beforeOpen();
+                        }
+                        this.render.open();
+                        if (this.settings.showSearch) {
+                            this.render.searchFocus();
+                        }
+                        this.settings.isOpen = true;
+                        setTimeout((() => {
+                            if (this.events.afterOpen) {
+                                this.events.afterOpen();
+                            }
+                            if (this.settings.isOpen) {
+                                this.settings.isFullOpen = true;
+                            }
+                        }), this.settings.timeoutDelay);
+                        if (this.settings.contentPosition === 'absolute') {
+                            if (this.settings.intervalMove) {
+                                clearInterval(this.settings.intervalMove);
+                            }
+                            this.settings.intervalMove = setInterval(this.render.moveContent.bind(this.render), 500);
+                        }
+                    }
+                    close(eventType = null) {
+                        if (!this.settings.isOpen || this.settings.alwaysOpen) {
+                            return;
+                        }
+                        if (this.events.beforeClose) {
+                            this.events.beforeClose();
+                        }
+                        this.render.close();
+                        if (this.render.content.search.input.value !== '') {
+                            this.search('');
+                        }
+                        this.render.mainFocus(eventType);
+                        this.settings.isOpen = false;
+                        this.settings.isFullOpen = false;
+                        setTimeout((() => {
+                            if (this.events.afterClose) {
+                                this.events.afterClose();
+                            }
+                        }), this.settings.timeoutDelay);
+                        if (this.settings.intervalMove) {
+                            clearInterval(this.settings.intervalMove);
+                        }
+                    }
+                    search(value) {
+                        if (this.render.content.search.input.value !== value) {
+                            this.render.content.search.input.value = value;
+                        }
+                        if (!this.events.search) {
+                            this.render.renderOptions(value === '' ? this.store.getData() : this.store.search(value, this.events.searchFilter));
+                            return;
+                        }
+                        this.render.renderSearching();
+                        const searchResp = this.events.search(value, this.store.getSelectedOptions());
+                        if (searchResp instanceof Promise) {
+                            searchResp.then((data => {
+                                this.render.renderOptions(this.store.partialToFullData(data));
+                            })).catch((err => {
+                                this.render.renderError(typeof err === 'string' ? err : err.message);
+                            }));
+                            return;
+                        } else if (Array.isArray(searchResp)) {
+                            this.render.renderOptions(this.store.partialToFullData(searchResp));
+                        } else {
+                            this.render.renderError('Search event must return a promise or an array of data');
+                        }
+                    }
+                    destroy() {
+                        document.removeEventListener('click', this.documentClick);
+                        window.removeEventListener('resize', this.windowResize, false);
+                        if (this.settings.openPosition === 'auto') {
+                            window.removeEventListener('scroll', this.windowScroll, false);
+                        }
+                        document.removeEventListener('visibilitychange', this.windowVisibilityChange);
+                        this.store.setData([]);
+                        this.render.destroy();
+                        this.select.destroy();
+                    }
+                }
+                return SlimSelect;
+            }));
+        }
+    };
+    var __webpack_module_cache__ = {};
+    function __webpack_require__(moduleId) {
+        var cachedModule = __webpack_module_cache__[moduleId];
+        if (cachedModule !== undefined) {
+            return cachedModule.exports;
+        }
+        var module = __webpack_module_cache__[moduleId] = {
+            exports: {}
+        };
+        __webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        return module.exports;
+    }
+    var __webpack_exports__ = __webpack_require__(177);
+})();

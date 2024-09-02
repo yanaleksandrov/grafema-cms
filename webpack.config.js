@@ -1,71 +1,45 @@
-const fs   = require("fs");
-const path = require("path");
+const path = require('path');
+const glob = require('glob');
 
-const CopyPlugin             = require("copy-webpack-plugin");
-const HtmlWebpackPlugin      = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const TerserPlugin           = require("terser-webpack-plugin");
-const MiniCssExtractPlugin   = require("mini-css-extract-plugin");
-const CssMinimizerPlugin     = require("css-minimizer-webpack-plugin");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin   = require('mini-css-extract-plugin');
+const TerserPlugin           = require('terser-webpack-plugin');
 
-function generateHtmlPlugins(templateDir) {
-  const templateFiles = fs.readdirSync(path.resolve(__dirname, templateDir));
-  return templateFiles.map((item) => {
-    const [name, extension] = item.split('.');
+// separate and compile every .scss & .js file from root 'src' folder
+const parseEntries = (type, outputFolder, postfix = '') => {
+  return glob.sync(`./src/${type}`).reduce((obj, el) => {
+    const name = path.parse(el).name;
 
-    return new HtmlWebpackPlugin({
-      filename: `${name}.html`,
-      template: path.resolve(__dirname, `${templateDir}/${name}.${extension}`),
-      inject: 'body',
-    });
-  });
+    obj[`${outputFolder}/${name}${postfix}`] = el;
+    return obj;
+  }, {});
 }
 
-const htmlPlugins = generateHtmlPlugins("src/html/pages");
-
-const config = {
-  entry: [
-    "./src/js/storage.js",
-    "./src/scss/index.scss"
-  ],
+module.exports = {
+  entry: {
+    ...parseEntries('js/**.js', 'js'),
+    ...parseEntries('scss/**.scss', 'css'),
+  },
   output: {
-    path: path.resolve(__dirname, "grafema/dashboard/assets"),
-    filename: "js/grafema.js",
+    path: path.resolve(__dirname, 'grafema/dashboard/assets'),
   },
-  devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'grafema/dashboard/assets'),
-    },
-    port: 3000,
-    open: true,
-    hot: true,
-    compress: true,
-    historyApiFallback: true,
-  },
-  performance : {
-    hints: false
-  },
-  mode: "production",
   optimization: {
     minimize: true,
     minimizer: [
-      new CssMinimizerPlugin({
-        minimizerOptions: {
-          preset: [
-            "default",
-            {
-              discardComments: { removeAll: true },
-            },
-          ],
-        },
-      }),
       new TerserPlugin({
+        parallel: 4,
+        extractComments: false,
         terserOptions: {
+          compress: false,
           format: {
             comments: false,
+            beautify: true,
+            quote_style: 1,
           },
+          keep_classnames: true, // save classes names
+          keep_fnames: true, // save functions names
+          mangle: false, // disable names obfuscation
         },
-        extractComments: false,
       }),
     ],
   },
@@ -73,73 +47,47 @@ const config = {
     rules: [
       {
         test: /\.(sass|scss)$/,
-        include: path.resolve(__dirname, "src/scss"),
+        include: path.resolve(__dirname, 'src/scss'),
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
             options: {},
           },
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               sourceMap: false,
               url: false,
             },
           },
           {
-            loader: "sass-loader",
+            loader: 'postcss-loader',
             options: {
-              implementation: require("sass"),
+              postcssOptions: {
+                plugins: [
+                  require('autoprefixer')
+                ],
+              },
+            },
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
               sourceMap: false,
             },
           },
         ],
       },
-      {
-        test: /\.html$/,
-        include: path.resolve(__dirname, "src/html/parts"),
-        use: ["raw-loader"],
-      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "css/main.css",
-    }),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: "src/fonts",
-          to: "fonts",
-        },
-        {
-          from: "src/images",
-          to: "images",
-        },
-        {
-          from: "src/js",
-          to: "js",
-        },
-        {
-          from: "src/css",
-          to: "css",
-        },
-        {
-          from: "src/files",
-          to: "files",
-        },
-      ],
+      filename: '[name].css',
     }),
     new CleanWebpackPlugin({
-      protectWebpackAssets: false,
-      cleanAfterEveryBuildPatterns: ['*.LICENSE.txt'],
+      cleanOnceBeforeBuildPatterns: ['**/*'],
+      cleanAfterEveryBuildPatterns: ['css/**.min.js', 'css/**.js'],
     }),
-  ].concat(htmlPlugins),
-};
-
-module.exports = (env, argv) => {
-  if (argv.mode === "production") {
-    config.plugins.push(new CleanWebpackPlugin());
-  }
-  return config;
-};
+  ],
+}

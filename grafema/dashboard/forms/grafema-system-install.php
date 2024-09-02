@@ -162,10 +162,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'type'    => 'group',
-					'columns' => 2,
-					'class'   => '',
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'system',
+					'label'         => I18n::_t( 'Map Data' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'text',
 							'name'        => 'db[host]',

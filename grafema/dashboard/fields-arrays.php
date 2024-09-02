@@ -120,12 +120,13 @@
 
 // group
 [
-	'type'    => 'group',
-	'label'   => '',
-	'name'    => 'manage',
-	'class'   => 'df aic fs-12 t-muted',
-	'columns' => 1,
-	'fields'  => [],
+	'type'          => 'group',
+	'name'          => 'manage',
+	'label'         => I18n::_t( 'Welcome to Grafema' ),
+	'class'         => '',
+	'label_class'   => '',
+	'content_class' => '',
+	'fields'        => [],
 ];
 
 // step

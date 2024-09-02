@@ -65,10 +65,13 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7 sm:p-5',
 			'fields'        => [
 				[
-					'name'   => 'theme',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Contact info' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'contacts',
+					'label'         => I18n::_t( 'Contact info' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'email',
 							'name'        => 'email',
@@ -93,11 +96,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'name',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Name' ),
-					'columns' => 2,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'name',
+					'label'         => I18n::_t( 'Name' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'text',
 							'name'        => 'login',
@@ -203,11 +208,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'type'    => 'group',
-					'label'   => I18n::_t( 'About yourself' ),
-					'name'    => 'about-yourself',
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'about-yourself',
+					'label'         => I18n::_t( 'About yourself' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'textarea',
 							'name'        => 'bio',
@@ -239,11 +246,13 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7 sm:p-5',
 			'fields'        => [
 				[
-					'name'    => 'theme',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Theme preferences' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'theme',
+					'label'         => I18n::_t( 'Theme preferences' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'radio',
 							'name'        => 'format',
@@ -280,10 +289,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'theme',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Toolbar' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'toolbar',
+					'label'         => I18n::_t( 'Toolbar' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'toolbar',
@@ -307,10 +319,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'language',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Language' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'language',
+					'label'         => I18n::_t( 'Language' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'select',
 							'name'        => 'language',
@@ -356,10 +371,13 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7 sm:p-5',
 			'fields'        => [
 				[
-					'name'   => 'theme',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Web sessions' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'sessions',
+					'label'         => I18n::_t( 'Web sessions' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'name'     => 'title',
 							'type'     => 'custom',
@@ -408,10 +426,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'theme',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Change password' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'passwords',
+					'label'         => I18n::_t( 'Change password' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'password',
 							'name'        => 'password-new',
@@ -501,10 +522,13 @@ Dashboard\Form::enqueue(
 			'class_content' => 'p-7 sm:p-5',
 			'fields'        => [
 				[
-					'name'   => 'theme',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Authentication keys' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'auth',
+					'label'         => I18n::_t( 'Authentication keys' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'name'     => 'title',
 							'type'     => 'custom',

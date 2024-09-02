@@ -25,10 +25,13 @@ Dashboard\Form::enqueue(
 			'icon'    => 'ph ph-tree-structure',
 			'fields'  => [
 				[
-					'name'   => 'website',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Website' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'website',
+					'label'         => I18n::_t( 'Website' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'text',
 							'name'        => 'site[name]',
@@ -127,10 +130,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'administrator',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Administrator' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'administrator',
+					'label'         => I18n::_t( 'Administrator' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'text',
 							'name'        => 'owner[email]',
@@ -154,12 +160,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Users' ),
-					'name'    => 'users',
-					'class'   => '',
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'users',
+					'label'         => I18n::_t( 'Users' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'users[membership]',
@@ -214,10 +221,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'   => 'dates',
-					'type'   => 'group',
-					'label'  => I18n::_t( 'Dates & time' ),
-					'fields' => [
+					'type'          => 'group',
+					'name'          => 'dates',
+					'label'         => I18n::_t( 'Dates & time' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'name'     => 'date-format',
 							'type'     => 'custom',
@@ -340,11 +350,13 @@ Dashboard\Form::enqueue(
 			'icon'    => 'ph ph-book-open-text',
 			'fields'  => [
 				[
-					'name'    => 'search_engine',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Search engine' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'search_engine',
+					'label'         => I18n::_t( 'Search engine' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'discourage',
@@ -376,11 +388,13 @@ Dashboard\Form::enqueue(
 			'icon'    => 'ph ph-chats-circle',
 			'fields'  => [
 				[
-					'name'    => 'comments',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Post comments' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'comments',
+					'label'         => I18n::_t( 'Post comments' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'comments',
@@ -433,11 +447,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'comments',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Email me whenever' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'comments',
+					'label'         => I18n::_t( 'Email me whenever' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'comments[notify_posts]',
@@ -472,11 +488,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'appears',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Before a comment appears' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'appears',
+					'label'         => I18n::_t( 'Before a comment appears' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'comments',
@@ -511,11 +529,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'avatars',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Avatars displaying' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'avatars',
+					'label'         => I18n::_t( 'Avatars displaying' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'avatars[show]',
@@ -590,11 +610,13 @@ Dashboard\Form::enqueue(
 			'icon'    => 'ph ph-lockers',
 			'fields'  => [
 				[
-					'name'    => 'images',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'File uploading' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'images',
+					'label'         => I18n::_t( 'File uploading' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'select',
 							'name'        => 'images[format]',
@@ -640,11 +662,13 @@ Dashboard\Form::enqueue(
 					],
 				],
 				[
-					'name'    => 'images',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Limits' ),
-					'columns' => 2,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'images',
+					'label'         => I18n::_t( 'Limits' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'number',
 							'name'        => 'limits[owner]',
@@ -696,11 +720,13 @@ Dashboard\Form::enqueue(
 			'icon'        => 'ph ph-link',
 			'fields'      => [
 				[
-					'name'    => 'dates',
-					'type'    => 'group',
-					'label'   => I18n::_t( 'Pages' ),
-					'columns' => 1,
-					'fields'  => [
+					'type'          => 'group',
+					'name'          => 'dates',
+					'label'         => I18n::_t( 'Pages' ),
+					'class'         => '',
+					'label_class'   => '',
+					'content_class' => '',
+					'fields'        => [
 						[
 							'type'        => 'text',
 							'name'        => 'permalinks[pages][single]',

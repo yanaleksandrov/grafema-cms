@@ -72,8 +72,8 @@ final class CommentsTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::_t( 'Comments not found' ),
-			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'title'       => I18n::_t( 'No comments found' ),
+			'description' => I18n::_t( "Don't worry, they will appear as soon as someone leaves a comment." ),
 		];
 	}
 }

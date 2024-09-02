@@ -59,18 +59,15 @@ final class Table {
 	 * @return string
 	 */
 	public function get(): string {
-
 		$styles = $this->stylize( $this->columns );
 		if ( $styles ) {
 			$this->attributes['style'] = $styles;
 		}
 
-		$attributes = Arr::toHtmlAtts( $this->attributes );
-
 		ob_start();
 		if ( $this->tag ) {
 			?>
-			<<?php echo trim( sprintf( '%s %s', $this->tag, $attributes ) ); ?>>
+			<<?php echo trim( sprintf( '%s %s', $this->tag, Arr::toHtmlAtts( $this->attributes ) ) ); ?>>
 			<?php
 		}
 
@@ -82,48 +79,31 @@ final class Table {
 			]
 		);
 
-		ob_start();
-		echo $this->dataBefore ?? '';
-
-		foreach ( $this->data as $i => $data ) {
-			$row = $this->rows[ $i ] ?? end( $this->rows );
-			View::print(
-				$row->view ?? '',
-				[
-					'data'    => $data,
-					'row'     => $row,
-					'columns' => $this->columns,
-				]
-			);
-		}
-
-		echo $this->dataAfter ?? '';
-		$data = ob_get_clean();
-
-		ob_start();
-		echo $this->notFoundBefore ?? '';
-
-		View::print( $this->notFoundTemplate, $this->notFoundContent );
-
-		echo $this->notFoundAfter ? $this->notFoundAfter . PHP_EOL : '';
-		$notFound = ob_get_clean();
-
 		if ( $this->dataVariable ) {
+			$prop = Sanitizer::prop( $this->dataVariable );
+			$row  = current( $this->rows ?? [] );
 			?>
-			<template x-if="<?php echo Sanitizer::attribute( $this->dataVariable ); ?>.length">
-				<template x-for="item in <?php echo Sanitizer::attribute( $this->dataVariable ); ?>">
-					<?php echo $data; ?>
-				</template>
+			<template x-if="<?php echo $prop; ?>.length">
+				<?php echo $this->dataBefore ?? ''; ?>
+					<template x-for="item in <?php echo $prop; ?>">
+						<?php View::print( $row->view, [ 'data' => $this->data, 'row' => $row, 'columns' => $this->columns ] ); ?>
+					</template>
+				<?php echo $this->dataAfter ?? ''; ?>
 			</template>
-			<template x-if="!<?php echo Sanitizer::attribute( $this->dataVariable ); ?>.length">
-				<?php echo $notFound; ?>
+			<template x-if="!<?php echo $prop; ?>.length">
+				<?php View::print( $this->notFoundTemplate, $this->notFoundContent ); ?>
 			</template>
 			<?php
 		} else {
 			if ( $this->data ) {
-				echo $data;
+				echo $this->dataBefore ?? '';
+				foreach ( $this->data as $i => $data ) {
+					$row = $this->rows[ $i ] ?? end( $this->rows );
+					View::print( $row->view ?? '', (array) $this );
+				}
+				echo $this->dataAfter ?? '';
 			} else {
-				echo $notFound;
+				View::print( $this->notFoundTemplate, $this->notFoundContent );
 			}
 		}
 

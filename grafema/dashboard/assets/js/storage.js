@@ -1,0 +1,1 @@
+import Selection from"./storage/selection";document.addEventListener("alpine:init",(()=>{Alpine.directive("storage",((e,{value:n,expression:o,modifiers:t},{evaluateLater:i,cleanup:l})=>{let r=new Selection({container:document.querySelector(".parent"),onSelectEnd:e=>{console.log(e)}});console.log(r)}))}));

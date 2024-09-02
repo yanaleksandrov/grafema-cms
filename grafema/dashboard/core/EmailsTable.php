@@ -66,7 +66,7 @@ final class EmailsTable {
 
 	public function notFoundContent(): array {
 		return [
-			'title'       => I18n::_t( 'Emails templates is not found' ),
+			'title'       => I18n::_t( 'No emails templates found' ),
 			'description' => I18n::_f(
 				'Add %1$snew email template%2$s manually',
 				'<a href="/dashboard/emails" @click.prevent="$modal.open(\'grafema-emails-creator\')">',

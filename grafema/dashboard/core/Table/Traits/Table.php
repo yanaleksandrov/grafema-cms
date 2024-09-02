@@ -1,6 +1,8 @@
 <?php
 namespace Dashboard\Table\Traits;
 
+use Grafema\Sanitizer;
+
 trait Table {
 
 	/**
@@ -48,6 +50,14 @@ trait Table {
 	 * @var string
 	 */
 	public string $dataVariable = 'items';
+
+	/**
+	 * Template to output form data.
+	 *
+	 * @since 2025.1
+	 * @var string
+	 */
+	public string $dataTemplate = 'templates/table/data';
 
 	/**
 	 * Rows settings.

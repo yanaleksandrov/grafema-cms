@@ -184,18 +184,17 @@
             }
         }
     }
-    const storage_selection = Selection;
+    const selection = Selection;
     document.addEventListener('alpine:init', (() => {
         Alpine.directive('storage', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
-            let selection = new storage_selection({
-                container: document.querySelector('.storage'),
+            new selection({
+                container: el,
                 selector: '.storage__item',
                 classSelected: 'active',
                 onSelectEnd: selection => {
                     console.log(selection);
                 }
             });
-            console.log(selection);
         }));
     }));
 })();

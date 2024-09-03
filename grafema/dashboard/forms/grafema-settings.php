@@ -162,16 +162,16 @@ Dashboard\Form::enqueue(
 				[
 					'type'          => 'group',
 					'name'          => 'users',
-					'label'         => I18n::_t( 'Users' ),
+					'label'         => I18n::_t( 'Memberships' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
-							'name'        => 'users[membership]',
-							'label'       => I18n::_t( 'Anyone can register' ),
-							'class'       => '',
+							'name'        => '',
+							'label'       => '',
+							'class'       => 'field field--switcher',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
@@ -182,20 +182,32 @@ Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [
-								'checked' => Option::get( 'users.membership' ),
+							'attributes'  => [],
+							'options'     => [
+								'users[membership]' => [
+									'content'     => I18n::_t( 'Anyone can register' ),
+									'icon'        => 'ph ph-user-list',
+									'description' => I18n::_t( 'An avatar is an image that can be associated with a user across multiple websites. In this area, you can choose to display avatars of users who interact with the site.' ),
+									'checked'     => Option::get( 'users.membership', true ),
+								],
+								'users[moderate]' => [
+									'content'     => I18n::_t( 'Must confirm' ),
+									'icon'        => 'ph ph-police-car',
+									'description' => I18n::_t( 'Configure the account verification algorithm.' ),
+									'checked'     => Option::get( 'users.moderate', false ),
+								],
 							],
 						],
 						[
 							'type'        => 'select',
 							'name'        => 'users[role]',
-							'label'       => I18n::_t( 'New user default role' ),
+							'label'       => '',
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
 							'after'       => '',
-							'instruction' => '',
+							'instruction' => I18n::_t( 'New user default role' ),
 							'tooltip'     => '',
 							'copy'        => 0,
 							'sanitizer'   => '',
@@ -203,9 +215,9 @@ Dashboard\Form::enqueue(
 							'conditions'  => [
 								[
 									'field'    => 'users[membership]',
-									'operator' => '===',
-									'value'    => '123121',
-								]
+									'operator' => '==',
+									'value'    => true,
+								],
 							],
 							'attributes'  => [
 								'value' => Option::get( 'users.role' ),
@@ -355,13 +367,13 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Search engine' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
 							'name'        => 'discourage',
-							'label'       => I18n::_t( 'Discourage search engines from indexing this site' ),
-							'class'       => '',
+							'label'       => '',
+							'class'       => 'field field--switcher',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
@@ -372,8 +384,14 @@ Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [
-								'checked' => Option::get( 'discourage' ),
+							'attributes'  => [],
+							'options'     => [
+								'discourage' => [
+									'content'     => I18n::_t( 'Discourage search engines from indexing this site' ),
+									'icon'        => 'ph ph-globe-hemisphere-west',
+									'description' => I18n::_t( 'It is up to search engines to honor this request.' ),
+									'checked'     => Option::get( 'discourage', false ),
+								],
 							],
 						],
 					],
@@ -393,7 +411,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Post comments' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
@@ -452,7 +470,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Email me whenever' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
@@ -493,7 +511,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Before a comment appears' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
@@ -534,7 +552,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Avatars displaying' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'checkbox',
@@ -725,7 +743,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Pages' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => '',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'text',

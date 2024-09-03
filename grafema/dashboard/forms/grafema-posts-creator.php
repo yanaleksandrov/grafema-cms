@@ -51,7 +51,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Title' ),
 					'class'         => '',
 					'label_class'   => 'ga-1 fs-12 t-muted',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'textarea',
@@ -101,7 +101,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Excerpt' ),
 					'class'         => '',
 					'label_class'   => 'ga-1 fs-12 t-muted',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'textarea',
@@ -238,7 +238,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Authors' ),
 					'class'         => '',
 					'label_class'   => 'ga-1 fs-12 t-muted',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'select',

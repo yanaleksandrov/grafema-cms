@@ -164,7 +164,7 @@ trait Traits {
 
 			// parse conditions
 			if ( ! empty( $field['conditions'] ) ) {
-				$field['conditions'] = $this->parseConditions( $field['conditions'] );
+				$field['conditions'] = $this->parseConditions( $field['conditions'], $fields );
 			}
 
 			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
@@ -176,48 +176,78 @@ trait Traits {
 	/**
 	 * Generate conditions attributes.
 	 *
-	 * @param $conditions_list
-	 * @return string
+	 * @param array $conditions
+	 * @param array $fields
+	 * @return array
 	 */
-	private function parseConditions( $conditions_list ): string {
-		$jsString = '';
-		if ( $conditions_list ) {
-			$conditions = [];
+	private function parseConditions( array $conditions, array $fields ): array {
+		$expressions = [];
 
-			foreach ( $conditions_list as $condition ) {
-				[ 'field' => $field, 'operator' => $operator, 'value' => $value ] = $condition;
+		// parse form values
+		$attributes = [];
+		foreach ( $fields as $field ) {
+			$type    = $field['type'] ?? '';
+			$name    = $field['name'] ?? '';
+			$options = $field['options'] ?? [];
+			if ( $options && $type === 'checkbox' ) {
+				$attributes += array_combine( array_keys( $options ), array_column( $options, 'checked' ) );
+			} else {
+				$attributes[$name] = $field['attributes']['value'] ?? null;
+			}
+		}
 
-				$condition = '';
+		// parse conditions
+		foreach ( $conditions as $condition ) {
+			[ 'field' => $field, 'operator' => $operator, 'value' => $value ] = $condition;
 
-				switch ( $operator ) {
-					case '!==':
-						$condition = "$field !== ''";
-						break;
-					case '===':
-						if ( is_array( $value ) ) {
-							$values    = Json::encode( $value );
-							$condition = "$values.includes($field)";
-						} else {
-							$condition = "$field === '$value'";
-						}
-						break;
-					case 'contains':
-						$values    = str_replace( '"', "'", Json::encode( $value ) );
-						$condition = "$values.includes($field)";
-						break;
-					case 'pattern':
-						$values    = Json::encode( $value );
-						$condition = "$values.some(value => value.test($field))";
-						break;
-				}
-
-				if ( $condition !== '' ) {
-					$conditions[] = $condition;
-				}
+			$relatedValue = $attributes[$field] ?? null;
+			if ( $relatedValue === null || ! $value || ! $operator ) {
+				continue;
 			}
 
-			$jsString = implode( ' && ', $conditions );
+			$attributeVal = match( gettype( $value ) ) {
+				'boolean' => $value === true ? 'true' : 'false',
+				'string'  => "'$value'",
+				'integer' => $value,
+			};
+
+			$values = Json::encode( $value );
+			$prop   = Sanitizer::prop( $field );
+
+			$expressions[] = [
+				'expression' => match( $operator ) {
+					'>',
+					'>=',
+					'<',
+					'<='       => "$prop $operator $attributeVal",
+					'!=',
+					'!=='      => is_array( $value ) ? "!$values.includes($prop)" : "$prop $operator $attributeVal",
+					'==',
+					'==='      => is_array( $value ) ? "$values.includes($prop)" : "$prop $operator $attributeVal",
+					'contains' => "$values.includes($prop)",
+					'pattern'  => "$values.some(value => value.test($prop))",
+				},
+				'match'      => match( $operator ) {
+					'>'        => $relatedValue > $value,
+					'>='       => $relatedValue >= $value,
+					'<'        => $relatedValue < $value,
+					'<='       => $relatedValue <= $value,
+					'!='       => $relatedValue != $value,
+					'!=='      => $relatedValue !== $value,
+					'=='       => $relatedValue == $value,
+					'==='      => $relatedValue === $value,
+					'contains' => in_array( $relatedValue, $value, true ),
+					'pattern'  => false, // TODO
+				},
+			];
 		}
-		return $jsString;
+
+		if ( $expressions ) {
+			return [
+				'x-show'  => Sanitizer::attribute( implode( ' && ', array_column( $expressions, 'expression' ) ) ),
+				'x-cloak' => Sanitizer::bool( in_array( false, array_column( $expressions, 'match' ), true ) ),
+			];
+		}
+		return [];
 	}
 }

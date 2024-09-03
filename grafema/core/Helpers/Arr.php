@@ -220,6 +220,9 @@ class Arr {
 			'readonly',
 			'required',
 			'selected',
+
+			'v-cloak',
+			'x-cloak',
 		];
 
 		$atts = [];

@@ -213,7 +213,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'About yourself' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'textarea',
@@ -251,7 +251,7 @@ Dashboard\Form::enqueue(
 					'label'         => I18n::_t( 'Theme preferences' ),
 					'class'         => '',
 					'label_class'   => '',
-					'content_class' => 'dg ga-4 g-7 gtc-1 sm:gtc-1',
+					'content_class' => 'dg ga-4 g-7 gtc-1',
 					'fields'        => [
 						[
 							'type'        => 'radio',

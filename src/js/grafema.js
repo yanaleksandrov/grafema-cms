@@ -1292,6 +1292,56 @@ document.addEventListener( 'alpine:init', () => {
 	} ) );
 
 	/**
+	 * An accessible dialog window: modal, alert, confirm & prompt.
+	 *
+	 * @since 1.0
+	 */
+	Alpine.magic( 'dialog', el => {
+		let template = `
+		<dialog class="dialog{class}" data-id="{id}" @click.outside="$dialog.close()">
+			<div class="dialog-header">
+				<h6 class="dialog-title" x-text="'{title}'"></h6>
+				<button class="dialog-close" type="button" @click="$dialog.close()"></button>
+			</div>
+			<div class="dialog-content" x-html="{ref}"></div>
+		</dialog>`;
+
+		return {
+			show: (id, options = {}) => {
+				setTimeout( () => {
+					template = template
+						.replace('{id}', id)
+						.replace('{ref}', options.ref || '')
+						.replace('{title}', options.title || 'test')
+						.replace('{class}', ` ${options.class}` || '');
+
+					document.querySelector('body').insertAdjacentHTML('beforeend', template);
+
+					let dialog = document.querySelector(`dialog[data-id="${id}"]`);
+					if (dialog) {
+						if (options.modal === undefined || !!options.modal) {
+							dialog.showModal();
+						} else {
+							dialog.show();
+						}
+
+						document.body.style.overflow = 'hidden';
+					}
+				}, 25 );
+			},
+			close: (id) => {
+				let dialog = document.querySelector(`dialog[data-id="${id}"]`) || el.closest('dialog');
+				if (dialog) {
+					dialog.addEventListener('close', () => dialog.remove());
+					dialog.close();
+
+					document.body.style.overflow = '';
+				}
+			}
+		}
+	});
+
+	/**
 	 * An accessible dialog window: modal, alert, dialog, popup
 	 *
 	 * @since 1.0

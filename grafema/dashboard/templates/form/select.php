@@ -36,8 +36,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
 $prop  = Sanitizer::prop( $attributes['name'] ?? $name );
+
+unset( $attributes['value'] );
 ?>
-<div class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>"<?php echo Arr::toHtmlAtts( $conditions ); ?>>
 	<?php if ( $label ) : ?>
 		<div class="<?php echo $label_class; ?>"><?php
 			echo $label;

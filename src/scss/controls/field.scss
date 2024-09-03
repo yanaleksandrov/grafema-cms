@@ -188,6 +188,7 @@
         gap: 0.65rem;
         margin: 0;
         background-color: var(--grafema-bg);
+        transition: background-color 0.3s;
 
         &:focus-within {
           border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
@@ -208,6 +209,10 @@
 
         &:not(:only-child):last-child {
           border-radius: 0 0 var(--grafema-border-radius) var(--grafema-border-radius);
+        }
+
+        &:hover {
+          background-color: #f1f1f1d6;
         }
 
         .field-checkbox {

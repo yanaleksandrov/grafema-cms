@@ -8,14 +8,13 @@ document.addEventListener( 'alpine:init', () => {
 	 * @since 1.0
 	 */
 	Alpine.directive('storage', (el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
-		let selection = new Selection({
-			container: document.querySelector('.storage'),
+		new Selection({
+			container: el,
 			selector: '.storage__item',
 			classSelected: 'active',
 			onSelectEnd: selection => {
 				console.log(selection)
 			}
 		});
-		console.log(selection);
 	});
 });

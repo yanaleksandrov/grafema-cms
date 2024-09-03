@@ -9,33 +9,30 @@ use Grafema\I18n;
 Dashboard\Form::enqueue(
 	'grafema-media-editor',
 	[
-		'class' => 'dg gtc-8',
+		'id'    => 'grafema-modals-media-editor',
+		'class' => 'dg gtc-7 md:gtc-1',
+		'style' => 'display: none',
+		'x-ref' => 'grafemaMediaEditor',
 	],
 	[
 		[
-			'type'        => 'search',
-			'name'        => 's',
-			'label'       => '',
-			'class'       => 'field field--outline ga-5 px-4 py-6',
-			'label_class' => '',
-			'reset'       => 0,
-			'before'      => '',
-			'after'       => '',
-			'instruction' => '',
-			'tooltip'     => '',
-			'copy'        => 0,
-			'sanitizer'   => '',
-			'validator'   => '',
-			'conditions'  => [],
-			'attributes'  => [
-				'placeholder' => I18n::_t( 'e.g. search text' ),
-			],
+			'type'     => 'custom',
+			'name'     => 'image',
+			'callback' => function() {
+				ob_start();
+				?>
+				<div class="df aic jcc ga-5 p-2">
+					<img src="https://loremflickr.com/300/1200/dog" alt="">
+				</div>
+				<?php
+				return ob_get_clean();
+			},
 		],
 		[
 			'type'          => 'group',
 			'name'          => 'manage',
 			'label'         => '',
-			'class'         => 'ga-3 px-4 py-6 bg-gray-lt',
+			'class'         => 'ga-2 px-4 py-6 bg-gray-lt',
 			'label_class'   => '',
 			'content_class' => 'dg g-3',
 			'fields'        => [

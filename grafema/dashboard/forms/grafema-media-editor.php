@@ -9,10 +9,7 @@ use Grafema\I18n;
 Dashboard\Form::enqueue(
 	'grafema-media-editor',
 	[
-		'id'    => 'grafema-modals-media-editor',
 		'class' => 'dg gtc-7 md:gtc-1',
-		'style' => 'display: none',
-		'x-ref' => 'grafemaMediaEditor',
 	],
 	[
 		[
@@ -78,7 +75,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [],
-						]
+						],
 					],
 				],
 				[
@@ -105,7 +102,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [],
-						]
+						],
 					],
 				],
 				[
@@ -132,7 +129,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [],
-						]
+						],
 					],
 				],
 				[
@@ -159,7 +156,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [],
-						]
+						],
 					],
 				],
 				[
@@ -189,7 +186,7 @@ Dashboard\Form::enqueue(
 								'value'    => 'https://market.codyshop.ru/wp-content/uploads/2024/09/chat.png',
 								'readonly' => true,
 							],
-						]
+						],
 					],
 				],
 			],

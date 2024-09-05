@@ -25,17 +25,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $src = Sanitizer::attribute( $args['sizes']['thumbnail']['url'] ?? $args['url'] ?? $args['icon'] ?? '' );
 ?>
-<div class="storage__item" @click="$dialog.show('grafema-modals-media-editor',{ref: '$refs.grafemaMediaEditor'})">
+<div class="storage__item" @click="$dialog.show('tmpl-media-editor', item)">
 	<img class="storage__image" :src="item.sizes?.thumbnail?.url || item.url || item.icon" alt="" width="200" height="200">
 	<div class="storage__meta">
 		<div class="storage__data" x-text="item.sizeHumanize"></div>
 	</div>
 </div>
-<?php if ( 0 ) : ?>
-	<div class="storage__item" @click="$dialog.show('grafema-modals-post')">
-		<img class="storage__image" src="<?php echo $src; ?>" alt="<?php echo $title; ?>" width="200" height="200">
-		<div class="storage__meta">
-			<div class="storage__data"><?php echo $sizeHumanize; ?></div>
-		</div>
-	</div>
-<?php endif; ?>

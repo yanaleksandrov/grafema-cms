@@ -152,15 +152,38 @@ $start_time = microtime( true );
 		<?php
 	}
 	?>
-	<!-- interface notices start -->
-    <div class="notice" x-data>
-        <template x-for="(item, id) in $store.notice.items">
-            <div class="notice__item" :class="item.classes()">
-                <div class="notice__msg" x-html="item.message"></div>
-                <div class="notice__close" x-show="item.closable" :style="`--anim:${item.anim}`" @click="$store.notice.close(id)"></div>
-            </div>
-        </template>
-    </div>
+
+	<!-- dialog windows start -->
+	<dialog id="grafema-dialog" class="dialog" aria-labelledby="dialog-header" aria-describedby="dialog-content">
+		<div class="dialog-wrapper" @clicks.outside="$dialog.close()" x-init="$dialog.open(() => {type: 'Hello!'})">
+			<div class="dialog-header">
+				<template x-if="$store.dialog?.type">
+					<h6 class="dialog-title" x-text="$store.dialog.type"></h6>
+				</template>
+				<button class="dialog-close" type="button" @click="$dialog.close()"></button>
+			</div>
+			<template x-if="$store.dialog?.content">
+				<div class="dialog-content" x-html="$store.dialog.content"></div>
+			</template>
+		</div>
+	</dialog>
+
+	<!-- notices start -->
+	<template x-if="$store.notice.length">
+		<div class="notice">
+			<template x-for="(item, id) in $store.notice.items">
+				<div class="notice__item" :class="item.classes()">
+					<div class="notice__msg" x-html="item.message"></div>
+					<div class="notice__close" x-show="item.closable" :style="`--anim:${item.anim}`" @click="$store.notice.close(id)"></div>
+				</div>
+			</template>
+		</div>
+	</template>
+
+	<!-- media editor template start -->
+	<template id="tmpl-media-editor">
+		<?php Dashboard\Form::print( 'grafema-media-editor', GRFM_DASHBOARD . 'forms/grafema-media-editor.php' ); ?>
+	</template>
     <?php
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.

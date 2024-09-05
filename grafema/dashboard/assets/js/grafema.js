@@ -1067,28 +1067,50 @@
                         }
                     }
                 })));
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(url.search);
                 Alpine.magic('dialog', (el => {
-                    let template = `\n\t\t<dialog class="dialog{class}" data-id="{id}" @click.outside="$dialog.close()">\n\t\t\t<div class="dialog-header">\n\t\t\t\t<h6 class="dialog-title" x-text="'{title}'"></h6>\n\t\t\t\t<button class="dialog-close" type="button" @click="$dialog.close()"></button>\n\t\t\t</div>\n\t\t\t<div class="dialog-content" x-html="{ref}"></div>\n\t\t</dialog>`;
-                    return {
-                        show: (id, options = {}) => {
-                            setTimeout((() => {
-                                template = template.replace('{id}', id).replace('{ref}', options.ref || '').replace('{title}', options.title || 'test').replace('{class}', ` ${options.class}` || '');
-                                document.querySelector('body').insertAdjacentHTML('beforeend', template);
-                                let dialog = document.querySelector(`dialog[data-id="${id}"]`);
-                                if (dialog) {
-                                    if (options.modal === undefined || !!options.modal) {
-                                        dialog.showModal();
-                                    } else {
-                                        dialog.show();
-                                    }
-                                    document.body.style.overflow = 'hidden';
+                    const dialogHandler = (templateID, data = {}, dialogID = 'grafema-dialog', isModal) => {
+                        setTimeout((() => {
+                            let template = document.querySelector(`#${templateID}`), dialog = document.querySelector(`#${dialogID}`);
+                            if (dialog && template) {
+                                data.content = template.innerHTML;
+                                Alpine.store('dialog', data);
+                                if (isModal) {
+                                    dialog.showModal();
+                                } else {
+                                    dialog.show();
                                 }
-                            }), 25);
+                                document.body.style.overflow = 'hidden';
+                                params.set('dialog', templateID);
+                                url.search = params.toString();
+                                window.history.pushState({}, '', url.toString());
+                                dialog.addEventListener('close', (() => {
+                                    params.delete('dialog');
+                                    url.search = params.toString();
+                                    window.history.replaceState({}, '', url.toString());
+                                }));
+                            }
+                        }), 25);
+                    };
+                    return {
+                        open: async callback => {
+                            let templateID = params.get('dialog');
+                            if (typeof callback === 'function' && templateID) {
+                                console.log(templateID);
+                                let data = await callback();
+                                console.log(callback);
+                                if (data) {
+                                    this.show(templateID, data);
+                                }
+                            }
                         },
-                        close: id => {
-                            let dialog = document.querySelector(`dialog[data-id="${id}"]`) || el.closest('dialog');
+                        show: (templateID, data = {}, dialogID) => dialogHandler(templateID, data, dialogID, true),
+                        popup: (templateID, data = {}, dialogID) => dialogHandler(templateID, data, dialogID, false),
+                        close: (dialogID = 'grafema-dialog') => {
+                            let dialog = document.querySelector(`#${dialogID}`) || el.closest('dialog');
+                            console.log(dialog);
                             if (dialog) {
-                                dialog.addEventListener('close', (() => dialog.remove()));
                                 dialog.close();
                                 document.body.style.overflow = '';
                             }

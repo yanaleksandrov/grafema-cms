@@ -122,7 +122,7 @@ final class PagesTable {
 	public function notFoundContent(): array {
 		return [
 			'title'       => I18n::_t( 'Pages not found' ),
-			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$modal.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$dialog.open(\'grafema-modals-post\')">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
 		];
 	}
 }

@@ -120,7 +120,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			    <?php endif; ?>
 			    <?php if ( $uploader ) : ?>
 				    <div class="df aic g-1">
-					    <button class="btn btn--sm" @click="$modal.open('grafema-modals-uploader')">
+					    <button class="btn btn--sm" @click="$dialog.open('grafema-modals-uploader')">
 						    <i class="ph ph-upload-simple"></i> <?php I18n::t( 'Add new file' ); ?>
 					    </button>
 				    </div>

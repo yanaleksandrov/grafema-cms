@@ -91,7 +91,7 @@ final class ThemesTable {
 	public function notFoundContent(): array {
 		return [
 			'title'       => I18n::_t( 'Themes not found' ),
-			'description' => I18n::_t( 'You don\'t have any themes installed yet, <a @click="$modal.open(\'grafema-modals-post\')">download them</a>' ),
+			'description' => I18n::_t( 'You don\'t have any themes installed yet, <a @click="$dialog.open(\'grafema-modals-post\')">download them</a>' ),
 		];
 	}
 

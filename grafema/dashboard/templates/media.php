@@ -1,7 +1,4 @@
 <?php
-use Dashboard\Form;
-use Grafema\I18n;
-
 /**
  * Files storage.
  *
@@ -17,5 +14,4 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="grafema-main">
 	<?php ( new Dashboard\Table( new Dashboard\MediaTable() ) )->print(); ?>
     <div x-intersect="$ajax('media/get').then(response => items = response.posts)"></div>
-	<?php Form::print( 'grafema-media-editor', GRFM_DASHBOARD . 'forms/grafema-media-editor.php' ); ?>
 </div>

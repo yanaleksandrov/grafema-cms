@@ -75,6 +75,10 @@ body {
   &:hover::-webkit-scrollbar-thumb {
     background-color: hsla(216, 3%, 64%, 0.2);
   }
+
+  &:has(dialog[open]) {
+    overflow: hidden;
+  }
 }
 
 [hidden],

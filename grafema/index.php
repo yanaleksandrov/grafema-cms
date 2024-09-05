@@ -368,6 +368,9 @@ try {
 		//$themes->activate();
 		//$themes->deactivate();
 
+		// set response code
+		http_response_code( 200 );
+
 		/**
 		 * Add core API endpoints.
 		 * Important! If current request is request to API, stop code execution after Api::create().
@@ -378,9 +381,6 @@ try {
 
 		$query     = new Grafema\Query();
 		$dashboard = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );
-
-		// set response code
-		http_response_code( 200 );
 
 		/**
 		 * Load private administrative panel.

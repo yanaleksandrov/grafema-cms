@@ -39,7 +39,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 <div class="<?php echo $class; ?>">
 	<div class="df aife g-4">
 		<div class="image" x-data="avatar, tabs = 'upload'" x-init="content = 'Yan Aleksandrov'">
-			<input type="file" id="fileInputs" x-ref="input" @change="add($event, () => $modal.open('crop-image'))" hidden>
+			<input type="file" id="fileInputs" x-ref="input" @change="add($event, () => $dialog.open('crop-image'))" hidden>
 			<span class="image__close" @click="remove" x-show="image" title="<?php I18n::t_attr( 'Remove image' ); ?>" x-cloak>
 				<i class="ph ph-x"></i>
 			</span>
@@ -49,7 +49,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 						<span x-text="getInitials(content)" x-show="!image"></span>
 					</span>
 				</label>
-				<span class="image__action" @click="$modal.open('take-selfie')" title="<?php I18n::t_attr( 'You can take a selfie. Allow the browser to access the camera' ); ?>"><i class="ph ph-webcam"></i></span>
+				<span class="image__action" @click="$dialog.open('take-selfie')" title="<?php I18n::t_attr( 'You can take a selfie. Allow the browser to access the camera' ); ?>"><i class="ph ph-webcam"></i></span>
 			</div>
 		</div>
 		<div class="dg g-1 mw50x9">
@@ -64,7 +64,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 
 	<div class="modal" id="take-selfie" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
 		<div class="modal__dialog modal__dialog--sm" role="document">
-			<div class="modal__content" @click.outside="$modal.close()">
+			<div class="modal__content" @click.outside="$dialog.close()">
 				<div x-data="{second: '', showImg: ''}">
 					<div x-init="$stream.start($refs)" style="position: relative; overflow: hidden;">
 						<video x-ref="video" class="db mw" autoplay style="object-fit: cover; aspect-ratio: 4/3;"></video>
@@ -85,7 +85,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 								Align your face to the center of the selfie area and then take a photo
 							</div>
 							<div class="df jcsb mt-6 mw">
-								<button type="button" class="btn btn--outline" @click="$modal.close(), $stream.stop()">Cancel</button>
+								<button type="button" class="btn btn--outline" @click="$dialog.close(), $stream.stop()">Cancel</button>
 								<button class="btn btn--primary" @click="$countdown.start(3, () => second = $countdown.second, () => showImg = $stream.snapshot($refs))">Take Selfie</button>
 							</div>
 						</div>
@@ -103,7 +103,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 					</div>
 				</div>
 				<div style="position: absolute; right: 0; top: 0;">
-					<button type="button" class="modal__close" @click="$modal.close(), $stream.stop()"></button>
+					<button type="button" class="modal__close" @click="$dialog.close(), $stream.stop()"></button>
 				</div>
 			</div>
 		</div>

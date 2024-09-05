@@ -16,10 +16,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="modal" id="grafema-modals-uploader" tabindex="-1" role="dialog" aria-hidden="true" x-cloak>
     <div class="modal__dialog" role="document">
-        <div class="modal__content" @click.outside="$modal.close()">
+        <div class="modal__content" @click.outside="$dialog.close()">
             <div class="modal__header">
                 <h6 class="modal__title"><?php I18n::t( 'Upload new files' ); ?></h6>
-                <button type="button" class="modal__close" @click="$modal.close()"></button>
+                <button type="button" class="modal__close" @click="$dialog.close()"></button>
             </div>
 			<?php
 			/**

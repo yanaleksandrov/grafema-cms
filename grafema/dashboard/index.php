@@ -155,10 +155,10 @@ $start_time = microtime( true );
 
 	<!-- dialog windows start -->
 	<dialog id="grafema-dialog" class="dialog" aria-labelledby="dialog-header" aria-describedby="dialog-content">
-		<div class="dialog-wrapper" @clicks.outside="$dialog.close()" x-init="$dialog.open(() => {type: 'Hello!'})">
+		<div class="dialog-wrapper" @click.outside="$dialog.close()">
 			<div class="dialog-header">
-				<template x-if="$store.dialog?.type">
-					<h6 class="dialog-title" x-text="$store.dialog.type"></h6>
+				<template x-if="$store.dialog?.title">
+					<h6 class="dialog-title" x-text="$store.dialog.title"></h6>
 				</template>
 				<button class="dialog-close" type="button" @click="$dialog.close()"></button>
 			</div>
@@ -181,7 +181,7 @@ $start_time = microtime( true );
 	</template>
 
 	<!-- media editor template start -->
-	<template id="tmpl-media-editor">
+	<template id="tmpl-media-editor" x-init="$dialog.init(() => $ajax('media/get'))">
 		<?php Dashboard\Form::print( 'grafema-media-editor', GRFM_DASHBOARD . 'forms/grafema-media-editor.php' ); ?>
 	</template>
     <?php

@@ -69,7 +69,7 @@ final class EmailsTable {
 			'title'       => I18n::_t( 'No emails templates found' ),
 			'description' => I18n::_f(
 				'Add %1$snew email template%2$s manually',
-				'<a href="/dashboard/emails" @click.prevent="$dialog.open(\'grafema-emails-creator\')">',
+				'<a href="/dashboard/emails" @click.prevent="$dialog.open(\'tmpl-email-editor\', emailDialog)">',
 				'</a>'
 			)
 		];

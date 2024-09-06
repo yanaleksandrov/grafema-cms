@@ -1,19 +1,12 @@
+@import '../constants/index.scss';
+
 .field {
   display: grid;
   gap: 0.25em;
-  font-size: 0.875rem;
   align-content: start;
 
   &:has([disabled]) {
     pointer-events: none;
-  }
-
-  &--sm {
-    font-size: 0.8125rem;
-  }
-
-  &--lg {
-    font-size: 1rem;
   }
 
   &-label {
@@ -41,6 +34,31 @@
     background-color: var(--grafema-bg);
     height: 2rem;
 
+    @each $suffix, $properties in $fieldSizes {
+      .field#{$suffix} & {
+        @each $property, $value in $properties {
+          #{$property}: #{$value};
+        }
+
+        .ss-content {
+          font-size: inherit;
+          height: inherit;
+          max-height: inherit;
+          line-height: 1.2;
+        }
+      }
+    }
+
+    .field--outline & {
+      border: 1px solid var(--grafema-border);
+      background-color: var(--grafema-white);
+
+      .ss-content {
+        background-color: var(--grafema-white) !important;
+        border: 1px solid var(--grafema-border);
+      }
+    }
+
     i {
       font-size: inherit;
       margin-top: 0.15em;
@@ -50,14 +68,6 @@
     samp {
       font-size: 0.7em;
       font-weight: inherit;
-    }
-
-    &:has(:nth-child(1 of code)) {
-      padding-inline-start: 0.4em;
-    }
-
-    &:has(textarea[x-textarea]) {
-      height: initial;
     }
 
     input,
@@ -103,6 +113,7 @@
         border: 1px solid var(--grafema-border);
         border-radius: calc(var(--grafema-border-radius) / 1.5);
         margin: 0 0 auto;
+        height: auto;
 
         &:checked {
           border-color: var(--grafema-primary);
@@ -278,40 +289,21 @@
       }
     }
 
-    .field--sm & {
-      padding-inline: 0.65em;
-      height: 1.75rem;
-      max-height: 1.75rem;
-
-      .ss-content {
-        font-size: 0.8125rem;
-        height: 1.75rem;
-        max-height: 1.75rem;
-        line-height: 1.2;
-      }
+    &:not(:has([readonly])):focus-within {
+      color: inherit;
+      outline: 0;
+      background-color: #fff;
+      border-color: var(--grafema-link);
+      box-shadow: 0 0 0 1px var(--grafema-link);
+      z-index: 1;
     }
 
-    .field--lg & {
-      padding-inline: 1.125em;
-      height: 2.5rem;
-      max-height: 2.5rem;
-
-      .ss-content {
-        font-size: 1rem;
-        height: 2.5rem;
-        max-height: 2.5rem;
-        line-height: 1.6;
-      }
+    &:has(:nth-child(1 of code)) {
+      padding-inline-start: 0.4em;
     }
 
-    .field--outline & {
-      border: 1px solid var(--grafema-border);
-      background-color: var(--grafema-white);
-
-      .ss-content {
-        background-color: var(--grafema-white) !important;
-        border: 1px solid var(--grafema-border);
-      }
+    &:has(textarea[x-textarea]) {
+      height: initial;
     }
 
     &:has(select),
@@ -321,15 +313,6 @@
 
     &:has(.datepicker select) {
       padding-inline: 0.65em !important;
-    }
-
-    &:not(:has([readonly])):focus-within {
-      color: inherit;
-      outline: 0;
-      background-color: #fff;
-      border-color: var(--grafema-link);
-      box-shadow: 0 0 0 1px var(--grafema-link);
-      z-index: 1;
     }
 
     &:has([x-datepicker][readonly]):focus-within {

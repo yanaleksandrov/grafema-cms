@@ -2,20 +2,6 @@
     var __webpack_modules__ = {
         749: function() {
             document.addEventListener('alpine:init', (() => {
-                function updateUrlParams(formData, url = window.location.href) {
-                    const urlObj = new URL(url);
-                    const params = new URLSearchParams(urlObj.search);
-                    for (const [key] of params) {
-                        if (!formData.has(key)) {
-                            params.delete(key);
-                        }
-                    }
-                    for (const [key, value] of formData.entries()) {
-                        params.set(key, value);
-                    }
-                    urlObj.search = params.toString();
-                    window.history.replaceState({}, '', urlObj.toString());
-                }
                 Alpine.directive('intersect', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
                     function getThreshold(modifiers) {
                         if (modifiers.includes('full')) return .99;
@@ -1197,15 +1183,17 @@
                         }
                     }
                 })));
+                const url = new URL(window.location.href);
+                const params = new URLSearchParams(url.search);
                 Alpine.data('tab', (id => ({
                     tab: id,
                     tabButton(id) {
                         return {
                             ['@click']() {
                                 this.tab = id;
-                                let formData = new FormData;
-                                formData.append('tab', id);
-                                updateUrlParams(formData);
+                                params.set('tab', id);
+                                url.search = params.toString();
+                                window.history.pushState({}, '', url.toString());
                             },
                             [':class']() {
                                 return this.tab === id ? 'active' : '';

@@ -221,7 +221,7 @@ textarea {
   background-color: var(--grafema-white);
   transition: color, box-shadow 0.2s ease;
   overflow: auto;
-  height: 2rem;
+  height: 2.125rem;
   padding: 0.4em 0.875em;
   white-space: nowrap;
   display: block;
@@ -274,7 +274,7 @@ select {
   }
 
   &[multiple][x-select] {
-    max-height: 2rem;
+    max-height: 2.125rem;
   }
 
   &:focus {

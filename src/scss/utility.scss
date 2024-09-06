@@ -7,7 +7,7 @@
 }
 
 // display
-@each $key in ( none, flex, inline-flex, block, inline-block, table, inline-table, grid, inline-grid ) {
+@each $key in (none, flex, inline-flex, block, inline-block, table, inline-table, grid, inline-grid) {
   $selector: str-split($key, '-');
   .d#{$selector} {
     display: $key;
@@ -20,7 +20,7 @@
 }
 
 // align-items
-@each $key in ( stretch, center, flex-start, flex-end, baseline ) {
+@each $key in (stretch, center, flex-start, flex-end, baseline) {
   $selector: str-split($key, '-');
   .ai#{$selector} {
     align-items: $key;
@@ -28,7 +28,7 @@
 }
 
 // justify-content
-@each $key in ( center, flex-start, flex-end, space-between, space-around, space-evenly ) {
+@each $key in (center, flex-start, flex-end, space-between, space-around, space-evenly) {
   $selector: str-split($key, '-');
   .jc#{$selector} {
     justify-content: $key;
@@ -36,7 +36,7 @@
 }
 
 // flex-direction
-@each $key in ( column, column-reverse, row, row-reverse ) {
+@each $key in (column, column-reverse, row, row-reverse) {
   $selector: str-split($key, '-');
   .fd#{$selector} {
     flex-direction: $key;
@@ -44,7 +44,7 @@
 }
 
 // flex-wrap
-@each $key in ( wrap, nowrap, wrap-reverse ) {
+@each $key in (wrap, nowrap, wrap-reverse) {
   $selector: str-split($key, '-');
   .fw#{$selector} {
     flex-wrap: $key;
@@ -59,7 +59,7 @@
 }
 
 // font-size
-@each $size in (96, 64, 48, 40, 32, 24, 18, 16, 15, 14, 13, 12) {
+@each $size in (96, 64, 48, 40, 32, 24, 18, 16, 15, 14, 13, 12, 11) {
   .fs-#{$size} {
     font-size: #{$size/16}rem;
   }
@@ -79,7 +79,7 @@
 }
 
 // text-align
-@each $key in ( start, end, center ) {
+@each $key in (start, end, center) {
   .t-#{$key} {
     text-align: $key;
   }
@@ -100,18 +100,18 @@ $colors: (
   purple: #6a20c5,
 );
 @each $name, $color in $colors {
-  .t-#{"" + $name} {
+  .t-#{'' + $name} {
     color: $color !important;
   }
-  .t-#{"" + $name}-lt {
+  .t-#{'' + $name}-lt {
     color: #{$color}11 !important;
   }
 }
 @each $name, $color in $colors {
-  .bg-#{"" + $name} {
+  .bg-#{'' + $name} {
     background-color: $color !important;
   }
-  .bg-#{"" + $name}-lt {
+  .bg-#{'' + $name}-lt {
     background-color: #{mix(rgba(255, 255, 255, 1), $color, 92%)} !important;
   }
 }
@@ -170,7 +170,7 @@ $colors: (
           $prefix: #{$size}\:;
         }
 
-        // add "auto" value for "margin"s properties
+        // add 'auto' value for 'margin's properties
         @if $i == 0 {
           @if $letter != p and $letter != g {
             .#{$prefix}#{$selector}-auto {

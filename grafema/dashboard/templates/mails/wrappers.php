@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 
 $template = trim( $args['body_template'] ?? '' );
-if ( empty( $template ) || ! file_exists( $template ) ) {
+if ( empty( $template ) ) {
 	return false;
 }
 ?>

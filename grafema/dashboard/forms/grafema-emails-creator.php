@@ -9,14 +9,14 @@ use Grafema\I18n;
 Dashboard\Form::enqueue(
 	'grafema-emails-creator',
 	[
-		'class'          => 'dg g-6 p-6',
+		'class'          => 'dg g-6 p-7',
 		'@submit.window' => '$ajax("import-email")',
 	],
 	[
 		[
 			'type'        => 'text',
 			'name'        => 'title',
-			'label'       => I18n::_t( 'Email heading' ),
+			'label'       => I18n::_t( 'Email subject' ),
 			'class'       => '',
 			'label_class' => 'df aic fs-12 t-muted',
 			'reset'       => 0,
@@ -31,7 +31,7 @@ Dashboard\Form::enqueue(
 			'attributes'  => [
 				'value'       => '',
 				'required'    => true,
-				'placeholder' => I18n::_t( 'Email heading' ),
+				'placeholder' => I18n::_t( 'Email subject' ),
 			],
 		],
 		[
@@ -95,7 +95,7 @@ Dashboard\Form::enqueue(
 			'conditions'  => [],
 			'attributes'  => [
 				'value'       => '',
-				'rows'        => 5,
+				'rows'        => 1,
 				'required'    => true,
 				'placeholder' => I18n::_t( 'N/A' ),
 			],

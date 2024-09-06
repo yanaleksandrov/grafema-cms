@@ -78,11 +78,15 @@ class Dashboard extends \Grafema\App\App
 					],
 					'emailDialog' => [
 						'title' => I18n::_t( 'Email Settings' ),
-						'class' => 'dialog--lg dialog--right',
+						'class' => 'dialog--xl dialog--right',
 					],
 					'postEditorDialog' => [
 						'title' => I18n::_t( 'Post Editor' ),
 						'class' => 'dialog--lg dialog--right',
+					],
+					'takeSelfieDialog' => [
+						'title' => I18n::_t( 'Take A Selfie' ),
+						'class' => 'dialog--sm',
 					],
 				];
 			}

@@ -49,7 +49,7 @@ $prop = Sanitizer::prop( $attributes['name'] ?? $name );
 						<span x-text="getInitials(content)" x-show="!image"></span>
 					</span>
 				</label>
-				<span class="image__action" @click="$dialog.open('take-selfie')" title="<?php I18n::t_attr( 'You can take a selfie. Allow the browser to access the camera' ); ?>"><i class="ph ph-webcam"></i></span>
+				<span class="image__action" @click="$dialog.open('take-selfie', takeSelfieDialog)" title="<?php I18n::t_attr( 'You can take a selfie. Allow the browser to access the camera' ); ?>"><i class="ph ph-webcam"></i></span>
 			</div>
 		</div>
 		<div class="dg g-1 mw50x9">

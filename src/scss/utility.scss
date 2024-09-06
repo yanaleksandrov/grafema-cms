@@ -1,3 +1,5 @@
+@import 'constants';
+
 @function str-split($string, $separator) {
   $i: str-index($string, $separator);
   @if $i != null {
@@ -13,7 +15,6 @@
     display: $key;
 
     @if $key == flex or $key == grid {
-      gap: 0;
       align-content: flex-start;
     }
   }
@@ -86,19 +87,6 @@
 }
 
 // colors
-$colors: (
-  dark: #151d26,
-  muted: #71777F,
-  gray: #8E8E8E,
-  white: #ffffff,
-  red: #d63939,
-  amber: #f76707,
-  orange: #f59f00,
-  green: #2fb344,
-  royal: #4299e1,
-  blue: #206bc4,
-  purple: #6a20c5,
-);
 @each $name, $color in $colors {
   .t-#{'' + $name} {
     color: $color !important;

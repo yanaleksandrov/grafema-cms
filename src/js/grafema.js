@@ -240,7 +240,7 @@ document.addEventListener( 'alpine:init', () => {
 				let classes = 'ph-copy ph-check'.split(' ');
 
 				classes.forEach(s => el.classList.toggle(s));
-				setTimeout( () => classes.forEach(s => el.classList.toggle(s)), 1000 )
+				setTimeout( () => classes.forEach(s => el.classList.toggle(s)), 1000 );
 			},
 			() => {
 				console.log( 'Oops, your browser is not support clipboard!' );

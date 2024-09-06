@@ -1,0 +1,34 @@
+$sizes: (
+	'': 32,
+	'xl': 40,
+	'lg': 36,
+	'sm': 30,
+	'xs': 28,
+);
+
+$btnSizes: ();
+@each $suffix, $value in $sizes {
+	@if $suffix != '' {
+		$suffix: '--' + #{$suffix};
+	}
+	$btnSizes: map-merge($btnSizes, (
+		#{$suffix}: (
+			'padding-inline': #{$value / 16 / 2.22222222222}rem,
+			'font-size': #{$value / 16 / 2.31884057971}rem,
+			'height': #{$value / 16}rem,
+		)
+	));
+}
+
+$fieldSizes: ();
+@each $suffix, $value in $sizes {
+	@if $suffix != '' {
+		$suffix: '--' + #{$suffix};
+	}
+	$fieldSizes: map-merge($fieldSizes, (
+		#{$suffix}: (
+			'font-size': #{$value / 16 / 2.31884057971}rem,
+			'height': #{$value / 16}rem,
+		)
+	));
+}

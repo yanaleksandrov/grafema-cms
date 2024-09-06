@@ -65,13 +65,25 @@ class Dashboard extends \Grafema\App\App
 			$data = [];
 			if ( $script === 'grafema' ) {
 				$data['data'] = [
-					'apiurl'     => Url::site( '/api/' ),
-					'items'      => [],
-					'lang'       => I18n::getLocale(),
-					'dateFormat' => 'j M, Y',
-					'weekStart'  => 1,
-					'showMenu'   => false,
-					'showFilter' => false,
+					'apiurl'         => Url::site( '/api/' ),
+					'items'          => [],
+					'lang'           => I18n::getLocale(),
+					'dateFormat'     => 'j M, Y',
+					'weekStart'      => 1,
+					'showMenu'       => false,
+					'showFilter'     => false,
+					'uploaderDialog' => [
+						'title' => I18n::_t( 'Upload Files' ),
+						'class' => 'dialog--md',
+					],
+					'emailDialog' => [
+						'title' => I18n::_t( 'Email Settings' ),
+						'class' => 'dialog--lg dialog--right',
+					],
+					'postEditorDialog' => [
+						'title' => I18n::_t( 'Post Editor' ),
+						'class' => 'dialog--lg dialog--right',
+					],
 				];
 			}
 

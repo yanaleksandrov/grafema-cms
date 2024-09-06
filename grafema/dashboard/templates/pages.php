@@ -14,9 +14,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main">
-	<?php
-	( new Dashboard\Table( new Dashboard\PagesTable() ) )->print();
-
-	View::print( 'templates/modals/post' );
-    ?>
+	<?php ( new Dashboard\Table( new Dashboard\PagesTable() ) )->print(); ?>
 </div>

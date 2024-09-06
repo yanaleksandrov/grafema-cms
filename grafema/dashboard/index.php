@@ -154,7 +154,7 @@ $start_time = microtime( true );
 	?>
 
 	<!-- dialog windows start -->
-	<dialog id="grafema-dialog" class="dialog" aria-labelledby="dialog-header" aria-describedby="dialog-content">
+	<dialog id="grafema-dialog" class="dialog" :class="$store.dialog?.class" aria-labelledby="dialog-header" aria-describedby="dialog-content">
 		<div class="dialog-wrapper" @click.outside="$dialog.close()">
 			<div class="dialog-header">
 				<template x-if="$store.dialog?.title">
@@ -183,6 +183,35 @@ $start_time = microtime( true );
 	<!-- media editor template start -->
 	<template id="tmpl-media-editor" x-init="$dialog.init(() => $ajax('media/get'))">
 		<?php Dashboard\Form::print( 'grafema-media-editor', GRFM_DASHBOARD . 'forms/grafema-media-editor.php' ); ?>
+	</template>
+
+	<!-- media uploader template start -->
+	<template id="tmpl-media-uploader">
+		<?php Dashboard\Form::print( 'grafema-files-uploader', GRFM_DASHBOARD . 'forms/grafema-files-uploader.php' ); ?>
+	</template>
+
+	<!-- post editor template start -->
+	<template id="tmpl-post-editor" x-init="$dialog.init(() => postEditorDialog)">
+		<?php Dashboard\Form::print( 'grafema-posts-creator', GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' ); ?>
+	</template>
+
+	<!-- email editor template start -->
+	<template id="tmpl-email-editor" x-init="$dialog.init(() => emailDialog)">
+		<div class="dg gtc-3 g-8">
+			<div class="ga-1">
+				<?php Dashboard\Form::print( 'grafema-emails-creator', GRFM_DASHBOARD . 'forms/grafema-emails-creator.php' ); ?>
+			</div>
+			<div class="ga-2">
+				<?php
+				View::print(
+					GRFM_DASHBOARD . 'templates/mails/wrappers.php',
+					[
+						'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password.php',
+					]
+				);
+				?>
+			</div>
+		</div>
 	</template>
 
 	<!-- selfie maker start -->

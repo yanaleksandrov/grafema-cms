@@ -48,11 +48,12 @@ final class MediaTable {
 
 	public function headerContent(): array {
 		return [
-			'title'   => I18n::_t( 'Media Library' ),
-			'actions' => false,
-			'filter'  => false,
-			'show'    => 'false',
-			'content' => '',
+			'title'    => I18n::_t( 'Media Library' ),
+			'actions'  => false,
+			'filter'   => false,
+			'uploader' => true,
+			'show'     => 'false',
+			'content'  => '',
 		];
 	}
 }

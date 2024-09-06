@@ -30,7 +30,7 @@
             return {
                 init: async callback => {
                     let templateID = params.get('dialog');
-                    if (templateID && callback) {
+                    if (el?.id === templateID && templateID && callback) {
                         let data = await callback();
                         if (data) {
                             dialogHandler(templateID, data, 'grafema-dialog', true);

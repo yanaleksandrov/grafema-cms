@@ -74,7 +74,7 @@ final class UsersTable {
 			'title'       => I18n::_t( 'Users not found' ),
 			'description' => I18n::_f(
 				'You don\'t have any pages yet. %1$sAdd them manually%2$s or %3$simport via CSV%4$s',
-				'<a @click="$dialog.open(\'grafema-modals-post\')">',
+				'<a @click="$dialog.open(\'tmpl-post-editor\', postEditorDialog)">',
 				'</a>',
 				'<a href="/dashboard/import">',
 				'</a>'

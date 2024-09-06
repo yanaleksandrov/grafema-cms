@@ -3,7 +3,7 @@ use Grafema\Helpers\Arr;
 use Grafema\Esc;
 use Grafema\Sanitizer;
 
-/*
+/**
  * Media field
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/media.php

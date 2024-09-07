@@ -189,7 +189,7 @@ Dashboard\Form::enqueue(
 						[
 							'type'        => 'text',
 							'name'        => 'display',
-							'label'       => I18n::_t( 'Display name publicly as' ),
+							'label'       => I18n::_t( 'Display name as' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,

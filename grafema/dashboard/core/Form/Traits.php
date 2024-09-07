@@ -154,6 +154,10 @@ trait Traits {
 				unset( $field['attributes']['type'] );
 			}
 
+			if ( in_array( $type, [ 'date' ], true ) ) {
+				$field['attributes']['type'] = 'text';
+			}
+
 			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
 			}

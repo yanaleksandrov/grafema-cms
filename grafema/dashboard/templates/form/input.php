@@ -4,9 +4,9 @@ use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
 
 /**
- * Input field
+ * Text input field
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/input.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/fields/text.php
  *
  * @package Grafema\Templates
  * @since   2025.1

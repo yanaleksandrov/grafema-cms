@@ -1065,7 +1065,7 @@ document.addEventListener( 'alpine:init', () => {
 
 		let evaluate = evaluateLater(expression || '{}');
 		effect(() => {
-			evaluate( content => {
+			evaluate( options => {
 				let format = grafema?.dateFormat,
 					lang   = (grafema?.lang || navigator.language || navigator.userLanguage || 'en-US');
 
@@ -1133,34 +1133,46 @@ document.addEventListener( 'alpine:init', () => {
 					});
 				}
 
+				let datepicker = new AirDatepicker('[x-datepicker]', {
+					...{
+						range: false,
+						inline: false,
+						multipleDatesSeparator: ' — ',
+						firstDay: grafema?.weekStart,
+						view: 'months', // days, months or years
+					},
+					...options
+				});
+				console.log(datepicker)
 				try {
-					new Datepicker( el, {
-						...{
-							inline: false,
-							multiple: false,
-							ranged: true,
-							time: false,
-							lang: lang.substr( 0, 2 ).toLowerCase(),
-							months: 1,
-							openOn: 'today',
-							timeAmPm: false,
-							within: false,
-							without: false,
-							yearRange: 5,
-							weekStart: grafema?.weekStart,
-							separator: ' — ',
-							serialize: value => {
-								let date = new Date(value);
-								if (format) {
-									return formatter(date, format);
-								}
-								return date.toLocaleDateString(lang);
-							},
-						},
-						...content
-					});
+
+					// new Datepicker( el, {
+					// 	...{
+					// 		inline: false,
+					// 		multiple: false,
+					// 		ranged: true,
+					// 		time: false,
+					// 		lang: lang.substr( 0, 2 ).toLowerCase(),
+					// 		months: 1,
+					// 		openOn: 'today',
+					// 		timeAmPm: false,
+					// 		within: false,
+					// 		without: false,
+					// 		yearRange: 5,
+					// 		weekStart: grafema?.weekStart,
+					// 		separator: ' — ',
+					// 		serialize: value => {
+					// 			let date = new Date(value);
+					// 			if (format) {
+					// 				return formatter(date, format);
+					// 			}
+					// 			return date.toLocaleDateString(lang);
+					// 		},
+					// 	},
+					// 	...options
+					// });
 				} catch (e) {
-					console.error( 'Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js' );
+					console.error( 'Check the library connection, "Datepicker" is not defined, see: https://github.com/wwilsman/Datepicker.js' );
 				}
 			});
 		});
@@ -1456,14 +1468,15 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	const url    = new URL(window.location.href);
-	const params = new URLSearchParams(url.search);
 	Alpine.data( 'tab', (id) => ({
 		tab: id,
 		tabButton(id) {
 			return {
 				['@click']() {
 					this.tab = id;
+
+					const url    = new URL(window.location.href);
+					const params = new URLSearchParams(url.search);
 
 					// update current URL
 					params.set('tab', id);

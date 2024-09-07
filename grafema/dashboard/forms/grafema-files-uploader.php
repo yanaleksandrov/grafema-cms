@@ -10,7 +10,7 @@ Dashboard\Form::enqueue(
 	'grafema-files-uploader',
 	[
 		'class'  => 'dg g-7 p-7',
-	    'x-data' => '{percent: 0, uploader: null}'
+	    'x-data' => '{percent: 0, uploader: null}',
     ],
 	[
 		[

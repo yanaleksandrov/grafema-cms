@@ -3,7 +3,7 @@ use Grafema\Option;
 use Grafema\View;
 
 /**
- * Grafema is installed information.
+ * Grafema email wrapper.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/mail/wrapper.php
  *
@@ -23,7 +23,7 @@ if ( empty( $template ) || ! file_exists( $template ) ) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=<?php Option::attr( 'charset' ); ?>">
+		<meta http-equiv="Content-Type" content="text/html; charset=<?php echo Option::get( 'charset' ); ?>">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	</head>
 	<body style="margin: 20px 0; padding: 0; width: 100%; box-sizing: border-box; background-color: #fbfbfd; color: #3f536e; line-height: 1.6; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">

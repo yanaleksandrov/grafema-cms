@@ -143,7 +143,6 @@
 //'class_button'  => '', // css class for tab menu button
 //'class_content' => '', // css class for tab content
 [
-
 	'type'          => 'tab',
 	'label'         => I18n::_t( 'General' ),
 	'name'          => 'general',

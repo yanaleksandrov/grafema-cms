@@ -128,7 +128,7 @@ code,
 pre {
   font-weight: 400;
   font-family: var(--grafema-font-code);
-  font-size: 0.8125rem;
+  font-size: 0.9125em;
   outline: none;
   unicode-bidi: bidi-override;
   word-break: break-all;
@@ -221,7 +221,7 @@ textarea {
   background-color: var(--grafema-white);
   transition: color, box-shadow 0.2s ease;
   overflow: auto;
-  height: 2.125rem;
+  height: 2rem;
   padding: 0.4em 0.875em;
   white-space: nowrap;
   display: block;
@@ -253,6 +253,31 @@ textarea {
     background-repeat: no-repeat;
     background-size: 0.85rem;
     background-position: calc(100% - 0.875rem) center;
+  }
+}
+
+button {
+  font-size: 0.875rem;
+  outline: 0;
+  background-color: var(--grafema-white);
+  height: 2rem;
+  padding: 0.4em 0.875em;
+  border: 1px solid var(--grafema-border);
+  width: fit-content;
+
+  &:hover {
+    background-color: var(--grafema-bg);
+  }
+
+  &[readonly],
+  &[disabled] {
+    background-color: #f7f7f7;
+    border-color: #f7f7f7 !important;
+    color: var(--grafema-text-muted) !important;
+    cursor: not-allowed;
+    pointer-events: none;
+    resize: none;
+    transition: none;
   }
 }
 

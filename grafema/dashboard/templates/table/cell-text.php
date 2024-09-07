@@ -1,5 +1,4 @@
 <?php
-use Grafema\Helpers\Arr;
 use Grafema\Sanitizer;
 
 /**
@@ -15,8 +14,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 
 $class = Sanitizer::class($args['key'] ?? [] );
+$prop  = Sanitizer::prop($args['key'] ?? [] );
 $value = Sanitizer::trim($args['value'] ?? '' );
 ?>
 <label class="<?php echo $class; ?>">
-	<textarea class="empty" name="<?php echo 'name'; ?>" x-textarea="8"><?php echo $value; ?></textarea>
+	<textarea name="<?php echo $prop; ?>" x-model.fill="item.<?php echo $prop; ?>" rows="1" x-textarea="7"></textarea>
 </label>

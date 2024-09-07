@@ -2,6 +2,7 @@
 namespace Dashboard;
 
 use Grafema\I18n;
+use Grafema\Hook;
 
 use Dashboard\Table\Row;
 use Dashboard\Table\Cell;
@@ -9,20 +10,25 @@ use Dashboard\Table\Cell;
 final class TranslationsTable {
 
 	public function data(): array {
-		return [
-			[
-				'source' => 'Hello World',
-				'value'  => 'Привет Мир',
-			],
-			[
-				'source' => 'Text',
-				'value'  => 'Текст',
-			],
-			[
-				'source' => 'Hello',
-				'value'  => '',
-			],
-		];
+		Hook::add( 'grafema_dashboard_data', function( $data ) {
+			$data['items'] = [
+				[
+					'source' => 'Hello World',
+					'value'  => 'Привет Мир',
+				],
+				[
+					'source' => 'Text',
+					'value'  => 'Текст',
+				],
+				[
+					'source' => 'Hello',
+					'value'  => '',
+				],
+			];
+			return $data;
+		} );
+
+		return [ 435 ];
 	}
 
 	public function rows(): array {
@@ -33,8 +39,8 @@ final class TranslationsTable {
 
 	public function columns(): array {
 		return [
-			Cell::add( 'source' )->title( I18n::_f( '%s Source text', '<i class="ph ph-text-aa"></i>' ) )->view( 'raw' ),
-			Cell::add( 'value' )->title( I18n::_f( '%s Translations', '<i class="ph ph-globe-hemisphere-east"></i>' ) )->view( 'text' ),
+			Cell::add( 'source' )->title( I18n::_f( '%s Source text - English', '<i class="ph ph-text-aa"></i>' ) )->view( 'raw' ),
+			Cell::add( 'value' )->title( I18n::_f( '%s Translations - Russian', '<i class="ph ph-globe-hemisphere-east"></i>' ) )->view( 'text' ),
 		];
 	}
 
@@ -55,7 +61,7 @@ final class TranslationsTable {
 	public function notFoundContent(): array {
 		return [
 			'title'       => I18n::_t( 'Translates not found' ),
-			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$dialog.open(\'tmpl-post-editor\', postEditorDialog)">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'description' => I18n::_t( "Click the 'Scan' button to get started and load the strings to be translated from the source code." ),
 		];
 	}
 }

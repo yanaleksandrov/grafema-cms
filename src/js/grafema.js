@@ -532,15 +532,16 @@ document.addEventListener( 'alpine:init', () => {
 		if ( 'TEXTAREA' !== el.tagName.toUpperCase() ) {
 			return false;
 		}
+
 		el.addEventListener( 'input', () => {
 			let max  = parseInt(expression) || 99,
-				rows = parseInt( el.value.split( /\r|\r\n|\n/ ).length );
-			if ( rows > max ) {
+				rows = parseInt(el.value.split( /\r|\r\n|\n/ ).length);
+			if (rows > max) {
 				return false;
 			}
 
 			el.style.height = 'auto';
-			el.style.height = ( el.scrollHeight + 1 ) + 'px';
+			el.style.height = `${el.scrollHeight}px`;
 		}, false );
 	});
 
@@ -1139,41 +1140,11 @@ document.addEventListener( 'alpine:init', () => {
 						inline: false,
 						multipleDatesSeparator: ' — ',
 						firstDay: grafema?.weekStart,
-						view: 'months', // days, months or years
+						view: 'days', // days, months or years
 					},
 					...options
 				});
 				console.log(datepicker)
-				try {
-
-					// new Datepicker( el, {
-					// 	...{
-					// 		inline: false,
-					// 		multiple: false,
-					// 		ranged: true,
-					// 		time: false,
-					// 		lang: lang.substr( 0, 2 ).toLowerCase(),
-					// 		months: 1,
-					// 		openOn: 'today',
-					// 		timeAmPm: false,
-					// 		within: false,
-					// 		without: false,
-					// 		yearRange: 5,
-					// 		weekStart: grafema?.weekStart,
-					// 		separator: ' — ',
-					// 		serialize: value => {
-					// 			let date = new Date(value);
-					// 			if (format) {
-					// 				return formatter(date, format);
-					// 			}
-					// 			return date.toLocaleDateString(lang);
-					// 		},
-					// 	},
-					// 	...options
-					// });
-				} catch (e) {
-					console.error( 'Check the library connection, "Datepicker" is not defined, see: https://github.com/wwilsman/Datepicker.js' );
-				}
 			});
 		});
 	});

@@ -28,5 +28,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 $prop = Sanitizer::prop($args['key'] ?? [] );
 ?>
 <div class="<?php echo $class; ?>">
-	<div x-text="item.<?php echo $prop; ?>"></div>
+	<div class="ml-7 mt-2 lh-xs fs-14" x-text="item.<?php echo $prop; ?>"></div>
 </div>

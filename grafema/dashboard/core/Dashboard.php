@@ -48,12 +48,9 @@ class Dashboard extends \Grafema\App\App
 		 * @since 2025.1
 		 */
 		$styles  = ['phosphor'];
-		$scripts = ['index', 'ajax', 'alpine'];
 		if ( ! Is::install() ) {
 			$styles  = ['phosphor', 'air-datepicker', 'colorist', 'datepicker', 'drooltip', 'flags', 'slimselect', 'dialog', 'grafema', 'controls', 'utility'];
-			$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'alpine'];
 		}
-
 		foreach ( $styles as $style ) {
 			if ( ! Is::debug() ) {
 				$style = sprintf( '%s.min', $style );
@@ -61,49 +58,59 @@ class Dashboard extends \Grafema\App\App
 			Asset::enqueue( $style, Url::dashboard( '/assets/css/' . $style . '.css' ) );
 		}
 
-		foreach ( $scripts as $script ) {
-			$data = [];
-			if ( $script === 'grafema' ) {
-				$data['data'] = [
-					'apiurl'         => Url::site( '/api/' ),
-					'items'          => [],
-					'lang'           => I18n::getLocale(),
-					'dateFormat'     => 'j M, Y',
-					'weekStart'      => 1,
-					'showMenu'       => false,
-					'showFilter'     => false,
-					'uploaderDialog' => [
-						'title' => I18n::_t( 'Upload Files' ),
-						'class' => 'dialog--md',
-					],
-					'emailDialog' => [
-						'title' => I18n::_t( 'Email Settings' ),
-						'class' => 'dialog--xl dialog--right',
-					],
-					'postEditorDialog' => [
-						'title' => I18n::_t( 'Post Editor' ),
-						'class' => 'dialog--lg dialog--right',
-					],
-					'takeSelfieDialog' => [
-						'title' => I18n::_t( 'Take A Selfie' ),
-						'class' => 'dialog--sm',
-					],
-				];
+		Hook::add( 'grafema_dashboard_footer', function() {
+			$scripts = ['index', 'ajax', 'alpine'];
+			if ( ! Is::install() ) {
+				$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'alpine'];
 			}
 
-			if ( ! Is::debug() ) {
-				$script = sprintf( '%s.min', $script );
+			foreach ( $scripts as $script ) {
+				$data = [];
+				if ( $script === 'grafema' ) {
+					$data['data'] = Hook::apply(
+						'grafema_dashboard_data',
+						[
+							'apiurl'         => Url::site( '/api/' ),
+							'items'          => [],
+							'lang'           => I18n::getLocale(),
+							'dateFormat'     => 'j M, Y',
+							'weekStart'      => 1,
+							'showMenu'       => false,
+							'showFilter'     => false,
+							'uploaderDialog' => [
+								'title' => I18n::_t( 'Upload Files' ),
+								'class' => 'dialog--md',
+							],
+							'emailDialog' => [
+								'title' => I18n::_t( 'Email Settings' ),
+								'class' => 'dialog--xl dialog--right',
+							],
+							'postEditorDialog' => [
+								'title' => I18n::_t( 'Post Editor' ),
+								'class' => 'dialog--lg dialog--right',
+							],
+							'takeSelfieDialog' => [
+								'title' => I18n::_t( 'Take A Selfie' ),
+								'class' => 'dialog--sm',
+							],
+						]
+					);
+				}
+
+				if ( ! Is::debug() ) {
+					$script = sprintf( '%s.min', $script );
+				}
+				Asset::enqueue( $script, Url::dashboard( '/assets/js/' . $script . '.js' ), $data );
 			}
-			Asset::enqueue( $script, Url::dashboard( '/assets/js/' . $script . '.js' ), $data );
-		}
+		}, 10 );
 
 		/**
 		 * Include assets before calling hooks, but after they are registered.
 		 *
 		 * @since 2025.1
 		 */
-		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
-		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
+		Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ), 5 );
+		Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ), 20 );
 
 		/**
 		 * Add benchmark result.

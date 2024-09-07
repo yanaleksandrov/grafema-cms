@@ -1,9 +1,1362 @@
 var __webpack_modules__ = {
-    './src/js/grafema.js': function() {
-        eval('document.addEventListener( \'alpine:init\', () => {\n\n\t/**\n\t * Intersect event\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'intersect\', (el, { value, expression, modifiers }, { evaluateLater, cleanup }) => {\n\t\tfunction getThreshold(modifiers) {\n\t\t\tif (modifiers.includes("full"))\n\t\t\t\treturn 0.99;\n\t\t\tif (modifiers.includes("half"))\n\t\t\t\treturn 0.5;\n\t\t\tif (!modifiers.includes("threshold"))\n\t\t\t\treturn 0;\n\t\t\tlet threshold = modifiers[modifiers.indexOf("threshold") + 1];\n\t\t\tif (threshold === "100")\n\t\t\t\treturn 1;\n\t\t\tif (threshold === "0")\n\t\t\t\treturn 0;\n\t\t\treturn Number(`.${threshold}`);\n\t\t}\n\t\tfunction getLengthValue(rawValue) {\n\t\t\tlet match = rawValue.match(/^(-?[0-9]+)(px|%)?$/);\n\t\t\treturn match ? match[1] + (match[2] || "px") : void 0;\n\t\t}\n\t\tfunction getRootMargin(modifiers) {\n\t\t\tconst key = "margin";\n\t\t\tconst fallback = "0px 0px 0px 0px";\n\t\t\tconst index = modifiers.indexOf(key);\n\t\t\tif (index === -1)\n\t\t\t\treturn fallback;\n\t\t\tlet values = [];\n\t\t\tfor (let i = 1; i < 5; i++) {\n\t\t\t\tvalues.push(getLengthValue(modifiers[index + i] || ""));\n\t\t\t}\n\t\t\tvalues = values.filter((v) => v !== void 0);\n\t\t\treturn values.length ? values.join(" ").trim() : fallback;\n\t\t}\n\n\t\tlet evaluate = evaluateLater(expression);\n\t\tlet options = {\n\t\t\trootMargin: getRootMargin(modifiers),\n\t\t\tthreshold: getThreshold(modifiers)\n\t\t};\n\t\tlet observer = new IntersectionObserver((entries) => {\n\t\t\tentries.forEach((entry) => {\n\t\t\t\tif (entry.isIntersecting === (value === "leave")) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tevaluate();\n\t\t\t\tmodifiers.includes("once") && observer.disconnect();\n\t\t\t});\n\t\t}, options);\n\t\tobserver.observe(el);\n\t\tcleanup(() => observer.disconnect());\n\t});\n\n\t/**\n\t * Sticky sidebar\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'sticky\', el => {\n\t\tlet style = el.parentElement.currentStyle || window.getComputedStyle(el.parentElement);\n\t\tif (style.position !== \'relative\') {\n\t\t\treturn false;\n\t\t}\n\n\t\tlet rect  = el.getBoundingClientRect();\n\t\tlet diff  = rect.height - document.scrollingElement.offsetHeight;\n\n\t\tlet paddingTop    = parseInt(style.paddingTop) + 42;\n\t\tlet paddingBottom = parseInt(style.paddingBottom);\n\n\t\tlet lastScroll  = 0;\n\t\tlet bottomPoint = 0;\n\t\tlet value       = \'top: \' + paddingTop + \'px\';\n\n\t\tfunction calcPosition() {\n\t\t\tif ( diff > 0 ) {\n\t\t\t\tlet y = document.scrollingElement.scrollTop;\n\t\t\t\t// scroll to down\n\t\t\t\tif ( window.scrollY > lastScroll ) {\n\t\t\t\t\tif (y > diff) {\n\t\t\t\t\t\tbottomPoint = ( diff * -1 - paddingBottom );\n\n\t\t\t\t\t\tvalue = \'top: \' + bottomPoint + \'px\';\n\t\t\t\t\t} else {\n\t\t\t\t\t\tvalue = \'top: \' + ( y * -1 - paddingBottom ) + \'px\';\n\t\t\t\t\t}\n\t\t\t\t} else {\n\t\t\t\t\tbottomPoint = bottomPoint + (lastScroll - window.scrollY);\n\t\t\t\t\tif (bottomPoint < paddingTop) {\n\t\t\t\t\t\tvalue = \'top: \' + bottomPoint + \'px\';\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tel.setAttribute(\'style\', \'position: sticky;\' + value);\n\n\t\t\tlastScroll = window.scrollY;\n\t\t}\n\n\t\twindow.addEventListener(\'load\', () => calcPosition());\n\t\twindow.addEventListener(\'scroll\', () => calcPosition());\n\t\twindow.addEventListener(\'resize\', () => calcPosition());\n\t});\n\n\t/**\n\t * Disable autocomplete\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'autocomplete\', el => {\n\t\tel.setAttribute(\'readonly\', true);\n\t\tel.onfocus = () => setTimeout(() => el.removeAttribute(\'readonly\'), 10);\n\t\tel.onblur  = () => el.setAttribute(\'readonly\', true);\n\t});\n\n\t/**\n\t * Code syntax highlight\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive(\'highlight\', (el, { modifiers }) => {\n\t\tlet lang    = modifiers[0] || \'html\',\n\t\t\twrapper = document.createElement(\'code\');\n\n\t\twrapper.classList.add(\'language-\' + lang);\n\t\twrapper.innerHTML = el.innerHTML;\n\n\t\tel.classList.add(\'line-numbers\');\n\t\tel.innerHTML = \'\';\n\t\tel.setAttribute(\'data-lang\', lang.toUpperCase());\n\t\tel.appendChild(wrapper);\n\t});\n\n\t/**\n\t * Allows to expand and collapse elements using smooth animations.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'collapse\', ( el, { modifiers }) => {\n\t\tlet duration = ( ( modifiers, key = \'duration\', fallback = 350 ) => {\n\t\t\tif ( modifiers.indexOf( key ) === -1 )\n\t\t\t\treturn fallback;\n\t\t\tconst rawValue = modifiers[modifiers.indexOf(key) + 1];\n\t\t\tif ( !rawValue )\n\t\t\t\treturn fallback;\n\t\t\tif ( key === \'duration\' ) {\n\t\t\t\tlet match = rawValue.match(/([0-9]+)ms/);\n\t\t\t\tif ( match )\n\t\t\t\t\treturn match[1];\n\t\t\t}\n\t\t\treturn rawValue;\n\t\t} )( modifiers ) / 1e3;\n\t\tlet floor = 0;\n\t\tif ( !el._x_isShown ) {\n\t\t\tel.style.height = `${floor}px`;\n\t\t\tel.style.overflow = \'hidden\';\n\t\t\tel.hidden = true;\n\t\t}\n\t\tlet setFunction = ( el2, styles ) => {\n\t\t\tlet revertFunction = Alpine.setStyles( el2, styles );\n\t\t\treturn styles.height ? () => {} : revertFunction;\n\t\t}\n\t\tlet transitionStyles = {\n\t\t\toverflow: \'hidden\',\n\t\t\ttransitionProperty: \'height\',\n\t\t\ttransitionDuration: `${duration}s`,\n\t\t\ttransitionTimingFunction: \'cubic-bezier(0.4, 0.0, 0.2, 1)\'\n\t\t}\n\t\tel._x_transition = {\n\t\t\tin(\n\t\t\t\tbefore = () => {},\n\t\t\t\tafter = () => {}\n\t\t\t) {\n\t\t\t\tel.hidden = false;\n\t\t\t\tlet current = el.getBoundingClientRect().height;\n\t\t\t\tAlpine.setStyles( el, {\n\t\t\t\t\tdisplay: null,\n\t\t\t\t\theight: \'auto\'\n\t\t\t\t} );\n\t\t\t\tlet full = el.getBoundingClientRect().height;\n\t\t\t\tAlpine.setStyles( el, {\n\t\t\t\t\toverflow: \'hidden\'\n\t\t\t\t} );\n\t\t\t\tif ( current === full ) {\n\t\t\t\t\tcurrent = floor;\n\t\t\t\t}\n\t\t\t\tAlpine.transition( el, Alpine.setStyles, {\n\t\t\t\t\tduring: transitionStyles,\n\t\t\t\t\tstart: {\n\t\t\t\t\t\theight: current + \'px\'\n\t\t\t\t\t},\n\t\t\t\t\tend: {\n\t\t\t\t\t\theight: full + \'px\'\n\t\t\t\t\t}\n\t\t\t\t}, () => el._x_isShown = true, () => {\n\t\t\t\t} )\n\t\t\t},\n\t\t\tout(\n\t\t\t\tbefore = () => {},\n\t\t\t\tafter = () => {}\n\t\t\t) {\n\t\t\t\tlet full = el.getBoundingClientRect().height;\n\t\t\t\tAlpine.transition( el, setFunction, {\n\t\t\t\t\tduring: transitionStyles,\n\t\t\t\t\tstart: {\n\t\t\t\t\t\theight: full + \'px\'\n\t\t\t\t\t},\n\t\t\t\t\tend: {\n\t\t\t\t\t\theight: floor + \'px\'\n\t\t\t\t\t}\n\t\t\t\t}, () => {\n\t\t\t\t}, () => {\n\t\t\t\t\tel._x_isShown = false;\n\t\t\t\t\tif ( el.style.height === `${floor}px` ) {\n\t\t\t\t\t\tAlpine.nextTick( () => {\n\t\t\t\t\t\t\tAlpine.setStyles( el, {\n\t\t\t\t\t\t\t\tdisplay: \'none\',\n\t\t\t\t\t\t\t\toverflow: \'hidden\'\n\t\t\t\t\t\t\t} );\n\t\t\t\t\t\t\tel.hidden = true;\n\t\t\t\t\t\t} );\n\t\t\t\t\t}\n\t\t\t\t} )\n\t\t\t}\n\t\t};\n\t} )\n\n\t/**\n\t * Copy data to clipboard.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.magic( \'copy\', el => subject => {\n\t\twindow.navigator.clipboard.writeText(subject).then(\n\t\t\t() => {\n\t\t\t\tlet classes = \'ph-copy ph-check\'.split(\' \');\n\n\t\t\t\tclasses.forEach(s => el.classList.toggle(s));\n\t\t\t\tsetTimeout( () => classes.forEach(s => el.classList.toggle(s)), 1000 );\n\t\t\t},\n\t\t\t() => {\n\t\t\t\tconsole.log( \'Oops, your browser is not support clipboard!\' );\n\t\t\t}\n\t\t);\n\t});\n\n\t/**\n\t * Countdown magic\n\t *\n\t * @since 1.0\n\t */\n\tlet seconds = 0, isCountingDown = false;\n\tAlpine.magic( \'countdown\', () => {\n\t\treturn {\n\t\t\tstart: (initialSeconds, processCallback, endCallback) => {\n\t\t\t\tif (isCountingDown) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tseconds = initialSeconds;\n\t\t\t\tisCountingDown = true;\n\t\t\t\tfunction countdown() {\n\t\t\t\t\tprocessCallback && processCallback(true);\n\t\t\t\t\tif (seconds === 0) {\n\t\t\t\t\t\tendCallback && endCallback(true);\n\t\t\t\t\t\tisCountingDown = false;\n\t\t\t\t\t} else {\n\t\t\t\t\t\tseconds--;\n\t\t\t\t\t\tsetTimeout(countdown, 1000);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tcountdown();\n\t\t\t},\n\t\t\tsecond: seconds,\n\t\t};\n\t});\n\n\t/**\n\t * Selfie\n\t *\n\t * @since 1.0\n\t */\n\tlet stream = null;\n\tAlpine.magic( \'stream\', () => {\n\t\treturn {\n\t\t\tcheck(refs) {\n\t\t\t\tlet canvas = refs.canvas,\n\t\t\t\t\tvideo  = refs.video,\n\t\t\t\t\timage  = refs.image;\n\n\t\t\t\tif (!canvas) {\n\t\t\t\t\tconsole.error(\'Canvas element is undefined\');\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\n\t\t\t\tif (!video) {\n\t\t\t\t\tconsole.error(\'Video for selfie preview is undefined\');\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\n\t\t\t\tif (!image) {\n\t\t\t\t\tconsole.error(\'Image for output selfie is undefined\');\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t},\n\t\t\tisVisible(element) {\n\t\t\t\tconst styles = window.getComputedStyle(element);\n\t\t\t\tif (styles) {\n\t\t\t\t\treturn !(styles.visibility === \'hidden\' || styles.display === \'none\' || parseFloat(styles.opacity) === 0);\n\t\t\t\t}\n\t\t\t\treturn false;\n\t\t\t},\n\t\t\tstart(refs) {\n\t\t\t\tlet video = refs.video;\n\t\t\t\tconst observer = new MutationObserver( mutations => {\n\t\t\t\t\tfor (let mutation of mutations) {\n\t\t\t\t\t\tif (mutation.target === document.body && !stream ) {\n\t\t\t\t\t\t\tsetTimeout(async () => {\n\t\t\t\t\t\t\t\tif (this.isVisible(video)) {\n\t\t\t\t\t\t\t\t\tif (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {\n\t\t\t\t\t\t\t\t\t\tvideo.srcObject = stream = await navigator.mediaDevices.getUserMedia({video: true});\n\t\t\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t\t\tconsole.error(\'The browser does not support the getUserMedia API\');\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}, 500);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\tobserver.observe(document, {childList: true,subtree: true,attributes: true});\n\t\t\t},\n\t\t\tsnapshot(refs) {\n\t\t\t\tthis.check(refs);\n\t\t\t\tthis.start(refs);\n\n\t\t\t\tlet canvas = refs.canvas,\n\t\t\t\t\tvideo  = refs.video,\n\t\t\t\t\timage  = refs.image;\n\n\t\t\t\tlet width  = video.offsetWidth,\n\t\t\t\t\theight = video.offsetHeight;\n\n\t\t\t\tlet imageStyles = window.getComputedStyle(image),\n\t\t\t\t\timageWidth  = parseInt(imageStyles.width, 10),\n\t\t\t\t\timageHeight = parseInt(imageStyles.height, 10);\n\n\t\t\t\tcanvas.width  = imageWidth;\n\t\t\t\tcanvas.height = imageHeight;\n\n\t\t\t\tlet offsetTop  = ( height - imageHeight ) / 2,\n\t\t\t\t\toffsetLeft = ( width - imageWidth ) / 2;\n\n\t\t\t\tlet ctx = canvas.getContext(\'2d\');\n\n\t\t\t\tctx.imageSmoothingQuality = \'low\';\n\n\t\t\t\tlet scale = height / imageHeight;\n\t\t\t\tconsole.log((offsetTop + offsetLeft) / 2)\n\t\t\t\t//ctx.drawImage(video, 0, 0, width * 2, height * 2, 0, 0, width, height);\n\t\t\t\t//ctx.drawImage(video, 0, 0, imageWidth, imageHeight);\n\t\t\t\tctx.drawImage(video, offsetLeft * 1.5, offsetTop * 1.5, height * 1.5, height * 1.5, 0, 0, imageWidth, imageHeight);\n\n\t\t\t\tlet imageData = canvas.toDataURL(\'image/png\');\n\t\t\t\tif ( imageData ) {\n\t\t\t\t\timage.src = imageData;\n\t\t\t\t\tctx.clearRect(0, 0, canvas.width, canvas.height);\n\t\t\t\t}\n\t\t\t\treturn imageData;\n\t\t\t},\n\t\t\tstop() {\n\t\t\t\tif (stream) {\n\t\t\t\t\tstream.getTracks().forEach(track => track.stop());\n\t\t\t\t}\n\t\t\t\tstream = null;\n\t\t\t}\n\t\t}\n\t});\n\n\t/**\n\t * Smooth scrolling to the anchor\n\t * TODO: придостижении верха страницы, удалять анкор, то же при загрузке старницы\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'anchor\', ( el, { value, expression, modifiers }, { evaluateLater, cleanup } ) => {\n\t\tlet hash   = window.location.hash.replace( \'#\', \'\' ),\n\t\t\tanchor = el.innerText.toLowerCase().replaceAll( \' \', \'-\' );\n\n\t\t// scroll when init page\n\t\tif ( hash && hash === anchor ) {\n\t\t\tel.scrollIntoView({\n\t\t\t\tbehavior: \'smooth\',\n\t\t\t})\n\t\t}\n\n\t\t// click for copy url with hash\n\t\tel.addEventListener( \'click\', e => {\n\t\t\te.preventDefault();\n\t\t\twindow.location.hash = anchor;\n\t\t\tel.scrollIntoView({\n\t\t\t\tbehavior: \'smooth\',\n\t\t\t})\n\t\t}, false )\n\n\t\t// watch the appearance of an anchor on the page and automatically add it to url\n\t\tlet evaluate = evaluateLater( expression || null );\n\t\tlet observer = new IntersectionObserver( ( entries ) => {\n\t\t\tentries.forEach( entry => {\n\t\t\t\tif ( ! entry.isIntersecting || entry.intersectionRatio !== 1 ) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tevaluate();\n\t\t\t\twindow.location.hash = anchor;\n\t\t\t});\n\t\t}, {\n\t\t\tthreshold: 0.5\n\t\t} );\n\t\tobserver.observe(el);\n\t\tcleanup(() => observer.disconnect());\n\t} )\n\n\t/**\n\t * Listen audio\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'listen\', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {\n\t\tconsole.log(el)\n\t\tconsole.log(value)\n\t\tconsole.log(expression)\n\t\tconsole.log(modifiers)\n\t\tif ( ! expression ) {\n\t\t\treturn false;\n\t\t}\n\n\t\tlet evaluate = evaluateLater( expression )\n\t\teffect( () => {\n\t\t\tevaluate( content => {\n\t\t\t\tif ( content ) {\n\t\t\t\t\tlet name = "listen-node";\n\n\t\t\t\t\tfunction _play( aud, icn ) {\n\t\t\t\t\t\ticn.classList.add("playing");\n\t\t\t\t\t\taud.play();\n\t\t\t\t\t\taud.setAttribute( "data-playing", "true" );\n\t\t\t\t\t\taud.addEventListener("ended", function() {\n\t\t\t\t\t\t\t_pause( aud, icn );\n\t\t\t\t\t\t\taud.parentNode.style.background = null;\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction _pause( aud, icn ) {\n\t\t\t\t\t\taud.pause();\n\t\t\t\t\t\taud.setAttribute( "data-playing", "false" );\n\t\t\t\t\t\ticn.classList.remove("playing");\n\t\t\t\t\t}\n\n\t\t\t\t\tlet aud, icn;\n\t\t\t\t\tlet css = document.createElement("style");\n\t\t\t\t\tcss.type = "text/css";\n\t\t\t\t\tcss.innerHTML = ".listen-node {display: inline-block; background:rgba(0, 0, 0, 0.05); padding: 1px 8px 2px; border-radius:3px; cursor: pointer;} .listen-node i {font-size: 0.65em; border: 0.5em solid transparent; border-left: 0.75em solid; display: inline-block; margin-right: 2px;margin-bottom: 1px;} .listen-node .playing { border: 0; border-left: 0.75em double; border-right: 0.5em solid transparent; height: 1em;}";\n\t\t\t\t\tdocument.getElementsByTagName("head")[0].appendChild(css);\n\n\t\t\t\t\taud = document.createElement( \'audio\' );\n\t\t\t\t\ticn = document.createElement( \'i\' );\n\n\t\t\t\t\taud.src = el.getAttribute( "data-src" );\n\t\t\t\t\taud.setAttribute( "data-playing", "false" );\n\n\t\t\t\t\tel.id = name + "-" + i;\n\t\t\t\t\tel.insertBefore( icn, el.firstChild );\n\t\t\t\t\tel.appendChild( aud );\n\n\t\t\t\t\tdocument.addEventListener( \'click\', e => {\n\t\t\t\t\t\tlet aud, elm, icn;\n\t\t\t\t\t\tif ( e.target.className === name ) {\n\t\t\t\t\t\t\taud = e.target.children[1];\n\t\t\t\t\t\t\telm = e.target;\n\t\t\t\t\t\t\ticn = e.target.children[0];\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if ( e.target.parentElement && e.target.parentElement.className === name ) {\n\t\t\t\t\t\t\taud = e.target.parentElement.children[1];\n\t\t\t\t\t\t\telm = e.target.parentElement;\n\t\t\t\t\t\t\ticn = e.target;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (aud && elm && icn) {\n\t\t\t\t\t\t\taud.srt = parseInt( elm.getAttribute( \'data-start\' ) ) || 0;\n\t\t\t\t\t\t\taud.end = parseInt( elm.getAttribute( \'data-end\' ) ) || aud.duration;\n\n\t\t\t\t\t\t\tif ( aud && aud.getAttribute( "data-playing" ) === "false" ) {\n\t\t\t\t\t\t\t\tif ( aud.srt > aud.currentTime || aud.end < aud.currentTime ) {\n\t\t\t\t\t\t\t\t\taud.currentTime = aud.srt;\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t_play( aud, icn );\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t_pause( aud, icn );\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\t(function loop() {\n\t\t\t\t\t\t\t\tlet d = requestAnimationFrame( loop );\n\t\t\t\t\t\t\t\tlet percent = (((aud.currentTime - aud.srt) * 100) / (aud.end - aud.srt));\n\t\t\t\t\t\t\t\tpercent = percent < 100 ? percent : 100;\n\t\t\t\t\t\t\t\telm.style.background = "linear-gradient(to right, rgba(0, 0, 0, 0.1)" + percent + "%, rgba(0, 0, 0, 0.05)" + percent + "%)";\n\n\t\t\t\t\t\t\t\tif ( aud.end < aud.currentTime ) {\n\t\t\t\t\t\t\t\t\t_pause( aud, icn );\n\t\t\t\t\t\t\t\t\tcancelAnimationFrame( d );\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t})();\n\t\t\t\t\t\t}\n\t\t\t\t\t} );\n\n\t\t\t\t\tel.addEventListener( \'click\', () => {\n\n\t\t\t\t\t}, false )\n\t\t\t\t}\n\t\t\t} )\n\t\t} )\n\t} )\n\n\t/**\n\t * Automatically adjust the height of the textarea while typing.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'textarea\', ( el, { expression } ) => {\n\t\tif ( \'TEXTAREA\' !== el.tagName.toUpperCase() ) {\n\t\t\treturn false;\n\t\t}\n\t\tel.addEventListener( \'input\', () => {\n\t\t\tlet max  = parseInt(expression) || 99,\n\t\t\t\trows = parseInt( el.value.split( /\\r|\\r\\n|\\n/ ).length );\n\t\t\tif ( rows > max ) {\n\t\t\t\treturn false;\n\t\t\t}\n\n\t\t\tel.style.height = \'auto\';\n\t\t\tel.style.height = ( el.scrollHeight + 1 ) + \'px\';\n\t\t}, false );\n\t});\n\n\t/**\n\t * Tooltips\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'tooltip\', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {\n\t\tlet evaluate = evaluateLater(expression);\n\t\teffect(() => {\n\t\t\tevaluate( content => {\n\t\t\t\tlet position, trigger;\n\t\t\t\tif (modifiers) {\n\t\t\t\t\tmodifiers.forEach( modifier => {\n\t\t\t\t\t\tposition = [ \'top\', \'right\', \'bottom\', \'left\' ].includes( modifier ) ? modifier : \'top\';\n\t\t\t\t\t\ttrigger  = [ \'hover\', \'click\' ].includes( modifier ) ? modifier : \'hover\';\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tif (position && trigger) {\n\t\t\t\t\tnew Drooltip({\n\t\t\t\t\t\telement: el,\n\t\t\t\t\t\ttrigger: trigger,\n\t\t\t\t\t\tposition: position,\n\t\t\t\t\t\tbackground: \'#fff\',\n\t\t\t\t\t\tcolor: \'var(--grafema-dark)\',\n\t\t\t\t\t\tanimation: \'bounce\',\n\t\t\t\t\t\tcontent: content || null,\n\t\t\t\t\t\tcallback: null\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t});\n\t\t});\n\t});\n\n\t/**\n\t * Multistep\n\t *\n\t * @since 1.0\n\t * @see based on https://github.com/glhd/alpine-wizard\n\t */\n\tAlpine.directive("wizard", (el, { value, expression, modifiers }, { Alpine: Alpine2, evaluate, cleanup }) => {\n\t\tconst wizard2 = getWizard(el, Alpine2);\n\t\tconst step = wizard2.getStep(el);\n\t\tcleanup(() => step.cleanup());\n\t\tconst evaluateCheck = () => [!!evaluate(expression), {}];\n\t\tAlpine2.effect(() => {\n\t\t\tstep.evaluate = content => evaluate(content);\n\t\t\tif (expression !== "") {\n\t\t\t\tif (value === "step") {\n\t\t\t\t\tconst [passes, errors] = evaluateCheck();\n\t\t\t\t\tstep.is_complete = passes;\n\t\t\t\t\tstep.errors = errors;\n\t\t\t\t}\n\t\t\t\tif (value === "action") {\n\t\t\t\t\tstep.action = expression;\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (value === "if") {\n\t\t\t\tstep.is_applicable = evaluateCheck()[0];\n\t\t\t}\n\t\t\tif (value === "title") {\n\t\t\t\tif (modifiers.includes("dynamic")) {\n\t\t\t\t\tstep.title = `${evaluate(expression)}`;\n\t\t\t\t} else {\n\t\t\t\t\tstep.title = expression;\n\t\t\t\t}\n\t\t\t}\n\t\t});\n\t});\n\tAlpine.magic(\'wizard\', (el, { Alpine: Alpine2 }) => {\n\t\treturn getWizard(el, Alpine2);\n\t});\n\tlet wizards = new WeakMap();\n\tlet getWizard = (el, Alpine) => {\n\t\tconst root = Alpine.closestRoot(el);\n\t\tif (!wizards.has(root)) {\n\t\t\twizards.set(root, initWizardRoot(Alpine));\n\t\t}\n\t\treturn wizards.get(root);\n\t};\n\tlet initWizardRoot = (Alpine) => {\n\t\treturn Alpine.reactive({\n\t\t\tsteps: [],\n\t\t\tcurrent_index: 0,\n\t\t\tprogress() {\n\t\t\t\tlet current = 0;\n\t\t\t\tlet complete = 0;\n\t\t\t\tlet total = 0;\n\t\t\t\tfor (let index = 0; index < this.steps.length; index++) {\n\t\t\t\t\tconst step = this.steps[index];\n\t\t\t\t\tif (!step.is_applicable) {\n\t\t\t\t\t\tcontinue;\n\t\t\t\t\t}\n\t\t\t\t\ttotal++;\n\t\t\t\t\tif (index <= this.current_index) {\n\t\t\t\t\t\tcurrent++;\n\t\t\t\t\t}\n\t\t\t\t\tif (index <= this.current_index && step.is_complete) {\n\t\t\t\t\t\tcomplete++;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn {\n\t\t\t\t\ttotal,\n\t\t\t\t\tcomplete,\n\t\t\t\t\tcurrent,\n\t\t\t\t\tincomplete: total - complete,\n\t\t\t\t\tprogress: `${Math.floor(current / total * 100)}%`,\n\t\t\t\t\tcompletion: `${Math.floor(complete / total * 100)}%`,\n\t\t\t\t\tpercentage: Math.floor(complete / total * 100)\n\t\t\t\t};\n\t\t\t},\n\t\t\tcurrent() {\n\t\t\t\treturn this.steps[this.current_index] || { el: null, title: null };\n\t\t\t},\n\t\t\tprevious() {\n\t\t\t\treturn this.steps[this.previousIndex()] || { el: null, title: null };\n\t\t\t},\n\t\t\tnext() {\n\t\t\t\treturn this.steps[this.nextIndex()] || { el: null, title: null };\n\t\t\t},\n\t\t\tpreviousIndex() {\n\t\t\t\treturn findNextIndex(this.steps, this.current_index, -1);\n\t\t\t},\n\t\t\tnextIndex() {\n\t\t\t\treturn findNextIndex(this.steps, this.current_index, 1);\n\t\t\t},\n\t\t\tisStep(index) {\n\t\t\t\tif (!Array.isArray(index)) {\n\t\t\t\t\tindex = [index]\n\t\t\t\t}\n\t\t\t\treturn index.includes(this.current_index);\n\t\t\t},\n\t\t\tisFirst() {\n\t\t\t\treturn this.previousIndex() === null;\n\t\t\t},\n\t\t\tisNotFirst() {\n\t\t\t\treturn !this.isFirst();\n\t\t\t},\n\t\t\tisLast() {\n\t\t\t\treturn this.nextIndex() === null;\n\t\t\t},\n\t\t\tisNotLast() {\n\t\t\t\treturn !this.isLast();\n\t\t\t},\n\t\t\tisCompleted() {\n\t\t\t\treturn this.current().is_complete && this.nextIndex() === null;\n\t\t\t},\n\t\t\tisUncompleted() {\n\t\t\t\treturn !this.isCompleted();\n\t\t\t},\n\t\t\tgoNext() {\n\t\t\t\tthis.goTo(this.nextIndex());\n\t\t\t},\n\t\t\tcanGoNext() {\n\t\t\t\treturn this.current().is_complete && this.nextIndex() !== null;\n\t\t\t},\n\t\t\tcannotGoNext() {\n\t\t\t\treturn !this.canGoNext();\n\t\t\t},\n\t\t\tgoBack() {\n\t\t\t\tthis.goTo(this.previousIndex());\n\t\t\t},\n\t\t\tcanGoBack() {\n\t\t\t\treturn this.previousIndex() !== null;\n\t\t\t},\n\t\t\tcannotGoBack() {\n\t\t\t\treturn !this.canGoBack();\n\t\t\t},\n\t\t\tgoTo(index) {\n\t\t\t\tif (index !== null && this.steps[index] !== void 0) {\n\t\t\t\t\tthis.current_index = index;\n\n\t\t\t\t\tlet action = this.steps[index].action || \'\';\n\t\t\t\t\tif (action) {\n\t\t\t\t\t\tthis.steps[index].evaluate(action);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn this.current();\n\t\t\t},\n\t\t\tgetStep(el) {\n\t\t\t\tlet step = this.steps.find((step2) => step2.el === el);\n\t\t\t\tif (!step) {\n\t\t\t\t\tel.setAttribute("x-show", "$wizard.current().el === $el");\n\t\t\t\t\tstep = Alpine.reactive({\n\t\t\t\t\t\tel,\n\t\t\t\t\t\ttitle: "",\n\t\t\t\t\t\tis_applicable: true,\n\t\t\t\t\t\tis_complete: true,\n\t\t\t\t\t\terrors: {},\n\t\t\t\t\t\tcleanup: () => {\n\t\t\t\t\t\t\tthis.steps = this.steps.filter((step2) => step2.el === el);\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t\tthis.steps.push(step);\n\t\t\t\t}\n\t\t\t\treturn step;\n\t\t\t}\n\t\t});\n\t};\n\tlet findNextIndex = (steps, current, direction = 1) => {\n\t\tfor (let index = current + direction; index >= 0 && index < steps.length; index += direction) {\n\t\t\tif (steps[index] && steps[index].is_applicable) {\n\t\t\t\treturn index;\n\t\t\t}\n\t\t}\n\t\treturn null;\n\t};\n\n\t/**\n\t * Ajax\n\t *\n\t * @since 1.0\n\t */\n\tconst BYTES_IN_MB = 1048576;\n\tAlpine.magic( \'ajax\', el => (route, data, callback) => {\n\t\tlet onloadEvent,\n\t\t\tformData = new FormData(),\n\t\t\txhr      = new XMLHttpRequest(),\n\t\t\tbuttons  = el.querySelectorAll("[type=\'submit\']");\n\n\t\tfunction onProgress(event, xhr) {\n\t\t\tconst { loaded = 0, total = 0, type } = event;\n\t\t\tconst { response = \'\', status = \'\', responseURL = \'\' } = xhr;\n\n\t\t\tlet data = {\n\t\t\t\tblob: new Blob([response]),\n\t\t\t\traw: response,\n\t\t\t\tstatus,\n\t\t\t\turl: responseURL,\n\t\t\t\tloaded: convertTo(loaded),\n\t\t\t\ttotal: convertTo(total),\n\t\t\t\tpercent: total > 0 ? Math.round((loaded / total) * 100) : 0,\n\t\t\t\tstart: type === \'loadstart\',\n\t\t\t\tprogress: type === \'progress\',\n\t\t\t\tend: type === \'loadend\',\n\t\t\t}\n\n\t\t\tif (data.end) {\n\t\t\t\tconsole.log(data);\n\t\t\t}\n\n\t\t\treturn data;\n\t\t}\n\n\t\tfunction convertTo(number) {\n\t\t\treturn Math.round(number / BYTES_IN_MB * 100) / 100;\n\t\t}\n\n\t\treturn new Promise(resolve => {\n\t\t\tswitch (el.tagName) {\n\t\t\t\tcase \'BUTTON\':\n\t\t\t\t\tel.classList.add(\'btn--load\');\n\n\t\t\t\t\tonloadEvent = () => el.classList.remove(\'btn--load\');\n\t\t\t\t\tbreak;\n\t\t\t\tcase \'FORM\':\n\t\t\t\t\tformData = new FormData(el);\n\n\t\t\t\t\tlet inputs = el.querySelectorAll("input[type=\'file\']");\n\t\t\t\t\t[...inputs].forEach(input => {\n\t\t\t\t\t\tlet files = input.files;\n\t\t\t\t\t\tfiles && [...files].forEach((file, index) => formData.append(index, file));\n\t\t\t\t\t});\n\n\t\t\t\t\tbuttons && buttons.forEach(button => button.classList.add(\'btn--load\'));\n\n\t\t\t\t\tonloadEvent = () => buttons && buttons.forEach(button => button.classList.remove(\'btn--load\'));\n\t\t\t\t\tbreak;\n\t\t\t\tcase \'TEXTAREA\':\n\t\t\t\tcase \'SELECT\':\n\t\t\t\tcase \'INPUT\':\n\t\t\t\t\tel.type !== \'file\' && el.name && formData.append(el.name, el.value);\n\t\t\t\t\tbreak;\n\t\t\t}\n\n\t\t\tif (typeof data === \'object\') {\n\t\t\t\tfor (const [key, value] of Object.entries(data)) {\n\t\t\t\t\tformData.append(key, value);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\txhr.open(el.getAttribute(\'method\')?.toUpperCase() ?? \'POST\', grafema.apiurl + route);\n\n\t\t\txhr.withCredentials = true;\n\t\t\txhr.responseType    = \'json\';\n\n\t\t\t// regular ajax sending & request with file uploading\n\t\t\txhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));\n\t\t\txhr.onloadend   = event => callback?.(onProgress(event, xhr));\n\t\t\txhr.onload      = event => {\n\t\t\t\tdocument.dispatchEvent(\n\t\t\t\t\tnew CustomEvent(route, {\n\t\t\t\t\t\tdetail: { data: xhr.response?.data, event, el, resolve },\n\t\t\t\t\t\tbubbles: true,\n\t\t\t\t\t\t// Allows events to pass the shadow DOM barrier.\n\t\t\t\t\t\tcomposed: true,\n\t\t\t\t\t\tcancelable: true\n\t\t\t\t\t})\n\t\t\t\t);\n\t\t\t\tonloadEvent && onloadEvent();\n\t\t\t};\n\n\t\t\txhr.send(formData);\n\t\t});\n\t});\n\n\t/**\n\t * Notifications system\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.magic( \'notice\', ( el, { Alpine } ) => {\n\t\treturn {\n\t\t\titems: [],\n\t\t\tnotify( message ) {\n\t\t\t\tthis.items.push( message )\n\t\t\t}\n\t\t}\n\t} )\n\tAlpine.store( \'notice\', {\n\t\titems: {},\n\t\tduration: 4000,\n\t\tsetDuration( duration ) {\n\t\t\tthis.duration = parseInt(duration) || 4000;\n\t\t},\n\t\tinfo( message ) {\n\t\t\tthis.notify( message, \'info\' );\n\t\t},\n\t\tsuccess( message ) {\n\t\t\tthis.notify( message, \'success\' );\n\t\t},\n\t\twarning( message ) {\n\t\t\tthis.notify( message, \'warning\' );\n\t\t},\n\t\terror( message ) {\n\t\t\tthis.notify( message, \'error\' );\n\t\t},\n\t\tloading( message ) {\n\t\t\tthis.notify( message, \'loading\' );\n\t\t},\n\t\tclose( id ) {\n\t\t\tif ( typeof this.items[id] !== \'undefined\' ) {\n\t\t\t\tthis.items[id].selectors.push( \'hide\' );\n\t\t\t\t//var height = ( e.target.offsetHeight + parseInt( window.getComputedStyle( e.target ).getPropertyValue( \'margin-top\' ) ) ) * -1;\n\n\t\t\t\t//e.target.style.setProperty( \'--top\', height + \'px\' );\n\t\t\t\t//e.target.style.setProperty( \'--ms\',  notice.time + \'px\' );\n\t\t\t\tsetTimeout( () => {\n\t\t\t\t\tdelete this.items[id];\n\t\t\t\t}, 1000 )\n\t\t\t}\n\t\t},\n\t\tnotify( message, type ) {\n\t\t\tif ( message ) {\n\t\t\t\tlet animationName = Math.random().toString(36).replace(/[^a-z]+/g, \'\').substr(0, 5),\n\t\t\t\t\ttimestamp     = Date.now();\n\t\t\t\tthis.items[timestamp] = {\n\t\t\t\t\tanim: `url("data:image/svg+xml;charset=UTF-8,%3csvg width=\'24\' height=\'24\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3e%3cstyle%3ecircle %7b animation: ${this.duration}ms ${animationName} linear;%7d%40keyframes ${animationName} %7bfrom%7bstroke-dasharray:0 70%7dto%7bstroke-dasharray:70 0%7d%7d%3c/style%3e%3ccircle cx=\'12\' cy=\'12\' r=\'11\' stroke=\'%23000\' stroke-opacity=\'.2\' stroke-width=\'2\'/%3e%3c/svg%3e")`,\n\t\t\t\t\tmessage: message,\n\t\t\t\t\tclosable: true,\n\t\t\t\t\tselectors: [ type || \'info\' ],\n\t\t\t\t\tclasses() {\n\t\t\t\t\t\treturn this.selectors.map( x => \'notice__item--\' + x ).join(\' \')\n\t\t\t\t\t},\n\t\t\t\t}\n\t\t\t\tsetTimeout( () => this.close(timestamp), this.duration );\n\t\t\t}\n\t\t},\n\t});\n\n\t/**\n\t * Password\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.magic(\'password\', () => {\n\t\treturn {\n\t\t\tmin: {\n\t\t\t\tlowercase: 2,\n\t\t\t\tuppercase: 2,\n\t\t\t\tspecial: 2,\n\t\t\t\tdigit: 2,\n\t\t\t\tlength: 12\n\t\t\t},\n\t\t\tvalid: {\n\t\t\t\tlowercase: false,\n\t\t\t\tuppercase: false,\n\t\t\t\tspecial: false,\n\t\t\t\tdigit: false,\n\t\t\t\tlength: false\n\t\t\t},\n\t\t\tcharsets: {\n\t\t\t\tlowercase: \'abcdefghijklmnopqrstuvwxyz\',\n\t\t\t\tuppercase: \'ABCDEFGHIJKLMNOPQRSTUVWXYZ\',\n\t\t\t\tspecial: \'!@#$%^&*(){|}~\',\n\t\t\t\tdigit: \'0123456789\'\n\t\t\t},\n\t\t\tswitch(value) {\n\t\t\t\treturn !(!!value);\n\t\t\t},\n\t\t\tcheck(value) {\n\t\t\t\tlet matchCount = 0;\n\t\t\t\tlet totalCount = 0;\n\n\t\t\t\tfor (const charset in this.charsets) {\n\t\t\t\t\tlet requiredCount = this.min[charset],\n\t\t\t\t\t\tcharsetRegex  = new RegExp(`[${this.charsets[charset]}]`, \'g\'),\n\t\t\t\t\t\tcharsetCount  = (value.match(charsetRegex) || []).length;\n\t\t\t\t\tmatchCount += Math.min(charsetCount, requiredCount);\n\t\t\t\t\ttotalCount += requiredCount;\n\n\t\t\t\t\tthis.valid[charset] = charsetCount >= requiredCount;\n\t\t\t\t}\n\n\t\t\t\tif (value.length >= this.min.length) {\n\t\t\t\t\tmatchCount += 1;\n\t\t\t\t\ttotalCount += 1;\n\t\t\t\t\tthis.valid.length = value.length >= this.min.length;\n\t\t\t\t}\n\n\t\t\t\treturn Object.assign(\n\t\t\t\t\t{\n\t\t\t\t\t\tprogress: totalCount === 0 ? totalCount : (matchCount / totalCount) * 100,\n\t\t\t\t\t},\n\t\t\t\t\tthis.valid\n\t\t\t\t)\n\t\t\t},\n\t\t\tgenerate() {\n\t\t\t\tlet password = \'\';\n\t\t\t\tlet types = Object.keys(this.charsets);\n\n\t\t\t\ttypes.forEach(type => {\n\t\t\t\t\tlet count   = Math.max(this.min[type], 0),\n\t\t\t\t\t\tcharset = this.charsets[type];\n\n\t\t\t\t\tfor (let i = 0; i < count; i++) {\n\t\t\t\t\t\tlet randomIndex = Math.floor(Math.random() * charset.length);\n\t\t\t\t\t\tpassword += charset[randomIndex];\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\twhile (password.length < this.min.length) {\n\t\t\t\t\tlet randomIndex = Math.floor(Math.random() * types.length),\n\t\t\t\t\t\tcharType    = types[randomIndex],\n\t\t\t\t\t\tcharset     = this.charsets[charType],\n\t\t\t\t\t\trandomCharIndex = Math.floor(Math.random() * charset.length);\n\t\t\t\t\tpassword += charset[randomCharIndex];\n\t\t\t\t}\n\t\t\t\tthis.check(password);\n\n\t\t\t\treturn this.shuffle(password);\n\t\t\t},\n\t\t\tshuffle(password) {\n\t\t\t\tlet array = password.split(\'\');\n\t\t\t\tlet currentIndex = array.length;\n\t\t\t\tlet temporaryValue, randomIndex;\n\n\t\t\t\twhile (currentIndex !== 0) {\n\t\t\t\t\trandomIndex = Math.floor(Math.random() * currentIndex);\n\t\t\t\t\tcurrentIndex -= 1;\n\n\t\t\t\t\ttemporaryValue = array[currentIndex];\n\t\t\t\t\tarray[currentIndex] = array[randomIndex];\n\t\t\t\t\tarray[randomIndex] = temporaryValue;\n\t\t\t\t}\n\n\t\t\t\treturn array.join(\'\');\n\t\t\t},\n\t\t}\n\t});\n\n\t/**\n\t * Avatar\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data(\'avatar\', () => ({\n\t\tcontent: \'\',\n\t\timage: \'\',\n\t\tadd(event, callback) {\n\t\t\tlet file = event.target.files[0];\n\t\t\tif (file) {\n\t\t\t\tlet reader = new FileReader();\n\t\t\t\treader.onload = e => {\n\t\t\t\t\tthis.image = e.target.result;\n\t\t\t\t};\n\t\t\t\treader.readAsDataURL(file);\n\t\t\t}\n\n\t\t\tif (callback) {\n\t\t\t\tcallback();\n\t\t\t}\n\t\t},\n\t\tremove() {\n\t\t\tlet root  = this.$el.closest(\'[x-data]\'),\n\t\t\t\tinput = root && root.querySelector(\'input[type="file"]\');\n\t\t\tif (input) {\n\t\t\t\tinput.value = \'\';\n\t\t\t}\n\t\t\tthis.image = \'\';\n\t\t},\n\t\tgetInitials( string, letters = 2 ) {\n\t\t\tconst wordArray = string.split(\' \').slice( 0, letters );\n\t\t\tif ( wordArray.length >= 2 ) {\n\t\t\t\treturn wordArray.reduce( ( accumulator, currentValue ) => `${accumulator}${currentValue[0].charAt(0)}`.toUpperCase(), \'\' );\n\t\t\t}\n\t\t\treturn wordArray[0].charAt(0).toUpperCase();\n\t\t},\n\t}));\n\n\t/**\n\t * Datepicker.\n\t *\n\t * Based on https://wwilsman.github.io/Datepicker.js/#methods\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'datepicker\', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {\n\t\tel.setAttribute(\'readonly\', true);\n\n\t\tlet evaluate = evaluateLater(expression || \'{}\');\n\t\teffect(() => {\n\t\t\tevaluate( options => {\n\t\t\t\tlet format = grafema?.dateFormat,\n\t\t\t\t\tlang   = (grafema?.lang || navigator.language || navigator.userLanguage || \'en-US\');\n\n\t\t\t\tlet translateWeekdays = length => {\n\t\t\t\t\treturn Array.from({ length: 7 }, (_, i) => {\n\t\t\t\t\t\treturn new Intl.DateTimeFormat(lang, { weekday: length }).format(new Date(2024, 0, i + 1));\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tlet translateMonths = length => {\n\t\t\t\t\treturn Array.from({ length: 12 }, (_, i) => {\n\t\t\t\t\t\tlet month = new Intl.DateTimeFormat(lang, { month: length }).format(new Date(2024, i, 1));\n\t\t\t\t\t\t\tmonth = month.endsWith(\'.\') ? month.slice(0, -1) : month;\n\n\t\t\t\t\t\treturn month.charAt(0).toUpperCase() + month.slice(1);\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tlet formatter = (date, format) => {\n\t\t\t\t\tlet s           = date.toString(),\n\t\t\t\t\t\tf           = date.getTime(),\n\t\t\t\t\t\tfullYear    = date.getFullYear(),\n\t\t\t\t\t\tmonthNumber = date.getMonth(),\n\t\t\t\t\t\tday         = date.getDate(),\n\t\t\t\t\t\thours       = date.getHours(),\n\t\t\t\t\t\tminutes     = date.getMinutes(),\n\t\t\t\t\t\tseconds     = date.getSeconds();\n\n\t\t\t\t\treturn format.replace( /a|A|d|D|F|g|G|h|H|i|I|j|l|L|m|M|n|s|S|t|T|U|w|y|Y|z|Z/g, format => {\n\t\t\t\t\t\tswitch ( format ) {\n\t\t\t\t\t\t\tcase \'a\' : return hours > 11 ? \'pm\' : \'am\';\n\t\t\t\t\t\t\tcase \'A\' : return hours > 11 ? \'PM\' : \'AM\';\n\t\t\t\t\t\t\tcase \'d\' : return ( \'0\' + day ).slice(-2);\n\t\t\t\t\t\t\tcase \'D\' : return translateWeekdays(\'short\')[ date.getDay() ];\n\t\t\t\t\t\t\tcase \'F\' : return translateMonths(\'long\')[ monthNumber ];\n\t\t\t\t\t\t\tcase \'g\' : return ( s = ( hours || 12 ) ) > 12 ? s - 12 : s;\n\t\t\t\t\t\t\tcase \'G\' : return hours;\n\t\t\t\t\t\t\tcase \'h\' : return ( \'0\' + ( ( s = hours || 12 ) > 12 ? s - 12 : s ) ).slice(-2);\n\t\t\t\t\t\t\tcase \'H\' : return ( \'0\' + hours ).slice(-2);\n\t\t\t\t\t\t\tcase \'i\' : return ( \'0\' + minutes ).slice(-2);\n\t\t\t\t\t\t\tcase \'I\' : return (() => {\n\t\t\t\t\t\t\t\tlet a = new Date(fullYear, 0),\n\t\t\t\t\t\t\t\t\tc = Date.UTC(fullYear, 0),\n\t\t\t\t\t\t\t\t\tb = new Date(fullYear, 6),\n\t\t\t\t\t\t\t\t\td = Date.UTC(fullYear, 6);\n\t\t\t\t\t\t\t\treturn ((a - c) !== (b - d)) ? 1 : 0;\n\t\t\t\t\t\t\t})();\n\t\t\t\t\t\t\tcase \'j\' : return day;\n\t\t\t\t\t\t\tcase \'l\' : return translateWeekdays(\'long\')[ date.getDay() ];\n\t\t\t\t\t\t\tcase \'L\' : return ( s = fullYear ) % 4 === 0 && ( s % 100 !== 0 || s % 400 === 0 ) ? 1 : 0;\n\t\t\t\t\t\t\tcase \'m\' : return ( \'0\' + ( monthNumber + 1 ) ).slice(-2);\n\t\t\t\t\t\t\tcase \'M\' : return translateMonths(\'short\')[ monthNumber ];\n\t\t\t\t\t\t\tcase \'n\' : return monthNumber + 1;\n\t\t\t\t\t\t\tcase \'s\' : return ( \'0\' + seconds ).slice(-2);\n\t\t\t\t\t\t\tcase \'S\' : return [ \'th\', \'st\', \'nd\', \'rd\' ][ ( s = day ) < 4 ? s : 0 ];\n\t\t\t\t\t\t\tcase \'t\' : return (new Date(fullYear, monthNumber, 0)).getDate();\n\t\t\t\t\t\t\tcase \'T\' : return \'UTC\';\n\t\t\t\t\t\t\tcase \'U\' : return ( \'\' + f ).slice( 0, -3 );\n\t\t\t\t\t\t\tcase \'w\' : return date.getDay();\n\t\t\t\t\t\t\tcase \'y\' : return ( \'\' + fullYear ).slice(-2);\n\t\t\t\t\t\t\tcase \'Y\' : return fullYear;\n\t\t\t\t\t\t\tcase \'z\' : return Math.ceil((date - new Date(fullYear, 0, 1)) / 86400000);\n\t\t\t\t\t\t\tdefault : return -date.getTimezoneOffset() * 60;\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tlet datepicker = new AirDatepicker(\'[x-datepicker]\', {\n\t\t\t\t\t...{\n\t\t\t\t\t\trange: false,\n\t\t\t\t\t\tinline: false,\n\t\t\t\t\t\tmultipleDatesSeparator: \' — \',\n\t\t\t\t\t\tfirstDay: grafema?.weekStart,\n\t\t\t\t\t\tview: \'months\', // days, months or years\n\t\t\t\t\t},\n\t\t\t\t\t...options\n\t\t\t\t});\n\t\t\t\tconsole.log(datepicker)\n\t\t\t\ttry {\n\n\t\t\t\t\t// new Datepicker( el, {\n\t\t\t\t\t// \t...{\n\t\t\t\t\t// \t\tinline: false,\n\t\t\t\t\t// \t\tmultiple: false,\n\t\t\t\t\t// \t\tranged: true,\n\t\t\t\t\t// \t\ttime: false,\n\t\t\t\t\t// \t\tlang: lang.substr( 0, 2 ).toLowerCase(),\n\t\t\t\t\t// \t\tmonths: 1,\n\t\t\t\t\t// \t\topenOn: \'today\',\n\t\t\t\t\t// \t\ttimeAmPm: false,\n\t\t\t\t\t// \t\twithin: false,\n\t\t\t\t\t// \t\twithout: false,\n\t\t\t\t\t// \t\tyearRange: 5,\n\t\t\t\t\t// \t\tweekStart: grafema?.weekStart,\n\t\t\t\t\t// \t\tseparator: \' — \',\n\t\t\t\t\t// \t\tserialize: value => {\n\t\t\t\t\t// \t\t\tlet date = new Date(value);\n\t\t\t\t\t// \t\t\tif (format) {\n\t\t\t\t\t// \t\t\t\treturn formatter(date, format);\n\t\t\t\t\t// \t\t\t}\n\t\t\t\t\t// \t\t\treturn date.toLocaleDateString(lang);\n\t\t\t\t\t// \t\t},\n\t\t\t\t\t// \t},\n\t\t\t\t\t// \t...options\n\t\t\t\t\t// });\n\t\t\t\t} catch (e) {\n\t\t\t\t\tconsole.error( \'Check the library connection, "Datepicker" is not defined, see: https://github.com/wwilsman/Datepicker.js\' );\n\t\t\t\t}\n\t\t\t});\n\t\t});\n\t});\n\n\t/**\n\t * Validation by field `type`, `regexp` or `mask`.\n\t * This function are use `vanillaTextMask` library.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data( \'mask\', () => ( {\n\t\trun: mask => {\n\t\t\tlet elem = this.$el;\n\t\t\tif( typeof mask === \'undefined\' ) {\n\t\t\t\tlet type = elem.getAttribute( \'type\' );\n\t\t\t\tif( type ) {\n\t\t\t\t\tlet exp = \'\';\n\t\t\t\t\t// validation based on the field type\n\t\t\t\t\tswitch( type ) {\n\t\t\t\t\t\tcase \'tel\':\n\t\t\t\t\t\t\texp = /[^ \\-()+\\d]/g;\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\tcase \'number\':\n\t\t\t\t\t\t\texp = /[^.-\\d]/g;\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\tcase \'color\':\n\t\t\t\t\t\t\texp = /[^ a-zA-Z(),\\d]/g;\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t// TODO: validate domains and subdomains\n\t\t\t\t\t\t// @see https://stackoverflow.com/questions/26093545/how-to-validate-domain-name-using-regex\n\t\t\t\t\t\tcase \'domain\':\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\n\t\t\t\t\t// removing forbidden characters\n\t\t\t\t\tif ( exp ) {\n\t\t\t\t\t\telem.value = elem.value.replace( exp, \'\' );\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t} else if( mask === Object( mask ) ) {\n\t\t\t\telem.value = elem.value.replace( mask, \'\' );\n\t\t\t}\n\t\t\t/**\n\t\t\t * Validation by mask.\n\t\t\t *\n\t\t\t * @see discussion //javascript.ru/forum/dom-window/82008-kak-preobrazovat-stroku-v-massiv.html\n\t\t\t */\n\t\t\telse {\n\t\t\t\ttry {\n\t\t\t\t\tfunction limit( position, symbol, max ) {\n\t\t\t\t\t\tlet pos = position;\n\n\t\t\t\t\t\tmax = max.toString();\n\t\t\t\t\t\tif( mask.charAt( --pos ) === symbol ) {\n\t\t\t\t\t\t\tif( elem.value.charAt( pos ) === max.charAt(0) ) {\n\t\t\t\t\t\t\t\treturn new RegExp( \'[0-\' + max.charAt(1) + \']\' );\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\treturn /\\d/;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\treturn new RegExp( \'[0-\' + max.charAt(0) + \']\' );\n\t\t\t\t\t}\n\n\t\t\t\t\tlet maskArr  = mask.match( /(\\{[^}]+?\\})|(.)/g ),\n\t\t\t\t\t\t//var maskArr  = mask.match( /(\\{[^\\s]+\\})|(\\+)|([()])|(.)|(\\s+)/g ),\n\t\t\t\t\t\tposition = -1;\n\t\t\t\t\tmaskArr = maskArr.map( function( symbol ) {\n\t\t\t\t\t\t++position;\n\t\t\t\t\t\tswitch( symbol ) {\n\t\t\t\t\t\t\tcase \'i\':\n\t\t\t\t\t\t\t\treturn limit( position, symbol, 59 );\n\t\t\t\t\t\t\tcase \'H\':\n\t\t\t\t\t\t\t\treturn limit( position, symbol, 23 );\n\t\t\t\t\t\t\tcase \'D\':\n\t\t\t\t\t\t\t\treturn limit( position, symbol, 31 );\n\t\t\t\t\t\t\tcase \'M\':\n\t\t\t\t\t\t\t\treturn limit( position, symbol, 12 );\n\t\t\t\t\t\t\tcase \'Y\': case \'0\':\n\t\t\t\t\t\t\t\treturn /\\d/;\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\tif( /\\{[^}]+?\\}/.test( symbol ) ) {\n\t\t\t\t\t\t\t\t\treturn new RegExp( symbol.slice( 2, -2 ) );\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\treturn symbol;\n\t\t\t\t\t\t}\n\t\t\t\t\t} );\n\n\t\t\t\t\t//console.log( maskArr );\n\t\t\t\t\tvanillaTextMask.maskInput( {\n\t\t\t\t\t\tinputElement: elem,\n\t\t\t\t\t\tguide: false,\n\t\t\t\t\t\tmask: maskArr,\n\t\t\t\t\t} );\n\t\t\t\t} catch( e ) {\n\t\t\t\t\tconsole.error( \'Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask\' );\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t} ) );\n\n\t/**\n\t * Progress bar\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.directive( \'progress\', (el, {modifiers}) => {\n\t\tnew IntersectionObserver((entries, observer) => {\n\t\t\tentries.forEach(entry => {\n\t\t\t\tif(entry.isIntersecting) {\n\t\t\t\t\tlet [value = 100, from = 0, to = 100, duration = \'400ms\'] = modifiers;\n\n\t\t\t\t\tlet start = parseInt(from) / parseInt(value) * 100;\n\t\t\t\t\tlet end   = parseInt(to) / parseInt(value) * 100;\n\n\t\t\t\t\tif (start > end) {\n\t\t\t\t\t\t[ end, start ] = [ start, end ];\n\t\t\t\t\t}\n\n\t\t\t\t\tel.style.setProperty(\'--grafema-progress\', ( start < 0 ? 0 : start ) + \'%\');\n\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\tel.style.setProperty(\'--grafema-transition\', \' width \' + duration);\n\t\t\t\t\t\tel.style.setProperty(\'--grafema-progress\', ( end > 100 ? 100 : end ) + \'%\');\n\t\t\t\t\t}, 500)\n\n\t\t\t\t\t// apply progress just once\n\t\t\t\t\tobserver.unobserve(el);\n\t\t\t\t}\n\t\t\t});\n\t\t}).observe(el);\n\t});\n\n\t/**\n\t * Advanced select dropdown based on SlimSelect library.\n\t *\n\t * @see   https://github.com/brianvoe/slim-select\n\t * @since 1.0\n\t */\n\tAlpine.directive(\'select\', (el, { expression }) => {\n\t\tconst settings = {\n\t\t\tshowSearch: false,\n\t\t\thideSelected: false,\n\t\t\tcloseOnSelect: true,\n\t\t};\n\n\t\tif (el.hasAttribute(\'multiple\')) {\n\t\t\tsettings.hideSelected = true;\n\t\t\tsettings.closeOnSelect = false;\n\t\t}\n\n\t\tconst custom = JSON.parse(expression || \'{}\');\n\t\tif (typeof custom === \'object\') {\n\t\t\tObject.assign(settings, custom);\n\t\t}\n\n\t\ttry {\n\t\t\tnew SlimSelect({\n\t\t\t\tsettings,\n\t\t\t\tselect: el,\n\t\t\t\tdata: Array.from(el.options).reduce((acc, option) => {\n\t\t\t\t\tlet image       = option.getAttribute(\'data-image\'),\n\t\t\t\t\t\ticon        = option.getAttribute(\'data-icon\'),\n\t\t\t\t\t\tdescription = option.getAttribute(\'data-description\') || \'\';\n\n\t\t\t\t\tlet images       = image ? `<img src="${image}" alt />` : \'\',\n\t\t\t\t\t\ticons        = icon ? `<i class="${icon}"></i>` : \'\',\n\t\t\t\t\t\tdescriptions = description ? `<span class="ss-description">${description}</span>` : \'\',\n\t\t\t\t\t\thtml         = `${images}${icons}<span class="ss-text">${option.text}${descriptions}</span>`;\n\n\t\t\t\t\tlet optionData = {\n\t\t\t\t\t\ttext: option.text,\n\t\t\t\t\t\tvalue: option.value,\n\t\t\t\t\t\thtml: html,\n\t\t\t\t\t\tselected: option.selected,\n\t\t\t\t\t\tdisplay: true,\n\t\t\t\t\t\tdisabled: false,\n\t\t\t\t\t\tmandatory: false,\n\t\t\t\t\t\tplaceholder: false,\n\t\t\t\t\t\tclass: \'\',\n\t\t\t\t\t\tstyle: \'\',\n\t\t\t\t\t\tdata: {}\n\t\t\t\t\t};\n\n\t\t\t\t\tif (option.parentElement.tagName === \'OPTGROUP\') {\n\t\t\t\t\t\tconst optgroupLabel = option.parentElement.getAttribute(\'label\');\n\t\t\t\t\t\tconst optgroup = acc.find(item => item.label === optgroupLabel);\n\t\t\t\t\t\tif (optgroup) {\n\t\t\t\t\t\t\toptgroup.options.push(optionData);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tacc.push({\n\t\t\t\t\t\t\t\tlabel: optgroupLabel,\n\t\t\t\t\t\t\t\toptions: [optionData]\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\tacc.push(optionData);\n\t\t\t\t\t}\n\t\t\t\t\treturn acc;\n\t\t\t\t}, []),\n\t\t\t});\n\t\t} catch {\n\t\t\tconsole.error(\'The SlimSelect library is not connected\');\n\t\t}\n\t});\n\n\t/**\n\t * Advanced drag & drop based on slimselect library.\n\t *\n\t * @see   https://github.com/bevacqua/dragula\n\t * @since 1.0\n\t */\n\tAlpine.directive(\n\t\t\'media\',\n\t\t(el, {expression}) => {\n\t\t\tconsole.log(el)\n\t\t\t//dragula([el]);\n\t\t}\n\t);\n\n\t/**\n\t * Custom fields builder.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data(\n\t\t\'builder\',\n\t\t() => ({\n\t\t\tdefault: {\n\t\t\t\tlocation: \'post\',\n\t\t\t\toperator: \'===\',\n\t\t\t\tvalue: \'editor\',\n\t\t\t},\n\t\t\tgroups: [\n\t\t\t\t{\n\t\t\t\t\trules: [\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tlocation: \'post_status\',\n\t\t\t\t\t\t\toperator: \'!=\',\n\t\t\t\t\t\t\tvalue: \'contributor\',\n\t\t\t\t\t\t},\n\t\t\t\t\t]\n\t\t\t\t},\n\t\t\t],\n\t\t\taddGroup() {\n\t\t\t\tlet pattern = JSON.parse(JSON.stringify(this.default));\n\t\t\t\tthis.groups.push({\n\t\t\t\t\trules: [ pattern ]\n\t\t\t\t});\n\t\t\t},\n\t\t\tremoveGroup(index) {\n\t\t\t\tthis.groups.splice(index, 1);\n\t\t\t},\n\t\t\taddRule(key) {\n\t\t\t\tlet pattern = JSON.parse(JSON.stringify(this.default));\n\t\t\t\tthis.groups[key].rules.push(pattern);\n\t\t\t},\n\t\t\tremoveRule(key,index) {\n\t\t\t\tthis.groups[key].rules.splice(index, 1);\n\t\t\t},\n\t\t\tsubmit() {\n\t\t\t\tlet groups = JSON.parse(JSON.stringify(this.groups));\n\t\t\t\tconsole.log(groups);\n\t\t\t},\n\t\t})\n\t);\n\n\t/**\n\t * Sortable elements\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data( \'sortable\', () => ( {\n\t\tinit() {\n\t\t\tlet nestedSortables = [].slice.call( document.querySelectorAll( \'.sortable\' ) );\n\t\t\tfor( let i = 0; i < nestedSortables.length; i++ ) {\n\t\t\t\tnew Sortable( nestedSortables[i], {\n\t\t\t\t\tmultiDrag: true,\n\t\t\t\t\tselectedClass: \'is-active\',\n\t\t\t\t\tfallbackTolerance: 3,\n\t\t\t\t\tgroup: \'nested\',\n\t\t\t\t\teasing: \'cubic-bezier(1, 0, 0, 1)\',\n\t\t\t\t\tanimation: 100,\n\t\t\t\t\tfallbackOnBody: true,\n\t\t\t\t\tswapThreshold: 0.5,\n\t\t\t\t\tdataIdAttr: \'data-id\',\n\t\t\t\t} );\n\t\t\t}\n\t\t}\n\t} ) );\n\n\t/**\n\t * Tab\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data( \'tab\', (id) => ({\n\t\ttab: id,\n\t\ttabButton(id) {\n\t\t\treturn {\n\t\t\t\t[\'@click\']() {\n\t\t\t\t\tthis.tab = id;\n\n\t\t\t\t\tconst url    = new URL(window.location.href);\n\t\t\t\t\tconst params = new URLSearchParams(url.search);\n\n\t\t\t\t\t// update current URL\n\t\t\t\t\tparams.set(\'tab\', id);\n\t\t\t\t\turl.search = params.toString();\n\t\t\t\t\twindow.history.pushState({}, \'\', url.toString());\n\t\t\t\t},\n\t\t\t\t[\':class\']() {\n\t\t\t\t\treturn this.tab === id ? \'active\' : \'\';\n\t\t\t\t},\n\t\t\t};\n\t\t},\n\t\ttabContent(id) {\n\t\t\treturn {\n\t\t\t\t[\'x-show\']() {\n\t\t\t\t\treturn this.tab === id;\n\t\t\t\t},\n\t\t\t};\n\t\t}\n\t}));\n\n\t/**\n\t * Table checkbox\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data( \'table\', () => ( {\n\t\tinit() {\n\t\t\tdocument.addEventListener( \'keydown\', e => {\n\t\t\t\tlet key = window.event ? event : e;\n\t\t\t\tif ( !!key.shiftKey ) {\n\t\t\t\t\tthis.selection.shift = true;\n\t\t\t\t}\n\t\t\t});\n\t\t\tdocument.addEventListener( \'keyup\', e => {\n\t\t\t\tlet key = window.event ? event : e;\n\t\t\t\tif ( !key.shiftKey ) {\n\t\t\t\t\tthis.selection.shift = false;\n\t\t\t\t}\n\t\t\t});\n\t\t},\n\t\tselection: {\n\t\t\tbox: {},\n\t\t\tshift: false,\n\t\t\taddMore: true,\n\t\t},\n\t\tbulk: false,\n\t\ttrigger: {\n\t\t\t[\'@change\']( e ) {\n\t\t\t\tlet checked = 0;\n\t\t\t\tlet inputs  = document.querySelectorAll( \'input[name="item[]"]\' );\n\t\t\t\tif (inputs.length) {\n\t\t\t\t\tinputs.forEach(input => (input.checked = e.target.checked, input.checked && checked++));\n\t\t\t\t}\n\t\t\t\tthis.bulk = checked > 0;\n\t\t\t},\n\t\t},\n\t\treset: {\n\t\t\t[\'@click\']( e ) {\n\t\t\t\tlet inputs = document.querySelectorAll( \'input[name="item[]"], input[x-bind="trigger"]\' );\n\t\t\t\tif (inputs.length) {\n\t\t\t\t\tinputs.forEach(input => input.checked = false);\n\t\t\t\t}\n\t\t\t\tthis.bulk = false;\n\t\t\t},\n\t\t},\n\t\tswitcher: {\n\t\t\t[\'@click\']( e ) {\n\t\t\t\tlet checkboxes = document.querySelectorAll( \'input[name="item[]"]\' );\n\t\t\t\tlet nodeList   = Array.prototype.slice.call( document.getElementsByClassName( \'cb\' ) );\n\n\t\t\t\tthis.selection.addMore = !!e.target.checked;\n\t\t\t\tif ( this.selection.shift ) {\n\t\t\t\t\tthis.selection.box[1] = nodeList.indexOf( e.target.parentNode );\n\n\t\t\t\t\tlet i = this.selection.box[0],\n\t\t\t\t\t\tx = this.selection.box[1];\n\n\t\t\t\t\tif ( i > x ) {\n\t\t\t\t\t\tfor ( ; x < i; x++ ) {\n\t\t\t\t\t\t\tcheckboxes[x].checked = this.selection.addMore;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tif ( i < x ) {\n\t\t\t\t\t\tfor ( ; i < x; i++ ) {\n\t\t\t\t\t\t\tcheckboxes[i].checked = this.selection.addMore;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tthis.selection.box[0] = undefined;\n\t\t\t\t\tthis.selection.box[1] = undefined;\n\t\t\t\t} else {\n\t\t\t\t\tthis.selection.box[0] = nodeList.indexOf( e.target.parentNode );\n\t\t\t\t}\n\n\t\t\t\tlet checked = document.querySelectorAll(\'input[name="item[]"]:checked\');\n\t\t\t\tthis.bulk   = checked.length > 0;\n\t\t\t},\n\t\t}\n\t} ) )\n\n\t/**\n\t * Password\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.magic(\'password\', () => {\n\t\treturn {\n\t\t\tmin: {\n\t\t\t\tlowercase: 2,\n\t\t\t\tuppercase: 2,\n\t\t\t\tspecial: 2,\n\t\t\t\tdigit: 2,\n\t\t\t\tlength: 12\n\t\t\t},\n\t\t\tvalid: {\n\t\t\t\tlowercase: false,\n\t\t\t\tuppercase: false,\n\t\t\t\tspecial: false,\n\t\t\t\tdigit: false,\n\t\t\t\tlength: false\n\t\t\t},\n\t\t\tcharsets: {\n\t\t\t\tlowercase: \'abcdefghijklmnopqrstuvwxyz\',\n\t\t\t\tuppercase: \'ABCDEFGHIJKLMNOPQRSTUVWXYZ\',\n\t\t\t\tspecial: \'!@#$%^&*(){|}~\',\n\t\t\t\tdigit: \'0123456789\'\n\t\t\t},\n\t\t\tswitch(value) {\n\t\t\t\treturn !(!!value);\n\t\t\t},\n\t\t\tcheck(value) {\n\t\t\t\tlet matchCount = 0;\n\t\t\t\tlet totalCount = 0;\n\n\t\t\t\tfor (const charset in this.charsets) {\n\t\t\t\t\tlet requiredCount = this.min[charset],\n\t\t\t\t\t\tcharsetRegex  = new RegExp(`[${this.charsets[charset]}]`, \'g\'),\n\t\t\t\t\t\tcharsetCount  = (value.match(charsetRegex) || []).length;\n\t\t\t\t\tmatchCount += Math.min(charsetCount, requiredCount);\n\t\t\t\t\ttotalCount += requiredCount;\n\n\t\t\t\t\tthis.valid[charset] = charsetCount >= requiredCount;\n\t\t\t\t}\n\n\t\t\t\tif (value.length >= this.min.length) {\n\t\t\t\t\tmatchCount += 1;\n\t\t\t\t\ttotalCount += 1;\n\t\t\t\t\tthis.valid.length = value.length >= this.min.length;\n\t\t\t\t}\n\n\t\t\t\treturn Object.assign(\n\t\t\t\t\t{\n\t\t\t\t\t\tprogress: totalCount === 0 ? totalCount : (matchCount / totalCount) * 100,\n\t\t\t\t\t},\n\t\t\t\t\tthis.valid\n\t\t\t\t)\n\t\t\t},\n\t\t\tgenerate() {\n\t\t\t\tlet password = \'\';\n\t\t\t\tlet types = Object.keys(this.charsets);\n\n\t\t\t\ttypes.forEach(type => {\n\t\t\t\t\tlet count   = Math.max(this.min[type], 0),\n\t\t\t\t\t\tcharset = this.charsets[type];\n\n\t\t\t\t\tfor (let i = 0; i < count; i++) {\n\t\t\t\t\t\tlet randomIndex = Math.floor(Math.random() * charset.length);\n\t\t\t\t\t\tpassword += charset[randomIndex];\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\twhile (password.length < this.min.length) {\n\t\t\t\t\tlet randomIndex = Math.floor(Math.random() * types.length),\n\t\t\t\t\t\tcharType    = types[randomIndex],\n\t\t\t\t\t\tcharset     = this.charsets[charType],\n\t\t\t\t\t\trandomCharIndex = Math.floor(Math.random() * charset.length);\n\t\t\t\t\tpassword += charset[randomCharIndex];\n\t\t\t\t}\n\t\t\t\tthis.check(password);\n\n\t\t\t\treturn this.shuffle(password);\n\t\t\t},\n\t\t\tshuffle(password) {\n\t\t\t\tlet array = password.split(\'\');\n\t\t\t\tlet currentIndex = array.length;\n\t\t\t\tlet temporaryValue, randomIndex;\n\n\t\t\t\twhile (currentIndex !== 0) {\n\t\t\t\t\trandomIndex = Math.floor(Math.random() * currentIndex);\n\t\t\t\t\tcurrentIndex -= 1;\n\n\t\t\t\t\ttemporaryValue = array[currentIndex];\n\t\t\t\t\tarray[currentIndex] = array[randomIndex];\n\t\t\t\t\tarray[randomIndex] = temporaryValue;\n\t\t\t\t}\n\n\t\t\t\treturn array.join(\'\');\n\t\t\t},\n\t\t}\n\t});\n\n\t/**\n\t * Counting time in four different units: seconds, minutes, hours and days.\n\t *\n\t * @since 1.0\n\t */\n\tAlpine.data( \'timer\', ( endDate, startDate ) => ( {\n\t\tend: endDate, // format: \'2021-31-12T14:58:31+00:00\'\n\t\tday:  \'00\',\n\t\thour: \'00\',\n\t\tmin:  \'00\',\n\t\tsec:  \'00\',\n\t\tinit() {\n\t\t\tlet start = startDate || new Date().valueOf(),\n\t\t\t\tend   = new Date( this.end ).valueOf();\n\n\t\t\t// if the start date is earlier than the end date\n\t\t\tif( start < end ) {\n\t\t\t\t// number of seconds between two dates\n\t\t\t\tlet diff = Math.round( ( end - start ) / 1000 );\n\n\t\t\t\tlet t = this;\n\t\t\t\tsetInterval( function() {\n\t\t\t\t\tt.day  = ( \'0\' + parseInt( diff / ( 60 * 60 * 24 ), 10 ) ).slice(-2);\n\t\t\t\t\tt.hour = ( \'0\' + parseInt( ( diff / ( 60 * 60 ) ) % 24, 10 ) ).slice(-2);\n\t\t\t\t\tt.min  = ( \'0\' + parseInt( ( diff / 60 ) % 60, 10 ) ).slice(-2);\n\t\t\t\t\tt.sec  = ( \'0\' + parseInt( diff % 60, 10 ) ).slice(-2);\n\n\t\t\t\t\tif( --diff < 0 ) {\n\t\t\t\t\t\tt.days = t.hour = t.min = t.sec = \'00\';\n\t\t\t\t\t}\n\t\t\t\t}, 1000 );\n\t\t\t}\n\t\t},\n\t} ) );\n\n} );\n\n\n//# sourceURL=webpack://webpack-starter/./src/js/grafema.js?');
+    749: function() {
+        document.addEventListener('alpine:init', (() => {
+            Alpine.directive('intersect', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
+                function getThreshold(modifiers) {
+                    if (modifiers.includes('full')) return .99;
+                    if (modifiers.includes('half')) return .5;
+                    if (!modifiers.includes('threshold')) return 0;
+                    let threshold = modifiers[modifiers.indexOf('threshold') + 1];
+                    if (threshold === '100') return 1;
+                    if (threshold === '0') return 0;
+                    return Number(`.${threshold}`);
+                }
+                function getLengthValue(rawValue) {
+                    let match = rawValue.match(/^(-?[0-9]+)(px|%)?$/);
+                    return match ? match[1] + (match[2] || 'px') : void 0;
+                }
+                function getRootMargin(modifiers) {
+                    const key = 'margin';
+                    const fallback = '0px 0px 0px 0px';
+                    const index = modifiers.indexOf(key);
+                    if (index === -1) return fallback;
+                    let values = [];
+                    for (let i = 1; i < 5; i++) {
+                        values.push(getLengthValue(modifiers[index + i] || ''));
+                    }
+                    values = values.filter((v => v !== void 0));
+                    return values.length ? values.join(' ').trim() : fallback;
+                }
+                let evaluate = evaluateLater(expression);
+                let options = {
+                    rootMargin: getRootMargin(modifiers),
+                    threshold: getThreshold(modifiers)
+                };
+                let observer = new IntersectionObserver((entries => {
+                    entries.forEach((entry => {
+                        if (entry.isIntersecting === (value === 'leave')) {
+                            return;
+                        }
+                        evaluate();
+                        modifiers.includes('once') && observer.disconnect();
+                    }));
+                }), options);
+                observer.observe(el);
+                cleanup((() => observer.disconnect()));
+            }));
+            Alpine.directive('sticky', (el => {
+                let style = el.parentElement.currentStyle || window.getComputedStyle(el.parentElement);
+                if (style.position !== 'relative') {
+                    return false;
+                }
+                let rect = el.getBoundingClientRect();
+                let diff = rect.height - document.scrollingElement.offsetHeight;
+                let paddingTop = parseInt(style.paddingTop) + 42;
+                let paddingBottom = parseInt(style.paddingBottom);
+                let lastScroll = 0;
+                let bottomPoint = 0;
+                let value = 'top: ' + paddingTop + 'px';
+                function calcPosition() {
+                    if (diff > 0) {
+                        let y = document.scrollingElement.scrollTop;
+                        if (window.scrollY > lastScroll) {
+                            if (y > diff) {
+                                bottomPoint = diff * -1 - paddingBottom;
+                                value = 'top: ' + bottomPoint + 'px';
+                            } else {
+                                value = 'top: ' + (y * -1 - paddingBottom) + 'px';
+                            }
+                        } else {
+                            bottomPoint = bottomPoint + (lastScroll - window.scrollY);
+                            if (bottomPoint < paddingTop) {
+                                value = 'top: ' + bottomPoint + 'px';
+                            }
+                        }
+                    }
+                    el.setAttribute('style', 'position: sticky;' + value);
+                    lastScroll = window.scrollY;
+                }
+                window.addEventListener('load', (() => calcPosition()));
+                window.addEventListener('scroll', (() => calcPosition()));
+                window.addEventListener('resize', (() => calcPosition()));
+            }));
+            Alpine.directive('autocomplete', (el => {
+                el.setAttribute('readonly', true);
+                el.onfocus = () => setTimeout((() => el.removeAttribute('readonly')), 10);
+                el.onblur = () => el.setAttribute('readonly', true);
+            }));
+            Alpine.directive('highlight', ((el, {modifiers}) => {
+                let lang = modifiers[0] || 'html', wrapper = document.createElement('code');
+                wrapper.classList.add('language-' + lang);
+                wrapper.innerHTML = el.innerHTML;
+                el.classList.add('line-numbers');
+                el.innerHTML = '';
+                el.setAttribute('data-lang', lang.toUpperCase());
+                el.appendChild(wrapper);
+            }));
+            Alpine.directive('collapse', ((el, {modifiers}) => {
+                let duration = ((modifiers, key = 'duration', fallback = 350) => {
+                    if (modifiers.indexOf(key) === -1) return fallback;
+                    const rawValue = modifiers[modifiers.indexOf(key) + 1];
+                    if (!rawValue) return fallback;
+                    if (key === 'duration') {
+                        let match = rawValue.match(/([0-9]+)ms/);
+                        if (match) return match[1];
+                    }
+                    return rawValue;
+                })(modifiers) / 1e3;
+                let floor = 0;
+                if (!el._x_isShown) {
+                    el.style.height = `${floor}px`;
+                    el.style.overflow = 'hidden';
+                    el.hidden = true;
+                }
+                let setFunction = (el2, styles) => {
+                    let revertFunction = Alpine.setStyles(el2, styles);
+                    return styles.height ? () => {} : revertFunction;
+                };
+                let transitionStyles = {
+                    overflow: 'hidden',
+                    transitionProperty: 'height',
+                    transitionDuration: `${duration}s`,
+                    transitionTimingFunction: 'cubic-bezier(0.4, 0.0, 0.2, 1)'
+                };
+                el._x_transition = {
+                    in(before = (() => {}), after = (() => {})) {
+                        el.hidden = false;
+                        let current = el.getBoundingClientRect().height;
+                        Alpine.setStyles(el, {
+                            display: null,
+                            height: 'auto'
+                        });
+                        let full = el.getBoundingClientRect().height;
+                        Alpine.setStyles(el, {
+                            overflow: 'hidden'
+                        });
+                        if (current === full) {
+                            current = floor;
+                        }
+                        Alpine.transition(el, Alpine.setStyles, {
+                            during: transitionStyles,
+                            start: {
+                                height: current + 'px'
+                            },
+                            end: {
+                                height: full + 'px'
+                            }
+                        }, (() => el._x_isShown = true), (() => {}));
+                    },
+                    out(before = (() => {}), after = (() => {})) {
+                        let full = el.getBoundingClientRect().height;
+                        Alpine.transition(el, setFunction, {
+                            during: transitionStyles,
+                            start: {
+                                height: full + 'px'
+                            },
+                            end: {
+                                height: floor + 'px'
+                            }
+                        }, (() => {}), (() => {
+                            el._x_isShown = false;
+                            if (el.style.height === `${floor}px`) {
+                                Alpine.nextTick((() => {
+                                    Alpine.setStyles(el, {
+                                        display: 'none',
+                                        overflow: 'hidden'
+                                    });
+                                    el.hidden = true;
+                                }));
+                            }
+                        }));
+                    }
+                };
+            }));
+            Alpine.magic('copy', (el => subject => {
+                window.navigator.clipboard.writeText(subject).then((() => {
+                    let classes = 'ph-copy ph-check'.split(' ');
+                    classes.forEach((s => el.classList.toggle(s)));
+                    setTimeout((() => classes.forEach((s => el.classList.toggle(s)))), 1e3);
+                }), (() => {
+                    console.log('Oops, your browser is not support clipboard!');
+                }));
+            }));
+            let seconds = 0, isCountingDown = false;
+            Alpine.magic('countdown', (() => ({
+                start: (initialSeconds, processCallback, endCallback) => {
+                    if (isCountingDown) {
+                        return;
+                    }
+                    seconds = initialSeconds;
+                    isCountingDown = true;
+                    function countdown() {
+                        processCallback && processCallback(true);
+                        if (seconds === 0) {
+                            endCallback && endCallback(true);
+                            isCountingDown = false;
+                        } else {
+                            seconds--;
+                            setTimeout(countdown, 1e3);
+                        }
+                    }
+                    countdown();
+                },
+                second: seconds
+            })));
+            let stream = null;
+            Alpine.magic('stream', (() => ({
+                check(refs) {
+                    let canvas = refs.canvas, video = refs.video, image = refs.image;
+                    if (!canvas) {
+                        console.error('Canvas element is undefined');
+                        return false;
+                    }
+                    if (!video) {
+                        console.error('Video for selfie preview is undefined');
+                        return false;
+                    }
+                    if (!image) {
+                        console.error('Image for output selfie is undefined');
+                        return false;
+                    }
+                },
+                isVisible(element) {
+                    const styles = window.getComputedStyle(element);
+                    if (styles) {
+                        return !(styles.visibility === 'hidden' || styles.display === 'none' || parseFloat(styles.opacity) === 0);
+                    }
+                    return false;
+                },
+                start(refs) {
+                    let video = refs.video;
+                    const observer = new MutationObserver((mutations => {
+                        for (let mutation of mutations) {
+                            if (mutation.target === document.body && !stream) {
+                                setTimeout((async () => {
+                                    if (this.isVisible(video)) {
+                                        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                                            video.srcObject = stream = await navigator.mediaDevices.getUserMedia({
+                                                video: true
+                                            });
+                                        } else {
+                                            console.error('The browser does not support the getUserMedia API');
+                                        }
+                                    }
+                                }), 500);
+                            }
+                        }
+                    }));
+                    observer.observe(document, {
+                        childList: true,
+                        subtree: true,
+                        attributes: true
+                    });
+                },
+                snapshot(refs) {
+                    this.check(refs);
+                    this.start(refs);
+                    let canvas = refs.canvas, video = refs.video, image = refs.image;
+                    let width = video.offsetWidth, height = video.offsetHeight;
+                    let imageStyles = window.getComputedStyle(image), imageWidth = parseInt(imageStyles.width, 10), imageHeight = parseInt(imageStyles.height, 10);
+                    canvas.width = imageWidth;
+                    canvas.height = imageHeight;
+                    let offsetTop = (height - imageHeight) / 2, offsetLeft = (width - imageWidth) / 2;
+                    let ctx = canvas.getContext('2d');
+                    ctx.imageSmoothingQuality = 'low';
+                    let scale = height / imageHeight;
+                    console.log((offsetTop + offsetLeft) / 2);
+                    ctx.drawImage(video, offsetLeft * 1.5, offsetTop * 1.5, height * 1.5, height * 1.5, 0, 0, imageWidth, imageHeight);
+                    let imageData = canvas.toDataURL('image/png');
+                    if (imageData) {
+                        image.src = imageData;
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    }
+                    return imageData;
+                },
+                stop() {
+                    if (stream) {
+                        stream.getTracks().forEach((track => track.stop()));
+                    }
+                    stream = null;
+                }
+            })));
+            Alpine.directive('anchor', ((el, {value, expression, modifiers}, {evaluateLater, cleanup}) => {
+                let hash = window.location.hash.replace('#', ''), anchor = el.innerText.toLowerCase().replaceAll(' ', '-');
+                if (hash && hash === anchor) {
+                    el.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+                el.addEventListener('click', (e => {
+                    e.preventDefault();
+                    window.location.hash = anchor;
+                    el.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }), false);
+                let evaluate = evaluateLater(expression || null);
+                let observer = new IntersectionObserver((entries => {
+                    entries.forEach((entry => {
+                        if (!entry.isIntersecting || entry.intersectionRatio !== 1) {
+                            return;
+                        }
+                        evaluate();
+                        window.location.hash = anchor;
+                    }));
+                }), {
+                    threshold: .5
+                });
+                observer.observe(el);
+                cleanup((() => observer.disconnect()));
+            }));
+            Alpine.directive('listen', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                console.log(el);
+                console.log(value);
+                console.log(expression);
+                console.log(modifiers);
+                if (!expression) {
+                    return false;
+                }
+                let evaluate = evaluateLater(expression);
+                effect((() => {
+                    evaluate((content => {
+                        if (content) {
+                            let name = 'listen-node';
+                            function _play(aud, icn) {
+                                icn.classList.add('playing');
+                                aud.play();
+                                aud.setAttribute('data-playing', 'true');
+                                aud.addEventListener('ended', (function() {
+                                    _pause(aud, icn);
+                                    aud.parentNode.style.background = null;
+                                    return false;
+                                }));
+                            }
+                            function _pause(aud, icn) {
+                                aud.pause();
+                                aud.setAttribute('data-playing', 'false');
+                                icn.classList.remove('playing');
+                            }
+                            let aud, icn;
+                            let css = document.createElement('style');
+                            css.type = 'text/css';
+                            css.innerHTML = '.listen-node {display: inline-block; background:rgba(0, 0, 0, 0.05); padding: 1px 8px 2px; border-radius:3px; cursor: pointer;} .listen-node i {font-size: 0.65em; border: 0.5em solid transparent; border-left: 0.75em solid; display: inline-block; margin-right: 2px;margin-bottom: 1px;} .listen-node .playing { border: 0; border-left: 0.75em double; border-right: 0.5em solid transparent; height: 1em;}';
+                            document.getElementsByTagName('head')[0].appendChild(css);
+                            aud = document.createElement('audio');
+                            icn = document.createElement('i');
+                            aud.src = el.getAttribute('data-src');
+                            aud.setAttribute('data-playing', 'false');
+                            el.id = name + '-' + i;
+                            el.insertBefore(icn, el.firstChild);
+                            el.appendChild(aud);
+                            document.addEventListener('click', (e => {
+                                let aud, elm, icn;
+                                if (e.target.className === name) {
+                                    aud = e.target.children[1];
+                                    elm = e.target;
+                                    icn = e.target.children[0];
+                                } else if (e.target.parentElement && e.target.parentElement.className === name) {
+                                    aud = e.target.parentElement.children[1];
+                                    elm = e.target.parentElement;
+                                    icn = e.target;
+                                }
+                                if (aud && elm && icn) {
+                                    aud.srt = parseInt(elm.getAttribute('data-start')) || 0;
+                                    aud.end = parseInt(elm.getAttribute('data-end')) || aud.duration;
+                                    if (aud && aud.getAttribute('data-playing') === 'false') {
+                                        if (aud.srt > aud.currentTime || aud.end < aud.currentTime) {
+                                            aud.currentTime = aud.srt;
+                                        }
+                                        _play(aud, icn);
+                                    } else {
+                                        _pause(aud, icn);
+                                    }
+                                    (function loop() {
+                                        let d = requestAnimationFrame(loop);
+                                        let percent = (aud.currentTime - aud.srt) * 100 / (aud.end - aud.srt);
+                                        percent = percent < 100 ? percent : 100;
+                                        elm.style.background = 'linear-gradient(to right, rgba(0, 0, 0, 0.1)' + percent + '%, rgba(0, 0, 0, 0.05)' + percent + '%)';
+                                        if (aud.end < aud.currentTime) {
+                                            _pause(aud, icn);
+                                            cancelAnimationFrame(d);
+                                        }
+                                    })();
+                                }
+                            }));
+                            el.addEventListener('click', (() => {}), false);
+                        }
+                    }));
+                }));
+            }));
+            Alpine.directive('textarea', ((el, {expression}) => {
+                if ('TEXTAREA' !== el.tagName.toUpperCase()) {
+                    return false;
+                }
+                el.addEventListener('input', (() => {
+                    let max = parseInt(expression) || 99, rows = parseInt(el.value.split(/\r|\r\n|\n/).length);
+                    if (rows > max) {
+                        return false;
+                    }
+                    el.style.height = 'auto';
+                    el.style.height = `${el.scrollHeight}px`;
+                }), false);
+            }));
+            Alpine.directive('tooltip', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                let evaluate = evaluateLater(expression);
+                effect((() => {
+                    evaluate((content => {
+                        let position, trigger;
+                        if (modifiers) {
+                            modifiers.forEach((modifier => {
+                                position = [ 'top', 'right', 'bottom', 'left' ].includes(modifier) ? modifier : 'top';
+                                trigger = [ 'hover', 'click' ].includes(modifier) ? modifier : 'hover';
+                            }));
+                        }
+                        if (position && trigger) {
+                            new Drooltip({
+                                element: el,
+                                trigger,
+                                position,
+                                background: '#fff',
+                                color: 'var(--grafema-dark)',
+                                animation: 'bounce',
+                                content: content || null,
+                                callback: null
+                            });
+                        }
+                    }));
+                }));
+            }));
+            Alpine.directive('wizard', ((el, {value, expression, modifiers}, {Alpine: Alpine2, evaluate, cleanup}) => {
+                const wizard2 = getWizard(el, Alpine2);
+                const step = wizard2.getStep(el);
+                cleanup((() => step.cleanup()));
+                const evaluateCheck = () => [ !!evaluate(expression), {} ];
+                Alpine2.effect((() => {
+                    step.evaluate = content => evaluate(content);
+                    if (expression !== '') {
+                        if (value === 'step') {
+                            const [passes, errors] = evaluateCheck();
+                            step.is_complete = passes;
+                            step.errors = errors;
+                        }
+                        if (value === 'action') {
+                            step.action = expression;
+                        }
+                    }
+                    if (value === 'if') {
+                        step.is_applicable = evaluateCheck()[0];
+                    }
+                    if (value === 'title') {
+                        if (modifiers.includes('dynamic')) {
+                            step.title = `${evaluate(expression)}`;
+                        } else {
+                            step.title = expression;
+                        }
+                    }
+                }));
+            }));
+            Alpine.magic('wizard', ((el, {Alpine: Alpine2}) => getWizard(el, Alpine2)));
+            let wizards = new WeakMap;
+            let getWizard = (el, Alpine) => {
+                const root = Alpine.closestRoot(el);
+                if (!wizards.has(root)) {
+                    wizards.set(root, initWizardRoot(Alpine));
+                }
+                return wizards.get(root);
+            };
+            let initWizardRoot = Alpine => Alpine.reactive({
+                steps: [],
+                current_index: 0,
+                progress() {
+                    let current = 0;
+                    let complete = 0;
+                    let total = 0;
+                    for (let index = 0; index < this.steps.length; index++) {
+                        const step = this.steps[index];
+                        if (!step.is_applicable) {
+                            continue;
+                        }
+                        total++;
+                        if (index <= this.current_index) {
+                            current++;
+                        }
+                        if (index <= this.current_index && step.is_complete) {
+                            complete++;
+                        }
+                    }
+                    return {
+                        total,
+                        complete,
+                        current,
+                        incomplete: total - complete,
+                        progress: `${Math.floor(current / total * 100)}%`,
+                        completion: `${Math.floor(complete / total * 100)}%`,
+                        percentage: Math.floor(complete / total * 100)
+                    };
+                },
+                current() {
+                    return this.steps[this.current_index] || {
+                        el: null,
+                        title: null
+                    };
+                },
+                previous() {
+                    return this.steps[this.previousIndex()] || {
+                        el: null,
+                        title: null
+                    };
+                },
+                next() {
+                    return this.steps[this.nextIndex()] || {
+                        el: null,
+                        title: null
+                    };
+                },
+                previousIndex() {
+                    return findNextIndex(this.steps, this.current_index, -1);
+                },
+                nextIndex() {
+                    return findNextIndex(this.steps, this.current_index, 1);
+                },
+                isStep(index) {
+                    if (!Array.isArray(index)) {
+                        index = [ index ];
+                    }
+                    return index.includes(this.current_index);
+                },
+                isFirst() {
+                    return this.previousIndex() === null;
+                },
+                isNotFirst() {
+                    return !this.isFirst();
+                },
+                isLast() {
+                    return this.nextIndex() === null;
+                },
+                isNotLast() {
+                    return !this.isLast();
+                },
+                isCompleted() {
+                    return this.current().is_complete && this.nextIndex() === null;
+                },
+                isUncompleted() {
+                    return !this.isCompleted();
+                },
+                goNext() {
+                    this.goTo(this.nextIndex());
+                },
+                canGoNext() {
+                    return this.current().is_complete && this.nextIndex() !== null;
+                },
+                cannotGoNext() {
+                    return !this.canGoNext();
+                },
+                goBack() {
+                    this.goTo(this.previousIndex());
+                },
+                canGoBack() {
+                    return this.previousIndex() !== null;
+                },
+                cannotGoBack() {
+                    return !this.canGoBack();
+                },
+                goTo(index) {
+                    if (index !== null && this.steps[index] !== void 0) {
+                        this.current_index = index;
+                        let action = this.steps[index].action || '';
+                        if (action) {
+                            this.steps[index].evaluate(action);
+                        }
+                    }
+                    return this.current();
+                },
+                getStep(el) {
+                    let step = this.steps.find((step2 => step2.el === el));
+                    if (!step) {
+                        el.setAttribute('x-show', '$wizard.current().el === $el');
+                        step = Alpine.reactive({
+                            el,
+                            title: '',
+                            is_applicable: true,
+                            is_complete: true,
+                            errors: {},
+                            cleanup: () => {
+                                this.steps = this.steps.filter((step2 => step2.el === el));
+                            }
+                        });
+                        this.steps.push(step);
+                    }
+                    return step;
+                }
+            });
+            let findNextIndex = (steps, current, direction = 1) => {
+                for (let index = current + direction; index >= 0 && index < steps.length; index += direction) {
+                    if (steps[index] && steps[index].is_applicable) {
+                        return index;
+                    }
+                }
+                return null;
+            };
+            const BYTES_IN_MB = 1048576;
+            Alpine.magic('ajax', (el => (route, data, callback) => {
+                let onloadEvent, formData = new FormData, xhr = new XMLHttpRequest, buttons = el.querySelectorAll('[type=\'submit\']');
+                function onProgress(event, xhr) {
+                    const {loaded = 0, total = 0, type} = event;
+                    const {response = '', status = '', responseURL = ''} = xhr;
+                    let data = {
+                        blob: new Blob([ response ]),
+                        raw: response,
+                        status,
+                        url: responseURL,
+                        loaded: convertTo(loaded),
+                        total: convertTo(total),
+                        percent: total > 0 ? Math.round(loaded / total * 100) : 0,
+                        start: type === 'loadstart',
+                        progress: type === 'progress',
+                        end: type === 'loadend'
+                    };
+                    if (data.end) {
+                        console.log(data);
+                    }
+                    return data;
+                }
+                function convertTo(number) {
+                    return Math.round(number / BYTES_IN_MB * 100) / 100;
+                }
+                return new Promise((resolve => {
+                    switch (el.tagName) {
+                      case 'BUTTON':
+                        el.classList.add('btn--load');
+                        onloadEvent = () => el.classList.remove('btn--load');
+                        break;
+
+                      case 'FORM':
+                        formData = new FormData(el);
+                        let inputs = el.querySelectorAll('input[type=\'file\']');
+                        [ ...inputs ].forEach((input => {
+                            let files = input.files;
+                            files && [ ...files ].forEach(((file, index) => formData.append(index, file)));
+                        }));
+                        buttons && buttons.forEach((button => button.classList.add('btn--load')));
+                        onloadEvent = () => buttons && buttons.forEach((button => button.classList.remove('btn--load')));
+                        break;
+
+                      case 'TEXTAREA':
+                      case 'SELECT':
+                      case 'INPUT':
+                        el.type !== 'file' && el.name && formData.append(el.name, el.value);
+                        break;
+                    }
+                    if (typeof data === 'object') {
+                        for (const [key, value] of Object.entries(data)) {
+                            formData.append(key, value);
+                        }
+                    }
+                    xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', grafema.apiurl + route);
+                    xhr.withCredentials = true;
+                    xhr.responseType = 'json';
+                    xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
+                    xhr.onloadend = event => callback?.(onProgress(event, xhr));
+                    xhr.onload = event => {
+                        document.dispatchEvent(new CustomEvent(route, {
+                            detail: {
+                                data: xhr.response?.data,
+                                event,
+                                el,
+                                resolve
+                            },
+                            bubbles: true,
+                            composed: true,
+                            cancelable: true
+                        }));
+                        onloadEvent && onloadEvent();
+                    };
+                    xhr.send(formData);
+                }));
+            }));
+            Alpine.magic('notice', ((el, {Alpine}) => ({
+                items: [],
+                notify(message) {
+                    this.items.push(message);
+                }
+            })));
+            Alpine.store('notice', {
+                items: {},
+                duration: 4e3,
+                setDuration(duration) {
+                    this.duration = parseInt(duration) || 4e3;
+                },
+                info(message) {
+                    this.notify(message, 'info');
+                },
+                success(message) {
+                    this.notify(message, 'success');
+                },
+                warning(message) {
+                    this.notify(message, 'warning');
+                },
+                error(message) {
+                    this.notify(message, 'error');
+                },
+                loading(message) {
+                    this.notify(message, 'loading');
+                },
+                close(id) {
+                    if (typeof this.items[id] !== 'undefined') {
+                        this.items[id].selectors.push('hide');
+                        setTimeout((() => {
+                            delete this.items[id];
+                        }), 1e3);
+                    }
+                },
+                notify(message, type) {
+                    if (message) {
+                        let animationName = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5), timestamp = Date.now();
+                        this.items[timestamp] = {
+                            anim: `url("data:image/svg+xml;charset=UTF-8,%3csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3ecircle %7b animation: ${this.duration}ms ${animationName} linear;%7d%40keyframes ${animationName} %7bfrom%7bstroke-dasharray:0 70%7dto%7bstroke-dasharray:70 0%7d%7d%3c/style%3e%3ccircle cx='12' cy='12' r='11' stroke='%23000' stroke-opacity='.2' stroke-width='2'/%3e%3c/svg%3e")`,
+                            message,
+                            closable: true,
+                            selectors: [ type || 'info' ],
+                            classes() {
+                                return this.selectors.map((x => 'notice__item--' + x)).join(' ');
+                            }
+                        };
+                        setTimeout((() => this.close(timestamp)), this.duration);
+                    }
+                }
+            });
+            Alpine.magic('password', (() => ({
+                min: {
+                    lowercase: 2,
+                    uppercase: 2,
+                    special: 2,
+                    digit: 2,
+                    length: 12
+                },
+                valid: {
+                    lowercase: false,
+                    uppercase: false,
+                    special: false,
+                    digit: false,
+                    length: false
+                },
+                charsets: {
+                    lowercase: 'abcdefghijklmnopqrstuvwxyz',
+                    uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                    special: '!@#$%^&*(){|}~',
+                    digit: '0123456789'
+                },
+                switch(value) {
+                    return !!!value;
+                },
+                check(value) {
+                    let matchCount = 0;
+                    let totalCount = 0;
+                    for (const charset in this.charsets) {
+                        let requiredCount = this.min[charset], charsetRegex = new RegExp(`[${this.charsets[charset]}]`, 'g'), charsetCount = (value.match(charsetRegex) || []).length;
+                        matchCount += Math.min(charsetCount, requiredCount);
+                        totalCount += requiredCount;
+                        this.valid[charset] = charsetCount >= requiredCount;
+                    }
+                    if (value.length >= this.min.length) {
+                        matchCount += 1;
+                        totalCount += 1;
+                        this.valid.length = value.length >= this.min.length;
+                    }
+                    return Object.assign({
+                        progress: totalCount === 0 ? totalCount : matchCount / totalCount * 100
+                    }, this.valid);
+                },
+                generate() {
+                    let password = '';
+                    let types = Object.keys(this.charsets);
+                    types.forEach((type => {
+                        let count = Math.max(this.min[type], 0), charset = this.charsets[type];
+                        for (let i = 0; i < count; i++) {
+                            let randomIndex = Math.floor(Math.random() * charset.length);
+                            password += charset[randomIndex];
+                        }
+                    }));
+                    while (password.length < this.min.length) {
+                        let randomIndex = Math.floor(Math.random() * types.length), charType = types[randomIndex], charset = this.charsets[charType], randomCharIndex = Math.floor(Math.random() * charset.length);
+                        password += charset[randomCharIndex];
+                    }
+                    this.check(password);
+                    return this.shuffle(password);
+                },
+                shuffle(password) {
+                    let array = password.split('');
+                    let currentIndex = array.length;
+                    let temporaryValue, randomIndex;
+                    while (currentIndex !== 0) {
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+                    return array.join('');
+                }
+            })));
+            Alpine.data('avatar', (() => ({
+                content: '',
+                image: '',
+                add(event, callback) {
+                    let file = event.target.files[0];
+                    if (file) {
+                        let reader = new FileReader;
+                        reader.onload = e => {
+                            this.image = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                    if (callback) {
+                        callback();
+                    }
+                },
+                remove() {
+                    let root = this.$el.closest('[x-data]'), input = root && root.querySelector('input[type="file"]');
+                    if (input) {
+                        input.value = '';
+                    }
+                    this.image = '';
+                },
+                getInitials(string, letters = 2) {
+                    const wordArray = string.split(' ').slice(0, letters);
+                    if (wordArray.length >= 2) {
+                        return wordArray.reduce(((accumulator, currentValue) => `${accumulator}${currentValue[0].charAt(0)}`.toUpperCase()), '');
+                    }
+                    return wordArray[0].charAt(0).toUpperCase();
+                }
+            })));
+            Alpine.directive('datepicker', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
+                el.setAttribute('readonly', true);
+                let evaluate = evaluateLater(expression || '{}');
+                effect((() => {
+                    evaluate((options => {
+                        let format = grafema?.dateFormat, lang = grafema?.lang || navigator.language || navigator.userLanguage || 'en-US';
+                        let translateWeekdays = length => Array.from({
+                            length: 7
+                        }, ((_, i) => new Intl.DateTimeFormat(lang, {
+                            weekday: length
+                        }).format(new Date(2024, 0, i + 1))));
+                        let translateMonths = length => Array.from({
+                            length: 12
+                        }, ((_, i) => {
+                            let month = new Intl.DateTimeFormat(lang, {
+                                month: length
+                            }).format(new Date(2024, i, 1));
+                            month = month.endsWith('.') ? month.slice(0, -1) : month;
+                            return month.charAt(0).toUpperCase() + month.slice(1);
+                        }));
+                        let formatter = (date, format) => {
+                            let s = date.toString(), f = date.getTime(), fullYear = date.getFullYear(), monthNumber = date.getMonth(), day = date.getDate(), hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds();
+                            return format.replace(/a|A|d|D|F|g|G|h|H|i|I|j|l|L|m|M|n|s|S|t|T|U|w|y|Y|z|Z/g, (format => {
+                                switch (format) {
+                                  case 'a':
+                                    return hours > 11 ? 'pm' : 'am';
+
+                                  case 'A':
+                                    return hours > 11 ? 'PM' : 'AM';
+
+                                  case 'd':
+                                    return ('0' + day).slice(-2);
+
+                                  case 'D':
+                                    return translateWeekdays('short')[date.getDay()];
+
+                                  case 'F':
+                                    return translateMonths('long')[monthNumber];
+
+                                  case 'g':
+                                    return (s = hours || 12) > 12 ? s - 12 : s;
+
+                                  case 'G':
+                                    return hours;
+
+                                  case 'h':
+                                    return ('0' + ((s = hours || 12) > 12 ? s - 12 : s)).slice(-2);
+
+                                  case 'H':
+                                    return ('0' + hours).slice(-2);
+
+                                  case 'i':
+                                    return ('0' + minutes).slice(-2);
+
+                                  case 'I':
+                                    return (() => {
+                                        let a = new Date(fullYear, 0), c = Date.UTC(fullYear, 0), b = new Date(fullYear, 6), d = Date.UTC(fullYear, 6);
+                                        return a - c !== b - d ? 1 : 0;
+                                    })();
+
+                                  case 'j':
+                                    return day;
+
+                                  case 'l':
+                                    return translateWeekdays('long')[date.getDay()];
+
+                                  case 'L':
+                                    return (s = fullYear) % 4 === 0 && (s % 100 !== 0 || s % 400 === 0) ? 1 : 0;
+
+                                  case 'm':
+                                    return ('0' + (monthNumber + 1)).slice(-2);
+
+                                  case 'M':
+                                    return translateMonths('short')[monthNumber];
+
+                                  case 'n':
+                                    return monthNumber + 1;
+
+                                  case 's':
+                                    return ('0' + seconds).slice(-2);
+
+                                  case 'S':
+                                    return [ 'th', 'st', 'nd', 'rd' ][(s = day) < 4 ? s : 0];
+
+                                  case 't':
+                                    return new Date(fullYear, monthNumber, 0).getDate();
+
+                                  case 'T':
+                                    return 'UTC';
+
+                                  case 'U':
+                                    return ('' + f).slice(0, -3);
+
+                                  case 'w':
+                                    return date.getDay();
+
+                                  case 'y':
+                                    return ('' + fullYear).slice(-2);
+
+                                  case 'Y':
+                                    return fullYear;
+
+                                  case 'z':
+                                    return Math.ceil((date - new Date(fullYear, 0, 1)) / 864e5);
+
+                                  default:
+                                    return -date.getTimezoneOffset() * 60;
+                                }
+                            }));
+                        };
+                        let datepicker = new AirDatepicker('[x-datepicker]', {
+                            ...{
+                                range: false,
+                                inline: false,
+                                multipleDatesSeparator: ' — ',
+                                firstDay: grafema?.weekStart,
+                                view: 'days'
+                            },
+                            ...options
+                        });
+                        console.log(datepicker);
+                    }));
+                }));
+            }));
+            Alpine.data('mask', (() => ({
+                run: mask => {
+                    let elem = this.$el;
+                    if (typeof mask === 'undefined') {
+                        let type = elem.getAttribute('type');
+                        if (type) {
+                            let exp = '';
+                            switch (type) {
+                              case 'tel':
+                                exp = /[^ \-()+\d]/g;
+                                break;
+
+                              case 'number':
+                                exp = /[^.-\d]/g;
+                                break;
+
+                              case 'color':
+                                exp = /[^ a-zA-Z(),\d]/g;
+                                break;
+
+                              case 'domain':
+                                break;
+                            }
+                            if (exp) {
+                                elem.value = elem.value.replace(exp, '');
+                            }
+                        }
+                    } else if (mask === Object(mask)) {
+                        elem.value = elem.value.replace(mask, '');
+                    } else {
+                        try {
+                            function limit(position, symbol, max) {
+                                let pos = position;
+                                max = max.toString();
+                                if (mask.charAt(--pos) === symbol) {
+                                    if (elem.value.charAt(pos) === max.charAt(0)) {
+                                        return new RegExp('[0-' + max.charAt(1) + ']');
+                                    } else {
+                                        return /\d/;
+                                    }
+                                }
+                                return new RegExp('[0-' + max.charAt(0) + ']');
+                            }
+                            let maskArr = mask.match(/(\{[^}]+?\})|(.)/g), position = -1;
+                            maskArr = maskArr.map((function(symbol) {
+                                ++position;
+                                switch (symbol) {
+                                  case 'i':
+                                    return limit(position, symbol, 59);
+
+                                  case 'H':
+                                    return limit(position, symbol, 23);
+
+                                  case 'D':
+                                    return limit(position, symbol, 31);
+
+                                  case 'M':
+                                    return limit(position, symbol, 12);
+
+                                  case 'Y':
+                                  case '0':
+                                    return /\d/;
+
+                                  default:
+                                    if (/\{[^}]+?\}/.test(symbol)) {
+                                        return new RegExp(symbol.slice(2, -2));
+                                    }
+                                    return symbol;
+                                }
+                            }));
+                            vanillaTextMask.maskInput({
+                                inputElement: elem,
+                                guide: false,
+                                mask: maskArr
+                            });
+                        } catch (e) {
+                            console.error('Errors: check the library connection, "vanillaTextMask" is not defined. Details: https:://github.com/text-mask/text-mask');
+                        }
+                    }
+                }
+            })));
+            Alpine.directive('progress', ((el, {modifiers}) => {
+                new IntersectionObserver(((entries, observer) => {
+                    entries.forEach((entry => {
+                        if (entry.isIntersecting) {
+                            let [value = 100, from = 0, to = 100, duration = '400ms'] = modifiers;
+                            let start = parseInt(from) / parseInt(value) * 100;
+                            let end = parseInt(to) / parseInt(value) * 100;
+                            if (start > end) {
+                                [end, start] = [ start, end ];
+                            }
+                            el.style.setProperty('--grafema-progress', (start < 0 ? 0 : start) + '%');
+                            setTimeout((() => {
+                                el.style.setProperty('--grafema-transition', ' width ' + duration);
+                                el.style.setProperty('--grafema-progress', (end > 100 ? 100 : end) + '%');
+                            }), 500);
+                            observer.unobserve(el);
+                        }
+                    }));
+                })).observe(el);
+            }));
+            Alpine.directive('select', ((el, {expression}) => {
+                const settings = {
+                    showSearch: false,
+                    hideSelected: false,
+                    closeOnSelect: true
+                };
+                if (el.hasAttribute('multiple')) {
+                    settings.hideSelected = true;
+                    settings.closeOnSelect = false;
+                }
+                const custom = JSON.parse(expression || '{}');
+                if (typeof custom === 'object') {
+                    Object.assign(settings, custom);
+                }
+                try {
+                    new SlimSelect({
+                        settings,
+                        select: el,
+                        data: Array.from(el.options).reduce(((acc, option) => {
+                            let image = option.getAttribute('data-image'), icon = option.getAttribute('data-icon'), description = option.getAttribute('data-description') || '';
+                            let images = image ? `<img src="${image}" alt />` : '', icons = icon ? `<i class="${icon}"></i>` : '', descriptions = description ? `<span class="ss-description">${description}</span>` : '', html = `${images}${icons}<span class="ss-text">${option.text}${descriptions}</span>`;
+                            let optionData = {
+                                text: option.text,
+                                value: option.value,
+                                html,
+                                selected: option.selected,
+                                display: true,
+                                disabled: false,
+                                mandatory: false,
+                                placeholder: false,
+                                class: '',
+                                style: '',
+                                data: {}
+                            };
+                            if (option.parentElement.tagName === 'OPTGROUP') {
+                                const optgroupLabel = option.parentElement.getAttribute('label');
+                                const optgroup = acc.find((item => item.label === optgroupLabel));
+                                if (optgroup) {
+                                    optgroup.options.push(optionData);
+                                } else {
+                                    acc.push({
+                                        label: optgroupLabel,
+                                        options: [ optionData ]
+                                    });
+                                }
+                            } else {
+                                acc.push(optionData);
+                            }
+                            return acc;
+                        }), [])
+                    });
+                } catch {
+                    console.error('The SlimSelect library is not connected');
+                }
+            }));
+            Alpine.directive('media', ((el, {expression}) => {
+                console.log(el);
+            }));
+            Alpine.data('builder', (() => ({
+                default: {
+                    location: 'post',
+                    operator: '===',
+                    value: 'editor'
+                },
+                groups: [ {
+                    rules: [ {
+                        location: 'post_status',
+                        operator: '!=',
+                        value: 'contributor'
+                    } ]
+                } ],
+                addGroup() {
+                    let pattern = JSON.parse(JSON.stringify(this.default));
+                    this.groups.push({
+                        rules: [ pattern ]
+                    });
+                },
+                removeGroup(index) {
+                    this.groups.splice(index, 1);
+                },
+                addRule(key) {
+                    let pattern = JSON.parse(JSON.stringify(this.default));
+                    this.groups[key].rules.push(pattern);
+                },
+                removeRule(key, index) {
+                    this.groups[key].rules.splice(index, 1);
+                },
+                submit() {
+                    let groups = JSON.parse(JSON.stringify(this.groups));
+                    console.log(groups);
+                }
+            })));
+            Alpine.data('sortable', (() => ({
+                init() {
+                    let nestedSortables = [].slice.call(document.querySelectorAll('.sortable'));
+                    for (let i = 0; i < nestedSortables.length; i++) {
+                        new Sortable(nestedSortables[i], {
+                            multiDrag: true,
+                            selectedClass: 'is-active',
+                            fallbackTolerance: 3,
+                            group: 'nested',
+                            easing: 'cubic-bezier(1, 0, 0, 1)',
+                            animation: 100,
+                            fallbackOnBody: true,
+                            swapThreshold: .5,
+                            dataIdAttr: 'data-id'
+                        });
+                    }
+                }
+            })));
+            Alpine.data('tab', (id => ({
+                tab: id,
+                tabButton(id) {
+                    return {
+                        ['@click']() {
+                            this.tab = id;
+                            const url = new URL(window.location.href);
+                            const params = new URLSearchParams(url.search);
+                            params.set('tab', id);
+                            url.search = params.toString();
+                            window.history.pushState({}, '', url.toString());
+                        },
+                        [':class']() {
+                            return this.tab === id ? 'active' : '';
+                        }
+                    };
+                },
+                tabContent(id) {
+                    return {
+                        ['x-show']() {
+                            return this.tab === id;
+                        }
+                    };
+                }
+            })));
+            Alpine.data('table', (() => ({
+                init() {
+                    document.addEventListener('keydown', (e => {
+                        let key = window.event ? event : e;
+                        if (!!key.shiftKey) {
+                            this.selection.shift = true;
+                        }
+                    }));
+                    document.addEventListener('keyup', (e => {
+                        let key = window.event ? event : e;
+                        if (!key.shiftKey) {
+                            this.selection.shift = false;
+                        }
+                    }));
+                },
+                selection: {
+                    box: {},
+                    shift: false,
+                    addMore: true
+                },
+                bulk: false,
+                trigger: {
+                    ['@change'](e) {
+                        let checked = 0;
+                        let inputs = document.querySelectorAll('input[name="item[]"]');
+                        if (inputs.length) {
+                            inputs.forEach((input => (input.checked = e.target.checked, input.checked && checked++)));
+                        }
+                        this.bulk = checked > 0;
+                    }
+                },
+                reset: {
+                    ['@click'](e) {
+                        let inputs = document.querySelectorAll('input[name="item[]"], input[x-bind="trigger"]');
+                        if (inputs.length) {
+                            inputs.forEach((input => input.checked = false));
+                        }
+                        this.bulk = false;
+                    }
+                },
+                switcher: {
+                    ['@click'](e) {
+                        let checkboxes = document.querySelectorAll('input[name="item[]"]');
+                        let nodeList = Array.prototype.slice.call(document.getElementsByClassName('cb'));
+                        this.selection.addMore = !!e.target.checked;
+                        if (this.selection.shift) {
+                            this.selection.box[1] = nodeList.indexOf(e.target.parentNode);
+                            let i = this.selection.box[0], x = this.selection.box[1];
+                            if (i > x) {
+                                for (;x < i; x++) {
+                                    checkboxes[x].checked = this.selection.addMore;
+                                }
+                            }
+                            if (i < x) {
+                                for (;i < x; i++) {
+                                    checkboxes[i].checked = this.selection.addMore;
+                                }
+                            }
+                            this.selection.box[0] = undefined;
+                            this.selection.box[1] = undefined;
+                        } else {
+                            this.selection.box[0] = nodeList.indexOf(e.target.parentNode);
+                        }
+                        let checked = document.querySelectorAll('input[name="item[]"]:checked');
+                        this.bulk = checked.length > 0;
+                    }
+                }
+            })));
+            Alpine.magic('password', (() => ({
+                min: {
+                    lowercase: 2,
+                    uppercase: 2,
+                    special: 2,
+                    digit: 2,
+                    length: 12
+                },
+                valid: {
+                    lowercase: false,
+                    uppercase: false,
+                    special: false,
+                    digit: false,
+                    length: false
+                },
+                charsets: {
+                    lowercase: 'abcdefghijklmnopqrstuvwxyz',
+                    uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+                    special: '!@#$%^&*(){|}~',
+                    digit: '0123456789'
+                },
+                switch(value) {
+                    return !!!value;
+                },
+                check(value) {
+                    let matchCount = 0;
+                    let totalCount = 0;
+                    for (const charset in this.charsets) {
+                        let requiredCount = this.min[charset], charsetRegex = new RegExp(`[${this.charsets[charset]}]`, 'g'), charsetCount = (value.match(charsetRegex) || []).length;
+                        matchCount += Math.min(charsetCount, requiredCount);
+                        totalCount += requiredCount;
+                        this.valid[charset] = charsetCount >= requiredCount;
+                    }
+                    if (value.length >= this.min.length) {
+                        matchCount += 1;
+                        totalCount += 1;
+                        this.valid.length = value.length >= this.min.length;
+                    }
+                    return Object.assign({
+                        progress: totalCount === 0 ? totalCount : matchCount / totalCount * 100
+                    }, this.valid);
+                },
+                generate() {
+                    let password = '';
+                    let types = Object.keys(this.charsets);
+                    types.forEach((type => {
+                        let count = Math.max(this.min[type], 0), charset = this.charsets[type];
+                        for (let i = 0; i < count; i++) {
+                            let randomIndex = Math.floor(Math.random() * charset.length);
+                            password += charset[randomIndex];
+                        }
+                    }));
+                    while (password.length < this.min.length) {
+                        let randomIndex = Math.floor(Math.random() * types.length), charType = types[randomIndex], charset = this.charsets[charType], randomCharIndex = Math.floor(Math.random() * charset.length);
+                        password += charset[randomCharIndex];
+                    }
+                    this.check(password);
+                    return this.shuffle(password);
+                },
+                shuffle(password) {
+                    let array = password.split('');
+                    let currentIndex = array.length;
+                    let temporaryValue, randomIndex;
+                    while (currentIndex !== 0) {
+                        randomIndex = Math.floor(Math.random() * currentIndex);
+                        currentIndex -= 1;
+                        temporaryValue = array[currentIndex];
+                        array[currentIndex] = array[randomIndex];
+                        array[randomIndex] = temporaryValue;
+                    }
+                    return array.join('');
+                }
+            })));
+            Alpine.data('timer', ((endDate, startDate) => ({
+                end: endDate,
+                day: '00',
+                hour: '00',
+                min: '00',
+                sec: '00',
+                init() {
+                    let start = startDate || (new Date).valueOf(), end = new Date(this.end).valueOf();
+                    if (start < end) {
+                        let diff = Math.round((end - start) / 1e3);
+                        let t = this;
+                        setInterval((function() {
+                            t.day = ('0' + parseInt(diff / (60 * 60 * 24), 10)).slice(-2);
+                            t.hour = ('0' + parseInt(diff / (60 * 60) % 24, 10)).slice(-2);
+                            t.min = ('0' + parseInt(diff / 60 % 60, 10)).slice(-2);
+                            t.sec = ('0' + parseInt(diff % 60, 10)).slice(-2);
+                            if (--diff < 0) {
+                                t.days = t.hour = t.min = t.sec = '00';
+                            }
+                        }), 1e3);
+                    }
+                }
+            })));
+        }));
     }
 };
 
 var __webpack_exports__ = {};
 
-__webpack_modules__['./src/js/grafema.js']();
+__webpack_modules__[749]();

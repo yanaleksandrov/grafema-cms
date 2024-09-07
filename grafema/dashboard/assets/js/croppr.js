@@ -1,5 +1,5 @@
 var __webpack_modules__ = {
-    528: function(module) {
+    908: function(module) {
         (function(global, factory) {
             true ? module.exports = factory() : 0;
         })(this, (function() {
@@ -836,8 +836,9 @@ var __webpack_modules__ = {
                         if (mode == 'real') {
                             var actualWidth = this.imageEl.naturalWidth;
                             var actualHeight = this.imageEl.naturalHeight;
-                            var factorX = actualWidth / this.imageEl.offsetWidth;
-                            var factorY = actualHeight / this.imageEl.offsetHeight;
+                            var _imageEl$getBoundingC = this.imageEl.getBoundingClientRect(), elementWidth = _imageEl$getBoundingC.width, elementHeight = _imageEl$getBoundingC.height;
+                            var factorX = actualWidth / elementWidth;
+                            var factorY = actualHeight / elementHeight;
                             return {
                                 x: Math.round(this.box.x1 * factorX),
                                 y: Math.round(this.box.y1 * factorY),
@@ -845,13 +846,12 @@ var __webpack_modules__ = {
                                 height: Math.round(this.box.height() * factorY)
                             };
                         } else if (mode == 'ratio') {
-                            var elementWidth = this.imageEl.offsetWidth;
-                            var elementHeight = this.imageEl.offsetHeight;
+                            var _imageEl$getBoundingC2 = this.imageEl.getBoundingClientRect(), _elementWidth = _imageEl$getBoundingC2.width, _elementHeight = _imageEl$getBoundingC2.height;
                             return {
-                                x: round(this.box.x1 / elementWidth, 3),
-                                y: round(this.box.y1 / elementHeight, 3),
-                                width: round(this.box.width() / elementWidth, 3),
-                                height: round(this.box.height() / elementHeight, 3)
+                                x: round(this.box.x1 / _elementWidth, 3),
+                                y: round(this.box.y1 / _elementHeight, 3),
+                                width: round(this.box.width() / _elementWidth, 3),
+                                height: round(this.box.height() / _elementHeight, 3)
                             };
                         } else if (mode == 'raw') {
                             return {
@@ -1073,4 +1073,38 @@ function __webpack_require__(moduleId) {
     return module.exports;
 }
 
-var __webpack_exports__ = __webpack_require__(528);
+(() => {
+    __webpack_require__.n = module => {
+        var getter = module && module.__esModule ? () => module['default'] : () => module;
+        __webpack_require__.d(getter, {
+            a: getter
+        });
+        return getter;
+    };
+})();
+
+(() => {
+    __webpack_require__.d = (exports, definition) => {
+        for (var key in definition) {
+            if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+                Object.defineProperty(exports, key, {
+                    enumerable: true,
+                    get: definition[key]
+                });
+            }
+        }
+    };
+})();
+
+(() => {
+    __webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+})();
+
+var __webpack_exports__ = {};
+
+(() => {
+    'use strict';
+    var croppr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(908);
+    var croppr__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(croppr__WEBPACK_IMPORTED_MODULE_0__);
+    window.Croppr = croppr__WEBPACK_IMPORTED_MODULE_0___default();
+})();

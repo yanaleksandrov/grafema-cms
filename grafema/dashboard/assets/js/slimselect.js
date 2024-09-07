@@ -1,5 +1,5 @@
 var __webpack_modules__ = {
-    177: function(module) {
+    311: function(module) {
         (function(global, factory) {
             true ? module.exports = factory() : 0;
         })(this, (function() {
@@ -52,43 +52,6 @@ var __webpack_modules__ = {
             function kebabCase(str) {
                 const result = str.replace(/[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g, (match => '-' + match.toLowerCase()));
                 return str[0] === str[0].toUpperCase() ? result.substring(1) : result;
-            }
-            class Settings {
-                constructor(settings) {
-                    this.id = '';
-                    this.style = '';
-                    this.class = [];
-                    this.isMultiple = false;
-                    this.isOpen = false;
-                    this.isFullOpen = false;
-                    this.intervalMove = null;
-                    if (!settings) {
-                        settings = {};
-                    }
-                    this.id = 'ss-' + generateID();
-                    this.style = settings.style || '';
-                    this.class = settings.class || [];
-                    this.disabled = settings.disabled !== undefined ? settings.disabled : false;
-                    this.alwaysOpen = settings.alwaysOpen !== undefined ? settings.alwaysOpen : false;
-                    this.showSearch = settings.showSearch !== undefined ? settings.showSearch : true;
-                    this.searchPlaceholder = settings.searchPlaceholder || 'Search';
-                    this.searchText = settings.searchText || 'No Results';
-                    this.searchingText = settings.searchingText || 'Searching...';
-                    this.searchHighlight = settings.searchHighlight !== undefined ? settings.searchHighlight : false;
-                    this.closeOnSelect = settings.closeOnSelect !== undefined ? settings.closeOnSelect : true;
-                    this.contentLocation = settings.contentLocation || document.body;
-                    this.contentPosition = settings.contentPosition || 'absolute';
-                    this.openPosition = settings.openPosition || 'auto';
-                    this.placeholderText = settings.placeholderText !== undefined ? settings.placeholderText : 'Select Value';
-                    this.allowDeselect = settings.allowDeselect !== undefined ? settings.allowDeselect : false;
-                    this.hideSelected = settings.hideSelected !== undefined ? settings.hideSelected : false;
-                    this.showOptionTooltips = settings.showOptionTooltips !== undefined ? settings.showOptionTooltips : false;
-                    this.minSelected = settings.minSelected || 0;
-                    this.maxSelected = settings.maxSelected || 1e3;
-                    this.timeoutDelay = settings.timeoutDelay || 200;
-                    this.maxValuesShown = settings.maxValuesShown || 20;
-                    this.maxValuesMessage = settings.maxValuesMessage || '{number} selected';
-                }
             }
             class Optgroup {
                 constructor(optgroup) {
@@ -251,6 +214,23 @@ var __webpack_modules__ = {
                     let options = this.filter((opt => opt.id === id), false);
                     return options.length ? options[0] : null;
                 }
+                getSelectType() {
+                    return this.selectType;
+                }
+                getFirstOption() {
+                    let option = null;
+                    for (let dataObj of this.data) {
+                        if (dataObj instanceof Optgroup) {
+                            option = dataObj.options[0];
+                        } else if (dataObj instanceof Option) {
+                            option = dataObj;
+                        }
+                        if (option) {
+                            break;
+                        }
+                    }
+                    return option;
+                }
                 search(search, searchFilter) {
                     search = search.trim();
                     if (search === '') {
@@ -285,9 +265,6 @@ var __webpack_modules__ = {
                         }
                     }));
                     return dataSearch;
-                }
-                getSelectType() {
-                    return this.selectType;
                 }
             }
             class Render {
@@ -407,7 +384,7 @@ var __webpack_modules__ = {
                     var _a;
                     const main = document.createElement('div');
                     main.dataset.id = this.settings.id;
-                    main.id = this.settings.id;
+                    main.setAttribute('aria-label', this.settings.ariaLabel);
                     main.tabIndex = 0;
                     main.onkeydown = e => {
                         switch (e.key) {
@@ -434,6 +411,7 @@ var __webpack_modules__ = {
                             this.callbacks.close();
                             return false;
                         }
+                        return false;
                     };
                     main.onclick = e => {
                         if (this.settings.disabled) {
@@ -468,13 +446,15 @@ var __webpack_modules__ = {
                                 this.callbacks.setSelected([], false);
                                 this.updateDeselectAll();
                             } else {
-                                this.callbacks.setSelected([ '' ], false);
+                                const firstOption = this.store.getFirstOption();
+                                const value = firstOption ? firstOption.value : '';
+                                this.callbacks.setSelected(value, false);
                             }
                             if (this.settings.closeOnSelect) {
                                 this.callbacks.close();
                             }
                             if (this.callbacks.afterChange) {
-                                this.callbacks.afterChange(after);
+                                this.callbacks.afterChange(this.store.getSelectedOptions());
                             }
                         }
                     };
@@ -537,6 +517,7 @@ var __webpack_modules__ = {
                         return;
                     }
                     this.renderMultipleValues();
+                    this.updateDeselectAll();
                 }
                 renderSingleValue() {
                     const selected = this.store.filter((o => o.selected && !o.placeholder), false);
@@ -611,16 +592,19 @@ var __webpack_modules__ = {
                             }
                         }
                         if (shouldAdd) {
-                            if (currentNodes.length === 0) {
+                            if (this.settings.keepOrder) {
                                 this.main.values.appendChild(this.multipleValue(selectedOptions[d]));
-                            } else if (d === 0) {
-                                this.main.values.insertBefore(this.multipleValue(selectedOptions[d]), currentNodes[d]);
                             } else {
-                                currentNodes[d - 1].insertAdjacentElement('afterend', this.multipleValue(selectedOptions[d]));
+                                if (currentNodes.length === 0) {
+                                    this.main.values.appendChild(this.multipleValue(selectedOptions[d]));
+                                } else if (d === 0) {
+                                    this.main.values.insertBefore(this.multipleValue(selectedOptions[d]), currentNodes[d]);
+                                } else {
+                                    currentNodes[d - 1].insertAdjacentElement('afterend', this.multipleValue(selectedOptions[d]));
+                                }
                             }
                         }
                     }
-                    this.updateDeselectAll();
                 }
                 multipleValue(option) {
                     const value = document.createElement('div');
@@ -683,7 +667,6 @@ var __webpack_modules__ = {
                 contentDiv() {
                     const main = document.createElement('div');
                     main.dataset.id = this.settings.id;
-                    main.id = this.settings.id;
                     const search = this.searchDiv();
                     main.appendChild(search.main);
                     const list = this.listDiv();
@@ -764,6 +747,7 @@ var __webpack_modules__ = {
                             }
                             return true;
                         }
+                        return true;
                     };
                     main.appendChild(input);
                     if (this.callbacks.addable) {
@@ -861,6 +845,20 @@ var __webpack_modules__ = {
                         if (!options[0].classList.contains(this.classes.highlighted)) {
                             options[0].classList.add(this.classes.highlighted);
                             return;
+                        }
+                    }
+                    let highlighted = false;
+                    for (const o of options) {
+                        if (o.classList.contains(this.classes.highlighted)) {
+                            highlighted = true;
+                        }
+                    }
+                    if (!highlighted) {
+                        for (const o of options) {
+                            if (o.classList.contains(this.classes.selected)) {
+                                o.classList.add(this.classes.highlighted);
+                                break;
+                            }
                         }
                     }
                     for (let i = 0; i < options.length; i++) {
@@ -1220,7 +1218,8 @@ var __webpack_modules__ = {
                     this.listen = false;
                     this.observer = null;
                     this.select = select;
-                    this.select.addEventListener('change', this.valueChange.bind(this), {
+                    this.valueChange = this.valueChange.bind(this);
+                    this.select.addEventListener('change', this.valueChange, {
                         passive: true
                     });
                     this.observer = new MutationObserver(this.observeCall.bind(this));
@@ -1476,13 +1475,52 @@ var __webpack_modules__ = {
                 }
                 destroy() {
                     this.changeListen(false);
-                    this.select.removeEventListener('change', this.valueChange.bind(this));
+                    this.select.removeEventListener('change', this.valueChange);
                     if (this.observer) {
                         this.observer.disconnect();
                         this.observer = null;
                     }
                     delete this.select.dataset.id;
                     this.showUI();
+                }
+            }
+            class Settings {
+                constructor(settings) {
+                    this.id = '';
+                    this.style = '';
+                    this.class = [];
+                    this.isMultiple = false;
+                    this.isOpen = false;
+                    this.isFullOpen = false;
+                    this.intervalMove = null;
+                    if (!settings) {
+                        settings = {};
+                    }
+                    this.id = 'ss-' + generateID();
+                    this.style = settings.style || '';
+                    this.class = settings.class || [];
+                    this.disabled = settings.disabled !== undefined ? settings.disabled : false;
+                    this.alwaysOpen = settings.alwaysOpen !== undefined ? settings.alwaysOpen : false;
+                    this.showSearch = settings.showSearch !== undefined ? settings.showSearch : true;
+                    this.ariaLabel = settings.ariaLabel || 'Combobox';
+                    this.searchPlaceholder = settings.searchPlaceholder || 'Search';
+                    this.searchText = settings.searchText || 'No Results';
+                    this.searchingText = settings.searchingText || 'Searching...';
+                    this.searchHighlight = settings.searchHighlight !== undefined ? settings.searchHighlight : false;
+                    this.closeOnSelect = settings.closeOnSelect !== undefined ? settings.closeOnSelect : true;
+                    this.contentLocation = settings.contentLocation || document.body;
+                    this.contentPosition = settings.contentPosition || 'absolute';
+                    this.openPosition = settings.openPosition || 'auto';
+                    this.placeholderText = settings.placeholderText !== undefined ? settings.placeholderText : 'Select Value';
+                    this.allowDeselect = settings.allowDeselect !== undefined ? settings.allowDeselect : false;
+                    this.hideSelected = settings.hideSelected !== undefined ? settings.hideSelected : false;
+                    this.keepOrder = settings.keepOrder !== undefined ? settings.keepOrder : false;
+                    this.showOptionTooltips = settings.showOptionTooltips !== undefined ? settings.showOptionTooltips : false;
+                    this.minSelected = settings.minSelected || 0;
+                    this.maxSelected = settings.maxSelected || 1e3;
+                    this.timeoutDelay = settings.timeoutDelay || 200;
+                    this.maxValuesShown = settings.maxValuesShown || 20;
+                    this.maxValuesMessage = settings.maxValuesMessage || '{number} selected';
                 }
             }
             class SlimSelect {
@@ -1580,7 +1618,7 @@ var __webpack_modules__ = {
                     if (config.data) {
                         this.select.updateOptions(this.store.getData());
                     }
-                    const callbacks = {
+                    const renderCallbacks = {
                         open: this.open.bind(this),
                         close: this.close.bind(this),
                         addable: this.events.addable ? this.events.addable : undefined,
@@ -1590,7 +1628,7 @@ var __webpack_modules__ = {
                         beforeChange: this.events.beforeChange,
                         afterChange: this.events.afterChange
                     };
-                    this.render = new Render(this.settings, this.store, callbacks);
+                    this.render = new Render(this.settings, this.store, renderCallbacks);
                     this.render.renderValues();
                     this.render.renderOptions(this.store.getData());
                     const selectAriaLabel = this.selectEl.getAttribute('aria-label');
@@ -1603,7 +1641,6 @@ var __webpack_modules__ = {
                     if (this.selectEl.parentNode) {
                         this.selectEl.parentNode.insertBefore(this.render.main.main, this.selectEl.nextSibling);
                     }
-                    document.addEventListener('click', this.documentClick);
                     window.addEventListener('resize', this.windowResize, false);
                     if (this.settings.openPosition === 'auto') {
                         window.addEventListener('scroll', this.windowScroll, false);
@@ -1701,6 +1738,7 @@ var __webpack_modules__ = {
                         if (this.settings.isOpen) {
                             this.settings.isFullOpen = true;
                         }
+                        document.addEventListener('click', this.documentClick);
                     }), this.settings.timeoutDelay);
                     if (this.settings.contentPosition === 'absolute') {
                         if (this.settings.intervalMove) {
@@ -1727,6 +1765,7 @@ var __webpack_modules__ = {
                         if (this.events.afterClose) {
                             this.events.afterClose();
                         }
+                        document.removeEventListener('click', this.documentClick);
                     }), this.settings.timeoutDelay);
                     if (this.settings.intervalMove) {
                         clearInterval(this.settings.intervalMove);
@@ -1786,4 +1825,38 @@ function __webpack_require__(moduleId) {
     return module.exports;
 }
 
-var __webpack_exports__ = __webpack_require__(177);
+(() => {
+    __webpack_require__.n = module => {
+        var getter = module && module.__esModule ? () => module['default'] : () => module;
+        __webpack_require__.d(getter, {
+            a: getter
+        });
+        return getter;
+    };
+})();
+
+(() => {
+    __webpack_require__.d = (exports, definition) => {
+        for (var key in definition) {
+            if (__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+                Object.defineProperty(exports, key, {
+                    enumerable: true,
+                    get: definition[key]
+                });
+            }
+        }
+    };
+})();
+
+(() => {
+    __webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+})();
+
+var __webpack_exports__ = {};
+
+(() => {
+    'use strict';
+    var slim_select__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(311);
+    var slim_select__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(slim_select__WEBPACK_IMPORTED_MODULE_0__);
+    window.SlimSelect = slim_select__WEBPACK_IMPORTED_MODULE_0___default();
+})();

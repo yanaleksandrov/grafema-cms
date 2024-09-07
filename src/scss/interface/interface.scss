@@ -637,16 +637,20 @@
 .email {
   display: flex;
   flex-wrap: wrap;
-  align-content: flex-start;
-  height: calc(100vh - 3.5rem);
+  align-content: stretch;
+  min-height: calc(100vh - 3.5rem);
+  background-color: var(--grafema-bg);
 
   &-form {
     flex: 1 1 20rem;
+    background-color: var(--grafema-white);
   }
 
   &-preview {
-    background-color: var(--grafema-bg);
     flex: 1 1 40rem;
+    position: sticky;
+    top: 3.5rem;
+    margin-bottom: auto;
     overflow-y: auto;
   }
 }

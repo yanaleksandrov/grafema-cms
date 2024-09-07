@@ -36,6 +36,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $value = Sanitizer::attribute( $attributes['value'] ?? '' );
 $prop  = Sanitizer::prop( $attributes['name'] ?? $name );
+
+$attributes['rows'] ??= 1;
 ?>
 <div class="<?php echo $class; ?>"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<?php if ( $label ) : ?>

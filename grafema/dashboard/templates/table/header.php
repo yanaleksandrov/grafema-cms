@@ -156,7 +156,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    'validator'   => '',
 							    'conditions'  => [],
 							    'attributes'  => [
-								    'name' => 'language',
+								    'x-select' => true,
+								    'name'     => 'language',
 							    ],
 							    'options'     => [
 								    'ru_RU' => [
@@ -189,7 +190,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    'validator'   => '',
 							    'conditions'  => [],
 							    'attributes'  => [
-								    'name' => 'project',
+								    'x-select' => true,
+								    'name'     => 'project',
 							    ],
 							    'options'     => [
 								    'plugins' => [
@@ -222,6 +224,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    ]
 					    );
 					    ?>
+					    <button type="button" class="btn btn--sm btn--outline"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
 				    </div>
 			    <?php endif; ?>
 		    </div>

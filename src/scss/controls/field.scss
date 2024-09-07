@@ -298,6 +298,11 @@
       z-index: 1;
     }
 
+    &:not(:has(.ss-open-below)):focus-within {
+      box-shadow: none;
+      border-color: var(--grafema-border);
+    }
+
     &:has(:nth-child(1 of code)) {
       padding-inline-start: 0.4em;
     }

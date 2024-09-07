@@ -97,7 +97,10 @@ final class PagesTable {
 						'sanitizer'   => '',
 						'validator'   => '',
 						'conditions'  => [],
-						'attributes'  => [],
+						'attributes'  => [
+							'readonly'    => true,
+							'placeholder' => I18n::_t( 'Select dates' ),
+						],
 					],
 				]
 			);

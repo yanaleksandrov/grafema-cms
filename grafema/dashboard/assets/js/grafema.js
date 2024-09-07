@@ -397,7 +397,7 @@ var __webpack_modules__ = {
                         return false;
                     }
                     el.style.height = 'auto';
-                    el.style.height = el.scrollHeight + 1 + 'px';
+                    el.style.height = `${el.scrollHeight}px`;
                 }), false);
             }));
             Alpine.directive('tooltip', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
@@ -833,7 +833,7 @@ var __webpack_modules__ = {
                 el.setAttribute('readonly', true);
                 let evaluate = evaluateLater(expression || '{}');
                 effect((() => {
-                    evaluate((content => {
+                    evaluate((options => {
                         let format = grafema?.dateFormat, lang = grafema?.lang || navigator.language || navigator.userLanguage || 'en-US';
                         let translateWeekdays = length => Array.from({
                             length: 7
@@ -939,35 +939,17 @@ var __webpack_modules__ = {
                                 }
                             }));
                         };
-                        try {
-                            new Datepicker(el, {
-                                ...{
-                                    inline: false,
-                                    multiple: false,
-                                    ranged: true,
-                                    time: false,
-                                    lang: lang.substr(0, 2).toLowerCase(),
-                                    months: 1,
-                                    openOn: 'today',
-                                    timeAmPm: false,
-                                    within: false,
-                                    without: false,
-                                    yearRange: 5,
-                                    weekStart: grafema?.weekStart,
-                                    separator: ' — ',
-                                    serialize: value => {
-                                        let date = new Date(value);
-                                        if (format) {
-                                            return formatter(date, format);
-                                        }
-                                        return date.toLocaleDateString(lang);
-                                    }
-                                },
-                                ...content
-                            });
-                        } catch (e) {
-                            console.error('Errors: check the library connection, "Datepicker" is not defined. Details: https://github.com/wwilsman/Datepicker.js');
-                        }
+                        let datepicker = new AirDatepicker('[x-datepicker]', {
+                            ...{
+                                range: false,
+                                inline: false,
+                                multipleDatesSeparator: ' — ',
+                                firstDay: grafema?.weekStart,
+                                view: 'days'
+                            },
+                            ...options
+                        });
+                        console.log(datepicker);
                     }));
                 }));
             }));
@@ -1182,14 +1164,14 @@ var __webpack_modules__ = {
                     }
                 }
             })));
-            const url = new URL(window.location.href);
-            const params = new URLSearchParams(url.search);
             Alpine.data('tab', (id => ({
                 tab: id,
                 tabButton(id) {
                     return {
                         ['@click']() {
                             this.tab = id;
+                            const url = new URL(window.location.href);
+                            const params = new URLSearchParams(url.search);
                             params.set('tab', id);
                             url.search = params.toString();
                             window.history.pushState({}, '', url.toString());

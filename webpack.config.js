@@ -22,7 +22,10 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'grafema/dashboard/assets'),
+    globalObject: 'this',
+    iife: false,
   },
+  target: 'web',
   optimization: {
     minimize: true,
     minimizer: [
@@ -43,6 +46,7 @@ module.exports = {
       }),
     ],
   },
+  mode: 'production',
   module: {
     rules: [
       {

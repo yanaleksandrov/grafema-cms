@@ -112,7 +112,6 @@ $start_time = microtime( true );
 	?>
 </head>
 <body x-data="grafema">
-	<div data-tiny-editor></div>
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">

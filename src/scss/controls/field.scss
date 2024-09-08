@@ -298,7 +298,7 @@
       z-index: 1;
     }
 
-    &:not(:has(.ss-open-below)):focus-within {
+    &:has(.ss-main:not(.ss-open-below)):focus-within {
       box-shadow: none;
       border-color: var(--grafema-border);
     }

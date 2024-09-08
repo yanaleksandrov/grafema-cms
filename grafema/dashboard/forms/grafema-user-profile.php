@@ -257,7 +257,7 @@ Dashboard\Form::enqueue(
 							'type'        => 'radio',
 							'name'        => 'format',
 							'label'       => '',
-							'class'       => 'field field--ui',
+							'class'       => 'field field--grid',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
@@ -562,19 +562,6 @@ Dashboard\Form::enqueue(
 					],
 				],
 			],
-		],
-		[
-			'type'     => 'custom',
-			'callback' => function () {
-				ob_start();
-				?>
-				<div class="submit" x-cloak>
-					<button class="t-red" type="reset" @click="submit = false"><?php I18n::t( 'Cancel' ); ?></button>
-					<button class="btn btn--sm btn--primary t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
-				</div>
-				<?php
-				return ob_get_clean();
-			},
 		],
 	]
 );

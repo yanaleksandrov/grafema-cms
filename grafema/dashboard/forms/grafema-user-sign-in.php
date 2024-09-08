@@ -19,7 +19,7 @@ Dashboard\Form::enqueue(
 			'label'       => I18n::_t( 'Welcome to Grafema' ),
 			'name'        => 'title',
 			'class'       => '',
-			'instruction' => I18n::_t( 'Login to you account and enjoy exclusive features and many more' ),
+			'instruction' => I18n::_t( 'Sign in to access to your dashboard and site settings.' ),
 		],
 		[
 			'type'        => 'text',

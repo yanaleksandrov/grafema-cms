@@ -42,7 +42,7 @@ $render = function( $key = '', $option = [] ) use ( $name, $label, $class, $labe
 		[
 			'content'     => 'trim:' . $label,
 			'icon'        => 'attribute',
-			'description' => 'trim:' . $instruction,
+			'description' => 'trim',
 			'checked'     => 'bool:' . strval( $attributes['checked'] ?? false ),
 		]
 	) )->values();
@@ -55,7 +55,7 @@ $render = function( $key = '', $option = [] ) use ( $name, $label, $class, $labe
 			<span class="field-icon"><i class="<?php echo $icon; ?>"></i></span>
 		<?php endif; ?>
 		<span class="<?php echo $label_class; ?>">
-			<?php echo $label; ?>
+		<?php echo $label; ?>
 			<?php if ( $instruction ) : ?>
 				<span class="field-instruction"><?php echo $instruction; ?></span>
 			<?php endif; ?>

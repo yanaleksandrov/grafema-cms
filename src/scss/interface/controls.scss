@@ -1300,21 +1300,3 @@
     opacity: 0;
   }
 }
-
-.submit {
-  background-color: var(--grafema-white);
-  border-radius: var(--grafema-border-radius-lg);
-  border: 1px solid var(--grafema-border);
-  bottom: 1rem;
-  display: flex;
-  gap: 3rem;
-  justify-content: space-between;
-  left: 50%;
-  margin: 0 auto;
-  max-width: 20rem;
-  padding: 0.45rem 1rem;
-  position: fixed;
-  transform: translate(-50%);
-  width: 98%;
-  z-index: 9999;
-}

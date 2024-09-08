@@ -674,57 +674,6 @@ var __webpack_modules__ = {
                     xhr.send(formData);
                 }));
             }));
-            Alpine.magic('notice', ((el, {Alpine}) => ({
-                items: [],
-                notify(message) {
-                    this.items.push(message);
-                }
-            })));
-            Alpine.store('notice', {
-                items: {},
-                duration: 4e3,
-                setDuration(duration) {
-                    this.duration = parseInt(duration) || 4e3;
-                },
-                info(message) {
-                    this.notify(message, 'info');
-                },
-                success(message) {
-                    this.notify(message, 'success');
-                },
-                warning(message) {
-                    this.notify(message, 'warning');
-                },
-                error(message) {
-                    this.notify(message, 'error');
-                },
-                loading(message) {
-                    this.notify(message, 'loading');
-                },
-                close(id) {
-                    if (typeof this.items[id] !== 'undefined') {
-                        this.items[id].selectors.push('hide');
-                        setTimeout((() => {
-                            delete this.items[id];
-                        }), 1e3);
-                    }
-                },
-                notify(message, type) {
-                    if (message) {
-                        let animationName = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5), timestamp = Date.now();
-                        this.items[timestamp] = {
-                            anim: `url("data:image/svg+xml;charset=UTF-8,%3csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3ecircle %7b animation: ${this.duration}ms ${animationName} linear;%7d%40keyframes ${animationName} %7bfrom%7bstroke-dasharray:0 70%7dto%7bstroke-dasharray:70 0%7d%7d%3c/style%3e%3ccircle cx='12' cy='12' r='11' stroke='%23000' stroke-opacity='.2' stroke-width='2'/%3e%3c/svg%3e")`,
-                            message,
-                            closable: true,
-                            selectors: [ type || 'info' ],
-                            classes() {
-                                return this.selectors.map((x => 'notice__item--' + x)).join(' ');
-                            }
-                        };
-                        setTimeout((() => this.close(timestamp)), this.duration);
-                    }
-                }
-            });
             Alpine.magic('password', (() => ({
                 min: {
                     lowercase: 2,

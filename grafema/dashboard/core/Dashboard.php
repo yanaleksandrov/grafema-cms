@@ -49,7 +49,7 @@ class Dashboard extends \Grafema\App\App
 		 */
 		$styles  = ['phosphor'];
 		if ( ! Is::install() ) {
-			$styles  = ['phosphor', 'air-datepicker', 'colorist', 'datepicker', 'drooltip', 'flags', 'slimselect', 'dialog', 'grafema', 'controls', 'utility'];
+			$styles  = ['phosphor', 'air-datepicker', 'colorist', 'datepicker', 'drooltip', 'flags', 'slimselect', 'dialog', 'grafema', 'controls', 'utility', 'notifications'];
 		}
 		foreach ( $styles as $style ) {
 			if ( ! Is::debug() ) {
@@ -61,7 +61,7 @@ class Dashboard extends \Grafema\App\App
 		Hook::add( 'grafema_dashboard_footer', function() {
 			$scripts = ['index', 'ajax', 'alpine'];
 			if ( ! Is::install() ) {
-				$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'alpine'];
+				$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'notifications', 'alpine'];
 			}
 
 			foreach ( $scripts as $script ) {
@@ -77,6 +77,9 @@ class Dashboard extends \Grafema\App\App
 							'weekStart'      => 1,
 							'showMenu'       => false,
 							'showFilter'     => false,
+							'notifications'  => [
+								'ctrlS' => I18n::_t_attr( 'Grafema saves the changes automatically, so there is no need to press Ctrl+S.' ),
+							],
 							'uploaderDialog' => [
 								'title' => I18n::_t( 'Upload Files' ),
 								'class' => 'dialog--md',

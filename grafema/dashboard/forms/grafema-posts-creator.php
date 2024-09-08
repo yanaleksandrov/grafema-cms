@@ -1,6 +1,7 @@
 <?php
 use Grafema\I18n;
 use Grafema\Url;
+use Grafema\Sanitizer;
 
 /**
  * Form for create & edit posts.
@@ -10,7 +11,7 @@ use Grafema\Url;
 Dashboard\Form::enqueue(
 	'grafema-posts-creator',
 	[
-		'x-data'          => "{post: [], ...tab('main')}",
+		'x-data'          => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'main' ) ),
 		'@submit.prevent' => '$ajax("posts/update")',
 	],
 	[

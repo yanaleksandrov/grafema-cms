@@ -9,6 +9,23 @@
     pointer-events: none;
   }
 
+  &--button {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.25rem;
+    background-color: var(--grafema-bg);
+    border-radius: var(--grafema-border-radius-xl);
+  }
+
+  &--grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-icon {
+    transition: background-color 0.2s;
+  }
+
   &-label {
     gap: 0.25rem;
     display: flex;
@@ -21,7 +38,9 @@
   &-instruction {
     line-height: 1.2em;
     font-size: 0.9285em;
+    min-width: 8rem;
     color: var(--grafema-text-muted);
+    font-weight: 400;
   }
 
   &-item {
@@ -33,6 +52,7 @@
     border-radius: var(--grafema-border-radius);
     background-color: var(--grafema-bg);
     height: 2rem;
+    transition: background-color 0.2s;
 
     @each $suffix, $properties in $fieldSizes {
       .field#{$suffix} & {
@@ -153,6 +173,7 @@
     }
 
     // checkbox
+    &:has([type="radio"]),
     &:has([type="checkbox"]) {
       background-color: transparent;
       border: none;
@@ -161,7 +182,7 @@
       height: auto;
       margin: 0.125rem 0;
       padding: 0;
-      gap: 0.5rem;
+      gap: 0.75rem;
 
       .field-switcher {
         display: none;
@@ -184,17 +205,17 @@
         align-items: center;
         justify-content: center;
         width: 2.5rem;
-        margin-bottom: auto;
+        margin: 0 0 auto;
       }
 
-      .field--switcher & {
+      .field--ui & {
         $width: 2.25rem;
         $height: 1.35rem;
         $gap: 0.16rem;
         justify-content: space-between;
         flex-wrap: wrap;
         height: auto;
-        padding: 1rem 1.5rem;
+        padding: 1rem 1.25rem;
         border: none;
         gap: 0.65rem;
         margin: 0;
@@ -278,13 +299,47 @@
 
         .field-icon {
           background-color: var(--grafema-white);
-          margin-inline-start: -0.5rem;
         }
 
         .field-instruction {
           order: 3;
           min-width: 100%;
           font-weight: normal;
+        }
+      }
+    }
+
+    .field--button & {
+      flex: 1;
+      margin: 0 !important;
+      padding: 0.65rem;
+
+      .field-label {
+        font-weight: 600;
+      }
+
+      &:hover,
+      &:has([type="radio"]:checked) {
+        background-color: var(--grafema-white);
+        border: 1px solid var(--grafema-border);
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .05) !important;
+
+        .field-icon {
+          background-color: var(--grafema-bg);
+        }
+      }
+
+      &:not(:has(.field-icon)):not(:has(.field-instruction)) {
+        align-items: center;
+        padding: 0.4rem;
+
+        .field-label {
+          justify-content: center;
+          min-width: 6rem;
+        }
+
+        [type="radio"] {
+          display: none;
         }
       }
     }
@@ -330,6 +385,65 @@
     &:has(textarea:invalid):focus-within {
       border-color: var(--grafema-error);
       box-shadow: 0 0 0 1px var(--grafema-error);
+    }
+
+    &:has([type="radio"]) {
+      align-items: flex-start;
+      border: 1px solid transparent;
+
+      &:focus-within {
+        border-color: transparent;
+      }
+
+      .field-label {
+        display: grid;
+        margin: 0;
+        line-height: 1.5em;
+      }
+
+      .field-icon {
+        background-color: var(--grafema-white);
+      }
+
+      .field--ui & {
+        margin: 0;
+      }
+
+      & *[type="radio"] {
+        max-width: 1.35rem;
+        height: 1.35rem;
+        border-width: 6px;
+
+        &:not(:checked) {
+          border-color: var(--grafema-white);
+          background-color: var(--grafema-white);
+          outline: 1px solid var(--grafema-border);
+        }
+
+        &:checked {
+
+        }
+      }
+
+      &:has(.field-icon) *[type="radio"] {
+        order: 2;
+      }
+    }
+
+    .field--grid & {
+      flex: 1;
+      margin: 0;
+      padding: 0.875rem;
+      background-color: var(--grafema-bg);
+      border-color: var(--grafema-border) !important;
+
+      &:focus-within {
+        background-color: var(--grafema-bg);
+      }
+
+      .field-label {
+        font-weight: 600;
+      }
     }
   }
 }

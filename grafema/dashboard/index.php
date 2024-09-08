@@ -111,7 +111,7 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="grafema">
+<body x-data="grafema" @keydown.prevent.ctrl.s="alert(54354)">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">

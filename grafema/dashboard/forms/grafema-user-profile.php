@@ -257,7 +257,7 @@ Dashboard\Form::enqueue(
 							'type'        => 'radio',
 							'name'        => 'format',
 							'label'       => '',
-							'class'       => '',
+							'class'       => 'field field--grid',
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
@@ -273,18 +273,20 @@ Dashboard\Form::enqueue(
 							],
 							'options'     => [
 								'light' => [
-									'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
-									'title'   => I18n::_t( 'Light mode' ),
-									'content' => I18n::_t( 'This theme will be active when your system is set to “light mode”' ),
+									'content'     => I18n::_t( 'Light mode' ),
+									'icon'        => 'ph ph-user-list',
+									'description' => I18n::_t( 'This theme will be active when your system is set to “light mode”' ),
+									'checked'     => false,
+									'image'       => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
 								],
-								'dark' => [
-									'image'   => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
-									'title'   => I18n::_t( 'Dark mode' ),
-									'content' => I18n::_t( 'This theme will be active when your system is set to “night mode”' ),
+								'dark'  => [
+									'content'     => I18n::_t( 'Dark mode' ),
+									'icon'        => 'ph ph-police-car',
+									'description' => I18n::_t( 'This theme will be active when your system is set to “night mode”' ),
+									'checked'     => false,
+									'image'       => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
 								],
 							],
-							'variation'   => 'image',
-							'width'       => 200,
 						],
 					],
 				],
@@ -560,19 +562,6 @@ Dashboard\Form::enqueue(
 					],
 				],
 			],
-		],
-		[
-			'type'     => 'custom',
-			'callback' => function () {
-				ob_start();
-				?>
-				<div class="submit" x-cloak>
-					<button class="t-red" type="reset" @click="submit = false"><?php I18n::t( 'Cancel' ); ?></button>
-					<button class="btn btn--sm btn--primary t-white" type="submit"><?php I18n::t( 'Update Profile' ); ?></button>
-				</div>
-				<?php
-				return ob_get_clean();
-			},
 		],
 	]
 );

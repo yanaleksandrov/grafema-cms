@@ -50,7 +50,7 @@ Dashboard\Form::enqueue(
 			'type'        => 'radio',
 			'name'        => 'format',
 			'label'       => I18n::_t( 'File format' ),
-			'class'       => '',
+			'class'       => 'field field--grid',
 			'label_class' => '',
 			'reset'       => 0,
 			'before'      => '',
@@ -64,20 +64,18 @@ Dashboard\Form::enqueue(
 			'attributes'  => [
 				'value' => 'csv',
 			],
-			'variation'   => 'described', // can be: simple, image, described
-			'width'       => 180,
 			'options'     => [
 				'csv' => [
-					'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
-					'title'   => I18n::_t( 'CSV file' ),
-					'content' => I18n::_t( '25 GB of Storage' ),
-					'hidden'  => I18n::_t( 'Hello world!' ),
+					'icon'        => 'ph ph-file-csv',
+					'image'       => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
+					'content'     => I18n::_t( 'CSV file' ),
+					'description' => I18n::_t( 'A clear format for apps that work with tables' ),
 				],
 				'json' => [
-					'image'   => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
-					'title'   => I18n::_t( 'JSON file' ),
-					'content' => I18n::_t( '35 GB of Storage' ),
-					'hidden'  => I18n::_t( 'This is hidden content!' ),
+					'icon'        => 'ph ph-file-txt',
+					'image'       => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
+					'content'     => I18n::_t( 'JSON file' ),
+					'description' => I18n::_t( 'Universal format for cross-platform data exchange' ),
 				],
 			],
 		],

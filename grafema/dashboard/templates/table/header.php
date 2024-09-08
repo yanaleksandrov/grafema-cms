@@ -38,8 +38,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	            <?php $badge && print( '<span class="badge">' . $badge . '</span>' ); ?>
             </h4>
 		<?php endif; ?>
-	    <?php if ( $filter || $show || $uploader || $actions || $translation ) : ?>
-		    <div class="df aic g-1">
+	    <div class="df aic g-1">
+		    <div class="df aic g-1" x-show="!bulk">
 			    <?php if ( $filter ) : ?>
 				    <div class="df aic g-1">
 					    <button class="btn btn--sm btn--outline" type="reset" form="grafema-items-filter" @click="showFilter = !showFilter" :class="showFilter && 't-red'" :title="showFilter ? '<?php I18n::t_attr( 'Reset Filter' ); ?>' : '<?php I18n::t( 'Filter' ); ?>'">
@@ -104,19 +104,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				    </div>
 			    <?php endif; ?>
 			    <?php if ( $show ) : ?>
-			        <div class="df aic g-1" x-show="!bulk">
-						<?php
-						View::print(
-							'templates/form/details',
-							[
-								'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
-								'instruction' => I18n::_t( 'Test content' ),
-								'class'       => 'btn btn--sm btn--outline btn--icon',
-								'content'     => Dashboard\Form::get( 'grafema-posts-options', GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
-							]
-						);
-						?>
-			        </div>
+				    <div class="df aic g-1" x-show="!bulk">
+					    <?php
+					    View::print(
+						    'templates/form/details',
+						    [
+							    'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
+							    'instruction' => I18n::_t( 'Test content' ),
+							    'class'       => 'btn btn--sm btn--outline btn--icon',
+							    'content'     => Dashboard\Form::get( 'grafema-posts-options', GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
+						    ]
+					    );
+					    ?>
+				    </div>
 			    <?php endif; ?>
 			    <?php if ( $uploader ) : ?>
 				    <div class="df aic g-1">
@@ -124,12 +124,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    <i class="ph ph-upload-simple"></i> <?php I18n::t( 'Add new file' ); ?>
 					    </button>
 				    </div>
-			    <?php endif; ?>
-			    <?php if ( $actions ) : ?>
-			        <div class="df aic g-1" x-show="bulk" x-cloak>
-						<?php Dashboard\Form::print( 'grafema-posts-actions', GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
-			            <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
-			        </div>
 			    <?php endif; ?>
 			    <?php if ( $translation ) : ?>
 				    <div class="df aic g-2">
@@ -228,7 +222,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				    </div>
 			    <?php endif; ?>
 		    </div>
-	    <?php endif; ?>
+
+		    <?php if ( $actions ) : ?>
+			    <div class="df aic g-1" x-show="bulk" x-cloak>
+				    <?php Dashboard\Form::print( 'grafema-posts-actions', GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
+				    <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
+			    </div>
+		    <?php endif; ?>
+	    </div>
     </div>
 	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>

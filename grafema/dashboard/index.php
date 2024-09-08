@@ -111,7 +111,7 @@ $start_time = microtime( true );
 	Hook::apply( 'grafema_dashboard_header' );
 	?>
 </head>
-<body x-data="grafema" @keydown.prevent.ctrl.s="alert(54354)">
+<body x-data="grafema" @keydown.prevent.ctrl.s="$notification.add(notifications.ctrlS)">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
             <div class="grafema-bar">
@@ -166,13 +166,13 @@ $start_time = microtime( true );
 		</div>
 	</dialog>
 
-	<!-- notices start -->
-	<template x-if="$store.notice.length">
-		<div class="notice">
-			<template x-for="(item, id) in $store.notice.items">
-				<div class="notice__item" :class="item.classes()">
-					<div class="notice__msg" x-html="item.message"></div>
-					<div class="notice__close" x-show="item.closable" :style="`--anim:${item.anim}`" @click="$store.notice.close(id)"></div>
+	<!-- notifications start -->
+	<template x-if="$store.notifications.length">
+		<div class="notifications">
+			<template x-for="notification in $store.notifications">
+				<div class="notifications-item" :class="notification.class">
+					<div class="notifications-text" x-text="notification.message"></div>
+					<div class="notifications-close" :style="notification.duration && `--animation:${notification.animation}`" @click="$notification.close(notification.id)"></div>
 				</div>
 			</template>
 		</div>

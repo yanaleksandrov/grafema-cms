@@ -38,7 +38,7 @@
 	'type'        => 'textarea',
 	'name'        => 'uid',
 	'label'       => I18n::_t( 'Label' ),
-	'class'       => '',
+	'class'       => '', // for checkboxes & radio: field--simple, field--image, field--described, field--buttons
 	'label_class' => '',
 	'reset'       => 0,
 	'before'      => '',
@@ -75,9 +75,6 @@
 		'one' => I18n::_t( '#1' ),
 		'two' => I18n::_t( '#2' ),
 	],
-	// radio
-	'variation'   => 'class:simple',
-	'width'       => 'absint:200',
 	// select/checkbox/radio options with additional data
 	'options'     => [
 		'one' => [

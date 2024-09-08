@@ -64,8 +64,6 @@ Dashboard\Form::enqueue(
 			'attributes'  => [
 				'value' => 'csv',
 			],
-			'variation'   => 'described', // can be: simple, image, described
-			'width'       => 180,
 			'options'     => [
 				'csv' => [
 					'image'   => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),

@@ -1,50 +1,48 @@
 .notifications {
   font-size: 0.85rem;
   position: fixed;
-  top: 0.5rem;
+  top: 2.75rem;
   right: 0;
   height: 1px;
   z-index: 99999;
 
   &-item {
-    padding: 0.6rem 1rem;
+    padding: 0.75rem 1.125rem;
     background-color: var(--grafema-white);
-    margin-block-end: 8px;
     border: 1px solid var(--grafema-border);
+    border-radius: var(--grafema-border-radius-xl, 0.5rem);
+    box-shadow: 0 3px 3px -3px rgba(0, 0, 0, .1);
     width: 100%;
-    line-height: 140%;
-    margin-block-start: 0;
+    line-height: 1.3em;
     max-width: 22rem;
     position: relative;
-    right: 16px;
+    right: 1rem;
     opacity: 0;
-    align-items: center;
+    align-items: flex-start;
     display: flex;
+    gap: 0.75rem;
     justify-content: space-between;
-    animation: showNotice 0.15s;
+    animation: showNotice 0.25s;
     animation-fill-mode: both;
     word-break: break-word;
-
-    &.info {
-      border-left: 3px solid var(--grafema-info, #1871BA);
-    }
-
-    &.success {
-      border-left: 3px solid var(--grafema-success, #3B9414);
-    }
-
-    &.warning {
-      border-left: 3px solid var(--grafema-warning, #F76707);
-    }
-
-    &.error {
-      border-left: 3px solid var(--grafema-error, #C42D2D);
-    }
+    margin-bottom: -3.75rem;
+    transition: margin-bottom 0.25s;
 
     &.removed {
-      animation: hideNotice 0.35s;
+      animation: hideNotice 0.25s;
       animation-fill-mode: both;
     }
+  }
+
+  &:has(.notifications-item:hover) .notifications-item {
+    margin-bottom: 0.125rem;
+  }
+
+  &-icon {
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-self: center;
   }
 
   &-text {
@@ -53,16 +51,17 @@
 
   &-close {
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg width='16' height='16' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m12 4-8 8M4 4l8 8' stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3e%3c/svg%3e");
-    background-size: 16px;
+    background-size: 1rem;
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
-    margin-inline-start: 0.5rem;
     margin-inline-end: -0.5rem;
     min-width: 1.75rem;
     position: relative;
     width: 1.75rem;
     height: 1.75rem;
+    opacity: 0.5;
+    transition: opacity 0.25s;
 
     &:before {
       content: '';
@@ -77,16 +76,20 @@
       margin: auto;
       transform: rotate(-90deg);
     }
+
+    &:hover {
+      opacity: 1;
+    }
   }
 }
 
 @keyframes showNotice {
   from {
-    margin-block-start: -16px;
+    margin-block-start: -0.5rem;
     opacity: 0;
   }
   to {
-    margin-block-start: 8px;
+    margin-block-start: 0.25rem;
     opacity: 1;
   }
 }
@@ -97,7 +100,7 @@
     opacity: 1;
   }
   to {
-    margin-block-start: -16px;
+    margin-block-start: -0.25rem;
     opacity: 0;
   }
 }

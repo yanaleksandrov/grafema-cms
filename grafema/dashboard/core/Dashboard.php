@@ -78,7 +78,7 @@ class Dashboard extends \Grafema\App\App
 							'showMenu'       => false,
 							'showFilter'     => false,
 							'notifications'  => [
-								'ctrlS' => I18n::_t_attr( 'Grafema saves the changes automatically, so there is no need to press Ctrl+S.' ),
+								'ctrlS' => I18n::_t_attr( 'Grafema saves the changes automatically, so there is no need to press ⌘ + S' ),
 							],
 							'uploaderDialog' => [
 								'title' => I18n::_t( 'Upload Files' ),

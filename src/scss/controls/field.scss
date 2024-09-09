@@ -356,6 +356,7 @@
     &:has(.ss-main:not(.ss-open-below)):focus-within {
       box-shadow: none;
       border-color: var(--grafema-border);
+      background-color: var(--grafema-bg);
     }
 
     &:has(:nth-child(1 of code)) {

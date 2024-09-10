@@ -500,7 +500,7 @@ Dashboard\Form::enqueue(
 							'conditions'  => [],
 							'attributes'  => [
 								'type'      => 'button',
-								'class'     => 'btn btn--primary',
+								'class'     => 'btn btn--primary btn--full',
 								'@click'    => '$ajax("user/password-update", $data)',
 								'disabled'  => '',
 								':disabled' => '!(passwordNew && passwordOld)',

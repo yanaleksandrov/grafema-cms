@@ -58,7 +58,7 @@ Dashboard\Form::enqueue(
 			'validator'   => '',
 			'conditions'  => [],
 			'attributes'  => [
-				'class'     => 'btn btn--primary',
+				'class'     => 'btn btn--primary btn--full',
 				'disabled'  => '',
 				':disabled' => '!/\S+@\S+\.\S+/.test(email)',
 			],

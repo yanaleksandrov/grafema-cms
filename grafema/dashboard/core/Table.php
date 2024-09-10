@@ -96,9 +96,9 @@ final class Table {
 				echo $this->dataBefore ?? '';
 				foreach ( $this->data as $i => $data ) {
 					$row = $this->rows[ $i ] ?? end( $this->rows );
-					View::print( $row->view ?? '', (array) $this );
+					View::print( $row->view ?? '', [ 'data' => $data, 'row' => $row, 'columns' => $this->columns ] );
 				}
-				echo $this->dataAfter ?? '';
+				echo ( $this->dataAfter ?? '' ) . PHP_EOL;
 			} else {
 				View::print( $this->notFoundTemplate, $this->notFoundContent );
 			}

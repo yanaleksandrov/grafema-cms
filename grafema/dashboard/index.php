@@ -154,7 +154,7 @@ $start_time = microtime( true );
 	?>
 
 	<!-- dialog windows start -->
-	<dialog id="grafema-dialog" class="dialog" :class="$store.dialog?.class">
+	<dialog class="dialog" :class="$store.dialog?.class" id="grafema-dialog">
 		<div class="dialog-wrapper" @click.outside="$dialog.close()">
 			<div class="dialog-header">
 				<template x-if="$store.dialog?.title">

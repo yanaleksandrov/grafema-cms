@@ -31,12 +31,19 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	)
 )->values();
 ?>
-<div class="themes__item">
-	<div class="themes__image" data-title="<?php I18n::t( 'Details' ); ?>" style="background-image: url(<?php echo $screenshot; ?>)"></div>
-	<h6 class="themes__title"><?php echo $title, I18n::_c( $installed, ' <i class="badge badge--green-lt">Active</i>' ); ?></h6>
-	<div class="themes__text"><?php echo $description; ?></div>
-	<div class="themes__data">
-		<?php
+<div class="themes-item">
+	<div class="themes-image" style="background-image: url(<?php echo $screenshot; ?>)">
+		<div class="themes-action">
+			<button class="btn btn--outline" type="button"><?php I18n::t( 'Preview' ); ?></button>
+			<button class="btn btn--outline" type="button"<?php $installed && print( ' hidden' ); ?>><?php I18n::t( 'Activate' ); ?></button>
+			<button class="btn btn--primary" type="button"<?php ! $installed && print( ' hidden' ); ?>><?php I18n::t( 'Customize' ); ?></button>
+		</div>
+	</div>
+	<h6 class="themes-title"><?php echo $title, I18n::_c( $installed, ' <i class="badge badge--green-lt">Active</i>' ); ?></h6>
+	<?php if ( $description ) : ?>
+		<div class="themes-text"><?php echo $description; ?></div>
+	<?php endif; ?>
+	<div class="themes-data"><?php
 		if ( $reviews > 0 ) {
 			View::print(
 				'templates/global/rating',
@@ -51,7 +58,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 		if ( $version ) :
 			?>
-			<div class="themes__text" title="<?php I18n::tf( 'Version %s', $version ); ?>"><?php echo $version; ?></div>
+			<div class="themes-text" title="<?php I18n::tf( 'Version %s', $version ); ?>"><?php echo $version; ?></div>
 		<?php endif; ?>
 	</div>
 </div>

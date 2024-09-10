@@ -527,7 +527,7 @@
     gap: 2rem;
   }
 
-  &__item {
+  &-item {
     cursor: pointer;
     aspect-ratio: 1 / 1;
     word-wrap: break-word;
@@ -536,13 +536,9 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-
-    &:hover .themes__image:after {
-      opacity: 1;
-    }
   }
 
-  &__image {
+  &-image {
     padding-block-start: calc(100% - 126px);
     background: no-repeat 50% / cover;
     border-radius: var(--grafema-border-radius-xl);
@@ -555,37 +551,62 @@
     outline-offset: .4rem;
 
     &:after {
-      content: attr(data-title);
+      content: '';
       opacity: 0;
       padding: 2rem;
-      transition: opacity 0.3s ease;
-      background-color: rgba(255, 255, 255, 0.9);
+      transition: opacity 0.4s ease;
       color: var(--grafema-dark);
       font-weight: 600;
-      backdrop-filter: blur(11px);
       position: absolute;
       inset: 0;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: linear-gradient(0deg, hsl(0deg 0% 100%) 0%, hsl(0deg 0% 100% / 62%) 38%, hsl(0deg 0% 100% / 45%) 55%, hsl(0deg 0% 100% / 30%) 70%, hsl(0deg 0% 100% / 16%) 84%, hsl(0deg 0% 100% / 0%) 100%);
+
+      .themes-item:hover & {
+        opacity: 1;
+      }
     }
   }
 
-  &__title {
+  &-action {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+    display: flex;
+    place-items: center;
+    padding-top: 1rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    .themes-item:hover & {
+      opacity: 1;
+      bottom: 1rem;
+      transition: all 0.4s;
+    }
+  }
+
+  &-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 1rem;
   }
 
-  &__data {
+  &-data {
     display: flex;
     align-items: center;
     font-size: 0.75rem;
     justify-content: space-between;
   }
 
-  &__text {
+  &-text {
     color: var(--grafema-text-muted);
   }
 }

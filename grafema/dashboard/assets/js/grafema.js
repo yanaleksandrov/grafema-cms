@@ -55,21 +55,21 @@ var __webpack_modules__ = {
                 let paddingBottom = parseInt(style.paddingBottom);
                 let lastScroll = 0;
                 let bottomPoint = 0;
-                let value = 'top: ' + paddingTop + 'px';
+                let value = `top: ${paddingTop}px`;
                 function calcPosition() {
                     if (diff > 0) {
                         let y = document.scrollingElement.scrollTop;
                         if (window.scrollY > lastScroll) {
                             if (y > diff) {
                                 bottomPoint = diff * -1 - paddingBottom;
-                                value = 'top: ' + bottomPoint + 'px';
+                                value = `top: ${bottomPoint}px`;
                             } else {
                                 value = 'top: ' + (y * -1 - paddingBottom) + 'px';
                             }
                         } else {
                             bottomPoint = bottomPoint + (lastScroll - window.scrollY);
                             if (bottomPoint < paddingTop) {
-                                value = 'top: ' + bottomPoint + 'px';
+                                value = `top: ${bottomPoint}px`;
                             }
                         }
                     }
@@ -1300,6 +1300,11 @@ var __webpack_modules__ = {
                             }
                         }), 1e3);
                     }
+                }
+            })));
+            Alpine.magic('safe', (() => ({
+                slug(value) {
+                    return value.toString().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-').toLowerCase();
                 }
             })));
         }));

@@ -4,7 +4,7 @@ use Grafema\Sanitizer;
 /**
  * Table raw text cell
  *
- * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cells/text.php
+ * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/table/cells/raw.php
  *
  * @package Grafema\Templates
  * @since   2025.1
@@ -27,6 +27,4 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $prop = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $class; ?>">
-	<div class="ml-7 mt-2 lh-xs fs-14" x-text="item.<?php echo $prop; ?>"></div>
-</div>
+<div class="<?php echo $class; ?>" x-text="item.<?php echo $prop; ?>"></div>

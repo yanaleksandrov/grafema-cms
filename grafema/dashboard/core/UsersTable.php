@@ -9,7 +9,6 @@ use Dashboard\Table\Cell;
 final class UsersTable {
 
 	public function data(): array {
-		return [];
 		return [
 			[
 				'cb'      => '<input type="checkbox" name="post[]" x-bind="switcher">',

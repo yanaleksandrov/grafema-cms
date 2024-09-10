@@ -7,16 +7,16 @@ document.addEventListener( 'alpine:init', () => {
 	 */
 	Alpine.directive( 'intersect', (el, { value, expression, modifiers }, { evaluateLater, cleanup }) => {
 		function getThreshold(modifiers) {
-			if (modifiers.includes("full"))
+			if (modifiers.includes('full'))
 				return 0.99;
-			if (modifiers.includes("half"))
+			if (modifiers.includes('half'))
 				return 0.5;
-			if (!modifiers.includes("threshold"))
+			if (!modifiers.includes('threshold'))
 				return 0;
-			let threshold = modifiers[modifiers.indexOf("threshold") + 1];
-			if (threshold === "100")
+			let threshold = modifiers[modifiers.indexOf('threshold') + 1];
+			if (threshold === '100')
 				return 1;
-			if (threshold === "0")
+			if (threshold === '0')
 				return 0;
 			return Number(`.${threshold}`);
 		}
@@ -25,31 +25,31 @@ document.addEventListener( 'alpine:init', () => {
 			return match ? match[1] + (match[2] || "px") : void 0;
 		}
 		function getRootMargin(modifiers) {
-			const key = "margin";
-			const fallback = "0px 0px 0px 0px";
-			const index = modifiers.indexOf(key);
+			const key      = 'margin';
+			const fallback = '0px 0px 0px 0px';
+			const index    = modifiers.indexOf(key);
 			if (index === -1)
 				return fallback;
 			let values = [];
 			for (let i = 1; i < 5; i++) {
-				values.push(getLengthValue(modifiers[index + i] || ""));
+				values.push(getLengthValue(modifiers[index + i] || ''));
 			}
 			values = values.filter((v) => v !== void 0);
-			return values.length ? values.join(" ").trim() : fallback;
+			return values.length ? values.join(' ').trim() : fallback;
 		}
 
 		let evaluate = evaluateLater(expression);
-		let options = {
+		let options  = {
 			rootMargin: getRootMargin(modifiers),
 			threshold: getThreshold(modifiers)
 		};
 		let observer = new IntersectionObserver((entries) => {
-			entries.forEach((entry) => {
-				if (entry.isIntersecting === (value === "leave")) {
+			entries.forEach(entry => {
+				if (entry.isIntersecting === (value === 'leave')) {
 					return;
 				}
 				evaluate();
-				modifiers.includes("once") && observer.disconnect();
+				modifiers.includes('once') && observer.disconnect();
 			});
 		}, options);
 		observer.observe(el);
@@ -75,24 +75,24 @@ document.addEventListener( 'alpine:init', () => {
 
 		let lastScroll  = 0;
 		let bottomPoint = 0;
-		let value       = 'top: ' + paddingTop + 'px';
+		let value       = `top: ${paddingTop}px`;
 
 		function calcPosition() {
-			if ( diff > 0 ) {
+			if (diff > 0) {
 				let y = document.scrollingElement.scrollTop;
 				// scroll to down
-				if ( window.scrollY > lastScroll ) {
+				if (window.scrollY > lastScroll) {
 					if (y > diff) {
 						bottomPoint = ( diff * -1 - paddingBottom );
 
-						value = 'top: ' + bottomPoint + 'px';
+						value = `top: ${bottomPoint}px`;
 					} else {
 						value = 'top: ' + ( y * -1 - paddingBottom ) + 'px';
 					}
 				} else {
 					bottomPoint = bottomPoint + (lastScroll - window.scrollY);
 					if (bottomPoint < paddingTop) {
-						value = 'top: ' + bottomPoint + 'px';
+						value = `top: ${bottomPoint}px`;
 					}
 				}
 			}
@@ -240,7 +240,7 @@ document.addEventListener( 'alpine:init', () => {
 				let classes = 'ph-copy ph-check'.split(' ');
 
 				classes.forEach(s => el.classList.toggle(s));
-				setTimeout( () => classes.forEach(s => el.classList.toggle(s)), 1000 );
+				setTimeout(() => classes.forEach(s => el.classList.toggle(s)), 1000);
 			},
 			() => {
 				console.log( 'Oops, your browser is not support clipboard!' );
@@ -1619,4 +1619,22 @@ document.addEventListener( 'alpine:init', () => {
 		},
 	} ) );
 
+	/**
+	 * Data sanitizing.
+	 *
+	 * @since 1.0
+	 */
+	Alpine.magic('safe', () => ({
+		slug(value) {
+			return value
+				.toString()                           // Convert the input to a string
+				.normalize('NFD')                     // Normalize the string (separate characters and diacritical marks)
+				.replace(/[\u0300-\u036f]/g, '')      // Remove diacritical marks
+				.replace(/[^\p{L}\p{N}\s-]/gu, '')    // Remove everything except letters, numbers, spaces, and hyphens (Unicode support)
+				.trim()                               // Trim leading and trailing whitespace
+				.replace(/\s+/g, '-')                 // Replace spaces with hyphens
+				.replace(/-+/g, '-')                  // Remove consecutive hyphens
+				.toLowerCase();                       // Convert the string to lowercase
+		},
+	}));
 } );

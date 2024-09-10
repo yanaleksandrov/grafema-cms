@@ -13,5 +13,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $callback = $args['callback'] ?? null;
 if ( is_callable( $callback ) ) {
-	echo call_user_func( $callback );
+	ob_start();
+	call_user_func( $callback );
+	echo ob_get_clean();
 }

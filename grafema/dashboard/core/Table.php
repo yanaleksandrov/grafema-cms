@@ -59,17 +59,14 @@ final class Table {
 	 * @return string
 	 */
 	public function get(): string {
+		$tag    = Sanitizer::tag( $this->tag );
 		$styles = $this->stylize( $this->columns );
 		if ( $styles ) {
 			$this->attributes['style'] = $styles;
 		}
 
 		ob_start();
-		if ( $this->tag ) {
-			?>
-			<<?php echo trim( sprintf( '%s %s', $this->tag, Arr::toHtmlAtts( $this->attributes ) ) ); ?>>
-			<?php
-		}
+		$tag && printf( '<%s>', trim( $tag . ' ' . Arr::toHtmlAtts( $this->attributes ) ) );
 
 		View::print(
 			$this->headerTemplate,
@@ -107,11 +104,8 @@ final class Table {
 			}
 		}
 
-		if ( $this->tag ) {
-			?>
-			</<?php echo $this->tag; ?>>
-			<?php
-		}
+		$tag && printf( '</%s>', $tag );
+
 		return ob_get_clean();
 	}
 

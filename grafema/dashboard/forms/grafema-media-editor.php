@@ -16,13 +16,11 @@ Dashboard\Form::enqueue(
 			'type'     => 'custom',
 			'name'     => 'image',
 			'callback' => function() {
-				ob_start();
 				?>
 				<div class="df aic jcc ga-5 p-2">
 					<img src="https://loremflickr.com/300/1200/dog" alt="">
 				</div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 		[
@@ -37,7 +35,6 @@ Dashboard\Form::enqueue(
 					'type'     => 'custom',
 					'name'     => 'manage',
 					'callback' => function() {
-						ob_start();
 						?>
 						<div class="dg g-1 fs-12">
 							<div><strong><?php I18n::t( 'Uploaded on' ); ?>:</strong> July 9, 2024</div>
@@ -48,7 +45,6 @@ Dashboard\Form::enqueue(
 							<div><strong><?php I18n::t( 'Length' ); ?>:</strong> 2 minutes, 48 seconds</div>
 						</div>
 						<?php
-						return ob_get_clean();
 					},
 				],
 				[

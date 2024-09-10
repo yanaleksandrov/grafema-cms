@@ -20,7 +20,6 @@ Dashboard\Form::enqueue(
 		[
 			'type'     => 'custom',
 			'callback' => function () {
-				ob_start();
 				?>
 				<div class="dg g-1 p-7 sm:p-5 pb-4 sm:pb-4 bg-gray-lt">
 					<?php
@@ -50,7 +49,6 @@ Dashboard\Form::enqueue(
 					?>
 				</div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 		[
@@ -384,7 +382,6 @@ Dashboard\Form::enqueue(
 							'name'     => 'title',
 							'type'     => 'custom',
 							'callback' => function () {
-								ob_start();
 								?>
 								<div class="dg g-2 ga-4">
 									<div>This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</div>
@@ -422,7 +419,6 @@ Dashboard\Form::enqueue(
 									</div>
 								</div>
 								<?php
-								return ob_get_clean();
 							},
 						],
 					],
@@ -535,7 +531,6 @@ Dashboard\Form::enqueue(
 							'name'     => 'title',
 							'type'     => 'custom',
 							'callback' => function () {
-								ob_start();
 								?>
 								<div class="dg g-2 ga-4">
 									<p><?php I18n::t( 'Application passwords allow authentication via non-interactive systems, such as REST API, without providing your actual password. Application passwords can be easily revoked. They cannot be used for traditional logins to your website.' ); ?></p>
@@ -556,7 +551,6 @@ Dashboard\Form::enqueue(
 									<div class="df aic g-1 t-red fs-13"><i class="ph ph-info"></i> Grafema CMS support will never ask you to share your secret keys.</div>
 								</div>
 								<?php
-								return ob_get_clean();
 							},
 						],
 					],

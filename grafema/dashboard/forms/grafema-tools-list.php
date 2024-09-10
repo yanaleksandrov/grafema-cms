@@ -42,7 +42,6 @@ Dashboard\Form::enqueue(
 					],
 				];
 
-				ob_start();
 				?>
 				<div class="dg g-1 pt-8 pb-4">
 					<?php
@@ -75,7 +74,6 @@ Dashboard\Form::enqueue(
 					<?php endforeach; ?>
 				</div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 		[

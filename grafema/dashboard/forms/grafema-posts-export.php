@@ -82,11 +82,9 @@ Dashboard\Form::enqueue(
 		[
 			'type'     => 'custom',
 			'callback' => function () {
-				ob_start();
 				?>
 				<button type="submit" class="btn btn--primary btn--lg"><?php I18n::t( 'Export posts' ); ?></button>
 				<?php
-				return ob_get_clean();
 			},
 		],
 	]

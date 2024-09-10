@@ -18,7 +18,6 @@ Dashboard\Form::enqueue(
 			'name'     => 'title',
 			'type'     => 'custom',
 			'callback' => function () {
-				ob_start();
 				?>
 				<div class="progress" :style="'--grafema-progress:' + $wizard.progress().progress"></div>
 				<div class="p-8 pt-7 pb-7 df aic jcsb">
@@ -29,7 +28,6 @@ Dashboard\Form::enqueue(
 				</div>
 				<div class="card-hr"></div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 		[
@@ -103,7 +101,6 @@ Dashboard\Form::enqueue(
 		[
 			'type'     => 'custom',
 			'callback' => function () {
-				ob_start();
 				?>
 				<!-- buttons -->
 				<div class="p-8 df jcsb g-2" x-show="!output.trim()">
@@ -112,7 +109,6 @@ Dashboard\Form::enqueue(
 					<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(1)" x-cloak><?php I18n::t( 'Run the importer' ); ?></button>
 				</div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 	]

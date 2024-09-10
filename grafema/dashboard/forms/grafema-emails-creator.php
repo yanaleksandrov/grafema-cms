@@ -278,7 +278,6 @@ Dashboard\Form::enqueue(
 					'name'     => 'instructions',
 					'type'     => 'custom',
 					'callback' => function() {
-						ob_start();
 						?>
 						<div class="dg g-2">
 							<div><code>:name</code> <?php I18n::t( 'User display name if email found in users' ); ?></div>
@@ -291,7 +290,6 @@ Dashboard\Form::enqueue(
 							<div><code>:date</code> <?php I18n::t( 'Current date in "24 August, 2024" format' ); ?></div>
 						</div>
 						<?php
-						return ob_get_clean();
 					},
 				],
 			],

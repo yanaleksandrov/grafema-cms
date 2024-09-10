@@ -386,7 +386,6 @@ Dashboard\Form::enqueue(
 		[
 			'type'     => 'custom',
 			'callback' => function() {
-				ob_start();
 				?>
 				<!-- buttons -->
 				<div class="p-8 df jcsb g-2">
@@ -396,7 +395,6 @@ Dashboard\Form::enqueue(
 					<a href="/dashboard/" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
 				</div>
 				<?php
-				return ob_get_clean();
 			},
 		],
 	]

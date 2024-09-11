@@ -1,5 +1,6 @@
 <?php
 use Grafema\View;
+use Grafema\Hook;
 
 /**
  * Emails.
@@ -11,6 +12,10 @@ use Grafema\View;
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
+
+Hook::add( 'grafema_dashboard_footer', function() {
+	View::print( 'templates/dialogs/emails-editor' );
+} );
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Table( new Dashboard\EmailsTable() ) )->print(); ?>

@@ -1,4 +1,7 @@
 <?php
+use Grafema\Hook;
+use Grafema\View;
+
 /**
  * Files storage.
  *
@@ -10,6 +13,11 @@
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
+
+Hook::add( 'grafema_dashboard_footer', function() {
+	View::print( 'templates/dialogs/media-editor' );
+	View::print( 'templates/dialogs/media-uploader' );
+} );
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Table( new Dashboard\MediaTable() ) )->print(); ?>

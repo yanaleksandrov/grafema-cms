@@ -50,13 +50,12 @@ unset( $attributes['value'] );
 				<span class="ml-auto t-red" @click="<?php echo $click; ?>" x-show="<?php echo $show; ?>" x-cloak><?php I18n::t( 'Reset' ); ?></span>
 				<?php
 			endif;
-			if ( $tooltip ) :
-				?>
-				<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
-			<?php endif; ?>
+			$tooltip && printf( ' <i class="ph ph-info" x-tooltip.click.prevent="\'%s\'"></i>', $tooltip );
+			?>
 		</div>
 	<?php endif; ?>
 	<label class="field-item">
+		<?php echo $before; ?>
 		<select<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 			<?php
 			$get_attributes = function ( $key, $value, $option ) {
@@ -103,6 +102,7 @@ unset( $attributes['value'] );
 			}
 			?>
 		</select>
+		<?php echo $after; ?>
 	</label>
 	<?php if ( $instruction ) : ?>
 		<div class="field-instruction"><?php echo $instruction; ?></div>

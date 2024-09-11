@@ -1,6 +1,8 @@
 <?php
 use Grafema\Sanitizer;
 use Grafema\I18n;
+use Grafema\Hook;
+use Grafema\View;
 
 /**
  * Single image uploader.
@@ -35,6 +37,10 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 
 $prop = Sanitizer::prop( $attributes['name'] ?? $name );
+
+Hook::add( 'grafema_dashboard_footer', function() {
+	View::print( 'templates/dialogs/selfie-maker' );
+} );
 ?>
 <div class="<?php echo $class; ?>">
 	<div class="df aife g-4">

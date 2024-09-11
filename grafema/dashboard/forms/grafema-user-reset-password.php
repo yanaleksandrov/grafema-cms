@@ -25,7 +25,7 @@ Dashboard\Form::enqueue(
 			'type'        => 'email',
 			'name'        => 'email',
 			'label'       => I18n::_t( 'Your email' ),
-			'class'       => '',
+			'class'       => 'field field--lg',
 			'label_class' => '',
 			'reset'       => 0,
 			'before'      => '',
@@ -58,7 +58,7 @@ Dashboard\Form::enqueue(
 			'validator'   => '',
 			'conditions'  => [],
 			'attributes'  => [
-				'class'     => 'btn btn--primary btn--full',
+				'class'     => 'btn btn--lg btn--primary btn--full',
 				'disabled'  => '',
 				':disabled' => '!/\S+@\S+\.\S+/.test(email)',
 			],

@@ -204,14 +204,15 @@ trait Traits {
 		foreach ( $conditions as $condition ) {
 			[ 'field' => $field, 'operator' => $operator, 'value' => $value ] = $condition;
 
-			$relatedValue = $attributes[$field] ?? null;
-			if ( $relatedValue === null || ! $value || ! $operator ) {
+			$relatedValue = $attributes[ $field ] ?? null;
+			if ( $relatedValue === null || ! $operator ) {
 				continue;
 			}
 
+			$safeValue    = Sanitizer::attribute( $value );
 			$attributeVal = match( gettype( $value ) ) {
 				'boolean' => $value === true ? 'true' : 'false',
-				'string'  => "'$value'",
+				'string'  => "'$safeValue'",
 				'integer' => $value,
 			};
 
@@ -248,7 +249,7 @@ trait Traits {
 
 		if ( $expressions ) {
 			return [
-				'x-show'  => Sanitizer::attribute( implode( ' && ', array_column( $expressions, 'expression' ) ) ),
+				'x-show'  => implode( ' && ', array_column( $expressions, 'expression' ) ),
 				'x-cloak' => Sanitizer::bool( in_array( false, array_column( $expressions, 'match' ), true ) ),
 			];
 		}

@@ -139,8 +139,8 @@ $start_time = microtime( true );
             ?>
 			<!-- interface board start -->
 			<div class="grafema-board">
-				<a href="#" class="dif aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
-				<a href="#" class="dif aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
+				<a href="#" class="dif g-1 aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
+				<a href="#" class="dif g-1 aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
 			</div>
 		</div>
     	<?php
@@ -154,7 +154,7 @@ $start_time = microtime( true );
 	?>
 
 	<!-- dialog windows start -->
-	<dialog id="grafema-dialog" class="dialog" :class="$store.dialog?.class">
+	<dialog class="dialog" :class="$store.dialog?.class" id="grafema-dialog">
 		<div class="dialog-wrapper" @click.outside="$dialog.close()">
 			<div class="dialog-header">
 				<template x-if="$store.dialog?.title">
@@ -185,79 +185,6 @@ $start_time = microtime( true );
 					</div>
 				</div>
 			</template>
-		</div>
-	</template>
-
-	<!-- media editor template start -->
-	<template id="tmpl-media-editor" x-init="$dialog.init(() => $ajax('media/get'))">
-		<?php Dashboard\Form::print( 'grafema-media-editor', GRFM_DASHBOARD . 'forms/grafema-media-editor.php' ); ?>
-	</template>
-
-	<!-- media uploader template start -->
-	<template id="tmpl-media-uploader">
-		<?php Dashboard\Form::print( 'grafema-files-uploader', GRFM_DASHBOARD . 'forms/grafema-files-uploader.php' ); ?>
-	</template>
-
-	<!-- post editor template start -->
-	<template id="tmpl-post-editor" x-init="$dialog.init(() => postEditorDialog)">
-		<?php Dashboard\Form::print( 'grafema-posts-creator', GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' ); ?>
-	</template>
-
-	<!-- email editor template start -->
-	<template id="tmpl-email-editor" x-init="$dialog.init(() => emailDialog)">
-		<div class="email">
-			<div class="email-form">
-				<?php Dashboard\Form::print( 'grafema-emails-creator', GRFM_DASHBOARD . 'forms/grafema-emails-creator.php' ); ?>
-			</div>
-			<div class="email-preview">
-				<?php
-				View::print(
-					GRFM_DASHBOARD . 'templates/mails/wrappers',
-					[
-						'body_template' => GRFM_DASHBOARD . 'templates/mails/reset-password',
-					]
-				);
-				?>
-			</div>
-		</div>
-	</template>
-
-	<!-- selfie maker start -->
-	<template id="take-selfie">
-		<div class="p-7 t-center" x-data="{second: '', showImg: ''}">
-			<div x-init="$stream.start($refs)" style="position: relative; overflow: hidden;">
-				<video x-ref="video" class="db mw" autoplay style="object-fit: cover; aspect-ratio: 4/3;"></video>
-				<canvas x-ref="canvas" x-show="!showImg" style="border-radius: 20rem; width: 240px; height: 240px; position: absolute; margin: auto; inset: 0; box-shadow: 0 0 0 999px rgb(255 255 255 / 60%);"></canvas>
-				<img x-ref="image" x-show="showImg" x-cloak alt="" src="/dashboard/assets/images/1x1.png" style="border-radius: 20rem; width: 240px; height: 240px; position: absolute; margin: auto; inset: 0; box-shadow: 0 0 0 999px rgb(255 255 255 / 98%);">
-			</div>
-			<div
-				class="fs-48"
-				x-show="second > 0"
-				x-text="second"
-				:style="second && 'position: fixed; top: 1rem; left: 0; right: 0; margin: 0 auto; transition: all 1s; animation: ticker 1s ease infinite;'"
-			></div>
-
-			<div x-show="!showImg">
-				<h6><?php I18n::t( 'Center your face' ); ?></h6>
-				<div class="fs-14 t-muted mt-2 pl-4 pr-4">
-					<?php I18n::t( 'Align your face to the center of the selfie area and then take a photo' ); ?>
-				</div>
-				<div class="df jcsb mt-6 mw">
-					<button type="button" class="btn btn--outline" @click="$dialog.close(), $stream.stop()"><?php I18n::t( 'Cancel' ); ?></button>
-					<button class="btn btn--primary" @click="$countdown.start(3, () => second = $countdown.second, () => showImg = $stream.snapshot($refs))"><?php I18n::t( 'Take Selfie' ); ?></button>
-				</div>
-			</div>
-
-			<div x-show="showImg">
-				<h6><?php I18n::t( 'Check quality' ); ?></h6>
-				<div class="fs-14 t-muted mt-2 pl-4 pr-4">
-					<?php I18n::t( 'Make sure your face is not blurred or out of the frame before continuing' ); ?>
-				</div>
-				<div class="df jcsb mt-6 mw">
-					<button class="btn btn--outline" type="button" @click="showImg = ''"><i class="ph ph-arrows-clockwise"></i> <?php I18n::t( 'Take a new' ); ?></button>
-					<button class="btn btn--primary" type="button" @click="showImg = ''"><i class="ph ph-user-focus"></i> <?php I18n::t( 'Use this photo' ); ?></button>
-				</div>
-			</div>
 		</div>
 	</template>
     <?php

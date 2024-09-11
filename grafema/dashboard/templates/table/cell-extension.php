@@ -60,7 +60,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 				View::print(
 					'templates/global/rating',
 					[
-						'class'   => 'df aib',
+						'class'   => 'df aib g-1',
 						'rating'  => $rating,
 						'reviews' => $reviews,
 					]

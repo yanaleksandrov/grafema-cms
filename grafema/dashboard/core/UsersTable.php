@@ -2,6 +2,7 @@
 namespace Dashboard;
 
 use Grafema\I18n;
+use Grafema\Hook;
 
 use Dashboard\Table\Row;
 use Dashboard\Table\Cell;
@@ -9,16 +10,21 @@ use Dashboard\Table\Cell;
 final class UsersTable {
 
 	public function data(): array {
-		return [
-			[
-				'cb'      => '<input type="checkbox" name="post[]" x-bind="switcher">',
-				'avatar' => 'https://i.pravatar.cc/150?img=1',
-				'name'   => 'Izabella Tabakova',
-				'email'  => 'codyshop@team.com',
-				'role'   => 'Admin',
-				'visit'  => '3 days ago',
-			],
-		];
+		Hook::add( 'grafema_dashboard_data', function( $data ) {
+			$data['items'] = [
+				[
+					'cb'      => '<input type="checkbox" name="post[]" x-bind="switcher">',
+					'avatar' => 'https://i.pravatar.cc/150?img=1',
+					'name'   => 'Izabella Tabakova',
+					'email'  => 'codyshop@team.com',
+					'role'   => 'Admin',
+					'visit'  => '3 days ago',
+				],
+			];
+			return $data;
+		} );
+
+		return [ 546 ];
 	}
 
 	public function rows(): array {
@@ -29,26 +35,11 @@ final class UsersTable {
 
 	public function columns(): array {
 		return [
-			Cell::add( 'cb' )
-				->title( '<input type="checkbox" x-bind="trigger" />' )
-				->fixedWidth( '1rem' )
-				->view( 'cb' ),
-			Cell::add( 'image' )
-				->fixedWidth( '2.5rem' )
-				->view( 'image' ),
-			Cell::add( 'name' )
-				->title( I18n::_t( 'Name' ) )
-				->flexibleWidth( '16rem' )
-				->sortable()
-				->view( 'title' ),
-			Cell::add( 'author' )
-				->title( I18n::_t( 'Role' ) )
-				->flexibleWidth( '8rem' )
-				->view( 'links' ),
-			Cell::add( 'categories' )
-				->title( I18n::_t( 'Last visit' ) )
-				->flexibleWidth( '6rem' )
-				->view( 'links' ),
+			Cell::add( 'cb' )->title( '<input type="checkbox" x-bind="trigger" />' )->fixedWidth( '1rem' )->view( 'cb' ),
+			Cell::add( 'image' )->fixedWidth( '2.5rem' )->view( 'image' ),
+			Cell::add( 'name' )->title( I18n::_t( 'Name' ) )->flexibleWidth( '16rem' )->sortable()->view( 'title' ),
+			Cell::add( 'role' )->title( I18n::_t( 'Role' ) )->fixedWidth( '6rem' )->view( 'raw' ),
+			Cell::add( 'visit' )->title( I18n::_t( 'Last visit' ) )->fixedWidth( '6rem' )->view( 'raw' ),
 		];
 	}
 

@@ -248,7 +248,10 @@ class Arr {
 					$atts[] = $attribute;
 				}
 			} else {
-				$atts[] = $value ? sprintf( '%s="%s"', $attribute, $value ) : ( str_starts_with( $attribute, 'x-' ) ? $attribute : '' );
+				$atts[] = match ( $attribute ) {
+					'value' => sprintf( '%s="%s"', $attribute, $value ),
+					default => $value ? sprintf( '%s="%s"', $attribute, $value ) : ( str_starts_with( $attribute, 'x-' ) ? $attribute : '' ),
+				};
 			}
 		}
 

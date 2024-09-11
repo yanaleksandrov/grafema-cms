@@ -192,7 +192,6 @@
   &[disabled]:active,
   &[disabled]:hover {
     background-color: #f7f7f7;
-    border: 1px solid var(--grafema-border);
     color: var(--grafema-border-hover);
     pointer-events: none;
     transition: none;

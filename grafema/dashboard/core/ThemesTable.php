@@ -62,6 +62,10 @@ final class ThemesTable {
 		];
 	}
 
+	public function dataVariable(): string {
+		return  '';
+	}
+
 	public function dataBefore(): string {
 		return '<div class="themes">';
 	}
@@ -72,7 +76,7 @@ final class ThemesTable {
 
 	public function rows(): array {
 		return [
-			Row::add( '' ),
+			Row::add()->tag( '' ),
 		];
 	}
 

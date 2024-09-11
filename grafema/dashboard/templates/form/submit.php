@@ -34,6 +34,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 $attributes['type'] ??= 'submit';
 ?>
-<div class="<?php echo $class; ?>">
+<div class="<?php echo $class; ?>"<?php echo Arr::toHtmlAtts( $conditions ); ?>>
 	<button<?php echo Arr::toHtmlAtts( $attributes ); ?>><?php echo $label; ?></button>
 </div>

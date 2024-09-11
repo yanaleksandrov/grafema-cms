@@ -1,8 +1,9 @@
 <?php
 use Grafema\View;
+use Grafema\Hook;
 
 /**
- * Files storage.
+ * Pages list.
  *
  * This template can be overridden by copying it to themes/yourtheme/dashboard/templates/pages.php
  *
@@ -12,6 +13,10 @@ use Grafema\View;
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
+
+Hook::add( 'grafema_dashboard_footer', function() {
+	View::print( 'templates/dialogs/posts-editor' );
+} );
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Table( new Dashboard\PagesTable() ) )->print(); ?>

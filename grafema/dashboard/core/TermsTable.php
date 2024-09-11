@@ -10,95 +10,23 @@ use Dashboard\Table\Cell;
 final class TermsTable {
 
 	public function data(): array {
-		Hook::add( 'grafema_dashboard_data', function( $data ) {
-			$data['items'] = [
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Hello World',
-					'slug'  => 'hello-world',
-					'count' => 23,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-				[
-					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
-					'title' => 'Uncategorized',
-					'slug'  => 'uncategorized',
-					'count' => 5,
-				],
-			];
-			return $data;
-		} );
+//		Hook::add( 'grafema_dashboard_data', function( $data ) {
+//			$data['items'] = [
+//				[
+//					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
+//					'title' => 'Hello World',
+//					'slug'  => 'hello-world',
+//					'count' => 23,
+//				],
+//				[
+//					'image' => 'https://dev.codyshop.ru/wp-content/themes/rgbcode/screenshot.png',
+//					'title' => 'Uncategorized',
+//					'slug'  => 'uncategorized',
+//					'count' => 5,
+//				],
+//			];
+//			return $data;
+//		} );
 
 		return [ 435 ];
 	}

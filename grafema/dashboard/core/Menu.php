@@ -281,6 +281,15 @@ final class Menu
 							'parent_id'    => 'appearance',
 						],
 						[
+							'id'           => 'menus',
+							'url'          => 'nav-menu',
+							'title'        => I18n::_t( 'Menus' ),
+							'capabilities' => ['manage_options'],
+							'icon'         => '',
+							'position'     => 10,
+							'parent_id'    => 'appearance',
+						],
+						[
 							'id'           => 'plugins',
 							'url'          => 'plugins',
 							'title'        => I18n::_t( 'Plugins' ),

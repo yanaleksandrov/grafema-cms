@@ -135,15 +135,44 @@
   }
 
   &-search {
-    width: 8rem;
+    width: 10rem;
     z-index: 10;
+
+    code {
+      white-space: nowrap;
+    }
+
+    &-btn {
+      border: 1px solid var(--grafema-border);
+      border-radius: var(--grafema-border-radius);
+      overflow: hidden;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      color: var(--grafema-text-muted);
+
+      code {
+        font-size: 10px;
+        margin-left: auto;
+        margin-right: -4px;
+      }
+    }
 
     &-box {
       display: none;
     }
 
+    &-input {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 256 256'%3E%3Cpath fill='%23ccced3' d='m232 216-47-48a92 92 0 1 0-17 17l48 48a12 12 0 0 0 17-17ZM44 112a68 68 0 1 1 68 68 68 68 0 0 1-68-68Z'/%3E%3C/svg%3E");
+    }
+
     &-results {
-      padding: 0.5rem;
+      padding: 0.25rem 0;
+      display: grid;
+      gap: 0.125rem;
+      place-items: center;
     }
 
     &-help {
@@ -159,7 +188,8 @@
       border-radius: var(--grafema-border-radius);
 
       i {
-        width: 1.25rem;
+        min-width: 1.25rem;
+        padding: 0 0.25rem;
         height: 1.25rem;
         display: grid;
         place-items: center;
@@ -169,7 +199,7 @@
       }
     }
 
-    .field:has(.field-item:focus-within) {
+    &[open] .grafema-search-box {
       box-shadow: 0 0 0 9999px rgba(0,0,0,.15), 0 10px 32px rgba(0,0,0,.1);
       padding: 4px;
       background-color: var(--grafema-white);
@@ -181,20 +211,40 @@
       right: 0;
       top: 0.5rem;
       margin: auto;
-      gap: 0;
+      display: block;
+    }
 
-      .field-item {
-        height: 2.25rem;
-        font-size: 0.875rem;
+    &-item {
+      border-radius: var(--grafema-border-radius);
+      transition: background-color 0.25s;
+      color: var(--grafema-dark);
+      width: 100%;
 
-        input {
-          margin-bottom: 2px;
-        }
+      &.active {
+        background-color: var(--grafema-bg);
       }
+    }
 
-      .grafema-search-box {
-        display: block;
+    &-link {
+      padding: 0.3rem 0.65rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: inherit !important;
+
+      &:hover {
+        background-color: var(--grafema-bg);
       }
+    }
+
+    &-header {
+      padding: 0.375rem 0.65rem 0.25rem;
+      display: block;
+      font-weight: 500;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      pointer-events: none;
+      color: var(--grafema-text-muted);
     }
   }
 }

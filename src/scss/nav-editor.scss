@@ -13,22 +13,17 @@
     background-color: var(--grafema-bg);
     border-inline-end: 1px solid var(--grafema-border);
     margin-inline-end: -1px;
-    padding: 1.75rem 1.75rem 1.5rem;
+    padding: 1.5rem 0;
 
     @media screen and (max-width: 1024px) {
-      padding: 1.25rem;
+      padding: 1.25rem 0;
     }
   }
 
   &-main {
     flex: 1;
     min-width: 45%;
-    padding: 1.75rem;
     border-inline-end: 1px solid var(--grafema-border);
-
-    @media (max-width: 1024px) {
-      padding: 1.25rem;
-    }
   }
 
   &-tools {
@@ -65,7 +60,7 @@
   }
 
   &-item {
-    padding-inline: 0.75rem 0;
+    padding-inline: 1.5rem 0;
     transition: padding-inline-start 0.25s;
 
     &.sortable-chosen {
@@ -73,7 +68,7 @@
     }
 
     &:hover {
-      padding-inline-start: 0.8125rem;
+      padding-inline-start: 1.625rem;
     }
   }
 

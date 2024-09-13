@@ -658,6 +658,7 @@ var __webpack_modules__ = {
                     xhr.onloadstart = xhr.upload.onprogress = event => callback?.(onProgress(event, xhr));
                     xhr.onloadend = event => callback?.(onProgress(event, xhr));
                     xhr.onload = event => {
+                        resolve(data);
                         document.dispatchEvent(new CustomEvent(route, {
                             detail: {
                                 data: xhr.response?.data,
@@ -1007,7 +1008,8 @@ var __webpack_modules__ = {
                 const settings = {
                     showSearch: false,
                     hideSelected: false,
-                    closeOnSelect: true
+                    closeOnSelect: true,
+                    placeholderText: el.getAttribute('placeholder')
                 };
                 if (el.hasAttribute('multiple')) {
                     settings.hideSelected = true;
@@ -1203,6 +1205,57 @@ var __webpack_modules__ = {
                         }
                         let checked = document.querySelectorAll('input[name="item[]"]:checked');
                         this.bulk = checked.length > 0;
+                    }
+                }
+            })));
+            Alpine.data('search', (() => ({
+                searchInput: null,
+                searchButton: null,
+                currentIdx: -1,
+                links: [],
+                wrapper: {
+                    ['@click.outside']() {
+                        this.$el.removeAttribute('open');
+                    },
+                    ['@keydown.escape']() {
+                        this.$el.removeAttribute('open');
+                    },
+                    ['@keydown.prevent.window.ctrl.f']() {
+                        this.searchButton.click();
+                    }
+                },
+                button: {
+                    ['x-init']() {
+                        this.searchButton = this.$el;
+                    },
+                    ['@click']() {
+                        setTimeout((() => this.searchInput.focus()));
+                    }
+                },
+                input: {
+                    ['x-init']() {
+                        this.searchInput = this.$el;
+                    },
+                    ['@input.debounce.350ms']() {
+                        this.$ajax('search').then((() => this.links = [ {
+                            url: '',
+                            text: '<i class="ph ph-folders"></i> Страницы'
+                        }, {
+                            url: '/dashboard/themes',
+                            text: 'Привет'
+                        }, {
+                            url: '/dashboard/plugins',
+                            text: 'Привет'
+                        } ]));
+                    },
+                    ['@keydown.up']() {
+                        this.currentIdx = this.currentIdx <= 0 ? this.links.length - 1 : this.currentIdx - 1;
+                    },
+                    ['@keydown.down']() {
+                        this.currentIdx = this.currentIdx >= this.links.length - 1 ? 0 : this.currentIdx + 1;
+                    },
+                    ['@keydown.enter']() {
+                        this.links[this.currentIdx] && (window.location.href = this.links[this.currentIdx].url);
                     }
                 }
             })));

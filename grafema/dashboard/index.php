@@ -22,63 +22,63 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$slug       = Sanitizer::trim( $args['slug'] ?? '' );
+$slug	   = Sanitizer::trim( $args['slug'] ?? '' );
 $start_time = microtime( true );
 // print_r(
 //	Query::apply(
 //		[
-//			'type'           => [ 'pages', 'media' ],
-//			'status'         => null,
-//			'page'           => 1,
-//			'per_page'       => 99,
-//			'offset'         => 2,
-//			'order'          => 'DESC',
-//			'orderby'        => 'rand',
-//			's'              => 'hello exception',
-//			'sentence'       => false,
+//			'type'		   => [ 'pages', 'media' ],
+//			'status'		 => null,
+//			'page'		   => 1,
+//			'per_page'	   => 99,
+//			'offset'		 => 2,
+//			'order'		  => 'DESC',
+//			'orderby'		=> 'rand',
+//			's'			  => 'hello exception',
+//			'sentence'	   => false,
 //			'boolean_mode'   => true,
-//			'slug'           => 'hello-world',
-//			'slug_strict'    => true,
-//			'title'          => 'Title 6',
-//			'status'         => 'draft',
-//			'nicename'       => 'alexandrov',
-//			'author__in'     => [ 2, 3, 4, 5 ],
+//			'slug'		   => 'hello-world',
+//			'slug_strict'	=> true,
+//			'title'		  => 'Title 6',
+//			'status'		 => 'draft',
+//			'nicename'	   => 'alexandrov',
+//			'author__in'	 => [ 2, 3, 4, 5 ],
 //			'author__not_in' => [ 4 ],
-//			'post__in'       => [ 2, 3, 4, 5 ],
+//			'post__in'	   => [ 2, 3, 4, 5 ],
 //			'post__not_in'   => [ 4 ],
-//			'parent__in'     => [ 2, 3, 4, 5 ],
+//			'parent__in'	 => [ 2, 3, 4, 5 ],
 //			'parent__not_in' => [ 4 ],
-//			'discussion'     => 'closed',
-//			'comments'       => [
+//			'discussion'	 => 'closed',
+//			'comments'	   => [
 //				'value'   => 8,
 //				'compare' => '<',
 //			],
-//			'views'          => [
+//			'views'		  => [
 //				'value'   => 0,
 //				'compare' => '>=',
 //			],
-//			'dates'          => [
+//			'dates'		  => [
 //				'relation' => 'AND',
 //				[
 //					'human_date_time' => '-23 days',
-//					'compare'         => '<=',
+//					'compare'		 => '<=',
 //				],
 //				[
 //					'column'  => 'modified',
 //					'compare' => 'BETWEEN',
-//					'year'    => [ 2015, 2016 ],
+//					'year'	=> [ 2015, 2016 ],
 //				],
 //			],
 //			'fields'   => [
 //				'relation' => 'AND',
 //				[
-//					'key'     => 'price',
+//					'key'	 => 'price',
 //					'value'   => '32434',
 //					'compare' => '<=',
-//					'type'    => 'NUMERIC',
+//					'type'	=> 'NUMERIC',
 //				],
 //				[
-//					'key'     => 'price',
+//					'key'	 => 'price',
 //					'value'   => '30006',
 //					'compare' => '>=',
 //				],
@@ -95,13 +95,13 @@ $start_time = microtime( true );
 	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Menu</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/images/favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
-    <link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+	<link rel="apple-touch-icon" sizes="180x180" href="/dashboard/assets/images/favicons/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/dashboard/assets/images/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
+	<link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
+	<link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="theme-color" content="#ffffff">
 	<?php
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
@@ -114,38 +114,86 @@ $start_time = microtime( true );
 <body x-data="grafema" @keydown.window.prevent.ctrl.s="$notification.add(notifications.ctrlS)">
 	<?php if ( Is::installed() && User::logged() ) { ?>
 		<div class="grafema" :class="showMenu && 'active'">
-            <div class="grafema-bar">
-                <div class="grafema-bar-menu" :class="showMenu && 'active'" @click="showMenu = !showMenu">
-                    <i class="ph ph-list"></i>
-                </div>
-                <?php
-                View::print( 'templates/menu-bar' );
+			<div class="grafema-bar">
+				<div class="grafema-bar-menu" :class="showMenu && 'active'" @click="showMenu = !showMenu">
+					<i class="ph ph-list"></i>
+				</div>
+				<?php View::print( 'templates/menu-bar' ); ?>
 
-                View::print( 'templates/global/user-account' );
-                ?>
-            </div>
+				<details class="grafema-search" x-data="search" x-bind="wrapper">
+					<summary class="grafema-search-btn" x-bind="button">
+						<i class="ph ph-magnifying-glass"></i> <?php I18n::t_attr( 'Search...' ); ?> <code>Ctrl+F</code>
+					</summary>
+					<div class="grafema-search-box">
+						<div class="field field--lg field--outline">
+							<label class="field-item">
+								<input class="grafema-search-input" type="search" name="search" placeholder="<?php I18n::t_attr( 'Search...' ); ?>" x-bind="input">
+							</label>
+						</div>
+						<template x-if="links.length">
+							<ul class="grafema-search-results">
+								<template x-for="(link, i) in links" :key="i">
+									<li class="grafema-search-item" :class="link.url ? {'active': i === currentIdx} : ''">
+										<template x-if="link.url">
+											<a class="grafema-search-link" :href="link.url">
+												<span class="grafema-search-text" x-text="link.text"></span>
+												<span class="t-muted">Jump to</span>
+											</a>
+										</template>
+										<template x-if="!link.url">
+											<span class="grafema-search-header" x-text="link.text"></span>
+										</template>
+									</li>
+								</template>
+							</ul>
+						</template>
+						<template x-if="!links.length">
+							<div class="grafema-search-results">
+								<div class="grafema-search-results">
+									<?php
+									View::print(
+										GRFM_DASHBOARD . 'templates/states/completed',
+										[
+											'title'       => I18n::_t( 'Nothing found' ),
+											'description' => I18n::_t( '%d posts was successfully imported. Do you want %sto launch a new import?%s' ),
+										]
+									)
+									?>
+								</div>
+							</div>
+						</template>
+						<div class="grafema-search-help">
+							<div class="df aic g-1"><i class="ph ph-arrow-up"></i><i class="ph ph-arrow-down"></i> Move</div>
+							<div class="df aic g-1"><i>Esc</i> Close</div>
+							<div class="df aic g-1"><i class="ph ph-arrow-elbow-down-left"></i> Select</div>
+						</div>
+					</div>
+				</details>
+
+				<?php View::print( 'templates/global/user-account' ); ?>
+			</div>
 			<!-- interface panel start -->
 			<div class="grafema-panel">
-                <a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
-	                <img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
-                </a>
-                <?php View::print( 'templates/menu-panel' ); ?>
+				<a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
+					<img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
+				</a>
+				<?php View::print( 'templates/menu-panel' ); ?>
 			</div>
 			<!-- interface side bar start -->
-            <?php
-            View::print( 'templates/menu' );
+			<?php
+			View::print( 'templates/menu' );
 
-            View::print( 'templates/' . $slug );
-            ?>
+			View::print( 'templates/' . $slug );
+			?>
 			<!-- interface board start -->
 			<div class="grafema-board">
 				<a href="#" class="dif g-1 aic t-dark" title="Get Support"><i class="ph ph-headset fs-12"></i> support</a>
 				<a href="#" class="dif g-1 aic t-dark" title="Grafema CMS version"><i class="ph ph-git-branch fs-12"></i> 2025.1</a>
 			</div>
 		</div>
-    	<?php
+		<?php
 	} else {
-	    ?>
+		?>
 		<div class="df aic jcc p-6">
 			<?php View::print( 'templates/' . $slug ); ?>
 		</div>
@@ -187,13 +235,13 @@ $start_time = microtime( true );
 			</template>
 		</div>
 	</template>
-    <?php
+	<?php
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.
 	 *
 	 * @since 2025.1
 	 */
 	Hook::apply( 'grafema_dashboard_footer' );
-    ?>
+	?>
 </body>
 </html>

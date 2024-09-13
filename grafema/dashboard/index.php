@@ -118,11 +118,26 @@ $start_time = microtime( true );
                 <div class="grafema-bar-menu" :class="showMenu && 'active'" @click="showMenu = !showMenu">
                     <i class="ph ph-list"></i>
                 </div>
-                <?php
-                View::print( 'templates/menu-bar' );
+                <?php View::print( 'templates/menu-bar' ); ?>
 
-                View::print( 'templates/global/user-account' );
-                ?>
+	            <div class="grafema-search">
+		            <div class="field field--sm">
+			            <label class="field-item">
+				            <input type="search" name="search" placeholder="<?php I18n::t_attr( 'Search...' ); ?>">
+			            </label>
+			            <div class="grafema-search-box">
+				            <div class="grafema-search-results">
+					            some content
+				            </div>
+				            <div class="grafema-search-help">
+					            <div class="df aic g-1"><i class="ph ph-arrow-up"></i> <i class="ph ph-arrow-down"></i> Move</div>
+					            <div class="df aic g-1"><i class="ph ph-arrow-elbow-down-left"></i> Select</div>
+				            </div>
+			            </div>
+		            </div>
+	            </div>
+
+                <?php View::print( 'templates/global/user-account' ); ?>
             </div>
 			<!-- interface panel start -->
 			<div class="grafema-panel">

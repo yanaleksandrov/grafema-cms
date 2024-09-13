@@ -1218,11 +1218,12 @@ document.addEventListener( 'alpine:init', () => {
 	 * @see   https://github.com/brianvoe/slim-select
 	 * @since 1.0
 	 */
-	Alpine.directive('select', (el, { expression }) => {
+	Alpine.directive('select', (el, {expression}) => {
 		const settings = {
 			showSearch: false,
 			hideSelected: false,
 			closeOnSelect: true,
+			placeholderText: el.getAttribute('placeholder'),
 		};
 
 		if (el.hasAttribute('multiple')) {

@@ -1007,7 +1007,8 @@ var __webpack_modules__ = {
                 const settings = {
                     showSearch: false,
                     hideSelected: false,
-                    closeOnSelect: true
+                    closeOnSelect: true,
+                    placeholderText: el.getAttribute('placeholder')
                 };
                 if (el.hasAttribute('multiple')) {
                     settings.hideSelected = true;

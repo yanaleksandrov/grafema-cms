@@ -34,6 +34,7 @@
   &-instruction {
     line-height: 1.2em;
     font-size: 0.9285em;
+    font-size: 0.857125em;
     min-width: 8rem;
     color: var(--grafema-text-muted);
     font-weight: 400;
@@ -150,7 +151,6 @@
         background-color: transparent;
         border: none;
         box-shadow: none;
-        height: 100%;
         padding-inline: 0.8em 2.25em;
       }
 
@@ -364,7 +364,7 @@
 
     &:has(select),
     &:has(.ss-main) {
-      padding-inline: 1px !important;
+      padding-inline: 0 !important;
     }
 
     &:has(.datepicker select) {

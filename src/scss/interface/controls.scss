@@ -1116,18 +1116,19 @@
 .accordion {
   min-width: 100%;
 
-  &__item {
+  &-item {
 
   }
 
-  &__title {
+  &-title {
     border-bottom: 1px solid var(--grafema-border);
     cursor: pointer;
-    padding: 0.5rem 0
+    padding: 0.5rem 1.5rem;
   }
 
-  &__panel {
+  &-panel {
     position: relative;
+    padding: 1.125rem 1.5rem;
   }
 }
 

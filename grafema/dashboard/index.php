@@ -136,12 +136,12 @@ $start_time = microtime( true );
 									<li class="grafema-search-item" :class="link.url ? {'active': i === currentIdx} : ''">
 										<template x-if="link.url">
 											<a class="grafema-search-link" :href="link.url">
-												<span class="grafema-search-text" x-text="link.text"></span>
+												<span class="grafema-search-text" x-html="link.text"></span>
 												<span class="t-muted">Jump to</span>
 											</a>
 										</template>
 										<template x-if="!link.url">
-											<span class="grafema-search-header" x-text="link.text"></span>
+											<span class="grafema-search-header" x-html="link.text"></span>
 										</template>
 									</li>
 								</template>
@@ -152,10 +152,10 @@ $start_time = microtime( true );
 								<div class="grafema-search-results">
 									<?php
 									View::print(
-										GRFM_DASHBOARD . 'templates/states/completed',
+										GRFM_DASHBOARD . 'templates/states/undefined',
 										[
 											'title'       => I18n::_t( 'Nothing found' ),
-											'description' => I18n::_t( '%d posts was successfully imported. Do you want %sto launch a new import?%s' ),
+											'description' => I18n::_t( 'Write something to start the search' ),
 										]
 									)
 									?>

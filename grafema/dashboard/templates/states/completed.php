@@ -17,7 +17,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	new Sanitizer(
 		$args ?? [],
 		[
-			'class'       => 'class:m-auto t-center p-5 pt-8 mt-8 mw-320',
+			'class'       => 'class:m-auto t-center p-5 mw-320',
 			'title'       => 'trim',
 			'description' => 'trim',
 		]

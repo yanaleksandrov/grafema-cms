@@ -36,6 +36,14 @@
   }
 }
 
+// justify-items
+@each $key in (center, flex-start, flex-end, stretch, baseline) {
+  $selector: str-split($key, '-');
+  .jc#{$selector} {
+    justify-items: $key;
+  }
+}
+
 // flex-direction
 @each $key in (column, column-reverse, row, row-reverse) {
   $selector: str-split($key, '-');

@@ -60,14 +60,14 @@
             <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
             <feGaussianBlur result="effect1_foregroundBlur_215_437" stdDeviation="6"/>
         </filter>
-        <filter id="b" width="47.48" height="50.06" x="41.25" y="67.96" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+        <filter id="b" width="47.83" height="49.31" x="41.25" y="67.96" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
             <feBlend in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
             <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-            <feOffset dy="1"/>
-            <feGaussianBlur stdDeviation=".5"/>
+            <feOffset dx=".5" dy=".25"/>
+            <feGaussianBlur stdDeviation=".17"/>
             <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic"/>
-            <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.75 0"/>
+            <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
             <feBlend in2="shape" result="effect1_innerShadow_215_437"/>
         </filter>
     </defs>

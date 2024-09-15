@@ -21,14 +21,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'class'       => 'class:dg jic m-auto t-center p-5 mw-320',
 			'title'       => 'trim',
 			'description' => 'trim',
-			'icon'        => 'id:empty-state-page',
+			'icon'        => 'id:state-empty-page',
 		]
 	)
 )->values();
 ?>
 <div class="<?php echo $class; ?>">
-	<svg><use xlink:href="<?php echo Url::dashboard( '/assets/sprite.svg#' . $icon ); ?>"></use></svg>
-	<?php if ( $title ) : ?>
+	<?php if ( $icon ) : ?>
+		<svg><use xlink:href="<?php echo Url::dashboard( '/assets/sprite.svg#' . $icon ); ?>"></use></svg>
+		<?php
+	endif;
+	if ( $title ) :
+		?>
 		<h4 class="mt-4"><?php echo $title; ?></h4>
 		<?php
 	endif;

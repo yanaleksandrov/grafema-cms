@@ -374,8 +374,9 @@ Dashboard\Form::enqueue(
 				[
 					'type'     => 'custom',
 					'callback' => View::get(
-						GRFM_PATH . 'dashboard/templates/states/completed',
+						GRFM_PATH . 'dashboard/templates/global/states',
 						[
+							'icon'        => 'empty-state-success',
 							'title'       => I18n::_t( 'Woo-hoo, Grafema has been successfully installed!' ),
 							'description' => I18n::_t( 'We hope the installation process was easy. Thank you, and enjoy.' ),
 						]

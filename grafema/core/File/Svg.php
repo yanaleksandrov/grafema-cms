@@ -118,6 +118,15 @@ class Svg
             'systemLanguage',
             'transform',
         ],
+	    'feFlood' => [
+		    'flood-opacity',
+		    'result',
+	    ],
+	    'feBlend' => [
+		    'in',
+		    'in2',
+		    'result',
+	    ],
         'feGaussianBlur' => [
             'class',
             'color-interpolation-filters',

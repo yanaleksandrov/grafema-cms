@@ -121,7 +121,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $notFoundTemplate = 'templates/states/undefined';
+	public string $notFoundTemplate = 'templates/states/empty';
 
 	/**
 	 * Use table header or not.

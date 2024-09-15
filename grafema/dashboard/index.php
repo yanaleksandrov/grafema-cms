@@ -152,12 +152,12 @@ $start_time = microtime( true );
 								<div class="grafema-search-results">
 									<?php
 									View::print(
-										GRFM_DASHBOARD . 'templates/states/undefined',
+										GRFM_DASHBOARD . 'templates/states/empty',
 										[
 											'title'       => I18n::_t( 'Nothing found' ),
 											'description' => I18n::_t( 'Write something to start the search' ),
 										]
-									)
+									);
 									?>
 								</div>
 							</div>

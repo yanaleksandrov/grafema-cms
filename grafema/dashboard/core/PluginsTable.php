@@ -77,7 +77,7 @@ final class PluginsTable {
 		return [
 			'class'  => 'table',
 			'x-data' => 'table',
-			'x-init' => '$ajax("extensions/get").then(response => items = response.items)',
+			'x-init' => '$ajax("extensions/get").then(response => console.log(response))',
 		];
 	}
 

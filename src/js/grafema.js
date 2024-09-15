@@ -1519,14 +1519,17 @@ document.addEventListener( 'alpine:init', () => {
 			['x-init']() {
 				this.searchInput = this.$el;
 			},
-			['@input.debounce.350ms']() {
-				this.$ajax('search').then(() => this.links = [{url: '', text: '<i class="ph ph-folders"></i> Страницы'}, {url: '/dashboard/themes', text: 'Привет'}, {url: '/dashboard/plugins', text: 'Привет'}]);
-			},
 			['@keydown.up']() {
 				this.currentIdx = this.currentIdx <= 0 ? this.links.length - 1 : this.currentIdx - 1;
+				if (!this.links[this.currentIdx]?.url && this.currentIdx === 0) {
+					this.currentIdx = this.links.length - 1;
+				}
 			},
 			['@keydown.down']() {
 				this.currentIdx = this.currentIdx >= this.links.length - 1 ? 0 : this.currentIdx + 1;
+                if (!this.links[this.currentIdx]?.url) {
+                    this.currentIdx++;
+                }
 			},
 			['@keydown.enter']() {
 				this.links[this.currentIdx] && (window.location.href = this.links[this.currentIdx].url);

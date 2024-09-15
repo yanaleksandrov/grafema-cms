@@ -135,8 +135,9 @@
   }
 
   &-search {
-    width: 10rem;
+    max-width: 9rem;
     z-index: 10;
+    width: 100%;
 
     code {
       white-space: nowrap;
@@ -146,15 +147,16 @@
       border: 1px solid var(--grafema-border);
       border-radius: var(--grafema-border-radius);
       overflow: hidden;
-      height: 2rem;
+      height: 1.875rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem;
       color: var(--grafema-text-muted);
+      font-size: 0.8125rem;
 
       code {
-        font-size: 10px;
+        font-size: 9px;
         margin-left: auto;
         margin-right: -4px;
       }

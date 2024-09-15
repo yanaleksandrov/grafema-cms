@@ -127,7 +127,7 @@ $start_time = microtime( true );
 					<div class="grafema-search-box">
 						<div class="field field--lg field--outline">
 							<label class="field-item">
-								<input class="grafema-search-input" type="search" name="search" placeholder="<?php I18n::t_attr( 'Search...' ); ?>" x-bind="input">
+								<input class="grafema-search-input" type="search" name="search" placeholder="<?php I18n::t_attr( 'Search...' ); ?>" x-bind="input" @input.debounce.250ms="$ajax('search').then(() => links = [{url: '', text: 'Страницы'}, {url: '/dashboard/themes', text: 'Привет'}, {url: '/dashboard/plugins', text: 'Привет'}])">
 							</label>
 						</div>
 						<template x-if="links.length">

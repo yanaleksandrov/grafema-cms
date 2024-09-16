@@ -53,7 +53,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</div>
 	<div class="plugins__info">
 		<span class="plugins__text"><i class="ph ph-desktop-tower"></i> <?php echo $installations; ?></span>
-		<span class="plugins__text"><i class="ph ph-calendar-dots"></i> <?php I18n::tf( 'Last updated: %s', $date ); ?></span>
+		<span class="plugins__text"><i class="ph ph-calendar-dots"></i> <?php I18n::f( 'Last updated: :date', $date ); ?></span>
 		<span class="plugins__text">
 			<?php
 			if ( $reviews > 0 ) :
@@ -70,6 +70,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			endif;
 			?>
 		</span>
-		<span class="plugins__text"><i class="ph ph-check"></i> <?php I18n::tf( '%sCompatible%s with your Grafema version', '<strong>', '</strong>' ); ?></span>
+		<span class="plugins__text"><i class="ph ph-check"></i> <?php I18n::f( '%sCompatible%s with your Grafema version', '<strong>', '</strong>' ); ?></span>
 	</div>
 </div>

@@ -11,9 +11,6 @@ use Grafema\{
 /**
  * Forms builder.
  *
- * TODO: проверить производительность, только генерация формы профиля
- * занимает в 2 раза больше времени, чем всё остальное приложение
- *
  * @package Grafema
  */
 class Form {
@@ -27,14 +24,14 @@ class Form {
 	 * @param string $uid       Unique Form ID.
 	 * @param array $attributes Html attributes list.
 	 * @param array $fields     Fields list. Contains a nested array of arrays.
-	 * @return void
+	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-	public static function enqueue( string $uid, array $attributes = [], array $fields = [] ): void {
+	public static function enqueue( string $uid, array $attributes = [], array $fields = [] ): string {
 		$uid = Sanitizer::id( $uid );
 		if ( ! $uid ) {
-			new Errors( 'form-register', I18n::_f( 'The $uid of the form is empty.', $uid ) );
+			new Errors( 'form-register', I18n::_f( 'The form with %s ID is empty.', $uid ) );
 		}
 
 		$form = self::init( $uid );
@@ -45,6 +42,8 @@ class Form {
 		$form->uid        = $uid;
 		$form->fields     = $fields;
 		$form->attributes = [ 'id' => $uid, 'method' => 'POST', ...$attributes ];
+
+		return $uid;
 	}
 
 	/**
@@ -82,68 +81,45 @@ class Form {
 	/**
 	 * Get form markup.
 	 *
-	 * @param string $uid
 	 * @param string $path               Path to register form.
 	 * @param bool $without_form_wrapper
 	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $uid, string $path = '', bool $without_form_wrapper = false ): string {
-		if ( file_exists( $path ) ) {
-			require_once $path;
-		}
-
-		$form   = self::init( $uid );
-		$fields = $form->fields ?? [];
-
-		/**
-		 * Override form fields
-		 *
-		 * @since 2025.1
-		 * @param array $fields Fields list of form.
-		 * @param array $uid ID of form.
-		 */
-		$fields = Hook::apply( 'grafema_form_view_' . $uid, $fields, $form );
-		if ( ! array( $fields ) ) {
-			new Errors( 'form-view', I18n::_f( 'Form fields with ID "%s" is incorrect.', $uid ) );
-
-			return '';
-		}
-
-		/**
-		 * Override form html
-		 *
-		 * @since 2025.1
-		 * @param string $content Parsed fields html
-		 */
-		$content = Hook::apply( 'grafema_form_view_html_' . $uid, $form->parseFields( $fields ) );
-
-		/**
-		 * Return only the contents of the form without its wrapper
-		 *
-		 * @since 2025.1
-		 */
-		if ( $without_form_wrapper ) {
+	public static function get( string $path, bool $without_form_wrapper = false ): string {
+		$content = '';
+		if ( ! file_exists( $path ) ) {
 			return $content;
 		}
 
-		// add form wrapper & return form
-		return $form->wrap( $form->attributes, $content );
+		$uid = require_once $path;
+		if ( ! empty( $uid ) ) {
+			$form    = self::init( $uid );
+			$content = trim( $form->parseFields( $form->fields ?? [] ) );
+
+			// return only the contents of the form without its wrapper
+			if ( ! $without_form_wrapper && $content ) {
+				return $form->wrap( $form->attributes, $content );
+			}
+		} else {
+			new Errors( 'form-view', I18n::_f( 'From::enqueue located along the "%s" path should return the form ID.', $path ) );
+		}
+
+		return $content;
 	}
 
 	/**
 	 * Output form markup.
 	 *
-	 * @param string $uid
 	 * @param string $path               Path to register form.
 	 * @param bool $without_form_wrapper
 	 * @return void
 	 *
 	 * @since 2025.1
 	 */
-	public static function print( string $uid, string $path = '', bool $without_form_wrapper = false ): void {
-		echo self::get( $uid, $path, $without_form_wrapper );
+	public static function print( string $path, bool $without_form_wrapper = false ): void {
+		echo self::get( $path, $without_form_wrapper );
 	}
 
 	/**

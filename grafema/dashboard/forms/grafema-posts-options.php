@@ -6,7 +6,7 @@ use Grafema\I18n;
  *
  * @since 2025.1
  */
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'grafema-posts-options',
 	[
 		'class'           => 'dg g-4 pt-2 p-4',

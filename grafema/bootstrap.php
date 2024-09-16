@@ -440,11 +440,11 @@ try {
 			}
 
 			/**
-			 * Run the installer if Grafema is not installed.
+			 * Launch dashboard.
 			 *
 			 * @since 2025.1
 			 */
-			Dashboard\Dashboard::init();
+			require_once GRFM_DASHBOARD . 'core/Dashboard.php';
 
 			/**
 			 * The administrative panel also has a single entry point.
@@ -499,7 +499,7 @@ try {
 
 			?>
 <!DOCTYPE html>
-<html lang="<?php I18n::locale(); ?>">
+<html lang="<?php echo I18n::locale(); ?>">
 <head>
 	<title>Menu</title>
 	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
@@ -532,7 +532,7 @@ Hook::apply( 'grafema_footer' );
 </body>
 </html>
 			<?php
-I18n::tf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
+I18n::f( ':queriesQ :memory :memory_peak', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
 		});
 	});
 

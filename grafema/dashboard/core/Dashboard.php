@@ -14,7 +14,6 @@ use Grafema\Asset;
 use Grafema\Hook;
 use Grafema\I18n;
 use Grafema\Debug;
-use Grafema\Patterns\Singleton;
 use Grafema\Url;
 
 /**
@@ -22,17 +21,9 @@ use Grafema\Url;
  *
  * @since 2025.1
  */
-class Dashboard extends \Grafema\App\App
-{
-	use Singleton;
+(new class extends \Grafema\App\App {
 
-	/**
-	 * Class constructor.
-	 *
-	 * @since 2025.1
-	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		/**
 		 * Now the code is exclusively for the administrative panel.
@@ -72,7 +63,7 @@ class Dashboard extends \Grafema\App\App
 						[
 							'apiurl'         => Url::site( '/api/' ),
 							'items'          => [],
-							'lang'           => I18n::getLocale(),
+							'lang'           => I18n::locale(),
 							'dateFormat'     => 'j M, Y',
 							'weekStart'      => 1,
 							'showMenu'       => false,
@@ -123,7 +114,7 @@ class Dashboard extends \Grafema\App\App
 		Hook::add( 'grafema_dashboard_loaded', function( $content ) {
 			return str_replace(
 				'0Q 0.001s 999kb',
-				I18n::_f( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() ),
+				I18n::_f( ':queries\Q :memory :memory_peak', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() ),
 				$content
 			);
 		} );
@@ -135,4 +126,4 @@ class Dashboard extends \Grafema\App\App
 		 */
 		Menu::init();
 	}
-}
+});

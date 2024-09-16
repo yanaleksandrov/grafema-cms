@@ -18,14 +18,13 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<a href="<?php echo Url::site(); ?>" class="df jcc mb-4" target="_blank">
         <img src="<?php echo Url::site( 'dashboard/assets/images/logo-decorate.svg' ); ?>" width="212" height="124" alt="Grafema CMS">
 	</a>
-	<?php Dashboard\Form::print( 'grafema-user-sign-in', GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php' ); ?>
+	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php' ); ?>
 	<div class="fs-14 t-center t-muted mt-3">
 		<?php
-		I18n::tf(
-		    "Don't have an account yet? %sSign up%s",
-			'<a href="' . Url::site( 'dashboard/sign-up' ) . '">',
-			'</a>'
-        );
-        ?>
+		I18n::f(
+			"Don't have an account yet? %s",
+			sprintf( '<a href="%s">%s</a>', Url::site( 'dashboard/sign-up' ), I18n::_t( 'Sign Up' ) ),
+		);
+		?>
 	</div>
 </div>

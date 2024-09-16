@@ -7,7 +7,7 @@ use Grafema\Url;
  *
  * @since 2025.1
  */
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'grafema-posts-export',
 	[
 		'class'           => 'card card-border px-8 pb-8 g-8',

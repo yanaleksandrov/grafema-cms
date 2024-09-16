@@ -145,7 +145,7 @@ class User extends Users {
 	 */
 	public static function get( string|int $value, string $getBy = 'ID' ): Errors|User {
 		if ( empty( $value ) ) {
-			return new Errors( 'user-get-empty', I18n::_f( 'You are trying to find a user with an empty %s.', $getBy ) );
+			return new Errors( 'user-get-empty', I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
 		}
 
 		if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {

@@ -90,7 +90,7 @@ $start_time = microtime( true );
 // exit;
 ?>
 <!DOCTYPE html>
-<html lang="<?php I18n::locale(); ?>">
+<html lang="<?php echo I18n::locale(); ?>">
 <head>
 	<meta charset="<?php Option::attr( 'charset', 'UTF-8' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">

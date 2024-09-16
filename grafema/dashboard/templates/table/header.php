@@ -112,7 +112,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
 							    'instruction' => I18n::_t( 'Test content' ),
 							    'class'       => 'btn btn--sm btn--outline btn--icon',
-							    'content'     => Dashboard\Form::get( 'grafema-posts-options', GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
+							    'content'     => Dashboard\Form::get( GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
 						    ]
 					    );
 					    ?>
@@ -193,11 +193,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 									    'options' => [
 										    'one' => [
 											    'content'     => I18n::_t( 'Plugin #1' ),
-											    'description' => I18n::_f( 'completion %d%%', 11 ),
+											    'description' => I18n::_f( 'completion :percent\%', 11 ),
 										    ],
 										    'two' => [
 											    'content'     => I18n::_t( 'Plugin #2' ),
-											    'description' => I18n::_f( 'completion %d%%', 66 ),
+											    'description' => I18n::_f( 'completion :percent\%', 66 ),
 										    ],
 									    ],
 								    ],
@@ -206,11 +206,11 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 									    'options' => [
 										    'theme1' => [
 											    'content'     => I18n::_t( 'Theme #1' ),
-											    'description' => I18n::_f( 'completion %d%%', 99 ),
+											    'description' => I18n::_f( 'completion :percent\%', 99 ),
 										    ],
 										    'theme2' => [
 											    'content'     => I18n::_t( 'Theme #2' ),
-											    'description' => I18n::_f( 'completion %d%%', 55 ),
+											    'description' => I18n::_f( 'completion :percent\%', 55 ),
 										    ],
 									    ],
 								    ],
@@ -225,12 +225,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 		    <?php if ( $actions ) : ?>
 			    <div class="df aic g-1" x-show="bulk" x-cloak>
-				    <?php Dashboard\Form::print( 'grafema-posts-actions', GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
-				    <button type="button" class="btn btn--sm t-red" x-bind="reset"><?php I18n::tf( '%s Reset', '<i class="ph ph-trash"></i>' ); ?></button>
+				    <?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-posts-actions.php' ); ?>
+				    <button type="button" class="btn btn--sm t-red" x-bind="reset"><i class="ph ph-trash"></i> <?php I18n::t( 'Reset' ); ?></button>
 			    </div>
 		    <?php endif; ?>
 	    </div>
     </div>
-	<?php Dashboard\Form::print( 'grafema-items-filter' ); ?>
+	<?php //Dashboard\Form::print( 'grafema-items-filter' ); ?>
     <?php $content && print( $content . PHP_EOL ); ?>
 </div>

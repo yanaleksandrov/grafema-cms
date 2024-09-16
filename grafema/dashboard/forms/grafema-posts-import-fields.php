@@ -10,7 +10,7 @@ if ( empty( $samples ) ) {
     return;
 }
 
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'posts-import-fields',
 	fields: [
 		[

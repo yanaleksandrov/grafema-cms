@@ -159,14 +159,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					</div>
 				</template>
 				<div class="builder__buttons">
-					<button type="button" class="btn btn--sm t-red" @click="removeGroup(key)" x-show="groups.length > 1"><?php I18n::tf( '%s Remove Group', '<i class="ph ph-trash-simple"></i>' ); ?></button>
-					<button type="button" class="btn btn--sm t-purple ml-auto" @click="addRule(key)"><?php I18n::tf( '%s add rule', '<i class="ph ph-plus"></i>' ); ?></button>
+					<button type="button" class="btn btn--sm t-red" @click="removeGroup(key)" x-show="groups.length > 1"><i class="ph ph-trash-simple"></i> <?php I18n::t( 'Remove Group' ); ?></button>
+					<button type="button" class="btn btn--sm t-purple ml-auto" @click="addRule(key)"><i class="ph ph-plus"></i> <?php I18n::t( 'add rule' ); ?></button>
 				</div>
 			</div>
 		</template>
 		<div class="builder__buttons mt-2">
-			<button class="btn btn--sm btn--outline" type="button" @click="addGroup"><?php I18n::tf( '%s Add Group', '' ); ?></button>
-			<button class="btn btn--sm btn--primary" type="submit"><?php I18n::tf( '%s Save', '<i class="ph ph-floppy-disk"></i>' ); ?></button>
+			<button class="btn btn--sm btn--outline" type="button" @click="addGroup"><?php I18n::t( 'Add Group' ); ?></button>
+			<button class="btn btn--sm btn--primary" type="submit"><i class="ph ph-floppy-disk"></i> <?php I18n::t( 'Save' ); ?></button>
 		</div>
 	</div>
 </div>

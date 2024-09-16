@@ -220,7 +220,7 @@ class Debug
 					$args = $last['args'] ?? [];
 					if ( $args ) {
 						foreach ( $args as $key => $arg ) {
-							I18n::tf( '<br><br><strong>Argument #%s with "%s" type and value:</strong><br>', $key, gettype( $arg ) );
+							I18n::f( '<br><br><strong>Argument #%s with "%s" type and value:</strong><br>', $key, gettype( $arg ) );
 							if ( is_scalar( $arg ) ) {
 								printf( '"%s"', $arg );
 							} else {

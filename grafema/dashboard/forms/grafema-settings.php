@@ -9,7 +9,7 @@ use Grafema\Sanitizer;
  *
  * @since 2025.1
  */
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'grafema-settings',
 	[
 		'class'   => 'tab tab--vertical',
@@ -638,7 +638,7 @@ Dashboard\Form::enqueue(
 							'label_class' => '',
 							'reset'       => 0,
 							'before'      => '',
-							'after'       => '<button type="button" class="btn btn--xs btn--primary" @click="" :disabled="images.format.trim() == \'' . Option::get( 'images.format' ) . '\'">Convert existing images</button>',
+							'after'       => '<button type="button" class="btn btn--xs btn--primary" @click="" :disabled="images.format == \'' . Option::get( 'images.format' ) . '\'">Convert existing images</button>',
 							'instruction' => I18n::_t( 'If you change the value, the formats of already uploaded images will remain unchanged, the new value will be applied only to new images.' ),
 							'tooltip'     => I18n::_t( 'Can lead to loss of detail and image quality, as well as increase the cost of your hosting resources' ),
 							'copy'        => 0,
@@ -646,7 +646,7 @@ Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value' => Option::get( 'images.format', '' ),
+								'value' => Option::get( 'images.format' ),
 							],
 							'options'     => [
 								''     => I18n::_t( 'Do not convert' ),

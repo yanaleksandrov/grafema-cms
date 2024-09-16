@@ -233,7 +233,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <!--				</ul>-->
 <!--			</template>-->
 
-			<?php Dashboard\Form::print( 'grafema-menu-item-editor', GRFM_DASHBOARD . 'forms/grafema-menu-item-editor.php' ); ?>
+			<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-menu-item-editor.php' ); ?>
 		</div>
 	</div>
 </div>

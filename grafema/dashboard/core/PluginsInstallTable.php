@@ -328,6 +328,7 @@ final class PluginsInstallTable {
 
 	public function notFoundContent(): array {
 		return [
+			'icon'        => 'state-no-plugins',
 			'title'       => I18n::_t( 'Plugins not found' ),
 			'description' => I18n::_t( 'You don\'t have any themes installed yet, <a @click="$dialog.open(\'tmpl-post-editor\')">download them</a>' ),
 		];

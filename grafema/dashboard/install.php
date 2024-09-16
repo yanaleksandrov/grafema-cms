@@ -39,7 +39,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
             <div class="df jcc mb-4">
                 <img src="/dashboard/assets/images/logo-decorate.svg" width="200" height="117" alt="Grafema CMS">
             </div>
-            <?php Dashboard\Form::print( 'system-install', GRFM_DASHBOARD . 'forms/grafema-system-install.php' ); ?>
+            <?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-system-install.php' ); ?>
         </div>
 		<?php
 		/**

@@ -18,7 +18,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <template id="tmpl-email-editor" x-init="$dialog.init(() => emailDialog)">
 	<div class="email">
 		<div class="email-form">
-			<?php Dashboard\Form::print( 'grafema-emails-creator', GRFM_DASHBOARD . 'forms/grafema-emails-creator.php' ); ?>
+			<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-emails-creator.php' ); ?>
 		</div>
 		<div class="email-preview">
 			<?php

@@ -14,5 +14,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 <!-- media uploader template start -->
 <template id="tmpl-media-uploader">
-	<?php Dashboard\Form::print( 'grafema-files-uploader', GRFM_DASHBOARD . 'forms/grafema-files-uploader.php' ); ?>
+	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-files-uploader.php' ); ?>
 </template>

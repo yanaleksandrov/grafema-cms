@@ -48,6 +48,8 @@ final class Media {
 						...[
 							'url'          => Url::fromPath( $filepath ),
 							'icon'         => Url::fromPath( $iconPath ),
+							'height'       => $file->height,
+							'width'        => $file->width,
 							'path'         => $file->path,
 							'extension'    => $file->extension,
 							'basename'     => $file->basename,

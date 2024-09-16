@@ -23,17 +23,12 @@ final class Media {
 	 * Get media files.
 	 *
 	 * @param array $args
-	 * @param bool $returnJson
 	 * @return string|array
 	 */
-	public static function get( array $args = [], bool $returnJson = false ): string|array {
-		$args = array_merge( [
-			'type'     => 'media',
-			'page'     => 1,
-			'per_page' => 30,
-		], $args );
+	public static function get( array $args = [] ): string|array {
+		$args = [ 'type' => 'media', 'page' => 1, 'per_page' => 30, ...$args ];
 
-		$posts = Query::apply( $args, function ( $posts ) {
+		return Query::apply( $args, function ( $posts ) {
 			if ( ! is_array( $posts ) ) {
 				return $posts;
 			}
@@ -101,13 +96,6 @@ final class Media {
 
 			return $posts;
 		} );
-
-//		echo '<pre>';
-//		print_r( $posts );
-		if ( $returnJson ) {
-			return str_replace( '"', "'", Json::encode( $posts ) );
-		}
-		return $posts;
 	}
 
 	/**

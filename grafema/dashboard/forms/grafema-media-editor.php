@@ -9,7 +9,7 @@ use Grafema\I18n;
 return Dashboard\Form::enqueue(
 	'grafema-media-editor',
 	[
-		'class' => 'dg gtc-7 md:gtc-1',
+		'class' => 'dg acs gtc-7 md:gtc-1',
 	],
 	[
 		[
@@ -17,8 +17,8 @@ return Dashboard\Form::enqueue(
 			'name'     => 'image',
 			'callback' => function() {
 				?>
-				<div class="df aic jcc ga-5 p-2">
-					<img src="https://loremflickr.com/300/1200/dog" alt="">
+				<div class="df ais jcc ga-5 p-2 m-auto">
+					<img :src="$store.dialog.url" :alt="$store.dialog.filename">
 				</div>
 				<?php
 			},
@@ -37,11 +37,11 @@ return Dashboard\Form::enqueue(
 					'callback' => function() {
 						?>
 						<div class="dg g-1 fs-12">
-							<div><strong><?php I18n::t( 'Uploaded on' ); ?>:</strong> July 9, 2024</div>
-							<div><strong><?php I18n::t( 'Uploaded by' ); ?>:</strong> Yan Aleksandrov</div>
-							<div><strong><?php I18n::t( 'File name' ); ?>:</strong> soft-inspirational-piano.mp3</div>
-							<div><strong><?php I18n::t( 'File type' ); ?>:</strong> audio/mpeg</div>
-							<div><strong><?php I18n::t( 'File size' ); ?>:</strong> 2MB</div>
+							<div><strong><?php I18n::t( 'Uploaded on' ); ?>:</strong> <span x-text="$store.dialog.created"></span></div>
+							<div><strong><?php I18n::t( 'Uploaded by' ); ?>:</strong> <span x-text="$store.dialog.author"></span></div>
+							<div><strong><?php I18n::t( 'File name' ); ?>:</strong> <span x-text="$store.dialog.filename"></span></div>
+							<div><strong><?php I18n::t( 'File type' ); ?>:</strong> <span x-text="$store.dialog.mime"></span></div>
+							<div><strong><?php I18n::t( 'File size' ); ?>:</strong> <span x-text="$store.dialog.sizeHumanize"></span></div>
 							<div><strong><?php I18n::t( 'Length' ); ?>:</strong> 2 minutes, 48 seconds</div>
 						</div>
 						<?php
@@ -70,7 +70,9 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
+							'attributes'  => [
+								':value' => '$store.dialog.filename',
+							],
 						],
 					],
 				],
@@ -97,7 +99,9 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
+							'attributes'  => [
+								':value' => '$store.dialog.filename',
+							],
 						],
 					],
 				],
@@ -151,7 +155,9 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
+							'attributes'  => [
+								':value' => '$store.dialog.content',
+							],
 						],
 					],
 				],
@@ -179,7 +185,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value'    => 'https://market.codyshop.ru/wp-content/uploads/2024/09/chat.png',
+								':value'   => '$store.dialog.url',
 								'readonly' => true,
 							],
 						],

@@ -20,7 +20,7 @@ use Grafema\Dir;
  *
  * @since      2025.1
  */
-class Files extends Files\Handler
+final class Files extends Files\Handler
 {
 
 	public string $basename = '';
@@ -40,6 +40,10 @@ class Files extends Files\Handler
 	public string $type = '';
 
 	public string $url = '';
+
+	public int $height = 0;
+
+	public int $width = 0;
 
 	public int $size = 0;
 
@@ -68,6 +72,8 @@ class Files extends Files\Handler
 		$this->type         = $this->getType();
 		$this->mime         = $this->mime();
 		$this->modified     = $this->modified();
+		$this->height       = $this->height();
+		$this->width        = $this->width();
 		$this->size         = $this->size();
 		$this->sizeKb       = self::reformat( $this->size, 'Kb' );
 		$this->sizeMb       = self::reformat( $this->size, 'Mb' );

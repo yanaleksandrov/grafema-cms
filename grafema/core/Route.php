@@ -15,7 +15,7 @@ use ReflectionMethod;
 /**
  * Class Route.
  */
-class Route
+final class Route
 {
 	/**
 	 * @var array [object|callable] The function to be executed when no route has been matched

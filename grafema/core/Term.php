@@ -16,7 +16,7 @@ use Grafema\Db;
  *
  * @since 2025.1
  */
-class Term
+final class Term
 {
 	/**
 	 * DataBase table name.

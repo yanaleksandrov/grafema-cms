@@ -11,7 +11,7 @@ namespace Grafema;
 /**
  * @since 2025.1
  */
-class Url
+final class Url
 {
 	/**
 	 * Add GET parameters to a URL.

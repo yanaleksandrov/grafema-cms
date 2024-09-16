@@ -15,7 +15,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 /**
  * @since 2025.1
  */
-class Mail
+final class Mail
 {
     /**
      * @since 2025.1

@@ -56,8 +56,8 @@ class Media extends \Grafema\Api\Handler
 		foreach ( $files as $file ) {
 			$filename = $file['name'] ?? '';
 			$postID   = \Grafema\Media::upload( $file );
-			if ( $postID instanceof Errors ) {
-				$errors[ $filename ] = Errors::get();
+			if ( $postID instanceof Error ) {
+				$errors[ $filename ] = Error::get();
 			} else {
 				$posts[] = Post::get( 'media', $postID );
 			}

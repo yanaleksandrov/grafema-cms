@@ -8,7 +8,7 @@ use Grafema\Helpers\Hash;
 /**
  * User
  */
-class User extends Users {
+final class User extends Users {
 
 	/**
 	 * Session key

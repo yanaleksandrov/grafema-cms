@@ -63,7 +63,7 @@ class Handler {
 	 * @return array List of error codes, if available.
 	 */
 	protected function getErrorCodes(): array {
-		if ( ! $this->hasErrors() ) {
+		if ( ! $this->hasError() ) {
 			return [];
 		}
 		return array_keys( self::$errors );
@@ -77,7 +77,7 @@ class Handler {
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
 	 * @return array Errors strings on success, or empty array on failure (if using code parameter).
 	 */
-	public function getErrors( $code = '' ): array {
+	public function getError( $code = '' ): array {
 		if ( empty( $code ) ) {
 			return self::$errors;
 		}
@@ -91,7 +91,7 @@ class Handler {
 	 *
 	 * @return bool
 	 */
-	protected function hasErrors(): bool {
+	protected function hasError(): bool {
 		return ! empty( self::$errors );
 	}
 }

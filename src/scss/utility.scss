@@ -28,8 +28,16 @@
   }
 }
 
+// align-content
+@each $key in (center, flex-start, flex-end, space-between, space-around, space-evenly, stretch) {
+  $selector: str-split($key, '-');
+  .ac#{$selector} {
+    align-content: $key;
+  }
+}
+
 // justify-content
-@each $key in (center, flex-start, flex-end, space-between, space-around, space-evenly) {
+@each $key in (center, flex-start, flex-end, space-between, space-around, space-evenly, stretch) {
   $selector: str-split($key, '-');
   .jc#{$selector} {
     justify-content: $key;

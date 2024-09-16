@@ -12,7 +12,7 @@ namespace Grafema;
 /**
  * @since   2025.1
  */
-class Sanitizer
+final class Sanitizer
 {
 	/**
 	 * Sanitized data.

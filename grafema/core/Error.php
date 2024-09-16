@@ -14,7 +14,7 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-class Error extends Error\Handler {
+final class Error extends Error\Handler {
 
 	/**
 	 * Initialize the error.

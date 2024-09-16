@@ -2,6 +2,7 @@
 namespace Dashboard;
 
 use Grafema\I18n;
+use Grafema\Url;
 
 use Dashboard\Table\Row;
 use Dashboard\Table\Cell;
@@ -68,10 +69,9 @@ final class EmailsTable {
 		return [
 			'title'       => I18n::_t( 'No emails templates found' ),
 			'description' => I18n::_f(
-				'Add %1$snew email template%2$s manually',
-				'<a href="/dashboard/emails" @click.prevent="$dialog.open(\'tmpl-email-editor\', emailDialog)">',
-				'</a>'
-			)
+				'Add %s manually',
+				sprintf( '<a href="#" @click.prevent="$dialog.open(\'tmpl-email-editor\', emailDialog)">%s</a>', I18n::_t( 'new email template' ) ),
+			),
 		];
 	}
 }

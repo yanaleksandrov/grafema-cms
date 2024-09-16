@@ -278,6 +278,22 @@ class Handler {
 	}
 
 	/**
+	 * Get image height.
+	 */
+	protected function height(): int
+	{
+		return @getimagesize( $this->path )[1] ?? 0;
+	}
+
+	/**
+	 * Get image width.
+	 */
+	protected function width(): int
+	{
+		return @getimagesize( $this->path )[0] ?? 0;
+	}
+
+	/**
 	 * Get the size of a file.
 	 */
 	protected function size(): int

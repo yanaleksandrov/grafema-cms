@@ -9,7 +9,7 @@
 
 namespace Grafema;
 
-class Debug
+final class Debug
 {
 	public static function launch(): void
 	{

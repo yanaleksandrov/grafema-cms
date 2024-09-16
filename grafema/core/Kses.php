@@ -25,7 +25,7 @@ use function is_string;
  *
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
  */
-class Kses
+final class Kses
 {
 	/**
 	 * @var array

@@ -12,5 +12,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 }
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
-	<?php Dashboard\Form::print( 'grafema-tools-list', GRFM_DASHBOARD . 'forms/grafema-tools-list.php' ); ?>
+	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-tools-list.php' ); ?>
 </div>

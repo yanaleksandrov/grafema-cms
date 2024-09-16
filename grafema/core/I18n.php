@@ -2,99 +2,24 @@
 namespace Grafema;
 
 /**
- * This file is part of Grafema CMS.
+ * The I18n class provides methods for handling translations in the system, including
+ * regular translations, translations with formatting, and conditional translations.
+ * The class also offers methods for returning translations sanitized for use in HTML attributes.
  *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
+ * Main functionalities:
+ * - `t|_t(_attr)`: translates a string and returns/outputs it (optionally sanitizes for HTML attributes).
+ * - `f|_f(_attr)`: translates a string with placeholders and returns/outputs it (optionally sanitizes for HTML attributes).
+ * - `c|_c(_attr)`: translates a string based on a condition and returns/outputs it (optionally sanitizes for HTML attributes).
  *
- * Functions:
- * _t|t     translate & return|echo
- * TODO: в форматировании добавить поддержку плейсхолдеров к обозначениям типа %s, %d, %f
- * TODO: к заполнителям добавить поддержку регистра, например плейсхолдер :NAME преобразует строку в верхний регистр
- * _f|f     format & return|echo
- * _c|c     conditional & return|echo
+ * TODO: Implement text pluralization.
  *
- * _t_attr|t_attr   sanitize attribute & return|echo
- * TODO: next functions
- * _f_attr|f_attr   format & sanitize attribute & return|echo
- * _c_attr|c_attr   conditional & sanitize attribute & return|echo
- *
- * TODO: добавить плюрализацию текста
+ * @package Grafema
+ * @since 2025.1
  */
-class I18n
-{
-    /**
-     * Local from HTTP.
-     *
-     * @since 2025.1
-     */
-    public static string $locale;
+final class I18n extends I18n\Locale {
 
 	/**
-	 * Translation.
-	 *
-	 * @param string $string
-	 * @return string
-	 *
-	 * @since 2025.1
-	 */
-    public static function _t( string $string ): string {
-        $locale   = self::getLocale();
-        $filepath = sprintf( '%sdashboard/i18n/%s.json', GRFM_PATH, $locale );
-        if ( is_file( $filepath ) ) {
-            $json = file_get_contents( $filepath );
-            $json = json_decode( $json, 1 );
-            if ( isset( $json[ $string ] ) ) {
-                return $json[ $string ];
-            }
-        }
-        return $string;
-    }
-
-	/**
-	 * Translate with formatting.
-	 *
-	 * @param string $string
-	 * @param mixed ...$args
-	 * @return string
-	 *
-	 * @since 2025.1
-	 */
-	public static function _f( string $string, mixed ...$args ): string {
-		return sprintf( self::_t( $string ), ...$args );
-	}
-
-	/**
-	 * Translate with condition.
-	 *
-	 * @param bool $condition
-	 * @param string $ifString
-	 * @param string $elseString
-	 * @return string
-	 *
-	 * @since 2025.1
-	 */
-	public static function _c( bool $condition, string $ifString, string $elseString = '' ): string
-	{
-		return $condition ? self::_t( $ifString ) : self::_t( $elseString );
-	}
-
-	/**
-	 * Translation and use in html attribute.
-	 *
-	 * @param string $string
-	 * @return string
-	 *
-	 * @since 2025.1
-	 */
-	public static function _t_attr( string $string ): string {
-		return Sanitizer::attribute( $string );
-	}
-
-	/**
-	 * Translation.
+	 * Output translated string.
 	 *
 	 * @param string $string
 	 *
@@ -105,30 +30,15 @@ class I18n
 	}
 
 	/**
-	 * Translate with formatting.
+	 * Get translated string.
 	 *
 	 * @param string $string
-	 * @param mixed ...$args
-	 * @return void
+	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-	public static function tf( string $string, mixed ...$args ): void {
-		echo sprintf( self::_t( $string ), ...$args );
-	}
-
-	/**
-	 * Translate with condition.
-	 *
-	 * @param bool $condition
-	 * @param string $ifString
-	 * @param string $elseString
-	 * @return void
-	 *
-	 * @since 2025.1
-	 */
-	public static function tc( bool $condition, string $ifString, string $elseString = '' ): void {
-		echo self::_c( $condition, $ifString, $elseString );
+	public static function _t( string $string ): string {
+		return self::translate( $string );
 	}
 
 	/**
@@ -144,29 +54,160 @@ class I18n
 	}
 
 	/**
-	 * Get local from HTTP.
+	 * Translation and use in html attribute.
+	 *
+	 * @param string $string
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function _t_attr( string $string ): string {
+		return Sanitizer::attribute( $string );
+	}
+
+	/**
+	 * Translate with formatting.
+	 *
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public static function f( string $string, mixed ...$args ): void {
+		echo self::_f( $string, ...$args );
+	}
+
+	/**
+	 * Translate with formatting. Use instead php placeholders like %s and %d, human readable strings.
+	 * The function support converting to lowercase, uppercase & first letter to uppercase.
+	 * To write the placeholder and the suffix together, use the "\" slash.
+	 *
+	 * For example:
+	 *
+	 * I18n::_f( 'Hi, :Firstname :Lastname, you have :count\st none closed ":TASKNAME" task', 'yan', 'aleksandrov', 1, 'test' )
+	 *
+	 * return 'Hi, Yan Aleksandrov, you have 1st none closed "TEST" task'
+	 *
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function _f( string $string, mixed ...$args ): string {
+		return preg_replace_callback('/:(\w+)(?:\\\\([^:]+))?|%[sd]/u', function( $matches ) use ( &$args ) {
+			if ( $matches[0] === '%s' || $matches[0] === '%d' ) {
+				return array_shift( $args );
+			}
+
+			$placeholder = $matches[1] ?? '';
+			$suffix      = $matches[2] ?? '';
+
+			$value = array_shift( $args );
+
+			$replacement = match (true) {
+				mb_strtolower( $placeholder ) === $placeholder => mb_strtolower( $value ),
+				mb_strtoupper( $placeholder ) === $placeholder => mb_strtoupper( $value ),
+				default => mb_convert_case( $value, MB_CASE_TITLE, 'UTF-8' ),
+			};
+
+			return $replacement . $suffix;
+		}, $string );
+	}
+
+	/**
+	 * Output translation with placeholder & sanitize like html attribute.
+	 *
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public static function f_attr( string $string, mixed ...$args ): void {
+		echo self::_f_attr( $string, $args );
+	}
+
+	/**
+	 * Return translation with placeholder & sanitize like html attribute.
+	 *
+	 * @param string $string
+	 * @param mixed ...$args
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function _f_attr( string $string, mixed ...$args ): string {
+		return Sanitizer::attribute( self::_f( $string, $args ) );
+	}
+
+	/**
+	 * Output translated text by condition.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public static function c( bool $condition, string $ifString, string $elseString = '' ): void {
+		echo self::_c( $condition, $ifString, $elseString );
+	}
+
+	/**
+	 * Return translated text by condition.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function _c( bool $condition, string $ifString, string $elseString = '' ): string
+	{
+		return $condition ? self::_t( $ifString ) : self::_t( $elseString );
+	}
+
+	/**
+	 * Output translated text by condition & sanitize like html attribute.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return void
+	 *
+	 * @since 2025.1
+	 */
+	public static function c_attr( bool $condition, string $ifString, string $elseString = '' ): void {
+		echo self::_c_attr( $condition, $ifString, $elseString );
+	}
+
+	/**
+	 * Return translated text by condition & sanitize like html attribute.
+	 *
+	 * @param bool $condition
+	 * @param string $ifString
+	 * @param string $elseString
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function _c_attr( bool $condition, string $ifString, string $elseString = '' ): string {
+		return Sanitizer::attribute( self::_c( $condition, $ifString, $elseString ) );
+	}
+
+	/**
+	 * Output local from HTTP.
 	 *
 	 * @param string $default
 	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-    public static function getLocale( string $default = 'en' ): string {
-        if ( ! isset( self::$locale ) && function_exists( 'locale_accept_from_http' ) ) {
-            self::$locale = locale_accept_from_http( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? $default );
-        }
-        return str_replace( '_', '-', self::$locale ?? $default );
-    }
-
-	/**
-	 * Output local from HTTP.
-	 *
-	 * @param string $default
-	 * @return void
-	 *
-	 * @since 2025.1
-	 */
-    public static function locale( string $default = 'en' ): void {
-        echo self::getLocale( $default );
+    public static function locale( string $default = 'en' ): string {
+        return self::getLocale( $default );
     }
 }

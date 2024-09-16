@@ -15,6 +15,8 @@ class App {
 	/**
 	 * Defines a named constant.
 	 *
+	 * @param string $name
+	 * @param $value
 	 * @since 2025.1
 	 */
 	public function define( string $name, $value ): void {

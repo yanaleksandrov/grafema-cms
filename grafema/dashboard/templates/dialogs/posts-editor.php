@@ -14,5 +14,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 <!-- post editor template start -->
 <template id="tmpl-post-editor" x-init="$dialog.init(() => postEditorDialog)">
-	<?php Dashboard\Form::print( 'grafema-posts-creator', GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' ); ?>
+	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-posts-creator.php' ); ?>
 </template>

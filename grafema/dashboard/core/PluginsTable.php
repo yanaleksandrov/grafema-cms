@@ -91,6 +91,7 @@ final class PluginsTable {
 
 	public function notFoundContent(): array {
 		return [
+			'icon'        => 'state-no-plugins',
 			'title'       => I18n::_t( 'Plugins are not installed yet' ),
 			'description' => I18n::_t( 'You can download them manually or install from the repository' ),
 		];

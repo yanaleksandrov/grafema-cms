@@ -8,7 +8,7 @@ use Grafema\Sanitizer;
  *
  * @since 2025.1
  */
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'grafema-posts-creator',
 	[
 		'x-data'          => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'main' ) ),

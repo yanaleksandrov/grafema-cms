@@ -7,7 +7,7 @@ use Grafema\Sanitizer;
  *
  * @since 2025.1
  */
-Dashboard\Form::enqueue(
+return Dashboard\Form::enqueue(
 	'grafema-emails-creator',
 	[
 		'@submit.window' => '$ajax("import-email")',

@@ -16,7 +16,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="grafema-main">
 	<div class="terms">
 		<div class="terms-side">
-			<?php Form::print( 'grafema-terms-editor', GRFM_DASHBOARD . 'forms/grafema-terms-editor.php' ); ?>
+			<?php Form::print( GRFM_DASHBOARD . 'forms/grafema-terms-editor.php' ); ?>
 		</div>
 		<div class="terms-main">
 			<?php ( new Dashboard\Table( new Dashboard\TermsTable() ) )->print(); ?>

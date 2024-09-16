@@ -58,7 +58,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 
 		if ( $version ) :
 			?>
-			<div class="themes-text" title="<?php I18n::tf( 'Version %s', $version ); ?>"><?php echo $version; ?></div>
+			<div class="themes-text" title="<?php I18n::f( 'Version :number', $version ); ?>"><?php echo $version; ?></div>
 		<?php endif; ?>
 	</div>
 </div>

@@ -13,6 +13,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="grafema-main p-7 bg-gray-lt">
 	<div class="mw-600 m-auto">
-		<?php Dashboard\Form::print( 'posts-import', GRFM_DASHBOARD . 'forms/grafema-posts-import.php' ); ?>
+		<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-posts-import.php' ); ?>
 	</div>
 </div>

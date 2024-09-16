@@ -133,11 +133,11 @@ $start_time = microtime( true );
 						<template x-if="links.length">
 							<ul class="grafema-search-results">
 								<template x-for="(link, i) in links" :key="i">
-									<li class="grafema-search-item" :class="link.url ? {'active': i === currentIdx} : ''">
+									<li class="grafema-search-item" :class="link.url && {'active': i === currentIdx}">
 										<template x-if="link.url">
 											<a class="grafema-search-link" :href="link.url">
 												<span class="grafema-search-text" x-html="link.text"></span>
-												<span class="t-muted">Jump to</span>
+												<span class="t-muted"><?php I18n::t( 'Jump to' ); ?></span>
 											</a>
 										</template>
 										<template x-if="!link.url">
@@ -149,24 +149,22 @@ $start_time = microtime( true );
 						</template>
 						<template x-if="!links.length">
 							<div class="grafema-search-results">
-								<div class="grafema-search-results">
-									<?php
-									View::print(
-										GRFM_DASHBOARD . 'templates/global/state',
-										[
-											'icon'        => 'state-ufo',
-											'title'       => I18n::_t( 'Nothing found' ),
-											'description' => I18n::_t( 'Write something to start the search' ),
-										]
-									);
-									?>
-								</div>
+								<?php
+								View::print(
+									GRFM_DASHBOARD . 'templates/global/state',
+									[
+										'icon'        => 'state-ufo',
+										'title'       => I18n::_t( 'Nothing found' ),
+										'description' => I18n::_t( 'Try to write something, there will be search results here' ),
+									]
+								);
+								?>
 							</div>
 						</template>
 						<div class="grafema-search-help">
-							<div class="df aic g-1"><i class="ph ph-arrow-up"></i><i class="ph ph-arrow-down"></i> Move</div>
-							<div class="df aic g-1"><i>Esc</i> Close</div>
-							<div class="df aic g-1"><i class="ph ph-arrow-elbow-down-left"></i> Select</div>
+							<div class="df aic g-1"><i class="ph ph-arrow-up"></i><i class="ph ph-arrow-down"></i> <?php I18n::t( 'Move' ); ?></div>
+							<div class="df aic g-1"><i>Esc</i> <?php I18n::t( 'Close' ); ?></div>
+							<div class="df aic g-1"><i class="ph ph-arrow-elbow-down-left"></i> <?php I18n::t( 'Select' ); ?></div>
 						</div>
 					</div>
 				</details>

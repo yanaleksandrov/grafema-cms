@@ -1,124 +1,162 @@
 var __webpack_exports__ = {};
 
-function parseResponse(method, fragment, selectors = 'body', delay) {
-    [ ...document.querySelectorAll(selectors) ].forEach((target => {
-        setTimeout((() => {
-            switch (method) {
-              case 'changeURL':
-                window.history.pushState(null, null, fragment || '');
-                break;
-
-              case 'redirect':
-                window.location = fragment || '';
-                break;
-
-              case 'reload':
-                window.location.reload();
-                break;
-
-              case 'scrollTo':
-                window.scrollBy({
-                    top: target.getBoundingClientRect().top,
-                    behavior: 'smooth'
-                });
-                break;
-
-              case 'value':
-                target.value = fragment || '';
-                break;
-
-              case 'update':
-                target.innerHTML = fragment || '';
-                break;
-
-              case 'remove':
-                target.remove();
-                break;
-
-              case 'replace':
-                target.outerHTML = fragment || '';
-                break;
-
-              case 'afterend':
-              case 'beforeend':
-              case 'afterbegin':
-              case 'beforebegin':
-                target.insertAdjacentHTML(method, fragment || '');
-                break;
-
-              case 'classList.remove':
-                target.classList.remove(fragment || '');
-                break;
-
-              case 'classList.add':
-                target.classList.add(fragment || '');
-                break;
-
-              case 'setAttribute':
-                const [name, value] = fragment;
-                if (!name) {
-                    return null;
+document.addEventListener('alpine:init', (() => {
+    let onloadEvent = () => {};
+    let formData = new FormData;
+    const xhr = new XMLHttpRequest;
+    Alpine.magic('ajax', (el => (route, data, progressCallback) => {
+        document.addEventListener(route, (({detail: {data, resolve}}) => resolve(data)));
+        return new Promise((resolve => {
+            xhr.open(el.getAttribute('method')?.toUpperCase() ?? 'POST', grafema?.apiurl + route);
+            xhr.withCredentials = true;
+            xhr.responseType = 'json';
+            xhr.onloadstart = xhr.upload.onprogress = event => progressCallback?.(onProgress(event, xhr));
+            xhr.onloadend = event => progressCallback?.(onProgress(event, xhr));
+            xhr.onload = event => {
+                let {data, fragments} = xhr.response;
+                document.dispatchEvent(new CustomEvent(route, {
+                    detail: {
+                        data,
+                        event,
+                        el,
+                        resolve
+                    },
+                    bubbles: true,
+                    composed: true,
+                    cancelable: true
+                }));
+                if (fragments) {
+                    fragments.forEach((({method, fragment, selectors, delay}) => {
+                        parseFragment(method, fragment, selectors, delay);
+                    }));
                 }
-                target.setAttribute(name, value || '');
-                break;
+                onloadEvent && onloadEvent();
+            };
+            xhr.send(parseFormData(el, data));
+        }));
+    }));
+    function onProgress(event, xhr) {
+        const {loaded = 0, total = 0, type} = event;
+        const {response = '', status = '', responseURL = ''} = xhr;
+        let data = {
+            blob: new Blob([ response ]),
+            raw: response,
+            status,
+            url: responseURL,
+            loaded: convertTo(loaded),
+            total: convertTo(total),
+            percent: total > 0 ? Math.round(loaded / total * 100) : 0,
+            start: type === 'loadstart',
+            progress: type === 'progress',
+            end: type === 'loadend'
+        };
+        if (data.end) {
+            console.log(data);
+        }
+        return data;
+    }
+    const BYTES_IN_MB = 1048576;
+    function convertTo(number) {
+        return Math.round(number / BYTES_IN_MB * 100) / 100;
+    }
+    function parseFormData(el, data) {
+        switch (el.tagName) {
+          case 'BUTTON':
+            el.classList.add('btn--load');
+            onloadEvent = () => el.classList.remove('btn--load');
+            break;
 
-              case 'notify':
-                if (fragment) {
-                    Alpine.store('notice').setDuration(custom.duration ?? 4e3);
-                    Alpine.store('notice').notify(fragment, custom.type ?? 'info');
-                }
-                break;
+          case 'FORM':
+            let buttons = el.querySelectorAll('[type=\'submit\']');
+            formData = new FormData(el);
+            let inputs = el.querySelectorAll('input[type=\'file\']');
+            [ ...inputs ].forEach((input => {
+                let files = input.files;
+                files && [ ...files ].forEach(((file, index) => formData.append(index, file)));
+            }));
+            buttons && buttons.forEach((button => button.classList.add('btn--load')));
+            onloadEvent = () => buttons && buttons.forEach((button => button.classList.remove('btn--load')));
+            break;
 
-              default:
-                target[method](fragment || '');
+          case 'TEXTAREA':
+          case 'SELECT':
+          case 'INPUT':
+            el.type !== 'file' && el.name && formData.append(el.name, el.value);
+            break;
+        }
+        if (typeof data === 'object') {
+            for (const [key, value] of Object.entries(data)) {
+                formData.append(key, value);
             }
-        }), delay || 0);
-    }));
-}
-
-document.addEventListener('system/test', (({detail}) => {
-    const {el, data, resolve} = detail;
-    resolve(data);
-    let delay = 250;
-    Object.entries(data).forEach((([key, value]) => {
-        delay = delay + 250;
-        setTimeout((() => {}), delay);
-    }));
-}));
-
-document.addEventListener('system/install', (({detail: {data, resolve}}) => resolve(data)));
-
-document.addEventListener('user/sign-in', (({detail: {data}}) => {
-    if (data.logged && data.redirect) {
-        window.location.href = data.redirect;
+        }
+        return formData;
     }
-}));
+    function parseFragment(method, fragment, selectors = 'body', delay) {
+        [ ...document.querySelectorAll(selectors) ].forEach((target => {
+            setTimeout((() => {
+                switch (method) {
+                  case 'changeURL':
+                    window.history.pushState(null, null, fragment || '');
+                    break;
 
-document.addEventListener('user/reset-password', (({detail: {data}}) => {
-    if (data.logged && data.redirect) {
-        window.location.href = data.redirect;
+                  case 'redirect':
+                    window.location = fragment || '';
+                    break;
+
+                  case 'reload':
+                    window.location.reload();
+                    break;
+
+                  case 'scrollTo':
+                    window.scrollBy({
+                        top: target.getBoundingClientRect().top,
+                        behavior: 'smooth'
+                    });
+                    break;
+
+                  case 'value':
+                    target.value = fragment || '';
+                    break;
+
+                  case 'update':
+                    target.innerHTML = fragment || '';
+                    break;
+
+                  case 'remove':
+                    target.remove();
+                    break;
+
+                  case 'replace':
+                    target.outerHTML = fragment || '';
+                    break;
+
+                  case 'afterend':
+                  case 'beforeend':
+                  case 'afterbegin':
+                  case 'beforebegin':
+                    target.insertAdjacentHTML(method, fragment || '');
+                    break;
+
+                  case 'classList.remove':
+                    target.classList.remove(fragment || '');
+                    break;
+
+                  case 'classList.add':
+                    target.classList.add(fragment || '');
+                    break;
+
+                  case 'setAttribute':
+                    const [name, value] = fragment;
+                    if (!name) {
+                        return null;
+                    }
+                    target.setAttribute(name, value || '');
+                    break;
+
+                  default:
+                    target[method](fragment || '');
+                }
+            }), delay || 0);
+        }));
     }
-}));
-
-document.addEventListener('files/upload', (({detail}) => {
-    const {el, data, resolve} = detail;
-    if (el) {
-        el.value = '';
-    }
-    resolve(data);
-}));
-
-document.addEventListener('posts/import', (({detail}) => {
-    const {data, resolve} = detail;
-    resolve(data);
-}));
-
-document.addEventListener('media/get', (({detail}) => {
-    const {data, resolve} = detail;
-    resolve(data);
-}));
-
-document.addEventListener('extensions/get', (({detail}) => {
-    const {data, resolve} = detail;
-    resolve(data);
 }));

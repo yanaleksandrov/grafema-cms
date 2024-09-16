@@ -21,5 +21,5 @@ Hook::add( 'grafema_dashboard_footer', function() {
 ?>
 <div class="grafema-main">
 	<?php ( new Dashboard\Table( new Dashboard\MediaTable() ) )->print(); ?>
-    <div x-intersect="$ajax('media/get').then(response => items = response.posts)"></div>
+    <div x-intersect="$ajax('media/get').then(({posts}) => items = posts)"></div>
 </div>

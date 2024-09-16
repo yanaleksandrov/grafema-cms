@@ -14,7 +14,7 @@ use Grafema\Sanitizer;
 use Grafema\Url;
 use Grafema\View;
 use Grafema\Mail;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 
 class User extends \Grafema\Api\Handler

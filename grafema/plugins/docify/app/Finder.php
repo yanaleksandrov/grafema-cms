@@ -1,7 +1,7 @@
 <?php
 namespace Docify\App;
 
-use Grafema\Errors;
+use Grafema\Error;
 
 /**
  * Documentation block parser.
@@ -54,7 +54,7 @@ class Finder {
 					];
 				}
 			} catch ( \Exception $e ) {
-				new Errors( 'finder-methods', $e->getMessage() );
+				new Error( 'finder-methods', $e->getMessage() );
 			}
 		}
 		return $classes;

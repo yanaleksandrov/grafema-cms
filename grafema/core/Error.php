@@ -2,7 +2,7 @@
 namespace Grafema;
 
 /**
- * Errors class.
+ * Error class.
  *
  * A class whose task is to simplify error handling (messages) when working with Grafema.
  * In order to start working with a class, you need to create an instance of it, and then add or remove errors (messages) to it.
@@ -14,7 +14,7 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-class Errors extends Errors\Handler {
+class Error extends Error\Handler {
 
 	/**
 	 * Initialize the error.
@@ -25,7 +25,7 @@ class Errors extends Errors\Handler {
 	 * Though the class is constructed with a single error code and
 	 * message, multiple codes can be added using the `add()` method.
 	 *
-	 * @param string|int $code                Errors code.
+	 * @param string|int $code                Error code.
 	 * @param string|array|Validator $message Error single message or array of messages.
 	 * @since 2025.1
 	 */
@@ -38,7 +38,7 @@ class Errors extends Errors\Handler {
 	/**
 	 * Add an error or append additional message to an existing error.
 	 *
-	 * @param string|int $code                Errors code.
+	 * @param string|int $code                Error code.
 	 * @param string|array|Validator $message Error single message or array of messages.
 	 * @return void
 	 * @since 2025.1
@@ -46,10 +46,10 @@ class Errors extends Errors\Handler {
 	public static function add( string|int $code, string|array|Validator $message = '' ): void {
 		if ( $message instanceof Validator ) {
 			foreach ( $message->errors as $key => $errors ) {
-				(new Errors\Handler())->push( sprintf( '%s-%s', $code, $key ), $errors );
+				(new Error\Handler())->push( sprintf( '%s-%s', $code, $key ), $errors );
 			}
 		} else {
-			(new Errors\Handler())->push( $code, $message );
+			(new Error\Handler())->push( $code, $message );
 		}
 	}
 
@@ -61,10 +61,10 @@ class Errors extends Errors\Handler {
 	 *
 	 * @since 2025.1
 	 *
-	 * @param string|int $code Errors code.
+	 * @param string|int $code Error code.
 	 */
 	public static function delete( string|int $code ): void {
-		(new Errors\Handler())->remove( $code );
+		(new Error\Handler())->remove( $code );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class Errors extends Errors\Handler {
 	 * @return bool
 	 */
 	public static function exists(): bool {
-		return (new Errors\Handler())->hasErrors();
+		return (new Error\Handler())->hasError();
 	}
 
 	/**
@@ -84,10 +84,10 @@ class Errors extends Errors\Handler {
 	 * @since 2025.1
 	 *
 	 * @param string|int $code Optional. Retrieve messages matching code, if exists.
-	 * @return array           Errors strings on success, or empty array on failure (if using code parameter).
+	 * @return array           Error strings on success, or empty array on failure (if using code parameter).
 	 */
 	public static function get( string|int $code = '' ): array {
-		return (new Errors\Handler())->getErrors( $code );
+		return (new Error\Handler())->getError( $code );
 	}
 
 	/**
@@ -98,6 +98,6 @@ class Errors extends Errors\Handler {
 	 * @return array List of error codes, if available.
 	 */
 	public static function getCodes(): array {
-		return (new Errors\Handler())->getErrorCodes();
+		return (new Error\Handler())->getErrorCodes();
 	}
 }

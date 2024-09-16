@@ -4,7 +4,7 @@ namespace Dashboard;
 use Grafema\{
 	I18n,
 	Hook,
-	Errors,
+	Error,
 	Sanitizer,
 };
 
@@ -31,12 +31,12 @@ class Form {
 	public static function enqueue( string $uid, array $attributes = [], array $fields = [] ): string {
 		$uid = Sanitizer::id( $uid );
 		if ( ! $uid ) {
-			new Errors( 'form-register', I18n::_f( 'The form with %s ID is empty.', $uid ) );
+			new Error( 'form-register', I18n::_f( 'The form with %s ID is empty.', $uid ) );
 		}
 
 		$form = self::init( $uid );
 		if ( isset( $form->uid ) ) {
-			new Errors( 'form-register', I18n::_f( 'The form identified by %s already exists! Potential conflicts detected!', $uid ) );
+			new Error( 'form-register', I18n::_f( 'The form identified by %s already exists! Potential conflicts detected!', $uid ) );
 		}
 
 		$form->uid        = $uid;
@@ -103,7 +103,7 @@ class Form {
 				return $form->wrap( $form->attributes, $content );
 			}
 		} else {
-			new Errors( 'form-view', I18n::_f( 'From::enqueue located along the "%s" path should return the form ID.', $path ) );
+			new Error( 'form-view', I18n::_f( 'From::enqueue located along the "%s" path should return the form ID.', $path ) );
 		}
 
 		return $content;
@@ -133,7 +133,7 @@ class Form {
 	public function insert( array $field ): void {
 		$name = Sanitizer::name( $field['name'] ?? '' );
 		if ( empty( $name ) ) {
-			new Errors( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty "name".' ) );
+			new Error( 'form-add-field', I18n::_t( 'It is not possible to add a field with an empty "name".' ) );
 		}
 
 		$this->insertField( $this->fields, $field, $this );

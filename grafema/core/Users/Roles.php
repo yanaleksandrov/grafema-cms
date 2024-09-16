@@ -9,7 +9,7 @@
 
 namespace Grafema\Users;
 
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 
 /**
@@ -57,14 +57,14 @@ class Roles
 	{
 		$roles = self::fetch();
 		if ( empty( $role ) || isset( $roles[$role] ) ) {
-			return new Errors( 'roles-register', I18n::_t( 'Sorry, the role with this ID already exists.' ) );
+			return new Error( 'roles-register', I18n::_t( 'Sorry, the role with this ID already exists.' ) );
 		}
 
 		if ( is_string( $capabilities ) ) {
 			if ( isset( $roles[$capabilities] ) ) {
 				$capabilities = $roles[$capabilities]['capabilities'];
 			} else {
-				return new Errors( 'roles-register', I18n::_t( 'You are trying to copy capabilities from a non exists role.' ) );
+				return new Error( 'roles-register', I18n::_t( 'You are trying to copy capabilities from a non exists role.' ) );
 			}
 		}
 
@@ -79,9 +79,9 @@ class Roles
 	/**
 	 * Retrieve role object by name.
 	 *
-	 * @since 2025.1
-	 *
+	 * @param string $role
 	 * @return object role object if found, null if the role does not exist
+	 * @since 2025.1
 	 */
 	public static function get( string $role )
 	{
@@ -96,6 +96,8 @@ class Roles
 	/**
 	 * Remove role.
 	 *
+	 * @param string $role
+	 * @return bool
 	 * @since 2025.1
 	 */
 	public static function delete( string $role ): bool
@@ -113,15 +115,16 @@ class Roles
 	/**
 	 * Set capability to role.
 	 *
+	 * @param string $role
 	 * @param mixed $capability Single capability or capabilities array
-	 * @return bool|Errors
+	 * @return bool|Error
 	 * @since 2025.1
 	 */
-	public static function set( string $role, $capability )
+	public static function set( string $role, mixed $capability )
 	{
 		$roles = self::fetch();
 		if ( ! isset( $roles[$role] ) ) {
-			return new Errors( 'roles-set', I18n::_t( 'You are trying set capability for non exists role.' ) );
+			return new Error( 'roles-set', I18n::_t( 'You are trying set capability for non exists role.' ) );
 		}
 
 		if ( is_array( $capability ) ) {
@@ -136,7 +139,9 @@ class Roles
 	/**
 	 * Remove capability from role.
 	 *
-	 * @return bool|Errors
+	 * @param string $role
+	 * @param string $capability
+	 * @return bool|Error
 	 *
 	 * @since 2025.1
 	 */
@@ -144,7 +149,7 @@ class Roles
 	{
 		$roles = self::fetch();
 		if ( ! isset( $roles[$role] ) ) {
-			return new Errors( 'roles-unset', I18n::_t( 'You are trying unset capability for non exists role.' ) );
+			return new Error( 'roles-unset', I18n::_t( 'You are trying unset capability for non exists role.' ) );
 		}
 
 		unset( $roles[$role]['capabilities'][$capability] );
@@ -155,6 +160,8 @@ class Roles
 	/**
 	 * Whether role name is currently in the list of available roles.
 	 *
+	 * @param string $role
+	 * @return bool
 	 * @since 2025.1
 	 */
 	public static function exists( string $role ): bool
@@ -167,6 +174,9 @@ class Roles
 	/**
 	 * Whether role name is currently in the list of available roles.
 	 *
+	 * @param string $role
+	 * @param $capabilities
+	 * @return bool
 	 * @since 2025.1
 	 */
 	public static function has_cap( string $role, $capabilities ): bool
@@ -189,7 +199,7 @@ class Roles
 	 *
 	 * @since 2025.1
 	 */
-	private static function fetch()
+	private static function fetch(): array
 	{
 		return self::$roles;
 	}

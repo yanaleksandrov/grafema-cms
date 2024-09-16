@@ -79,13 +79,13 @@ class Files extends Files\Handler
 	 *
 	 * @param string        $filepath Path to exists file.
 	 * @param callable|null $callback
-	 * @return Files|Errors
+	 * @return Files|Error
 	 *
 	 * @since  2025.1
 	 */
-	public static function open( string $filepath = '', ?callable $callback = null ): Files|Errors {
+	public static function open( string $filepath = '', ?callable $callback = null ): Files|Error {
 		if ( ! file_exists( $filepath ) ) {
-			return new Errors(  'file-not-exists', I18n::_f( "File with ':filepath' path is not exists.", $filepath ) );
+			return new Error(  'file-not-exists', I18n::_f( "File with ':filepath' path is not exists.", $filepath ) );
 		}
 
 		$file = new self( $filepath );
@@ -101,11 +101,11 @@ class Files extends Files\Handler
 	 * @param array $file
 	 * @param string $targetDir
 	 * @param callable|null $callback
-	 * @return Files|Errors Data about current uploaded file or errors list.
+	 * @return Files|Error Data about current uploaded file or errors list.
 	 *
 	 * @since  2025.1
 	 */
-	public static function upload( array $file, string $targetDir, ?callable $callback = null ): Files|Errors {
+	public static function upload( array $file, string $targetDir, ?callable $callback = null ): Files|Error {
 		$maxFileSize = parent::getMaxUploadSizeInBytes();
 		$mimeTypes   = parent::getAllowedMimeTypes();
 		$mimes       = implode( ',', array_values( $mimeTypes ) );
@@ -166,13 +166,13 @@ class Files extends Files\Handler
 		 * @since 2025.1
 		 */
 		if ( $validator instanceof Validator ) {
-			return new Errors( 'file-upload', $validator );
+			return new Error( 'file-upload', $validator );
 		}
 
 		$basename = Sanitizer::filename( $file['name'] ?? '' );
 		$filepath = sprintf( '%s%s', $targetDir, $basename );
 		if ( empty( $basename ) ) {
-			return new Errors( 'file-upload', I18n::_t( 'File name must not contain illegal characters and must not be empty.' ) );
+			return new Error( 'file-upload', I18n::_t( 'File name must not contain illegal characters and must not be empty.' ) );
 		}
 
 		/**
@@ -188,7 +188,7 @@ class Files extends Files\Handler
 			if ( hash_file( 'md5', $filepath ) === hash_file( 'md5', $file['tmp_name'] ) ) {
 				unlink( $file['tmp_name'] );
 
-				return new Errors( 'file-upload', I18n::_t( 'File already exists.' ) );
+				return new Error( 'file-upload', I18n::_t( 'File already exists.' ) );
 			} else {
 				// make sure that the file name in the folder is unique
 				$suffix = 1;
@@ -213,7 +213,7 @@ class Files extends Files\Handler
 			if ( $uploaded ) {
 				$_file = new self( $filepath );
 			} else {
-				return new Errors( 'file-upload', I18n::_t( 'Something went wrong, upload is failed.' ) );
+				return new Error( 'file-upload', I18n::_t( 'Something went wrong, upload is failed.' ) );
 			}
 		}
 
@@ -235,14 +235,14 @@ class Files extends Files\Handler
 	 * @param string $url
 	 * @param string $targetDir
 	 * @param callable|null $callback
-	 * @return Files|Errors
+	 * @return Files|Error
 	 * @since  2025.1
 	 */
-	public static function grab( string $url, string $targetDir, ?callable $callback = null ): Files|Errors
+	public static function grab( string $url, string $targetDir, ?callable $callback = null ): Files|Error
 	{
 		$url = Sanitizer::url( $url );
 		if ( empty( $url ) ) {
-			return new Errors( 'file-grab', I18n::_t( 'File URL is not valid.' ) );
+			return new Error( 'file-grab', I18n::_t( 'File URL is not valid.' ) );
 		}
 
 		$basename   = basename( $url );
@@ -250,7 +250,7 @@ class Files extends Files\Handler
 		$filepath   = sprintf( '%s%s', $targetDir, $basename );
 
 		if ( empty( $extension ) ) {
-			return new Errors( 'file-grab', I18n::_t( 'The file cannot be grabbed because it does not contain an extension.' ) );
+			return new Error( 'file-grab', I18n::_t( 'The file cannot be grabbed because it does not contain an extension.' ) );
 		}
 
 		if ( ! is_dir( $targetDir ) ) {
@@ -296,7 +296,7 @@ class Files extends Files\Handler
 				99 => I18n::_t('Something went wrong when uploading the file.'),
 			];
 
-			return new Errors( 'file-upload', $errors[ $error ] ?? $errors[99] );
+			return new Error( 'file-upload', $errors[ $error ] ?? $errors[99] );
 		}
 
 		curl_close( $ch );
@@ -325,11 +325,11 @@ class Files extends Files\Handler
 		if ( is_writable( $this->path ) ) {
 			$fp = fopen( $this->path, $after ? 'a' : 'w' );
 			if ( ! $fp ) {
-				$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't open the file ':filepath'", $this->path ) );
+				$this->errors[] = new Error( 'file-manipulation', I18n::_f( "I can't open the file ':filepath'", $this->path ) );
 			} else {
 				// writing $content to open file
 				if ( fwrite( $fp, $content ) === false ) {
-					$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't write to the file ':filepath'", $this->path ) );
+					$this->errors[] = new Error( 'file-manipulation', I18n::_f( "I can't write to the file ':filepath'", $this->path ) );
 				}
 
 				fclose( $fp );
@@ -511,7 +511,7 @@ class Files extends Files\Handler
 	public function setMode( int $mode ): Files
 	{
 		if ( ! chmod( $this->path, $mode ) ) {
-			$this->errors[] = new Errors( 'file-manipulations', I18n::_t( 'Failed to update file access rights' ) );
+			$this->errors[] = new Error( 'file-manipulations', I18n::_t( 'Failed to update file access rights' ) );
 		}
 		return $this;
 	}

@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 ?>
 <!-- table head start -->
-<div class="table__header">
+<div class="table__header" x-data="{bulk: false}">
     <div class="mw df fww aic jcsb g-3 py-5 px-7 md:p-5">
 		<?php if ( $title ) : ?>
             <h4><?php echo $title; ?>

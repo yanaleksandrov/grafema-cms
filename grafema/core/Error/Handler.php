@@ -1,5 +1,5 @@
 <?php
-namespace Grafema\Errors;
+namespace Grafema\Error;
 
 /**
  * Errors class.

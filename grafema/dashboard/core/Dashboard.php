@@ -50,7 +50,7 @@ use Grafema\Url;
 		}
 
 		Hook::add( 'grafema_dashboard_footer', function() {
-			$scripts = ['index', 'ajax', 'alpine'];
+			$scripts = ['ajax', 'alpine'];
 			if ( ! Is::install() ) {
 				$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'notifications', 'alpine', 'sortable'];
 			}

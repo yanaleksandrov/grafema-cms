@@ -2,7 +2,7 @@
 namespace Grafema\Query;
 
 use Grafema\Db;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Post\Type;
@@ -158,7 +158,7 @@ class Query {
 		if ( ! empty( $args['type'] ) ) {
 			$types = array_map( 'Grafema\Sanitizer::id', is_array( $args['type'] ) ? $args['type'] : [ $args['type'] ] );
 		} else {
-			return new Errors( 'query', I18n::_t( '"Type" parameter can not be empty.' ) );
+			return new Error( 'query', I18n::_t( '"Type" parameter can not be empty.' ) );
 		}
 
 		/**

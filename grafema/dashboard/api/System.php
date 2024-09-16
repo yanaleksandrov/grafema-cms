@@ -11,7 +11,7 @@ namespace Dashboard\Api;
 
 use Grafema\Db;
 use Grafema\App\App;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\Users\Users;
 use Grafema\User;
 use Grafema\Option;

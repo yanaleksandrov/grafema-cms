@@ -9,7 +9,7 @@
 
 namespace Dashboard\Api;
 
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\Files;
 use Grafema\I18n;
 use Grafema\Post\Post;

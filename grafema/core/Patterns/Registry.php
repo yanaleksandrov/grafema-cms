@@ -2,7 +2,7 @@
 
 namespace Grafema\Patterns;
 
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 
 /**
@@ -50,7 +50,7 @@ final class Registry {
 		if ( ! isset( self::$registry[ $key ] ) ) {
 			self::$registry[ $key ] = $value;
 		} else {
-			new Errors( 'registry-set', I18n::_t( 'Are you trying to override an existing data.' ) );
+			new Error( 'registry-set', I18n::_t( 'Are you trying to override an existing data.' ) );
 		}
 	}
 

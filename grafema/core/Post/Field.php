@@ -2,7 +2,7 @@
 namespace Grafema\Post;
 
 use Grafema\Debug;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\I18n;
 use Grafema\DB;
 use Grafema\Helpers\Arr;
@@ -33,12 +33,12 @@ class Field {
 	 * @param string $type  Type of the post.
 	 * @param int    $post  Post ID.
 	 *
-	 * @return array|Errors Array of metadata or an instance of Errors if the post type is invalid.
+	 * @return array|Error Array of metadata or an instance of Error if the post type is invalid.
 	 * @since 2025.1
 	 */
-	public static function fetch( string $type, int $post ): Errors|array {
+	public static function fetch( string $type, int $post ): Error|array {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-fetch', I18n::_t( 'Invalid post type.' ) );
+			return new Error( 'field-fetch', I18n::_t( 'Invalid post type.' ) );
 		}
 
 		$type   = sprintf( '%s%s_fields', DB_PREFIX, $type );
@@ -62,12 +62,12 @@ class Field {
 	 * @param mixed  $value      Metadata value. Must be serializable if non-scalar.
 	 * @param bool   $unique     Optional. Whether the same key should not be added.
 	 *                           Default false.
-	 * @return Errors|int        Meta ID on success, false on failure.
+	 * @return Error|int        Meta ID on success, false on failure.
 	 * @since 2025.1
 	 */
-	public static function add( string $type, int $post, string $field, $value, $unique = true ): Errors|int {
+	public static function add( string $type, int $post, string $field, $value, $unique = true ): Error|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-add', I18n::_t( 'Invalid Post Type.' ) );
+			return new Error( 'field-add', I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$fields = self::fetch( $type, $post );
@@ -104,11 +104,11 @@ class Field {
 	 *
 	 * @param  string $type
 	 * @param  array  $fields
-	 * @return Errors|int
+	 * @return Error|int
 	 */
-	public static function import( string $type, array $fields ): Errors|int {
+	public static function import( string $type, array $fields ): Error|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( 'field-import', I18n::_t( 'Invalid Post Type.' ) );
+			return new Error( 'field-import', I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		if ( $fields ) {
@@ -150,7 +150,7 @@ class Field {
 	 */
 	public static function get( string $type, int $post, string $field = '', bool $single = true ) {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors( Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
+			return new Error( Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$fields = self::fetch( $type, $post );
@@ -183,14 +183,14 @@ class Field {
 	 * @param mixed  $old_value  Optional. Previous value to check before updating.
 	 *                           If specified, only update existing metadata entries with
 	 *                           this value. Otherwise, update all entries. Default empty.
-	 * @return Errors|int        Meta ID if the key didn't exist, true on successful update,
+	 * @return Error|int        Meta ID if the key didn't exist, true on successful update,
 	 *                           false on failure or if the value passed to the function
 	 *                           is the same as the one that is already in the database.
 	 * @since 2025.1
 	 */
-	public static function update( string $type, int $post, string $field, mixed $new_value, mixed $old_value = '' ): Errors|int {
+	public static function update( string $type, int $post, string $field, mixed $new_value, mixed $old_value = '' ): Error|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
+			return new Error(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$type = sprintf( '%s%s_fields', DB_PREFIX, $type );
@@ -219,12 +219,12 @@ class Field {
 	 * @param string $field  Field name. If it is empty, then all fields of the post will be deleted.
 	 * @param mixed  $value  Optional. Metadata value. If provided, rows will only be removed that match the value.
 	 *                       Must be serializable if non-scalar. Default empty.
-	 * @return Errors|int    Count of deleted rows if success, false on failure.
+	 * @return Error|int    Count of deleted rows if success, false on failure.
 	 * @since 2025.1
 	 */
-	public static function delete( string $type, int $post, string $field = '', mixed $value = '' ): Errors|int {
+	public static function delete( string $type, int $post, string $field = '', mixed $value = '' ): Error|int {
 		if ( ! Type::exist( $type ) ) {
-			return new Errors(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
+			return new Error(Debug::get_backtrace(), I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$type = sprintf( '%s%s_fields', DB_PREFIX, $type );

@@ -119,10 +119,10 @@ class Media {
 	 * downloads folder. If the file type is an image, it will create smaller copies of it.
 	 *
 	 * @param array $file Array that represents a `$_FILES` upload array.
-	 * @return Errors|int
+	 * @return Error|int
 	 * @since 2025.1
 	 */
-	public static function upload( array $file ): int|Errors {
+	public static function upload( array $file ): int|Error {
 		// TODO: add checking user capabilities
 
 		$targetDir = sprintf( '%si/original/', GRFM_UPLOADS );
@@ -153,7 +153,7 @@ class Media {
 			}
 		} );
 
-		if ( $originalFile instanceof Errors ) {
+		if ( $originalFile instanceof Error ) {
 			return $originalFile;
 		}
 

@@ -51,7 +51,7 @@ class User extends Users {
 	 * is part of the URL of the user's page, and showname is displayed as the name.
 	 * Therefore, we generate it based on the login.
 	 *
-	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Errors
+	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Error
 	 *
 	 * @param array $userdata {
 	 *     @type int    $ID           User ID. If supplied, the user will be updated.
@@ -64,10 +64,10 @@ class User extends Users {
 	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
 	 * }
 	 *
-	 * @return User|Errors The newly created user's ID or an Errors object if the user could not be created.
+	 * @return User|Error The newly created user's ID or an Error object if the user could not be created.
 	 * @since 2025.1
 	 */
-	public static function add( array $userdata ): User|Errors {
+	public static function add( array $userdata ): User|Error {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
@@ -110,7 +110,7 @@ class User extends Users {
 		)->apply();
 
 		if ( $userdata instanceof Validator ) {
-			return new Errors( 'user-add', $userdata );
+			return new Error( 'user-add', $userdata );
 		}
 
 		[ $login, $password ] = array_values( $userdata );
@@ -118,7 +118,7 @@ class User extends Users {
 
 		$user_count = Db::insert( self::$table, $userdata )->rowCount();
 		if ( $user_count !== 1 ) {
-			return new Errors( 'user-add', I18n::_t( 'Something went wrong, it was not possible to add a user.' ) );
+			return new Error( 'user-add', I18n::_t( 'Something went wrong, it was not possible to add a user.' ) );
 		}
 
 		$user = self::get( $login, 'login' );
@@ -140,16 +140,16 @@ class User extends Users {
 	 *
 	 * @param string|int    $value A value for $field. A user ID, slug, email address, or login name.
 	 * @param string        $getBy The field to retrieve the user with. ID | login | email | nicename.
-	 * @return Errors|User
+	 * @return Error|User
 	 * @since 2025.1
 	 */
-	public static function get( string|int $value, string $getBy = 'ID' ): Errors|User {
+	public static function get( string|int $value, string $getBy = 'ID' ): Error|User {
 		if ( empty( $value ) ) {
-			return new Errors( 'user-get-empty', I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
+			return new Error( 'user-get-empty', I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
 		}
 
 		if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Errors( 'user-get-by', I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
+			return new Error( 'user-get-by', I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
 		}
 
 		$user = Db::select( self::$table, '*', [ $getBy => $value ], [ 'LIMIT' => 1 ] );
@@ -162,7 +162,7 @@ class User extends Users {
 			return $userdata;
 		}
 
-		return new Errors( 'user-get', I18n::_t( 'User not found!' ) );
+		return new Error( 'user-get', I18n::_t( 'User not found!' ) );
 	}
 
 	/**
@@ -170,14 +170,14 @@ class User extends Users {
 	 * If no ID is found in the received array, the function passes the work to the add method.
 	 *
 	 * @param array $userdata
-	 * @return Errors|User|int
+	 * @return Error|User|int
 	 * @since 2025.1
 	 */
-	public static function update( array $userdata ): Errors|User|int
+	public static function update( array $userdata ): Error|User|int
 	{
 		$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
 		if ( ! $user_id ) {
-			return new Errors( 'user-update-invalid-id', I18n::_t( 'Invalid user ID.' ) );
+			return new Error( 'user-update-invalid-id', I18n::_t( 'Invalid user ID.' ) );
 		}
 
 		$user_id = Sanitizer::absint( $userdata['ID'] ?? 0 );
@@ -190,7 +190,7 @@ class User extends Users {
 
 		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
 		if ( ! $user ) {
-			return new Errors( 'user-update', I18n::_t( 'User not found.' ) );
+			return new Error( 'user-update', I18n::_t( 'User not found.' ) );
 		}
 
 		// sanitize incoming data and exclusion of extraneous data
@@ -209,7 +209,7 @@ class User extends Users {
 	 *
 	 * @param  int   $user_id  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
-	 * @return Errors|int      The number of remote users or false.
+	 * @return Error|int      The number of remote users or false.
 	 * @since 2025.1
 	 */
 	public static function delete( int $user_id, int $reassign = 0 ) {
@@ -218,7 +218,7 @@ class User extends Users {
 		];
 
 		if ( ! self::exists( $fields ) ) {
-			return new Errors( 'user-delete', I18n::_t( 'The user you are trying to delete does not exist.' ) );
+			return new Error( 'user-delete', I18n::_t( 'The user you are trying to delete does not exist.' ) );
 		}
 
 		if ( $reassign ) {
@@ -296,7 +296,7 @@ class User extends Users {
 	/**
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
-	 * @return Errors|false|User
+	 * @return Error|false|User
 	 * @throws \JsonException
 	 * @since   2025.1
 	 */
@@ -332,10 +332,10 @@ class User extends Users {
 	 * Authorizes the user by password and login/email.
 	 *
 	 * @param array $userdata
-	 * @return Errors|User
+	 * @return Error|User
 	 * @since  2025.1
 	 */
-	public static function login( array $userdata ): Errors|User {
+	public static function login( array $userdata ): Error|User {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
@@ -354,7 +354,7 @@ class User extends Users {
 		) )->apply();
 
 		if ( $userdata instanceof Validator ) {
-			return new Errors( 'user-login', $userdata );
+			return new Error( 'user-login', $userdata );
 		}
 
 		[ $login_or_email, $password, $remember ] = array_values( $userdata );
@@ -373,10 +373,10 @@ class User extends Users {
 				return self::$current = $user;
 			}
 
-			return new Errors( 'user-login', I18n::_t( 'User password is incorrect.' ) );
+			return new Error( 'user-login', I18n::_t( 'User password is incorrect.' ) );
 		}
 
-		return new Errors( 'user-login', I18n::_t( 'User not found: invalid login or email.' ) );
+		return new Error( 'user-login', I18n::_t( 'User not found: invalid login or email.' ) );
 	}
 
 	/**

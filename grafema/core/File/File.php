@@ -11,7 +11,7 @@ namespace Grafema\File;
 
 use Grafema\Curl;
 use Grafema\Dir;
-use Grafema\Errors;
+use Grafema\Error;
 use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Is;
@@ -189,11 +189,11 @@ class File
 		if ( is_writable( $this->path ) ) {
 			$fp = fopen( $this->path, $after ? 'a' : 'w' );
 			if ( ! $fp ) {
-				$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't open the file '%s'", $this->path ) );
+				$this->errors[] = new Error( 'file-manipulation', I18n::_f( "I can't open the file '%s'", $this->path ) );
 			} else {
 				// writing $content to open file
 				if ( fwrite( $fp, $content ) === false ) {
-					$this->errors[] = new Errors( 'file-manipulation', I18n::_f( "I can't write to the file '%s'", $this->path ) );
+					$this->errors[] = new Error( 'file-manipulation', I18n::_f( "I can't write to the file '%s'", $this->path ) );
 				}
 
 				fclose( $fp );
@@ -328,7 +328,7 @@ class File
 		if ( ! $validator instanceof Validator ) {
 			$status = move_uploaded_file( $file['tmp_name'], $this->path );
 			if ( ! $status ) {
-				$this->errors[] = new Errors( 'file-upload', I18n::_t( 'Can\'t upload file.' ) );
+				$this->errors[] = new Error( 'file-upload', I18n::_t( 'Can\'t upload file.' ) );
 			}
 			$this->setData();
 		}
@@ -346,12 +346,12 @@ class File
 		$upload_dir = Esc::url( preg_replace( '/\\?.*/', '', $this->dirpath . basename( $url ) ) );
 		$url        = Esc::url( $url );
 		if ( ! Is::url( $url ) ) {
-			$this->errors[] = new Errors( 'file-grab', I18n::_t( 'Invalid URL.' ) );
+			$this->errors[] = new Error( 'file-grab', I18n::_t( 'Invalid URL.' ) );
 		}
 
 		$extension = pathinfo( $url, PATHINFO_EXTENSION );
 		if ( empty( $extension ) ) {
-			$this->errors[] = new Errors( 'file-grab', I18n::_t( 'The file cannot be grabbed because it does not contain an extension.' ) );
+			$this->errors[] = new Error( 'file-grab', I18n::_t( 'The file cannot be grabbed because it does not contain an extension.' ) );
 		}
 
 		$fp = fopen( $upload_dir, 'wb' );
@@ -487,7 +487,7 @@ class File
 	public function setMode( int $mode ): File
 	{
 		if ( ! chmod( $this->path, $mode ) ) {
-			$this->errors[] = new Errors( 'file-manipulations', I18n::_t( 'Failed to update file access rights' ) );
+			$this->errors[] = new Error( 'file-manipulations', I18n::_t( 'Failed to update file access rights' ) );
 		}
 
 		return $this;

@@ -427,7 +427,7 @@ class Cache
 	 *
 	 * @return bool whether the key exists in the cache for the given group
 	 */
-	protected function _exists( $key, $group )
+	protected function _exists( $key, $group ): bool
 	{
 		return isset( $this->cache[$group] ) && ( isset( $this->cache[$group][$key] ) || array_key_exists( $key, $this->cache[$group] ) );
 	}

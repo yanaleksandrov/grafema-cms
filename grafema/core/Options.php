@@ -15,7 +15,7 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-class Options
+final class Options
 {
 	/**
 	 * DataBase table name.

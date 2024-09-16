@@ -20,7 +20,7 @@ use Grafema\Dir;
  *
  * @since      2025.1
  */
-class Files extends Files\Handler
+final class Files extends Files\Handler
 {
 
 	public string $basename = '';

@@ -17,7 +17,7 @@ use Grafema\Post\Post;
  *
  * @since 2025.1
  */
-class Media {
+final class Media {
 
 	/**
 	 * Get media files.

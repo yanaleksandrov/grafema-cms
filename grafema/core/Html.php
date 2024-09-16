@@ -9,7 +9,7 @@ namespace Grafema;
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
  */
-class Html
+final class Html
 {
     private $options;
 

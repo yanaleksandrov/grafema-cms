@@ -9,7 +9,7 @@ use Grafema\Helpers\Arr;
  *
  * @since 2025.1
  */
-class Option extends Options {
+final class Option extends Options {
 
 	/**
 	 * Options list

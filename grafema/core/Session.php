@@ -17,7 +17,7 @@ use JsonException;
  *
  * TODO: migrate to https://github.com/odan/session/tree/c7afc83519a109dd45039662ea8dd8aea7675761
  */
-class Session
+final class Session
 {
 	/**
 	 * @var int Время жизни сессии

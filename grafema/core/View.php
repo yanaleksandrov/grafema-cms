@@ -13,13 +13,13 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-class View
+final class View
 {
 	/**
 	 * @param $location
 	 * @param int $status
 	 * @param string $x_redirect_by
-	 * @return bool|Errors
+	 * @return bool|Error
 	 */
 	public static function redirect( $location, $status = 302, $x_redirect_by = 'Grafema' )
 	{

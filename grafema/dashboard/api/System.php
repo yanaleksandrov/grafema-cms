@@ -155,6 +155,6 @@ class System extends \Grafema\Api\Handler
 			];
 		}
 
-		return Errors::get();
+		return Error::get();
 	}
 }

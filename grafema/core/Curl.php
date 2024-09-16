@@ -12,7 +12,7 @@ namespace Grafema;
 use CURLFile;
 use RuntimeException;
 
-class Curl
+final class Curl
 {
 	/**
 	 * @var int Type AUTH_BASIC

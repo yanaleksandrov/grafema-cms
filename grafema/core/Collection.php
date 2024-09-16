@@ -9,7 +9,7 @@
 
 namespace Grafema;
 
-class Collection {
+final class Collection {
 
 	/**
 	 * Iterates over data elements provided by a callback function using a generator.

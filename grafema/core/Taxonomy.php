@@ -7,7 +7,7 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-class Taxonomy {
+final class Taxonomy {
 
 	/**
 	 * DataBase table name.

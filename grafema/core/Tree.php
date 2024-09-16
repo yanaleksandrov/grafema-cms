@@ -16,7 +16,7 @@ use Grafema\Helpers\Arr;
  *
  * @since 2025.1
  */
-class Tree
+final class Tree
 {
 	use \Grafema\Patterns\Multiton;
 

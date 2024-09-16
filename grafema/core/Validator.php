@@ -105,7 +105,7 @@ namespace Grafema;
  * @since   2025.1
  * @package Grafema
  */
-class Validator {
+final class Validator {
 
 	/**
 	 * Incoming fields and their values

@@ -1980,17 +1980,6 @@ final class Constants
 					'nplurals' => 3,
 					'plural' => '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'
 				],
-				'rue' => [
-					'name' => 'Rusyn',
-					'native' => 'Русиньскый',
-					'rtl' => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => null,
-					'locale' => 'rue',
-					'country' => '',
-					'nplurals' => 3,
-					'plural' => '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'
-				],
 				'rup' => [
 					'name' => 'Aromanian',
 					'native' => 'Armãneashce',

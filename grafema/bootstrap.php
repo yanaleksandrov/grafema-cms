@@ -460,6 +460,13 @@ try {
 					]
 				)
 			);
+//			$content = View::get(
+//				GRFM_DASHBOARD . 'index',
+//				[
+//					'route' => $route,
+//					'slug'  => $slug,
+//				]
+//			);
 
 			/**
 			 * Grafema dashboard is fully loaded.

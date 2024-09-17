@@ -21,22 +21,26 @@ document.addEventListener( 'alpine:init', () => {
 			xhr.onloadstart = xhr.upload.onprogress = event => progressCallback?.(onProgress(event, xhr));
 			xhr.onloadend   = event => progressCallback?.(onProgress(event, xhr));
 			xhr.onload      = event => {
-				let {data, fragments} = xhr.response;
+				try {
+					let {data, fragments} = xhr.response;
 
-				document.dispatchEvent(
-					new CustomEvent(route, {
-						detail: {data: data, event, el, resolve},
-						bubbles: true,
-						// Allows events to pass the shadow DOM barrier.
-						composed: true,
-						cancelable: true
-					})
-				);
+					document.dispatchEvent(
+						new CustomEvent(route, {
+							detail: {data: data, event, el, resolve},
+							bubbles: true,
+							// Allows events to pass the shadow DOM barrier.
+							composed: true,
+							cancelable: true
+						})
+					);
 
-				if (fragments) {
-					fragments.forEach(({method, fragment, selectors, delay}) => {
-						parseFragment(method, fragment, selectors, delay)
-					});
+					if (fragments) {
+						fragments.forEach(({method, fragment, selectors, delay}) => {
+							parseFragment(method, fragment, selectors, delay)
+						});
+					}
+				} catch (e) {
+					console.error(e);
 				}
 
 				onloadEvent && onloadEvent();

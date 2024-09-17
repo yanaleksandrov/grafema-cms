@@ -311,7 +311,7 @@ final class Constants
 				[
 					'name' => 'Afar',
 					'native' => 'Afaraf',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'aa',
 					'iso_639_2' => 'aar',
 					'locale' => '',
@@ -322,7 +322,7 @@ final class Constants
 				[
 					'name' => 'Avestan',
 					'native' => 'Avesta',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ae',
 					'iso_639_2' => 'ave',
 					'locale' => '',
@@ -333,7 +333,7 @@ final class Constants
 				[
 					'name' => 'Afrikaans',
 					'native' => 'Afrikaans',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'af',
 					'iso_639_2' => 'afr',
 					'locale' => 'af',
@@ -344,7 +344,7 @@ final class Constants
 				[
 					'name' => 'Akan',
 					'native' => 'Akan',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ak',
 					'iso_639_2' => 'aka',
 					'locale' => 'ak',
@@ -355,7 +355,7 @@ final class Constants
 				[
 					'name' => 'Amharic',
 					'native' => 'አማርኛ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'am',
 					'iso_639_2' => 'amh',
 					'locale' => 'am',
@@ -366,7 +366,7 @@ final class Constants
 				[
 					'name' => 'Aragonese',
 					'native' => 'Aragonés',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'an',
 					'iso_639_2' => 'arg',
 					'locale' => '',
@@ -377,7 +377,7 @@ final class Constants
 				[
 					'name' => 'Arabic',
 					'native' => 'العربية',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ar',
 					'iso_639_2' => 'ara',
 					'locale' => 'ar',
@@ -388,7 +388,7 @@ final class Constants
 				[
 					'name' => 'Algerian Arabic',
 					'native' => 'الدارجة الجزايرية',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ar',
 					'iso_639_2' => null,
 					'locale' => 'arq',
@@ -399,7 +399,7 @@ final class Constants
 				[
 					'name' => 'Moroccan Arabic',
 					'native' => 'العربية المغربية',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ar',
 					'iso_639_2' => null,
 					'locale' => 'ary',
@@ -410,7 +410,7 @@ final class Constants
 				[
 					'name' => 'Assamese',
 					'native' => 'অসমীয়া',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'as',
 					'iso_639_2' => 'asm',
 					'locale' => 'as',
@@ -421,7 +421,7 @@ final class Constants
 				[
 					'name' => 'Asturian',
 					'native' => 'Asturianu',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'ast',
 					'locale' => '',
@@ -432,7 +432,7 @@ final class Constants
 				[
 					'name' => 'Avaric',
 					'native' => 'авар мацӀ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'av',
 					'iso_639_2' => 'ava',
 					'locale' => '',
@@ -443,7 +443,7 @@ final class Constants
 				[
 					'name' => 'Aymara',
 					'native' => 'aymar aru',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ay',
 					'iso_639_2' => 'aym',
 					'locale' => 'ay-BO',
@@ -454,7 +454,7 @@ final class Constants
 				[
 					'name' => 'Azerbaijani',
 					'native' => 'Azərbaycan dili',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'az',
 					'iso_639_2' => 'aze',
 					'locale' => 'az',
@@ -465,7 +465,7 @@ final class Constants
 				[
 					'name' => 'South Azerbaijani',
 					'native' => 'گؤنئی آذربایجان',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'az',
 					'iso_639_2' => null,
 					'locale' => 'azb',
@@ -476,7 +476,7 @@ final class Constants
 				[
 					'name' => 'Azerbaijani (Turkey)',
 					'native' => 'Azərbaycan Türkcəsi',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'az',
 					'iso_639_2' => 'aze',
 					'locale' => 'az-TR',
@@ -487,7 +487,7 @@ final class Constants
 				[
 					'name' => 'Bashkir',
 					'native' => 'башҡорт теле',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ba',
 					'iso_639_2' => 'bak',
 					'locale' => 'ba',
@@ -498,7 +498,7 @@ final class Constants
 				[
 					'name' => 'Catalan (Balear)',
 					'native' => 'Català (Balear)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'bal',
 					'locale' => 'bal',
@@ -509,7 +509,7 @@ final class Constants
 				[
 					'name' => 'Balochi Southern',
 					'native' => 'بلوچی مکرانی',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'bcc',
@@ -520,7 +520,7 @@ final class Constants
 				[
 					'name' => 'Belarusian',
 					'native' => 'Беларуская мова',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'be',
 					'iso_639_2' => 'bel',
 					'locale' => 'bel',
@@ -531,7 +531,7 @@ final class Constants
 				[
 					'name' => 'Bulgarian',
 					'native' => 'Български',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bg',
 					'iso_639_2' => 'bul',
 					'locale' => 'bg-BG',
@@ -542,7 +542,7 @@ final class Constants
 				[
 					'name' => 'Bihari',
 					'native' => 'भोजपुरी',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bh',
 					'iso_639_2' => 'bih',
 					'locale' => '',
@@ -553,7 +553,7 @@ final class Constants
 				[
 					'name' => 'Bislama',
 					'native' => 'Bislama',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bi',
 					'iso_639_2' => 'bis',
 					'locale' => '',
@@ -564,7 +564,7 @@ final class Constants
 				[
 					'name' => 'Bambara',
 					'native' => 'Bamanankan',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bm',
 					'iso_639_2' => 'bam',
 					'locale' => '',
@@ -575,7 +575,7 @@ final class Constants
 				[
 					'name' => 'Bengali',
 					'native' => 'বাংলা',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bn',
 					'iso_639_2' => 'ben',
 					'locale' => 'bn-BD',
@@ -586,7 +586,7 @@ final class Constants
 				[
 					'name' => 'Tibetan',
 					'native' => 'བོད་སྐད',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bo',
 					'iso_639_2' => 'tib',
 					'locale' => 'bo',
@@ -597,7 +597,7 @@ final class Constants
 				[
 					'name' => 'Breton',
 					'native' => 'Brezhoneg',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'br',
 					'iso_639_2' => 'bre',
 					'locale' => 'bre',
@@ -608,7 +608,7 @@ final class Constants
 				[
 					'name' => 'Bosnian',
 					'native' => 'Bosanski',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'bs',
 					'iso_639_2' => 'bos',
 					'locale' => 'bs-BA',
@@ -619,7 +619,7 @@ final class Constants
 				[
 					'name' => 'Catalan',
 					'native' => 'Català',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ca',
 					'iso_639_2' => 'cat',
 					'locale' => 'ca',
@@ -630,7 +630,7 @@ final class Constants
 				[
 					'name' => 'Chechen',
 					'native' => 'Нохчийн мотт',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ce',
 					'iso_639_2' => 'che',
 					'locale' => '',
@@ -641,7 +641,7 @@ final class Constants
 				[
 					'name' => 'Cebuano',
 					'native' => 'Cebuano',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'ceb',
 					'locale' => 'ceb',
@@ -652,7 +652,7 @@ final class Constants
 				[
 					'name' => 'Chamorro',
 					'native' => 'Chamoru',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ch',
 					'iso_639_2' => 'cha',
 					'locale' => '',
@@ -663,7 +663,7 @@ final class Constants
 				[
 					'name' => 'Kurdish (Sorani)',
 					'native' => 'كوردی‎',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ku',
 					'iso_639_2' => null,
 					'locale' => 'ckb',
@@ -674,7 +674,7 @@ final class Constants
 				[
 					'name' => 'Corsican',
 					'native' => 'Corsu',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'co',
 					'iso_639_2' => 'cos',
 					'locale' => 'co',
@@ -685,7 +685,7 @@ final class Constants
 				[
 					'name' => 'Cree',
 					'native' => 'ᓀᐦᐃᔭᐍᐏᐣ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'cr',
 					'iso_639_2' => 'cre',
 					'locale' => '',
@@ -696,7 +696,7 @@ final class Constants
 				[
 					'name' => 'Czech',
 					'native' => 'Čeština‎',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'cs',
 					'iso_639_2' => 'ces',
 					'locale' => 'cs-CZ',
@@ -707,7 +707,7 @@ final class Constants
 				[
 					'name' => 'Kashubian',
 					'native' => 'Kaszëbsczi',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'csb',
 					'locale' => '',
@@ -718,7 +718,7 @@ final class Constants
 				[
 					'name' => 'Church Slavic',
 					'native' => 'ѩзыкъ словѣньскъ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'cu',
 					'iso_639_2' => 'chu',
 					'locale' => '',
@@ -729,7 +729,7 @@ final class Constants
 				[
 					'name' => 'Chuvash',
 					'native' => 'чӑваш чӗлхи',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'cv',
 					'iso_639_2' => 'chv',
 					'locale' => '',
@@ -740,7 +740,7 @@ final class Constants
 				[
 					'name' => 'Welsh',
 					'native' => 'Cymraeg',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'cy',
 					'iso_639_2' => 'cym',
 					'locale' => 'cy',
@@ -751,7 +751,7 @@ final class Constants
 				[
 					'name' => 'Danish',
 					'native' => 'Dansk',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'da',
 					'iso_639_2' => 'dan',
 					'locale' => 'da-DK',
@@ -762,7 +762,7 @@ final class Constants
 				[
 					'name' => 'German',
 					'native' => 'Deutsch',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'de',
 					'iso_639_2' => 'deu',
 					'locale' => 'de-DE',
@@ -773,7 +773,7 @@ final class Constants
 				[
 					'name' => 'German (Switzerland)',
 					'native' => 'Deutsch (Schweiz)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'de',
 					'iso_639_2' => null,
 					'locale' => 'de-CH',
@@ -784,7 +784,7 @@ final class Constants
 				[
 					'name' => 'Dhivehi',
 					'native' => 'ދިވެހި',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'dv',
 					'iso_639_2' => 'div',
 					'locale' => 'dv',
@@ -795,7 +795,7 @@ final class Constants
 				[
 					'name' => 'Dzongkha',
 					'native' => 'རྫོང་ཁ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'dz',
 					'iso_639_2' => 'dzo',
 					'locale' => 'dzo',
@@ -806,7 +806,7 @@ final class Constants
 				[
 					'name' => 'Ewe',
 					'native' => 'Eʋegbe',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ee',
 					'iso_639_2' => 'ewe',
 					'locale' => '',
@@ -817,7 +817,7 @@ final class Constants
 				[
 					'name' => 'Greek (Polytonic)',
 					'native' => 'Greek (Polytonic)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => '',
@@ -828,7 +828,7 @@ final class Constants
 				[
 					'name' => 'Greek',
 					'native' => 'Ελληνικά',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'el',
 					'iso_639_2' => 'ell',
 					'locale' => 'el',
@@ -839,7 +839,7 @@ final class Constants
 				[
 					'name' => 'Emoji',
 					'native' => '🌏🌍🌎 (Emoji)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'art',
 					'locale' => 'art-xemoji',
@@ -850,7 +850,7 @@ final class Constants
 				[
 					'name' => 'English',
 					'native' => 'English',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-US',
@@ -861,7 +861,7 @@ final class Constants
 				[
 					'name' => 'English (Australia)',
 					'native' => 'English (Australia)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-AU',
@@ -872,7 +872,7 @@ final class Constants
 				[
 					'name' => 'English (Canada)',
 					'native' => 'English (Canada)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-CA',
@@ -883,7 +883,7 @@ final class Constants
 				[
 					'name' => 'English (UK)',
 					'native' => 'English (UK)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-GB',
@@ -894,7 +894,7 @@ final class Constants
 				[
 					'name' => 'English (New Zealand)',
 					'native' => 'English (New Zealand)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-NZ',
@@ -905,7 +905,7 @@ final class Constants
 				[
 					'name' => 'English (South Africa)',
 					'native' => 'English (South Africa)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'en',
 					'iso_639_2' => 'eng',
 					'locale' => 'en-ZA',
@@ -916,7 +916,7 @@ final class Constants
 				[
 					'name' => 'Esperanto',
 					'native' => 'Esperanto',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'eo',
 					'iso_639_2' => 'epo',
 					'locale' => 'eo',
@@ -927,7 +927,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Spain)',
 					'native' => 'Español',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-ES',
@@ -938,7 +938,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Argentina)',
 					'native' => 'Español de Argentina',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-AR',
@@ -949,7 +949,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Chile)',
 					'native' => 'Español de Chile',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-CL',
@@ -960,7 +960,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Colombia)',
 					'native' => 'Español de Colombia',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-CO',
@@ -971,7 +971,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Guatemala)',
 					'native' => 'Español de Guatemala',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-GT',
@@ -982,7 +982,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Mexico)',
 					'native' => 'Español de México',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-MX',
@@ -993,7 +993,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Peru)',
 					'native' => 'Español de Perú',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-PE',
@@ -1004,7 +1004,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Puerto Rico)',
 					'native' => 'Español de Puerto Rico',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-PR',
@@ -1015,7 +1015,7 @@ final class Constants
 				[
 					'name' => 'Spanish (Venezuela)',
 					'native' => 'Español de Venezuela',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'es',
 					'iso_639_2' => 'spa',
 					'locale' => 'es-VE',
@@ -1026,7 +1026,7 @@ final class Constants
 				[
 					'name' => 'Estonian',
 					'native' => 'Eesti',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'et',
 					'iso_639_2' => 'est',
 					'locale' => 'et',
@@ -1037,7 +1037,7 @@ final class Constants
 				[
 					'name' => 'Basque',
 					'native' => 'Euskara',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'eu',
 					'iso_639_2' => 'eus',
 					'locale' => 'eu',
@@ -1048,7 +1048,7 @@ final class Constants
 				[
 					'name' => 'Persian',
 					'native' => 'فارسی',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'fa',
 					'iso_639_2' => 'fas',
 					'locale' => 'fa-IR',
@@ -1059,7 +1059,7 @@ final class Constants
 				[
 					'name' => 'Persian (Afghanistan)',
 					'native' => '(فارسی (افغانستان',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'fa',
 					'iso_639_2' => 'fas',
 					'locale' => 'fa-AF',
@@ -1070,7 +1070,7 @@ final class Constants
 				[
 					'name' => 'Fulah',
 					'native' => 'Pulaar',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ff',
 					'iso_639_2' => 'fuc',
 					'locale' => 'fuc',
@@ -1081,7 +1081,7 @@ final class Constants
 				[
 					'name' => 'Finnish',
 					'native' => 'Suomi',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fi',
 					'iso_639_2' => 'fin',
 					'locale' => 'fi',
@@ -1092,7 +1092,7 @@ final class Constants
 				[
 					'name' => 'Fijian',
 					'native' => 'Vosa Vakaviti',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fj',
 					'iso_639_2' => 'fij',
 					'locale' => '',
@@ -1103,7 +1103,7 @@ final class Constants
 				[
 					'name' => 'Faroese',
 					'native' => 'Føroyskt',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fo',
 					'iso_639_2' => 'fao',
 					'locale' => 'fo',
@@ -1114,7 +1114,7 @@ final class Constants
 				[
 					'name' => 'French (France)',
 					'native' => 'Français',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fr',
 					'iso_639_2' => 'fra',
 					'locale' => 'fr-FR',
@@ -1125,7 +1125,7 @@ final class Constants
 				[
 					'name' => 'French (Belgium)',
 					'native' => 'Français de Belgique',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fr',
 					'iso_639_2' => 'fra',
 					'locale' => 'fr-BE',
@@ -1136,7 +1136,7 @@ final class Constants
 				[
 					'name' => 'French (Canada)',
 					'native' => 'Français du Canada',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fr',
 					'iso_639_2' => 'fra',
 					'locale' => 'fr-CA',
@@ -1147,7 +1147,7 @@ final class Constants
 				[
 					'name' => 'French (Switzerland)',
 					'native' => 'Français de Suisse',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fr',
 					'iso_639_2' => 'fra',
 					'locale' => '',
@@ -1158,7 +1158,7 @@ final class Constants
 				[
 					'name' => 'Arpitan',
 					'native' => 'Arpitan',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'frp',
@@ -1169,7 +1169,7 @@ final class Constants
 				[
 					'name' => 'Friulian',
 					'native' => 'Friulian',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'fur',
 					'locale' => 'fur',
@@ -1180,7 +1180,7 @@ final class Constants
 				[
 					'name' => 'Frisian',
 					'native' => 'Frysk',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'fy',
 					'iso_639_2' => 'fry',
 					'locale' => 'fy',
@@ -1191,7 +1191,7 @@ final class Constants
 				[
 					'name' => 'Irish',
 					'native' => 'Gaelige',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ga',
 					'iso_639_2' => 'gle',
 					'locale' => 'ga',
@@ -1202,7 +1202,7 @@ final class Constants
 				[
 					'name' => 'Scottish Gaelic',
 					'native' => 'Gàidhlig',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'gd',
 					'iso_639_2' => 'gla',
 					'locale' => 'gd',
@@ -1213,7 +1213,7 @@ final class Constants
 				[
 					'name' => 'Galician',
 					'native' => 'Galego',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'gl',
 					'iso_639_2' => 'glg',
 					'locale' => 'gl-ES',
@@ -1224,7 +1224,7 @@ final class Constants
 				[
 					'name' => 'Guaraní',
 					'native' => 'Avañe’ẽ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'gn',
 					'iso_639_2' => 'grn',
 					'locale' => 'gn',
@@ -1235,7 +1235,7 @@ final class Constants
 				[
 					'name' => 'Swiss German',
 					'native' => 'Schwyzerdütsch',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'gsw',
 					'locale' => 'gsw',
@@ -1246,7 +1246,7 @@ final class Constants
 				[
 					'name' => 'Gujarati',
 					'native' => 'ગુજરાતી',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'gu',
 					'iso_639_2' => 'guj',
 					'locale' => 'gu',
@@ -1257,7 +1257,7 @@ final class Constants
 				[
 					'name' => 'Hausa',
 					'native' => 'هَوُسَ',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ha',
 					'iso_639_2' => 'hau',
 					'locale' => 'ha-NG',
@@ -1268,7 +1268,7 @@ final class Constants
 				[
 					'name' => 'Hawaiian',
 					'native' => 'Ōlelo Hawaiʻi',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'haw',
 					'locale' => 'haw-US',
@@ -1279,7 +1279,7 @@ final class Constants
 				[
 					'name' => 'Hazaragi',
 					'native' => 'هزاره گی',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'haz',
@@ -1290,7 +1290,7 @@ final class Constants
 				[
 					'name' => 'Hebrew',
 					'native' => 'עִבְרִית',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'he',
 					'iso_639_2' => 'heb',
 					'locale' => 'he-IL',
@@ -1301,7 +1301,7 @@ final class Constants
 				[
 					'name' => 'Hindi',
 					'native' => 'हिन्दी',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'hi',
 					'iso_639_2' => 'hin',
 					'locale' => 'hi-IN',
@@ -1312,7 +1312,7 @@ final class Constants
 				[
 					'name' => 'Croatian',
 					'native' => 'Hrvatski',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'hr',
 					'iso_639_2' => 'hrv',
 					'locale' => 'hr',
@@ -1323,7 +1323,7 @@ final class Constants
 				[
 					'name' => 'Hungarian',
 					'native' => 'Magyar',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'hu',
 					'iso_639_2' => 'hun',
 					'locale' => 'hu-HU',
@@ -1334,7 +1334,7 @@ final class Constants
 				[
 					'name' => 'Armenian',
 					'native' => 'Հայերեն',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'hy',
 					'iso_639_2' => 'hye',
 					'locale' => 'hy',
@@ -1345,7 +1345,7 @@ final class Constants
 				[
 					'name' => 'Interlingua',
 					'native' => 'Interlingua',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ia',
 					'iso_639_2' => 'ina',
 					'locale' => '',
@@ -1356,7 +1356,7 @@ final class Constants
 				[
 					'name' => 'Indonesian',
 					'native' => 'Bahasa Indonesia',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'id',
 					'iso_639_2' => 'ind',
 					'locale' => 'id-ID',
@@ -1367,7 +1367,7 @@ final class Constants
 				[
 					'name' => 'Ido',
 					'native' => 'Ido',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'io',
 					'iso_639_2' => 'ido',
 					'locale' => 'ido',
@@ -1378,7 +1378,7 @@ final class Constants
 				[
 					'name' => 'Inuktitut',
 					'native' => 'ᐃᓄᒃᑎᑐᑦ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'iu',
 					'iso_639_2' => 'iku',
 					'locale' => '',
@@ -1389,7 +1389,7 @@ final class Constants
 				[
 					'name' => 'Iloko',
 					'native' => 'Pagsasao nga Iloko',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'ilo',
 					'locale' => '',
@@ -1400,7 +1400,7 @@ final class Constants
 				[
 					'name' => 'Icelandic',
 					'native' => 'Íslenska',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'is',
 					'iso_639_2' => 'isl',
 					'locale' => 'is-IS',
@@ -1411,7 +1411,7 @@ final class Constants
 				[
 					'name' => 'Italian',
 					'native' => 'Italiano',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'it',
 					'iso_639_2' => 'ita',
 					'locale' => 'it-IT',
@@ -1422,7 +1422,7 @@ final class Constants
 				[
 					'name' => 'Japanese',
 					'native' => '日本語',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ja',
 					'iso_639_2' => 'jpn',
 					'locale' => 'ja',
@@ -1433,7 +1433,7 @@ final class Constants
 				[
 					'name' => 'Javanese',
 					'native' => 'Basa Jawa',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'jv',
 					'iso_639_2' => 'jav',
 					'locale' => 'jv-ID',
@@ -1444,7 +1444,7 @@ final class Constants
 				[
 					'name' => 'Georgian',
 					'native' => 'ქართული',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ka',
 					'iso_639_2' => 'kat',
 					'locale' => 'ka-GE',
@@ -1455,7 +1455,7 @@ final class Constants
 				[
 					'name' => 'Kabyle',
 					'native' => 'Taqbaylit',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'kab',
 					'locale' => 'kab',
@@ -1466,7 +1466,7 @@ final class Constants
 				[
 					'name' => 'Greenlandic',
 					'native' => 'Kalaallisut',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'kl',
 					'iso_639_2' => 'kal',
 					'locale' => 'kal',
@@ -1477,7 +1477,7 @@ final class Constants
 				[
 					'name' => 'Kinyarwanda',
 					'native' => 'Ikinyarwanda',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'rw',
 					'iso_639_2' => 'kin',
 					'locale' => 'kin',
@@ -1488,7 +1488,7 @@ final class Constants
 				[
 					'name' => 'Kazakh',
 					'native' => 'Қазақ тілі',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'kk',
 					'iso_639_2' => 'kaz',
 					'locale' => 'kk',
@@ -1499,7 +1499,7 @@ final class Constants
 				[
 					'name' => 'Khmer',
 					'native' => 'ភាសាខ្មែរ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'km',
 					'iso_639_2' => 'khm',
 					'locale' => 'km',
@@ -1510,7 +1510,7 @@ final class Constants
 				[
 					'name' => 'Kurdish (Kurmanji)',
 					'native' => 'Kurdî',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ku',
 					'iso_639_2' => null,
 					'locale' => 'ku-TR',
@@ -1521,7 +1521,7 @@ final class Constants
 				[
 					'name' => 'Kannada',
 					'native' => 'ಕನ್ನಡ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'kn',
 					'iso_639_2' => 'kan',
 					'locale' => 'kn',
@@ -1532,7 +1532,7 @@ final class Constants
 				[
 					'name' => 'Korean',
 					'native' => '한국어',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ko',
 					'iso_639_2' => 'kor',
 					'locale' => 'ko-KR',
@@ -1543,7 +1543,7 @@ final class Constants
 				[
 					'name' => 'Kashmiri',
 					'native' => 'कश्मीरी',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ks',
 					'iso_639_2' => 'kas',
 					'locale' => '',
@@ -1554,7 +1554,7 @@ final class Constants
 				[
 					'name' => 'Kirghiz',
 					'native' => 'кыргыз тили',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ky',
 					'iso_639_2' => 'kir',
 					'locale' => 'ky-KY',
@@ -1565,7 +1565,7 @@ final class Constants
 				[
 					'name' => 'Latin',
 					'native' => 'Latine',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'la',
 					'iso_639_2' => 'lat',
 					'locale' => 'la-VA',
@@ -1576,7 +1576,7 @@ final class Constants
 				[
 					'name' => 'Luxembourgish',
 					'native' => 'Lëtzebuergesch',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'lb',
 					'iso_639_2' => 'ltz',
 					'locale' => 'lb-LU',
@@ -1587,7 +1587,7 @@ final class Constants
 				[
 					'name' => 'Limburgish',
 					'native' => 'Limburgs',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'li',
 					'iso_639_2' => 'lim',
 					'locale' => 'li',
@@ -1598,7 +1598,7 @@ final class Constants
 				[
 					'name' => 'Lingala',
 					'native' => 'Ngala',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ln',
 					'iso_639_2' => 'lin',
 					'locale' => 'lin',
@@ -1609,7 +1609,7 @@ final class Constants
 				[
 					'name' => 'Lao',
 					'native' => 'ພາສາລາວ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'lo',
 					'iso_639_2' => 'lao',
 					'locale' => 'lo',
@@ -1620,7 +1620,7 @@ final class Constants
 				[
 					'name' => 'Lithuanian',
 					'native' => 'Lietuvių kalba',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'lt',
 					'iso_639_2' => 'lit',
 					'locale' => 'lt-LT',
@@ -1631,7 +1631,7 @@ final class Constants
 				[
 					'name' => 'Latvian',
 					'native' => 'Latviešu valoda',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'lv',
 					'iso_639_2' => 'lav',
 					'locale' => 'lv',
@@ -1642,7 +1642,7 @@ final class Constants
 				[
 					'name' => 'Montenegrin',
 					'native' => 'Crnogorski jezik',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'me',
 					'iso_639_2' => null,
 					'locale' => 'me-ME',
@@ -1653,7 +1653,7 @@ final class Constants
 				[
 					'name' => 'Malagasy',
 					'native' => 'Malagasy',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'mg',
 					'iso_639_2' => 'mlg',
 					'locale' => 'mg-MG',
@@ -1664,7 +1664,7 @@ final class Constants
 				[
 					'name' => 'Mari (Meadow)',
 					'native' => 'Олык марий',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => '',
@@ -1675,7 +1675,7 @@ final class Constants
 				[
 					'name' => 'Macedonian',
 					'native' => 'Македонски јазик',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'mk',
 					'iso_639_2' => 'mkd',
 					'locale' => 'mk-MK',
@@ -1686,7 +1686,7 @@ final class Constants
 				[
 					'name' => 'Malayalam',
 					'native' => 'മലയാളം',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ml',
 					'iso_639_2' => 'mal',
 					'locale' => 'ml-IN',
@@ -1697,7 +1697,7 @@ final class Constants
 				[
 					'name' => 'Mongolian',
 					'native' => 'Монгол',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'mn',
 					'iso_639_2' => 'mon',
 					'locale' => 'mn',
@@ -1708,7 +1708,7 @@ final class Constants
 				[
 					'name' => 'Marathi',
 					'native' => 'मराठी',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'mr',
 					'iso_639_2' => 'mar',
 					'locale' => 'mr',
@@ -1719,7 +1719,7 @@ final class Constants
 				[
 					'name' => 'Maori',
 					'native' => 'Te Reo Māori',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'mi',
 					'iso_639_2' => null,
 					'locale' => 'mri',
@@ -1730,7 +1730,7 @@ final class Constants
 				[
 					'name' => 'Mari (Hill)',
 					'native' => 'Кырык мары',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => '',
@@ -1741,7 +1741,7 @@ final class Constants
 				[
 					'name' => 'Malay',
 					'native' => 'Bahasa Melayu',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ms',
 					'iso_639_2' => 'msa',
 					'locale' => 'ms-MY',
@@ -1752,7 +1752,7 @@ final class Constants
 				[
 					'name' => 'Mirandese',
 					'native' => 'Mirandés',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'mwl',
 					'locale' => '',
@@ -1763,7 +1763,7 @@ final class Constants
 				[
 					'name' => 'Myanmar (Burmese)',
 					'native' => 'ဗမာစာ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'my',
 					'iso_639_2' => 'mya',
 					'locale' => 'my-MM',
@@ -1774,7 +1774,7 @@ final class Constants
 				[
 					'name' => 'Nepali',
 					'native' => 'नेपाली',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ne',
 					'iso_639_2' => 'nep',
 					'locale' => 'ne-NP',
@@ -1785,7 +1785,7 @@ final class Constants
 				[
 					'name' => 'Norwegian (Bokmål)',
 					'native' => 'Norsk bokmål',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'nb',
 					'iso_639_2' => 'nob',
 					'locale' => 'nb-NO',
@@ -1796,7 +1796,7 @@ final class Constants
 				[
 					'name' => 'Dutch',
 					'native' => 'Nederlands',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'nl',
 					'iso_639_2' => 'nld',
 					'locale' => 'nl-NL',
@@ -1807,7 +1807,7 @@ final class Constants
 				[
 					'name' => 'Dutch (Belgium)',
 					'native' => 'Nederlands (België)',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'nl',
 					'iso_639_2' => 'nld',
 					'locale' => 'nl-BE',
@@ -1818,7 +1818,7 @@ final class Constants
 				[
 					'name' => 'Norwegian (Nynorsk)',
 					'native' => 'Norsk nynorsk',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'nn',
 					'iso_639_2' => 'nno',
 					'locale' => 'nn-NO',
@@ -1829,7 +1829,7 @@ final class Constants
 				[
 					'name' => 'Norwegian',
 					'native' => 'Norsk',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'no',
 					'iso_639_2' => 'nor',
 					'locale' => '',
@@ -1840,7 +1840,7 @@ final class Constants
 				[
 					'name' => 'Occitan',
 					'native' => 'Occitan',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'oc',
 					'iso_639_2' => 'oci',
 					'locale' => 'oci',
@@ -1851,7 +1851,7 @@ final class Constants
 				[
 					'name' => 'Oromo',
 					'native' => 'Afaan Oromo',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'om',
 					'iso_639_2' => 'orm',
 					'locale' => '',
@@ -1862,7 +1862,7 @@ final class Constants
 				[
 					'name' => 'Oriya',
 					'native' => 'ଓଡ଼ିଆ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'or',
 					'iso_639_2' => 'ory',
 					'locale' => 'ory',
@@ -1873,7 +1873,7 @@ final class Constants
 				[
 					'name' => 'Ossetic',
 					'native' => 'Ирон',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'os',
 					'iso_639_2' => 'oss',
 					'locale' => 'os',
@@ -1884,7 +1884,7 @@ final class Constants
 				[
 					'name' => 'Punjabi',
 					'native' => 'ਪੰਜਾਬੀ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'pa',
 					'iso_639_2' => 'pan',
 					'locale' => 'pa-IN',
@@ -1895,7 +1895,7 @@ final class Constants
 				[
 					'name' => 'Polish',
 					'native' => 'Polski',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'pl',
 					'iso_639_2' => 'pol',
 					'locale' => 'pl-PL',
@@ -1906,7 +1906,7 @@ final class Constants
 				[
 					'name' => 'Portuguese (Brazil)',
 					'native' => 'Português do Brasil',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'pt',
 					'iso_639_2' => 'por',
 					'locale' => 'pt-BR',
@@ -1917,7 +1917,7 @@ final class Constants
 				[
 					'name' => 'Portuguese (Portugal)',
 					'native' => 'Português',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'pt',
 					'iso_639_2' => 'por',
 					'locale' => 'pt-PT',
@@ -1928,7 +1928,7 @@ final class Constants
 				[
 					'name' => 'Pashto',
 					'native' => 'پښتو',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ps',
 					'iso_639_2' => 'pus',
 					'locale' => 'ps',
@@ -1939,7 +1939,7 @@ final class Constants
 				[
 					'name' => 'Rohingya',
 					'native' => 'Ruáinga',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'rhg',
@@ -1950,7 +1950,7 @@ final class Constants
 				[
 					'name' => 'Romanian',
 					'native' => 'Română',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ro',
 					'iso_639_2' => 'ron',
 					'locale' => 'ro-RO',
@@ -1961,7 +1961,7 @@ final class Constants
 				[
 					'name' => 'Romansh Vallader',
 					'native' => 'Rumantsch Vallader',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'rm',
 					'locale' => 'roh',
@@ -1972,7 +1972,7 @@ final class Constants
 				[
 					'name' => 'Russian',
 					'native' => 'Русский',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ru',
 					'iso_639_2' => 'rus',
 					'locale' => 'ru-RU',
@@ -1983,7 +1983,7 @@ final class Constants
 				[
 					'name' => 'Aromanian',
 					'native' => 'Armãneashce',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'rup',
 					'locale' => 'rup-MK',
@@ -1994,7 +1994,7 @@ final class Constants
 				[
 					'name' => 'Sakha',
 					'native' => 'Сахалыы',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'sah',
 					'locale' => 'sah',
@@ -2005,7 +2005,7 @@ final class Constants
 				[
 					'name' => 'Sanskrit',
 					'native' => 'भारतम्',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sa',
 					'iso_639_2' => 'san',
 					'locale' => 'sa-IN',
@@ -2016,7 +2016,7 @@ final class Constants
 				[
 					'name' => 'Sinhala',
 					'native' => 'සිංහල',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'si',
 					'iso_639_2' => 'sin',
 					'locale' => 'si-LK',
@@ -2027,7 +2027,7 @@ final class Constants
 				[
 					'name' => 'Slovak',
 					'native' => 'Slovenčina',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sk',
 					'iso_639_2' => 'slk',
 					'locale' => 'sk-SK',
@@ -2038,7 +2038,7 @@ final class Constants
 				[
 					'name' => 'Slovenian',
 					'native' => 'Slovenščina',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sl',
 					'iso_639_2' => 'slv',
 					'locale' => 'sl-SI',
@@ -2049,7 +2049,7 @@ final class Constants
 				[
 					'name' => 'Sindhi',
 					'native' => 'سنڌي',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'sd',
 					'iso_639_2' => 'sd',
 					'locale' => 'snd',
@@ -2060,7 +2060,7 @@ final class Constants
 				[
 					'name' => 'Somali',
 					'native' => 'Afsoomaali',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'so',
 					'iso_639_2' => 'som',
 					'locale' => 'so-SO',
@@ -2071,7 +2071,7 @@ final class Constants
 				[
 					'name' => 'Albanian',
 					'native' => 'Shqip',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sq',
 					'iso_639_2' => 'sqi',
 					'locale' => 'sq',
@@ -2082,7 +2082,7 @@ final class Constants
 				[
 					'name' => 'Serbian',
 					'native' => 'Српски језик',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sr',
 					'iso_639_2' => 'srp',
 					'locale' => 'sr-RS',
@@ -2093,7 +2093,7 @@ final class Constants
 				[
 					'name' => 'Sardinian',
 					'native' => 'Sardu',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sc',
 					'iso_639_2' => 'srd',
 					'locale' => 'srd',
@@ -2104,7 +2104,7 @@ final class Constants
 				[
 					'name' => 'Sundanese',
 					'native' => 'Basa Sunda',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'su',
 					'iso_639_2' => 'sun',
 					'locale' => 'su-ID',
@@ -2115,7 +2115,7 @@ final class Constants
 				[
 					'name' => 'Swedish',
 					'native' => 'Svenska',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sv',
 					'iso_639_2' => 'swe',
 					'locale' => 'sv-SE',
@@ -2126,7 +2126,7 @@ final class Constants
 				[
 					'name' => 'Swahili',
 					'native' => 'Kiswahili',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'sw',
 					'iso_639_2' => 'swa',
 					'locale' => 'sw',
@@ -2137,7 +2137,7 @@ final class Constants
 				[
 					'name' => 'Silesian',
 					'native' => 'Ślōnskŏ gŏdka',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'szl',
@@ -2148,7 +2148,7 @@ final class Constants
 				[
 					'name' => 'Tamil',
 					'native' => 'தமிழ்',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ta',
 					'iso_639_2' => 'tam',
 					'locale' => 'ta-IN',
@@ -2159,7 +2159,7 @@ final class Constants
 				[
 					'name' => 'Tamil (Sri Lanka)',
 					'native' => 'தமிழ்',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ta',
 					'iso_639_2' => 'tam',
 					'locale' => 'ta-LK',
@@ -2170,7 +2170,7 @@ final class Constants
 				[
 					'name' => 'Tahitian',
 					'native' => 'Reo Tahiti',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ty',
 					'iso_639_2' => 'tah',
 					'locale' => 'tah',
@@ -2181,7 +2181,7 @@ final class Constants
 				[
 					'name' => 'Telugu',
 					'native' => 'తెలుగు',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'te',
 					'iso_639_2' => 'tel',
 					'locale' => 'te',
@@ -2192,7 +2192,7 @@ final class Constants
 				[
 					'name' => 'Tajik',
 					'native' => 'Тоҷикӣ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'tg',
 					'iso_639_2' => 'tgk',
 					'locale' => 'tg',
@@ -2203,7 +2203,7 @@ final class Constants
 				[
 					'name' => 'Thai',
 					'native' => 'ไทย',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'th',
 					'iso_639_2' => 'tha',
 					'locale' => 'th',
@@ -2214,7 +2214,7 @@ final class Constants
 				[
 					'name' => 'Tigrinya',
 					'native' => 'ትግርኛ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'ti',
 					'iso_639_2' => 'tir',
 					'locale' => 'tir',
@@ -2225,7 +2225,7 @@ final class Constants
 				[
 					'name' => 'Klingon',
 					'native' => 'TlhIngan',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'tlh',
 					'locale' => 'tl-ST',
@@ -2236,7 +2236,7 @@ final class Constants
 				[
 					'name' => 'Tagalog',
 					'native' => 'Tagalog',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'tl',
 					'iso_639_2' => 'tgl',
 					'locale' => 'tl',
@@ -2247,7 +2247,7 @@ final class Constants
 				[
 					'name' => 'Turkish',
 					'native' => 'Türkçe',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'tr',
 					'iso_639_2' => 'tur',
 					'locale' => 'tr-TR',
@@ -2258,7 +2258,7 @@ final class Constants
 				[
 					'name' => 'Tatar',
 					'native' => 'Татар теле',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'tt',
 					'iso_639_2' => 'tat',
 					'locale' => 'tt-RU',
@@ -2269,7 +2269,7 @@ final class Constants
 				[
 					'name' => 'Turkmen',
 					'native' => 'Türkmençe',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'tk',
 					'iso_639_2' => 'tuk',
 					'locale' => 'tuk',
@@ -2280,7 +2280,7 @@ final class Constants
 				[
 					'name' => 'Tweants',
 					'native' => 'Twents',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'twd',
@@ -2291,7 +2291,7 @@ final class Constants
 				[
 					'name' => 'Tamazight (Central Atlas)',
 					'native' => 'ⵜⴰⵎⴰⵣⵉⵖⵜ',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'tzm',
 					'locale' => 'tzm',
@@ -2302,7 +2302,7 @@ final class Constants
 				[
 					'name' => 'Udmurt',
 					'native' => 'Удмурт кыл',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'udm',
 					'locale' => '',
@@ -2313,7 +2313,7 @@ final class Constants
 				[
 					'name' => 'Uighur',
 					'native' => 'Uyƣurqə',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ug',
 					'iso_639_2' => 'uig',
 					'locale' => 'ug-CN',
@@ -2324,7 +2324,7 @@ final class Constants
 				[
 					'name' => 'Ukrainian',
 					'native' => 'Українська',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'uk',
 					'iso_639_2' => 'ukr',
 					'locale' => 'uk',
@@ -2335,7 +2335,7 @@ final class Constants
 				[
 					'name' => 'Urdu',
 					'native' => 'اردو',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'ur',
 					'iso_639_2' => 'urd',
 					'locale' => 'ur',
@@ -2346,7 +2346,7 @@ final class Constants
 				[
 					'name' => 'Uzbek',
 					'native' => 'O‘zbekcha',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'uz',
 					'iso_639_2' => 'uzb',
 					'locale' => 'uz-UZ',
@@ -2357,7 +2357,7 @@ final class Constants
 				[
 					'name' => 'Venetian',
 					'native' => 'Vèneta',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => 'roa',
 					'locale' => '',
@@ -2368,7 +2368,7 @@ final class Constants
 				[
 					'name' => 'Vietnamese',
 					'native' => 'Tiếng Việt',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'vi',
 					'iso_639_2' => 'vie',
 					'locale' => 'vi',
@@ -2379,7 +2379,7 @@ final class Constants
 				[
 					'name' => 'Walloon',
 					'native' => 'Walon',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'wa',
 					'iso_639_2' => 'wln',
 					'locale' => 'wa',
@@ -2390,7 +2390,7 @@ final class Constants
 				[
 					'name' => 'Mingrelian',
 					'native' => 'მარგალური ნინა',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => null,
 					'iso_639_2' => null,
 					'locale' => 'xmf',
@@ -2401,7 +2401,7 @@ final class Constants
 				[
 					'name' => 'Yiddish',
 					'native' => 'ייִדיש',
-					'rtl' => true,
+					'rtl' => 1,
 					'iso_639_1' => 'yi',
 					'iso_639_2' => 'yid',
 					'locale' => '',
@@ -2412,7 +2412,7 @@ final class Constants
 				[
 					'name' => 'Yoruba',
 					'native' => 'Yorùbá',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'yo',
 					'iso_639_2' => 'yor',
 					'locale' => 'yor',
@@ -2423,7 +2423,7 @@ final class Constants
 				[
 					'name' => 'Chinese (China)',
 					'native' => '简体中文',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
 					'locale' => 'zh-CN',
@@ -2434,7 +2434,7 @@ final class Constants
 				[
 					'name' => 'Chinese (Hong Kong)',
 					'native' => '香港中文版	',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
 					'locale' => 'zh-HK',
@@ -2445,7 +2445,7 @@ final class Constants
 				[
 					'name' => 'Chinese (Singapore)',
 					'native' => '中文',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
 					'locale' => '',
@@ -2456,7 +2456,7 @@ final class Constants
 				[
 					'name' => 'Chinese (Taiwan)',
 					'native' => '繁體中文',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
 					'locale' => 'zh-TW',
@@ -2467,7 +2467,7 @@ final class Constants
 				[
 					'name' => 'Chinese',
 					'native' => '中文',
-					'rtl' => false,
+					'rtl' => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
 					'locale' => '',

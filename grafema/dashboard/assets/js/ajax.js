@@ -2,7 +2,6 @@ var __webpack_exports__ = {};
 
 document.addEventListener('alpine:init', (() => {
     let onloadEvent = () => {};
-    let formData = new FormData;
     const xhr = new XMLHttpRequest;
     Alpine.magic('ajax', (el => (route, data, progressCallback) => {
         document.addEventListener(route, (({detail: {data, resolve}}) => resolve(data)));
@@ -64,6 +63,7 @@ document.addEventListener('alpine:init', (() => {
         return Math.round(number / BYTES_IN_MB * 100) / 100;
     }
     function parseFormData(el, data) {
+        let formData = new FormData;
         switch (el.tagName) {
           case 'BUTTON':
             el.classList.add('btn--load');

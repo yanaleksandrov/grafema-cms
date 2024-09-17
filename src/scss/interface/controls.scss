@@ -557,12 +557,12 @@
     top: 42px;
     border-bottom: 1px solid var(--grafema-border);
     background-color: var(--grafema-bg);
-    z-index: 20;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    z-index: 999;
 
     @media screen and (max-width: 1024px) {
       top: 52px;

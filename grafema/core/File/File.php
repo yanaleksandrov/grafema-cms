@@ -154,6 +154,7 @@ class File
 	];
 
 	/**
+	 * @param string $filepath
 	 * @since 2025.1
 	 */
 	public function __construct( string $filepath = '' )
@@ -169,6 +170,7 @@ class File
 	/**
 	 * Set target directory.
 	 *
+	 * @param string $dirpath
 	 * @return $this
 	 */
 	public function to( string $dirpath ): File
@@ -183,6 +185,10 @@ class File
 
 	/**
 	 * Write content to file.
+	 *
+	 * @param string $content
+	 * @param bool $after
+	 * @return File
 	 */
 	public function write( string $content, bool $after = true ): File
 	{
@@ -205,6 +211,9 @@ class File
 
 	/**
 	 * Rewrite some strings in file.
+	 *
+	 * @param array $content
+	 * @return File
 	 */
 	public function rewrite( array $content ): File
 	{
@@ -226,7 +235,8 @@ class File
 	 *
 	 * @param string $source name of file or directory with path
 	 * @param string $target Target directory
-	 * @param array  $files  Files to be moved
+	 * @param array $files Files to be moved
+	 * @return File
 	 */
 	public function move( string $source, string $target, array $files ): File
 	{
@@ -243,6 +253,10 @@ class File
 
 	/**
 	 * Copy file.
+	 *
+	 * @param string $new_name
+	 * @param string $postfix
+	 * @return File
 	 */
 	public function copy( string $new_name = '', string $postfix = '' ): File
 	{
@@ -285,6 +299,8 @@ class File
 	/**
 	 * Upload file to server.
 	 *
+	 * @param array $file
+	 * @param bool $skip_if_exist
 	 * @return File data about current upload or errors list
 	 *
 	 * @since  2025.1
@@ -339,6 +355,8 @@ class File
 	/**
 	 * Upload file via URL.
 	 *
+	 * @param string $url
+	 * @return File
 	 * @since  2025.1
 	 */
 	public function grab( string $url ): File
@@ -405,11 +423,20 @@ class File
 	}
 
 	/**
+	 * Read file content.
+	 *
+	 * @return string
+	 */
+	public function read(): string {
+		return file_get_contents( $this->path );
+	}
+
+	/**
 	 * Set maximum file size.
 	 *
-	 * @since 2025.1
-	 *
 	 * @param string $size String designation of the file size, e.g.: 300kb, 20Mb, 0.3Gb, 3Tb
+	 * @return File
+	 * @since 2025.1
 	 */
 	public function setMaxSize( string $size ): File
 	{
@@ -424,6 +451,8 @@ class File
 	 * Sanitizer & normalize file name: remove special chars & spaces.
 	 * Check for a file with the same name, add a prefix until we find a free name.
 	 *
+	 * @param string $filename
+	 * @return string
 	 * @since 2025.1
 	 */
 	public function setName( string $filename ): string
@@ -468,11 +497,11 @@ class File
 	/**
 	 * Set allowed mime types.
 	 *
-	 * @since 2025.1
-	 *
 	 * @param array $mimes
+	 * @return File
+	 * @since 2025.1
 	 */
-	public function setAllowedMimeTypes( $mimes ): File
+	public function setAllowedMimeTypes( array $mimes ): File
 	{
 		if ( is_array( $mimes ) ) {
 			$this->mimes = $mimes;
@@ -483,6 +512,9 @@ class File
 
 	/**
 	 * Change the mode of a file.
+	 *
+	 * @param int $mode
+	 * @return File
 	 */
 	public function setMode( int $mode ): File
 	{
@@ -578,9 +610,9 @@ class File
 	/**
 	 * Create unique signature of the file.
 	 *
+	 * @param null|array $file
+	 * @return string
 	 * @since 2025.1
-	 *
-	 * @param ?array $file
 	 */
 	private function signature( ?array $file = [] ): string
 	{

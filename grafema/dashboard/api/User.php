@@ -79,7 +79,7 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @url    GET api/user/sign-in
 	 */
-	public static function signIn(): Errors|\Grafema\User|array
+	public static function signIn(): Error|\Grafema\User|array
 	{
 		$user = \Grafema\User::login( $_POST );
 		if ( $user instanceof \Grafema\User ) {
@@ -96,7 +96,7 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 2025.1
 	 */
-	public static function signUp(): Errors|\Grafema\User|array
+	public static function signUp(): Error|\Grafema\User|array
 	{
 		$user = \Grafema\User::add( $_REQUEST ?? [] );
 		if ( $user instanceof \Grafema\User ) {
@@ -113,7 +113,7 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 2025.1
 	 */
-	public static function resetPassword(): Errors|\Grafema\User|array
+	public static function resetPassword(): Error|\Grafema\User|array
 	{
 		$email = Sanitizer::email( $_REQUEST['email'] ?? '' );
 		$user  = \Grafema\User::get( $email, 'email' );

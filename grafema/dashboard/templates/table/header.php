@@ -103,21 +103,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					    ?>
 				    </div>
 			    <?php endif; ?>
-			    <?php if ( $show ) : ?>
-				    <div class="df aic g-1" x-show="!bulk">
-					    <?php
-					    View::print(
-						    'templates/form/details',
-						    [
-							    'label'       => '<i class="ph ph-dots-three-outline-vertical"></i>',
-							    'instruction' => I18n::_t( 'Test content' ),
-							    'class'       => 'btn btn--sm btn--outline btn--icon',
-							    'content'     => Dashboard\Form::get( GRFM_DASHBOARD . 'forms/grafema-posts-options.php' ),
-						    ]
-					    );
-					    ?>
-				    </div>
-			    <?php endif; ?>
 			    <?php if ( $uploader ) : ?>
 				    <div class="df aic g-1">
 					    <button class="btn btn--sm btn--outline" @click="$dialog.open('tmpl-media-uploader', uploaderDialog)">
@@ -184,10 +169,20 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    'validator'   => '',
 							    'conditions'  => [],
 							    'attributes'  => [
-								    'x-select' => true,
-								    'name'     => 'project',
+								    'name'         => 'project',
+								    'x-model.fill' => 'project',
+								    'x-select'     => '',
 							    ],
 							    'options'     => [
+								    'core' => [
+									    'label'   => I18n::_t( 'Core' ),
+									    'options' => [
+										    'core' => [
+											    'content'     => I18n::_t( 'Grafema Core' ),
+											    'description' => I18n::_f( 'completion :percent\%', 0 ),
+										    ],
+									    ],
+								    ],
 								    'plugins' => [
 									    'label'   => I18n::_t( 'Plugins' ),
 									    'options' => [
@@ -218,7 +213,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    ]
 					    );
 					    ?>
-					    <button type="button" class="btn btn--sm btn--outline"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
+					    <button type="button" class="btn btn--sm btn--outline" @click="$ajax('translates/get', {project}).then()"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
 				    </div>
 			    <?php endif; ?>
 		    </div>

@@ -1,6 +1,5 @@
 document.addEventListener( 'alpine:init', () => {
 	let onloadEvent = () => {};
-	let formData    = new FormData();
 
 	/**
 	 * Ajax
@@ -97,6 +96,7 @@ document.addEventListener( 'alpine:init', () => {
 	 * @returns {FormData}
 	 */
 	function parseFormData(el, data) {
+		let formData = new FormData();
 		switch (el.tagName) {
 			case 'BUTTON':
 				el.classList.add('btn--load');

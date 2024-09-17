@@ -100,7 +100,7 @@
 
   &--outline {
     border: 1px solid var(--grafema-border);
-    background-color: var(--grafema-white);
+    background-color: var(--grafema-white) !important;
 
     &:hover {
       background-color: var(--grafema-bg);

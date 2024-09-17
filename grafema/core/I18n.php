@@ -62,7 +62,7 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function _t_attr( string $string ): string {
-		return Sanitizer::attribute( $string );
+		return Sanitizer::attribute( self::_t( $string ) );
 	}
 
 	/**

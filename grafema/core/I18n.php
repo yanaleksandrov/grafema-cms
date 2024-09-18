@@ -1,6 +1,8 @@
 <?php
 namespace Grafema;
 
+use Dashboard\Api\Translates;
+
 /**
  * The I18n class provides methods for handling translations in the system, including
  * regular translations, translations with formatting, and conditional translations.
@@ -17,6 +19,8 @@ namespace Grafema;
  * @since 2025.1
  */
 final class I18n extends I18n\Locale {
+
+	use I18n\Translation;
 
 	/**
 	 * Output translated string.
@@ -38,7 +42,7 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function _t( string $string ): string {
-		return self::translate( $string );
+		return self::get( $string );
 	}
 
 	/**
@@ -207,7 +211,20 @@ final class I18n extends I18n\Locale {
 	 *
 	 * @since 2025.1
 	 */
-    public static function locale( string $default = 'en' ): string {
+    public static function locale( string $default = 'en-US' ): string {
         return self::getLocale( $default );
+    }
+
+	/**
+	 * Initial setting up of translation rules.
+	 *
+	 * @param string $globPattern
+	 * @param array $paths
+	 * @return void
+	 * @since 2025.1
+	 */
+    public static function configure( string $globPattern, array $paths ): void {
+	    self::$globPattern = $globPattern;
+	    self::$rules       = $paths;
     }
 }

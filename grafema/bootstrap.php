@@ -157,6 +157,21 @@ try {
 	$route->mount('', function() use ( $route ) {
 
 		/**
+		 * Setting up the priority rule for translations.
+		 *
+		 * @since 2025.1
+		 */
+		I18n::configure(
+			'i18n/*.json',
+			[
+				GRFM_CORE      => GRFM_DASHBOARD,
+				GRFM_DASHBOARD => GRFM_DASHBOARD,
+				GRFM_PLUGINS   => GRFM_PLUGINS,
+				GRFM_THEMES    => GRFM_THEMES,
+			]
+		);
+
+		/**
 		 * Define auxiliary constants necessary for the application and make them available in any part.
 		 *
 		 * @since 2025.1
@@ -341,13 +356,6 @@ try {
 		//$plugins->uninstall();
 		//$plugins->activate();
 		//$plugins->deactivate();
-
-		/**
-		 * Triggered after Grafema plugins is loaded & ready for use.
-		 *
-		 * @since 2025.1
-		 */
-		Hook::apply( 'grafema_plugins_loaded' );
 
 		/**
 		 * Load installed and launch active themes.
@@ -539,7 +547,7 @@ Hook::apply( 'grafema_footer' );
 </body>
 </html>
 			<?php
-I18n::f( ':queriesQ :memory :memory_peak', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
+printf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
 		});
 	});
 

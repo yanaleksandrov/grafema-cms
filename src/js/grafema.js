@@ -1168,7 +1168,7 @@ document.addEventListener( 'alpine:init', () => {
 
 					if (option.parentElement.tagName === 'OPTGROUP') {
 						const optgroupLabel = option.parentElement.getAttribute('label');
-						const optgroup = acc.find(item => item.label === optgroupLabel);
+						const optgroup      = acc.find(item => item.label === optgroupLabel);
 						if (optgroup) {
 							optgroup.options.push(optionData);
 						} else {

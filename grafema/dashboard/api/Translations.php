@@ -11,14 +11,15 @@ namespace Dashboard\Api;
 
 use Grafema\Dir\Dir;
 use Grafema\File\File;
+use Grafema\I18n;
 use Grafema\Sanitizer;
 
-class Translates extends \Grafema\Api\Handler
+class Translations extends \Grafema\Api\Handler
 {
 	/**
 	 * Endpoint name.
 	 */
-	public string $endpoint = 'translates';
+	public string $endpoint = 'translations';
 
 	/**
 	 * Get media files.
@@ -79,7 +80,22 @@ class Translates extends \Grafema\Api\Handler
 		$result = array_unique( $result );
 
 		return [
-			'posts' => $result,
+			'items' => array_map( fn( $item ) => [ 'source' => $item, 'value' => '' ], $result ),
+		];
+	}
+
+	/**
+	 * Update item by ID.
+	 *
+	 * @url    PUT api/posts/$id
+	 */
+	public static function update(): array {
+		if ( $_REQUEST ) {
+
+		}
+		print_r( $_REQUEST );
+		return [
+			'method' => I18n::_t( 'The text for translation was not found' ),
 		];
 	}
 }

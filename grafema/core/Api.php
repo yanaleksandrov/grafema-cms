@@ -95,7 +95,7 @@ final class Api
 				'memory'    => Debug::memory_peak(),
 				'data'      => $data instanceof Error ? [] : $data,
 				'errors'    => $data instanceof Error ? Error::get() : [],
-			]
+			], true, true
 		);
 
 		header( 'Content-Type: application/json' );

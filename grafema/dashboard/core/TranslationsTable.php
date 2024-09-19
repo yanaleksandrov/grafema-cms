@@ -1,8 +1,10 @@
 <?php
 namespace Dashboard;
 
+use Grafema\File\File;
 use Grafema\I18n;
 use Grafema\Hook;
+use Grafema\Json;
 
 use Dashboard\Table\Row;
 use Dashboard\Table\Cell;
@@ -11,24 +13,27 @@ final class TranslationsTable {
 
 	public function data(): array {
 		Hook::add( 'grafema_dashboard_data', function( $data ) {
-			$data['items'] = [
-				[
-					'source' => 'Hello World',
-					'value'  => 'Привет Мир',
-				],
-				[
-					'source' => 'Text',
-					'value'  => 'Текст',
-				],
-				[
-					'source' => 'Hello',
-					'value'  => '',
-				],
-			];
+			$filepath = GRFM_DASHBOARD . sprintf( 'i18n/%s.json', I18n::locale() );
+			$filetext = ( new File( $filepath ) )->read();
+
+			$json  = Json::decode( $filetext, true );
+
+			foreach ( $json as $source => $value ) {
+				$data['items'][] = [ 'source' => $source, 'value'  => $value ];
+			}
+
 			return $data;
 		} );
 
 		return [ 435 ];
+	}
+
+	public function dataBefore(): string {
+		return '<form method="POST" @input.debounce.500ms="$ajax(\'translations/update\',{project}).then()">';
+	}
+
+	public function dataAfter(): string {
+		return '</form>';
 	}
 
 	public function rows(): array {

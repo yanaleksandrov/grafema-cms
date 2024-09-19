@@ -10,12 +10,12 @@ namespace Grafema\I18n;
 trait Translation {
 
 	/**
-	 *
+	 * Incoming translations routes list.
 	 *
 	 * @var array
 	 * @since 2025.1
 	 */
-	protected static array $rules = [];
+	protected static array $routes = [];
 
 	/**
 	 *
@@ -23,7 +23,7 @@ trait Translation {
 	 * @var string
 	 * @since 2025.1
 	 */
-	protected static string $globPattern = '';
+	protected static string $pattern = '';
 
 	/**
 	 * Translates a given string based on the current locale. The method checks for
@@ -40,28 +40,69 @@ trait Translation {
 	 * @since 2025.1
 	 */
 	protected static function get( string $string ): string {
-		$locale    = self::getLocale();
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 );
 		$source    = $backtrace[1] ?? [];
 
 		if ( $source ) {
 			$sourceFile = $source['file'] ?? '';
-			$pattern    = '/\/cms\/(?:plugins|core|dashboard|themes)\/([^\/]+)\/[^\/]+$/';
-			if ( preg_match( $pattern, $sourceFile, $matches ) ) {
-				$filepath = match ( true ) {
-					str_starts_with( $sourceFile, GRFM_THEMES )    => sprintf( '%s%s/i18n/%s.json', GRFM_THEMES, $matches[1] ?? '', $locale ),
-					str_starts_with( $sourceFile, GRFM_PLUGINS )   => sprintf( '%s%s/i18n/%s.json', GRFM_PLUGINS, $matches[1] ?? '', $locale ),
-					str_starts_with( $sourceFile, GRFM_DASHBOARD ),
-					str_starts_with( $sourceFile, GRFM_CORE )      => sprintf( '%si18n/%s.json', GRFM_DASHBOARD, $locale ),
-					default                                        => null
-				};
+			$segments   = array_map( fn( $key ) => basename( rtrim( $key, '/' ) ), array_keys( self::$routes ) );
+			$result     = implode( '|', $segments );
+			$pattern    = sprintf( '/(%s)\/([^\/]+)\/[^\/]+$/', $result );
 
-				if ( file_exists( $filepath ) ) {
-					$translations = json_decode( file_get_contents( $filepath ) ?? '', 1 );
-					if ( isset( $translations[ $string ] ) ) {
-						return $translations[ $string ];
+			// check that incoming path is part of exist routes
+			if ( preg_match( $pattern, $sourceFile, $matches ) ) {
+				$element   = $matches[1] ?? '';
+				$directory = $matches[2] ?? '';
+				$filename  = sprintf( self::$pattern, self::getLocale() );
+
+				// add routes storages
+				static $override = [];
+				static $routes   = [];
+
+				// try to find main & custom translations
+				foreach ( self::$routes as $route => $targetRoute ) {
+					if ( ! str_starts_with( $sourceFile, $route ) ) {
+						continue;
+					}
+
+					$targetRoute = rtrim( $targetRoute, DIRECTORY_SEPARATOR );
+					$targetDir   = basename( $targetRoute );
+					if ( $directory ) {
+						$targetRoute = str_replace( ':dirname', $directory, $targetRoute );
+					}
+
+					if ( in_array( $element, [ 'plugins', 'themes' ], true ) ) {
+						$targetDir = $element . DIRECTORY_SEPARATOR . str_replace( ':dirname', $directory, $targetDir );
+					}
+
+					$override[ $sourceFile ] ??= sprintf( '%s%s/%s.json', GRFM_I18N, $targetDir, self::getLocale() );
+					$routes[ $sourceFile ]   ??= sprintf( '%s/%s.json', $targetRoute, $filename );
+				}
+
+				if ( isset( $override[ $sourceFile ] ) ) {
+					$translation = self::gettext( $override[ $sourceFile ], $string );
+					if ( $translation !== $string ) {
+						return $translation;
 					}
 				}
+				return self::gettext( $routes[ $sourceFile ] ?? '', $string );
+			}
+		}
+		return $string;
+	}
+
+	/**
+	 * Find text from file.
+	 *
+	 * @param string $filepath
+	 * @param string $string
+	 * @return string
+	 */
+	private static function gettext( string $filepath, string $string ): string {
+		if ( file_exists( $filepath ) ) {
+			$translations = json_decode( file_get_contents( $filepath ) ?? '', 1 );
+			if ( isset( $translations[ $string ] ) ) {
+				return $translations[ $string ];
 			}
 		}
 		return $string;

@@ -162,13 +162,13 @@ try {
 		 * @since 2025.1
 		 */
 		I18n::configure(
-			'i18n/*.json',
 			[
 				GRFM_CORE      => GRFM_DASHBOARD,
 				GRFM_DASHBOARD => GRFM_DASHBOARD,
-				GRFM_PLUGINS   => GRFM_PLUGINS,
-				GRFM_THEMES    => GRFM_THEMES,
-			]
+				GRFM_PLUGINS   => GRFM_PLUGINS . ':dirname',
+				GRFM_THEMES    => GRFM_THEMES . ':dirname',
+			],
+			'i18n/%s'
 		);
 
 		/**

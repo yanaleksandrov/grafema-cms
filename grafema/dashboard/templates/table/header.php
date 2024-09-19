@@ -213,7 +213,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    ]
 					    );
 					    ?>
-					    <button type="button" class="btn btn--sm btn--outline" @click="$ajax('translates/get', {project}).then()"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
+					    <button type="button" class="btn btn--sm btn--outline" @click="$ajax('translations/get', {project})"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
 				    </div>
 			    <?php endif; ?>
 		    </div>

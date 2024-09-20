@@ -378,6 +378,7 @@ try {
 
 		// set response code
 		http_response_code( 200 );
+		header( 'Content-Type: text/html; charset=utf-8' );
 
 		/**
 		 * Add core API endpoints.
@@ -459,6 +460,9 @@ try {
 			 *
 			 * @since 2025.1
 			 */
+
+			http_response_code( 200 );
+			header( 'Content-Type: text/html; charset=utf-8' );
 			$content = ( new Html() )->beautify(
 				View::get(
 					GRFM_DASHBOARD . 'index',

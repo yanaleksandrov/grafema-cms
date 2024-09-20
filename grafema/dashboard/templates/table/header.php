@@ -31,7 +31,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ) )->values();
 ?>
 <!-- table head start -->
-<div class="table__header" x-data="{bulk: false}">
+<div class="table__header">
     <div class="mw df fww aic jcsb g-3 py-5 px-7 md:p-5">
 		<?php if ( $title ) : ?>
             <h4><?php echo $title; ?>
@@ -213,7 +213,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    ]
 					    );
 					    ?>
-					    <button type="button" class="btn btn--sm btn--outline" @click="$ajax('translations/get', {project})"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
+					    <button type="button" class="btn btn--sm btn--outline" @click="$ajax('translations/get', {project}).then(data => items = data.items)"><i class="ph ph-scan"></i> <?php I18n::t( 'Scan' ); ?></button>
 				    </div>
 			    <?php endif; ?>
 		    </div>

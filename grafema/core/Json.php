@@ -2,53 +2,72 @@
 namespace Grafema;
 
 /**
- * JSON encoder and decoder.
+ * Class Json
+ *
+ * Provides methods for encoding and decoding JSON data.
+ * This class is intended for handling JSON serialization and deserialization
+ * with options for customization, such as pretty printing and handling
+ * character encoding. It ensures that JSON data is processed correctly
+ * while providing meaningful error handling.
+ *
+ * @package Grafema
  */
 final class Json {
 
 	/**
 	 * Converts value to JSON format.
-	 * Use $pretty for easier reading and clarity,
-	 * $ascii for ASCII output and $html_safe for HTML escaping,
-	 * $force_objects enforces the encoding of non-associateve arrays as objects.
 	 *
-	 * @throws JsonException
+	 * @param mixed $value
+	 * @param bool $pretty       For easier reading and clarity.
+	 * @param bool $ascii        For ASCII output and $html_safe for HTML escaping.
+	 * @param bool $forceObjects Enforces the encoding of non-associative arrays as objects.
+	 * @return string|Error
 	 */
-	public static function encode( mixed $value, bool $pretty = false, bool $ascii = false, bool $html_safe = false, bool $force_objects = false ): string {
-		$flags = ( $ascii ? 0 : JSON_UNESCAPED_UNICODE )
-			| ( $pretty ? JSON_PRETTY_PRINT : 0 )
-			| ( $force_objects ? JSON_FORCE_OBJECT : 0 )
-			| ( $html_safe ? JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG : 0 );
+	public static function encode( mixed $value, bool $pretty = false, bool $ascii = true, bool $forceObjects = false ): string|Error {
+		$flags = JSON_UNESCAPED_SLASHES                  // do not escape slashes by default
+			| ( $ascii ? 0 : JSON_UNESCAPED_UNICODE )    // keep unicode unescaped if $ascii = false
+			| ( $pretty ? JSON_PRETTY_PRINT : 0 )        // pretty print
+			| ( $forceObjects ? JSON_FORCE_OBJECT : 0 ); // convert arrays to objects if specified
 
-		$flags |= JSON_UNESCAPED_SLASHES
-			| ( defined( 'JSON_PRESERVE_ZERO_FRACTION' ) ? JSON_PRESERVE_ZERO_FRACTION : 0 ); // since PHP 5.6.6 & PECL JSON-C 1.3.7
+		$json = json_encode( $value, $flags );
 
-		$json  = json_encode( $value, $flags );
-//		$error = json_last_error();
-//		if ( $error ) {
-//			throw new JsonException( json_last_error_msg(), $error );
-//		}
+		// check for encoding errors
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			return new Error( json_last_error_msg() );
+		}
 
 		return $json;
 	}
 
 
 	/**
-	 * Parses JSON to PHP value. The $force_arrays enforces the decoding of objects as arrays.
+	 * Parses JSON to PHP value.
 	 *
-	 * @throws JsonException
+	 * @param string $json
+	 * @param bool $forceArrays Enforces the decoding of objects as arrays.
+	 * @return mixed
 	 */
-	public static function decode( string $json, bool $force_arrays = false ): mixed {
-		$flags  = $force_arrays ? JSON_OBJECT_AS_ARRAY : 0;
+	public static function decode( string $json, bool $forceArrays = false ): mixed {
+		$flags  = $forceArrays ? JSON_OBJECT_AS_ARRAY : 0;
 		$flags |= JSON_BIGINT_AS_STRING;
 
 		$value = json_decode( $json, flags: $flags );
-		$error = json_last_error();
 
-		if ( $error === JSON_ERROR_NONE ) {
-			return $value;
+		// check for decoding errors
+		if ( json_last_error() !== JSON_ERROR_NONE ) {
+			return new Error( 'json-decode', json_last_error_msg() );
 		}
 
-		return $json;
+		return $value;
+	}
+
+	/**
+	 * Check that incoming data is valid json.
+	 *
+	 * @param mixed $data
+	 * @return bool
+	 */
+	public static function isValid( mixed $data ): bool {
+		return self::decode( $data ) instanceof Error;
 	}
 }

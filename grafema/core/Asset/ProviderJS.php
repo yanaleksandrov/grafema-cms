@@ -56,7 +56,7 @@ class ProviderJS implements ProviderInterface
 		$return  = '';
 
 		if ( $data ) {
-			$return = sprintf( "\n<script>const %s = %s</script>", $key, json_encode( $data, JSON_HEX_TAG ) );
+			$return = sprintf( "\n<script>const %s = %s</script>", $key, json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG ) );
 		}
 		return $return . sprintf( "\n<script%s></script>", ( new Helpers() )->format( $asset, $this->whitelist ) );
 	}

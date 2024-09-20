@@ -131,6 +131,10 @@ class Dir
 
 	/**
 	 * Perform a glob on the directory.
+	 *
+	 * @param string $pattern
+	 * @param int $depth
+	 * @return array
 	 */
 	public function getFiles( string $pattern = '*', int $depth = 0 ): array
 	{
@@ -146,7 +150,7 @@ class Dir
 				}
 			}
 
-			return array_filter( $files, 'is_file' );
+			return array_filter( $files ?: [], 'is_file' );
 		};
 
 		return $search( $this->path, 0 );

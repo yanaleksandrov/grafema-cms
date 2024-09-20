@@ -14,7 +14,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 ?>
-<div class="grafema-main" x-data="{bulk: false, reset: true}">
+<div class="grafema-main">
 	<?php
 	View::print(
 		'templates/table/header',

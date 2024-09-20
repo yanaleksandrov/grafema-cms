@@ -110,6 +110,10 @@
       }
     }
 
+    select:has(option[data-image]) {
+      padding-inline-start: 2.7em;
+    }
+
     input {
 
       &[type="number"] {
@@ -144,13 +148,13 @@
 
     // select
     select {
-      padding-inline: 0.8em 1.65em;
+      padding-inline: 0.85em 1.65em;
 
       + .ss-main {
         background-color: transparent;
         border: none;
         box-shadow: none;
-        padding-inline: 0.8em 2.25em;
+        padding-inline: 0.85em 2.25em;
       }
 
       &[multiple] + .ss-main {
@@ -351,6 +355,10 @@
       box-shadow: none;
       border-color: var(--grafema-border);
       background-color: var(--grafema-bg);
+
+      .field--outline & {
+        background-color: var(--grafema-white);
+      }
     }
 
     &:has(:nth-child(1 of code)) {

@@ -122,7 +122,7 @@ $start_time = microtime( true );
 
 				<details class="grafema-search" x-data="search" x-bind="wrapper">
 					<summary class="grafema-search-btn" x-bind="button">
-						<i class="ph ph-magnifying-glass"></i> <?php I18n::t_attr( 'Search...' ); ?> <code>Ctrl+F</code>
+						<i class="ph ph-magnifying-glass"></i> <?php I18n::t_attr( 'Search...' ); ?> <code>Ctrl+K</code>
 					</summary>
 					<div class="grafema-search-box">
 						<div class="field field--lg field--outline">

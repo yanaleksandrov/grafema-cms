@@ -29,7 +29,7 @@ final class TranslationsTable {
 	}
 
 	public function dataBefore(): string {
-		return '<form method="POST" @input.debounce.500ms="$ajax(\'translations/update\',{project}).then()">';
+		return '<form method="POST" @input.debounce.500ms="$ajax(\'translations/update\',{project})">';
 	}
 
 	public function dataAfter(): string {

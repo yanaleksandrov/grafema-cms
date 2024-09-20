@@ -61,7 +61,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'sticky', el => {
+	Alpine.directive('sticky', el => {
 		let style = el.parentElement.currentStyle || window.getComputedStyle(el.parentElement);
 		if (style.position !== 'relative') {
 			return false;
@@ -111,7 +111,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'autocomplete', el => {
+	Alpine.directive('autocomplete', el => {
 		el.setAttribute('readonly', true);
 		el.onfocus = () => setTimeout(() => el.removeAttribute('readonly'), 10);
 		el.onblur  = () => el.setAttribute('readonly', true);
@@ -140,7 +140,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'collapse', ( el, { modifiers }) => {
+	Alpine.directive('collapse', ( el, { modifiers }) => {
 		let duration = ( ( modifiers, key = 'duration', fallback = 350 ) => {
 			if ( modifiers.indexOf( key ) === -1 )
 				return fallback;
@@ -234,7 +234,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.magic( 'copy', el => subject => {
+	Alpine.magic('copy', el => subject => {
 		window.navigator.clipboard.writeText(subject).then(
 			() => {
 				let classes = 'ph-copy ph-check'.split(' ');
@@ -254,7 +254,7 @@ document.addEventListener( 'alpine:init', () => {
 	 * @since 1.0
 	 */
 	let seconds = 0, isCountingDown = false;
-	Alpine.magic( 'countdown', () => {
+	Alpine.magic('countdown', () => {
 		return {
 			start: (initialSeconds, processCallback, endCallback) => {
 				if (isCountingDown) {
@@ -284,100 +284,98 @@ document.addEventListener( 'alpine:init', () => {
 	 * @since 1.0
 	 */
 	let stream = null;
-	Alpine.magic( 'stream', () => {
-		return {
-			check(refs) {
-				let canvas = refs.canvas,
-					video  = refs.video,
-					image  = refs.image;
+	Alpine.magic('stream', () => ({
+		check(refs) {
+			let canvas = refs.canvas,
+				video  = refs.video,
+				image  = refs.image;
 
-				if (!canvas) {
-					console.error('Canvas element is undefined');
-					return false;
-				}
-
-				if (!video) {
-					console.error('Video for selfie preview is undefined');
-					return false;
-				}
-
-				if (!image) {
-					console.error('Image for output selfie is undefined');
-					return false;
-				}
-			},
-			isVisible(element) {
-				const styles = window.getComputedStyle(element);
-				if (styles) {
-					return !(styles.visibility === 'hidden' || styles.display === 'none' || parseFloat(styles.opacity) === 0);
-				}
+			if (!canvas) {
+				console.error('Canvas element is undefined');
 				return false;
-			},
-			start(refs) {
-				let video = refs.video;
-				const observer = new MutationObserver( mutations => {
-					for (let mutation of mutations) {
-						if (mutation.target === document.body && !stream ) {
-							setTimeout(async () => {
-								if (this.isVisible(video)) {
-									if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-										video.srcObject = stream = await navigator.mediaDevices.getUserMedia({video: true});
-									} else {
-										console.error('The browser does not support the getUserMedia API');
-									}
-								}
-							}, 500);
-						}
-					}
-				});
-				observer.observe(document, {childList: true,subtree: true,attributes: true});
-			},
-			snapshot(refs) {
-				this.check(refs);
-				this.start(refs);
-
-				let canvas = refs.canvas,
-					video  = refs.video,
-					image  = refs.image;
-
-				let width  = video.offsetWidth,
-					height = video.offsetHeight;
-
-				let imageStyles = window.getComputedStyle(image),
-					imageWidth  = parseInt(imageStyles.width, 10),
-					imageHeight = parseInt(imageStyles.height, 10);
-
-				canvas.width  = imageWidth;
-				canvas.height = imageHeight;
-
-				let offsetTop  = ( height - imageHeight ) / 2,
-					offsetLeft = ( width - imageWidth ) / 2;
-
-				let ctx = canvas.getContext('2d');
-
-				ctx.imageSmoothingQuality = 'low';
-
-				let scale = height / imageHeight;
-				console.log((offsetTop + offsetLeft) / 2)
-				//ctx.drawImage(video, 0, 0, width * 2, height * 2, 0, 0, width, height);
-				//ctx.drawImage(video, 0, 0, imageWidth, imageHeight);
-				ctx.drawImage(video, offsetLeft * 1.5, offsetTop * 1.5, height * 1.5, height * 1.5, 0, 0, imageWidth, imageHeight);
-
-				let imageData = canvas.toDataURL('image/png');
-				if ( imageData ) {
-					image.src = imageData;
-					ctx.clearRect(0, 0, canvas.width, canvas.height);
-				}
-				return imageData;
-			},
-			stop() {
-				if (stream) {
-					stream.getTracks().forEach(track => track.stop());
-				}
-				stream = null;
 			}
+
+			if (!video) {
+				console.error('Video for selfie preview is undefined');
+				return false;
+			}
+
+			if (!image) {
+				console.error('Image for output selfie is undefined');
+				return false;
+			}
+		},
+		isVisible(element) {
+			const styles = window.getComputedStyle(element);
+			if (styles) {
+				return !(styles.visibility === 'hidden' || styles.display === 'none' || parseFloat(styles.opacity) === 0);
+			}
+			return false;
+		},
+		start(refs) {
+			let video = refs.video;
+			const observer = new MutationObserver( mutations => {
+				for (let mutation of mutations) {
+					if (mutation.target === document.body && !stream ) {
+						setTimeout(async () => {
+							if (this.isVisible(video)) {
+								if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+									video.srcObject = stream = await navigator.mediaDevices.getUserMedia({video: true});
+								} else {
+									console.error('The browser does not support the getUserMedia API');
+								}
+							}
+						}, 500);
+					}
+				}
+			});
+			observer.observe(document, {childList: true,subtree: true,attributes: true});
+		},
+		snapshot(refs) {
+			this.check(refs);
+			this.start(refs);
+
+			let canvas = refs.canvas,
+				video  = refs.video,
+				image  = refs.image;
+
+			let width  = video.offsetWidth,
+				height = video.offsetHeight;
+
+			let imageStyles = window.getComputedStyle(image),
+				imageWidth  = parseInt(imageStyles.width, 10),
+				imageHeight = parseInt(imageStyles.height, 10);
+
+			canvas.width  = imageWidth;
+			canvas.height = imageHeight;
+
+			let offsetTop  = ( height - imageHeight ) / 2,
+				offsetLeft = ( width - imageWidth ) / 2;
+
+			let ctx = canvas.getContext('2d');
+
+			ctx.imageSmoothingQuality = 'low';
+
+			let scale = height / imageHeight;
+			console.log((offsetTop + offsetLeft) / 2)
+			//ctx.drawImage(video, 0, 0, width * 2, height * 2, 0, 0, width, height);
+			//ctx.drawImage(video, 0, 0, imageWidth, imageHeight);
+			ctx.drawImage(video, offsetLeft * 1.5, offsetTop * 1.5, height * 1.5, height * 1.5, 0, 0, imageWidth, imageHeight);
+
+			let imageData = canvas.toDataURL('image/png');
+			if ( imageData ) {
+				image.src = imageData;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			}
+			return imageData;
+		},
+		stop() {
+			if (stream) {
+				stream.getTracks().forEach(track => track.stop());
+			}
+			stream = null;
 		}
-	});
+	}));
 
 	/**
 	 * Smooth scrolling to the anchor
@@ -403,7 +401,7 @@ document.addEventListener( 'alpine:init', () => {
 			el.scrollIntoView({
 				behavior: 'smooth',
 			})
-		}, false )
+		}, false );
 
 		// watch the appearance of an anchor on the page and automatically add it to url
 		let evaluate = evaluateLater( expression || null );
@@ -427,18 +425,14 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'listen', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {
-		console.log(el)
-		console.log(value)
-		console.log(expression)
-		console.log(modifiers)
+	Alpine.directive('listen', (el, {value, expression, modifiers}, {evaluateLater, effect}) => {
 		if ( ! expression ) {
 			return false;
 		}
 
-		let evaluate = evaluateLater( expression )
-		effect( () => {
-			evaluate( content => {
+		let evaluate = evaluateLater(expression);
+		effect(() => {
+			evaluate(content => {
 				if ( content ) {
 					let name = "listen-node";
 
@@ -519,21 +513,21 @@ document.addEventListener( 'alpine:init', () => {
 
 					}, false )
 				}
-			} )
-		} )
-	} )
+			})
+		})
+	});
 
 	/**
 	 * Automatically adjust the height of the textarea while typing.
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'textarea', ( el, { expression } ) => {
-		if ( 'TEXTAREA' !== el.tagName.toUpperCase() ) {
+	Alpine.directive('textarea', (el, {expression}) => {
+		if ('TEXTAREA' !== el.tagName.toUpperCase()) {
 			return false;
 		}
 
-		el.addEventListener( 'input', () => {
+		el.addEventListener('input', () => {
 			let max  = parseInt(expression) || 99,
 				rows = parseInt(el.value.split( /\r|\r\n|\n/ ).length);
 			if (rows > max) {
@@ -542,7 +536,7 @@ document.addEventListener( 'alpine:init', () => {
 
 			el.style.height = 'auto';
 			el.style.height = `${el.scrollHeight}px`;
-		}, false );
+		}, false);
 	});
 
 	/**
@@ -550,13 +544,13 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'tooltip', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {
+	Alpine.directive( 'tooltip', (el, {value, expression, modifiers}, {evaluateLater, effect}) => {
 		let evaluate = evaluateLater(expression);
 		effect(() => {
 			evaluate( content => {
 				let position, trigger;
 				if (modifiers) {
-					modifiers.forEach( modifier => {
+					modifiers.forEach(modifier => {
 						position = [ 'top', 'right', 'bottom', 'left' ].includes( modifier ) ? modifier : 'top';
 						trigger  = [ 'hover', 'click' ].includes( modifier ) ? modifier : 'hover';
 					});
@@ -886,7 +880,7 @@ document.addEventListener( 'alpine:init', () => {
 		getInitials( string, letters = 2 ) {
 			const wordArray = string.split(' ').slice( 0, letters );
 			if ( wordArray.length >= 2 ) {
-				return wordArray.reduce( ( accumulator, currentValue ) => `${accumulator}${currentValue[0].charAt(0)}`.toUpperCase(), '' );
+				return wordArray.reduce((accumulator, currentValue) => `${accumulator}${currentValue[0].charAt(0)}`.toUpperCase(), '');
 			}
 			return wordArray[0].charAt(0).toUpperCase();
 		},
@@ -899,7 +893,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'datepicker', ( el, { value, expression, modifiers }, { evaluateLater, effect } ) => {
+	Alpine.directive( 'datepicker', (el, {value, expression, modifiers}, {evaluateLater, effect}) => {
 		el.setAttribute('readonly', true);
 
 		let evaluate = evaluateLater(expression || '{}');
@@ -993,7 +987,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data( 'mask', () => ( {
+	Alpine.data('mask', () => ({
 		run: mask => {
 			let elem = this.$el;
 			if( typeof mask === 'undefined' ) {
@@ -1081,14 +1075,14 @@ document.addEventListener( 'alpine:init', () => {
 				}
 			}
 		}
-	} ) );
+	}));
 
 	/**
 	 * Progress bar
 	 *
 	 * @since 1.0
 	 */
-	Alpine.directive( 'progress', (el, {modifiers}) => {
+	Alpine.directive('progress', (el, {modifiers}) => {
 		new IntersectionObserver((entries, observer) => {
 			entries.forEach(entry => {
 				if(entry.isIntersecting) {
@@ -1133,29 +1127,29 @@ document.addEventListener( 'alpine:init', () => {
 			settings.closeOnSelect = false;
 		}
 
+		let width  = el.offsetWidth;
 		const custom = JSON.parse(expression || '{}');
 		if (typeof custom === 'object') {
 			Object.assign(settings, custom);
 		}
 
 		try {
-			new SlimSelect({
+			let select = new SlimSelect({
 				settings,
 				select: el,
 				data: Array.from(el.options).reduce((acc, option) => {
-					let image       = option.getAttribute('data-image'),
-						icon        = option.getAttribute('data-icon'),
+					let image       = option.getAttribute('data-image') || '',
+						icon        = option.getAttribute('data-icon') || '',
 						description = option.getAttribute('data-description') || '';
 
-					let images       = image ? `<img src="${image}" alt />` : '',
-						icons        = icon ? `<i class="${icon}"></i>` : '',
-						descriptions = description ? `<span class="ss-description">${description}</span>` : '',
-						html         = `${images}${icons}<span class="ss-text">${option.text}${descriptions}</span>`;
+					image       = image && `<img src="${image}" alt />`;
+					icon        = icon && `<i class="${icon}"></i>`;
+					description = description && `<span class="ss-description">${description}</span>`;
 
 					let optionData = {
 						text: option.text,
 						value: option.value,
-						html: html,
+						html: `${image}${icon}<span class="ss-text">${option.text}${description}</span>`,
 						selected: option.selected,
 						display: true,
 						disabled: false,
@@ -1183,82 +1177,67 @@ document.addEventListener( 'alpine:init', () => {
 					return acc;
 				}, []),
 			});
-		} catch {
-			console.error('The SlimSelect library is not connected');
+
+			select.selectEl.nextSibling.style.minWidth = `${width}px`;
+		} catch(e) {
+			console.error(e);
 		}
 	});
-
-	/**
-	 * Advanced drag & drop based on slimselect library.
-	 *
-	 * @see   https://github.com/bevacqua/dragula
-	 * @since 1.0
-	 */
-	Alpine.directive(
-		'media',
-		(el, {expression}) => {
-			console.log(el)
-			//dragula([el]);
-		}
-	);
 
 	/**
 	 * Custom fields builder.
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data(
-		'builder',
-		() => ({
-			default: {
-				location: 'post',
-				operator: '===',
-				value: 'editor',
+	Alpine.data('builder', () => ({
+		default: {
+			location: 'post',
+			operator: '===',
+			value: 'editor',
+		},
+		groups: [
+			{
+				rules: [
+					{
+						location: 'post_status',
+						operator: '!=',
+						value: 'contributor',
+					},
+				]
 			},
-			groups: [
-				{
-					rules: [
-						{
-							location: 'post_status',
-							operator: '!=',
-							value: 'contributor',
-						},
-					]
-				},
-			],
-			addGroup() {
-				let pattern = JSON.parse(JSON.stringify(this.default));
-				this.groups.push({
-					rules: [ pattern ]
-				});
-			},
-			removeGroup(index) {
-				this.groups.splice(index, 1);
-			},
-			addRule(key) {
-				let pattern = JSON.parse(JSON.stringify(this.default));
-				this.groups[key].rules.push(pattern);
-			},
-			removeRule(key,index) {
-				this.groups[key].rules.splice(index, 1);
-			},
-			submit() {
-				let groups = JSON.parse(JSON.stringify(this.groups));
-				console.log(groups);
-			},
-		})
-	);
+		],
+		addGroup() {
+			let pattern = JSON.parse(JSON.stringify(this.default));
+			this.groups.push({
+				rules: [ pattern ]
+			});
+		},
+		removeGroup(index) {
+			this.groups.splice(index, 1);
+		},
+		addRule(key) {
+			let pattern = JSON.parse(JSON.stringify(this.default));
+			this.groups[key].rules.push(pattern);
+		},
+		removeRule(key,index) {
+			this.groups[key].rules.splice(index, 1);
+		},
+		submit() {
+			let groups = JSON.parse(JSON.stringify(this.groups));
+			console.log(groups);
+		},
+	}));
 
 	/**
 	 * Sortable elements
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data( 'sortable', () => ( {
+	Alpine.data( 'sortable', () => ({
 		init() {
 			let nestedSortables = [].slice.call( document.querySelectorAll( '.sortable' ) );
 			for( let i = 0; i < nestedSortables.length; i++ ) {
-				new Sortable( nestedSortables[i], {
+				new Sortable(nestedSortables[i],{
 					multiDrag: true,
 					selectedClass: 'is-active',
 					fallbackTolerance: 3,
@@ -1268,10 +1247,10 @@ document.addEventListener( 'alpine:init', () => {
 					fallbackOnBody: true,
 					swapThreshold: 0.5,
 					dataIdAttr: 'data-id',
-				} );
+				});
 			}
 		}
-	} ) );
+	}));
 
 	/**
 	 * Tab
@@ -1312,7 +1291,7 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data( 'table', () => ( {
+	Alpine.data( 'table', () => ({
 		init() {
 			document.addEventListener( 'keydown', e => {
 				let key = window.event ? event : e;
@@ -1384,7 +1363,7 @@ document.addEventListener( 'alpine:init', () => {
 				this.bulk   = checked.length > 0;
 			},
 		}
-	} ) );
+	}));
 
 	/**
 	 * Table checkbox
@@ -1403,7 +1382,7 @@ document.addEventListener( 'alpine:init', () => {
 			['@keydown.escape']() {
 				this.$el.removeAttribute('open');
 			},
-			['@keydown.prevent.window.ctrl.f']() {
+			['@keydown.prevent.window.ctrl.k']() {
 				this.searchButton.click();
 			},
 		},
@@ -1427,9 +1406,9 @@ document.addEventListener( 'alpine:init', () => {
 			},
 			['@keydown.down']() {
 				this.currentIdx = this.currentIdx >= this.links.length - 1 ? 0 : this.currentIdx + 1;
-                if (!this.links[this.currentIdx]?.url) {
-                    this.currentIdx++;
-                }
+				if (!this.links[this.currentIdx]?.url) {
+					this.currentIdx++;
+				}
 			},
 			['@keydown.enter']() {
 				this.links[this.currentIdx] && (window.location.href = this.links[this.currentIdx].url);
@@ -1442,108 +1421,106 @@ document.addEventListener( 'alpine:init', () => {
 	 *
 	 * @since 1.0
 	 */
-	Alpine.magic('password', () => {
-		return {
-			min: {
-				lowercase: 2,
-				uppercase: 2,
-				special: 2,
-				digit: 2,
-				length: 12
-			},
-			valid: {
-				lowercase: false,
-				uppercase: false,
-				special: false,
-				digit: false,
-				length: false
-			},
-			charsets: {
-				lowercase: 'abcdefghijklmnopqrstuvwxyz',
-				uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-				special: '!@#$%^&*(){|}~',
-				digit: '0123456789'
-			},
-			switch(value) {
-				return !(!!value);
-			},
-			check(value) {
-				let matchCount = 0;
-				let totalCount = 0;
+	Alpine.magic('password', () => ({
+		min: {
+			lowercase: 2,
+			uppercase: 2,
+			special: 2,
+			digit: 2,
+			length: 12
+		},
+		valid: {
+			lowercase: false,
+			uppercase: false,
+			special: false,
+			digit: false,
+			length: false
+		},
+		charsets: {
+			lowercase: 'abcdefghijklmnopqrstuvwxyz',
+			uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+			special: '!@#$%^&*(){|}~',
+			digit: '0123456789'
+		},
+		switch(value) {
+			return !(!!value);
+		},
+		check(value) {
+			let matchCount = 0;
+			let totalCount = 0;
 
-				for (const charset in this.charsets) {
-					let requiredCount = this.min[charset],
-						charsetRegex  = new RegExp(`[${this.charsets[charset]}]`, 'g'),
-						charsetCount  = (value.match(charsetRegex) || []).length;
-					matchCount += Math.min(charsetCount, requiredCount);
-					totalCount += requiredCount;
+			for (const charset in this.charsets) {
+				let requiredCount = this.min[charset],
+					charsetRegex  = new RegExp(`[${this.charsets[charset]}]`, 'g'),
+					charsetCount  = (value.match(charsetRegex) || []).length;
+				matchCount += Math.min(charsetCount, requiredCount);
+				totalCount += requiredCount;
 
-					this.valid[charset] = charsetCount >= requiredCount;
+				this.valid[charset] = charsetCount >= requiredCount;
+			}
+
+			if (value.length >= this.min.length) {
+				matchCount += 1;
+				totalCount += 1;
+				this.valid.length = value.length >= this.min.length;
+			}
+
+			return Object.assign(
+				{
+					progress: totalCount === 0 ? totalCount : (matchCount / totalCount) * 100,
+				},
+				this.valid
+			)
+		},
+		generate() {
+			let password = '';
+			let types = Object.keys(this.charsets);
+
+			types.forEach(type => {
+				let count   = Math.max(this.min[type], 0),
+					charset = this.charsets[type];
+
+				for (let i = 0; i < count; i++) {
+					let randomIndex = Math.floor(Math.random() * charset.length);
+					password += charset[randomIndex];
 				}
+			});
 
-				if (value.length >= this.min.length) {
-					matchCount += 1;
-					totalCount += 1;
-					this.valid.length = value.length >= this.min.length;
-				}
+			while (password.length < this.min.length) {
+				let randomIndex = Math.floor(Math.random() * types.length),
+					charType    = types[randomIndex],
+					charset     = this.charsets[charType],
+					randomCharIndex = Math.floor(Math.random() * charset.length);
+				password += charset[randomCharIndex];
+			}
+			this.check(password);
 
-				return Object.assign(
-					{
-						progress: totalCount === 0 ? totalCount : (matchCount / totalCount) * 100,
-					},
-					this.valid
-				)
-			},
-			generate() {
-				let password = '';
-				let types = Object.keys(this.charsets);
+			return this.shuffle(password);
+		},
+		shuffle(password) {
+			let array = password.split('');
+			let currentIndex = array.length;
+			let temporaryValue, randomIndex;
 
-				types.forEach(type => {
-					let count   = Math.max(this.min[type], 0),
-						charset = this.charsets[type];
+			while (currentIndex !== 0) {
+				randomIndex = Math.floor(Math.random() * currentIndex);
+				currentIndex -= 1;
 
-					for (let i = 0; i < count; i++) {
-						let randomIndex = Math.floor(Math.random() * charset.length);
-						password += charset[randomIndex];
-					}
-				});
+				temporaryValue = array[currentIndex];
+				array[currentIndex] = array[randomIndex];
+				array[randomIndex] = temporaryValue;
+			}
 
-				while (password.length < this.min.length) {
-					let randomIndex = Math.floor(Math.random() * types.length),
-						charType    = types[randomIndex],
-						charset     = this.charsets[charType],
-						randomCharIndex = Math.floor(Math.random() * charset.length);
-					password += charset[randomCharIndex];
-				}
-				this.check(password);
-
-				return this.shuffle(password);
-			},
-			shuffle(password) {
-				let array = password.split('');
-				let currentIndex = array.length;
-				let temporaryValue, randomIndex;
-
-				while (currentIndex !== 0) {
-					randomIndex = Math.floor(Math.random() * currentIndex);
-					currentIndex -= 1;
-
-					temporaryValue = array[currentIndex];
-					array[currentIndex] = array[randomIndex];
-					array[randomIndex] = temporaryValue;
-				}
-
-				return array.join('');
-			},
-		}
-	});
+			return array.join('');
+		},
+	}));
 
 	/**
 	 * Counting time in four different units: seconds, minutes, hours and days.
 	 *
 	 * @since 1.0
 	 */
-	Alpine.data( 'timer', ( endDate, startDate ) => ( {
+	Alpine.data( 'timer', (endDate, startDate) => ({
 		end: endDate, // format: '2021-31-12T14:58:31+00:00'
 		day:  '00',
 		hour: '00',
@@ -1571,7 +1548,7 @@ document.addEventListener( 'alpine:init', () => {
 				}, 1000 );
 			}
 		},
-	} ) );
+	}));
 
 	/**
 	 * Data sanitizing.
@@ -1581,14 +1558,14 @@ document.addEventListener( 'alpine:init', () => {
 	Alpine.magic('safe', () => ({
 		slug(value) {
 			return value
-				.toString()                           // Convert the input to a string
-				.normalize('NFD')                     // Normalize the string (separate characters and diacritical marks)
-				.replace(/[\u0300-\u036f]/g, '')      // Remove diacritical marks
-				.replace(/[^\p{L}\p{N}\s-]/gu, '')    // Remove everything except letters, numbers, spaces, and hyphens (Unicode support)
-				.trim()                               // Trim leading and trailing whitespace
-				.replace(/\s+/g, '-')                 // Replace spaces with hyphens
-				.replace(/-+/g, '-')                  // Remove consecutive hyphens
-				.toLowerCase();                       // Convert the string to lowercase
+				.toString()                                              // Convert the input to a string
+				.normalize('NFD')                                  // Normalize the string (separate characters and diacritical marks)
+				.replace(/[\u0300-\u036f]/g, '')    // Remove diacritical marks
+				.replace(/[^\p{L}\p{N}\s-]/gu, '')  // Remove everything except letters, numbers, spaces, and hyphens (Unicode support)
+				.trim()                                                  // Trim leading and trailing whitespace
+				.replace(/\s+/g, '-')               // Replace spaces with hyphens
+				.replace(/-+/g, '-')                // Remove consecutive hyphens
+				.toLowerCase();                                          // Convert the string to lowercase
 		},
 	}));
 } );

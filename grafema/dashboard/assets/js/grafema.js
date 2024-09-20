@@ -309,10 +309,6 @@ var __webpack_modules__ = {
                 cleanup((() => observer.disconnect()));
             }));
             Alpine.directive('listen', ((el, {value, expression, modifiers}, {evaluateLater, effect}) => {
-                console.log(el);
-                console.log(value);
-                console.log(expression);
-                console.log(modifiers);
                 if (!expression) {
                     return false;
                 }
@@ -937,21 +933,24 @@ var __webpack_modules__ = {
                     settings.hideSelected = true;
                     settings.closeOnSelect = false;
                 }
+                let width = el.offsetWidth;
                 const custom = JSON.parse(expression || '{}');
                 if (typeof custom === 'object') {
                     Object.assign(settings, custom);
                 }
                 try {
-                    new SlimSelect({
+                    let select = new SlimSelect({
                         settings,
                         select: el,
                         data: Array.from(el.options).reduce(((acc, option) => {
-                            let image = option.getAttribute('data-image'), icon = option.getAttribute('data-icon'), description = option.getAttribute('data-description') || '';
-                            let images = image ? `<img src="${image}" alt />` : '', icons = icon ? `<i class="${icon}"></i>` : '', descriptions = description ? `<span class="ss-description">${description}</span>` : '', html = `${images}${icons}<span class="ss-text">${option.text}${descriptions}</span>`;
+                            let image = option.getAttribute('data-image') || '', icon = option.getAttribute('data-icon') || '', description = option.getAttribute('data-description') || '';
+                            image = image && `<img src="${image}" alt />`;
+                            icon = icon && `<i class="${icon}"></i>`;
+                            description = description && `<span class="ss-description">${description}</span>`;
                             let optionData = {
                                 text: option.text,
                                 value: option.value,
-                                html,
+                                html: `${image}${icon}<span class="ss-text">${option.text}${description}</span>`,
                                 selected: option.selected,
                                 display: true,
                                 disabled: false,
@@ -978,12 +977,10 @@ var __webpack_modules__ = {
                             return acc;
                         }), [])
                     });
-                } catch {
-                    console.error('The SlimSelect library is not connected');
+                    select.selectEl.nextSibling.style.minWidth = `${width}px`;
+                } catch (e) {
+                    console.error(e);
                 }
-            }));
-            Alpine.directive('media', ((el, {expression}) => {
-                console.log(el);
             }));
             Alpine.data('builder', (() => ({
                 default: {
@@ -1142,7 +1139,7 @@ var __webpack_modules__ = {
                     ['@keydown.escape']() {
                         this.$el.removeAttribute('open');
                     },
-                    ['@keydown.prevent.window.ctrl.f']() {
+                    ['@keydown.prevent.window.ctrl.k']() {
                         this.searchButton.click();
                     }
                 },

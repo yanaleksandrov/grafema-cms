@@ -9,6 +9,7 @@
 namespace Grafema;
 
 use Grafema\Helpers\Arr;
+use Grafema\Sanitizer;
 
 /**
  * A class for displaying various tree-like structures.
@@ -55,8 +56,7 @@ final class Tree
 	public static function attach( string $name, callable $function = null ): void
 	{
 		$tree = self::init( $name );
-		// TODO:: wrong escaping, use sanitize
-		$name = Esc::html( $name, false );
+		$name = Sanitizer::html( $name );
 
 		if ( empty( $tree->list[$name] ) ) {
 			$tree->list[$name] = [];

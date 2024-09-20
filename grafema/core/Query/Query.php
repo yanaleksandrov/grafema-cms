@@ -7,6 +7,7 @@ use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Post\Type;
 use Grafema\User;
+use Grafema\Sanitizer;
 
 class Query {
 
@@ -245,7 +246,7 @@ class Query {
 		 *
 		 * @since 2025.1
 		 */
-		$title = Esc::html( $args['title'] ?? '' );
+		$title = Sanitizer::html( $args['title'] ?? '' );
 		if ( ! empty( $title ) ) {
 			$where[] = "t.title = '" . $title . "'";
 		}
@@ -273,8 +274,8 @@ class Query {
 		 *
 		 * @since 2025.1
 		 */
-		$slug        = Esc::slug( $args['slug'] ?? '' );
-		$slug_strict = (bool) ( $args['slug_strict'] ?? true );
+		$slug        = Sanitizer::slug( $args['slug'] ?? '' );
+		$slug_strict = Sanitizer::bool( $args['slug_strict'] ?? true );
 		if ( ! empty( $slug ) ) {
 			$where[] = $slug_strict ? "t.slug = '{$slug}'" : "t.slug REGEXP '^{$slug}(-[[:digit:]]+)?$'";
 		}

@@ -15,7 +15,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[$type, $name, $label, $label_class, $class, $description, $attributes, $tooltip] = (
+[ $type, $name, $label, $label_class, $class, $description, $attributes, $tooltip ] = (
     new Sanitizer(
         $args ?? [],
         [
@@ -33,22 +33,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 ?>
 <div class="<?php echo $class; ?>" x-data="{<?php echo $name; ?>: []}">
 	<div class="dg g-1" x-media>
-		<?php if ( $label ) { ?>
-			<span class="<?php echo $label_class; ?>"><?php Esc::html( $label ); ?></span>
-		<?php } ?>
+		<?php if ( $label ) : ?>
+			<span class="<?php echo $label_class; ?>"><?php Sanitizer::html( $label ); ?></span>
+		<?php endif; ?>
 		<template x-for="(item, id) in <?php echo $name; ?>">
 			<img class="" :src="item.url" x-init="console.log(item.url)" alt="" width="200" height="200">
 		</template>
 		<input<?php echo Arr::toHtmlAtts( $attributes ); ?>>
-		<?php
-		if ( $tooltip ) {
-			?>
-			<i class="ph ph-info" x-tooltip.click.prevent="'<?php Esc::attr( $tooltip ); ?>'"></i>
-			<?php
-		}
-?>
+		<?php if ( $tooltip ) : ?>
+			<i class="ph ph-info" x-tooltip.click.prevent="'<?php echo $tooltip; ?>'"></i>
+		<?php endif; ?>
 	</div>
-	<?php if ( $description ) { ?>
+	<?php if ( $description ) : ?>
 		<div class="fs-13 t-muted lh-xs"><?php echo $description; ?></div>
-	<?php } ?>
+	<?php endif; ?>
 </div>

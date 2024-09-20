@@ -15,6 +15,7 @@ use Grafema\Error;
 use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Is;
+use Grafema\Sanitizer;
 use Grafema\Url;
 use Grafema\Validator;
 use Grafema\Helpers\Humanize;
@@ -361,8 +362,8 @@ class File
 	 */
 	public function grab( string $url ): File
 	{
-		$upload_dir = Esc::url( preg_replace( '/\\?.*/', '', $this->dirpath . basename( $url ) ) );
-		$url        = Esc::url( $url );
+		$upload_dir = Sanitizer::url( preg_replace( '/\\?.*/', '', $this->dirpath . basename( $url ) ) );
+		$url        = Sanitizer::url( $url );
 		if ( ! Is::url( $url ) ) {
 			$this->errors[] = new Error( 'file-grab', I18n::_t( 'Invalid URL.' ) );
 		}

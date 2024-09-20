@@ -17,8 +17,8 @@ namespace Grafema\Plugins;
  *
  * @since 2025.1
  */
-interface Skeleton
-{
+interface Skeleton {
+
 	/**
 	 * Data about plugin.
 	 *

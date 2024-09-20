@@ -20,22 +20,21 @@ use Grafema\Sanitizer;
  *
  * @since 2025.1
  */
-final class Manager
-{
+class Manager {
 
 	/**
 	 * Full list of existing extensions.
 	 *
 	 * @since 2025.1
 	 */
-	public array $collection = [];
+	public static array $collection = [];
 
 	/**
 	 * Contains registered instances of plugin classes.
 	 *
 	 * @since 2025.1
 	 */
-	public array $instances = [];
+	public static array $instances = [];
 
 	/**
 	 * Constructor for the Manager class.
@@ -91,8 +90,8 @@ final class Manager
 						continue;
 					}
 
-					$this->collection[$class] = $path;
-					$this->instances[$class]  = $plugin;
+					self::$collection[$class] = $path;
+					self::$instances[$class]  = $plugin;
 				}
 			} catch ( \Throwable $e ) {
 //				echo '<pre>';
@@ -109,7 +108,7 @@ final class Manager
 	 */
 	public function launch(): void
 	{
-		foreach ( $this->instances as $extension ) {
+		foreach ( self::$instances as $extension ) {
 			if ( $extension instanceof Skeleton ) {
 				$extension->launch();
 			}
@@ -125,7 +124,7 @@ final class Manager
 	 */
 	public function activate(): void
 	{
-		foreach ( $this->instances as $extension ) {
+		foreach ( self::$instances as $extension ) {
 			if ( $extension instanceof Skeleton ) {
 				$extension->activate();
 			}
@@ -141,7 +140,7 @@ final class Manager
 	 */
 	public function deactivate(): void
 	{
-		foreach ( $this->instances as $extension ) {
+		foreach ( self::$instances as $extension ) {
 			if ( $extension instanceof Skeleton ) {
 				$extension->deactivate();
 			}
@@ -157,7 +156,7 @@ final class Manager
 	 */
 	public function install(): void
 	{
-		foreach ( $this->instances as $extension ) {
+		foreach ( self::$instances as $extension ) {
 			if ( $extension instanceof Skeleton ) {
 				$extension->install();
 			}
@@ -173,10 +172,36 @@ final class Manager
 	 */
 	public function uninstall(): void
 	{
-		foreach ( $this->instances as $extension ) {
+		foreach ( self::$instances as $extension ) {
 			if ( $extension instanceof Skeleton ) {
 				$extension->uninstall();
 			}
 		}
+	}
+
+	/**
+	 * Checks the plugins directory and retrieve all plugin files with plugin data.
+	 *
+	 * Grafema only supports plugin files in the base plugins directory
+	 * (plugins) and in one directory above the plugins directory
+	 * (plugins/my-plugin). The file it looks for has the plugin data
+	 * and must be found in those two locations. It is recommended to keep your
+	 * plugin files in their own directories.
+	 *
+	 * @since 2025.1
+	 *
+	 * @return array[] Array of arrays of plugin data, keyed by plugin file name.
+	 */
+	public function get(): array {
+		echo '<pre>';
+		print_r( self::$instances );
+		echo '</pre>';
+		foreach ( self::$instances as $extension ) {
+			if ( $extension instanceof Skeleton ) {
+
+			}
+		}
+
+		return [];
 	}
 }

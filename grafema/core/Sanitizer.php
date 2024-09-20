@@ -230,6 +230,17 @@ final class Sanitizer
 	}
 
 	/**
+	 * Sanitizer markup.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 */
+	public static function markup( mixed $value ): string
+	{
+		return ( new Kses() )->apply( $value ?? '' );
+	}
+
+	/**
 	 * Sanitizer html.
 	 *
 	 * @param mixed $value Value to change
@@ -237,7 +248,7 @@ final class Sanitizer
 	 */
 	public static function html( mixed $value ): string
 	{
-		return ( new Kses() )->apply( $value ?? '' );
+		return trim( htmlspecialchars( $value, ENT_QUOTES ) );
 	}
 
 	/**
@@ -552,6 +563,41 @@ final class Sanitizer
 	}
 
 	/**
+	 * Sanitize url for use inside href attribute.
+	 *
+	 * @param string $value
+	 * @return string
+	 *
+	 * @since 2025.1
+	 */
+	public static function href( mixed $value ): string
+	{
+		if ( $value === '' ) {
+			return $value;
+		}
+
+		$value = str_replace( ' ', '%20', ltrim( $value ) );
+		$value = preg_replace( '|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\[\]\\x80-\\xff]|i', '', $value );
+
+		if ( $value === '' ) {
+			return $value;
+		}
+
+		if ( stripos( $value, 'mailto:' ) !== 0 ) {
+			$value = str_replace( ['%0d', '%0a', '%0D', '%0A'], '', $value );
+		}
+
+		// normalize slashes
+		$value = str_replace( ';//', '://', $value );
+
+		if ( preg_match( '~^(?:(?:https?|ftp)://[^@]+(?:/.*)?|(?:mailto|tel|sms):.+|[/?#].*|[^:]+)$~Di', $value ) ) {
+			return trim( $value );
+		}
+
+		return '';
+	}
+
+	/**
 	 * Filters string for valid path syntax, with optional trailing slash.
 	 *
 	 * @param mixed $value Value to change
@@ -673,7 +719,7 @@ final class Sanitizer
 	}
 
 	/**
-	 * Clearing the slug that is used as part of the url.
+	 * Sanitizes a string into a slug, which can be used in URLs, user nickname or HTML attributes.
 	 *
 	 * @param string  $value Value of slug.
 	 * @return string
@@ -731,8 +777,8 @@ final class Sanitizer
 	/**
 	 * Removes accent from strings.
 	 *
-	 * Esc::accents("ªºÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿØ");
-	 *         echo: ooAAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyyO.
+	 * Safe::accents("ªºÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïñòóôõöøùúûüýÿØ");
+	 *          echo: ooAAAAAACEEEEIIIINOOOOOUUUUYaaaaaaceeeeiiiinoooooouuuuyyO
 	 *
 	 * @since  2025.1
 	 *

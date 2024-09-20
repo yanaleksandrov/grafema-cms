@@ -5,7 +5,7 @@ use Grafema\Patterns\Registry;
 use Grafema\Db;
 use Grafema\Error;
 use Grafema\I18n;
-use Grafema\Esc;
+use Grafema\Sanitizer;
 use Grafema\Url;
 
 /**
@@ -28,9 +28,9 @@ class Post {
 
 		$author  = trim( strval( $args['author'] ?? '' ) );
 		$content = trim( strval( $args['content'] ?? '' ) );
-		$title   = Esc::html( trim( $args['title'] ?? '' ), false );
-		$status  = Esc::html( trim( $args['status'] ?? 'draft' ), false );
-		$slug    = Esc::url( trim( $args['slug'] ?? '' ) );
+		$title   = Sanitizer::html( $args['title'] ?? '' );
+		$status  = Sanitizer::html( $args['status'] ?? 'draft' );
+		$slug    = Sanitizer::url( $args['slug'] ?? '' );
 		$args    = [
 			'author'  => $author,
 			'title'   => $title,

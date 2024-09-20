@@ -275,7 +275,7 @@ final class Option extends Options {
 	 * @since 2025.1
 	 */
 	public static function attr( string $option, mixed $default = '' ): string {
-		return Esc::attr( self::get( $option, $default ) );
+		return Sanitizer::attribute( self::get( $option, $default ) );
 	}
 
 	/**

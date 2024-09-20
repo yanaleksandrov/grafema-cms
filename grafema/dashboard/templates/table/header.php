@@ -151,6 +151,18 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 						    ]
 					    );
 
+					    $plugins = new Grafema\Plugins\Manager( function ( Grafema\Plugins\Manager $plugins ) {
+						    $paths = ( new Grafema\Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
+
+						    echo '<pre>';
+						    print_r( $paths );
+						    print_r( $plugins->get() );
+						    echo '</pre>';
+						    if ( ! $paths ) {
+							    return null;
+						    }
+					    } );
+
 					    View::print(
 						    'templates/form/select',
 						    [

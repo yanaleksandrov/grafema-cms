@@ -401,6 +401,8 @@ final class User extends Users {
 	/**
 	 * Sanitizer user data before inserting into the database.
 	 *
+	 * TODO: replace with Sanitizer
+	 *
 	 * @param array $userdata
 	 * @return array
 	 * @since 2025.1
@@ -414,7 +416,7 @@ final class User extends Users {
 				if ( is_array( $value ) ) {
 					$_userdata[ $column ] = $value;
 				} else {
-					$_userdata[ $column ] = Esc::sql( $value, $schema[ $column ] );
+					$_userdata[ $column ] = Sanitizer::trim( $value );
 				}
 			}
 		}

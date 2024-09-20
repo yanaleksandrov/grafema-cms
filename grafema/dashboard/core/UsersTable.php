@@ -45,9 +45,9 @@ final class UsersTable {
 
 	public function attributes(): array {
 		return [
-			'class'  => 'table',
-			'x-data' => 'table',
-			'x-init' => '$ajax("users/get").then(response => items = response.items)',
+			'class'   => 'table',
+			'x-data'  => 'table',
+			'@change' => '$ajax("users/get").then(response => items = response.items)',
 		];
 	}
 

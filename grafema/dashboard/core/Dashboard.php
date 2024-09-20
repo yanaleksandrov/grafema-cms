@@ -66,6 +66,7 @@ use Grafema\Url;
 							'lang'           => I18n::locale(),
 							'dateFormat'     => 'j M, Y',
 							'weekStart'      => 1,
+							'bulk'           => false,
 							'showMenu'       => false,
 							'showFilter'     => false,
 							'notifications'  => [

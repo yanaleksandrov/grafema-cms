@@ -1,8 +1,10 @@
 {
+  "author": "Ian Aleksandrov",
   "name": "webpack-starter",
   "version": "1.0.0",
-  "description": "HTML template",
+  "description": "Grafema CMS builder",
   "main": "src/index.js",
+  "keywords": [],
   "scripts": {
     "dev": "webpack --mode development",
     "watch": "webpack --mode development --watch",
@@ -33,7 +35,5 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.10.0",
     "webpack-remove-empty-scripts": "^1.0.3"
-  },
-  "keywords": [],
-  "author": ""
+  }
 }

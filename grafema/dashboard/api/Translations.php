@@ -77,10 +77,17 @@ class Translations extends \Grafema\Api\Handler
 			usort($result, fn( $a, $b ) => strcasecmp( $a, $b ) );
 		}
 
-		$result = array_unique( $result );
+		$result = array_values( array_unique( $result ) );
+
+		$result = array_map( function( $item ) {
+			return [
+				'source' => $item,
+				'value'  => '',
+			];
+		}, $result );
 
 		return [
-			'items' => array_map( fn( $item ) => [ 'source' => $item, 'value' => '' ], $result ),
+			'items' => $result,
 		];
 	}
 

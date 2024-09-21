@@ -4,6 +4,17 @@ use Grafema\Url;
 use Grafema\Sanitizer;
 use Grafema\View;
 
+$data      = [];
+$languages = Grafema\Patterns\Registry::get( 'languages' );
+foreach ( $languages as $language ) {
+	$data[ $language['locale'] ?? $language['country'] ?? $language['iso_639_1'] ] = [
+		'image'   => sprintf( 'assets/images/flags/%s.svg', $language['country'] ?: $language['iso_639_1'] ),
+		'content' => sprintf( '%s - %s', $language['name'], $language['native'] ),
+	];
+}
+
+usort( $data, fn( $a, $b ) => $a['content'] <=> $b['content'] );
+
 /**
  * Profile page.
  *
@@ -320,8 +331,8 @@ return Dashboard\Form::enqueue(
 				],
 				[
 					'type'          => 'group',
-					'name'          => 'language',
-					'label'         => I18n::_t( 'Language' ),
+					'name'          => 'translations',
+					'label'         => I18n::_t( 'Translations' ),
 					'class'         => '',
 					'label_class'   => '',
 					'content_class' => '',
@@ -342,20 +353,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [],
-							'options' => [
-								'us' => [
-									'image'   => 'assets/images/flags/us.svg',
-									'content' => I18n::_t( 'English - english' ),
-								],
-								'ru' => [
-									'image'   => 'assets/images/flags/ru.svg',
-									'content' => I18n::_t( 'Russian - русский' ),
-								],
-								'he' => [
-									'image'   => 'assets/images/flags/il.svg',
-									'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
-								],
-							],
+							'options'     => $data,
 						],
 					],
 				],

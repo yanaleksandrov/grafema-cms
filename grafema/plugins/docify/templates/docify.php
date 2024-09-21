@@ -18,33 +18,33 @@ if ( ! defined( 'GRFM_PATH' ) ) {
  * @since 2025.1
  */
 $list    = [];
-$plugins = Plugins\Manager::init(
-	function () {
-		$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
-		if ( ! $paths ) {
-			return null;
-		}
-	}
-);
-if ( $plugins->plugins ) {
-	foreach ( $plugins->plugins as $class => $path ) {
-		require_once $path;
-
-		$plugin = new $class();
-		if ( $plugin instanceof Plugins\Skeleton ) {
-			$list[$path] = array_combine(
-				['content', 'description'],
-				( new Grafema\Sanitizer() )->apply(
-					$plugin->manifest(),
-					[
-						'name'        => 'html',
-						'description' => 'html',
-					]
-				)
-			);
-		}
-	}
-}
+//$plugins = Plugins\Manager::init(
+//	function () {
+//		$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
+//		if ( ! $paths ) {
+//			return null;
+//		}
+//	}
+//);
+//if ( $plugins->plugins ) {
+//	foreach ( $plugins->plugins as $class => $path ) {
+//		require_once $path;
+//
+//		$plugin = new $class();
+//		if ( $plugin instanceof Plugins\Skeleton ) {
+//			$list[$path] = array_combine(
+//				['content', 'description'],
+//				( new Grafema\Sanitizer() )->apply(
+//					$plugin->manifest(),
+//					[
+//						'name'        => 'html',
+//						'description' => 'html',
+//					]
+//				)
+//			);
+//		}
+//	}
+//}
 
 Dashboard\Form::enqueue(
 	'import/documents',
@@ -63,8 +63,8 @@ Dashboard\Form::enqueue(
 				<div class="p-8 pt-7 pb-7 df aic jcsb">
 					<span x-text="$wizard.current().title"><?php I18n::t( 'Choose project' ); ?></span>
 					<span class="t-muted">
-								step <strong x-text="$wizard.progress().current">1</strong> from <strong x-text="$wizard.progress().total">2</strong>
-							</span>
+						step <strong x-text="$wizard.progress().current">1</strong> from <strong x-text="$wizard.progress().total">2</strong>
+					</span>
 				</div>
 				<div class="card-hr"></div>
 				<?php
@@ -144,4 +144,3 @@ Dashboard\Form::enqueue(
 		<?php Dashboard\Form::print( 'import/documents' ); ?>
 	</div>
 </div>
-

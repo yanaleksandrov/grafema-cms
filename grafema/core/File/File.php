@@ -12,7 +12,6 @@ namespace Grafema\File;
 use Grafema\Curl;
 use Grafema\Dir;
 use Grafema\Error;
-use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Sanitizer;

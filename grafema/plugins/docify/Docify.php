@@ -1,43 +1,24 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-use Docify\App\Finder;
-use Docify\App\Parser;
-use Grafema\Dir;
 use Grafema\I18n;
 use Grafema\Post;
 use Grafema\Tree;
-use Grafema\Plugins;
 
 /**
  * Docify plugin.
  *
  * @since 2025.1
  */
-class Docify implements Plugins\Skeleton
-{
-	public function manifest(): array
-	{
-		return [
-			'name'         => I18n::_t( 'Docify' ),
-			'description'  => I18n::_t( 'Simple way to create docs for your plugins' ),
-			'author'       => 'Grafema Team',
-			'email'        => '',
-			'url'          => '',
-			'license'      => 'GNU General Public License v3.0',
-			'version'      => '2025.1',
-			'php'          => '8.2',
-			'mysql'        => '5.7',
-			'dependencies' => [],
-		];
+return new class extends Grafema\Plugin {
+
+	public function __construct() {
+		$this
+			->setName( 'Docify' )
+			->setVersion( '2024.9' )
+			->setAuthor( 'Grafema Team' )
+			->setDescription( I18n::_t( 'Simple way to create docs for your plugins' ) );
 	}
 
-	public function launch()
+	public static function launch()
 	{
 		spl_autoload_register(
 			function ( $class ) {
@@ -118,39 +99,38 @@ class Docify implements Plugins\Skeleton
 		 *
 		 * @since 2025.1
 		 */
-		$plugins = new Plugins\Manager( function () {
-			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
-			if ( ! $paths ) {
-				return null;
-			}
-		} );
-		if ( $plugins->collection ) {
-			$docblock = ( new Parser() )->run( '' );
-			$classes  = ( new Finder() )->methods( $plugins->collection );
-			// echo '<pre>';
-			// print_r( $files );
-			// print_r( $classes );
-			// echo '</pre>';
-		}
+//		$plugins = new Plugins\Manager( function () {
+//			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
+//			if ( ! $paths ) {
+//				return null;
+//			}
+//		} );
+//		if ( $plugins::$collection ) {
+//			$docblock = ( new Parser() )->run( '' );
+//			$classes  = ( new Finder() )->methods( $plugins::$collection );
+//			echo '<pre>';
+//			print_r( $classes );
+//			echo '</pre>';
+//		}
 	}
 
-	public function activate()
+	public static function activate()
 	{
 		// do something when plugin is activated
 	}
 
-	public function deactivate()
+	public static function deactivate()
 	{
 		// do something when plugin is deactivated
 	}
 
-	public function install()
+	public static function install()
 	{
 		// do something when plugin is installed
 	}
 
-	public function uninstall()
+	public static function uninstall()
 	{
 		// do something when plugin is uninstalled
 	}
-}
+};

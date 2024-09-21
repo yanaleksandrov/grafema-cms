@@ -6,7 +6,7 @@
  * @contact  team@core.io
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
-use Grafema\{Api, Db, Dir, Option, Debug, Hook, Html, I18n, Is, Plugins, Post\Type, Route, Url, User, Users\Roles, View, Csrf};
+use Grafema\{Api, Db, Dir, Option, Debug, Hook, Html, I18n, Is, Themes, Plugins, Post\Type, Route, Url, User, Users\Roles, View, Csrf};
 
 /**
  * Setup system core constants.
@@ -339,42 +339,21 @@ try {
 		User::current();
 
 		/**
-		 * Load installed and launch active plugins.
+		 * Load installed and launch active plugins & themes.
 		 *
 		 * @since 2025.1
 		 */
-		$plugins = new Plugins\Manager( function ( $plugins ) {
-			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
-
-			if ( ! $paths ) {
-				return null;
-			}
-			$plugins->register( $paths );
+		Plugins::register( function() {
+			return ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*/*.php' );
 		} );
-		$plugins->launch();
-		//$plugins->install();
-		//$plugins->uninstall();
-		//$plugins->activate();
-		//$plugins->deactivate();
 
-		/**
-		 * Load installed and launch active themes.
-		 *
-		 * @since 2025.1
-		 */
-		$themes = new Plugins\Manager( function ( $themes ) {
-			$paths = (new Dir\Dir( GRFM_THEMES ))->getFiles( '*.php', 1 );
-
-			if ( ! $paths ) {
-				return null;
-			}
-			$themes->register( $paths );
+		Themes::register( function() {
+			return ( new Dir\Dir( GRFM_THEMES ) )->getFiles( '*/*.php' );
 		} );
-		$themes->launch();
-		//$themes->install();
-		//$themes->uninstall();
-		//$themes->activate();
-		//$themes->deactivate();
+//		Plugins::install();
+//		Plugins::uninstall();
+//		Plugins::activate();
+//		Plugins::deactivate();
 
 		// set response code
 		http_response_code( 200 );

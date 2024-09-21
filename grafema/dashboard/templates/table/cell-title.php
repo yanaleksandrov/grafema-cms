@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Table title with actions cell
@@ -13,10 +14,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::class($args['key'] ?? [] );
-$prop  = Sanitizer::prop($args['key'] ?? [] );
+[ $prop, $attributes ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'key'        => 'prop',
+			'attributes' => 'array',
+		]
+	)
+)->values();
 ?>
-<div class="<?php echo $class; ?>">
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 	<div class="fs-14 lh-sm">
 		<a href="#" class="fw-600 t-dark" x-text="item.<?php echo $prop; ?>" @click="$dialog.open('jb-add-item')"></a> <span class="t-muted">— Draft</span>
 	</div>

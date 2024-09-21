@@ -32,6 +32,6 @@ if ( ! is_array( $data ) || empty( $row ) || empty( $columns ) ) {
 
 $tag && printf( '<%s>', trim( sprintf( '%s %s', $tag, Arr::toHtmlAtts( $attributes ) ) ) );
 foreach ( $columns as $column ) {
-	View::print( $column->view, [ 'key' => $column->key, ...$data ] );
+	View::print( $column->view, [ ...(array) $column, ...$data ] );
 }
 $tag && printf( '</%s>' . PHP_EOL, $tag );

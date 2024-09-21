@@ -1,6 +1,5 @@
 <?php
 use Grafema\Helpers\Arr;
-use Grafema\Esc;
 use Grafema\Sanitizer;
 
 /**

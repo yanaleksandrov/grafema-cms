@@ -82,7 +82,7 @@ final class Table {
 			?>
 			<template x-if="<?php echo $prop; ?>.length">
 				<?php echo $this->dataBefore ?? ''; ?>
-					<template x-for="item in <?php echo $prop; ?>">
+					<template x-for="(item, i) in <?php echo $prop; ?>">
 						<?php View::print( $row->view, [ 'data' => $this->data, 'row' => $row, 'columns' => $this->columns ] ); ?>
 					</template>
 				<?php echo $this->dataAfter ?? ''; ?>
@@ -100,7 +100,7 @@ final class Table {
 				}
 				echo ( $this->dataAfter ?? '' ) . PHP_EOL;
 			} else {
-				View::print( $this->notFoundTemplate, $this->notFoundContent );
+				View::print( $this->notFoundTemplate, $this->notFoundContent ) . PHP_EOL;
 			}
 		}
 

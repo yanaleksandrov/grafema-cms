@@ -526,18 +526,6 @@
     }
   }
 
-  &__grid {
-    display: grid;
-    gap: 1px;
-    grid-template-columns: var(--grafema-grid-template-columns);
-    background-color: var(--grafema-border);
-    border-bottom: 1px solid var(--grafema-border);
-
-    > * {
-      background-color: var(--grafema-white);
-    }
-  }
-
   &__bulk {
     padding: 0.75rem 1.75rem;
     width: 100%;

@@ -29,7 +29,7 @@ final class TranslationsTable {
 	}
 
 	public function dataBefore(): string {
-		return '<form method="POST" @input.debounce.500ms="$ajax(\'translations/update\',{project})">';
+		return '<form class="translation" method="POST" @input.debounce.500ms="$ajax(\'translations/update\',{project})">';
 	}
 
 	public function dataAfter(): string {
@@ -38,14 +38,20 @@ final class TranslationsTable {
 
 	public function rows(): array {
 		return [
-			Row::add()->attribute( 'class', 'table__grid' ),
+			Row::add()->attribute( 'class', 'translation__grid' ),
 		];
 	}
 
 	public function columns(): array {
 		return [
-			Cell::add( 'source' )->title( I18n::_f( ':icon Source text - English', '<i class="ph ph-text-aa"></i>' ) )->view( 'raw' ),
-			Cell::add( 'value' )->title( I18n::_f( ':icon Translations - Russian', '<i class="ph ph-globe-hemisphere-east"></i>' ) )->view( 'text' ),
+			Cell::add( 'source' )
+				->title( I18n::_f( ':icon Source text - English', '<i class="ph ph-text-aa"></i>' ) )
+				->attributes( [ 'class' => 'translation__source' ] )
+				->view( 'raw' ),
+			Cell::add( 'value' )
+				->title( I18n::_f( ':icon Translations - Russian', '<i class="ph ph-globe-hemisphere-east"></i>' ) )
+				->attributes( [ 'class' => 'translation__value' ] )
+				->view( 'translation' ),
 		];
 	}
 

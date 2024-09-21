@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Comma-separated list of links
@@ -13,10 +14,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::class($args['key'] ?? [] );
-$prop  = Sanitizer::prop($args['key'] ?? [] );
+[ $prop, $attributes ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'key'        => 'prop',
+			'attributes' => 'array',
+		]
+	)
+)->values();
 ?>
-<div class="<?php echo $class; ?>">
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 	<template x-for="(badge, index) in item.<?php echo $prop; ?>">
 		<span class="badge badge--lg" :class="badge.class" x-text="badge.title"></span>
 	</template>

@@ -18,5 +18,5 @@ $prop  = Sanitizer::prop($args['key'] ?? [] );
 $value = Sanitizer::trim($args['value'] ?? '' );
 ?>
 <label class="<?php echo $class; ?>">
-	<textarea name="<?php echo $prop; ?>" x-model="item.<?php echo $prop; ?>" rows="1" x-textarea="7"></textarea>
+	<textarea :name="`items[${i}]`" x-text="item.<?php echo $prop; ?>" rows="1" x-textarea="7"></textarea>
 </label>

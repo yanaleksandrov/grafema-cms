@@ -1,41 +1,25 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
 use Grafema\Asset;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Tree;
-use Grafema\Plugins;
 
 /**
  * Boilerplate plugin.
  *
  * @since 2025.1
  */
-class Toolkit implements Plugins\Skeleton
-{
-	public function manifest(): array
-	{
-		return [
-			'name'         => I18n::_t( 'Toolkit' ),
-			'description'  => I18n::_t( 'The developer tools panel for Grafema.' ),
-			'author'       => 'Grafema Team',
-			'email'        => '',
-			'url'          => '',
-			'license'      => 'GNU General Public License v3.0',
-			'version'      => '2025.1',
-			'php'          => '8.2',
-			'mysql'        => '5.7',
-			'dependencies' => [],
-		];
+return new class extends Grafema\Plugin {
+
+	public function __construct() {
+		$this
+			->setName( 'Toolkit' )
+			->setVersion( '2024.9' )
+			->setAuthor( 'Grafema Team' )
+			->setDescription( I18n::_t( 'The developer tools panel for Grafema' ) );
 	}
 
-	public function launch()
+	public static function launch()
 	{
 		if ( ! Is::dashboard() ) {
 			return;
@@ -43,41 +27,38 @@ class Toolkit implements Plugins\Skeleton
 
 		Asset::enqueue( 'toolkit-main', '/plugins/toolkit/assets/css/main.css' );
 
-		Tree::attach(
-			'dashboard-main-menu',
-			function ( $tree ) {
-				$tree->addItems(
+		Tree::attach( 'dashboard-main-menu', function ( $tree ) {
+			$tree->addItems(
+				[
 					[
-						[
-							'id'           => 'toolkit',
-							'url'          => 'forms-builder',
-							'title'        => I18n::_t( 'Dev toolkit' ),
-							'capabilities' => ['manage_options'],
-							'icon'         => 'ph ph-brackets-curly',
-							'position'     => 800,
-						],
-						[
-							'id'           => 'fields-builder',
-							'url'          => 'fields-builder',
-							'title'        => I18n::_t( 'Fields builder' ),
-							'capabilities' => ['manage_options'],
-							'icon'         => '',
-							'position'     => 0,
-							'parent_id'    => 'toolkit',
-						],
-						[
-							'id'           => 'forms-builder',
-							'url'          => 'forms-builder',
-							'title'        => I18n::_t( 'Forms builder' ),
-							'capabilities' => ['manage_options'],
-							'icon'         => '',
-							'position'     => 0,
-							'parent_id'    => 'toolkit',
-						],
-					]
-				);
-			}
-		);
+						'id'           => 'toolkit',
+						'url'          => 'forms-builder',
+						'title'        => I18n::_t( 'Dev toolkit' ),
+						'capabilities' => ['manage_options'],
+						'icon'         => 'ph ph-brackets-curly',
+						'position'     => 800,
+					],
+					[
+						'id'           => 'fields-builder',
+						'url'          => 'fields-builder',
+						'title'        => I18n::_t( 'Fields builder' ),
+						'capabilities' => ['manage_options'],
+						'icon'         => '',
+						'position'     => 0,
+						'parent_id'    => 'toolkit',
+					],
+					[
+						'id'           => 'forms-builder',
+						'url'          => 'forms-builder',
+						'title'        => I18n::_t( 'Forms builder' ),
+						'capabilities' => ['manage_options'],
+						'icon'         => '',
+						'position'     => 0,
+						'parent_id'    => 'toolkit',
+					],
+				]
+			);
+		} );
 
 		/*
 		 * Sign In form
@@ -443,23 +424,23 @@ class Toolkit implements Plugins\Skeleton
 		);
 	}
 
-	public function activate()
+	public static function activate()
 	{
 		// do something when plugin is activated
 	}
 
-	public function deactivate()
+	public static function deactivate()
 	{
 		// do something when plugin is deactivated
 	}
 
-	public function install()
+	public static function install()
 	{
 		// do something when plugin is installed
 	}
 
-	public function uninstall()
+	public static function uninstall()
 	{
 		// do something when plugin is uninstalled
 	}
-}
+};

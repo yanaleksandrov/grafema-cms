@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Publish date
@@ -13,10 +14,17 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::class($args['key'] ?? [] );
-$prop  = Sanitizer::prop($args['key'] ?? [] );
+[ $prop, $attributes ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'key'        => 'prop',
+			'attributes' => 'array',
+		]
+	)
+)->values();
 ?>
-<div class="<?php echo $prop; ?>">
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?>>
 	Published
 	<div x-text="item.<?php echo $prop; ?>"></div>
 </div>

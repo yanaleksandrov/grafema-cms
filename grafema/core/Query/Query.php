@@ -3,7 +3,6 @@ namespace Grafema\Query;
 
 use Grafema\Db;
 use Grafema\Error;
-use Grafema\Esc;
 use Grafema\I18n;
 use Grafema\Post\Type;
 use Grafema\User;

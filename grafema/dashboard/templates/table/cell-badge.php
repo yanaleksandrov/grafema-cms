@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Badge
@@ -13,9 +14,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::class($args['key'] ?? [] );
-$prop  = Sanitizer::prop($args['key'] ?? [] );
+[ $prop, $attributes ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'key'        => 'prop',
+			'attributes' => 'array',
+		]
+	)
+)->values();
 ?>
-<div class="<?php echo $class; ?>">
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?>>
     <span class="badge badge--green-lt" x-text="item.<?php echo $prop; ?>"></span>
 </div>

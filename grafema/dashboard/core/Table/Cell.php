@@ -30,6 +30,18 @@ final class Cell
 	}
 
 	/**
+	 * Set column title.
+	 *
+	 * @param array $attributes
+	 * @return Cell
+	 */
+	public function attributes( array $attributes ): Cell {
+		$this->attributes = $attributes;
+
+		return $this;
+	}
+
+	/**
 	 * Make column sortable.
 	 *
 	 * @return Cell

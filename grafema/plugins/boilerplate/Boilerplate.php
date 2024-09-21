@@ -1,60 +1,43 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 use Grafema\I18n;
-use Grafema\Plugins;
 
 /**
  * Boilerplate plugin.
  *
  * @since 2025.1
  */
-class Boilerplate implements Plugins\Skeleton
-{
-	public function manifest(): array
-	{
-		return [
-			'name'         => I18n::_t( 'Plugin Boilerplate' ),
-			'description'  => I18n::_t( 'Plugin Boilerplate Description' ),
-			'author'       => 'Grafema Team',
-			'email'        => '',
-			'url'          => '',
-			'license'      => 'GNU General Public License v3.0',
-			'version'      => '2025.1',
-			'php'          => '8.2',
-			'mysql'        => '5.7',
-			'dependencies' => [],
-		];
+return new class extends Grafema\Plugin {
+
+	public function __construct() {
+		$this
+			->setVersion( '2024.9' )
+			->setAuthor( 'Grafema Team' )
+			->setName( 'Grafema Plugin Boilerplate' )
+			->setDescription( I18n::_t( 'Plugin Boilerplate Description' ) );
 	}
 
-	public function launch()
+	public static function launch()
 	{
-		// plugin functionality
+		// TODO: Implement launch() method.
 	}
 
-	public function activate()
+	public static function activate()
 	{
 		// do something when plugin is activated
 	}
 
-	public function deactivate()
+	public static function deactivate()
 	{
 		// do something when plugin is deactivated
 	}
 
-	public function install()
+	public static function install()
 	{
 		// do something when plugin is installed
 	}
 
-	public function uninstall()
+	public static function uninstall()
 	{
 		// do something when plugin is uninstalled
 	}
-}
+};

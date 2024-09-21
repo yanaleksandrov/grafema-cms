@@ -1,13 +1,5 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
-namespace Grafema\Plugins;
+namespace Grafema\Extensions;
 
 /**
  * Interface Skeleton.
@@ -20,18 +12,11 @@ namespace Grafema\Plugins;
 interface Skeleton {
 
 	/**
-	 * Data about plugin.
-	 *
-	 * @since 2025.1
-	 */
-	public function manifest();
-
-	/**
 	 * Launch the plugin.
 	 *
 	 * @since 2025.1
 	 */
-	public function launch();
+	public static function launch();
 
 	/**
 	 * Activate action the plugin.
@@ -41,7 +26,7 @@ interface Skeleton {
 	 *
 	 * @since 2025.1
 	 */
-	public function activate();
+	public static function activate();
 
 	/**
 	 * Deactivate action the plugin.
@@ -52,7 +37,7 @@ interface Skeleton {
 	 *
 	 * @since 2025.1
 	 */
-	public function deactivate();
+	public static function deactivate();
 
 	/**
 	 * Install action the plugin.
@@ -61,7 +46,7 @@ interface Skeleton {
 	 *
 	 * @since 2025.1
 	 */
-	public function install();
+	public static function install();
 
 	/**
 	 * Uninstall action the plugin.
@@ -72,5 +57,5 @@ interface Skeleton {
 	 *
 	 * @since 2025.1
 	 */
-	public function uninstall();
+	public static function uninstall();
 }

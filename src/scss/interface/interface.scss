@@ -277,7 +277,7 @@
       display: flex;
       flex-direction: column;
       font-weight: normal;
-      margin-left: 1.5rem;
+      margin-left: 1.325rem;
 
       li {
         padding: 0;
@@ -867,5 +867,30 @@
   &-image {
     width: auto;
     max-height: inherit;
+  }
+}
+
+.translation {
+  width: 100%;
+
+  &__grid {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: var(--grafema-grid-template-columns);
+    background-color: var(--grafema-border);
+    border-bottom: 1px solid var(--grafema-border);
+  }
+
+  &__source {
+    padding: 0.25rem 1.5rem;
+    background-color: var(--grafema-white);
+
+    @media (max-width: 1024px) {
+      padding-inline: 1.25rem;
+    }
+  }
+
+  &__value {
+    background-color: var(--grafema-white);
   }
 }

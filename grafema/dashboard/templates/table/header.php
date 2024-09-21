@@ -135,7 +135,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    'validator'   => '',
 							    'conditions'  => [],
 							    'attributes'  => [
-								    'x-select' => true,
+								    'x-select' => '',
 								    'name'     => 'language',
 							    ],
 							    'options'     => [
@@ -150,18 +150,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 							    ],
 						    ]
 					    );
-
-					    $plugins = new Grafema\Plugins\Manager( function ( Grafema\Plugins\Manager $plugins ) {
-						    $paths = ( new Grafema\Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
-
-						    echo '<pre>';
-						    print_r( $paths );
-						    print_r( $plugins->get() );
-						    echo '</pre>';
-						    if ( ! $paths ) {
-							    return null;
-						    }
-					    } );
 
 					    View::print(
 						    'templates/form/select',
@@ -197,29 +185,23 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								    ],
 								    'plugins' => [
 									    'label'   => I18n::_t( 'Plugins' ),
-									    'options' => [
-										    'one' => [
-											    'content'     => I18n::_t( 'Plugin #1' ),
-											    'description' => I18n::_f( 'completion :percent\%', 11 ),
-										    ],
-										    'two' => [
-											    'content'     => I18n::_t( 'Plugin #2' ),
-											    'description' => I18n::_f( 'completion :percent\%', 66 ),
-										    ],
-									    ],
+									    'options' => array_reduce( Grafema\Plugins::get(), function( $carry, Grafema\Plugin $plugin ) {
+										    $carry[ $plugin->id ] = [
+											    'content'     => $plugin->name,
+											    'description' => I18n::_f( 'completion :percent%', 0 ),
+										    ];
+										    return $carry;
+									    }, [] ),
 								    ],
 								    'themes' => [
 									    'label'   => I18n::_t( 'Themes' ),
-									    'options' => [
-										    'theme1' => [
-											    'content'     => I18n::_t( 'Theme #1' ),
-											    'description' => I18n::_f( 'completion :percent\%', 99 ),
-										    ],
-										    'theme2' => [
-											    'content'     => I18n::_t( 'Theme #2' ),
-											    'description' => I18n::_f( 'completion :percent\%', 55 ),
-										    ],
-									    ],
+									    'options' => array_reduce( Grafema\Themes::get(), function( $carry, Grafema\Plugin $theme ) {
+										    $carry[ $theme->id ] = [
+											    'content'     => $theme->name,
+											    'description' => I18n::_f( 'completion :percent%', 0 ),
+										    ];
+										    return $carry;
+									    }, [] ),
 								    ],
 							    ],
 						    ]

@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Table raw text cell
@@ -13,18 +14,14 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-[ $class, $cell, $title, $sortable ] = (
+[ $prop, $attributes ] = (
     new Sanitizer(
 		$args ?? [],
         [
-			'key'      => 'class',
-			'cell'     => 'key',
-			'title'    => 'trim',
-			'sortable' => 'bool',
+	        'key'        => 'prop',
+	        'attributes' => 'array',
         ]
     )
 )->values();
-
-$prop = Sanitizer::prop($args['key'] ?? [] );
 ?>
-<div class="<?php echo $class; ?>" x-text="item.<?php echo $prop; ?>"></div>
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?> x-text="item.<?php echo $prop; ?>"></div>

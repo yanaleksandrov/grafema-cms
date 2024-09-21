@@ -1,5 +1,6 @@
 <?php
 use Grafema\Sanitizer;
+use Grafema\Helpers\Arr;
 
 /**
  * Table raw text cell
@@ -13,9 +14,16 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
 
-$class = Sanitizer::class($args['key'] ?? [] );
-$prop  = Sanitizer::prop($args['key'] ?? [] );
+[ $prop, $attributes ] = (
+	new Sanitizer(
+		$args ?? [],
+		[
+			'key'        => 'prop',
+			'attributes' => 'array',
+		]
+	)
+)->values();
 ?>
-<div class="<?php echo $class; ?>">
-	<input type="checkbox" name="item[]" :value="item.ID" x-bind="switcher" />
+<div<?php echo Arr::toHtmlAtts( $attributes ); ?>>
+	<input type="checkbox" :name="`items[${i}]`" :value="item.<?php echo $prop; ?>" x-bind="switcher" />
 </div>

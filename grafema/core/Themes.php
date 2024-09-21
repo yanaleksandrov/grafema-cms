@@ -1,20 +1,20 @@
 <?php
 namespace Grafema;
 
-final class Plugins extends Extensions\Provider {
+final class Themes extends Extensions\Provider {
 
 	/**
-	 *
+	 * Extract all implements on Extensions\Skeleton & add a plugin to the list of registered extensions.
 	 *
 	 * @param callable $callback Callback function used for get plugins paths.
 	 * @return void
 	 * @since 2025.1
 	 */
 	public static function register( callable $callback ): void {
-		self::enqueue( $callback, 'plugins' );
+		self::enqueue( $callback, 'themes' );
 
-		foreach ( self::$plugins as $plugin ) {
-			$plugin instanceof Extensions\Skeleton && $plugin::launch();
+		foreach ( self::$themes as $theme ) {
+			$theme instanceof Extensions\Skeleton && $theme::launch();
 		}
 	}
 
@@ -26,8 +26,8 @@ final class Plugins extends Extensions\Provider {
 	 * @since 2025.1
 	 */
 	public static function activate(): void {
-		foreach ( self::$plugins as $plugin ) {
-			$plugin instanceof Extensions\Skeleton && $plugin::activate();
+		foreach ( self::$themes as $theme ) {
+			$theme instanceof Extensions\Skeleton && $theme::activate();
 		}
 	}
 
@@ -39,8 +39,8 @@ final class Plugins extends Extensions\Provider {
 	 * @since 2025.1
 	 */
 	public static function deactivate(): void {
-		foreach ( self::$plugins as $plugin ) {
-			$plugin instanceof Extensions\Skeleton && $plugin::deactivate();
+		foreach ( self::$themes as $theme ) {
+			$theme instanceof Extensions\Skeleton && $theme::deactivate();
 		}
 	}
 
@@ -52,8 +52,8 @@ final class Plugins extends Extensions\Provider {
 	 * @since 2025.1
 	 */
 	public static function install(): void {
-		foreach ( self::$plugins as $plugin ) {
-			$plugin instanceof Extensions\Skeleton && $plugin::install();
+		foreach ( self::$themes as $theme ) {
+			$theme instanceof Extensions\Skeleton && $theme::install();
 		}
 	}
 
@@ -65,25 +65,19 @@ final class Plugins extends Extensions\Provider {
 	 * @since 2025.1
 	 */
 	public static function uninstall(): void {
-		foreach ( self::$plugins as $plugin ) {
-			$plugin instanceof Extensions\Skeleton && $plugin::uninstall();
+		foreach ( self::$themes as $theme ) {
+			$theme instanceof Extensions\Skeleton && $theme::uninstall();
 		}
 	}
 
 	/**
-	 * Checks the plugins directory and retrieve all plugin files with plugin data.
 	 *
-	 * Grafema only supports plugin files in the base plugins directory
-	 * (plugins) and in one directory above the plugins directory
-	 * (plugins/my-plugin). The file it looks for has the plugin data
-	 * and must be found in those two locations. It is recommended to keep your
-	 * plugin files in their own directories.
 	 *
 	 * @since 2025.1
 	 *
-	 * @return array[] Array of arrays of plugin data, keyed by plugin file name.
+	 * @return array[]
 	 */
 	public static function get(): array {
-		return self::$plugins;
+		return self::$themes;
 	}
 }

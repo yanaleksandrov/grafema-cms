@@ -4,54 +4,20 @@ use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Hook;
 use Grafema\Debug;
-use Grafema\Plugins;
 
 /**
  * QueryMonitor plugin.
  *
  * @since 2025.1
  */
-class QueryMonitor implements Plugins\Skeleton
-{
-	public function manifest(): array
-	{
-		return [
-			'name'         => I18n::_t( 'Query Monitor' ),
-			'description'  => I18n::_t( 'The developer tools panel for Grafema.' ),
-			'author'       => 'Grafema Team',
-			'email'        => '',
-			'url'          => '',
-			'license'      => 'GNU General Public License v3.0',
-			'version'      => '2025.1',
-			'php'          => '8.2',
-			'mysql'        => '5.7',
-			'dependencies' => [],
-		];
-	}
+return new class extends Grafema\Plugin {
 
-	/**
-	 * QueryMonitor plugin.
-	 *
-	 * @since 2025.1
-	 */
-	public function launch(): void
-	{
-		if ( ! Is::dashboard() ) {
-			return;
-		}
-
-		Hook::add(
-			'grafema_dashboard_footer',
-			function () {
-				?>
-				<template x-teleport="#query">
-					<a class="menu__link" x-show="query" href="#">
-						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ); ?>
-					</a>
-				</template>
-				<?php
-			}
-		);
+	public function __construct() {
+		$this
+			->setVersion( '2024.9' )
+			->setName( 'Smarto' )
+			->setAuthor( 'Grafema Team' )
+			->setDescription( I18n::_t( 'The developer tools panel for Grafema' ) );
 	}
 
 	/**
@@ -83,11 +49,48 @@ class QueryMonitor implements Plugins\Skeleton
 	 */
 	public function test( mixed $str, bool $ret, string $content, $after ): void {}
 
-	public function activate() {}
+	/**
+	 * QueryMonitor plugin.
+	 *
+	 * @since 2025.1
+	 */
+	public static function launch(): void
+	{
+		if ( ! Is::dashboard() ) {
+			return;
+		}
 
-	public function deactivate() {}
+		Hook::add(
+			'grafema_dashboard_footer',
+			function () {
+				?>
+				<template x-teleport="#query">
+					<a class="menu__link" x-show="query" href="#">
+						<i class="ph ph-monitor"></i> <?php printf( '%s %s %sQ', Debug::timer( 'getall' ), Debug::memory_peak(), Db::queries() ); ?>
+					</a>
+				</template>
+				<?php
+			}
+		);
+	}
 
-	public function install() {}
+	public static function activate()
+	{
+		// TODO: Implement activate() method.
+	}
 
-	public function uninstall() {}
-}
+	public static function deactivate()
+	{
+		// TODO: Implement deactivate() method.
+	}
+
+	public static function install()
+	{
+		// TODO: Implement install() method.
+	}
+
+	public static function uninstall()
+	{
+		// TODO: Implement uninstall() method.
+	}
+};

@@ -1,7 +1,4 @@
 <?php
-use Grafema\Esc;
-use Grafema\Sanitizer;
-
 /**
  * Progress bar
  *

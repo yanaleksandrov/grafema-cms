@@ -60,6 +60,13 @@ trait Cell {
 	public bool $searchable = false;
 
 	/**
+	 * Cell wrapper html attributes list.
+	 *
+	 * @var array
+	 */
+	public array $attributes = [];
+
+	/**
 	 * Column constructor.
 	 *
 	 * @param string $key

@@ -226,11 +226,11 @@ final class Sanitizer
 	 */
 	public static function json( mixed $value ): string
 	{
-		return Json::encode( self::array( $value ) );
+		return Json::encode( $value );
 	}
 
 	/**
-	 * Sanitizer markup.
+	 * Sanitizer html markup.
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
@@ -241,14 +241,14 @@ final class Sanitizer
 	}
 
 	/**
-	 * Sanitizer html.
+	 * Replaces special characters with HTML entities in the transmitted text, returns formatted text.
 	 *
 	 * @param mixed $value Value to change
 	 * @return string
 	 */
 	public static function html( mixed $value ): string
 	{
-		return trim( htmlspecialchars( $value, ENT_QUOTES ) );
+		return trim( htmlspecialchars( $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8' ) );
 	}
 
 	/**
@@ -350,7 +350,7 @@ final class Sanitizer
 	 * @param string $value The locale name to be sanitized.
 	 * @return string       The sanitized value.
 	 */
-	public static function local( mixed $value ): string
+	public static function locale( mixed $value ): string
 	{
 		// limit to A-Z, a-z, 0-9, '_', '-'.
 		return preg_replace( '/[^A-Za-z0-9_-]/', '', self::trim( $value ) );
@@ -376,8 +376,7 @@ final class Sanitizer
 	 */
 	public static function prop( mixed $value ): string
 	{
-		$value = self::dot( $value );
-		return self::camelcase( $value );
+		return self::camelcase( self::dot( $value ) );
 	}
 
 	/**
@@ -549,6 +548,31 @@ final class Sanitizer
 	public static function email( mixed $value ): string
 	{
 		return strval( filter_var( self::trim( $value ), FILTER_SANITIZE_EMAIL ) );
+	}
+
+	/**
+	 * Converts email addresses characters to HTML entities to block spam bots.
+	 *
+	 * @param string $value Email address.
+	 * @return string       Converted email address.
+	 */
+	public static function emailAntiSpam( mixed $value ): string
+	{
+		$value = self::trim( $value );
+
+		$email_no_spam_address = '';
+		for ( $i = 0, $len = strlen( $value ); $i < $len; $i++ ) {
+			$j = rand( 0, 1 );
+
+			if ( 0 === $j ) {
+				$email_no_spam_address .= '&#' . ord( $value[ $i ] ) . ';';
+			} elseif ( 1 === $j ) {
+				$email_no_spam_address .= $value[ $i ];
+			} elseif ( 2 === $j ) {
+				$email_no_spam_address .= '%' . zeroise( dechex( ord( $value[ $i ] ) ), 2 );
+			}
+		}
+		return str_replace( '@', '&#64;', $email_no_spam_address );
 	}
 
 	/**

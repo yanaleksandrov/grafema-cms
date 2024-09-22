@@ -258,9 +258,13 @@ final class I18n extends I18n\Locale {
 
 		$languagesList = [];
 		foreach ( $languages as $language ) {
-			$content = ['content' => "{$language['name']} - {$language['native']}"];
+			if ( $language['name'] === $language['native'] ) {
+				$content = ['content' => "{$language['name']}"];
+			} else {
+				$content = ['content' => "{$language['name']} - {$language['native']}"];
+			}
 
-			$languagesList[ $language['iso_639_1'] ] = $callback ? $callback( $content, $language ) : $content;
+			$languagesList[ $language['locale'] ?? $language['iso_639_1'] ] = $callback ? $callback( $content, $language ) : $content;
 		}
 
 		// sort A-Z by language name ('content' field)

@@ -77,19 +77,17 @@ final class Install extends \Grafema\App\App {
 				 *
 				 * @since 2025.1
 				 */
-				$styles = [ 'main', 'phosphor' ];
+				$styles = [ 'grafema', 'controls', 'utility', 'phosphor' ];
 				foreach ( $styles as $style ) {
 					Asset::enqueue( $style, Url::site( 'dashboard/assets/css/' . $style . '.css' ) );
 				}
 
-				$scripts = [ 'index', 'ajax', 'alpine.min' ];
+				$scripts = [ 'grafema', 'ajax', 'alpine' ];
 				foreach ( $scripts as $script ) {
 					$data = [];
-					if ( $script === 'index' ) {
-						$data = [
-							'data' => [
-								'apiurl' => 'https://cms.codyshop.ru/api/',
-							],
+					if ( $script === 'grafema' ) {
+						$data['data'] = [
+							'apiurl' => Url::site( '/api/' ),
 						];
 					}
 					Asset::enqueue( $script, Url::site( 'dashboard/assets/js/' . $script . '.js' ), $data );

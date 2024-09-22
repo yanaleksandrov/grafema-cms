@@ -49,7 +49,7 @@ class Users
 				showname      varchar(255) NOT NULL default '',
 				nicename      varchar(60)  NOT NULL default '',
 				email         varchar(100) NOT NULL default '',
-				local         varchar(100) NOT NULL default '',
+				locale        varchar(100) NOT NULL default '',
 				registered    datetime     NOT NULL default NOW(),
 				visited       datetime     NOT NULL default NOW(),
 				PRIMARY KEY   (ID),

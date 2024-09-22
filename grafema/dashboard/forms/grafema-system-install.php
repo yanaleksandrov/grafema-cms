@@ -10,7 +10,7 @@ use Grafema\View;
 return Dashboard\Form::enqueue(
 	'system-install',
 	[
-		'class'           => 'dg g-6',
+		'class'           => 'dg g-2',
 		'@submit.prevent' => '$ajax("system/install").then(response => installed = response)',
 		'x-data'          => '{approved: {}, site: {}, db: {}, user: {}, installed: false}',
 		'x-init'          => '$watch("installed", () => $wizard.goNext())'
@@ -19,7 +19,7 @@ return Dashboard\Form::enqueue(
 		[
 			'type'       => 'step',
 			'attributes' => [
-				'class'         => 'dg g-7 pt-8 px-8',
+				'class'         => 'dg g-8 pt-8',
 				'x-wizard:step' => 'site.name?.trim()',
 			],
 			'fields'     => [
@@ -82,7 +82,7 @@ return Dashboard\Form::enqueue(
 		[
 			'type'       => 'step',
 			'attributes' => [
-				'class'           => 'dg g-7 pt-8 px-8',
+				'class'           => 'dg g-8 pt-8',
 				'x-cloak'         => true,
 				'x-wizard:step'   => '[db.database, db.username, db.password, db.host, db.prefix].every(value => value !== undefined && value.trim())',
 				'x-wizard:action' => 'approved = {}',
@@ -164,8 +164,8 @@ return Dashboard\Form::enqueue(
 				[
 					'type'          => 'group',
 					'name'          => 'system',
-					'label'         => I18n::_t( 'Map Data' ),
-					'class'         => '',
+					'label'         => '',
+					'class'         => 'dg g-7 gtc-4 sm:gtc-1',
 					'label_class'   => '',
 					'content_class' => '',
 					'fields'        => [
@@ -220,7 +220,7 @@ return Dashboard\Form::enqueue(
 		[
 			'type'       => 'step',
 			'attributes' => [
-				'class'           => 'dg g-7 pt-8 px-8',
+				'class'           => 'dg g-8 pt-8',
 				'x-wizard:step'   => 'Object.values(approved).every(Boolean) === true',
 				'x-wizard:action' => '$ajax("system/test", db).then(response => approved = response)',
 				'x-cloak'         => true,
@@ -272,7 +272,7 @@ return Dashboard\Form::enqueue(
 		[
 			'type'       => 'step',
 			'attributes' => [
-				'class'         => 'dg g-7 pt-8 px-8',
+				'class'         => 'dg g-8 pt-8',
 				'x-cloak'       => true,
 				'x-wizard:step' => '[user.login, user.email, user.password].every(value => value !== undefined && value.trim())',
 			],
@@ -367,20 +367,22 @@ return Dashboard\Form::enqueue(
 		[
 			'type'       => 'step',
 			'attributes' => [
-				'class'   => 'dg g-7 pt-8 px-8',
+				'class'   => 'dg g-8 pt-8',
 				'x-cloak' => true,
 			],
 			'fields'     => [
 				[
 					'type'     => 'custom',
-					'callback' => View::get(
-						GRFM_PATH . 'dashboard/templates/global/state',
-						[
-							'icon'        => 'state-success',
-							'title'       => I18n::_t( 'Woo-hoo, Grafema has been successfully installed!' ),
-							'description' => I18n::_t( 'We hope the installation process was easy. Thank you, and enjoy.' ),
-						]
-					),
+					'callback' => function() {
+						View::print(
+							GRFM_PATH . 'dashboard/templates/global/state',
+							[
+								'icon'        => 'state-success',
+								'title'       => I18n::_t( 'Woo-hoo, Grafema has been successfully installed!' ),
+								'description' => I18n::_t( 'We hope the installation process was easy. Thank you, and enjoy.' ),
+							]
+						);
+					},
 				],
 			],
 		],
@@ -389,7 +391,7 @@ return Dashboard\Form::enqueue(
 			'callback' => function() {
 				?>
 				<!-- buttons -->
-				<div class="p-8 df jcsb g-2">
+				<div class="py-8 df jcsb g-2">
 					<button type="button" class="btn btn--outline" x-show="$wizard.isNotLast()" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::t( 'Back' ); ?></button>
 					<button type="button" class="btn btn--primary" x-show="$wizard.isNotLast() && !$wizard.isStep(3)" :disabled="$wizard.cannotGoNext()" @click="$wizard.goNext()" disabled><?php I18n::t( 'Continue' ); ?></button>
 					<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(3)" :disabled="!['login', 'email', 'password'].every(key => user[key].trim())" x-cloak disabled><?php I18n::t( 'Install Grafema' ); ?></button>

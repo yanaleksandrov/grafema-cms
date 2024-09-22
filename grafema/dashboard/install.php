@@ -34,9 +34,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		Hook::apply( 'grafema_dashboard_header' );
 		?>
 	</head>
-	<body class="df jcc p-8">
-        <div class="mw-360">
-            <div class="df jcc mb-4">
+	<body class="df jcc p-6" x-data="grafema">
+        <div class="mw-400">
+            <div class="df jcc">
                 <img src="/dashboard/assets/images/logo-decorate.svg" width="200" height="117" alt="Grafema CMS">
             </div>
             <?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-system-install.php' ); ?>

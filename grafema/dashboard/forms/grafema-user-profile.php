@@ -320,8 +320,8 @@ return Dashboard\Form::enqueue(
 				],
 				[
 					'type'          => 'group',
-					'name'          => 'language',
-					'label'         => I18n::_t( 'Language' ),
+					'name'          => 'translations',
+					'label'         => I18n::_t( 'Translations' ),
 					'class'         => '',
 					'label_class'   => '',
 					'content_class' => '',
@@ -341,21 +341,10 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
-							'options' => [
-								'us' => [
-									'image'   => 'assets/images/flags/us.svg',
-									'content' => I18n::_t( 'English - english' ),
-								],
-								'ru' => [
-									'image'   => 'assets/images/flags/ru.svg',
-									'content' => I18n::_t( 'Russian - русский' ),
-								],
-								'he' => [
-									'image'   => 'assets/images/flags/il.svg',
-									'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
-								],
+							'attributes'  => [
+								'x-select' => '{"showSearch": 1}',
 							],
+							'options'     => I18n::getLanguagesOptions( fn( $content, $language ) => $content + [ 'image' => "assets/images/flags/{$language['country']}.svg" ] ),
 						],
 					],
 				],

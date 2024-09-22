@@ -76,7 +76,7 @@ return Dashboard\Form::enqueue(
 						[
 							'type'        => 'select',
 							'name'        => 'site[language]',
-							'label'       => I18n::_t( 'Language' ),
+							'label'       => I18n::_t( 'Site Language' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
@@ -89,22 +89,10 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value' => Option::get( 'site.language' ),
+								'value'    => Option::get( 'site.language' ),
+								'x-select' => '{"showSearch": 1}',
 							],
-							'options' => [
-								'us' => [
-									'image'   => 'assets/images/flags/us.svg',
-									'content' => I18n::_t( 'English - english' ),
-								],
-								'ru' => [
-									'image'   => 'assets/images/flags/ru.svg',
-									'content' => I18n::_t( 'Russian - русский' ),
-								],
-								'he' => [
-									'image'   => 'assets/images/flags/il.svg',
-									'content' => I18n::_t( 'עִבְרִית - Hebrew' ),
-								],
-							],
+							'options' => I18n::getLanguagesOptions( fn( $content, $language ) => $content + [ 'image' => "assets/images/flags/{$language['country']}.svg" ] ),
 						],
 						[
 							'type'        => 'text',

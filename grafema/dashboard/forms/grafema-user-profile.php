@@ -4,17 +4,6 @@ use Grafema\Url;
 use Grafema\Sanitizer;
 use Grafema\View;
 
-$data      = [];
-$languages = Grafema\Patterns\Registry::get( 'languages' );
-foreach ( $languages as $language ) {
-	$data[ $language['locale'] ?? $language['country'] ?? $language['iso_639_1'] ] = [
-		'image'   => sprintf( 'assets/images/flags/%s.svg', $language['country'] ?: $language['iso_639_1'] ),
-		'content' => sprintf( '%s - %s', $language['name'], $language['native'] ),
-	];
-}
-
-usort( $data, fn( $a, $b ) => $a['content'] <=> $b['content'] );
-
 /**
  * Profile page.
  *
@@ -352,8 +341,10 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
-							'options'     => $data,
+							'attributes'  => [
+								'x-select' => '{"showSearch": 1}',
+							],
+							'options'     => I18n::getLanguagesOptions( fn( $content, $language ) => $content + [ 'image' => "assets/images/flags/{$language['country']}.svg" ] ),
 						],
 					],
 				],

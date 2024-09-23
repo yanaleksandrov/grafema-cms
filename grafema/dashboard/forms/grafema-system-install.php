@@ -73,7 +73,6 @@ return Dashboard\Form::enqueue(
 					'conditions'  => [],
 					'attributes'  => [
 						'placeholder'    => I18n::_t( 'Example: Just another Grafema site' ),
-						'required'       => true,
 						'x-autocomplete' => '',
 					],
 				],
@@ -253,9 +252,7 @@ return Dashboard\Form::enqueue(
 						];
 						?>
 						<ul class="dg g-1">
-							<?php
-							foreach ( $checks as $icon => $title ) :
-								?>
+							<?php foreach ( $checks as $icon => $title ) : ?>
 								<li class="df aic">
 									<span class="badge badge--xl badge--round badge--icon" :class="approved.<?php echo $icon; ?> === undefined ? 'badge--load' : (approved.<?php echo $icon; ?> ? 't-green' : 't-red')">
 										<i class="ph" :class="approved.<?php echo $icon; ?> ? 'ph-check' : 'ph-x'"></i>

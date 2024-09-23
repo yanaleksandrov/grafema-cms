@@ -2841,9 +2841,18 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
 				} else if (el.type === 'radio' && typeof xData[key] === 'undefined') {
 					value = el.checked ? el.value : '';
 				} else {
-					value = xData[key] ?? '';
+					value = el.value || '';
+					if (rest.length > 0) {
+						let obj = {...xData[key]};
+
+						obj[rest[0]] = rest.slice(1).reduceRight((accumulator, current) => {
+							return { [current]: accumulator };
+						}, value);
+
+						value = obj;
+					}
 				}
-				xData[key] = rest.length > 0 ? rest.reduceRight((acc, key) => ({[key]: acc}), value) : value;
+				xData[key] = value;
 			}
 
 			if ([void 0, null, ""].includes(getValue()) || el.type === "checkbox" && Array.isArray(getValue()) || el.tagName.toLowerCase() === "select" && el.multiple) {

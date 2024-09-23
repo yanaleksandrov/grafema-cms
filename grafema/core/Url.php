@@ -66,9 +66,21 @@ final class Url
 	 */
 	public static function site( string $path = '', string $scheme = null ): string
 	{
-		$url = 'https://cms.codyshop.ru'; // TODO:: resolve conflict when install Option::get( 'site.url' );
+		try {
+			$url = Option::get( 'site.url' );
+		} catch ( \Error $e ) {
+			$protocol = match (true) {
+				! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off',
+					! empty( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' => 'https://',
+				default => 'http://',
+			};
+
+			$url = $protocol . ( $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] );
+		}
+
+		$url = sprintf( '%s/', $url );
 		if ( $path ) {
-			$url .= '/' . ltrim( $path, '/' );
+			$url .= ltrim( $path, '/' );
 		}
 
 		/*

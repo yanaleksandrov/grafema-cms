@@ -47,6 +47,12 @@ final class Html
 
     private $whitespace = ["\n", "\r", "\t", ' '];
 
+    private $input = '';
+
+	private $input_length;
+
+	private $output = [];
+
     // all the single tags for HTML
     private $single_token = [
         'br',

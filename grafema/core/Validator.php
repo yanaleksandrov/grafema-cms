@@ -227,7 +227,7 @@ final class Validator {
 				$comparison = $this->fields[ $comparison_value ] ?? $comparison_value;
 
 				// check if $comparison_value is a list of data
-				$comparison_value_array = explode( ',', $comparison_value );
+				$comparison_value_array = explode( ',', $comparison_value ?? '' );
 				if ( count( $comparison_value_array ) > 1 ) {
 					$comparison       = $comparison_value_array;
 					$comparison_value = implode( ', ', $comparison );

@@ -395,9 +395,7 @@ try {
 			 * @since 2025.1
 			 */
 			if ( $slug !== 'install' && ! Is::installed() ) {
-				View::redirect(
-					Url::install()
-				);
+				View::redirect( Url::install() );
 				exit;
 			}
 
@@ -408,9 +406,7 @@ try {
 			 * @since 2025.1
 			 */
 			if ( ! in_array( $slug, ['sign-in', 'sign-up', 'reset-password'], true ) && ! User::logged() && Is::installed() ) {
-				View::redirect(
-					Url::sign_in()
-				);
+				View::redirect( Url::sign_in() );
 				exit;
 			}
 
@@ -421,9 +417,7 @@ try {
 			 */
 			$black_list_slugs = ['install', 'sign-in', 'sign-up', 'reset-password'];
 			if ( in_array( $slug, $black_list_slugs, true ) && User::logged() ) {
-				View::redirect(
-					Url::site( 'dashboard' )
-				);
+				View::redirect( Url::site( 'dashboard' ) );
 				exit;
 			}
 

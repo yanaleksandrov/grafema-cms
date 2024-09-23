@@ -57,60 +57,57 @@ final class Install extends \Grafema\App\App {
 	 */
 	private function route(): void {
 		$route = new Route();
-		$route->get(
-			'(.*)',
-			function( $slug ) use ( $route ) {
-				http_response_code( 200 );
+		$route->get( '(.*)', function( $slug ) use ( $route ) {
+			http_response_code( 200 );
 
-				/**
-				 * Redirect to installer wizard if Grafema is not installed.
-				 *
-				 * @since 2025.1
-				 */
-				if ( $slug !== 'install' ) {
-					View::redirect( Url::site( 'install' ) );
-					exit;
-				}
-
-				/**
-				 * Run the installer wizard.
-				 *
-				 * @since 2025.1
-				 */
-				$styles = [ 'grafema', 'controls', 'utility', 'phosphor' ];
-				foreach ( $styles as $style ) {
-					Asset::enqueue( $style, Url::site( 'dashboard/assets/css/' . $style . '.css' ) );
-				}
-
-				$scripts = [ 'grafema', 'ajax', 'alpine' ];
-				foreach ( $scripts as $script ) {
-					$data = [];
-					if ( $script === 'grafema' ) {
-						$data['data'] = [
-							'apiurl' => Url::site( '/api/' ),
-						];
-					}
-					Asset::enqueue( $script, Url::site( 'dashboard/assets/js/' . $script . '.js' ), $data );
-				}
-
-				/**
-				 * Include assets before calling hooks, but after they are registered.
-				 *
-				 * @since 2025.1
-				 */
-				Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
-				Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
-
-				/**
-				 * The administrative panel also has a single entry point.
-				 *
-				 * @since 2025.1
-				 */
-				echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
-
-				die();
+			/**
+			 * Redirect to installer wizard if Grafema is not installed.
+			 *
+			 * @since 2025.1
+			 */
+			if ( $slug !== 'install' ) {
+				View::redirect( Url::site( 'install' ) );
+				exit;
 			}
-		);
+
+			/**
+			 * Run the installer wizard.
+			 *
+			 * @since 2025.1
+			 */
+			$styles = [ 'grafema', 'controls', 'utility', 'phosphor' ];
+			foreach ( $styles as $style ) {
+				Asset::enqueue( $style, Url::site( 'dashboard/assets/css/' . $style . '.css' ) );
+			}
+
+			$scripts = [ 'grafema', 'ajax', 'alpine' ];
+			foreach ( $scripts as $script ) {
+				$data = [];
+				if ( $script === 'grafema' ) {
+					$data['data'] = [
+						'apiurl' => Url::site( '/api/' ),
+					];
+				}
+				Asset::enqueue( $script, Url::site( 'dashboard/assets/js/' . $script . '.js' ), $data );
+			}
+
+			/**
+			 * Include assets before calling hooks, but after they are registered.
+			 *
+			 * @since 2025.1
+			 */
+			Hook::add( 'grafema_dashboard_header', fn () => Asset::render( '*.css' ) );
+			Hook::add( 'grafema_dashboard_footer', fn () => Asset::render( '*.js' ) );
+
+			/**
+			 * The administrative panel also has a single entry point.
+			 *
+			 * @since 2025.1
+			 */
+			echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
+
+			die();
+		} );
 
 		$route->run( fn() => die() );
 	}

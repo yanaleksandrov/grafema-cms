@@ -51,7 +51,7 @@ $attributes = [
 		echo $label;
         if ( $generator ) {
             ?>
-			<span class="fw-400 fs-13 t-muted" @click="<?php echo $prop; ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
+			<span class="ml-auto fw-400 fs-13 t-muted" @click="<?php echo $prop; ?> = $password.generate(); $dispatch('input')"><?php I18n::t( 'Generate' ); ?></span>
 		<?php } ?>
 	</div>
 	<div class="field-item">

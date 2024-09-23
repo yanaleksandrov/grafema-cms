@@ -94,7 +94,7 @@ class Csrf
 		}
 
 		if ( ! $multiple ) {
-			$this->session->set( $this->session_prefix . $key, null );
+			$this->session->set( $this->session_prefix . $key, $token );
 		}
 
 		if ( $this->referralHash() !== substr( base64_decode( $sessionToken ), 10, 40 ) ) {

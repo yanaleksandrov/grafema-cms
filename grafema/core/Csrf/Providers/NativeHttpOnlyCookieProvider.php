@@ -17,6 +17,9 @@ class NativeHttpOnlyCookieProvider implements Provider
 
 	/**
 	 * Get a cookie value.
+	 *
+	 * @param string $key
+	 * @return mixed
 	 */
 	public function get( string $key ): mixed
 	{
@@ -25,6 +28,9 @@ class NativeHttpOnlyCookieProvider implements Provider
 
 	/**
 	 * Set a cookie value.
+	 *
+	 * @param string $key
+	 * @param mixed $value
 	 */
 	public function set( string $key, mixed $value ): void
 	{

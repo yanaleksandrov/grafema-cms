@@ -35,6 +35,7 @@ const GRFM_DASHBOARD = __DIR__ . '/dashboard/';
 const GRFM_PLUGINS   = __DIR__ . '/plugins/';
 const GRFM_THEMES    = __DIR__ . '/themes/';
 const GRFM_UPLOADS   = __DIR__ . '/uploads/';
+const GRFM_I18N      = __DIR__ . '/i18n/';
 
 /**
  * Authentication unique keys and salts.

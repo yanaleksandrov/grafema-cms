@@ -163,7 +163,7 @@ trait Traits {
 			}
 
 			if ( ! empty( $field['label'] ) && ( $field['attributes']['required'] ?? false ) ) {
-				$field['label'] = I18n::_f( '%s (required)', $field['label'] );
+				$field['label'] = I18n::_f( '%s %s', $field['label'], '<i class="t-red">*</i>' );
 			}
 
 			// parse conditions
@@ -172,7 +172,7 @@ trait Traits {
 			}
 
 			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
-			$content .= View::get( GRFM_DASHBOARD . "templates/form/{$prefix}{$type}", $field );
+			$content .= View::get( GRFM_PATH . "dashboard/templates/form/{$prefix}{$type}", $field );
 		}
 		return $content;
 	}

@@ -187,7 +187,7 @@ final class Is
 			return false;
 		}
 
-		return isset( $schema[DB_PREFIX . Option::$table] ) && ! empty( Option::get( 'site.url' ) );
+		return isset( $schema[ DB_PREFIX . Option::$table ] ) && ! empty( Option::get( 'site.url' ) );
 	}
 
 	/**

@@ -78,8 +78,9 @@ final class Url
 			$url = $protocol . ( $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] );
 		}
 
+		$url = sprintf( '%s/', $url );
 		if ( $path ) {
-			$url .= '/' . rtrim( $path, '/' );
+			$url .= ltrim( $path, '/' );
 		}
 
 		/*

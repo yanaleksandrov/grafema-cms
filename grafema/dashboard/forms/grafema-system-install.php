@@ -1,6 +1,7 @@
 <?php
 use Grafema\I18n;
 use Grafema\View;
+use Grafema\Url;
 
 /**
  * Register form for first Grafema installation.
@@ -241,13 +242,13 @@ return Dashboard\Form::enqueue(
 					'type'     => 'custom',
 					'callback' => function() {
 						$checks = [
-							'connection' => I18n::_t( 'Testing the database connection' ),
 							'pdo'        => I18n::_t( 'PDO PHP Extension' ),
 							'curl'       => I18n::_t( 'cURL PHP Extension' ),
 							'mbstring'   => I18n::_t( 'Mbstring PHP Extension' ),
 							'gd'         => I18n::_t( 'GD PHP Extension' ),
 							'memory'     => I18n::_t( '128MB or more allocated memory' ),
 							'php'        => I18n::_t( 'PHP version 8.1 or higher' ),
+							'connection' => I18n::_t( 'Testing the database connection' ),
 							'mysql'      => I18n::_t( 'MySQL version 5.6 or higher' ),
 						];
 						?>
@@ -392,7 +393,7 @@ return Dashboard\Form::enqueue(
 					<button type="button" class="btn btn--outline" x-show="$wizard.isNotLast()" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::t( 'Back' ); ?></button>
 					<button type="button" class="btn btn--primary" x-show="$wizard.isNotLast() && !$wizard.isStep(3)" :disabled="$wizard.cannotGoNext()" @click="$wizard.goNext()" disabled><?php I18n::t( 'Continue' ); ?></button>
 					<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(3)" :disabled="!['login', 'email', 'password'].every(key => user[key].trim())" x-cloak disabled><?php I18n::t( 'Install Grafema' ); ?></button>
-					<a href="/dashboard/" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
+					<a href="<?php echo Url::site( '/dashboard/' ); ?>" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
 				</div>
 				<?php
 			},

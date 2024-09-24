@@ -54,6 +54,7 @@ final class Db {
 
 		try {
 			self::$connection = new Medoo( $options );
+			var_dump( self::$connection );
 		} catch ( PDOException $e ) {
 			return new Error( 'database-connection', I18n::_t( 'There is a problem with connecting to the database' ) );
 		}
@@ -67,7 +68,10 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function query( string $statement, array $map = [] ): ?PDOStatement {
-		return self::$connection->query( $statement, $map );
+		if ( self::$connection instanceof PDOStatement ) {
+			return self::$connection->query( $statement, $map );
+		}
+		return null;
 	}
 
 	/**
@@ -329,7 +333,7 @@ final class Db {
 	 */
 	public static function schema( string $_column = null ) {
 		if ( ! self::$schema ) {
-			$columns = self::query(
+			$query = self::query(
 				'
 				SELECT
     				COLUMN_NAME as name, DATA_TYPE as type, TABLE_NAME as tbl
@@ -340,10 +344,14 @@ final class Db {
 				[
 					':database' => DB_NAME,
 				]
-			)->fetchAll( PDO::FETCH_ASSOC );
-			if ( $columns ) {
-				foreach ( $columns as $column ) {
-					self::$schema[ $column['tbl'] ][ $column['name'] ] = $column['type'];
+			);
+
+			if ( $query instanceof PDOStatement ) {
+				$columns = $query->fetchAll( PDO::FETCH_ASSOC );
+				if ( is_array( $columns ) ) {
+					foreach ( $columns as $column ) {
+						self::$schema[ $column['tbl'] ][ $column['name'] ] = $column['type'];
+					}
 				}
 			}
 		}

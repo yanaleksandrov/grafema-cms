@@ -1190,7 +1190,7 @@ var __webpack_modules__ = {
                 charsets: {
                     lowercase: 'abcdefghijklmnopqrstuvwxyz',
                     uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-                    special: '!@#$%^&*(){|}~',
+                    special: '!@#$^&*(){|}~',
                     digit: '0123456789'
                 },
                 switch(value) {

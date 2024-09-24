@@ -104,9 +104,29 @@ final class Install extends \Grafema\App\App {
 			 *
 			 * @since 2025.1
 			 */
-			echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
+			View::print( GRFM_PATH . 'dashboard/install' );
+			//echo ( new Html() )->beautify( View::get( GRFM_PATH . 'dashboard/install' ) );
 
-			die();
+			if ( extension_loaded( 'xhprof' ) ) {
+				$xhprof_data = xhprof_disable();
+				$xhprof_root = 'C:\OpenServer\domains\grfm.loc\xhprof';
+				$xhprof_lib  = $xhprof_root . '\xhprof_lib\utils\xhprof_lib.php';
+				$xhprof_runs = $xhprof_root . '\xhprof_lib\utils\xhprof_runs.php';
+
+				// Подключаем необходимые файлы
+				include_once $xhprof_lib;
+				include_once $xhprof_runs;
+
+				// Сохраняем данные профилирования
+				$xhprof_runs = new \XHProfRuns_Default();
+				$run_id      = $xhprof_runs->save_run( $xhprof_data, 'my_app' );
+				$report_url  = "http://grfm.loc/xhprof/xhprof_html/index.php?run={$run_id}&source=my_app";
+
+				// Выводим отчёт на текущей странице
+				echo '<code>';
+				echo "<a href='{$report_url}' target='_blank'>Ссылка на ваш отчет</a>";
+				echo '</code>';
+			}
 		} );
 
 		$route->run( fn() => die() );

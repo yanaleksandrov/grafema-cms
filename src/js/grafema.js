@@ -1439,7 +1439,7 @@ document.addEventListener( 'alpine:init', () => {
 		charsets: {
 			lowercase: 'abcdefghijklmnopqrstuvwxyz',
 			uppercase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-			special: '!@#$%^&*(){|}~',
+			special: '!@#$^&*(){|}~',
 			digit: '0123456789'
 		},
 		switch(value) {

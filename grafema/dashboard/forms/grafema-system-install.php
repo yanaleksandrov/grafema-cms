@@ -393,7 +393,7 @@ return Dashboard\Form::enqueue(
 					<button type="button" class="btn btn--outline" x-show="$wizard.isNotLast()" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::t( 'Back' ); ?></button>
 					<button type="button" class="btn btn--primary" x-show="$wizard.isNotLast() && !$wizard.isStep(3)" :disabled="$wizard.cannotGoNext()" @click="$wizard.goNext()" disabled><?php I18n::t( 'Continue' ); ?></button>
 					<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(3)" :disabled="!['login', 'email', 'password'].every(key => user[key].trim())" x-cloak disabled><?php I18n::t( 'Install Grafema' ); ?></button>
-					<a href="<?php echo Url::site( '/dashboard/' ); ?>" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
+					<a href="<?php echo Url::site( '/dashboard/profile' ); ?>" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
 				</div>
 				<?php
 			},

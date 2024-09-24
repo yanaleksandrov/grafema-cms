@@ -241,13 +241,16 @@ textarea {
     background-color: #f7f7f7;
     border-color: #f7f7f7 !important;
     cursor: not-allowed;
-    pointer-events: none;
     resize: none;
     transition: none;
 
     &:not([x-autocomplete]) {
       color: var(--grafema-text-muted) !important;
     }
+  }
+
+  &[disabled] {
+    pointer-events: none;
   }
 
   // TODO: заменить

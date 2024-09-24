@@ -68,7 +68,7 @@ final class Url
 	{
 		try {
 			$url = Option::get( 'site.url' );
-		} catch ( \Error $e ) {
+		} catch ( \Error|\PDOException $e ) {
 			$protocol = match (true) {
 				! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off',
 					! empty( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' => 'https://',

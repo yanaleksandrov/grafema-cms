@@ -17,7 +17,7 @@
         <path fill-opacity=".8" d="m134.23 109.05 8.44-6.85 3.39-2.75V86.07l-18.35 14.89 6.52 8.09Z"/>
         <path fill-opacity=".6" d="m139.56 115.65 3.11-2.52V102.2l-8.44 6.85 5.33 6.6Z"/>
     </g>
-    <path fill="#F7F7F7" stroke="#E6E6E6" d="M60.5 89.5h6v6h-6zM169.5 52.5h6v6h-6zM206.5 125.5h6v6h-6z"/>
+    <path fill="#fff" stroke="#E6E6E6" d="M60.5 89.5h6v6h-6zM169.5 52.5h6v6h-6zM206.5 125.5h6v6h-6z"/>
     <defs>
         <linearGradient id="a" x1="100.5" x2="100.5" y1="0" y2="160" gradientUnits="userSpaceOnUse">
             <stop stop-color="#666" stop-opacity="0"/>

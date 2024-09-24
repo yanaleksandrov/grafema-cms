@@ -53,6 +53,10 @@ final class Html
 
 	private $output = [];
 
+	private $css_beautify = false;
+
+	private $js_beautify = false;
+
     // all the single tags for HTML
     private $single_token = [
         'br',

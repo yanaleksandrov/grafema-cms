@@ -96,15 +96,22 @@ final class View
 	 */
 	public static function print( string $template, array $args = [] )
 	{
-		$filepath = sprintf( '%s.php', $template );
-		$filepath = match (true) {
-			file_exists( $filepath )         => $filepath,
-			Is::dashboard() || Is::install() => sprintf('%sdashboard/%s.php', GRFM_PATH, $template),
-			default                          => GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) . $template,
-		};
+		static $fileCache = [];
 
-		$filepath = Sanitizer::path( $filepath );
-		if ( file_exists( $filepath ) ) {
+		$filepath = sprintf( '%s.php', $template );
+		$filepath = Sanitizer::path(
+			match ( true ) {
+				file_exists( $filepath )         => $filepath,
+				Is::dashboard() || Is::install() => sprintf( '%sdashboard/%s.php', GRFM_PATH, $template ),
+				default                          => GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) . $template,
+			}
+		);
+
+		if ( ! isset( $fileCache[ $filepath ] ) ) {
+			$fileCache[ $filepath ] = file_exists( $filepath );
+		}
+
+		if ( $fileCache[ $filepath ] ) {
 
 			/**
 			 * Override template file.

@@ -485,7 +485,7 @@ class File
 			$i      = 1;
 			$prefix = '-' . $i;
 
-			while ( is_file( $this->dirpath . $filename . $prefix . '.' . $extension ) ) {
+			while ( file_exists( $this->dirpath . $filename . $prefix . '.' . $extension ) ) {
 				$prefix = '-' . ++$i;
 			}
 			$new_filename = sprintf( '%s%s.%s', $filename, $prefix, $extension );

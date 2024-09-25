@@ -1,25 +1,21 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
 namespace Grafema;
 
 /**
- * Is class.
+ * This class provides a set of static methods to check various conditions, such as validating
+ * email addresses and URLs, determining the type of server, and identifying the request type.
  *
  * @since 2025.1
  */
 final class Is
 {
 	/**
-	 * Checks whether the string is a valid email.
+	 * Checks whether the given string is a valid email address.
 	 *
-	 * @param string $thing
-	 * @return bool
+	 * This method uses PHP's built-in filter to validate the format of the email address.
+	 *
+	 * @param string $thing The email address to validate.
+	 * @return bool True if the email is valid, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function email( string $thing ): bool
@@ -28,10 +24,12 @@ final class Is
 	}
 
 	/**
-	 * Checks whether the string is a valid URL.
+	 * Checks whether the given string is a valid URL.
 	 *
-	 * @param string $thing
-	 * @return bool
+	 * This method uses PHP's built-in filter to validate the format of the URL.
+	 *
+	 * @param string $thing The URL to validate.
+	 * @return bool True if the URL is valid, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function url( string $thing ): bool
@@ -40,9 +38,12 @@ final class Is
 	}
 
 	/**
-	 * Test if the current browser runs on a mobile device (smart phone, tablet, etc.).
+	 * Tests if the current browser runs on a mobile device (smartphone, tablet, etc.).
+	 *
+	 * This method checks the user agent string against known mobile device patterns.
 	 *
 	 * @see    http://detectmobilebrowsers.com
+	 * @return bool True if the current browser is a mobile device, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function mobile(): bool
@@ -65,8 +66,9 @@ final class Is
 	}
 
 	/**
-	 * Whether the server software is Apache or something else.
+	 * Checks whether the server software is Apache or LiteSpeed.
 	 *
+	 * @return bool True if the server is running Apache or LiteSpeed, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function apache(): bool
@@ -75,8 +77,9 @@ final class Is
 	}
 
 	/**
-	 * Whether the server software is IIS or something else.
+	 * Checks whether the server software is IIS.
 	 *
+	 * @return bool True if the server is running IIS, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function iis(): bool
@@ -85,8 +88,9 @@ final class Is
 	}
 
 	/**
-	 * Whether the server software is Nginx or something else.
+	 * Checks whether the server software is Nginx.
 	 *
+	 * @return bool True if the server is running Nginx, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function nginx(): bool
@@ -97,6 +101,10 @@ final class Is
 	/**
 	 * Determines if SSL is used.
 	 *
+	 * This method checks the HTTPS environment variable and server port to determine
+	 * if the request is made over SSL.
+	 *
+	 * @return bool True if SSL is being used, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function ssl(): bool
@@ -121,10 +129,9 @@ final class Is
 	 *
 	 * Returns whether `$thing` is an instance of the `Errors` class.
 	 *
-	 * @since  2025.1
-	 *
 	 * @param mixed $thing The variable to check
 	 * @return bool        Whether the variable is an instance of Errors
+	 * @since  2025.1
 	 */
 	public static function error( mixed $thing ): bool
 	{
@@ -159,8 +166,9 @@ final class Is
 	}
 
 	/**
-	 * Determines is debug mode.
+	 * Checks if the application is in debug mode.
 	 *
+	 * @return bool True if debug mode is enabled, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function debug(): bool {
@@ -191,8 +199,9 @@ final class Is
 	}
 
 	/**
-	 * Check is ajax query.
+	 * Checks if the current request is an AJAX query.
 	 *
+	 * @return bool True if the request is an AJAX query, false otherwise.
 	 * @since  2025.1
 	 */
 	public static function ajax(): bool
@@ -201,23 +210,25 @@ final class Is
 	}
 
 	/**
-	 * Determines string is json format.
+	 * Determines if the given string is in JSON format.
 	 *
+	 * @param mixed $thing The variable to check.
+	 * @return bool        True if the string is in JSON format, false otherwise.
 	 * @since  2025.1
-	 *
-	 * @return bool true if current string is json format
 	 */
-	public static function json( $thing ): bool
+	public static function json( mixed $thing ): bool
 	{
 		return is_string( $thing ) && is_array( json_decode( $thing, true ) );
 	}
 
 	/**
-	 * Determines string is timestamp format.
+	 * Determines if the given string is a valid timestamp format.
 	 *
+	 * @param mixed $thing The variable to check.
+	 * @return bool        True if the string is a valid timestamp format, false otherwise.
 	 * @since  2025.1
 	 */
-	public static function timestamp( $thing ): bool
+	public static function timestamp( mixed $thing ): bool
 	{
 		if ( strlen( (int) $thing ) === 10 ) {
 			try {
@@ -225,10 +236,8 @@ final class Is
 			} catch ( \Exception $e ) {
 				return false;
 			}
-
 			return true;
 		}
-
 		return false;
 	}
 

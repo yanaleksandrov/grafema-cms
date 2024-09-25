@@ -67,7 +67,7 @@ class Dir
 			$paths = glob( $path . '/*' );
 
 			foreach ( $paths as $filepath ) {
-				if ( is_file( $filepath ) ) {
+				if ( file_exists( $filepath ) ) {
 					unlink( $filepath );
 				} elseif ( is_dir( $filepath ) ) {
 					$this->clear( $filepath );
@@ -150,7 +150,7 @@ class Dir
 				}
 			}
 
-			return array_filter( $files ?: [], 'is_file' );
+			return array_filter( $files ?: [], 'file_exists' );
 		};
 
 		return $search( $this->path, 0 );

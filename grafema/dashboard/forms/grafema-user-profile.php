@@ -344,7 +344,7 @@ return Dashboard\Form::enqueue(
 							'attributes'  => [
 								'x-select' => '{"showSearch": 1}',
 							],
-							'options'     => I18n::getLanguagesOptions( fn( $content, $language ) => $content + [ 'image' => "assets/images/flags/{$language['country']}.svg" ] ),
+							'options'     => I18n::getLanguagesOptions(),
 						],
 					],
 				],

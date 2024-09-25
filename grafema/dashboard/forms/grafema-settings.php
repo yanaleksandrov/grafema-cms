@@ -92,7 +92,7 @@ return Dashboard\Form::enqueue(
 								'value'    => Option::get( 'site.language' ),
 								'x-select' => '{"showSearch": 1}',
 							],
-							'options' => I18n::getLanguagesOptions( fn( $content, $language ) => $content + [ 'image' => "assets/images/flags/{$language['country']}.svg" ] ),
+							'options' => I18n::getLanguagesOptions(),
 						],
 						[
 							'type'        => 'text',

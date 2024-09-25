@@ -1,25 +1,42 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.hyperf.io
- * @document https://hyperf.wiki
- * @contact  group@hyperf.io
- * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE.md
- */
-
 namespace Grafema;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 /**
+ * A Mail class for sending emails using PHPMailer.
+ * This class provides a static method to send emails with support for
+ * attachments, custom headers, and multiple recipients.
+ *
  * @since 2025.1
  */
 final class Mail
 {
-    /**
-     * @since 2025.1
-     */
+
+	/**
+	 * Sends an email.
+	 *
+	 * This method constructs an email message and sends it to one or
+	 * more recipients using the PHPMailer library. It supports
+	 * attachments and custom headers. The method will handle the
+	 * necessary configurations for sending the email.
+	 *
+	 * @param string $to         Recipient(s) email address(es).
+	 *                           Can be a comma-separated string or an array.
+	 * @param string $subject    Subject of the email.
+	 * @param string $message    The body of the email.
+	 * @param string $headers    Optional. Custom headers for the email.
+	 *                           Can be a string or an array. Default is an empty string.
+	 * @param array $attachments Optional. An array of file paths to be
+	 *                           attached to the email. Default is an empty array.
+	 *
+	 * @return bool Returns true if the email was sent successfully, false otherwise.
+	 *
+	 * @throws Exception If an error occurs during the sending process.
+	 *
+	 * @since 2025.1
+	 */
     public static function send(string $to, string $subject, string $message, string $headers = '', array $attachments = [])
     {
         $atts = compact('to', 'subject', 'message', 'headers', 'attachments');
@@ -185,7 +202,7 @@ final class Mail
 
         try {
             $phpmailer->setFrom($from_email, $from_name, false);
-        } catch (PHPMailer\PHPMailer\Exception $e) {
+        } catch (Exception $e) {
             $mail_error_data = compact('to', 'subject', 'message', 'headers', 'attachments');
             $mail_error_data['phpmailer_exception_code'] = $e->getCode();
             return false;
@@ -229,7 +246,7 @@ final class Mail
                             $phpmailer->addReplyTo($address, $recipient_name);
                             break;
                     }
-                } catch (PHPMailer\PHPMailer\Exception $e) {
+                } catch ( Exception $e ) {
                     continue;
                 }
             }
@@ -265,7 +282,7 @@ final class Mail
                 if ( ! in_array($name, ['MIME-Version', 'X-Mailer'], true)) {
                     try {
                         $phpmailer->addCustomHeader(sprintf('%1$s: %2$s', $name, $content));
-                    } catch (PHPMailer\PHPMailer\Exception $e) {
+                    } catch ( Exception $e ) {
                         continue;
                     }
                 }
@@ -280,7 +297,7 @@ final class Mail
             foreach ($attachments as $attachment) {
                 try {
                     $phpmailer->addAttachment($attachment);
-                } catch (PHPMailer\PHPMailer\Exception $e) {
+                } catch (Exception $e) {
                     continue;
                 }
             }
@@ -289,7 +306,7 @@ final class Mail
         // Send!
         try {
             return $phpmailer->send();
-        } catch (PHPMailer\PHPMailer\Exception $e) {
+        } catch (Exception $e) {
             $mail_error_data = compact('to', 'subject', 'message', 'headers', 'attachments');
             $mail_error_data['phpmailer_exception_code'] = $e->getCode();
             return false;

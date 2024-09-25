@@ -75,18 +75,17 @@ final class Sanitizer
 	 *
 	 * @return array
 	 */
-	public function apply(): array
-	{
+	public function apply(): array {
 		foreach ( $this->rules as $field => $rules_list ) {
 			$rules = explode( '|', $rules_list );
 
 			// add support dot notation
 			if (str_contains($field, '.')) {
-				[$field, $key] = explode('.', $field, 2) + [null, null];
+				[ $field, $key ] = explode( '.', $field, 2 ) + [ null, null ];
 			}
 
 			foreach ( $rules as $rule ) {
-				[$method, $default_value] = explode(':', $rule, 2) + [null, null];
+				[ $method, $default_value ] = explode( ':', $rule, 2 ) + [ null, null ];
 
 				$extension = isset( $this->extensions[$method] ) ? $this->extensions[$method] : null;
 				if ( ! empty( $key ) ) {
@@ -106,9 +105,9 @@ final class Sanitizer
 				}
 
 				$data = match (true) {
-					is_callable( $extension )       => call_user_func( $extension, $value, $this ),
-					is_callable( [$this, $method] ) => call_user_func( [$this, $method], $value ),
-					default                         => null
+					is_callable( $extension )         => $extension( $value, $this ),
+					is_callable( [ $this, $method ] ) => $this->{$method}( $value ),
+					default                           => null
 				};
 
 				if ( ! empty( $key ) ) {
@@ -398,7 +397,7 @@ final class Sanitizer
 	 */
 	public static function trim( mixed $value ): string
 	{
-		return is_array( $value ) || is_object( $value ) ? '' : trim( (string) $value );
+		return is_scalar( $value ) ? trim( (string) $value ) : '';
 	}
 
 	/**

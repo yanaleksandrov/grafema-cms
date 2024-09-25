@@ -1,12 +1,4 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Grafema;
 
 /**
@@ -14,8 +6,8 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-final class Hook
-{
+final class Hook {
+
 	/**
 	 * Holds list of filters.
 	 *
@@ -159,7 +151,7 @@ final class Hook
 	 *
 	 * @return mixed the filtered value after all hooked functions are applied to it
 	 */
-	public static function apply( string $tag, $value = null )
+	public static function apply( string $tag, $value = null ): mixed
 	{
 		$args = [];
 		// Do 'all' actions first
@@ -217,7 +209,7 @@ final class Hook
 	 *
 	 * @return mixed the filtered value after all hooked functions are applied to it
 	 */
-	public static function apply_ref_array( $tag, $args )
+	public static function apply_ref_array( $tag, $args ): mixed
 	{
 		// Do 'all' actions first
 		if ( isset( self::$filters['all'] ) ) {
@@ -312,11 +304,7 @@ final class Hook
 			return $function;
 		}
 
-		if ( is_object( $function ) ) {
-			$function = [$function, '']; // Closures are currently implemented as objects
-		} else {
-			$function = (array) $function;
-		}
+		$function = is_object( $function ) ? [$function, ''] : (array) $function;
 
 		if ( is_object( $function[0] ) ) {
 			// Object Class Calling

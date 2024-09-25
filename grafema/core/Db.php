@@ -1,9 +1,8 @@
 <?php
-
 namespace Grafema;
 
 use Grafema\Db\Medoo;
-use PDO, PDOException, PDOStatement, Raw;
+use PDO, PDOException, PDOStatement;
 
 final class Db {
 
@@ -35,29 +34,33 @@ final class Db {
 
 	/**
 	 * Init database connection
+	 * TODO: добавить возможность поддержки подключения больше одной базы данных, но с учётом кеширования
 	 *
-	 * @return void|Error
+	 * @param array $options
 	 */
 	public function __construct( array $options = [] ) {
-		$options = array_merge(
-			[
-				'database' => defined( 'DB_NAME' ) ? DB_NAME : '',
-				'username' => defined( 'DB_USERNAME' ) ? DB_USERNAME : '',
-				'password' => defined( 'DB_PASSWORD' ) ? DB_PASSWORD : '',
-				'host'     => defined( 'DB_HOST' ) ? DB_HOST : 'localhost',
-				'prefix'   => defined( 'DB_PREFIX' ) ? DB_PREFIX : 'grafema_',
-				'type'     => defined( 'DB_TYPE' ) ? DB_TYPE : 'mysql',
-				'charset'  => defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8mb4',
-			],
-			$options
-		);
-
 		try {
-			self::$connection = new Medoo( $options );
-			var_dump( self::$connection );
+			if ( empty( self::$connection ) ) {
+				$options = array_merge(
+					[
+						'database' => defined( 'DB_NAME' ) ? DB_NAME : '',
+						'username' => defined( 'DB_USERNAME' ) ? DB_USERNAME : '',
+						'password' => defined( 'DB_PASSWORD' ) ? DB_PASSWORD : '',
+						'host'     => defined( 'DB_HOST' ) ? DB_HOST : 'localhost',
+						'prefix'   => defined( 'DB_PREFIX' ) ? DB_PREFIX : 'grafema_',
+						'type'     => defined( 'DB_TYPE' ) ? DB_TYPE : 'mysql',
+						'charset'  => defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8mb4',
+					],
+					$options
+				);
+
+				self::$connection = new Medoo( $options );
+			}
 		} catch ( PDOException $e ) {
 			return new Error( 'database-connection', I18n::_t( 'There is a problem with connecting to the database' ) );
 		}
+
+		return self::$connection;
 	}
 
 	/**
@@ -68,10 +71,7 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function query( string $statement, array $map = [] ): ?PDOStatement {
-		if ( self::$connection instanceof PDOStatement ) {
-			return self::$connection->query( $statement, $map );
-		}
-		return null;
+		return self::$connection?->query( $statement, $map );
 	}
 
 	/**
@@ -84,7 +84,7 @@ final class Db {
 	 * @codeCoverageIgnore
 	 */
 	public static function exec( string $statement, array $map = [], callable $callback = null ): ?PDOStatement {
-		return self::$connection->exec( $statement, $map, $callback );
+		return self::$connection?->exec( $statement, $map, $callback );
 	}
 
 	/**
@@ -94,7 +94,7 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function drop( string $table ): ?PDOStatement {
-		return self::$connection->drop( $table );
+		return self::$connection?->drop( $table );
 	}
 
 	/**
@@ -107,7 +107,7 @@ final class Db {
 	 * @return array|null
 	 */
 	public static function select( string $table, $join, $columns = null, $where = null ): ?array {
-		return self::$connection->select( $table, $join, $columns, $where );
+		return self::$connection?->select( $table, $join, $columns, $where );
 	}
 
 	/**
@@ -119,7 +119,7 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function insert( string $table, array $values, string $primaryKey = null ): ?PDOStatement {
-		return self::$connection->insert( $table, $values, $primaryKey );
+		return self::$connection?->insert( $table, $values, $primaryKey );
 	}
 
 	/**
@@ -131,18 +131,18 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function update( string $table, $data, $where = null ): ?PDOStatement {
-		return self::$connection->update( $table, $data, $where );
+		return self::$connection?->update( $table, $data, $where );
 	}
 
 	/**
 	 * Delete data from the table.
 	 *
 	 * @param string $table
-	 * @param array|Raw $where
+	 * @param array $where
 	 * @return PDOStatement|null
 	 */
 	public static function delete( string $table, $where ): ?PDOStatement {
-		return self::$connection->delete( $table, $where );
+		return self::$connection?->delete( $table, $where );
 	}
 
 	/**
@@ -154,7 +154,7 @@ final class Db {
 	 * @return PDOStatement|null
 	 */
 	public static function replace( string $table, array $columns, $where = null ): ?PDOStatement {
-		return self::$connection->replace( $table, $columns, $where );
+		return self::$connection?->replace( $table, $columns, $where );
 	}
 
 	/**
@@ -167,7 +167,7 @@ final class Db {
 	 * @return mixed
 	 */
 	public static function get( string $table, $join = null, $columns = null, $where = null ) {
-		return self::$connection->get( $table, $join, $columns, $where );
+		return self::$connection?->get( $table, $join, $columns, $where );
 	}
 
 	/**
@@ -179,7 +179,7 @@ final class Db {
 	 * @return bool
 	 */
 	public static function has( string $table, $join, $where = null ): bool {
-		return self::$connection->has( $table, $join, $where );
+		return self::$connection?->has( $table, $join, $where );
 	}
 
 	/**
@@ -192,7 +192,7 @@ final class Db {
 	 * @return array
 	 */
 	public static function rand( string $table, $join = null, $columns = null, $where = null ): array {
-		return self::$connection->rand( $table, $join, $columns, $where );
+		return self::$connection?->rand( $table, $join, $columns, $where );
 	}
 
 	/**
@@ -205,7 +205,7 @@ final class Db {
 	 * @return int|null
 	 */
 	public static function count( string $table, $join = null, $column = null, $where = null ): ?int {
-		return self::$connection->count( $table, $join, $column, $where );
+		return self::$connection?->count( $table, $join, $column, $where );
 	}
 
 	/**
@@ -218,7 +218,7 @@ final class Db {
 	 * @return string|null
 	 */
 	public static function avg( string $table, $join, $column = null, $where = null ): ?string {
-		return self::$connection->avg( $table, $join, $column, $where );
+		return self::$connection?->avg( $table, $join, $column, $where );
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class Db {
 	 * @return string|null
 	 */
 	public static function max( string $table, $join, $column = null, $where = null ): ?string {
-		return self::$connection->max( $table, $join, $column, $where );
+		return self::$connection?->max( $table, $join, $column, $where );
 	}
 
 	/**
@@ -244,7 +244,7 @@ final class Db {
 	 * @return string|null
 	 */
 	public static function min( string $table, $join, $column = null, $where = null ): ?string {
-		return self::$connection->min( $table, $join, $column, $where );
+		return self::$connection?->min( $table, $join, $column, $where );
 	}
 
 	/**
@@ -257,7 +257,7 @@ final class Db {
 	 * @return string|null
 	 */
 	public static function sum( string $table, $join, $column = null, $where = null ): ?string {
-		return self::$connection->sum( $table, $join, $column, $where );
+		return self::$connection?->sum( $table, $join, $column, $where );
 	}
 
 	/**
@@ -267,7 +267,7 @@ final class Db {
 	 * @return Db\Medoo
 	 */
 	public static function debug(): Db\Medoo {
-		return self::$connection->debug();
+		return self::$connection?->debug();
 	}
 
 	/**
@@ -276,7 +276,7 @@ final class Db {
 	 * @return string|null
 	 */
 	public static function last(): ?string {
-		return self::$connection->last();
+		return self::$connection?->last();
 	}
 
 	/**
@@ -295,7 +295,7 @@ final class Db {
 	 */
 	public static function info(): ?array {
 		if ( self::$connection instanceof Db\Medoo ) {
-			return self::$connection->info();
+			return self::$connection?->info();
 		}
 		return null;
 	}
@@ -308,7 +308,7 @@ final class Db {
 	 * @codeCoverageIgnore
 	 */
 	public static function id( string $name = null ): ?string {
-		return self::$connection->id( $name );
+		return self::$connection?->id( $name );
 	}
 
 	/**

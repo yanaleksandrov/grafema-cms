@@ -116,7 +116,7 @@ final class Api
 		foreach ( $files as $file ) {
 			$filepath = $path . '/' . $file;
 
-			if ( is_file( $filepath ) && pathinfo( $file, PATHINFO_EXTENSION ) === 'php' ) {
+			if ( file_exists( $filepath ) && pathinfo( $file, PATHINFO_EXTENSION ) === 'php' ) {
 				$content = file_get_contents( $filepath );
 
 				if ( preg_match( '/namespace\s+([^\s;]+)/', $content, $matches ) ) {

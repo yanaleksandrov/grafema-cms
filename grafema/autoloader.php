@@ -7,23 +7,32 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 spl_autoload_register(
-	function ( $class ) {
-		$filepath = sprintf( '%s%s.php', GRFM_PATH, $class );
+	function ($class) {
+		static $fileCache = [];
 
-		// TODO: is so bad, fix it!
+		$filepath = sprintf('%s%s.php', GRFM_PATH, $class);
+
+		// Заменяем разделители и изменяем путь
 		$filepath = str_replace(
 			['\\', '/Grafema/', '/Dashboard/'],
 			['/', '/core/', '/dashboard/core/'],
 			$filepath
 		);
 
-		if ( $class === 'Grafema2025' ) {
+		// Если класс 'Grafema2025', выводим отладочную информацию
+		if ($class === 'Grafema2025') {
 			echo '<pre>';
-			var_dump( $class );
-			var_dump( $filepath );
+			var_dump($class);
+			var_dump($filepath);
 			echo '</pre>';
 		}
-		if ( is_file( $filepath ) ) {
+
+		// Проверяем наличие файла с кэшированием
+		if (!isset($fileCache[$filepath])) {
+			$fileCache[$filepath] = file_exists($filepath);
+		}
+
+		if ($fileCache[$filepath]) {
 			require_once $filepath;
 		}
 	}

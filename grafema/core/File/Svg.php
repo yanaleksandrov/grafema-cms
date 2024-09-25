@@ -650,7 +650,7 @@ class Svg
     public function addSprite($from_dir, $to_dir)
     {
         $sprite = $to_dir . 'sprite.svg';
-        $files = array_filter(glob($from_dir . '*.svg'), 'is_file');
+        $files = array_filter(glob($from_dir . '*.svg'), 'file_exists');
         if ( ! empty($files)) {
             $_files = [];
             foreach ($files as $file) {

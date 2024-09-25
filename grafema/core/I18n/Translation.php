@@ -41,27 +41,29 @@ trait Translation {
 	 */
 	protected static function get( string $string ): string {
 		$backtrace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 2 );
-		$source    = $backtrace[1] ?? [];
+		$source    = $backtrace[1]['file'] ?? null;
 
-		if ( $source ) {
-			$sourceFile = $source['file'] ?? '';
-			$segments   = array_map( fn( $key ) => basename( rtrim( $key, '/' ) ), array_keys( self::$routes ) );
-			$result     = implode( '|', $segments );
-			$pattern    = sprintf( '/(%s)\/([^\/]+)\/[^\/]+$/', $result );
+		// add routes storages
+		static $override = [];
+		static $routes   = [];
+
+		if ( $source !== null ) {
+			if ( isset( $routes[ $source ] ) || isset( $override[ $source ] ) ) {
+				return self::gettext( $string, $routes[ $source ] ?? '', $override[ $source ] ?? '' );
+			}
 
 			// check that incoming path is part of exist routes
-			if ( preg_match( $pattern, $sourceFile, $matches ) ) {
+			$segments = array_map( fn( $key ) => basename( rtrim( $key, '/' ) ), array_keys( self::$routes ) );
+			$result   = implode( '|', $segments );
+			$pattern  = sprintf( '/(%s)\/([^\/]+)\/[^\/]+$/', $result );
+			if ( preg_match( $pattern, $source, $matches ) ) {
 				$element   = $matches[1] ?? '';
 				$directory = $matches[2] ?? '';
 				$filename  = sprintf( self::$pattern, self::getLocale() );
 
-				// add routes storages
-				static $override = [];
-				static $routes   = [];
-
 				// try to find main & custom translations
 				foreach ( self::$routes as $route => $targetRoute ) {
-					if ( ! str_starts_with( $sourceFile, $route ) ) {
+					if ( ! str_starts_with( $source, $route ) ) {
 						continue;
 					}
 
@@ -75,17 +77,11 @@ trait Translation {
 						$targetDir = $element . DIRECTORY_SEPARATOR . str_replace( ':dirname', $directory, $targetDir );
 					}
 
-					$override[ $sourceFile ] ??= sprintf( '%s%s/%s.json', GRFM_I18N, $targetDir, self::getLocale() );
-					$routes[ $sourceFile ]   ??= sprintf( '%s/%s.json', $targetRoute, $filename );
+					$override[ $source ] ??= sprintf( '%s%s/%s.json', GRFM_I18N, $targetDir, self::getLocale() );
+					$routes[ $source ]   ??= sprintf( '%s/%s.json', $targetRoute, $filename );
 				}
 
-				if ( isset( $override[ $sourceFile ] ) ) {
-					$translation = self::gettext( $override[ $sourceFile ], $string );
-					if ( $translation !== $string ) {
-						return $translation;
-					}
-				}
-				return self::gettext( $routes[ $sourceFile ] ?? '', $string );
+				return self::gettext( $string, $routes[ $source ] ?? '', $override[ $source ] ?? '' );
 			}
 		}
 		return $string;
@@ -94,15 +90,18 @@ trait Translation {
 	/**
 	 * Find text from file.
 	 *
-	 * @param string $filepath
 	 * @param string $string
+	 * @param string $filepath
+	 * @param string $overrideFilepath
 	 * @return string
 	 */
-	private static function gettext( string $filepath, string $string ): string {
-		if ( file_exists( $filepath ) ) {
-			$translations = json_decode( file_get_contents( $filepath ) ?? '', 1 );
-			if ( isset( $translations[ $string ] ) ) {
-				return $translations[ $string ];
+	private static function gettext( string $string, string $filepath, string $overrideFilepath = '' ): string {
+		foreach ( [ $overrideFilepath, $filepath ] as $path ) {
+			if ( file_exists( $path ) ) {
+				$translations = json_decode( file_get_contents( $path ) ?: '', true );
+				if ( isset( $translations[ $string ] ) ) {
+					return $translations[ $string ];
+				}
 			}
 		}
 		return $string;

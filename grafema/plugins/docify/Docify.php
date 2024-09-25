@@ -34,7 +34,7 @@ return new class extends Grafema\Plugin {
 				$classname = implode( '\\', $parts );
 				$filepath  = str_replace( '\\', '/', GRFM_PLUGINS . sprintf( '%s.php', $classname ) );
 
-				if ( is_file( $filepath ) ) {
+				if ( file_exists( $filepath ) ) {
 					require_once $filepath;
 				}
 			}

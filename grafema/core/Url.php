@@ -172,9 +172,8 @@ final class Url
 	 */
 	public static function toPath( string $url ): string
 	{
-		$dirname  = dirname( __DIR__ );
 		$relative = ltrim( parse_url( $url, PHP_URL_PATH ), '/' );
-		$filepath = sprintf( '%s/%s', $dirname, $relative );
+		$filepath = sprintf( '%s/%s', dirname( __DIR__ ), $relative );
 
 		if ( file_exists( $filepath ) ) {
 			return $filepath;

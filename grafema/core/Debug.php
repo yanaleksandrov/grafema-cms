@@ -1,16 +1,17 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Grafema;
 
-final class Debug
-{
+/**
+ * A utility class for debugging PHP applications. Provides methods to manage error reporting,
+ * measure execution time, memory usage, and generate detailed error outputs. This class is
+ * designed to be used in a development environment to facilitate troubleshooting and performance
+ * analysis.
+ *
+ * @package Grafema
+ * @final
+ */
+final class Debug {
+
 	public static function launch(): void
 	{
 		if ( defined( 'GRFM_DEBUG' ) && GRFM_DEBUG ) {
@@ -30,13 +31,13 @@ final class Debug
 	 *                      getall|end|stop - получает разницу, между первым вызовом функции (run).
 	 *                      pause           - временная остановка подсчета. exec_time() для продолжения.
 	 *                      clear           - полностью очищает результат. exec_time() для начала нового подсчета.
-	 * @param int    $round до скольки знаков после запятой округлять результат
-	 *
-	 * @return float|void Example 0.03654
+	 * @param int $round    до скольки знаков после запятой округлять результат
+	 * @param string $txt
+	 * @return float|int|string Example 0.03654
 	 *
 	 * @ver: 3.4.3
 	 */
-	public static function timer( string $phase = 'run', int $round = 4, string $txt = 's' )
+	public static function timer( string $phase = 'run', int $round = 2, string $txt = 's' ): float|int|string
 	{
 		static $prev_time, $collect;
 
@@ -51,17 +52,17 @@ final class Debug
 
 		if ( $prev_time ) {
 			$exectime = $mctime - $prev_time; // bcsub( $mctime, $prev_time, 8 );
-			$collect += $exectime; // bcadd( $collect, $exectime, 8 );
+			$collect += $exectime;            // bcadd( $collect, $exectime, 8 );
 		}
 		$prev_time = $mctime;
 
-		if ( $phase === 'pause' ) {
-			$prev_time = 0;
-		} elseif ( $phase === 'get' ) {
-			return round( $exectime, $round ) . $txt;
-		} elseif ( in_array( $phase, ['getall', 'end', 'stop'], true ) ) {
-			return round( $collect, $round ) . $txt;
-		}
+		return match ( $phase ) {
+			'getall',
+			'end',
+			'stop'    => round( $collect, $round ) . $txt,
+			'get'     => round( $exectime, $round ) . $txt,
+			default   => 0,
+		};
 	}
 	
 	/**
@@ -77,6 +78,9 @@ final class Debug
 
 	/**
 	 * Возвращает пиковое значение объема памяти, выделенное PHP.
+	 *
+	 * @param bool $real_usage
+	 * @return string
 	 */
 	public static function memory_peak( bool $real_usage = false ): string
 	{
@@ -86,6 +90,7 @@ final class Debug
 	/**
 	 * Возвращает процент используемой памяти от общего количества выделенной.
 	 *
+	 * @param bool $relative
 	 * @return false|string
 	 */
 	public static function memory_limit( bool $relative = true ): bool|string
@@ -99,13 +104,15 @@ final class Debug
 
 	/**
 	 * Converts bytes.
+	 *
+	 * @param int $size
+	 * @return string
 	 */
 	public static function convert( int $size ): string
 	{
-		$i    = floor( log( $size, 1024 ) );
-		$unit = ['b', 'kb', 'mb', 'gb'];
+		$i = floor( log( $size, 1024 ) );
 
-		return round( $size / pow( 1024, $i ), 1 ) . $unit[$i];
+		return round( $size / pow( 1024, $i ), 1 ) . ['b', 'kb', 'mb', 'gb'][$i];
 	}
 
 	/**
@@ -136,25 +143,6 @@ final class Debug
 		}
 
 		return '';
-	}
-
-	/**
-	 * Gets the source file of a function or method call.
-	 *
-	 * @since 2025.1
-	 */
-	public static function get_source( $class, $function )
-	{
-		$backtrace = self::backtrace();
-
-		foreach ( $backtrace as $k => $trace ) {
-			if ( isset( $trace['class'], $trace['function'] ) && $trace['class'] === $class && $trace['function'] === $function ) {
-				++$k;
-				break;
-			}
-		}
-
-		return $backtrace[$k]['file'] ?? '';
 	}
 
 	/**

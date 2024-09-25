@@ -97,7 +97,7 @@ trait Translation {
 	 */
 	private static function gettext( string $string, string $filepath, string $overrideFilepath = '' ): string {
 		foreach ( [ $overrideFilepath, $filepath ] as $path ) {
-			if ( $path && file_exists( $path ) ) {
+			if ( file_exists( $path ) ) {
 				$translations = json_decode( file_get_contents( $path ) ?: '', true );
 				if ( isset( $translations[ $string ] ) ) {
 					return $translations[ $string ];

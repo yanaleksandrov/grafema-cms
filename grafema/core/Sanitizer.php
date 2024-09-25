@@ -397,7 +397,7 @@ final class Sanitizer
 	 */
 	public static function trim( mixed $value ): string
 	{
-		return is_array( $value ) || is_object( $value ) ? '' : trim( (string) $value );
+		return is_scalar( $value ) ? trim( (string) $value ) : '';
 	}
 
 	/**

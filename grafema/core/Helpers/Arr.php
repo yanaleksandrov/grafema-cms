@@ -199,10 +199,9 @@ class Arr {
 	 * Convert flat array to html attributes.
 	 *
 	 * @param array $attributes
-	 * @param array $whitelist
 	 * @return string
 	 */
-	public static function toHtmlAtts( array $attributes, array $whitelist = [] ): string {
+	public static function toHtmlAtts( array $attributes ): string {
 		$boolean_attributes = [
 			'accesskey',
 			'async',
@@ -226,16 +225,6 @@ class Arr {
 		];
 
 		$atts = [];
-
-		if ( $whitelist ) {
-			$attributes = self::sortByPattern(
-				self::clean(
-					self::extract( $attributes, $whitelist )
-				),
-				self::clean( $whitelist )
-			);
-		}
-
 		foreach ( $attributes as $attribute => $value ) {
 			$attribute = trim( htmlspecialchars( $attribute, ENT_QUOTES ) );
 			$value     = trim( htmlspecialchars( $value, ENT_QUOTES ) );

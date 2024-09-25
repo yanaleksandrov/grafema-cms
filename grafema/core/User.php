@@ -6,7 +6,12 @@ use Grafema\Users\Users;
 use Grafema\Helpers\Hash;
 
 /**
- * User
+ * This class handles user-related operations including user creation, retrieval,
+ * updating, deletion, and session management. It extends the Users class to inherit
+ * user-related functionalities.
+ *
+ * @since 2025.1
+ * @package Grafema
  */
 final class User extends Users {
 

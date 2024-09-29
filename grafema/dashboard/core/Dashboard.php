@@ -40,7 +40,7 @@ new class extends \Grafema\App\App {
 		 */
 		$styles  = ['phosphor'];
 		if ( ! Is::install() ) {
-			$styles  = ['phosphor', 'air-datepicker', 'colorist', 'datepicker', 'drooltip', 'flags', 'slimselect', 'dialog', 'grafema', 'controls', 'utility', 'notifications', 'nav-editor'];
+			$styles  = ['phosphor', 'air-datepicker', 'colorist', 'datepicker', 'drooltip', 'slimselect', 'dialog', 'grafema', 'controls', 'utility', 'notifications', 'nav-editor'];
 		}
 		foreach ( $styles as $style ) {
 			if ( ! Is::debug() ) {

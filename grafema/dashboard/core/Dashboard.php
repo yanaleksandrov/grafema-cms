@@ -69,7 +69,7 @@ new class extends \Grafema\App\App {
 							'showFilter'     => false,
 							'bulk'           => false,
 							'showMenu'       => false,
-							'spriteFlagsUrl' => Url::site( '/dashboard/assets/flags.svg' ),
+							'spriteFlagsUrl' => Url::site( '/dashboard/assets/sprites/flags.svg' ),
 							'notifications'  => [
 								'ctrlS' => I18n::_t_attr( 'Grafema saves the changes automatically, so there is no need to press ⌘ + S' ),
 							],

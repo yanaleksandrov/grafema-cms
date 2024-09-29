@@ -163,7 +163,7 @@ trait Traits {
 			}
 
 			if ( ! empty( $field['label'] ) && ( $field['attributes']['required'] ?? false ) ) {
-				$field['label'] = I18n::_f( '%s %s', $field['label'], '<i class="t-red">*</i>' );
+				$field['label'] = sprintf( '%s %s', $field['label'], '<i class="t-red">*</i>' );
 			}
 
 			// parse conditions

@@ -153,7 +153,7 @@ $start_time = microtime( true );
 								View::print(
 									GRFM_DASHBOARD . 'templates/global/state',
 									[
-										'icon'        => 'state-ufo',
+										'icon'        => 'ufo',
 										'title'       => I18n::_t( 'Nothing found' ),
 										'description' => I18n::_t( 'Try to write something, there will be search results here' ),
 									]

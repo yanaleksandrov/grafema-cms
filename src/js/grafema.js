@@ -1139,17 +1139,19 @@ document.addEventListener( 'alpine:init', () => {
 				select: el,
 				data: Array.from(el.options).reduce((acc, option) => {
 					let image       = option.getAttribute('data-image') || '',
+						flag        = option.getAttribute('data-flag') || '',
 						icon        = option.getAttribute('data-icon') || '',
 						description = option.getAttribute('data-description') || '';
 
 					image       = image && `<img src="${image}" alt />`;
+					flag        = flag && `<svg><use xlink:href="${grafema?.spriteFlagsUrl}#${flag}"></use></svg>`;
 					icon        = icon && `<i class="${icon}"></i>`;
 					description = description && `<span class="ss-description">${description}</span>`;
 
 					let optionData = {
 						text: option.text,
 						value: option.value,
-						html: `${image}${icon}<span class="ss-text">${option.text}${description}</span>`,
+						html: `${image}${icon}${flag}<span class="ss-text">${option.text}${description}</span>`,
 						selected: option.selected,
 						display: true,
 						disabled: false,

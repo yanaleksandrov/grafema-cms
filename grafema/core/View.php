@@ -1,11 +1,4 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
 namespace Grafema;
 
 /**
@@ -13,15 +6,15 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-final class View
-{
+final class View {
+
 	/**
 	 * @param $location
 	 * @param int $status
 	 * @param string $x_redirect_by
 	 * @return bool|Error
 	 */
-	public static function redirect( $location, $status = 302, $x_redirect_by = 'Grafema' )
+	public static function redirect( string $location, int $status = 302, string $x_redirect_by = 'Grafema' ): bool|Error
 	{
 		/**
 		 * Filters the redirect location.
@@ -83,7 +76,6 @@ final class View
 	 * The template is included using require, not require_once, so you
 	 * may include the same template part multiple times.
 	 *
-	 * TODO: add object cache
 	 * TODO: include 404 error part if nothing found (possible no needs)
 	 * TODO: potential problem, - if the same file override several different plugins, which one should I use?
 	 *

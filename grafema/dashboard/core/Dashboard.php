@@ -21,7 +21,7 @@ use Grafema\Url;
  *
  * @since 2025.1
  */
-(new class extends \Grafema\App\App {
+new class extends \Grafema\App\App {
 
 	public function __construct() {
 
@@ -63,12 +63,13 @@ use Grafema\Url;
 						[
 							'apiurl'         => Url::site( '/api/' ),
 							'items'          => [],
-							'lang'           => I18n::locale(),
+							'locale'         => I18n::locale(),
 							'dateFormat'     => 'j M, Y',
 							'weekStart'      => 1,
+							'showFilter'     => false,
 							'bulk'           => false,
 							'showMenu'       => false,
-							'showFilter'     => false,
+							'spriteFlagsUrl' => Url::site( '/dashboard/assets/flags.svg' ),
 							'notifications'  => [
 								'ctrlS' => I18n::_t_attr( 'Grafema saves the changes automatically, so there is no need to press ⌘ + S' ),
 							],
@@ -127,4 +128,4 @@ use Grafema\Url;
 		 */
 		Menu::init();
 	}
-});
+};

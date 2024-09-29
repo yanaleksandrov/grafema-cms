@@ -169,7 +169,7 @@ class Posts extends \Grafema\Api\Handler
 			'output'    => View::get(
 				GRFM_DASHBOARD . 'templates/global/state',
 				[
-					'icon'        => 'state-success',
+					'icon'        => 'success',
 					'title'       => I18n::_t( 'Import is complete!' ),
 					'description' => I18n::_f( '%d posts was successfully imported. Do you want %sto launch a new import?%s', count( $imported ), '<a href="/dashboard/import">', '</a>' ),
 				]

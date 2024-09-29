@@ -289,7 +289,7 @@ return Dashboard\Form::enqueue(
 				[
 					'type'        => 'email',
 					'name'        => 'user[email]',
-					'label'       => I18n::_t( 'Email address' ),
+					'label'       => I18n::_t( 'Your email address' ),
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
@@ -303,6 +303,7 @@ return Dashboard\Form::enqueue(
 					'conditions'  => [],
 					'attributes'  => [
 						'placeholder'    => I18n::_t( 'Enter email' ),
+						'@change'        => "user.login = user.email.split('@')[0]",
 						'required'       => true,
 						'x-autocomplete' => '',
 					],
@@ -310,7 +311,7 @@ return Dashboard\Form::enqueue(
 				[
 					'type'        => 'text',
 					'name'        => 'user[login]',
-					'label'       => I18n::_t( 'User login' ),
+					'label'       => I18n::_t( 'Your login' ),
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
@@ -331,7 +332,7 @@ return Dashboard\Form::enqueue(
 				[
 					'type'        => 'password',
 					'name'        => 'user[password]',
-					'label'       => I18n::_t( 'User password' ),
+					'label'       => I18n::_t( 'Your password' ),
 					'class'       => '',
 					'label_class' => '',
 					'reset'       => 0,
@@ -375,7 +376,7 @@ return Dashboard\Form::enqueue(
 						View::print(
 							GRFM_PATH . 'dashboard/templates/global/state',
 							[
-								'icon'        => 'state-success',
+								'icon'        => 'success',
 								'title'       => I18n::_t( 'Woo-hoo, Grafema has been successfully installed!' ),
 								'description' => I18n::_t( 'We hope the installation process was easy. Thank you, and enjoy.' ),
 							]
@@ -388,12 +389,11 @@ return Dashboard\Form::enqueue(
 			'type'     => 'custom',
 			'callback' => function() {
 				?>
-				<!-- buttons -->
 				<div class="py-8 df jcsb g-2">
 					<button type="button" class="btn btn--outline" x-show="$wizard.isNotLast()" :disabled="$wizard.cannotGoBack()" @click="$wizard.goBack()" disabled><?php I18n::t( 'Back' ); ?></button>
 					<button type="button" class="btn btn--primary" x-show="$wizard.isNotLast() && !$wizard.isStep(3)" :disabled="$wizard.cannotGoNext()" @click="$wizard.goNext()" disabled><?php I18n::t( 'Continue' ); ?></button>
 					<button type="submit" class="btn btn--primary" x-show="$wizard.isStep(3)" :disabled="!['login', 'email', 'password'].every(key => user[key].trim())" x-cloak disabled><?php I18n::t( 'Install Grafema' ); ?></button>
-					<a href="<?php echo Url::site( '/dashboard/profile' ); ?>" class="btn btn--primary btn--full" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
+					<a href="<?php echo Url::site( '/dashboard/profile' ); ?>" class="btn btn--primary mx-auto" x-show="$wizard.isLast()" x-cloak><?php I18n::t( 'Go to dashboard' ); ?></a>
 				</div>
 				<?php
 			},

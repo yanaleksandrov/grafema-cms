@@ -110,9 +110,7 @@ class Translations extends \Grafema\Api\Handler
 			$content  = Json::encode( $translations );
 			$filepath = sprintf( '%s/%s.json', GRFM_I18N . $project, 'ru' );
 
-			$file = ( new File( $filepath ) )->write( $content );
-			print_r( $content );
-			print_r( $file );
+			$file = ( new File( $filepath ) )->write( $content, false );
 		}
 		return [];
 	}

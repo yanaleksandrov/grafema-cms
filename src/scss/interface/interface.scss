@@ -758,6 +758,7 @@
     padding: 7px 9px;
     position: relative;
     transition: color .3s, background-color .3s !important;
+    height: 2rem;
 
     &:hover {
       background-color: var(--grafema-bg-active);

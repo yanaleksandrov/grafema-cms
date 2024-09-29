@@ -97,8 +97,7 @@ class Post {
 	 * @return \PDOStatement
 	 * @since 2025.1
 	 */
-	public static function delete( $type, $value, string $by = 'ID' ): \PDOStatement
-	{
+	public static function delete( $type, $value, string $by = 'ID' ): \PDOStatement {
 		return Db::delete( $type, [ $by => $value ] );
 	}
 }

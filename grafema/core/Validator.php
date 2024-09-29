@@ -95,7 +95,7 @@ namespace Grafema;
 			}
 		)->extend(
 			'numeric',
-			I18n::_t( 'Oh no, must be numeric!!!' )
+			I18n::_t( 'Oh no, must be numeric' )
 		)->extend(
 			'field32:numeric',
 			I18n::_t( 'Message for specified field: must be numeric' )

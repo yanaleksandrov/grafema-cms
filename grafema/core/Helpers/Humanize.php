@@ -42,10 +42,10 @@ final class Humanize {
 	 * </code>
 	 *
 	 * @param string $value
-	 * @return int|null
+	 * @return int
 	 * @since 2025.1
 	 */
-	public static function toBytes( string $value ): ?int {
+	public static function toBytes( string $value ): int {
 		return preg_replace_callback(
 			'/^\s*(\d+)\s*(?:([kmgt]?)b?)?\s*$/i',
 			function ( $m ) {

@@ -18,12 +18,12 @@ final class Json {
 	 * Converts value to JSON format.
 	 *
 	 * @param mixed $value
-	 * @param bool $pretty       For easier reading and clarity.
 	 * @param bool $ascii        For ASCII output and $html_safe for HTML escaping.
+	 * @param bool $pretty       For easier reading and clarity.
 	 * @param bool $forceObjects Enforces the encoding of non-associative arrays as objects.
 	 * @return string|Error
 	 */
-	public static function encode( mixed $value, bool $pretty = false, bool $ascii = true, bool $forceObjects = false ): string|Error {
+	public static function encode( mixed $value, bool $ascii = false, bool $pretty = false, bool $forceObjects = false ): string|Error {
 		$flags = JSON_UNESCAPED_SLASHES                  // do not escape slashes by default
 			| ( $ascii ? 0 : JSON_UNESCAPED_UNICODE )    // keep unicode unescaped if $ascii = false
 			| ( $pretty ? JSON_PRETTY_PRINT : 0 )        // pretty print

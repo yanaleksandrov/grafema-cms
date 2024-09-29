@@ -10,7 +10,7 @@
 namespace Dashboard\Api;
 
 use Dashboard\Form;
-use Grafema\File\File;
+use Grafema\File;
 use Grafema\File\Csv;
 use Grafema\Sanitizer;
 use Grafema\View;
@@ -32,7 +32,7 @@ class Files extends \Grafema\Api\Handler
 		$files = $_FILES ?? [];
 		if ( $files ) {
 			foreach ( $files as $file ) {
-				$uploadedFile = ( new File() )->to( GRFM_UPLOADS . 'i/' )->upload( $file );
+				$uploadedFile = ( new File() )->upload( $file )->relocate( GRFM_UPLOADS . 'i/' );
 
 				if ( ! $uploadedFile instanceof File ) {
 					continue;

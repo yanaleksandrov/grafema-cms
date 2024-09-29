@@ -1,5 +1,4 @@
 <?php
-
 namespace Grafema\File;
 
 use Grafema\Helpers\Arr;

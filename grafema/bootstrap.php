@@ -344,11 +344,11 @@ try {
 		 * @since 2025.1
 		 */
 		Plugins::register( function() {
-			return ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*/*.php' );
+			return ( new Dir( GRFM_PLUGINS ) )->getFiles( '*/*.php' );
 		} );
 
 		Themes::register( function() {
-			return ( new Dir\Dir( GRFM_THEMES ) )->getFiles( '*/*.php' );
+			return ( new Dir( GRFM_THEMES ) )->getFiles( '*/*.php' );
 		} );
 //		Plugins::install();
 //		Plugins::uninstall();

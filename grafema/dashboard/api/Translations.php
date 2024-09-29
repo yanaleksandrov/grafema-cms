@@ -9,9 +9,10 @@
 
 namespace Dashboard\Api;
 
-use Grafema\Dir\Dir;
-use Grafema\File\File;
+use Grafema\Dir;
+use Grafema\File;
 use Grafema\I18n;
+use Grafema\Json;
 use Grafema\Sanitizer;
 
 class Translations extends \Grafema\Api\Handler
@@ -97,12 +98,20 @@ class Translations extends \Grafema\Api\Handler
 	 * @url    PUT api/posts/$id
 	 */
 	public static function update(): array {
-		if ( $_REQUEST ) {
+		[ $project, $translations ] = ( new Sanitizer(
+			$_REQUEST,
+			[
+				'project'      => 'trim',
+				'translations' => 'array',
+			]
+		) )->values();
 
+		if ( $project && $translations ) {
+			$content  = Json::encode( $translations );
+			$filepath = sprintf( '%s/%s.json', GRFM_I18N . $project, 'ru' );
+
+			$file = ( new File( $filepath ) )->write( $content, false );
 		}
-		print_r( $_REQUEST );
-		return [
-			'method' => I18n::_t( 'The text for translation was not found' ),
-		];
+		return [];
 	}
 }

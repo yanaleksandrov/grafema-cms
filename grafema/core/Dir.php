@@ -1,23 +1,13 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
-namespace Grafema\Dir;
-
-use Grafema\Sanitizer;
+namespace Grafema;
 
 /**
  * Class Directory.
  *
  * A class that represents a directory on a file system.
  */
-class Dir
-{
+final class Dir {
+
 	/**
 	 * The path to this directory.
 	 */
@@ -35,6 +25,8 @@ class Dir
 
 	/**
 	 * Directory constructor.
+	 *
+	 * @param string $path
 	 */
 	public function __construct( string $path )
 	{
@@ -47,6 +39,9 @@ class Dir
 
 	/**
 	 * Create this directory, if it does not already exist.
+	 *
+	 * @param int $mode
+	 * @return Dir
 	 */
 	public function create( int $mode = 0755 ): Dir
 	{
@@ -59,6 +54,9 @@ class Dir
 
 	/**
 	 * Recursively clear the folder from the contents.
+	 *
+	 * @param string $filepath
+	 * @return Dir
 	 */
 	public function clear( string $filepath = '' ): Dir
 	{
@@ -96,6 +94,9 @@ class Dir
 
 	/**
 	 * Rename directory.
+	 *
+	 * @param string $dirname
+	 * @return Dir
 	 */
 	public function rename( string $dirname ): Dir
 	{
@@ -109,6 +110,10 @@ class Dir
 		return $this;
 	}
 
+	/**
+	 * @param int $depth
+	 * @return array
+	 */
 	public function getFolders( int $depth = 0 ): array
 	{
 		$search = function ( $path, int $current_depth ) use ( &$search, $depth ) {

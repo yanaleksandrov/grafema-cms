@@ -38,7 +38,7 @@ class Field {
 	 */
 	public static function fetch( string $type, int $post ): Error|array {
 		if ( ! Type::exist( $type ) ) {
-			return new Error( 'field-fetch', I18n::_t( 'Invalid post type.' ) );
+			return new Error( 'field-fetch', I18n::_t( 'Invalid Post Type.' ) );
 		}
 
 		$type   = sprintf( '%s%s_fields', DB_PREFIX, $type );

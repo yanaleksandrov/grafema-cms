@@ -100,7 +100,7 @@ return new class extends Grafema\Plugin {
 		 * @since 2025.1
 		 */
 //		$plugins = new Plugins\Manager( function () {
-//			$paths = ( new Dir\Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
+//			$paths = ( new Dir( GRFM_PLUGINS ) )->getFiles( '*.php', 1 );
 //			if ( ! $paths ) {
 //				return null;
 //			}

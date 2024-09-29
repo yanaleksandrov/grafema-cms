@@ -1,7 +1,7 @@
 <?php
 namespace Dashboard;
 
-use Grafema\File\File;
+use Grafema\File;
 use Grafema\I18n;
 use Grafema\Hook;
 use Grafema\Json;

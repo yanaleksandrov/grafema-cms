@@ -1,25 +1,15 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Dashboard\Api;
 
-use Grafema\Api\Crud;
+use Grafema;
+
 use Grafema\Sanitizer;
 use Grafema\Url;
 use Grafema\View;
 use Grafema\Mail;
-use Grafema\Error;
 use Grafema\I18n;
 
-class User extends \Grafema\Api\Handler
-{
-	use Crud;
+class User implements Grafema\Api\Crud {
 
 	/**
 	 * Endpoint name.
@@ -53,12 +43,22 @@ class User extends \Grafema\Api\Handler
 	/**
 	 * Update item by ID.
 	 *
-	 * @url    PUT api/user/$id
+	 * @url    PUT api/user/{id}
 	 */
 	public function update(): array
 	{
+		$currentUser = Grafema\User::current();
+		$userdata    = $_REQUEST + [ 'ID' => $currentUser->ID ];
+
+		$user = Grafema\User::update( $userdata, function ( Grafema\Field $field ) {
+			$field->get();
+		} );
+
+		print_r( $user );
 		return [
-			'method' => 'PUT update user by ID',
+			[
+				'method' => 'PUT update user by ID',
+			]
 		];
 	}
 
@@ -79,13 +79,16 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @url    GET api/user/sign-in
 	 */
-	public static function signIn(): Error|\Grafema\User|array
+	public static function signIn(): array
 	{
 		$user = \Grafema\User::login( $_POST );
 		if ( $user instanceof \Grafema\User ) {
 			return [
-				'logged'   => true,
-				'redirect' => Url::site( 'dashboard' ),
+				[
+					'target'   => 'body',
+					'method'   => 'redirect',
+					'fragment' => Url::site( 'dashboard' ),
+				],
 			];
 		}
 		return $user;
@@ -96,13 +99,17 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 2025.1
 	 */
-	public static function signUp(): Error|\Grafema\User|array
+	public static function signUp(): array
 	{
 		$user = \Grafema\User::add( $_REQUEST ?? [] );
 		if ( $user instanceof \Grafema\User ) {
 			return [
 				'signed-up' => true,
-				'redirect'  => Url::sign_in(),
+				[
+					'target'   => 'body',
+					'method'   => 'redirect',
+					'fragment' => Url::sign_in(),
+				],
 			];
 		}
 		return $user;
@@ -113,7 +120,7 @@ class User extends \Grafema\Api\Handler
 	 *
 	 * @since 2025.1
 	 */
-	public static function resetPassword(): Error|\Grafema\User|array
+	public static function resetPassword(): array
 	{
 		$email = Sanitizer::email( $_REQUEST['email'] ?? '' );
 		$user  = \Grafema\User::get( $email, 'email' );
@@ -134,5 +141,14 @@ class User extends \Grafema\Api\Handler
 			];
 		}
 		return $user;
+	}
+
+	/**
+	 * Reset user password.
+	 *
+	 * @since 2025.1
+	 */
+	public static function passwordUpdate(): array {
+
 	}
 }

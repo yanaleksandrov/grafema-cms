@@ -365,7 +365,7 @@ try {
 		 *
 		 * @since 2025.1
 		 */
-		Api::create( sprintf( '%sapi', GRFM_DASHBOARD ), '/api' );
+		Api::create( '/api', sprintf( '%sapi', GRFM_DASHBOARD ) );
 
 		$query     = new Grafema\Query();
 		$dashboard = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );
@@ -435,22 +435,22 @@ try {
 			 */
 			http_response_code( 200 );
 			header( 'Content-Type: text/html; charset=utf-8' );
-//			$content = ( new Html() )->beautify(
-//				View::get(
-//					GRFM_DASHBOARD . 'index',
-//					[
-//						'route' => $route,
-//						'slug'  => $slug,
-//					]
-//				)
-//			);
-			$content = View::get(
-				GRFM_DASHBOARD . 'index',
-				[
-					'route' => $route,
-					'slug'  => $slug,
-				]
+			$content = ( new Html() )->beautify(
+				View::get(
+					GRFM_DASHBOARD . 'index',
+					[
+						'route' => $route,
+						'slug'  => $slug,
+					]
+				)
 			);
+//			$content = View::get(
+//				GRFM_DASHBOARD . 'index',
+//				[
+//					'route' => $route,
+//					'slug'  => $slug,
+//				]
+//			);
 
 			/**
 			 * Grafema dashboard is fully loaded.
@@ -520,6 +520,40 @@ try {
  */
 Hook::apply( 'grafema_footer' );
 ?>
+<script type="text/javascript">
+    new Promise(resolve => {
+        function userActionHandler() {
+            resolve();
+
+            document.removeEventListener('mousemove', userActionHandler);
+            document.removeEventListener('touchstart', userActionHandler);
+            document.removeEventListener('scroll', userActionHandler);
+        }
+
+        document.addEventListener('mousemove', userActionHandler);
+        document.addEventListener('touchstart', userActionHandler);
+        document.addEventListener('scroll', userActionHandler);
+    }).then(function() {
+        (function(m, e, t, r, i, k, a) {
+            m[i] = m[i] || function() {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {
+                if (document.scripts[j].src === r) {
+                    return;
+                }
+            }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(45044579, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true
+        });
+    });
+</script>
 </body>
 </html>
 			<?php

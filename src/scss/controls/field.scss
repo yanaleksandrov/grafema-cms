@@ -109,7 +109,7 @@
       }
     }
 
-    select:has(option[data-image]) {
+    select:has(option[data-html]) {
       padding-inline-start: 2.7em;
     }
 
@@ -380,13 +380,6 @@
     &:has([x-datepicker][readonly]):focus-within {
       border-color: var(--grafema-link);
       box-shadow: 0 0 0 1px var(--grafema-link);
-    }
-
-    &:has(input:invalid):focus-within,
-    &:has(select:invalid):focus-within,
-    &:has(textarea:invalid):focus-within {
-      border-color: var(--grafema-error);
-      box-shadow: 0 0 0 1px var(--grafema-error);
     }
 
     &:has([type="radio"]) {

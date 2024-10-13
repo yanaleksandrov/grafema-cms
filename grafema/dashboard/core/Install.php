@@ -40,7 +40,7 @@ final class Install extends \Grafema\App\App {
 		 *
 		 * @since 2025.1
 		 */
-		Api::create( sprintf( '%sdashboard/api', GRFM_PATH ), '/api' );
+		Api::create( '/api', sprintf( '%sdashboard/api', GRFM_PATH ) );
 
 		/**
 		 * Register new routes

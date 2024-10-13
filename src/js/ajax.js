@@ -21,11 +21,11 @@ document.addEventListener( 'alpine:init', () => {
 			xhr.onloadend   = event => progressCallback?.(onProgress(event, xhr));
 			xhr.onload      = event => {
 				try {
-					let {data, fragments} = xhr.response;
+					let {data} = xhr.response;
 
 					document.dispatchEvent(
 						new CustomEvent(route, {
-							detail: {data: data, event, el, resolve},
+							detail: {data, event, el, resolve},
 							bubbles: true,
 							// Allows events to pass the shadow DOM barrier.
 							composed: true,
@@ -33,8 +33,8 @@ document.addEventListener( 'alpine:init', () => {
 						})
 					);
 
-					if (fragments) {
-						fragments.forEach(({method, fragment, selectors, delay}) => {
+					if (data) {
+						data.forEach(({method, fragment, selectors, delay}) => {
 							parseFragment(method, fragment, selectors, delay)
 						});
 					}
@@ -172,11 +172,11 @@ document.addEventListener( 'alpine:init', () => {
 					case 'replace':
 						target.outerHTML = fragment || '';
 						break;
-					case 'afterend':
-					case 'beforeend':
-					case 'afterbegin':
-					case 'beforebegin':
-						target.insertAdjacentHTML(method, fragment || '');
+					case 'insertAfterEnd':
+					case 'insertBeforeEnd':
+					case 'insertAfterBegin':
+					case 'insertBeforeBegin':
+						target.insertAdjacentHTML(method.replace('insertB', 'b').replace('insertA', 'a').toLowerCase(), fragment || '');
 						break;
 					case 'classList.remove':
 						target.classList.remove(fragment || '');
@@ -191,8 +191,11 @@ document.addEventListener( 'alpine:init', () => {
 						}
 						target.setAttribute(name, value || '');
 						break;
-					default:
-						// use 'prepend, append, replaceWith, removeAttribute or scrollIntoView' methods
+					case 'append':
+					case 'prepend':
+					case 'replaceWith':
+					case 'scrollIntoView':
+					case 'removeAttribute':
 						target[method](fragment || '');
 				}
 			}, delay || 0);

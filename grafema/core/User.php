@@ -1,8 +1,10 @@
 <?php
 namespace Grafema;
 
-use Grafema\Users\Roles;
-use Grafema\Users\Users;
+use Grafema\User\Roles;
+use Grafema\User\Traits;
+use Grafema\User\Schema;
+
 use Grafema\Helpers\Hash;
 
 /**
@@ -13,41 +15,66 @@ use Grafema\Helpers\Hash;
  * @since 2025.1
  * @package Grafema
  */
-final class User extends Users {
+final class User extends Schema {
 
-	/**
-	 * Session key
-	 *
-	 * @since 2025.1
-	 * @var   string
-	 */
-	private static string $session_id = DB_PREFIX . 'user_logged';
-
-	/**
-	 * Current user data.
-	 *
-	 * @since 2025.1
-	 */
-	private static $current;
-
-	/**
-	 * Capabilities that the individual user has been granted outside those inherited from their role.
-	 *
-	 * @var   array Array of key/value pairs where keys represent a capability name
-	 *              and boolean values represent whether the user has that capability.
-	 * @since 2025.1
-	 */
-	public array $caps = [];
+	use Traits;
 
 	public int $ID = 0;
 	public string $login = '';
 	public string $password = '';
-	public string $showname = '';
 	public string $nicename = '';
+	public string $firstname = '';
+	public string $lastname = '';
+	public string $showname = '';
 	public string $email = '';
+	public string $locale = '';
 	public string $registered = '';
 	public string $visited = '';
-	public array $fields = [];
+	public object $fields;
+	public array $capabilities = [];
+
+	/**
+	 * Retrieves user info by a given field.
+	 *
+	 * @param string|int    $value    A value for $field. A user ID, slug, email address, or login name.
+	 * @param string        $getBy    The field to retrieve the user with. ID | login | email | nicename.
+	 * @param callable|null $callback
+	 * @return User|Error
+	 *
+	 * @since 2025.1
+	 */
+	public static function get( string|int $value, string $getBy = 'ID', ?callable $callback = null ): User|Error {
+		try  {
+			if ( empty( $value ) ) {
+				throw new \Exception( I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
+			}
+
+			if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
+				throw new \Exception( I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
+			}
+
+			$users    = Db::select( self::$table, '*', [ $getBy => $value ], [ 'LIMIT' => 1 ] );
+			$userdata = (array) ( $users[0] ?? [] );
+			if ( $userdata ) {
+				$user = new self();
+				foreach ( $userdata as $field => $value ) {
+					if ( property_exists( $user, $field ) ) {
+						$user->$field = $value;
+					}
+				}
+
+				if ( $callback ) {
+					$callback( new Field( $user ) );
+				}
+
+				return $user;
+			}
+
+			throw new \Exception( I18n::_t( 'User not found.' ) );
+		} catch ( \Exception $e ) {
+			return new Error( 'user-get', $e->getMessage() );
+		}
+	}
 
 	/**
 	 * Insert a user into the database.
@@ -56,23 +83,13 @@ final class User extends Users {
 	 * is part of the URL of the user's page, and showname is displayed as the name.
 	 * Therefore, we generate it based on the login.
 	 *
-	 * TODO: убедиться что функция возвращает максимум 2 заначения: либо ID юзера, либо Error
-	 *
-	 * @param array $userdata {
-	 *     @type int    $ID           User ID. If supplied, the user will be updated.
-	 *     @type string $password     The plain-text user password.
-	 *     @type string $login        The user's login username.
-	 *     @type string $nicename     The URL-friendly username.
-	 *     @type string $showname     The user's display name.
-	 *     @type string $email        The user email address.
-	 *     @type string $registered   Date the user registered. Format is 'Y-m-d H:i:s'.
-	 *     @type string $visited      Date the user last time visit website. Format is 'Y-m-d H:i:s'.
-	 * }
+	 * @param array         $userdata
+	 * @param callable|null $callback
 	 *
 	 * @return User|Error The newly created user's ID or an Error object if the user could not be created.
 	 * @since 2025.1
 	 */
-	public static function add( array $userdata ): User|Error {
+	public static function add( array $userdata, ?callable $callback = null ): User|Error {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
@@ -86,7 +103,7 @@ final class User extends Users {
 			'unique',
 			function( $value ) {
 				$suffix = 1;
-				while (Db::select(self::$table, 'ID', ['nicename' => $value . ($suffix > 1 ? "-$suffix" : '')])) {
+				while ( Db::select( self::$table, 'ID', [ 'nicename' => $value . ( $suffix > 1 ? "-$suffix" : '' ) ] ) ) {
 					$suffix++;
 				}
 				return sprintf( '%s%s', $value, $suffix > 1 ? "-$suffix" : '' );
@@ -94,16 +111,14 @@ final class User extends Users {
 		)->apply();
 
 		// validate incoming user data
-		$userdata = (
-			new Validator(
-				$userdata,
-				[
-					'login'    => 'lengthMin:3|lengthMax:60',
-					'password' => 'required',
-					'email'    => 'email|unique',
-				]
-			)
-		)->extend(
+		$userdata = ( new Validator(
+			$userdata,
+			[
+				'login'    => 'lengthMin:3|lengthMax:60',
+				'password' => 'required',
+				'email'    => 'email|unique',
+			]
+		) )->extend(
 			'email:unique',
 			I18n::_t( 'Sorry, that email address or login is already used!' ),
 			fn( $validator ) => ! self::exists(
@@ -119,7 +134,7 @@ final class User extends Users {
 		}
 
 		[ $login, $password ] = array_values( $userdata );
-		$userdata['password'] = $password ? password_hash($password, PASSWORD_DEFAULT) : Hash::generate();
+		$userdata['password'] = $password ? password_hash( $password, PASSWORD_DEFAULT ) : Hash::generate();
 
 		$user_count = Db::insert( self::$table, $userdata )->rowCount();
 		if ( $user_count !== 1 ) {
@@ -128,80 +143,60 @@ final class User extends Users {
 
 		$user = self::get( $login, 'login' );
 
-		/**
-		 * Fires immediately after a new user is registered.
-		 *
-		 * @since 2025.1
-		 *
-		 * @param User $user data of created user
-		 */
-		Hook::apply( 'grafema_user_added', $user );
+		if ( $callback ) {
+			$callback( new Field( $user ) );
+		}
 
 		return $user;
 	}
 
 	/**
-	 * Retrieves user info by a given field.
-	 *
-	 * @param string|int    $value A value for $field. A user ID, slug, email address, or login name.
-	 * @param string        $getBy The field to retrieve the user with. ID | login | email | nicename.
-	 * @return Error|User
-	 * @since 2025.1
-	 */
-	public static function get( string|int $value, string $getBy = 'ID' ): Error|User {
-		if ( empty( $value ) ) {
-			return new Error( 'user-get-empty', I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
-		}
-
-		if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
-			return new Error( 'user-get-by', I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
-		}
-
-		$user = Db::select( self::$table, '*', [ $getBy => $value ], [ 'LIMIT' => 1 ] );
-		$user = (array) ( $user[0] ?? [] );
-		if ( $user ) {
-			$userdata = new self();
-			foreach ( $user as $field => $value ) {
-				$userdata->$field = $value;
-			}
-			return $userdata;
-		}
-
-		return new Error( 'user-get', I18n::_t( 'User not found!' ) );
-	}
-
-	/**
-	 * Update a user in the database.
-	 * If no ID is found in the received array, the function passes the work to the add method.
+	 * Update a user in the database. If no ID is found in the received array, the function passes the work to the add method.
 	 *
 	 * @param array $userdata
-	 * @return Error|User|int
+	 * @param callable|null $callback
+	 * @return User|Error
+	 *
 	 * @since 2025.1
 	 */
-	public static function update( array $userdata ): Error|User|int
-	{
-		$user_id = isset( $userdata['ID'] ) ? (int) $userdata['ID'] : 0;
-		if ( ! $user_id ) {
-			return new Error( 'user-update-invalid-id', I18n::_t( 'Invalid user ID.' ) );
-		}
-
-		$user_id = Sanitizer::absint( $userdata['ID'] ?? 0 );
-		if ( ! $user_id ) {
+	public static function update( array $userdata, ?callable $callback = null ): User|Error {
+		$userID = Sanitizer::absint( $userdata['ID'] ?? 0 );
+		if ( ! $userID ) {
 			return self::add( $userdata );
 		}
 
-		// login is the unchanged parameter of the user
+		// remove unchanged parameters of the user
+		unset( $userdata['ID'] );
 		unset( $userdata['login'] );
 
-		$user = Db::select( self::$table, 'ID', [ 'ID' => $user_id ], [ 'LIMIT' => 1 ] );
-		if ( ! $user ) {
-			return new Error( 'user-update', I18n::_t( 'User not found.' ) );
+		$user = self::get( $userID );
+		if ( $user instanceof User ) {
+			$userdata = ( new Sanitizer(
+				$userdata,
+				[
+					'password'   => 'trim',
+					'nicename'   => 'trim',
+					'firstname'  => 'tags',
+					'lastname'   => 'tags',
+					'showname'   => 'tags',
+					'email'      => 'email',
+					'locale'     => 'locale',
+					'registered' => 'datetime',
+					'visited'    => 'datetime',
+				]
+			) )->apply();
+
+			$userdata = array_filter( $userdata );
+			if ( Db::update( self::$table, $userdata )->rowCount() ) {
+				if ( $callback ) {
+					$callback( new Field( $user ) );
+				}
+
+				return self::get( $userID );
+			}
 		}
 
-		// sanitize incoming data and exclusion of extraneous data
-		$userdata = self::dataSanitize( $userdata );
-
-		return Db::update( self::$table, $userdata )->rowCount();
+		return new Error( 'user-update', I18n::_t( 'User not found.' ) );
 	}
 
 	/**
@@ -212,14 +207,14 @@ final class User extends Users {
 	 * being deleted will be run after the posts are either reassigned or deleted.
 	 * The user meta will also be deleted that are for that User ID.
 	 *
-	 * @param  int   $user_id  User ID.
+	 * @param  int   $userID  User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
 	 * @return Error|int      The number of remote users or false.
 	 * @since 2025.1
 	 */
-	public static function delete( int $user_id, int $reassign = 0 ) {
+	public static function delete( int $userID, int $reassign = 0 ) {
 		$fields = [
-			'ID' => abs( $user_id ),
+			'ID' => abs( $userID ),
 		];
 
 		if ( ! self::exists( $fields ) ) {
@@ -233,10 +228,37 @@ final class User extends Users {
 	}
 
 	/**
+	 * Получает данные текущего, зарегистрированного пользователя.
+	 *
+	 * @param callable|null $callback
+	 * @return Error|false|User
+	 * @since   2025.1
+	 */
+	public static function current( ?callable $callback = null ): User|bool|Error {
+		if ( self::$current ) {
+			return self::$current;
+		}
+
+		Session::start();
+
+		$userID = Session::get( self::$session_id );
+		if ( $userID ) {
+			self::$current = self::get( $userID );
+		}
+
+		if ( $callback ) {
+			$callback( new Field( self::$current ) );
+		}
+
+		return self::$current;
+	}
+
+	/**
 	 * Searches for users by the specified parameters
 	 *
-	 * @since  2025.1
+	 * @param array $fields
 	 * @return bool Array of fields and values to search for users.
+	 * @since  2025.1
 	 */
 	public static function exists( array $fields ): bool {
 		$users = Db::select( self::$table, '*', [ 'OR' => $fields ] );
@@ -249,19 +271,20 @@ final class User extends Users {
 	/**
 	 * Returns whether a particular user has the specified capability.
 	 *
+	 * @param integer $userID User ID.
+	 * @param string $capabilities Capability name.
+	 * @return   bool              Whether the user has the given capability.
+	 * @throws \JsonException
 	 * @since 2025.1
-	 *
-	 * @param integer  $user_id      User ID.
-	 * @param  string  $capabilities Capability name.
-	 * @return   bool                Whether the user has the given capability.
 	 */
-	public static function can( int $user_id, $capabilities ) {
+	public static function can(int $userID, string $capabilities): bool
+	{
 		$roles = [];
 		$user  = self::current();
-		if ( (int) $user->ID === $user_id ) {
+		if ( (int) $user->ID === $userID ) {
 			$roles = $user->roles ?? [];
 		} else {
-			$user = self::get( $user_id );
+			$user = self::get( $userID );
 			if ( $user ) {
 				$roles = $user->roles ?? [];
 			}
@@ -278,19 +301,19 @@ final class User extends Users {
 	/**
 	 * Checks whether the user is with the specified role.
 	 *
+	 * @param integer $userID User ID.
+	 * @param string $role     Role name.
+	 * @return   bool          The user has a role.
+	 * @throws \JsonException
 	 * @since 2025.1
-	 *
-	 * @param integer  $user_id  User ID.
-	 * @param  string  $role     Role name.
-	 * @return   bool            The user has a role.
 	 */
-	public static function is( int $user_id, string $role ) {
+	public static function is( int $userID, string $role ): bool {
 		$roles = [];
 		$user  = self::current();
-		if ( $user->ID === $user_id ) {
+		if ( $user->ID === $userID ) {
 			$roles = $user->roles ?? [];
 		} else {
-			$user = self::get( $user_id );
+			$user = self::get( $userID );
 			if ( $user ) {
 				$roles = $user->roles ?? [];
 			}
@@ -299,35 +322,16 @@ final class User extends Users {
 	}
 
 	/**
-	 * Получает данные текущего, зарегистрированного пользователя.
+	 * Проверяет, залогинен ли пользователь в этом сеансе.
 	 *
-	 * @return Error|false|User
+	 * @return   bool
 	 * @throws \JsonException
 	 * @since   2025.1
 	 */
-	public static function current() {
-		if ( self::$current ) {
-			return self::$current;
-		}
-
+	public static function logged(): bool {
 		Session::start();
-		$user_id = abs( (int) Session::get( self::$session_id ) );
-		if ( $user_id ) {
-			self::$current = self::get( $user_id );
-		}
-		return self::$current;
-	}
-
-	/**
-	 * Проверяет, залогинен ли пользователь в этом сеансе.
-	 *
-	 * @since   2025.1
-	 * @return   bool
-	 */
-	public static function logged() {
-		Session::start();
-		$user_id = abs( (int) Session::get( self::$session_id ) );
-		if ( $user_id ) {
+		$userID = abs( (int) Session::get( self::$session_id ) );
+		if ( $userID ) {
 			return true;
 		}
 		return false;
@@ -337,10 +341,10 @@ final class User extends Users {
 	 * Authorizes the user by password and login/email.
 	 *
 	 * @param array $userdata
-	 * @return Error|User
+	 * @return User|Error
 	 * @since  2025.1
 	 */
-	public static function login( array $userdata ): Error|User {
+	public static function login( array $userdata ): User|Error {
 		$userdata = ( new Sanitizer(
 			$userdata,
 			[
@@ -391,40 +395,17 @@ final class User extends Users {
 	 */
 	public static function logout(): void {
 		Session::start();
-		$user_id       = abs( (int) Session::get( self::$session_id ) );
+
 		self::$current = [];
-		if ( $user_id ) {
+
+		$userID = abs( (int) Session::get( self::$session_id ) );
+		if ( $userID ) {
 			self::update(
 				[
-					'ID' => $user_id,
+					'ID' => $userID,
 				]
 			);
 		}
 		Session::set( self::$session_id, null );
-	}
-
-	/**
-	 * Sanitizer user data before inserting into the database.
-	 *
-	 * TODO: replace with Sanitizer
-	 *
-	 * @param array $userdata
-	 * @return array
-	 * @since 2025.1
-	 */
-	private static function dataSanitize( array $userdata ): array
-	{
-		$schema    = Db::schema( DB_PREFIX . self::$table );
-		$_userdata = [];
-		foreach ( $userdata as $column => $value ) {
-			if ( isset( $schema[ $column ] ) ) {
-				if ( is_array( $value ) ) {
-					$_userdata[ $column ] = $value;
-				} else {
-					$_userdata[ $column ] = Sanitizer::trim( $value );
-				}
-			}
-		}
-		return $_userdata;
 	}
 }

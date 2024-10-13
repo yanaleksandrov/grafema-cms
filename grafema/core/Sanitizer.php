@@ -229,6 +229,25 @@ final class Sanitizer
 	}
 
 	/**
+	 * Leads a variable to json string.
+	 *
+	 * @param mixed $value Value to change
+	 * @return string
+	 * @throws \Exception
+	 */
+	public static function datetime( mixed $value ): string
+	{
+		$format   = 'Y-m-d H:i:s';
+		$datetime = \DateTime::createFromFormat( $format, $value );
+
+		if ( $datetime === false ) {
+			$datetime = new \DateTime( $value );
+		}
+
+		return $datetime ? $datetime->format( $format ) : '';
+	}
+
+	/**
 	 * Sanitizer html markup.
 	 *
 	 * @param mixed $value Value to change

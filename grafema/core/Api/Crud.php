@@ -1,26 +1,38 @@
 <?php
 namespace Grafema\Api;
 
-// TODO: rewrite to interface
-trait Crud {
+/**
+ * Interface CrudInterface
+ *
+ * This interface defines the basic CRUD methods (Create, Read, Update, Delete).
+ */
+interface Crud {
 
 	/**
+	 * Create a new resource.
+	 *
 	 * @return array
 	 */
-	abstract public function create(): array;
+	public function create(): array;
 
 	/**
+	 * Retrieve a list of resources.
+	 *
 	 * @return array
 	 */
-	abstract public function index(): array;
+	public function index(): array;
 
 	/**
+	 * Update an existing resource.
+	 *
 	 * @return array
 	 */
-	abstract public function update(): array;
+	public function update(): array;
 
 	/**
+	 * Delete an existing resource.
+	 *
 	 * @return array
 	 */
-	abstract public function delete(): array;
+	public function delete(): array;
 }

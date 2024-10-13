@@ -1,4 +1,5 @@
 <?php
+use Grafema\Url;
 use Grafema\I18n;
 use Grafema\View;
 use Grafema\Sanitizer;
@@ -113,7 +114,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			    <?php if ( $translation ) : ?>
 				    <div class="df aic g-2">
 					    <div class="df aic g-1">
-						    <img src="/dashboard/assets/images/flags/us.svg" alt="USA" width="16" height="16"> English
+						    <svg width="16" height="16"><use xlink:href="<?php echo Url::dashboard( '/assets/sprites/flags.svg#us' ); ?>"></use></svg>
+						    English
 					    </div>
 					    <span class="badge badge--round badge--icon badge--lg"><i class="ph ph-arrows-left-right"></i></span>
 					    <?php
@@ -138,16 +140,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 								    'x-select' => '',
 								    'name'     => 'language',
 							    ],
-							    'options'     => [
-								    'ru_RU' => [
-									    'content' => I18n::_t( 'Russian' ),
-									    'image'   => 'assets/images/flags/ru.svg',
-								    ],
-								    'de_DE' => [
-									    'content' => I18n::_t( 'Germany' ),
-									    'image'   => 'assets/images/flags/de.svg',
-								    ],
-							    ],
+							    'options'     => I18n::getLanguagesOptions(),
 						    ]
 					    );
 

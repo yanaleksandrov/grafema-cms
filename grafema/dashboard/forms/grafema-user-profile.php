@@ -4,6 +4,8 @@ use Grafema\Url;
 use Grafema\Sanitizer;
 use Grafema\View;
 
+$user = Grafema\User::current();
+
 /**
  * Profile page.
  *
@@ -12,9 +14,9 @@ use Grafema\View;
 return Dashboard\Form::enqueue(
 	'grafema-user-profile',
 	[
-		'class'           => 'tab',
-		'x-data'          => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'profile' ) ),
-		'@submit.prevent' => '$ajax("user/update")',
+		'class'   => 'tab',
+		'x-data'  => sprintf( "tab('%s')", Sanitizer::prop( $_GET['tab'] ?? 'profile' ) ),
+		'@change' => '$ajax("user/update")',
 	],
 	[
 		[
@@ -86,7 +88,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value'          => Grafema\User::current()?->email,
+								'value'          => $user->email ?? '',
 								'placeholder'    => I18n::_t( 'e.g. user@gmail.com' ),
 								'x-autocomplete' => '',
 							],
@@ -117,7 +119,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value'       => Grafema\User::current()?->login,
+								'value'       => $user->login ?? '',
 								'placeholder' => I18n::_t( 'e.g. admin' ),
 								'required'    => true,
 								'readonly'    => true,
@@ -139,7 +141,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value'       => Grafema\User::current()?->nicename,
+								'value'       => $user->nicename ?? '',
 								'placeholder' => I18n::_t( 'Username' ),
 								'required'    => true,
 							],
@@ -160,8 +162,9 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
+								'value'       => $user->firstname ?? '',
 								'placeholder' => I18n::_t( 'e.g. John' ),
-								'@input'      => 'display = `${firstname} ${lastname}`',
+								'@input'      => 'showname = `${firstname} ${lastname}`',
 							],
 						],
 						[
@@ -180,14 +183,15 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
+								'value'       => $user->lastname ?? '',
 								'placeholder' => I18n::_t( 'e.g. Doe' ),
-								'@input'      => 'display = `${firstname} ${lastname}`',
+								'@input'      => 'showname = `${firstname} ${lastname}`',
 							],
 						],
 						[
 							'type'        => 'text',
-							'name'        => 'display',
-							'label'       => I18n::_t( 'Display name as' ),
+							'name'        => 'showname',
+							'label'       => I18n::_t( 'Show name as' ),
 							'class'       => '',
 							'label_class' => '',
 							'reset'       => 0,
@@ -200,7 +204,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'placeholder' => I18n::_t( 'Display name' ),
+								'value' => $user->showname ?? '',
 							],
 						],
 					],
@@ -228,7 +232,10 @@ return Dashboard\Form::enqueue(
 							'sanitizer'   => '',
 							'validator'   => '',
 							'conditions'  => [],
-							'attributes'  => [],
+							'attributes'  => [
+								'value'       => $user->bio ?? '',
+								'placeholder' => I18n::_t( 'A few words about yourself' ),
+							],
 						],
 					],
 				],

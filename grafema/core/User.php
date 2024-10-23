@@ -231,10 +231,11 @@ final class User extends Schema {
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
 	 * @param callable|null $callback
-	 * @return Error|false|User
+	 * @return User|Error|null
+	 * @throws \JsonException
 	 * @since   2025.1
 	 */
-	public static function current( ?callable $callback = null ): User|bool|Error {
+	public static function current( ?callable $callback = null ): User|Error|null {
 		if ( self::$current ) {
 			return self::$current;
 		}

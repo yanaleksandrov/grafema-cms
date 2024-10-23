@@ -398,38 +398,27 @@ class Type
 			$charset_collate .= ' COLLATE ' . DB_COLLATE;
 		}
 
-		return '
-		CREATE TABLE IF NOT EXISTS ' . $table . " (
+		return "
+		CREATE TABLE IF NOT EXISTS {$table} (
 			ID          int          unsigned NOT NULL auto_increment,
 			title       text         NOT NULL default '',
 			content     longtext     NOT NULL default '',
-			author      int          unsigned NOT NULL default '0',
-			views       int          unsigned NOT NULL default '0',
-			comments    mediumint    unsigned NOT NULL default '0',
+			author      smallint     unsigned NOT NULL default '0',
+			comments    smallint     unsigned NOT NULL default '0',
+			views       mediumint    unsigned NOT NULL default '0',
 			created     datetime     NOT NULL default NOW(),
-			modified    datetime     NOT NULL default NOW(),
+			modified    datetime     NOT NULL default NOW() ON UPDATE NOW(),
 			status      varchar(255) NOT NULL default 'draft',
-			slug        varchar(255) NOT NULL default '',
-			password    varchar(255) NOT NULL default '',
 			discussion  varchar(255) NOT NULL default 'open',
+			password    varchar(255) NOT NULL default '',
 			parent      int          unsigned NOT NULL default '0',
 			position    mediumint    unsigned NOT NULL default '0',
 			PRIMARY KEY (ID),
-			KEY slug (slug(" . DB_MAX_INDEX_LENGTH . ')),
 			KEY parent (parent),
 			KEY author (author),
 			FULLTEXT KEY content (title,content)
-		) ' . $charset_collate . ';
-
-		CREATE TRIGGER ' . $table . '_update_date_modified
-			BEFORE UPDATE ON ' . $table . '
-			FOR EACH ROW
-			BEGIN
-				IF NEW.title <> OLD.title OR NEW.content <> OLD.content THEN
-					SET NEW.modified = NOW();
-				END IF;
-			END;
-		';
+		) {$charset_collate};
+		";
 	}
 
 	/**
@@ -452,19 +441,20 @@ class Type
 
 		return "
 		CREATE TABLE IF NOT EXISTS {$table}_fields (
-			field_id bigint(20) unsigned NOT NULL auto_increment PRIMARY KEY,
-			post_id  bigint(20) unsigned NOT NULL default '0',
-			`key`    varchar(255) default NULL,
-			value    longtext,
-			KEY      post_id (post_id),
-			KEY      `key` (`key`({$max_index_length}))
+			ID      int unsigned NOT NULL auto_increment PRIMARY KEY,
+			postID  int unsigned NOT NULL default '0',
+			name    varchar(255) default NULL,
+			value   longtext,
+			KEY     idxPostID (postID),
+			KEY     idxName (postID, name({$max_index_length})),
+		    FULLTEXT KEY idxNameValue (name, value)
 		) {$charset_collate};
 
 		CREATE TRIGGER {$table}_cascade_delete
 			AFTER DELETE ON {$table}
 			FOR EACH ROW
 				BEGIN
-					DELETE FROM {$table}_fields WHERE post_id = OLD.ID;
+					DELETE FROM {$table}_fields WHERE postID = OLD.ID;
 				END;
 		";
 	}

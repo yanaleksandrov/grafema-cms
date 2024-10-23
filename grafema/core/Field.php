@@ -41,7 +41,7 @@ final class Field {
 			$object instanceof User => [
 				$this->object   = $object,
 				$this->objectID = $object->ID,
-				$this->table    = sprintf('%s_fields', $object::$table),
+				$this->table    = sprintf( '%s_fields', $object::$table ),
 			],
 		};
 	}
@@ -92,7 +92,7 @@ final class Field {
 	 *
 	 * @since 2025.1
 	 */
-	public function add( string $name, mixed $value, $isUnique = true ): bool {
+	public function add( string $name, mixed $value, bool $isUnique = true ): bool {
 		if ( ! $this->objectID ) {
 			return false;
 		}
@@ -158,7 +158,7 @@ final class Field {
 	 *
 	 * @param string $name The name of the field to delete.
 	 * @param mixed $value The value of the field to delete (optional).
-	 * @return bool True if the field was deleted successfully, false otherwise.
+	 * @return bool        True if the field was deleted successfully, false otherwise.
 	 * @since 2025.1
 	 */
 	public function delete( string $name = '', mixed $value = '' ): bool {
@@ -177,5 +177,20 @@ final class Field {
 		}
 
 		return Db::delete( $this->table, $conditions )->rowCount() > 0;
+	}
+
+	/**
+	 * Add or delete field.
+	 *
+	 * @param string $name
+	 * @param mixed|string $value
+	 * @param bool $isUnique
+	 * @return bool
+	 */
+	public function mutate( string $name = '', mixed $value = '', $isUnique = true ): bool {
+		if ( empty( $value ) ) {
+			return $this->delete( $name );
+		}
+		return $this->add( $name, $value, $isUnique );
 	}
 }

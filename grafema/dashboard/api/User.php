@@ -51,9 +51,15 @@ class User implements Grafema\Api\Crud {
 		$userdata    = $_REQUEST + [ 'ID' => $currentUser->ID ];
 
 		$user = Grafema\User::update( $userdata, function ( Grafema\Field $field ) {
-			$field->get();
+			$fields = $_REQUEST['fields'] ?? [];
+			if ( is_array( $fields ) ) {
+				foreach ( $fields as $key => $value ) {
+					$field->mutate( $key, $value );
+				}
+			}
 		} );
 
+		print_r( $_REQUEST );
 		print_r( $user );
 		return [
 			[
@@ -81,17 +87,24 @@ class User implements Grafema\Api\Crud {
 	 */
 	public static function signIn(): array
 	{
-		$user = \Grafema\User::login( $_POST );
-		if ( $user instanceof \Grafema\User ) {
+		$user = Grafema\User::login( $_POST );
+		if ( $user instanceof Grafema\Error ) {
 			return [
 				[
 					'target'   => 'body',
-					'method'   => 'redirect',
-					'fragment' => Url::site( 'dashboard' ),
+					'method'   => 'notify',
+					'fragment' => $user->getError( 'user-login' ),
 				],
 			];
 		}
-		return $user;
+
+		return [
+			[
+				'target'   => 'body',
+				'method'   => 'redirect',
+				'fragment' => Url::site( 'dashboard' ),
+			],
+		];
 	}
 
 	/**
@@ -101,8 +114,8 @@ class User implements Grafema\Api\Crud {
 	 */
 	public static function signUp(): array
 	{
-		$user = \Grafema\User::add( $_REQUEST ?? [] );
-		if ( $user instanceof \Grafema\User ) {
+		$user = Grafema\User::add( $_REQUEST ?? [] );
+		if ( $user instanceof Grafema\User ) {
 			return [
 				'signed-up' => true,
 				[
@@ -123,8 +136,8 @@ class User implements Grafema\Api\Crud {
 	public static function resetPassword(): array
 	{
 		$email = Sanitizer::email( $_REQUEST['email'] ?? '' );
-		$user  = \Grafema\User::get( $email, 'email' );
-		if ( $user instanceof \Grafema\User ) {
+		$user  = Grafema\User::get( $email, 'email' );
+		if ( $user instanceof Grafema\User ) {
 			$mail_is_sent = Mail::send(
 				$email,
 				I18n::_t( 'Instructions for reset password' ),

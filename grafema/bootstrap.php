@@ -183,7 +183,7 @@ try {
 		 *
 		 * @since 2025.1
 		 */
-		Roles::register(
+		User\Roles::register(
 			'admin',
 			I18n::_t( 'Administrator' ),
 			[
@@ -217,7 +217,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'editor',
 			I18n::_t( 'Editor' ),
 			[
@@ -238,7 +238,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'author',
 			I18n::_t( 'Author' ),
 			[
@@ -252,7 +252,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'subscriber',
 			I18n::_t( 'Subscriber' ),
 			[

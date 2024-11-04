@@ -49,34 +49,36 @@ final class Field {
 	/**
 	 * Retrieves the value of a specific field for the associated object.
 	 *
-	 * @param string      $name   The name of the field to retrieve. If empty, get all fields of object.
-	 * @param bool        $single Whether to limit the result to a single value (default: true).
-	 * @return array|null         The field value as an array, or null if the object ID is not set.
+	 * @param string      $key      The key of the field to retrieve. If empty, get all fields of object.
+	 * @param bool        $isSingle Whether to limit the result to a single value (default: true).
+	 * @return array|null           The field value as an array, or null if the object ID is not set.
 	 *
 	 * @since 2025.1
 	 */
-	public function get( mixed $name = '', bool $single = true ): ?array {
+	public function get( mixed $key = '', bool $isSingle = true ): ?array {
 		if ( ! $this->objectID ) {
 			return null;
 		}
 
-		$conditions = [ 'ID' => $this->objectID ];
+		$conditions = [ 'id' => $this->objectID ];
 
-		if ( $name ) {
-			$conditions['name'] = $name;
+		if ( $key ) {
+			$conditions['key'] = $key;
 		}
 
-		$fields = $single
-			? Db::get( $this->table, [ 'name', 'value' ], $conditions )
-			: Db::select( $this->table, [ 'name', 'value' ], $conditions );
-
-		if ( $single ) {
-			return [ $fields['name'] => $fields['value'] ];
-		}
+		$fields = $isSingle
+			? Db::get( $this->table, [ 'key', 'value' ], $conditions )
+			: Db::select( $this->table, [ 'key', 'value' ], $conditions );
 
 		$result = [];
-		foreach ( $fields as $field ) {
-			$result[ $field['name'] ][] = $field['value'];
+		if ( is_array( $fields ) ) {
+			if ( $isSingle ) {
+				return [ $fields['key'] => $fields['value'] ];
+			}
+
+			foreach ( $fields as $field ) {
+				$result[ $field['key'] ][] = $field['value'];
+			}
 		}
 
 		return $result;
@@ -85,20 +87,20 @@ final class Field {
 	/**
 	 * Adds a new field value for the associated object.
 	 *
-	 * @param string $name     The name of the field to add.
+	 * @param string $key      The key of the field to add.
 	 * @param mixed  $value    The value to be added.
-	 * @param bool   $isUnique Whether the field name must be unique (default: true).
+	 * @param bool   $isUnique Whether the field key must be unique (default: true).
 	 * @return bool            True if the field was added successfully, false otherwise.
 	 *
 	 * @since 2025.1
 	 */
-	public function add( string $name, mixed $value, bool $isUnique = true ): bool {
+	public function add( string $key, mixed $value, bool $isUnique = true ): bool {
 		if ( ! $this->objectID ) {
 			return false;
 		}
 
 		if ( $isUnique ) {
-			$count = Db::count( $this->table, [ 'ID' => $this->objectID, 'name' => $name ] );
+			$count = Db::count( $this->table, [ 'id' => $this->objectID, 'key' => $key ] );
 			if ( $count > 0 ) {
 				return false;
 			}
@@ -107,8 +109,8 @@ final class Field {
 		return Db::insert(
 			$this->table,
 			[
-				'ID'    => $this->objectID,
-				'name'  => $name,
+				'id'    => $this->objectID,
+				'key'   => $key,
 				'value' => $value
 			]
 		)->rowCount() > 0;
@@ -117,13 +119,13 @@ final class Field {
 	/**
 	 * Updates an existing field value for the associated object.
 	 *
-	 * @param string $name The name of the field to update.
-	 * @param mixed $value The new value for the field.
+	 * @param string $key     The key of the field to update.
+	 * @param mixed $value    The new value for the field.
 	 * @param mixed $oldValue The old value of the field (optional).
-	 * @return bool True if the field was updated successfully, false otherwise.
+	 * @return bool           True if the field was updated successfully, false otherwise.
 	 * @since 2025.1
 	 */
-	public function update( string $name, mixed $value, mixed $oldValue = '' ): bool {
+	public function update( string $key, mixed $value, mixed $oldValue = '' ): bool {
 		if ( ! $this->objectID ) {
 			return false;
 		}
@@ -135,8 +137,8 @@ final class Field {
 					'value' => [ $oldValue => $value ],
 				],
 				[
-					'ID'   => $this->objectID,
-					'name' => $name,
+					'id'  => $this->objectID,
+					'key' => $key,
 				],
 			)->rowCount() > 0;
 		}
@@ -147,8 +149,8 @@ final class Field {
 				'value' => $value
 			],
 			[
-				'ID'   => $this->objectID,
-				'name' => $name,
+				'id'  => $this->objectID,
+				'key' => $key,
 			],
 		)->rowCount() > 0;
 	}
@@ -156,20 +158,20 @@ final class Field {
 	/**
 	 * Deletes a field for the associated object.
 	 *
-	 * @param string $name The name of the field to delete.
+	 * @param string $key  The key of the field to delete.
 	 * @param mixed $value The value of the field to delete (optional).
 	 * @return bool        True if the field was deleted successfully, false otherwise.
 	 * @since 2025.1
 	 */
-	public function delete( string $name = '', mixed $value = '' ): bool {
+	public function delete( string $key = '', mixed $value = '' ): bool {
 		if ( ! $this->objectID ) {
 			return false;
 		}
 
-		$conditions = [ 'ID' => $this->objectID ];
+		$conditions = [ 'id' => $this->objectID ];
 
-		if ( $name ) {
-			$conditions['name'] = $name;
+		if ( $key ) {
+			$conditions['key'] = $key;
 		}
 
 		if ( $value ) {
@@ -180,17 +182,23 @@ final class Field {
 	}
 
 	/**
-	 * Add or delete field.
+	 * Add, update or delete field.
 	 *
-	 * @param string $name
+	 * @param string $key
 	 * @param mixed|string $value
 	 * @param bool $isUnique
 	 * @return bool
 	 */
-	public function mutate( string $name = '', mixed $value = '', $isUnique = true ): bool {
+	public function mutate( string $key = '', mixed $value = '', bool $isUnique = true ): bool {
 		if ( empty( $value ) ) {
-			return $this->delete( $name );
+			return $this->delete( $key );
 		}
-		return $this->add( $name, $value, $isUnique );
+
+		$oldValues = $this->get( $key );
+		if ( ! empty( $oldValues[ $key ] ) ) {
+			return $this->update( $key, $value, $oldValues[ $key ] );
+		}
+		
+		return $this->add( $key, $value, $isUnique );
 	}
 }

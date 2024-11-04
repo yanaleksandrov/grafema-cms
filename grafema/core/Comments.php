@@ -1,12 +1,4 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Grafema;
 
 /**
@@ -24,6 +16,7 @@ final class Comments
 	public static string $table = 'comments';
 
 	/**
+	 * @param string $string
 	 * @since 2025.1
 	 */
 	public static function add( string $string ): void {}
@@ -35,7 +28,6 @@ final class Comments
 	 */
 	public static function migrate(): void
 	{
-		$length          = DB_MAX_INDEX_LENGTH;
 		$table           = DB_PREFIX . self::$table;
 		$charset_collate = '';
 		if ( DB_CHARSET ) {
@@ -68,21 +60,10 @@ final class Comments
 				KEY dating (dating),
 				KEY parent (parent),
 				KEY author_email (author_email(10))
-			) {$charset_collate};"
+			) ENGINE=InnoDB {$charset_collate};"
 		)->fetchAll();
 
-		Db::query(
-			"
-				CREATE TABLE IF NOT EXISTS {$table}_fields (
-				meta_id     bigint(20) unsigned NOT NULL auto_increment,
-				ID          bigint(20) unsigned NOT NULL default '0',
-				name        varchar(255) default NULL,
-				value       longtext,
-				PRIMARY KEY (meta_id),
-				KEY ID (ID),
-				KEY name ( name({$length}) )
-			) {$charset_collate};"
-		)->fetchAll();
+		Field\Schema::migrate( self::$table, 'comment' );
 
 		Db::updateSchema();
 	}

@@ -126,7 +126,7 @@ class System extends \Grafema\Api\Handler
 		 * @since 2025.1
 		 */
 		Term::migrate();
-		Users::migrate();
+		User\Schema::migrate();
 		Options::migrate();
 		Comments::migrate();
 		Taxonomy::migrate();

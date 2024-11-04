@@ -2,6 +2,7 @@
 namespace Grafema\User;
 
 use Grafema\DB;
+use Grafema\Field;
 use Grafema\I18n;
 use Grafema\Sanitizer;
 use Grafema\Validator;
@@ -111,21 +112,10 @@ class Schema {
 				KEY login_key (login),
 				KEY nicename  (nicename),
 				KEY email     (email)
-			) {$charset_collate};"
+			) ENGINE=InnoDB {$charset_collate};"
 		)->fetchAll();
 
-		Db::query(
-			"
-			CREATE TABLE IF NOT EXISTS {$table}_fields (
-				meta_id     bigint(20)   unsigned NOT NULL auto_increment,
-				ID          bigint(20)   unsigned NOT NULL default '0',
-				name        varchar(255) default NULL,
-				value       longtext,
-				PRIMARY KEY ( meta_id ),
-				KEY user_id ( ID ),
-				KEY name ( name({$length}) )
-			) {$charset_collate};"
-		)->fetchAll();
+		Field\Schema::migrate( self::$table, 'user' );
 
 		Db::updateSchema();
 	}

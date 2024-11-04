@@ -79,7 +79,7 @@ final class Taxonomy {
 				PRIMARY KEY (term_taxonomy_id),
 				UNIQUE KEY  term_id_taxonomy (term_id,taxonomy),
 				KEY taxonomy (taxonomy)
-			) $charset_collate;"
+			) ENGINE=InnoDB $charset_collate;"
 		)->fetchAll();
 
 		Db::updateSchema();

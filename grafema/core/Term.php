@@ -60,20 +60,10 @@ final class Term
 			PRIMARY    KEY (term_id),
 			KEY slug (slug(" . DB_MAX_INDEX_LENGTH . ')),
 			KEY name (name(' . DB_MAX_INDEX_LENGTH . '))
-		) ' . $charset_collate . ';'
+		) ENGINE=InnoDB ' . $charset_collate . ';'
 		)->fetchAll();
 
-		Db::query(
-			'CREATE TABLE IF NOT EXISTS ' . $table . "_fields (
-			meta_id    bigint(20) unsigned NOT NULL auto_increment,
-			term_id    bigint(20) unsigned NOT NULL default '0',
-			meta_key   varchar(255) default NULL,
-			meta_value longtext,
-			PRIMARY KEY (meta_id),
-			KEY term_id (term_id),
-			KEY meta_key (meta_key(" . DB_MAX_INDEX_LENGTH . '))
-		) ' . $charset_collate . ';'
-		)->fetchAll();
+		Field\Schema::migrate( self::$table, 'term' );
 
 		Db::updateSchema();
 	}

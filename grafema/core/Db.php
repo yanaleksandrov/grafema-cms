@@ -43,13 +43,13 @@ final class Db {
 			if ( empty( self::$connection ) ) {
 				$options = array_merge(
 					[
-						'database' => defined( 'DB_NAME' ) ? DB_NAME : '',
-						'username' => defined( 'DB_USERNAME' ) ? DB_USERNAME : '',
-						'password' => defined( 'DB_PASSWORD' ) ? DB_PASSWORD : '',
-						'host'     => defined( 'DB_HOST' ) ? DB_HOST : 'localhost',
-						'prefix'   => defined( 'DB_PREFIX' ) ? DB_PREFIX : 'grafema_',
-						'type'     => defined( 'DB_TYPE' ) ? DB_TYPE : 'mysql',
-						'charset'  => defined( 'DB_CHARSET' ) ? DB_CHARSET : 'utf8mb4',
+						'database' => defined( 'GRFM_DB_NAME' ) ? GRFM_DB_NAME : '',
+						'username' => defined( 'GRFM_DB_USERNAME' ) ? GRFM_DB_USERNAME : '',
+						'password' => defined( 'GRFM_DB_PASSWORD' ) ? GRFM_DB_PASSWORD : '',
+						'host'     => defined( 'GRFM_DB_HOST' ) ? GRFM_DB_HOST : 'localhost',
+						'prefix'   => defined( 'GRFM_DB_PREFIX' ) ? GRFM_DB_PREFIX : 'grafema_',
+						'type'     => defined( 'GRFM_DB_TYPE' ) ? GRFM_DB_TYPE : 'mysql',
+						'charset'  => defined( 'GRFM_DB_CHARSET' ) ? GRFM_DB_CHARSET : 'utf8mb4',
 					],
 					$options
 				);
@@ -342,7 +342,7 @@ final class Db {
 				WHERE
 				    TABLE_SCHEMA = :database',
 				[
-					':database' => DB_NAME,
+					':database' => GRFM_DB_NAME,
 				]
 			);
 

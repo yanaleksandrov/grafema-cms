@@ -1,12 +1,5 @@
 <?php
 /**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-/**
  * Constants for database name, user, password, host, prefix & charset.
  *
  * Indexes have a maximum size of 767 bytes. Historically, we haven't had to worry about this.
@@ -15,15 +8,15 @@
  *
  * @since 2025.1
  */
-const DB_NAME             = 'alexandrov_cms';
-const DB_USERNAME         = 'alexandrov_cms';
-const DB_PASSWORD         = 'Wf9zh5BT';
-const DB_HOST             = 'localhost';
-const DB_PREFIX           = 'grafema_';
-const DB_TYPE             = 'mysql';
-const DB_CHARSET          = 'utf8mb4';
-const DB_COLLATE          = '';
-const DB_MAX_INDEX_LENGTH = 191;
+const GRFM_DB_NAME             = 'alexandrov_cms';
+const GRFM_DB_USERNAME         = 'alexandrov_cms';
+const GRFM_DB_PASSWORD         = 'Wf9zh5BT';
+const GRFM_DB_HOST             = 'localhost';
+const GRFM_DB_PREFIX           = 'grafema_';
+const GRFM_DB_TYPE             = 'mysql';
+const GRFM_DB_CHARSET          = 'utf8mb4';
+const GRFM_DB_COLLATE          = '';
+const GRFM_DB_MAX_INDEX_LENGTH = 191;
 
 /**
  * Constants for paths to Grafema directories.

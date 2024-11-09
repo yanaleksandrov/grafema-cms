@@ -1,8 +1,7 @@
 <?php
 namespace Grafema\Post;
 
-use Grafema;
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Route;
@@ -274,10 +273,10 @@ class Type
 		 */
 		$schema = Db::schema();
 
-		$db_post_type  = DB_PREFIX . $postType;
+		$db_post_type  = GRFM_DB_PREFIX . $postType;
 		$update_schema = false;
 		if ( empty( $schema[$db_post_type] ) ) {
-			$update_schema = Db::query( self::migrate( $postType ) )->fetchAll();
+			Schema::migrate( $postType );
 		}
 		if ( empty( $schema[$db_post_type . 'fields'] ) && in_array( 'fields', $args['supports'], true ) ) {
 			Field\Schema::migrate( $postType, 'post' );
@@ -373,45 +372,5 @@ class Type
 	public static function exist( $type )
 	{
 		return true;
-	}
-
-	/**
-	 * Get query for create new table into database.
-	 *
-	 * @since 2025.1
-	 */
-	public static function migrate( string $postType )
-	{
-		$table = DB_PREFIX . $postType;
-
-		$charset_collate = '';
-		if ( DB_CHARSET ) {
-			$charset_collate = 'DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charset_collate .= ' COLLATE ' . DB_COLLATE;
-		}
-
-		return "
-		CREATE TABLE IF NOT EXISTS {$table} (
-			ID          int          unsigned NOT NULL auto_increment,
-			title       text         NOT NULL default '',
-			content     longtext     NOT NULL default '',
-			author      smallint     unsigned NOT NULL default '0',
-			comments    smallint     unsigned NOT NULL default '0',
-			views       mediumint    unsigned NOT NULL default '0',
-			created     datetime     NOT NULL default NOW(),
-			modified    datetime     NOT NULL default NOW() ON UPDATE NOW(),
-			status      varchar(255) NOT NULL default 'draft',
-			discussion  varchar(255) NOT NULL default 'open',
-			password    varchar(255) NOT NULL default '',
-			parent      int          unsigned NOT NULL default '0',
-			position    mediumint    unsigned NOT NULL default '0',
-			PRIMARY KEY (ID),
-			KEY parent (parent),
-			KEY author (author),
-			FULLTEXT KEY content (title,content)
-		) ENGINE=InnoDB {$charset_collate};
-		";
 	}
 }

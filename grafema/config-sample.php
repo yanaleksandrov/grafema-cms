@@ -15,15 +15,15 @@
  *
  * @since 2025.1
  */
-const DB_NAME             = 'db.name';
-const DB_USERNAME         = 'db.username';
-const DB_PASSWORD         = 'db.password';
-const DB_HOST             = 'db.host';
-const DB_PREFIX           = 'db.prefix';
-const DB_TYPE             = 'mysql';
-const DB_CHARSET          = 'utf8mb4';
-const DB_COLLATE          = '';
-const DB_MAX_INDEX_LENGTH = 191;
+const GRFM_DB_NAME             = 'db.name';
+const GRFM_DB_USERNAME         = 'db.username';
+const GRFM_DB_PASSWORD         = 'db.password';
+const GRFM_DB_HOST             = 'db.host';
+const GRFM_DB_PREFIX           = 'db.prefix';
+const GRFM_DB_TYPE             = 'mysql';
+const GRFM_DB_CHARSET          = 'utf8mb4';
+const GRFM_DB_COLLATE          = '';
+const GRFM_DB_MAX_INDEX_LENGTH = 191;
 
 /**
  * Constants for paths to Grafema directories.

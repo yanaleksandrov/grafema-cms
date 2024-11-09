@@ -899,9 +899,9 @@ final class Sanitizer
 	 * @since 2025.1
 	 *
 	 * @param string $value The DB table name to be sanitized.
-	 * @return string       The sanitized table name.
+	 * @return string       The sanitized DB table name.
 	 */
-	public static function tablename( string $value ) {
+	public static function tablename( string $value ): string {
 		$value = preg_replace( '/[^a-zA-Z0-9_]/', '', $value );
 
 		// replacing spaces and hyphens with underscores

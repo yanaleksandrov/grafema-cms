@@ -1,15 +1,14 @@
 <?php
 namespace Grafema\Field;
 
-use Grafema\DB;
-use Grafema\Sanitizer;
+use Grafema\Db;
 
 /**
  *
  *
  * @since 2025.1
  */
-final class Schema {
+class Schema {
 
 	/**
 	 * Create new table into database.
@@ -20,15 +19,8 @@ final class Schema {
 	 */
 	public static function migrate( string $table, string $name ): void
 	{
-		$length          = DB_MAX_INDEX_LENGTH;
-		$table           = Sanitizer::tablename( DB_PREFIX . $table );
-		$charsetCollate = '';
-		if ( DB_CHARSET ) {
-			$charsetCollate = ' DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charsetCollate .= ' COLLATE ' . DB_COLLATE;
-		}
+		$indexLength    = GRFM_DB_MAX_INDEX_LENGTH;
+		$charsetCollate = (new Db\Handler)->getCharsetCollate();
 
 		Db::query(
 			"
@@ -39,8 +31,8 @@ final class Schema {
 				`value`      TEXT,
 				PRIMARY KEY (id),
 				KEY `{$name}_id` ({$name}_id),
-				KEY `key` (`key`({$length})),
-				KEY `value` (`value`({$length}))
+				KEY `key` (`key`({$indexLength})),
+				KEY `value` (`value`({$indexLength}))
 			) ENGINE=InnoDB {$charsetCollate};
 
 			CREATE TRIGGER {$table}_cascade_delete

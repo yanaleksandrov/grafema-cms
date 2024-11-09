@@ -187,7 +187,7 @@ class Query {
 			}
 
 			$join  = '';
-			$table = DB_PREFIX . $type;
+			$table = GRFM_DB_PREFIX . $type;
 			if ( $custom_fields ) {
 				$join = " INNER JOIN `{$table}_fields` ON ({$table}.ID = {$table}_fields.post_id)";
 				if ( ! $custom_fields_added ) {
@@ -196,7 +196,7 @@ class Query {
 				}
 			}
 
-			$start_pos   = strlen( DB_PREFIX ) + 1;
+			$start_pos   = strlen( GRFM_DB_PREFIX ) + 1;
 			$the_types[] = "SELECT *, SUBSTRING('{$table}', {$start_pos}, 99) AS type FROM `{$table}`" . $join . $search;
 		}
 		$the_types = implode( ' UNION ', $the_types );
@@ -433,7 +433,7 @@ class Query {
 		}
 
 		$date        = new \DateTime();
-		$table       = DB_PREFIX . $table;
+		$table       = GRFM_DB_PREFIX . $table;
 		$schema      = Db::schema();
 		$relation    = 'OR' === strtoupper( $date_query['relation'] ?? 'AND' ) ? 'OR' : 'AND';
 		$comparisons = [ '=', '!=', '>', '>=', '<', '<=', 'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN' ];

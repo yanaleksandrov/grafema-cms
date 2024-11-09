@@ -7,14 +7,7 @@ namespace Grafema;
  *
  * @since 2025.1
  */
-final class Field {
-
-	/**
-	 * Object form manipulations.
-	 *
-	 * @var int
-	 */
-	public mixed $object;
+final class Field extends Field\Schema {
 
 	/**
 	 * The ID of the associated object.
@@ -24,6 +17,13 @@ final class Field {
 	public int $objectID;
 
 	/**
+	 * DB column name.
+	 *
+	 * @var string
+	 */
+	public string $column;
+
+	/**
 	 * The name of the database table for the object.
 	 *
 	 * @var string
@@ -31,17 +31,26 @@ final class Field {
 	public string $table;
 
 	/**
+	 * Cache key prefix.
+	 *
+	 * @var string
+	 */
+	public string $cacheGroup;
+
+	/**
 	 * Initializes the object ID and the table name based on the provided object.
 	 *
 	 * @param mixed $object The object associated with the field (e.g., User instance).
+	 *
 	 * @since 2025.1
 	 */
 	public function __construct( mixed $object ) {
 		match ( true ) {
 			$object instanceof User => [
-				$this->object   = $object,
-				$this->objectID = $object->ID,
-				$this->table    = sprintf( '%s_fields', $object::$table ),
+				$this->objectID   = $object->ID,
+				$this->column     = 'user_id',
+				$this->table      = sprintf( '%s_fields', $object::$table ),
+				$this->cacheGroup = sprintf( 'user-fields-%d', $object->ID ),
 			],
 		};
 	}
@@ -49,43 +58,50 @@ final class Field {
 	/**
 	 * Retrieves the value of a specific field for the associated object.
 	 *
+	 * Benchmark when there are 1 million rows: 1 time - 0.00171 sec, 100000 times - 0.05 sec
+	 *
 	 * @param string      $key      The key of the field to retrieve. If empty, get all fields of object.
 	 * @param bool        $isSingle Whether to limit the result to a single value (default: true).
-	 * @return array|null           The field value as an array, or null if the object ID is not set.
+	 * @return mixed                The field value or null if the object ID is not set.
 	 *
 	 * @since 2025.1
 	 */
-	public function get( mixed $key = '', bool $isSingle = true ): ?array {
+	public function get( mixed $key = '', bool $isSingle = true ): mixed {
 		if ( ! $this->objectID ) {
 			return null;
 		}
 
-		$conditions = [ 'id' => $this->objectID ];
+		return Cache::get( $key, null, $this->cacheGroup, function() use ( $key, $isSingle ) {
+			$conditions = [ $this->column => $this->objectID ];
 
-		if ( $key ) {
-			$conditions['key'] = $key;
-		}
-
-		$fields = $isSingle
-			? Db::get( $this->table, [ 'key', 'value' ], $conditions )
-			: Db::select( $this->table, [ 'key', 'value' ], $conditions );
-
-		$result = [];
-		if ( is_array( $fields ) ) {
-			if ( $isSingle ) {
-				return [ $fields['key'] => $fields['value'] ];
+			if ( $key ) {
+				$conditions['key'] = $key;
 			}
 
-			foreach ( $fields as $field ) {
-				$result[ $field['key'] ][] = $field['value'];
-			}
-		}
+			$fields = $isSingle && $key
+				? Db::get( $this->table, [ 'key', 'value' ], $conditions )
+				: Db::select( $this->table, [ 'key', 'value' ], $conditions );
 
-		return $result;
+			$result = null;
+			if ( is_array( $fields ) ) {
+				$result = [];
+				if ( $isSingle && $key ) {
+					return $fields['value'] ?? '';
+				}
+
+				foreach ( $fields as $field ) {
+					$result[ $field['key'] ][] = $field['value'];
+				}
+			}
+
+			return $result;
+		} );
 	}
 
 	/**
 	 * Adds a new field value for the associated object.
+	 *
+	 * Benchmark when there are 1 million rows: 1 time - 0.00029 sec, 100000 times - 26.15 sec
 	 *
 	 * @param string $key      The key of the field to add.
 	 * @param mixed  $value    The value to be added.
@@ -100,20 +116,25 @@ final class Field {
 		}
 
 		if ( $isUnique ) {
-			$count = Db::count( $this->table, [ 'id' => $this->objectID, 'key' => $key ] );
+			$count = Db::count( $this->table, [ $this->column => $this->objectID, 'key' => $key ] );
 			if ( $count > 0 ) {
 				return false;
 			}
 		}
 
-		return Db::insert(
+		$isInsert = Db::insert(
 			$this->table,
 			[
-				'id'    => $this->objectID,
-				'key'   => $key,
-				'value' => $value
+				$this->column => $this->objectID,
+				'key'         => $key,
+				'value'       => $value
 			]
 		)->rowCount() > 0;
+
+		if ( $isInsert ) {
+			Cache::add( $key, $value, $this->cacheGroup );
+		}
+		return $isInsert;
 	}
 
 	/**
@@ -123,6 +144,7 @@ final class Field {
 	 * @param mixed $value    The new value for the field.
 	 * @param mixed $oldValue The old value of the field (optional).
 	 * @return bool           True if the field was updated successfully, false otherwise.
+	 *
 	 * @since 2025.1
 	 */
 	public function update( string $key, mixed $value, mixed $oldValue = '' ): bool {
@@ -130,29 +152,20 @@ final class Field {
 			return false;
 		}
 
-		if ( $oldValue ) {
-			return Db::replace(
-				$this->table,
-				[
-					'value' => [ $oldValue => $value ],
-				],
-				[
-					'id'  => $this->objectID,
-					'key' => $key,
-				],
-			)->rowCount() > 0;
+		$data       = [ 'value' => $oldValue ? [ $oldValue => $value ] : $value ];
+		$conditions = [ 'key' => $key, $this->column => $this->objectID ];
+
+		$query = $oldValue
+			? Db::replace( $this->table, $data, $conditions )
+			: Db::update( $this->table, $data, $conditions );
+
+		$isSuccessful = $query->rowCount() > 0;
+
+		if ( $isSuccessful ) {
+			Cache::add( $key, $value, $this->cacheGroup );
 		}
 
-		return Db::update(
-			$this->table,
-			[
-				'value' => $value
-			],
-			[
-				'id'  => $this->objectID,
-				'key' => $key,
-			],
-		)->rowCount() > 0;
+		return $isSuccessful;
 	}
 
 	/**
@@ -168,7 +181,7 @@ final class Field {
 			return false;
 		}
 
-		$conditions = [ 'id' => $this->objectID ];
+		$conditions = [ $this->column => $this->objectID ];
 
 		if ( $key ) {
 			$conditions['key'] = $key;
@@ -200,5 +213,78 @@ final class Field {
 		}
 		
 		return $this->add( $key, $value, $isUnique );
+	}
+
+	/**
+	 * Bulk insert fields.
+	 *
+	 * Benchmark when there are 1 million rows: insert 100000 rows - 2.25 sec, with mutation 100000 rows - 2.25 sec
+	 *
+	 * @param array $fields
+	 * @param bool $isMutate
+	 * @return array
+	 */
+	public function import( array $fields, bool $isMutate = false ): array {
+		$result = [ 'deleted' => 0, 'inserted' => 0, 'updated' => 0 ];
+
+		$deleteDate = [];
+		$insertData = [];
+		$updateData = [];
+
+		if ( $isMutate ) {
+			$existsFields = self::get();
+		}
+
+		foreach ( $fields as $key => $value ) {
+			if ( ! is_string( $key ) ) {
+				continue;
+			}
+
+			$insertItem = [
+				$this->column => $this->objectID,
+				'key'         => $key,
+				'value'       => $value,
+			];
+
+			if ( $isMutate ) {
+				// insert field
+				if ( ! isset( $existsFields[ $key ] ) ) {
+					$insertData[] = $insertItem;
+				}
+				// update field
+				else {
+					$deleteDate[] = $key;
+				}
+			} else {
+				$insertData[] = $insertItem;
+			}
+		}
+
+		echo '<pre>';
+		print_r( $deleteDate );
+		var_dump( count( $insertData ) );
+		var_dump( count( $updateData ) );
+		echo '</pre>';
+		if ( $deleteDate ) {
+			$result['deleted'] = Db::delete(
+				$this->table,
+				[
+					'AND' => [
+						$this->column => $this->objectID,
+						'key'         => $deleteDate,
+					]
+				]
+			)->rowCount();
+		}
+
+		if ( $insertData ) {
+			$result['inserted'] = Db::insert( $this->table, $insertData )->rowCount();
+		}
+
+		if ( $updateData ) {
+			$result['updated'] = Db::update( $this->table, $insertData )->rowCount();
+		}
+
+		return $result;
 	}
 }

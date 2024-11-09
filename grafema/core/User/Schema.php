@@ -1,7 +1,7 @@
 <?php
 namespace Grafema\User;
 
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\Field;
 use Grafema\I18n;
 use Grafema\Sanitizer;
@@ -13,8 +13,9 @@ use Grafema\Validator;
 class Schema {
 
 	/**
-	 * DataBase table name.
+	 * DB table name.
 	 *
+	 * @var string
 	 * @since 2025.1
 	 */
 	public static string $table = 'users';
@@ -84,19 +85,12 @@ class Schema {
 	 */
 	public static function migrate(): void
 	{
-		$length          = DB_MAX_INDEX_LENGTH;
-		$table           = DB_PREFIX . self::$table;
-		$charset_collate = '';
-		if ( DB_CHARSET ) {
-			$charset_collate = 'DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charset_collate .= ' COLLATE ' . DB_COLLATE;
-		}
+		$tableName      = (new Db\Handler)->getTableName( self::$table );
+		$charsetCollate = (new Db\Handler)->getCharsetCollate();
 
 		Db::query(
 			"
-			CREATE TABLE IF NOT EXISTS {$table} (
+			CREATE TABLE IF NOT EXISTS {$tableName} (
 				ID            bigint(20)   unsigned NOT NULL auto_increment,
 				login         varchar(60)  NOT NULL default '',
 				password      varchar(255) NOT NULL default '',
@@ -106,16 +100,16 @@ class Schema {
 				showname      varchar(255) NOT NULL default '',
 				email         varchar(100) NOT NULL default '',
 				locale        varchar(100) NOT NULL default '',
-				registered    datetime     NOT NULL default NOW(),
-				visited       datetime     NOT NULL default NOW(),
+				registered    DATETIME     NOT NULL default NOW(),
+				visited       DATETIME     NOT NULL default NOW(),
 				PRIMARY KEY   (ID),
 				KEY login_key (login),
 				KEY nicename  (nicename),
 				KEY email     (email)
-			) ENGINE=InnoDB {$charset_collate};"
+			) ENGINE=InnoDB {$charsetCollate};"
 		)->fetchAll();
 
-		Field\Schema::migrate( self::$table, 'user' );
+		Field\Schema::migrate( $tableName, 'user' );
 
 		Db::updateSchema();
 	}

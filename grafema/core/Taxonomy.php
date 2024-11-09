@@ -2,6 +2,8 @@
 
 namespace Grafema;
 
+use Grafema\Db;
+
 /**
  * Core class for managing taxonomies.
  *
@@ -10,16 +12,19 @@ namespace Grafema;
 final class Taxonomy {
 
 	/**
-	 * DataBase table name.
+	 * DB table name.
 	 *
+	 * @var string
 	 * @since 2025.1
-	 * @var   string
 	 */
 	public static string $table = 'term_taxonomy';
 
 	/**
 	 *
 	 *
+	 * @param string $taxonomy
+	 * @param string $object_type
+	 * @param array $args
 	 * @since 2025.1
 	 */
 	public static function register( string $taxonomy, string $object_type, array $args = [] ) {
@@ -29,6 +34,7 @@ final class Taxonomy {
 	/**
 	 *
 	 *
+	 * @param string $taxonomy
 	 * @since 2025.1
 	 */
 	public static function unregister( string $taxonomy ) {
@@ -48,7 +54,7 @@ final class Taxonomy {
 	 * @param string $taxonomy Name of taxonomy object.
 	 * @return  bool           Whether the taxonomy is hierarchical.
 	 */
-	public static function is_hierarchical( string $taxonomy ): bool {
+	public static function isHierarchical( string $taxonomy ): bool {
 
 	}
 
@@ -57,29 +63,23 @@ final class Taxonomy {
 	 *
 	 * @since 2025.1
 	 */
-	public static function migrate() {
-		$table           = DB_PREFIX . self::$table;
-		$charset_collate = '';
-		if ( DB_CHARSET ) {
-			$charset_collate = 'DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charset_collate .= ' COLLATE ' . DB_COLLATE;
-		}
+	public static function migrate(): void {
+		$tableName      = (new Db\Handler)->getTableName( self::$table );
+		$charsetCollate = (new Db\Handler)->getCharsetCollate();
 
 		Db::query(
 			"
-			CREATE TABLE IF NOT EXISTS $table (
+			CREATE TABLE IF NOT EXISTS {$tableName} (
 				term_taxonomy_id  bigint(20) unsigned NOT NULL auto_increment,
 				term_id           bigint(20) unsigned NOT NULL default 0,
 				taxonomy          varchar(32) NOT NULL default '',
-				description       longtext NOT NULL,
-				parent bigint(20) unsigned NOT NULL default 0,
-				count bigint(20)  NOT NULL default 0,
+				description       longtext    NOT NULL,
+				count             bigint(20)  NOT NULL default 0,
+				parent            bigint(20) unsigned NOT NULL default 0,
 				PRIMARY KEY (term_taxonomy_id),
 				UNIQUE KEY  term_id_taxonomy (term_id,taxonomy),
 				KEY taxonomy (taxonomy)
-			) ENGINE=InnoDB $charset_collate;"
+			) ENGINE=InnoDB $charsetCollate;"
 		)->fetchAll();
 
 		Db::updateSchema();

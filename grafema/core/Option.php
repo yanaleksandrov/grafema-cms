@@ -9,7 +9,7 @@ use Grafema\Helpers\Arr;
  *
  * @since 2025.1
  */
-final class Option extends Options {
+final class Option extends Option\Schema {
 
 	/**
 	 * Options list
@@ -325,11 +325,9 @@ final class Option extends Options {
 			'owner'          => [
 				'email' => '',
 			],
-			'users-default-role' => 'subscriber',
 			'users'          => [
-				'roles'      => [],
-				'role'       => 'subscriber',
-				'membership' => 0,
+				'default-role' => 'subscriber',
+				'membership'   => 0,
 			],
 			'week-starts-on' => 1,
 			'date-format'    => 'F j, Y',

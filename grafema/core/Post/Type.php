@@ -1,19 +1,12 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-
 namespace Grafema\Post;
 
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
 use Grafema\Route;
 use Grafema\Tree;
+use Grafema\Field;
 
 /**
  * Core class used for interacting with post types.
@@ -37,7 +30,7 @@ class Type
 	/**
 	 * Registers a post type.
 	 *
-	 * @param string $post_type Post type key. Must not exceed 20 characters and may
+	 * @param string $postType Post type key. Must not exceed 20 characters and may
 	 *                          only contain lowercase alphanumeric characters, dashes,
 	 *                          and underscores. See sanitize_key().
 	 * @param array  $args      {
@@ -80,7 +73,7 @@ class Type
 	 *                  of $show_in_menu.
 	 * @var bool        $show_in_rest Whether to include the post type in the REST API. Set this to true
 	 *                  for the post type to be available in the block editor.
-	 * @var string      $rest_base To change the base url of REST API route. Default is $post_type.
+	 * @var string      $rest_base To change the base url of REST API route. Default is $postType.
 	 * @var string      $rest_controller_class REST API Controller class name. Default is 'WP_REST_Posts_Controller'.
 	 * @var int         $menu_position The position in the menu order the post type should appear. To work,
 	 *                  $show_in_menu must be true. Default null (at the bottom).
@@ -121,7 +114,7 @@ class Type
 	 *                  archive slug to use. Will generate the proper rewrite rules if
 	 *                  $rewrite is enabled. Default false.
 	 *                  }
-	 * @var string|bool Sets the query_var key for this post type. Defaults to $post_type
+	 * @var string|bool Sets the query_var key for this post type. Defaults to $postType
 	 *                  key. If false, a post type cannot be loaded at
 	 *                  ?{query_var}={post_slug}. If specified as a string, the query
 	 *                  ?{query_var_string}={post_slug} will be valid.
@@ -140,12 +133,12 @@ class Type
 	 *
 	 * @since 2025.1
 	 */
-	public static function register( string $post_type, array $args = [] )
+	public static function register( string $postType, array $args = [] )
 	{
 		// TODO:: add sanitize
-		$post_type = trim( $post_type );
+		$postType = trim( $postType );
 
-		if ( empty( $post_type ) || strlen( $post_type ) > 20 ) {
+		if ( empty( $postType ) || strlen( $postType ) > 20 ) {
 			// TODO:: add error to Errors
 			return false;
 		}
@@ -190,8 +183,8 @@ class Type
 			$args
 		);
 
-		if ( ! isset( self::$types[$post_type] ) ) {
-			self::$types[$post_type] = $args;
+		if ( ! isset( self::$types[$postType] ) ) {
+			self::$types[$postType] = $args;
 		}
 
 		$public       = (bool) ( $args['public'] ?? true );
@@ -203,7 +196,7 @@ class Type
 		 * @since 2025.1
 		 */
 		if ( $public ) {
-			$pattern = ( $args['route'] ?? $post_type ) . '/([a-z0-9-]+)/';
+			$pattern = ( $args['route'] ?? $postType ) . '/([a-z0-9-]+)/';
 			$route   = new Route();
 			$route->get(
 				'/api/page/(\d+)',
@@ -219,7 +212,7 @@ class Type
 				}
 			);
 			$route->mount(
-				'/' . $post_type,
+				'/' . $postType,
 				function () use ( $route ) {
 					$route->get(
 						'/',
@@ -247,23 +240,23 @@ class Type
 		if ( $show_in_menu ) {
 			Tree::attach(
 				'dashboard-main-menu',
-				function ( $tree ) use ( $post_type, $args ) {
+				function ( $tree ) use ( $postType, $args ) {
 					$tree->addItems(
 						[
 							[
-								'id'           => $post_type,
-								'url'          => $post_type,
+								'id'           => $postType,
+								'url'          => $postType,
 								'title'        => $args['labels']['name_plural'],
 								'capabilities' => $args['capabilities'],
 								'icon'         => $args['menu_icon'],
 								'position'     => $args['position'],
 							],
 							[
-								'id'           => sprintf( 'type-%s', $post_type ),
-								'url'          => $post_type,
+								'id'           => sprintf( 'type-%s', $postType ),
+								'url'          => $postType,
 								'title'        => $args['labels']['all_items'],
 								'capabilities' => $args['capabilities'],
-								'parent_id'    => $post_type,
+								'parent_id'    => $postType,
 							],
 						]
 					);
@@ -280,13 +273,13 @@ class Type
 		 */
 		$schema = Db::schema();
 
-		$db_post_type  = DB_PREFIX . $post_type;
+		$db_post_type  = GRFM_DB_PREFIX . $postType;
 		$update_schema = false;
 		if ( empty( $schema[$db_post_type] ) ) {
-			$update_schema = Db::query( self::migrate( $post_type ) )->fetchAll();
+			Schema::migrate( $postType );
 		}
 		if ( empty( $schema[$db_post_type . 'fields'] ) && in_array( 'fields', $args['supports'], true ) ) {
-			$update_schema = Db::query( self::metaQuery( $post_type ) )->fetchAll();
+			Field\Schema::migrate( $postType, 'post' );
 		}
 	}
 
@@ -295,26 +288,26 @@ class Type
 	 *
 	 * @since 2025.1
 	 */
-	public static function unregister( string $post_type )
+	public static function unregister( string $postType )
 	{
-		if ( isset( self::$types[$post_type] ) ) {
-			unset( self::$types[$post_type] );
+		if ( isset( self::$types[$postType] ) ) {
+			unset( self::$types[$postType] );
 		}
 	}
 
 	/**
 	 * Check a post type's support for a given feature.
 	 *
-	 * @param string $post_type the post type being checked
+	 * @param string $postType the post type being checked
 	 * @param string $feature   the feature being checked
 	 *
 	 * @return bool whether the post type supports the given feature
 	 *
 	 * @since  2025.1
 	 */
-	public static function supports( string $post_type, string $feature )
+	public static function supports( string $postType, string $feature )
 	{
-		return  ! empty( self::$types[$post_type] ) && in_array( $feature, self::$types[$post_type]['supports'], true );
+		return  ! empty( self::$types[$postType] ) && in_array( $feature, self::$types[$postType]['supports'], true );
 	}
 
 	/**
@@ -379,93 +372,5 @@ class Type
 	public static function exist( $type )
 	{
 		return true;
-	}
-
-	/**
-	 * Get query for create new table into database.
-	 *
-	 * @since 2025.1
-	 */
-	public static function migrate( string $post_type )
-	{
-		$table = DB_PREFIX . $post_type;
-
-		$charset_collate = '';
-		if ( DB_CHARSET ) {
-			$charset_collate = 'DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charset_collate .= ' COLLATE ' . DB_COLLATE;
-		}
-
-		return '
-		CREATE TABLE IF NOT EXISTS ' . $table . " (
-			ID          int          unsigned NOT NULL auto_increment,
-			title       text         NOT NULL default '',
-			content     longtext     NOT NULL default '',
-			author      int          unsigned NOT NULL default '0',
-			views       int          unsigned NOT NULL default '0',
-			comments    mediumint    unsigned NOT NULL default '0',
-			created     datetime     NOT NULL default NOW(),
-			modified    datetime     NOT NULL default NOW(),
-			status      varchar(255) NOT NULL default 'draft',
-			slug        varchar(255) NOT NULL default '',
-			password    varchar(255) NOT NULL default '',
-			discussion  varchar(255) NOT NULL default 'open',
-			parent      int          unsigned NOT NULL default '0',
-			position    mediumint    unsigned NOT NULL default '0',
-			PRIMARY KEY (ID),
-			KEY slug (slug(" . DB_MAX_INDEX_LENGTH . ')),
-			KEY parent (parent),
-			KEY author (author),
-			FULLTEXT KEY content (title,content)
-		) ' . $charset_collate . ';
-
-		CREATE TRIGGER ' . $table . '_update_date_modified
-			BEFORE UPDATE ON ' . $table . '
-			FOR EACH ROW
-			BEGIN
-				IF NEW.title <> OLD.title OR NEW.content <> OLD.content THEN
-					SET NEW.modified = NOW();
-				END IF;
-			END;
-		';
-	}
-
-	/**
-	 * Get query for create new table into database.
-	 *
-	 * @since 2025.1
-	 */
-	public static function metaQuery( string $post_type )
-	{
-		$table            = DB_PREFIX . $post_type;
-		$max_index_length = DB_MAX_INDEX_LENGTH;
-
-		$charset_collate = '';
-		if ( DB_CHARSET ) {
-			$charset_collate = 'DEFAULT CHARACTER SET ' . DB_CHARSET;
-		}
-		if ( DB_COLLATE ) {
-			$charset_collate .= ' COLLATE ' . DB_COLLATE;
-		}
-
-		return "
-		CREATE TABLE IF NOT EXISTS {$table}_fields (
-			field_id bigint(20) unsigned NOT NULL auto_increment PRIMARY KEY,
-			post_id  bigint(20) unsigned NOT NULL default '0',
-			`key`    varchar(255) default NULL,
-			value    longtext,
-			KEY      post_id (post_id),
-			KEY      `key` (`key`({$max_index_length}))
-		) {$charset_collate};
-
-		CREATE TRIGGER {$table}_cascade_delete
-			AFTER DELETE ON {$table}
-			FOR EACH ROW
-				BEGIN
-					DELETE FROM {$table}_fields WHERE post_id = OLD.ID;
-				END;
-		";
 	}
 }

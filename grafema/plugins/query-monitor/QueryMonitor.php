@@ -1,5 +1,5 @@
 <?php
-use Grafema\DB;
+use Grafema\Db;
 use Grafema\I18n;
 use Grafema\Is;
 use Grafema\Hook;

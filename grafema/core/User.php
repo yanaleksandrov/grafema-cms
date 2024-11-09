@@ -30,7 +30,7 @@ final class User extends Schema {
 	public string $locale = '';
 	public string $registered = '';
 	public string $visited = '';
-	public object $fields;
+	public array $fields;
 	public array $capabilities = [];
 
 	/**
@@ -207,9 +207,10 @@ final class User extends Schema {
 	 * being deleted will be run after the posts are either reassigned or deleted.
 	 * The user meta will also be deleted that are for that User ID.
 	 *
-	 * @param  int   $userID  User ID.
+	 * @param  int   $userID   User ID.
 	 * @param  int   $reassign Optional. Reassign posts to new User ID.
-	 * @return Error|int      The number of remote users or false.
+	 * @return Error|int       The number of remote users or false.
+	 *
 	 * @since 2025.1
 	 */
 	public static function delete( int $userID, int $reassign = 0 ) {
@@ -231,10 +232,12 @@ final class User extends Schema {
 	 * Получает данные текущего, зарегистрированного пользователя.
 	 *
 	 * @param callable|null $callback
-	 * @return Error|false|User
+	 * @return User|Error|null
+	 * @throws \JsonException
+	 *
 	 * @since   2025.1
 	 */
-	public static function current( ?callable $callback = null ): User|bool|Error {
+	public static function current( ?callable $callback = null ): User|Error|null {
 		if ( self::$current ) {
 			return self::$current;
 		}
@@ -258,6 +261,7 @@ final class User extends Schema {
 	 *
 	 * @param array $fields
 	 * @return bool Array of fields and values to search for users.
+	 *
 	 * @since  2025.1
 	 */
 	public static function exists( array $fields ): bool {
@@ -275,6 +279,7 @@ final class User extends Schema {
 	 * @param string $capabilities Capability name.
 	 * @return   bool              Whether the user has the given capability.
 	 * @throws \JsonException
+	 *
 	 * @since 2025.1
 	 */
 	public static function can(int $userID, string $capabilities): bool
@@ -305,6 +310,7 @@ final class User extends Schema {
 	 * @param string $role     Role name.
 	 * @return   bool          The user has a role.
 	 * @throws \JsonException
+	 *
 	 * @since 2025.1
 	 */
 	public static function is( int $userID, string $role ): bool {
@@ -326,6 +332,7 @@ final class User extends Schema {
 	 *
 	 * @return   bool
 	 * @throws \JsonException
+	 *
 	 * @since   2025.1
 	 */
 	public static function logged(): bool {
@@ -342,6 +349,7 @@ final class User extends Schema {
 	 *
 	 * @param array $userdata
 	 * @return User|Error
+	 *
 	 * @since  2025.1
 	 */
 	public static function login( array $userdata ): User|Error {

@@ -12,7 +12,7 @@ trait Traits {
 	 * @since 2025.1
 	 * @var   string
 	 */
-	private static string $session_id = DB_PREFIX . 'user_logged';
+	private static string $session_id = GRFM_DB_PREFIX . 'user_logged';
 
 	/**
 	 * Current user data.

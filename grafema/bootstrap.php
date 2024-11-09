@@ -1,12 +1,23 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-use Grafema\{Api, Db, Dir, Option, Debug, Hook, Html, I18n, Is, Themes, Plugins, Post\Type, Route, Url, User, Users\Roles, View, Csrf};
+use Grafema\{
+	Api,
+	Db,
+	Dir,
+	Option,
+	Debug,
+	Hook,
+	Html,
+	I18n,
+	Is,
+	Themes,
+	Plugins,
+	Post\Type,
+	Route,
+	Url,
+	User,
+	View,
+	Csrf
+};
 
 /**
  * Setup system core constants.
@@ -19,7 +30,7 @@ const GRFM_REQUIRED_PHP_VERSION   = '8.1';
 const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
 
 /**
- * Include required files: app configuration & autoloader.
+ * Include required files: app configuration & autoload.
  *
  * @since 2025.1
  */
@@ -28,7 +39,7 @@ array_map(function ($include) {
 	if (file_exists($include_path)) {
 		require_once $include_path;
 	}
-}, ['config', 'autoloader']);
+}, ['config', 'autoload']);
 
 /**
  * Create a single entry point to the website.
@@ -183,7 +194,7 @@ try {
 		 *
 		 * @since 2025.1
 		 */
-		Roles::register(
+		User\Roles::register(
 			'admin',
 			I18n::_t( 'Administrator' ),
 			[
@@ -217,7 +228,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'editor',
 			I18n::_t( 'Editor' ),
 			[
@@ -238,7 +249,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'author',
 			I18n::_t( 'Author' ),
 			[
@@ -252,7 +263,7 @@ try {
 			]
 		);
 
-		Roles::register(
+		User\Roles::register(
 			'subscriber',
 			I18n::_t( 'Subscriber' ),
 			[

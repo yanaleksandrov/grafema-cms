@@ -892,4 +892,22 @@ final class Sanitizer
 
 		return sprintf( '%s.%s', $filename, $extension );
 	}
+
+	/**
+	 * Sanitize DB table name.
+	 *
+	 * @since 2025.1
+	 *
+	 * @param string $value The DB table name to be sanitized.
+	 * @return string       The sanitized DB table name.
+	 */
+	public static function tablename( string $value ): string {
+		$value = preg_replace( '/[^a-zA-Z0-9_]/', '', $value );
+
+		// replacing spaces and hyphens with underscores
+		$value = str_replace( [' ', '-'], '_', $value );
+
+		// trim the name to 64 characters (the maximum length for a table name in MySQL)
+		return substr( $value, 0, 64 );
+	}
 }

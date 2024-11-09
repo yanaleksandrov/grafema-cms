@@ -219,7 +219,7 @@ return Dashboard\Form::enqueue(
 					'fields'        => [
 						[
 							'type'        => 'textarea',
-							'name'        => 'bio',
+							'name'        => 'fields[bio]',
 							'label'       => I18n::_t( 'Biographical info' ),
 							'class'       => '',
 							'label_class' => '',

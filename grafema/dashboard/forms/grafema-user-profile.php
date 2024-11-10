@@ -3,8 +3,11 @@ use Grafema\I18n;
 use Grafema\Url;
 use Grafema\Sanitizer;
 use Grafema\View;
+use Grafema\User;
+use Grafema\Field;
 
-$user = Grafema\User::current();
+$user  = User::current();
+$field = new Field( $user );
 
 /**
  * Profile page.
@@ -219,7 +222,7 @@ return Dashboard\Form::enqueue(
 					'fields'        => [
 						[
 							'type'        => 'textarea',
-							'name'        => 'fields[bio]',
+							'name'        => 'bio',
 							'label'       => I18n::_t( 'Biographical info' ),
 							'class'       => '',
 							'label_class' => '',
@@ -233,7 +236,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value'       => $user->bio ?? '',
+								'value'       => $field->get( 'bio' ),
 								'placeholder' => I18n::_t( 'A few words about yourself' ),
 							],
 						],
@@ -274,21 +277,21 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'value' => 'light',
+								'value' => $field->get( 'format' ),
 							],
 							'options'     => [
 								'light' => [
 									'content'     => I18n::_t( 'Light mode' ),
 									'icon'        => 'ph ph-user-list',
 									'description' => I18n::_t( 'This theme will be active when your system is set to “light mode”' ),
-									'checked'     => false,
+									'checked'     => $field->get( 'format' ) === 'light',
 									'image'       => Url::site( 'dashboard/assets/images/dashboard-light.svg' ),
 								],
 								'dark'  => [
 									'content'     => I18n::_t( 'Dark mode' ),
 									'icon'        => 'ph ph-police-car',
 									'description' => I18n::_t( 'This theme will be active when your system is set to “night mode”' ),
-									'checked'     => false,
+									'checked'     => $field->get( 'format' ) === 'dark',
 									'image'       => Url::site( 'dashboard/assets/images/dashboard-dark.svg' ),
 								],
 							],
@@ -319,7 +322,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'checked' => true,
+								'checked' => $field->get( 'toolbar' ),
 							],
 							'options'     => [],
 						],
@@ -335,7 +338,7 @@ return Dashboard\Form::enqueue(
 					'fields'        => [
 						[
 							'type'        => 'select',
-							'name'        => 'language',
+							'name'        => 'locale',
 							'label'       => I18n::_t( 'Language' ),
 							'class'       => '',
 							'label_class' => '',
@@ -350,6 +353,7 @@ return Dashboard\Form::enqueue(
 							'conditions'  => [],
 							'attributes'  => [
 								'x-select' => '{"showSearch": 1}',
+								'value'    => $user->locale ?? '',
 							],
 							'options'     => I18n::getLanguagesOptions(),
 						],

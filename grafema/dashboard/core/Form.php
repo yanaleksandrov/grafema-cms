@@ -3,8 +3,8 @@ namespace Dashboard;
 
 use Grafema\{
 	I18n,
-	Hook,
 	Error,
+	Patterns,
 	Sanitizer,
 };
 
@@ -16,7 +16,7 @@ use Grafema\{
 class Form {
 
 	use Form\Traits;
-	use \Grafema\Patterns\Multiton;
+	use Patterns\Multiton;
 
 	/**
 	 * Register new form.

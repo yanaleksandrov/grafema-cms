@@ -1,16 +1,9 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
 
 namespace Dashboard\Api;
 
 use Grafema\Error;
-use Grafema\Files;
+use Grafema\File;
 use Grafema\I18n;
 use Grafema\Post\Post;
 use Grafema\Sanitizer;
@@ -85,7 +78,7 @@ class Media extends \Grafema\Api\Handler
 			$targetDir = sprintf( '%si/original/', GRFM_UPLOADS );
 
 			foreach ( $urls as $url ) {
-				$files[ $url ] = Files::grab( $url, $targetDir, function( $file ) {
+				$files[ $url ] = File::grab( $url, $targetDir, function( $file ) {
 
 				} );
 			}

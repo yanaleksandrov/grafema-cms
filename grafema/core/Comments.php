@@ -1,8 +1,6 @@
 <?php
 namespace Grafema;
 
-use Grafema\Db;
-
 /**
  * Core class for managing comments.
  *
@@ -62,7 +60,5 @@ final class Comments
 		)->fetchAll();
 
 		Field\Schema::migrate( $tableName, 'comment' );
-
-		Db::updateSchema();
 	}
 }

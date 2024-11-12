@@ -110,7 +110,5 @@ class Schema {
 		)->fetchAll();
 
 		Field\Schema::migrate( $tableName, 'user' );
-
-		Db::updateSchema();
 	}
 }

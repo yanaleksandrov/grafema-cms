@@ -47,9 +47,9 @@ final class Option extends Option\Schema {
 		if ( empty( self::$options ) ) {
 			$options = Db::select( self::$table, '*' );
 			if ( $options ) {
-				$options = array_column( $options, 'value', 'name' );
-				foreach ( $options as $name => $value ) {
-					self::$options[ $name ] = Json::decode( $value, true );
+				$options = array_column( $options, 'value', 'key' );
+				foreach ( $options as $key => $value ) {
+					self::$options[ $key ] = Json::decode( $value, true );
 				}
 			}
 		}
@@ -108,7 +108,7 @@ final class Option extends Option\Schema {
 		return Db::insert(
 			self::$table,
 			[
-				'name'  => $option,
+				'key'   => $option,
 				'value' => $value,
 			]
 		)->rowCount();
@@ -169,7 +169,7 @@ final class Option extends Option\Schema {
 			$value = Json::encode( $value );
 		}
 
-		return Db::update( self::$table, [ 'value' => $value ], [ 'name[=]' => $option ] )->rowCount();
+		return Db::update( self::$table, [ 'value' => $value ], [ 'key[=]' => $option ] )->rowCount();
 	}
 
 	/**
@@ -241,7 +241,7 @@ final class Option extends Option\Schema {
 		return Db::delete(
 			self::$table,
 			[
-				'name' => $option,
+				'key' => $option,
 			]
 		)->rowCount();
 	}
@@ -297,7 +297,7 @@ final class Option extends Option\Schema {
 		if ( false === $suspend ) {
 			$options = Db::select( self::$table, '*' );
 			if ( $options ) {
-				self::$options = array_column( $options, 'value', 'name' );
+				self::$options = array_column( $options, 'value', 'key' );
 			}
 		}
 		return self::$suspend = $suspend;

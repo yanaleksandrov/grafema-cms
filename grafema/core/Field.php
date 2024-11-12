@@ -300,4 +300,29 @@ final class Field extends Field\Schema {
 
 		return $result;
 	}
+
+	/**
+	 * @param mixed $value
+	 * @return string
+	 */
+	private function getColumnName( mixed $value ): string {
+		return match ( gettype( $value ) ) {
+			'integer' => 'value_int',
+			'float'   => 'value_float',
+			'boolean' => 'value_bool',
+			'object'  => function ( mixed $value ) {
+				if ( $value instanceof \DateTime ) {
+					$time = $value->format( 'H:i:s' );
+
+					if ( $time === '00:00:00' ) {
+						return $value->format( 'Y-m-d' ) === '0000-00-00' ? 'value_time' : 'value_date';
+					}
+
+					return 'value_datetime';
+				}
+				return 'value_text';
+			},
+			default   => 'value_text',
+		};
+	}
 }

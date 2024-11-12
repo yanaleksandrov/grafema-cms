@@ -77,11 +77,9 @@ final class Taxonomy {
 				count             bigint(20)  NOT NULL default 0,
 				parent            bigint(20) unsigned NOT NULL default 0,
 				PRIMARY KEY (term_taxonomy_id),
-				UNIQUE KEY  term_id_taxonomy (term_id,taxonomy),
+				UNIQUE KEY term_id_taxonomy (term_id,taxonomy),
 				KEY taxonomy (taxonomy)
 			) ENGINE=InnoDB $charsetCollate;"
 		)->fetchAll();
-
-		Db::updateSchema();
 	}
 }

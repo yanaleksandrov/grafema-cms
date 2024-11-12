@@ -41,7 +41,5 @@ class Schema {
 		)->fetchAll();
 
 		Field\Schema::migrate( $tableName, 'term' );
-
-		Db::updateSchema();
 	}
 }

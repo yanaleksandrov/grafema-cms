@@ -29,14 +29,14 @@ class Schema {
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName} (
 				`key`        VARCHAR(255) NOT NULL,
-				`value`      MEDIUMTEXT NOT NULL,
+				`value`      MEDIUMTEXT   NOT NULL,
 				`expiration` INT(11) UNSIGNED NOT NULL,
+
 			    PRIMARY KEY (`key`),
-			    INDEX `idx_expiration` (`expiration`),
-				INDEX `idx_key` (`key`) 
+
+			    INDEX idx_expiration (expiration),
+				INDEX idx_key (`key`) 
 			) ENGINE=InnoDB {$charsetCollate};"
 		)->fetchAll();
-
-		Db::updateSchema();
 	}
 }

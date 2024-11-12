@@ -4,7 +4,6 @@ namespace Grafema\Post;
 use Grafema\Db;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
-use Grafema\Route;
 use Grafema\Tree;
 use Grafema\Field;
 
@@ -133,8 +132,7 @@ class Type
 	 *
 	 * @since 2025.1
 	 */
-	public static function register( string $postType, array $args = [] )
-	{
+	public static function register( string $postType, array $args = [] ) {
 		// TODO:: add sanitize
 		$postType = trim( $postType );
 
@@ -187,49 +185,7 @@ class Type
 			self::$types[$postType] = $args;
 		}
 
-		$public       = (bool) ( $args['public'] ?? true );
 		$show_in_menu = (bool) ( $args['show_in_menu'] ?? true );
-
-		/*
-		 * Add routes if type is public.
-		 *
-		 * @since 2025.1
-		 */
-		if ( $public ) {
-			$pattern = ( $args['route'] ?? $postType ) . '/([a-z0-9-]+)/';
-			$route   = new Route();
-			$route->get(
-				'/api/page/(\d+)',
-				function () {
-					header( 'Content-Type: application/json; charset=utf-8' );
-					echo json_encode(
-						[
-							'status'  => '404',
-							'content' => 'route not defined',
-						]
-					);
-					exit;
-				}
-			);
-			$route->mount(
-				'/' . $postType,
-				function () use ( $route ) {
-					$route->get(
-						'/',
-						function () {
-							echo 'overview';
-						}
-					);
-					$route->get(
-						'/(\d+)',
-						function ( $id ) {
-							echo 'id ' . htmlentities( $id );
-						}
-					);
-				}
-			);
-			$route->run();
-		}
 
 		/*
 		 * Show in dashboard menu.
@@ -273,19 +229,18 @@ class Type
 		 */
 		$schema = Db::schema();
 
-		$db_post_type  = GRFM_DB_PREFIX . $postType;
-		$update_schema = false;
-		if ( empty( $schema[$db_post_type] ) ) {
+		$dbPostType = GRFM_DB_PREFIX . $postType;
+		if ( empty( $schema[ $dbPostType ] ) ) {
 			Schema::migrate( $postType );
-		}
-		if ( empty( $schema[$db_post_type . 'fields'] ) && in_array( 'fields', $args['supports'], true ) ) {
-			Field\Schema::migrate( $postType, 'post' );
+
+			Field\Schema::migrate( $dbPostType, 'post' );
 		}
 	}
 
 	/**
 	 * Unregister post type.
 	 *
+	 * @param string $postType
 	 * @since 2025.1
 	 */
 	public static function unregister( string $postType )
@@ -305,7 +260,7 @@ class Type
 	 *
 	 * @since  2025.1
 	 */
-	public static function supports( string $postType, string $feature )
+	public static function supports( string $postType, string $feature ): bool
 	{
 		return  ! empty( self::$types[$postType] ) && in_array( $feature, self::$types[$postType]['supports'], true );
 	}
@@ -315,12 +270,13 @@ class Type
 	 * Not the records themselves, but the record type registration data.
 	 * You can filter the output by a variety of criteria.
 	 *
-	 * @param array  $args     Array of criteria by which posts types will be selected.
+	 * @param array $args Array of criteria by which posts types will be selected.
 	 *                         For the value of each parameter, see the description of the "Type::register" method.
 	 * @param string $operator Optional. The logical operation to perform. 'or' means only one
 	 *                         element from the array needs to match; 'and' means all elements
 	 *                         must match; 'not' means no elements may match. Default 'and'.
 	 *
+	 * @return array
 	 * @since 2025.1
 	 */
 	public static function fetch( $args = [], $operator = 'and' ): array
@@ -347,9 +303,9 @@ class Type
 	/**
 	 * Get white list of posts statuses.
 	 *
-	 * @return array|string[]
+	 * @return array
 	 */
-	public static function getStatuses()
+	public static function getStatuses(): array
 	{
 		return self::$statuses;
 	}
@@ -357,9 +313,9 @@ class Type
 	/**
 	 * Get white list of posts statuses for use in select.
 	 *
-	 * @return array|string[]
+	 * @return array
 	 */
-	public static function getStatusesOptions()
+	public static function getStatusesOptions(): array
 	{
 		return self::$statuses;
 	}
@@ -369,7 +325,7 @@ class Type
 	 *
 	 * @return bool
 	 */
-	public static function exist( $type )
+	public static function exist(): bool
 	{
 		return true;
 	}

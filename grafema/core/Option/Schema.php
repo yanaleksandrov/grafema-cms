@@ -37,7 +37,5 @@ class Schema {
 				UNIQUE KEY `key` (`key`)
 			) {$charsetCollate};"
 		)->fetchAll();
-
-		Db::updateSchema();
 	}
 }

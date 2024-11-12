@@ -4,6 +4,7 @@ namespace Dashboard\Api;
 use Grafema\Db;
 use Grafema\App\App;
 use Grafema\Error;
+use Grafema\Slug;
 use Grafema\Users\Users;
 use Grafema\User;
 use Grafema\Option;
@@ -127,9 +128,12 @@ class System extends \Grafema\Api\Handler
 		 */
 		Term\Schema::migrate();
 		User\Schema::migrate();
+		Slug::migrate();
 		Option::migrate();
 		Comments::migrate();
 		Taxonomy::migrate();
+
+		Db::updateSchema();
 
 		/**
 		 * Fill same options

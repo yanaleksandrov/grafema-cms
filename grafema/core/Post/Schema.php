@@ -41,7 +41,8 @@ final class Schema {
 				KEY parent (parent),
 				KEY author (author),
 				FULLTEXT KEY content (title,content)
-			) ENGINE=InnoDB {$charsetCollate};"
+			) ENGINE=InnoDB {$charsetCollate}
+			COMMENT='post-type';"
 		)->fetchAll();
 	}
 }

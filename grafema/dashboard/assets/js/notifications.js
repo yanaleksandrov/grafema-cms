@@ -1,19 +1,18 @@
 var __webpack_exports__ = {};
 
 document.addEventListener('alpine:init', (() => {
-    Alpine.store('notifications', []);
-    Alpine.magic('notification', (() => ({
-        info: function(message) {
-            this.add(message, 'info');
+    const notificationHandle = {
+        info: message => {
+            Alpine.store('notifications').add(message, 'info');
         },
-        error: function(message) {
-            this.add(message, 'error');
+        error: message => {
+            Alpine.store('notifications').add(message, 'error');
         },
-        success: function(message) {
-            this.add(message, 'success');
+        success: message => {
+            Alpine.store('notifications').add(message, 'success');
         },
-        warning: function(message) {
-            this.add(message, 'warning');
+        warning: message => {
+            Alpine.store('notifications').add(message, 'warning');
         },
         close: id => {
             let items = Alpine.store('notifications'), index = items.findIndex((item => item.id === id));
@@ -48,5 +47,8 @@ document.addEventListener('alpine:init', (() => {
                 }
             }
         }
-    })));
+    };
+    Alpine.store('notifications', []);
+    Alpine.store('notification', notificationHandle);
+    Alpine.magic('notification', (() => notificationHandle));
 }));

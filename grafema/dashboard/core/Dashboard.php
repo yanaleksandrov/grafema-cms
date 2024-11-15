@@ -45,7 +45,7 @@ new class extends \Grafema\App\App {
 		Hook::add( 'grafema_dashboard_footer', function() {
 			$scripts = ['ajax', 'alpine'];
 			if ( ! Is::install() ) {
-				$scripts = ['grafema', 'air-datepicker', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'notifications', 'alpine', 'sortable'];
+				$scripts = ['grafema', 'air-datepicker', 'notifications', 'ajax', 'datepicker', 'slimselect', 'drooltip', 'dragula', 'croppr', 'dialog', 'storage', 'alpine', 'sortable'];
 			}
 
 			foreach ( $scripts as $script ) {

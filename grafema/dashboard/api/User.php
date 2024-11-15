@@ -59,11 +59,11 @@ class User implements Grafema\Api\Crud {
 			}
 		} );
 
-		print_r( $_REQUEST );
-		print_r( $user );
 		return [
 			[
-				'method' => 'PUT update user by ID',
+				'target'   => 'body',
+				'method'   => 'notify',
+				'fragment' => I18n::_t( 'User is updated' ),
 			]
 		];
 	}

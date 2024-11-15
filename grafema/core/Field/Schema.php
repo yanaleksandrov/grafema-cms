@@ -24,12 +24,14 @@ class Schema {
 		$table = Sanitizer::tablename( $table );
 		$name  = Sanitizer::tablename( $name );
 
+		// TODO: test benchmarks with different EAV systems
 		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$table}_fields (
 				`id`         BIGINT(20)   UNSIGNED NOT NULL AUTO_INCREMENT,
 				`{$name}_id` BIGINT(20)   UNSIGNED NOT NULL DEFAULT '0',
 				`key`        VARCHAR(255) DEFAULT NULL,
+				`value`      MEDIUMTEXT,
 
 				`value_text`     TEXT,
 				`value_int`      BIGINT SIGNED DEFAULT NULL,

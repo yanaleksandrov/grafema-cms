@@ -12,7 +12,7 @@ document.addEventListener('alpine:init', (() => {
         url.search = params.toString();
         window.history.replaceState({}, '', url.toString());
     };
-    const dialogHandler = (templateID, data = {}, dialogID = 'grafema-dialog', isModal) => {
+    const dialogHandler = (templateID, data = {}, dialogID = 'grafema-dialog') => {
         setTimeout((() => {
             let template = document.querySelector(`#${templateID}`), dialog = document.querySelector(`#${dialogID}`);
             if (dialog && template) {
@@ -21,11 +21,7 @@ document.addEventListener('alpine:init', (() => {
                     content.innerHTML = template.innerHTML;
                 }
                 Alpine.store('dialog', data);
-                if (isModal) {
-                    dialog.showModal();
-                } else {
-                    dialog.show();
-                }
+                dialog.classList.add('active');
                 document.body.style.overflow = 'hidden';
                 searchParamsHandler('dialog', templateID, false);
                 const closeHandler = () => {
@@ -44,20 +40,17 @@ document.addEventListener('alpine:init', (() => {
             if (el?.id === templateID && templateID && callback) {
                 let data = await callback();
                 if (data) {
-                    dialogHandler(templateID, data, 'grafema-dialog', true);
+                    dialogHandler(templateID, data, 'grafema-dialog');
                 }
             }
         },
         open: (templateID, data = {}, dialogID) => {
-            dialogHandler(templateID, data, dialogID, true);
-        },
-        show: (templateID, data = {}, dialogID) => {
-            dialogHandler(templateID, data, dialogID, false);
+            dialogHandler(templateID, data, dialogID);
         },
         close: (dialogID = 'grafema-dialog') => {
             let dialog = document.querySelector(`#${dialogID}`) || el.closest('dialog');
             if (dialog) {
-                dialog.close();
+                dialog.classList.remove('active');
                 document.body.style.overflow = '';
             }
         }

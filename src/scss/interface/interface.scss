@@ -24,14 +24,14 @@
     display: flex;
     padding: 0 0.75rem;
     position: sticky;
-    z-index: 9999;
+    z-index: 9979;
     top: 0;
     grid-area: 1 / 1 / 2 / 4;
     gap: 0.5rem;
 
     @media (max-width: 1024px) {
       grid-area: 1 / 1 / 2 / 2;
-      padding: 0 .75rem 0 0.35rem;
+      padding: 0 0.75rem 0 0.35rem;
     }
   }
 

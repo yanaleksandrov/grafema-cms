@@ -34,10 +34,12 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	]
 ) )->values();
 
-$value = Sanitizer::attribute( $attributes['value'] ?? '' );
+$value = Sanitizer::textarea( $attributes['value'] ?? '' );
 $prop  = Sanitizer::prop( $attributes['name'] ?? $name );
 
 $attributes['rows'] ??= 1;
+
+unset( $attributes['value'] );
 ?>
 <div class="<?php echo $class; ?>"<?php echo $conditions ? " x-show=\"{$conditions}\" x-cloak" : ''; ?>>
 	<?php if ( $label ) : ?>

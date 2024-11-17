@@ -1127,7 +1127,8 @@ document.addEventListener( 'alpine:init', () => {
 			settings.closeOnSelect = false;
 		}
 
-		let width  = el.offsetWidth;
+		let width = el.offsetWidth;
+
 		const custom = JSON.parse(expression || '{}');
 		if (typeof custom === 'object') {
 			Object.assign(settings, custom);
@@ -1137,6 +1138,11 @@ document.addEventListener( 'alpine:init', () => {
 			let select = new SlimSelect({
 				settings,
 				select: el,
+				events: {
+					afterChange: () => {
+						el.dispatchEvent(new Event('change', { bubbles: true }));
+					}
+				},
 				data: Array.from(el.options).reduce((acc, option) => {
 					let image       = option.getAttribute('data-image') || '',
 						flag        = option.getAttribute('data-flag') || '',

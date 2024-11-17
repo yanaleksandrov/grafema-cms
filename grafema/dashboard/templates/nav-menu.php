@@ -50,7 +50,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					],
 				);
 				?>
-				<a class="fw-600 fs-13" href="#"><?php I18n::t( 'Create a new menu' ); ?></a>
+				<a class="fw-500 fs-13" href="#"><?php I18n::t( 'Create a new menu' ); ?></a>
 			</div>
 			<h6><?php I18n::t( 'Add menu items' ); ?></h6>
 			<div class="accordion" x-data="{expanded: false}">

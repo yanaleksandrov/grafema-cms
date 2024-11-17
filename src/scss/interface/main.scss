@@ -64,9 +64,10 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   min-height: 100dvh;
-  font-size: 14px;
   overflow-x: hidden;
   scrollbar-gutter: stable;
+  font-size: 0.84375rem;
+  font-size: 0.8125rem;
 
   &::-webkit-scrollbar-thumb {
     background-color: hsla(216, 3%, 64%, 0.6);
@@ -120,7 +121,7 @@ sup {
 
 b,
 strong {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 samp,
@@ -185,7 +186,7 @@ h6 {
   --grafema-multiplier: 1.1;
   font-size: calc(var(--grafema-font-ratio) * 1rem);
   line-height: 1.2em;
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
 }
 h1 {

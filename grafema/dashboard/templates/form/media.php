@@ -21,7 +21,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			'type'        => 'key:text',
 			'name'        => 'attribute|key',
 			'label'       => 'trim:field',
-			'label_class' => 'class:df aic jcsb fw-600',
+			'label_class' => 'class:df aic jcsb fw-500',
 			'class'       => 'class:dg g-1',
 			'description' => 'trim',
 			'attributes'  => 'array',

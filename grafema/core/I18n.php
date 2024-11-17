@@ -345,28 +345,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Aromanian',
-					'native'    => 'Armãneashce',
-					'rtl'       => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => 'rup',
-					'locale'    => 'rup-MK',
-					'country'   => 'mk',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Arpitan',
-					'native'    => 'Arpitan',
-					'rtl'       => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => null,
-					'locale'    => 'frp',
-					'country'   => 'fr',
-					'nplurals'  => 2,
-					'plural'    => 'n > 1'
-				],
-				[
 					'name'      => 'Assamese',
 					'native'    => 'অসমীয়া',
 					'rtl'       => 0,
@@ -427,7 +405,7 @@ final class I18n extends I18n\Locale {
 					'rtl'       => 0,
 					'iso_639_1' => 'be',
 					'iso_639_2' => 'bel',
-					'locale'    => 'bel',
+					'locale'    => 'be-BY',
 					'country'   => 'by',
 					'nplurals'  => 3,
 					'plural'    => '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'
@@ -444,17 +422,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Bislama',
-					'native'    => 'Bislama',
-					'rtl'       => 0,
-					'iso_639_1' => 'bi',
-					'iso_639_2' => 'bis',
-					'locale'    => '',
-					'country'   => 'vu',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
 					'name'      => 'Bosnian',
 					'native'    => 'Bosanski',
 					'rtl'       => 0,
@@ -464,17 +431,6 @@ final class I18n extends I18n\Locale {
 					'country'   => 'ba',
 					'nplurals'  => 3,
 					'plural'    => '(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)'
-				],
-				[
-					'name'      => 'Breton',
-					'native'    => 'Brezhoneg',
-					'rtl'       => 0,
-					'iso_639_1' => 'br',
-					'iso_639_2' => 'bre',
-					'locale'    => 'bre',
-					'country'   => 'fr',
-					'nplurals'  => 2,
-					'plural'    => '(n > 1)'
 				],
 				[
 					'name'      => 'Bulgarian',
@@ -510,28 +466,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Cebuano',
-					'native'    => 'Cebuano',
-					'rtl'       => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => 'ceb',
-					'locale'    => 'ceb',
-					'country'   => 'ph',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Chamorro',
-					'native'    => 'Chamoru',
-					'rtl'       => 0,
-					'iso_639_1' => 'ch',
-					'iso_639_2' => 'cha',
-					'locale'    => '',
-					'country'   => 'mp',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
 					'name'      => 'Chinese (China)',
 					'native'    => '简体中文',
 					'rtl'       => 0,
@@ -559,7 +493,7 @@ final class I18n extends I18n\Locale {
 					'rtl'       => 0,
 					'iso_639_1' => 'zh',
 					'iso_639_2' => 'zho',
-					'locale'    => '',
+					'locale'    => 'zh-SG',
 					'country'   => 'sg',
 					'nplurals'  => 1,
 					'plural'    => '0'
@@ -583,17 +517,6 @@ final class I18n extends I18n\Locale {
 					'iso_639_2' => 'cos',
 					'locale'    => 'co',
 					'country'   => 'it',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Cree',
-					'native'    => 'ᓀᐦᐃᔭᐍᐏᐣ',
-					'rtl'       => 0,
-					'iso_639_1' => 'cr',
-					'iso_639_2' => 'cre',
-					'locale'    => '',
-					'country'   => 'ca',
 					'nplurals'  => 2,
 					'plural'    => 'n != 1'
 				],
@@ -627,17 +550,6 @@ final class I18n extends I18n\Locale {
 					'iso_639_2' => 'dan',
 					'locale'    => 'da-DK',
 					'country'   => 'dk',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Dhivehi',
-					'native'    => 'ދިވެހި',
-					'rtl'       => 1,
-					'iso_639_1' => 'dv',
-					'iso_639_2' => 'div',
-					'locale'    => 'dv',
-					'country'   => 'mv',
 					'nplurals'  => 2,
 					'plural'    => 'n != 1'
 				],
@@ -763,17 +675,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Fijian',
-					'native'    => 'Vosa Vakaviti',
-					'rtl'       => 0,
-					'iso_639_1' => 'fj',
-					'iso_639_2' => 'fij',
-					'locale'    => '',
-					'country'   => 'fj',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
 					'name'      => 'Finnish',
 					'native'    => 'Suomi',
 					'rtl'       => 0,
@@ -823,7 +724,7 @@ final class I18n extends I18n\Locale {
 					'rtl'       => 0,
 					'iso_639_1' => 'fr',
 					'iso_639_2' => 'fra',
-					'locale'    => '',
+					'locale'    => 'fr-CH',
 					'country'   => 'ch',
 					'nplurals'  => 2,
 					'plural'    => 'n != 1'
@@ -1093,17 +994,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Kashubian',
-					'native'    => 'Kaszëbsczi',
-					'rtl'       => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => 'csb',
-					'locale'    => '',
-					'country'   => '',
-					'nplurals'  => 3,
-					'plural'    => 'n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2'
-				],
-				[
 					'name'      => 'Kazakh',
 					'native'    => 'Қазақ тілі',
 					'rtl'       => 0,
@@ -1368,17 +1258,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'Norwegian',
-					'native'    => 'Norsk',
-					'rtl'       => 0,
-					'iso_639_1' => 'no',
-					'iso_639_2' => 'nor',
-					'locale'    => '',
-					'country'   => 'no',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
 					'name'      => 'Norwegian (Bokmål)',
 					'native'    => 'Norsk bokmål',
 					'rtl'       => 0,
@@ -1388,28 +1267,6 @@ final class I18n extends I18n\Locale {
 					'country'   => 'no',
 					'nplurals'  => 2,
 					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Norwegian (Nynorsk)',
-					'native'    => 'Norsk nynorsk',
-					'rtl'       => 0,
-					'iso_639_1' => 'nn',
-					'iso_639_2' => 'nno',
-					'locale'    => 'nn-NO',
-					'country'   => 'no',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Occitan',
-					'native'    => 'Occitan',
-					'rtl'       => 0,
-					'iso_639_1' => 'oc',
-					'iso_639_2' => 'oci',
-					'locale'    => 'oci',
-					'country'   => 'fr',
-					'nplurals'  => 2,
-					'plural'    => '(n > 1)'
 				],
 				[
 					'name'      => 'Oriya',
@@ -1654,17 +1511,6 @@ final class I18n extends I18n\Locale {
 					'plural'    => 'n != 1'
 				],
 				[
-					'name'      => 'South Azerbaijani',
-					'native'    => 'گؤنئی آذربایجان',
-					'rtl'       => 1,
-					'iso_639_1' => 'az',
-					'iso_639_2' => null,
-					'locale'    => 'azb',
-					'country'   => 'ir',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
 					'name'      => 'Spanish (Argentina)',
 					'native'    => 'Español de Argentina',
 					'rtl'       => 0,
@@ -1793,17 +1639,6 @@ final class I18n extends I18n\Locale {
 					'iso_639_2' => 'swe',
 					'locale'    => 'sv-SE',
 					'country'   => 'se',
-					'nplurals'  => 2,
-					'plural'    => 'n != 1'
-				],
-				[
-					'name'      => 'Swiss German',
-					'native'    => 'Schwyzerdütsch',
-					'rtl'       => 0,
-					'iso_639_1' => null,
-					'iso_639_2' => 'gsw',
-					'locale'    => 'gsw',
-					'country'   => 'ch',
 					'nplurals'  => 2,
 					'plural'    => 'n != 1'
 				],

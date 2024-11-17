@@ -102,6 +102,15 @@ $start_time = microtime( true );
 	<link rel="icon" type="image/png" sizes="16x16" href="/dashboard/assets/images/favicons/favicon-16x16.png">
 	<link rel="manifest" href="/dashboard/assets/images/favicons/site.webmanifest">
 	<link rel="mask-icon" href="/dashboard/assets/images/favicons/safari-pinned-tab.svg" color="#5bbad5">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+	<style>
+		:root {
+            --grafema-font-text: "Inter", sustem-ui, sans-serif !important;
+		}
+	</style>
 	<?php
 	/**
 	 * Prints scripts or data before the closing body tag on the dashboard.

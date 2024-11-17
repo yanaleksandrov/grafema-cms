@@ -2498,10 +2498,10 @@ var __webpack_exports__ = {};
                 let value = '', xData = Alpine.$data(el);
                 const [key, ...rest] = expression.split('.');
                 if (el.type === 'checkbox') {
-                    value = typeof xData[key] === 'undefined' ? '' : Array.from(xData[key]);
+                    xData[key] = typeof xData[key] === 'undefined' ? '' : Array.from(xData[key]);
                 } else if (el.type === 'radio' && typeof xData[key] === 'undefined') {
-                    value = el.checked ? el.value : '';
-                } else {
+                    xData[key] = el.checked ? el.value : '';
+                } else if (![ 'radio', 'checkbox' ].includes(el.type)) {
                     value = el.value || '';
                     if (rest.length > 0) {
                         let obj = {
@@ -2512,8 +2512,8 @@ var __webpack_exports__ = {};
                         })), value);
                         value = obj;
                     }
+                    xData[key] = value;
                 }
-                xData[key] = value;
             }
             if ([ void 0, null, '' ].includes(getValue()) || el.type === 'checkbox' && Array.isArray(getValue()) || el.tagName.toLowerCase() === 'select' && el.multiple) {
                 setValue(getInputValue(el, modifiers, {

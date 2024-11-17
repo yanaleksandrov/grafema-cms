@@ -446,22 +446,22 @@ try {
 			 */
 			http_response_code( 200 );
 			header( 'Content-Type: text/html; charset=utf-8' );
-			$content = ( new Html() )->beautify(
-				View::get(
-					GRFM_DASHBOARD . 'index',
-					[
-						'route' => $route,
-						'slug'  => $slug,
-					]
-				)
-			);
-//			$content = View::get(
-//				GRFM_DASHBOARD . 'index',
-//				[
-//					'route' => $route,
-//					'slug'  => $slug,
-//				]
+//			$content = ( new Html() )->beautify(
+//				View::get(
+//					GRFM_DASHBOARD . 'index',
+//					[
+//						'route' => $route,
+//						'slug'  => $slug,
+//					]
+//				)
 //			);
+			$content = View::get(
+				GRFM_DASHBOARD . 'index',
+				[
+					'route' => $route,
+					'slug'  => $slug,
+				]
+			);
 
 			/**
 			 * Grafema dashboard is fully loaded.

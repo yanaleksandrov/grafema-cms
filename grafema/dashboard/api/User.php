@@ -50,11 +50,18 @@ class User implements Grafema\Api\Crud {
 		$currentUser = Grafema\User::current();
 		$userdata    = $_REQUEST + [ 'ID' => $currentUser->ID ];
 
-		$user = Grafema\User::update( $userdata, function ( Grafema\Field $field ) {
-			foreach ( $_REQUEST as $key => $value ) {
-				if ( ! in_array( $key, [ 'bio', 'toolbar', 'format' ], true ) ) {
-					continue;
-				}
+		Grafema\User::update( $userdata, function ( Grafema\Field $field ) {
+			$fields = ( new Sanitizer(
+				$_REQUEST,
+				[
+					'bio'     => 'trim',
+					'toolbar' => 'bool',
+					'format'  => 'text',
+					'locale'  => 'locale',
+				]
+			) )->apply();
+
+			foreach ( $fields as $key => $value ) {
 				$field->mutate( $key, $value );
 			}
 		} );

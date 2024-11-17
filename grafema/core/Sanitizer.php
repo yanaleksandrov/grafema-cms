@@ -308,21 +308,51 @@ final class Sanitizer
 	 * - Strips percent-encoded characters
 	 *
 	 * @param mixed $value Value to change
+	 * @param bool $keepNewLines
 	 * @return string
 	 */
-	public static function text( mixed $value ): string
+	public static function text( mixed $value, bool $keepNewLines = false ): string
 	{
-		$sanitized = '';
-		if ( is_scalar( $value ) ) {
+		// return an empty string if the input is an object or an array
+		if ( is_object( $value ) || is_array( $value ) ) {
+			return '';
 		}
 
-		return $sanitized;
+		// cast the input to a string
+		$value = (string) $value;
+
+		// check for valid UTF-8 encoding
+		$value = mb_check_encoding( $value, 'UTF-8' ) ? $value : '';
+
+		// if the string contains the `<` character
+		if ( str_contains( $value, '<' ) ) {
+			// escape `<` unless followed by a word character
+			$value = preg_replace_callback('/<(?!\w)/', fn( $matches ) => htmlspecialchars( $matches[0] ?? '' ), $value );
+			// remove all HTML tags
+			$value = strip_tags( $value );
+			// replace `<\n` with a safe HTML entity
+			$value = str_replace( "<\n", "&lt;\n", $value );
+		}
+
+		// remove extra spaces, tabs, and newlines if `$keep_newlines` is false
+		if ( ! $keepNewLines ) {
+			$value = preg_replace( '/[\r\n\t ]+/', ' ', $value );
+		}
+		$value = trim( $value );
+
+		// remove percent-encoded characters
+		while ( preg_match( '/%[a-fA-F0-9]{2}/', $value ) ) {
+			$value = preg_replace_callback( '/%[a-fA-F0-9]{2}/', fn( $matches ) => '', $value );
+		}
+
+		// clean up any extra spaces after removing percent-encoded characters
+		return trim( preg_replace( '/ +/', ' ', $value ) );
 	}
 
 	/**
 	 * Sanitizes a multiline string from user input or from the database.
 	 *
-	 * The function is like sanitize_text_field(), but preserves
+	 * The function is like self::text(), but preserves
 	 * new lines (\n) and other whitespace, which are legitimate
 	 * input in textarea elements.
 	 *
@@ -331,11 +361,7 @@ final class Sanitizer
 	 */
 	public static function textarea( mixed $value ): string
 	{
-		$sanitized = '';
-		if ( is_scalar( $value ) ) {
-		}
-
-		return $sanitized;
+		return self::text( $value, true );
 	}
 
 	/**

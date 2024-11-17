@@ -210,7 +210,7 @@ $start_time = microtime( true );
 	?>
 
 	<!-- dialog windows start -->
-	<dialog class="dialog" :class="$store.dialog?.class" id="grafema-dialog">
+	<div class="dialog" :class="$store.dialog?.class" id="grafema-dialog">
 		<div class="dialog-wrapper" @click.outside="$dialog.close()">
 			<div class="dialog-header">
 				<template x-if="$store.dialog?.title">
@@ -220,7 +220,7 @@ $start_time = microtime( true );
 			</div>
 			<div class="dialog-content" data-content></div>
 		</div>
-	</dialog>
+	</div>
 
 	<!-- notifications start -->
 	<template x-if="$store.notifications.length">

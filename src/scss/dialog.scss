@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   opacity: 0;
-  z-index: 99999;
+  z-index: 9989;
   top: 0;
   overflow: hidden;
   overflow-y: auto;
@@ -12,52 +12,45 @@
   margin: 0 auto;
   min-height: 100%;
   width: 100%;
+  visibility: hidden;
+  height: fit-content;
 
-  &[open] {
+  &.active {
     display: flex;
     opacity: 1;
     top: -20px;
     animation: openTop 0.25s forwards;
-  }
-
-  &::backdrop {
+    visibility: visible;
     background-color: rgb(0 0 0 / 0.05);
     backdrop-filter: blur(5px);
-    cursor: pointer;
   }
 
-  &--xs {
+
+  &--xs .dialog-wrapper {
     max-width: 360px;
-    height: fit-content;
   }
 
-  &--sm {
+  &--sm .dialog-wrapper {
     max-width: 480px;
-    height: fit-content;
   }
 
-  &--md {
+  &--md .dialog-wrapper {
     max-width: 768px;
-    height: fit-content;
   }
 
-  &--lg {
+  &--lg .dialog-wrapper {
     max-width: 1024px;
-    height: fit-content;
   }
 
-  &--xl {
+  &--xl .dialog-wrapper {
     max-width: 1200px;
-    height: fit-content;
   }
 
-  &--left {
-    right: auto;
+  &--left .dialog-wrapper {
     animation: openLeft 0.25s forwards;
   }
 
-  &--right {
-    left: auto;
+  &--right .dialog-wrapper {
     animation: openRight 0.25s forwards;
   }
 
@@ -65,18 +58,10 @@
   &--right {
     border-radius: 0;
     border: 0;
-    height: 100vh;
     height: 100dvh;
     overflow-y: auto;
     top: 0 !important;
     padding: 0;
-
-    .dialog-wrapper {
-      min-height: 100vh;
-      min-height: 100dvh;
-      width: 100%;
-      margin: 0;
-    }
   }
 
   &-wrapper {
@@ -92,6 +77,7 @@
     user-select: text;
     display: grid;
     grid-template-rows: 3.5rem 1fr;
+    position: relative;
 
     @media (max-width: 640px) {
       min-height: 100%;

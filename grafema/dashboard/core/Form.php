@@ -18,6 +18,10 @@ class Form {
 	use Form\Traits;
 	use Patterns\Multiton;
 
+	public static function build( array $fields ) {
+		return self::init( 'test' )->parseFields( $fields );
+	}
+
 	/**
 	 * Register new form.
 	 *

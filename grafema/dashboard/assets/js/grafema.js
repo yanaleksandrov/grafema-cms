@@ -942,6 +942,13 @@ var __webpack_modules__ = {
                     let select = new SlimSelect({
                         settings,
                         select: el,
+                        events: {
+                            afterChange: () => {
+                                el.dispatchEvent(new Event('change', {
+                                    bubbles: true
+                                }));
+                            }
+                        },
                         data: Array.from(el.options).reduce(((acc, option) => {
                             let image = option.getAttribute('data-image') || '', flag = option.getAttribute('data-flag') || '', icon = option.getAttribute('data-icon') || '', description = option.getAttribute('data-description') || '';
                             image = image && `<img src="${image}" alt />`;

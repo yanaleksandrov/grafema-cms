@@ -17,7 +17,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		'name'        => 'name',
 		'label'       => 'trim',
 		'class'       => 'class:dg g-1',
-		'label_class' => 'class:df aic jcsb fw-600 mb-1',
+		'label_class' => 'class:df aic jcsb fw-500 mb-1',
 		'reset'       => 'bool:false',
 		'before'      => 'trim',
 		'after'       => 'trim',
@@ -40,6 +40,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</div>
 	<div class="progress" x-progress.<?php printf( '%d.%d.%d.%d', $max, $min, $value, $speed ); ?>ms></div>
 	<?php if ( $instruction ) : ?>
-		<div class="mt-1 fw-600 lh-xs"><?php echo $instruction; ?></div>
+		<div class="mt-1 fw-500 lh-xs"><?php echo $instruction; ?></div>
 	<?php endif; ?>
 </div>

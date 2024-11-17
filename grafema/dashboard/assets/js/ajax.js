@@ -163,6 +163,13 @@ document.addEventListener('alpine:init', (() => {
                   case 'scrollIntoView':
                   case 'removeAttribute':
                     target[method](fragment || '');
+                    break;
+
+                  case 'notify':
+                    if (fragment) {
+                        Alpine.store('notification').add(fragment);
+                    }
+                    break;
                 }
             }), delay || 0);
         }));

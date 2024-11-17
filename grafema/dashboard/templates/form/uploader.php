@@ -38,7 +38,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="uploader dg g-3">
 	<label class="dg g-1">
 		<?php if ( $label ) : ?>
-			<span class="df aic jcsb fw-600"><?php echo $label; ?></span>
+			<span class="df aic jcsb fw-500"><?php echo $label; ?></span>
 		<?php endif; ?>
 		<span class="uploader__container">
 			<?php if ( $instruction ) : ?>

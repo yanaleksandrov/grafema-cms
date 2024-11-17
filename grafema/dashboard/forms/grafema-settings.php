@@ -235,7 +235,7 @@ return Dashboard\Form::enqueue(
 								?>
 								<div class="dg g-2">
 									<label class="dg">
-										<span class="df aic jcsb fw-600"><?php I18n::t( 'Date Format' ); ?></span>
+										<span class="df aic jcsb fw-500"><?php I18n::t( 'Date Format' ); ?></span>
 									</label>
 									<label class="df aic jcsb">
 										<span><input class="mr-2" type="radio" name="item">April 3, 2021</span> <code class="badge badge--dark-lt">F j, Y</code>
@@ -261,7 +261,7 @@ return Dashboard\Form::enqueue(
 								?>
 								<div class="dg g-2">
 									<label class="dg">
-										<span class="df aic jcsb fw-600"><?php I18n::t( 'Time Format' ); ?></span>
+										<span class="df aic jcsb fw-500"><?php I18n::t( 'Time Format' ); ?></span>
 									</label>
 									<label class="df aic jcsb">
 										<span><input class="mr-2" type="radio" name="item">17:22</span> <code class="badge badge--dark-lt">H:i</code>

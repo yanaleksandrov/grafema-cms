@@ -6,6 +6,7 @@
   --grafema-bg-dark: #efefef;
   --grafema-bg-universal: rgba(142, 142, 142, 0.07);
   --grafema-bg-active: rgba(134, 134, 134, 0.06);
+  --grafema-bg-light: rgba(255, 255, 255, 0.85);
 
   --grafema-secondary: #5f6873;
   --grafema-info: #1871ba;
@@ -39,5 +40,6 @@
   --grafema-danger-hover: #d85757;
   --grafema-danger-active: #c32e2e;
 
+  --grafema-font-text: system-ui;
   --grafema-font-code: ui-monospace, "Cascadia Mono", "Segoe UI Mono", "Ubuntu Mono", "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 }

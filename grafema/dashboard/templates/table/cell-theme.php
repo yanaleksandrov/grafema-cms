@@ -34,7 +34,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 <div class="themes-item">
 	<div class="themes-image" style="background-image: url(<?php echo $screenshot; ?>)">
 		<div class="themes-action">
-			<button class="btn btn--outline" type="button"><?php I18n::t( 'Preview' ); ?></button>
+			<button class="btn btn--outline" type="button"><?php I18n::t( 'View Demo' ); ?></button>
 			<button class="btn btn--outline" type="button"<?php $installed && print( ' hidden' ); ?>><?php I18n::t( 'Activate' ); ?></button>
 			<button class="btn btn--primary" type="button"<?php ! $installed && print( ' hidden' ); ?>><?php I18n::t( 'Customize' ); ?></button>
 		</div>

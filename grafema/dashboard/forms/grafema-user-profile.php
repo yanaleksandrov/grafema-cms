@@ -1,4 +1,6 @@
 <?php
+
+use Grafema\Db;
 use Grafema\I18n;
 use Grafema\Url;
 use Grafema\Sanitizer;
@@ -35,7 +37,7 @@ return Dashboard\Form::enqueue(
 							'name'        => 'avatar',
 							'label'       => I18n::_t( 'Profile Settings' ),
 							'class'       => '',
-							'label_class' => 'field-label fw-600 fs-18',
+							'label_class' => 'field-label fw-500 fs-18',
 							'reset'       => 0,
 							'before'      => '',
 							'after'       => '',
@@ -236,6 +238,7 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
+								'rows'        => count( explode("\n", $field->get( 'bio' ) ?? '' ) ),
 								'value'       => $field->get( 'bio' ),
 								'placeholder' => I18n::_t( 'A few words about yourself' ),
 							],
@@ -476,7 +479,8 @@ return Dashboard\Form::enqueue(
 							'validator'   => '',
 							'conditions'  => [],
 							'attributes'  => [
-								'placeholder' => I18n::_t( 'Old password' ),
+								'x-autocomplete' => '',
+								'placeholder'    => I18n::_t( 'Old password' ),
 							],
 							'switcher'    => 1,
 							'generator'   => 0,

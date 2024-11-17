@@ -86,8 +86,18 @@ final class View {
 	 *
 	 * @since 2025.1
 	 */
-	public static function print( string $template, array $args = [] )
-	{
+	public static function print( string $template, array $args = [] ): void {
+		echo self::get( $template, $args );
+	}
+
+	/**
+	 * Get template part.
+	 *
+	 * @param string $template
+	 * @param array $args
+	 * @return string
+	 */
+	public static function get( string $template, array $args = [] ): string {
 		static $fileCache = [];
 
 		$filepath = sprintf( '%s.php', $template );
@@ -103,6 +113,7 @@ final class View {
 			$fileCache[ $filepath ] = file_exists( $filepath );
 		}
 
+		$content = '';
 		if ( $fileCache[ $filepath ] ) {
 
 			/**
@@ -116,20 +127,12 @@ final class View {
 
 			extract( $args, EXTR_SKIP );
 
+			ob_start();
 			require $filepath;
+			$content = ob_get_clean();
 		}
-	}
 
-	/**
-	 * Get template part.
-	 *
-	 * @param string $template
-	 * @param array $args
-	 * @return string
-	 */
-	public static function get( string $template, array $args = [] ): string {
-		ob_start();
-		self::print( $template, $args );
-		return ob_get_clean();
+		return $content;
+		return ( new Html() )->beautify( $content );
 	}
 }

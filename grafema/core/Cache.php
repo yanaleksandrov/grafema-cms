@@ -51,37 +51,35 @@ final class Cache {
 	 * Retrieves data from the cache.
 	 *
 	 * @param string $key
-	 * @param mixed|null $default
 	 * @param callable|null $callback
 	 * @param string $group
 	 * @return mixed
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $key, mixed $default = null, string $group = 'default', ?callable $callback = null ): mixed {
+	public static function get( string $key, string $group = 'default', ?callable $callback = null ): mixed {
 		if ( isset( self::$cache[ $group ][ $key ] ) ) {
 			return self::$cache[ $group ][ $key ]['value'];
 		}
 
-		if ( ! $default && is_callable( $callback ) ) {
+		if ( ! is_callable( $callback ) ) {
 			return self::add( $key, call_user_func( $callback ), $group );
 		}
 
-		return $default;
+		return null;
 	}
 
 	/**
 	 * Retrieves and removes data from the cache.
 	 *
 	 * @param string $key
-	 * @param mixed|null $default
 	 * @param string $group
 	 * @return mixed
 	 *
 	 * @since 2025.1
 	 */
-	public static function pull( string $key, mixed $default = null, string $group = 'default' ): mixed {
-		$value = self::get( $key, $default, $group );
+	public static function pull( string $key, string $group = 'default' ): mixed {
+		$value = self::get( $key, $group );
 
 		self::forget( $key );
 
@@ -96,7 +94,7 @@ final class Cache {
 	 * @param string $group
 	 * @since 2025.1
 	 */
-	public static function suspend( string $key, callable $callback, string $group = 'default' ) {
+	public static function suspend( callable $callback, string $key, string $group = 'default' ) {
 		self::$locks[ $group ][ $key ] = true;
 
 		call_user_func( $callback );
@@ -131,14 +129,13 @@ final class Cache {
 	 *
 	 * @since 2025.1
 	 */
-	public static function increase( string $key = '', int|float $amount = 1, string $group = 'default' ): bool {
-		if ( ! is_numeric( self::$cache[ $group ][ $key ]['value'] ?? null ) ) {
-			return false;
+	public static function increase( string $key, int|float $amount = 1, string $group = 'default' ): bool {
+		if ( $key && is_numeric( self::$cache[ $group ][ $key ]['value'] ?? null ) ) {
+			self::$cache[ $group ][ $key ]['value'] += $amount;
+
+			return true;
 		}
-
-		self::$cache[ $group ][ $key ]['value'] += $amount;
-
-		return true;
+		return false;
 	}
 
 	/**
@@ -151,13 +148,12 @@ final class Cache {
 	 *
 	 * @since 2025.1
 	 */
-	public static function decrease( string $key = '', int|float $amount = 1, string $group = 'default' ): bool {
-		if ( ! is_numeric( self::$cache[ $group ][ $key ]['value'] ?? null ) ) {
-			return false;
+	public static function decrease( string $key, int|float $amount = 1, string $group = 'default' ): bool {
+		if ( $key && is_numeric( self::$cache[ $group ][ $key ]['value'] ?? null ) ) {
+			self::$cache[ $group ][ $key ]['value'] -= $amount;
+
+			return true;
 		}
-
-		self::$cache[ $group ][ $key ]['value'] -= $amount;
-
-		return true;
+		return false;
 	}
 }

@@ -71,7 +71,7 @@ final class Field extends Field\Schema {
 			return null;
 		}
 
-		return Cache::get( $key, null, $this->cacheGroup, function() use ( $key, $isSingle ) {
+		return Cache::get( $key, $this->cacheGroup, function() use ( $key, $isSingle ) {
 			$conditions = [ $this->column => $this->objectID ];
 
 			if ( $key ) {

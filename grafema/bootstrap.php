@@ -34,12 +34,17 @@ const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
  *
  * @since 2025.1
  */
-array_map(function ($include) {
-	$include_path = sprintf( '%s%s.php', GRFM_PATH, $include );
-	if (file_exists($include_path)) {
-		require_once $include_path;
-	}
-}, ['config', 'autoload']);
+foreach (
+	[
+		'config',
+		'autoload',
+		//'routes'
+	] as $filename ) {
+	require_once sprintf( '%s%s.php', GRFM_PATH, $filename );
+}
+//array_map( function ( $filename ) {
+//	require_once sprintf( '%s%s.php', GRFM_PATH, $filename );
+//}, [ 'config', 'autoload', 'routes' ] );
 
 /**
  * Create a single entry point to the website.
@@ -369,6 +374,14 @@ try {
 		// set response code
 		http_response_code( 200 );
 		header( 'Content-Type: text/html; charset=utf-8' );
+
+		for ( $i = 1; $i <= 10; $i++ ) {
+			Grafema\Post::add( 'pages', [
+				'author'  => 1,
+				'title'   => "Random title with numbers of good member of my heart",
+				'content' => "Random content with title of number #{$i}",
+			] );
+		}
 
 		/**
 		 * Add core API endpoints.

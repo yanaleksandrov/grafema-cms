@@ -323,10 +323,10 @@ class Type
 	/**
 	 * Check if type registered.
 	 *
+	 * @param string $type
 	 * @return bool
 	 */
-	public static function exist(): bool
-	{
-		return true;
+	public static function exist( string $type ): bool {
+		return isset( self::$types[ $type ] );
 	}
 }

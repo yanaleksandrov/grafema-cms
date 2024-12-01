@@ -62,7 +62,7 @@ final class Cache {
 			return self::$cache[ $group ][ $key ]['value'];
 		}
 
-		if ( ! is_callable( $callback ) ) {
+		if ( is_callable( $callback ) ) {
 			return self::add( $key, call_user_func( $callback ), $group );
 		}
 

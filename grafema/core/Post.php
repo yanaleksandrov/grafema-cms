@@ -30,7 +30,7 @@ class Post {
 		Db::insert( $type, compact( 'author', 'title', 'content', 'status' ) );
 
 		$postId  = Sanitizer::absint( Db::id() );
-		$dbTable = Sanitizer::tablename( GRFM_DB_PREFIX . $type );
+		$dbTable = Sanitizer::tablename( $type );
 
 		if ( $postId ) {
 			$slugId = Slug::add( $postId, $dbTable, $slug );

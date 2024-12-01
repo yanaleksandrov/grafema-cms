@@ -375,13 +375,47 @@ try {
 		http_response_code( 200 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 
-		for ( $i = 1; $i <= 10; $i++ ) {
-			Grafema\Post::add( 'pages', [
-				'author'  => 1,
-				'title'   => "Random title with numbers of good member of my heart",
-				'content' => "Random content with title of number #{$i}",
-			] );
+		Grafema\Slug::migrate();
+		Grafema\Meta::migrate();
+		//Grafema\Attr::migrate( 'users', 'user' );
+
+		$user  = User::current();
+		//$field = new Grafema\Field( $user );
+		$meta  = new Grafema\Meta( $user );
+		$attr  = new Grafema\Attr( $user );
+
+		for ( $i = 1; $i <= 40; $i++ ) {
+//			$dataTypes = [
+//				'is_open'     => (bool) mt_rand( 0, 1 ),
+//				'pi_number'   => 1 + (mt_rand() / mt_getrandmax()) * (1000 - 1),
+//				'context'     => 'Hello, world!',
+//				'price'       => rand( 1, 10000000 ),
+//				'date'        => date('Y-m-d', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT))),
+//				'time'        => date('H:i:s', strtotime(rand(0, 23) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//				'datetime'    => date('Y-m-d H:i:s', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT) . ' ' . str_pad(rand(0, 23), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//			];
+//
+//			$randomKey   = array_rand( $dataTypes );
+//			$randomValue = $dataTypes[ $randomKey ];
+//			$key = sprintf( $randomKey, $i );
+//
+//			$meta->add( $key, $randomValue, false );
+//			Grafema\Post::add( 'pages', [
+//				'author'  => 1,
+//				'title'   => "Random title with #{$i}",
+//				'content' => "Random content with title of number #{$i}",
+//			] );
 		}
+		$startTime = microtime(true);
+		echo '<pre>';
+		print_r( $attr->get() );
+//		var_dump( $attr->get( 'number', 'pi_number_556877' ) );
+//		var_dump( $attr->get( 'number', 'price_23' ) );
+		//var_dump( $field->get( 'time_377500' ) );
+		//var_dump( $meta->get( 'datetime', 'datetime_499955' ) );
+		//print_r( Grafema\Slug::get( 'random-title-with-981530' ) );
+		echo "Time:  " . number_format(( microtime(true) - $startTime), 4) . " Seconds\n";
+		echo '</pre>';
 
 		/**
 		 * Add core API endpoints.

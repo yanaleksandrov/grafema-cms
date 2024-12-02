@@ -12,30 +12,30 @@ final class Field extends Field\Schema {
 	/**
 	 * The ID of the associated object.
 	 *
-	 * @var int
+	 * @var null|int
 	 */
-	public int $objectID;
+	public ?int $entityId;
 
 	/**
-	 * DB column name.
+	 * DB entityColumn name.
 	 *
-	 * @var string
+	 * @var null|string
 	 */
-	public string $column;
+	public ?string $entityColumn;
 
 	/**
 	 * The name of the database table for the object.
 	 *
-	 * @var string
+	 * @var null|string
 	 */
-	public string $table;
+	public ?string $table;
 
 	/**
 	 * Cache key prefix.
 	 *
-	 * @var string
+	 * @var null|string
 	 */
-	public string $cacheGroup;
+	public ?string $cacheGroup;
 
 	/**
 	 * Initializes the object ID and the table name based on the provided object.
@@ -45,14 +45,19 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function __construct( mixed $object ) {
-		match ( true ) {
+		[
+			$this->entityId,
+			$this->entityColumn,
+			$this->table,
+			$this->cacheGroup,
+		] = match ( true ) {
 			$object instanceof User => [
-				$this->objectID   = $object->ID,
-				$this->column     = 'user_id',
-				$this->table      = sprintf( '%s_fields', $object::$table ),
-				$this->cacheGroup = sprintf( 'user-fields-%d', $object->ID ),
+				$object->ID,
+				'user_id',
+				sprintf( '%s_fields', $object::$table ),
+				sprintf( 'user-fields-%d', $object->ID ),
 			],
-			default => [],
+			default => [ null, null, null, null ],
 		};
 	}
 
@@ -68,34 +73,46 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function get( mixed $key = '', bool $isSingle = true ): mixed {
-		if ( ! $this->objectID ) {
+		if ( ! $this->entityId ) {
 			return null;
 		}
 
 		return Cache::get( $key, $this->cacheGroup, function() use ( $key, $isSingle ) {
-			$conditions = [ $this->column => $this->objectID ];
+			$conditions = [ $this->entityColumn => $this->entityId ];
 
 			if ( $key ) {
 				$conditions['key'] = $key;
 			}
 
-			$fields = $isSingle && $key
-				? Db::get( $this->table, [ 'key', 'value' ], $conditions )
-				: Db::select( $this->table, [ 'key', 'value' ], $conditions );
+			if ( $key && $isSingle ) {
+				return Db::get( $this->table, 'value', $conditions );
+			}
 
-			$result = null;
+			$fields = Db::select( $this->table, [ 'key', 'value' ], $conditions );
 			if ( is_array( $fields ) ) {
 				$result = [];
-				if ( $isSingle && $key ) {
-					return $fields['value'] ?? '';
-				}
-
 				foreach ( $fields as $field ) {
 					$result[ $field['key'] ][] = $field['value'];
 				}
+				return $result;
 			}
 
-			return $result;
+//			$table  = GRFM_DB_PREFIX . $this->table;
+//			$query = "
+//			    SELECT JSON_OBJECTAGG(`key`, `values`) AS `result`
+//			    FROM (
+//			        SELECT `key`, JSON_ARRAYAGG(`value`) AS `values`
+//			        FROM {$table}
+//			        WHERE `user_id` = :user_id
+//			        GROUP BY `key`
+//			    ) AS aggregated;
+//			";
+//			$data = Db::query( $query, [ ':user_id' => $this->entityId ] )->fetchColumn();
+//			if ( is_string( $data ) ) {
+//				return json_decode( $data );
+//			}
+
+			return null;
 		} );
 	}
 
@@ -112,12 +129,12 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function add( string $key, mixed $value, bool $isUnique = true ): bool {
-		if ( ! $this->objectID ) {
+		if ( ! $this->entityId ) {
 			return false;
 		}
 
 		if ( $isUnique ) {
-			$count = Db::count( $this->table, [ $this->column => $this->objectID, 'key' => $key ] );
+			$count = Db::count( $this->table, [ $this->entityColumn => $this->entityId, 'key' => $key ] );
 			if ( $count > 0 ) {
 				return false;
 			}
@@ -126,9 +143,9 @@ final class Field extends Field\Schema {
 		$isInsert = Db::insert(
 			$this->table,
 			[
-				$this->column => $this->objectID,
-				'key'         => $key,
-				'value'       => $value
+				$this->entityColumn => $this->entityId,
+				'key'               => $key,
+				'value'             => $value
 			]
 		)->rowCount() > 0;
 
@@ -149,12 +166,12 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function update( string $key, mixed $value, mixed $oldValue = '' ): bool {
-		if ( ! $this->objectID ) {
+		if ( ! $this->entityId ) {
 			return false;
 		}
 
 		$data       = [ 'value' => $oldValue ? [ $oldValue => $value ] : $value ];
-		$conditions = [ 'key' => $key, $this->column => $this->objectID ];
+		$conditions = [ 'key' => $key, $this->entityColumn => $this->entityId ];
 
 		$query = $oldValue
 			? Db::replace( $this->table, $data, $conditions )
@@ -175,14 +192,15 @@ final class Field extends Field\Schema {
 	 * @param string $key  The key of the field to delete.
 	 * @param mixed $value The value of the field to delete (optional).
 	 * @return bool        True if the field was deleted successfully, false otherwise.
+	 *
 	 * @since 2025.1
 	 */
 	public function delete( string $key = '', mixed $value = '' ): bool {
-		if ( ! $this->objectID ) {
+		if ( ! $this->entityId ) {
 			return false;
 		}
 
-		$conditions = [ $this->column => $this->objectID ];
+		$conditions = [ $this->entityColumn => $this->entityId ];
 
 		if ( $key ) {
 			$conditions['key'] = $key;
@@ -202,8 +220,14 @@ final class Field extends Field\Schema {
 	 * @param mixed|string $value
 	 * @param bool $isUnique
 	 * @return bool
+	 *
+	 * @since 2025.1
 	 */
 	public function mutate( string $key = '', mixed $value = '', bool $isUnique = true ): bool {
+		if ( ! $this->entityId ) {
+			return false;
+		}
+
 		if ( empty( $value ) ) {
 			return $this->delete( $key );
 		}
@@ -225,6 +249,8 @@ final class Field extends Field\Schema {
 	 * @param array $fields
 	 * @param int $chunkSize
 	 * @return array
+	 *
+	 * @since 2025.1
 	 */
 	public function import( array $fields, int $chunkSize = 10000 ): array {
 		$result = [ 'deleted' => 0, 'inserted' => 0, 'updated' => 0 ];
@@ -241,7 +267,7 @@ final class Field extends Field\Schema {
 			}
 
 			$insertItem = [
-				$this->column => $this->objectID,
+				$this->entityColumn => $this->entityId,
 				'key'         => $key,
 				'value'       => $value,
 			];
@@ -264,7 +290,7 @@ final class Field extends Field\Schema {
 					$this->table,
 					[
 						'AND' => [
-							$this->column => $this->objectID,
+							$this->entityColumn => $this->entityId,
 							'key'         => $deleteDatePart,
 						]
 					]

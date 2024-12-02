@@ -376,30 +376,30 @@ try {
 		header( 'Content-Type: text/html; charset=utf-8' );
 
 		Grafema\Slug::migrate();
-		Grafema\Meta::migrate();
-		//Grafema\Attr::migrate( 'users', 'user' );
+		//Grafema\Meta::migrate();
+		Grafema\Attr::migrate( 'users', 'user' );
 
 		$user  = User::current();
-		//$field = new Grafema\Field( $user );
+		$field = new Grafema\Field( $user );
 		$meta  = new Grafema\Meta( $user );
 		$attr  = new Grafema\Attr( $user );
 
-		for ( $i = 1; $i <= 40; $i++ ) {
+		for ( $i = 1; $i <= 1; $i++ ) {
 //			$dataTypes = [
-//				'is_open'     => (bool) mt_rand( 0, 1 ),
-//				'pi_number'   => 1 + (mt_rand() / mt_getrandmax()) * (1000 - 1),
-//				'context'     => 'Hello, world!',
+//				'is_open_%d'     => (bool) mt_rand( 0, 1 ),
+//				'pi_number_%d'   => 1 + (mt_rand() / mt_getrandmax()) * (1000 - 1),
+//				'context_%d'     => 'Hello, world!',
 //				'price'       => rand( 1, 10000000 ),
-//				'date'        => date('Y-m-d', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT))),
-//				'time'        => date('H:i:s', strtotime(rand(0, 23) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
-//				'datetime'    => date('Y-m-d H:i:s', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT) . ' ' . str_pad(rand(0, 23), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//				'date_%d'        => date('Y-m-d', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT))),
+//				'time_%d'        => date('H:i:s', strtotime(rand(0, 23) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//				'datetime_%d'    => date('Y-m-d H:i:s', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT) . ' ' . str_pad(rand(0, 23), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
 //			];
 //
 //			$randomKey   = array_rand( $dataTypes );
 //			$randomValue = $dataTypes[ $randomKey ];
 //			$key = sprintf( $randomKey, $i );
 //
-//			$meta->add( $key, $randomValue, false );
+//			$field->add( $key, $randomValue, false );
 //			Grafema\Post::add( 'pages', [
 //				'author'  => 1,
 //				'title'   => "Random title with #{$i}",
@@ -408,13 +408,14 @@ try {
 		}
 		$startTime = microtime(true);
 		echo '<pre>';
-		print_r( $attr->get() );
-//		var_dump( $attr->get( 'number', 'pi_number_556877' ) );
-//		var_dump( $attr->get( 'number', 'price_23' ) );
-		//var_dump( $field->get( 'time_377500' ) );
-		//var_dump( $meta->get( 'datetime', 'datetime_499955' ) );
+//		print_r( $attr->get( 'time' ) );
+		//var_dump( $attr->get( 'number', 'pi_number_556877' ) );
+	//	var_dump( $attr->get( 'number', 'price_23' ) );
+		//print_r( $field->get() );
+//		var_dump( $field->add( 'test', 'My name is', false ) );
+	//	var_dump( $meta->get( 'datetime', 'datetime_499955' ) );
 		//print_r( Grafema\Slug::get( 'random-title-with-981530' ) );
-		echo "Time:  " . number_format(( microtime(true) - $startTime), 4) . " Seconds\n";
+		echo "Time:  " . number_format(( microtime(true) - $startTime), 5) . " Seconds\n";
 		echo '</pre>';
 
 		/**

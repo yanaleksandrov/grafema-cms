@@ -24,7 +24,6 @@ class Schema {
 		$tableName = Sanitizer::tablename( $table );
 		$name      = Sanitizer::tablename( $name );
 
-		// TODO: test benchmarks with different EAV systems
 		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName}_fields (

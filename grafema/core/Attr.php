@@ -45,6 +45,8 @@ final class Attr {
 	 */
 	public ?string $cacheGroup = null;
 
+	private array $types = [ 'text', 'number', 'boolean', 'time', 'date', 'datetime' ];
+
 	/**
 	 * Initializes the object ID and the table name based on the provided object.
 	 *
@@ -119,6 +121,7 @@ final class Attr {
 	 * @param string $key  The key of the field to delete.
 	 * @param mixed $value The value of the field to delete (optional).
 	 * @return bool        True if the field was deleted successfully, false otherwise.
+	 *
 	 * @since 2025.1
 	 */
 	public function delete( string $key = '', mixed $value = '' ): bool {
@@ -140,6 +143,35 @@ final class Attr {
 	}
 
 	/**
+	 * @param string $type
+	 * @param string $key
+	 * @return array
+	 *
+	 * @since 2025.1
+	 */
+	public function fetch( string $type = '', string $key = '' ): array {
+		if ( ! $this->entityId || ! $this->entityColumn || ( $type && ! in_array( $type, $this->types, true ) ) ) {
+			return [];
+		}
+
+		return Cache::get( $key, $this->cacheGroup, function() use ( $type, $key ) {
+			$conditions = [ $this->entityColumn => $this->entityId ];
+
+			if ( $key ) {
+				$conditions['key'] = $key;
+			}
+
+			if ( $type ) {
+				$conditions["value_{$type}[!]"] = null;
+			}
+
+			return $this->getFormattedSelect(
+				Db::select( $this->table, [ 'key', ...array_map( fn ( $v ) => 'value_' . $v, $this->types ) ], $conditions )
+			);
+		} );
+	}
+
+	/**
 	 * Retrieves the value of a specific field for the associated object.
 	 *
 	 * Benchmark when there are 1 million rows: 1 time - 0.00068 sec, 100000 times - 0.05 sec
@@ -151,57 +183,28 @@ final class Attr {
 	 *
 	 * @since 2025.1
 	 */
-	public function get( string $key = '', string $type = 'text', bool $isSingle = true ): mixed {
-		if ( ! $this->entityId ) {
+	public function get( string $type, string $key = '', bool $isSingle = true ): mixed {
+		if ( ! $this->entityId || ! $this->entityColumn || ! in_array( $type, $this->types, true ) ) {
 			return null;
-		}
-
-		if ( $isSingle && ! in_array( $type, [ 'text', 'number', 'boolean', 'time', 'date', 'datetime' ], true ) ) {
-			return null;
-		}
-
-		function format( $value ): string {
-			return rtrim( rtrim( $value, '0' ), '.' );
 		}
 
 		return Cache::get( $key, $this->cacheGroup, function() use ( $type, $key, $isSingle ) {
-			$conditions = [ $this->entityColumn => $this->entityId ];
+			$conditions = [ $this->entityColumn => $this->entityId, "value_{$type}[!]" => null ];
+
 			if ( $key ) {
 				$conditions['key'] = $key;
 			}
 
-			if ( $isSingle && $key ) {
+			if ( $key && $isSingle ) {
 				$column = sprintf( 'value_%s', $type );
-				$items  = Db::get( $this->table, [ 'id', $this->entityColumn, 'key', sprintf( 'value_%s', $type ) ], $conditions );
+				$items  = Db::get( $this->table, [ $this->entityColumn, 'key', $column ], $conditions );
 
-				return ! empty( $items[ $column ] ) ? format( $items[ $column ] ) : null;
+				return ! empty( $items[ $column ] ) ? $this->getFormattedNumber( $items[ $column ] ) : null;
 			}
 
-			$fields = [ 'key', 'value_text', 'value_number', 'value_boolean', 'value_time', 'value_date', 'value_datetime' ];
-			$items  = Db::select( $this->table, $fields, $conditions );
-			if ( is_array( $items ) ) {
-				$result = [];
-
-				foreach ( $items as $item ) {
-					$key = $item['key'];
-
-					unset( $item['key'] );
-
-					$values = array_filter( $item, fn( $value ) => $value === 0 || $value );
-					$values = array_map( function( $k, $v ) {
-						if ( $k === 'value_number' ) {
-							return format( $v );
-						}
-						return $v;
-					}, array_keys( $values ), array_values( $values ) );
-
-					$result[ $key ] = array_merge( $result[ $key ] ?? [], $values );
-				}
-
-				return $result;
-			}
-
-			return null;
+			return $this->getFormattedSelect(
+				Db::select( $this->table, [ 'key', "value_{$type}" ], $conditions )
+			);
 		} );
 	}
 
@@ -316,7 +319,6 @@ final class Attr {
 		if ( $insertData ) {
 			$insertDataParts = array_chunk( $insertData, $chunkSize, false );
 			foreach ( $insertDataParts as $i => $insertDataPart ) {
-				var_dump( $i );
 				$result['inserted'] += Db::insert( $this->table, $insertDataPart )->rowCount();
 			}
 		}
@@ -386,6 +388,35 @@ final class Attr {
 			return 'datetime';
 		}
 		return 'text';
+	}
+
+	private function getFormattedNumber( string $value ): string {
+		return rtrim( rtrim( $value, '0' ), '.' );
+	}
+
+	private function getFormattedSelect( mixed $items ): array {
+		$result = [];
+		if ( ! is_array( $items ) ) {
+			return $result;
+		}
+
+		foreach ( $items as $item ) {
+			$key = $item['key'];
+
+			unset( $item['key'] );
+
+			$values = array_filter( $item, fn( $value ) => $value === 0 || $value );
+			$values = array_map( function( $k, $v ) {
+				if ( $k === 'value_number' ) {
+					return $this->getFormattedNumber( $v );
+				}
+				return $v;
+			}, array_keys( $values ), array_values( $values ) );
+
+			$result[ $key ] = array_merge( $result[ $key ] ?? [], $values );
+		}
+
+		return $result;
 	}
 
 	/**

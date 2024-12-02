@@ -20,16 +20,16 @@ final class Meta {
 	/**
 	 * The ID of the associated object.
 	 *
-	 * @var int
+	 * @var null|int
 	 */
-	public int $entityId;
+	public ?int $entityId;
 
 	/**
 	 * The name of the database table for the object.
 	 *
-	 * @var string
+	 * @var null|string
 	 */
-	public string $entityTable;
+	public ?string $entityTable;
 
 	/**
 	 * DB column name.
@@ -41,9 +41,9 @@ final class Meta {
 	/**
 	 * Cache key prefix.
 	 *
-	 * @var string
+	 * @var null|string
 	 */
-	public string $cacheGroup;
+	public ?string $cacheGroup;
 
 	/**
 	 * Initializes the object ID and the table name based on the provided object.
@@ -53,12 +53,17 @@ final class Meta {
 	 * @since 2025.1
 	 */
 	public function __construct( mixed $object ) {
-		match ( true ) {
+		[
+			$this->entityId,
+			$this->entityTable,
+			$this->cacheGroup,
+		] = match ( true ) {
 			$object instanceof User => [
-				$this->entityId    = $object->ID,
-				$this->entityTable = $object::$table,
-				$this->cacheGroup  = sprintf( 'user-fields-%d', $object->ID ),
+				$object->ID,
+				$object::$table,
+				sprintf( 'user-fields-%d', $object->ID ),
 			],
+			default => [ null, null, null ],
 		};
 	}
 

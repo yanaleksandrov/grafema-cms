@@ -68,9 +68,10 @@
     background-color: var(--grafema-white);
     background-clip: padding-box;
     border-radius: var(--grafema-border-radius);
-    min-height: calc(100% - 3rem);
     width: calc(100% - 3rem);
-    margin: 1.5rem auto;
+    //min-height: calc(100% - 3rem);
+    //margin: 1.5rem auto;
+    margin: auto;
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;

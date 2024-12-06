@@ -42,7 +42,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<?php endif; ?>
 		<span class="uploader__container">
 			<?php if ( $instruction ) : ?>
-				<span class="fw-700"><?php echo $instruction; ?></span>
+				<span class="fw-500"><?php echo $instruction; ?></span>
 			<?php endif; ?>
 			<span class="fs-13 t-muted"><?php I18n::f( 'Maximum upload file size is :maxsize', $max_size ); ?></span>
 		</span>

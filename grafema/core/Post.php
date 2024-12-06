@@ -1,12 +1,7 @@
 <?php
-namespace Grafema\Post;
+namespace Grafema;
 
 use Grafema\Patterns\Registry;
-use Grafema\Db;
-use Grafema\Error;
-use Grafema\I18n;
-use Grafema\Sanitizer;
-use Grafema\Url;
 
 /**
  * Core class used for interacting with post types.
@@ -18,37 +13,30 @@ class Post {
 	 *
 	 * @param $type
 	 * @param $args
-	 * @return Error|string|null
+	 * @return Error|int
 	 * @since 2025.1
 	 */
-	public static function add( $type, $args ): Error|string|null {
-		if ( ! Type::exist( $type ) ) {
+	public static function add( string $type, array $args ): Error|int {
+		if ( ! Post\Type::exist( $type ) ) {
 			return new Error( 'post-add', I18n::_t( 'Post type is not registered.' ) );
 		}
 
-		$author  = trim( strval( $args['author'] ?? '' ) );
-		$content = trim( strval( $args['content'] ?? '' ) );
-		$title   = Sanitizer::html( $args['title'] ?? '' );
-		$status  = Sanitizer::html( $args['status'] ?? 'draft' );
-		$slug    = Sanitizer::url( $args['slug'] ?? '' );
-		$args    = [
-			'author'  => $author,
-			'title'   => $title,
-			'content' => $content,
-			'status'  => $status,
-			'slug'    => $slug,
-		];
+		$author  = Sanitizer::absint( $args['author'] ?? '' );
+		$content = Sanitizer::trim( $args['content'] ?? '' );
+		$title   = Sanitizer::text( $args['title'] ?? '' );
+		$status  = Sanitizer::text( $args['status'] ?? 'draft' );
+		$slug    = Sanitizer::slug( $args['slug'] ?? $title );
 
-		$fields = $args['fields'] ?? [];
-		if ( is_array( $fields ) ) {
-			foreach ( $fields as $key => $value ) {
-				Field::add( $type, 12, $key, $value );
-			}
+		Db::insert( $type, compact( 'author', 'title', 'content', 'status' ) );
+
+		$postId  = Sanitizer::absint( Db::id() );
+		$dbTable = Sanitizer::tablename( $type );
+
+		if ( $postId ) {
+			$slugId = Slug::add( $postId, $dbTable, $slug );
 		}
 
-		Db::insert( $type, $args );
-
-		return Db::id();
+		return $postId;
 	}
 
 	/**
@@ -60,8 +48,8 @@ class Post {
 	 * @return array
 	 * @since 2025.1
 	 */
-	public static function get( $type, $value, $by = 'ID' ): array {
-		if ( ! Type::exist( $type ) ) {
+	public static function get( string $type, string|int $value, string $by = 'ID' ): array {
+		if ( ! Post\Type::exist( $type ) ) {
 			return [];
 		}
 

@@ -34,12 +34,17 @@ const GRFM_REQUIRED_MYSQL_VERSION = '5.6';
  *
  * @since 2025.1
  */
-array_map(function ($include) {
-	$include_path = sprintf( '%s%s.php', GRFM_PATH, $include );
-	if (file_exists($include_path)) {
-		require_once $include_path;
-	}
-}, ['config', 'autoload']);
+foreach (
+	[
+		'config',
+		'autoload',
+		//'routes'
+	] as $filename ) {
+	require_once sprintf( '%s%s.php', GRFM_PATH, $filename );
+}
+//array_map( function ( $filename ) {
+//	require_once sprintf( '%s%s.php', GRFM_PATH, $filename );
+//}, [ 'config', 'autoload', 'routes' ] );
 
 /**
  * Create a single entry point to the website.
@@ -342,6 +347,30 @@ try {
 			]
 		);
 
+		Type::register(
+			'api-keys',
+			[
+				'labels' => [
+					'name'        => I18n::_t( 'API Key' ),
+					'name_plural' => I18n::_t( 'API Keys' ),
+					'add'         => I18n::_t( 'Add new key' ),
+				],
+				'description'  => '',
+				'public'       => false,
+				'hierarchical' => false,
+				'searchable'   => false,
+				'show_ui'      => true,
+				'show_in_menu' => false,
+				'show_in_bar'  => false,
+				'position'     => 30,
+				'menu_icon'    => 'ph ph-key',
+				'capabilities' => ['types_edit'],
+				'supports'     => ['title', 'fields'],
+				'taxonomies'   => [],
+				'can_export'   => true,
+			]
+		);
+
 		/**
 		 * Set up current user.
 		 *
@@ -369,6 +398,49 @@ try {
 		// set response code
 		http_response_code( 200 );
 		header( 'Content-Type: text/html; charset=utf-8' );
+
+//		Grafema\Slug::migrate();
+//		//Grafema\Meta::migrate();
+//		Grafema\Attr::migrate( 'users', 'user' );
+
+		$user  = User::current();
+		$field = new Grafema\Field( $user );
+		$meta  = new Grafema\Meta( $user );
+		$attr  = new Grafema\Attr( $user );
+
+//		for ( $i = 1; $i <= 50; $i++ ) {
+//			$dataTypes = [
+//				'is_open_%d'     => (bool) mt_rand( 0, 1 ),
+//				'pi_number_%d'   => 1 + (mt_rand() / mt_getrandmax()) * (1000 - 1),
+//				'context_%d'     => 'Hello, world!',
+//				'price'          => rand( 1, 10000000 ),
+//				'date_%d'        => date('Y-m-d', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT))),
+//				'time_%d'        => date('H:i:s', strtotime(rand(0, 23) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//				'datetime_%d'    => date('Y-m-d H:i:s', strtotime(rand(2000, 2024) . '-' . str_pad(rand(1, 12), 2, '0', STR_PAD_LEFT) . '-' . str_pad(rand(1, 31), 2, '0', STR_PAD_LEFT) . ' ' . str_pad(rand(0, 23), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT) . ':' . str_pad(rand(0, 59), 2, '0', STR_PAD_LEFT))),
+//			];
+//
+//			$randomKey   = array_rand( $dataTypes );
+//			$randomValue = $dataTypes[ $randomKey ];
+//			$key = sprintf( $randomKey, $i );
+//
+//			$field->add( $key, $randomValue, false );
+//			Grafema\Post::add( 'pages', [
+//				'author'  => 1,
+//				'title'   => "Random title with #{$i}",
+//				'content' => "Random content with title of number #{$i}",
+//			] );
+//		}
+//		$startTime = microtime(true);
+//		echo '<pre>';
+//		print_r( $attr->get( 'time' ) );
+		//var_dump( $attr->get( 'number', 'pi_number_556877' ) );
+	//	var_dump( $attr->get( 'number', 'price_23' ) );
+		//print_r( $field->get() );
+//		var_dump( $field->add( 'test', 'My name is', false ) );
+	//	var_dump( $meta->get( 'datetime', 'datetime_499955' ) );
+		//print_r( Grafema\Slug::get( 'random-title-with-981530' ) );
+//		echo "Time:  " . number_format(( microtime(true) - $startTime), 5) . " Seconds\n";
+//		echo '</pre>';
 
 		/**
 		 * Add core API endpoints.

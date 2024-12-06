@@ -9,33 +9,7 @@ namespace Grafema;
  */
 final class Field extends Field\Schema {
 
-	/**
-	 * The ID of the associated object.
-	 *
-	 * @var null|int
-	 */
-	public ?int $entityId;
-
-	/**
-	 * DB entityColumn name.
-	 *
-	 * @var null|string
-	 */
-	public ?string $entityColumn;
-
-	/**
-	 * The name of the database table for the object.
-	 *
-	 * @var null|string
-	 */
-	public ?string $table;
-
-	/**
-	 * Cache key prefix.
-	 *
-	 * @var null|string
-	 */
-	public ?string $cacheGroup;
+	use Field\Traits;
 
 	/**
 	 * Initializes the object ID and the table name based on the provided object.

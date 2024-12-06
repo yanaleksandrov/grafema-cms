@@ -41,7 +41,7 @@ class Schema {
 				AFTER DELETE ON {$tableName}
 				FOR EACH ROW
 					BEGIN
-						DELETE FROM {$tableName}_fields WHERE {$name}_id = OLD.ID;
+						DELETE FROM {$tableName}_fields WHERE {$name}_id = OLD.id;
 					END;"
 		)->fetchAll();
 	}

@@ -966,12 +966,13 @@ document.addEventListener( 'alpine:init', () => {
 					});
 				}
 
-				let datepicker = new AirDatepicker('[x-datepicker]', {
+				let datepicker = new AirDatepicker(el, {
 					...{
 						range: false,
 						inline: false,
 						multipleDatesSeparator: ' — ',
 						firstDay: grafema?.weekStart,
+						container: el.closest('div'),
 						view: 'days', // days, months or years
 					},
 					...options
@@ -1186,7 +1187,9 @@ document.addEventListener( 'alpine:init', () => {
 				}, []),
 			});
 
-			select.selectEl.nextSibling.style.minWidth = `${width}px`;
+			// TODO: при уменьшении экрана, элемент не помещается
+			// в то же время нужно соблюсти ширину как у нативного select
+			// select.selectEl.nextSibling.style.minWidth = `${width}px`;
 		} catch(e) {
 			console.error(e);
 		}

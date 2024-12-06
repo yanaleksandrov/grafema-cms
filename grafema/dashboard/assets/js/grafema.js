@@ -807,12 +807,13 @@ var __webpack_modules__ = {
                                 }
                             }));
                         };
-                        let datepicker = new AirDatepicker('[x-datepicker]', {
+                        let datepicker = new AirDatepicker(el, {
                             ...{
                                 range: false,
                                 inline: false,
                                 multipleDatesSeparator: ' — ',
                                 firstDay: grafema?.weekStart,
+                                container: el.closest('div'),
                                 view: 'days'
                             },
                             ...options
@@ -985,7 +986,6 @@ var __webpack_modules__ = {
                             return acc;
                         }), [])
                     });
-                    select.selectEl.nextSibling.style.minWidth = `${width}px`;
                 } catch (e) {
                     console.error(e);
                 }

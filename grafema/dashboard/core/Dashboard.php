@@ -82,6 +82,10 @@ new class extends \Grafema\App\App {
 								'title' => I18n::_t( 'Take A Selfie' ),
 								'class' => 'dialog--sm',
 							],
+							'apiKeyManagerDialog' => [
+								'title' => I18n::_t( 'Create/update new project' ),
+								'class' => 'dialog--sm',
+							],
 						]
 					);
 				}

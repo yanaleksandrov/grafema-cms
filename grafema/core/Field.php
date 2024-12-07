@@ -31,6 +31,12 @@ final class Field extends Field\Schema {
 				sprintf( '%s_fields', $object::$table ),
 				sprintf( 'user-fields-%d', $object->ID ),
 			],
+			$object instanceof Post => [
+				$object->id,
+				'post_id',
+				sprintf( '%s_fields', $object->table ),
+				sprintf( 'post-fields-%d', $object->id ),
+			],
 			default => [ null, null, null, null ],
 		};
 	}
@@ -240,10 +246,17 @@ final class Field extends Field\Schema {
 				continue;
 			}
 
+			if ( is_array( $value ) ) {
+				if ( empty( $value ) ) {
+					continue;
+				}
+				$value = Json::encode( $value );
+			}
+
 			$insertItem = [
 				$this->entityColumn => $this->entityId,
-				'key'         => $key,
-				'value'       => $value,
+				'key'               => $key,
+				'value'             => $value,
 			];
 
 			if ( ! isset( $existsFields[ $key ] ) ) {
@@ -256,7 +269,7 @@ final class Field extends Field\Schema {
 			}
 		}
 
-		$deleteDate = array_diff( array_keys( $existsFields ), array_keys( $fields ) );
+		$deleteDate = array_diff( array_keys( $existsFields ?? [] ), array_keys( $fields ) );
 		if ( $deleteDate ) {
 			$deleteDateParts = array_chunk( $deleteDate, $chunkSize, false );
 			foreach ( $deleteDateParts as $deleteDatePart ) {
@@ -265,7 +278,7 @@ final class Field extends Field\Schema {
 					[
 						'AND' => [
 							$this->entityColumn => $this->entityId,
-							'key'         => $deleteDatePart,
+							'key'               => $deleteDatePart,
 						]
 					]
 				)->rowCount();
@@ -275,10 +288,10 @@ final class Field extends Field\Schema {
 		if ( $insertData ) {
 			$insertDataParts = array_chunk( $insertData, $chunkSize, false );
 			foreach ( $insertDataParts as $i => $insertDataPart ) {
-				var_dump( $i );
 				$result['inserted'] += Db::insert( $this->table, $insertDataPart )->rowCount();
 			}
 		}
+		print_r( Db::debug() );
 
 		if ( $updateData ) {
 			$updateDataParts  = array_chunk( $updateData, $chunkSize, true );

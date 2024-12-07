@@ -2,7 +2,7 @@
 use Grafema\I18n;
 
 /**
- * Sign Up form
+ * API Keys manager form.
  *
  * @since 2025.1
  */
@@ -11,9 +11,16 @@ return Dashboard\Form::enqueue(
 	[
 		'class'           => 'dg g-7 p-7',
 		'x-data'          => '',
-		'@submit.prevent' => "\$ajax('api-keys/mutate')",
+		'@submit.prevent' => "\$ajax('post/create')",
 	],
 	[
+		[
+			'type'       => 'hidden',
+			'name'       => 'post-type',
+			'attributes' => [
+				'value' => 'api-keys',
+			],
+		],
 		[
 			'type'          => 'group',
 			'name'          => 'manage',
@@ -61,8 +68,8 @@ return Dashboard\Form::enqueue(
 						'value' => '',
 					],
 					'options'     => [
-						'active'   => I18n::_t( 'Active' ),
-						'disabled' => I18n::_t( 'Disabled' ),
+						'publish' => I18n::_t( 'Active' ),
+						'draft'   => I18n::_t( 'Disabled' ),
 					],
 				],
 			]
@@ -173,14 +180,9 @@ return Dashboard\Form::enqueue(
 			],
 		],
 		[
-			'name'  => 'website-data',
-			'type'  => 'divider',
-			'label' => I18n::_t( 'Allowed websites' ),
-		],
-		[
 			'type'        => 'url',
 			'name'        => 'sites',
-			'label'       => '',
+			'label'       => I18n::_t( 'Allowed websites' ),
 			'class'       => '',
 			'label_class' => '',
 			'reset'       => 0,
@@ -194,7 +196,7 @@ return Dashboard\Form::enqueue(
 			'conditions'  => [],
 			'attributes'  => [
 				'value'       => '',
-				'placeholder' => 'e.g: google.com, chatgpt.com',
+				'placeholder' => 'e.g: https://google.com',
 			],
 		],
 		[
@@ -203,7 +205,7 @@ return Dashboard\Form::enqueue(
 				?>
 				<div class="df jcsb g-2">
 					<button type="button" class="btn btn--outline" @click="$dialog.close()"><?php I18n::t( 'Cancel' ); ?></button>
-					<button type="submit" class="btn btn--primary" :disabled="projectName === ''">
+					<button type="submit" class="btn btn--primary" :disabled="appName === ''">
 						<i class="ph ph-plug"></i> <?php I18n::t( 'Save project' ); ?>
 					</button>
 				</div>

@@ -2,64 +2,117 @@
 namespace Grafema;
 
 use Grafema\Patterns\Registry;
+use Grafema\Post\Kind;
 
-/**
- * Core class used for interacting with post types.
- */
 class Post {
 
+	private function __construct(
+		public int $id = 0,
+		public string $title = '',
+		public string $content = '',
+		public int $author = 0,
+		public int $comments = 0,
+		public int $views = 0,
+		public string $status = '',
+		public string $discussion = '',
+		public string $password = '',
+		public int $parent = 0,
+		public int $position = 0,
+		public string $createdAt = '',
+		public string $updatedAt = '',
+		public string $type = '',
+		public string $table = '',
+		public string $slug = '',
+		public array $fields = []
+	) {}
+
 	/**
-	 * Add post.
+	 * Add new post.
 	 *
-	 * @param $type
-	 * @param $args
-	 * @return Error|int
+	 * @param string $type
+	 * @param array $args
+	 *
+	 * @return Error|Post|null
+	 *
 	 * @since 2025.1
 	 */
-	public static function add( string $type, array $args ): Error|int {
-		if ( ! Post\Type::exist( $type ) ) {
+	public static function add( string $type, array $args ): Error|Post|null {
+		$type = Kind::get( $type );
+		if ( ! $type instanceof Kind ) {
 			return new Error( 'post-add', I18n::_t( 'Post type is not registered.' ) );
 		}
 
-		$author  = Sanitizer::absint( $args['author'] ?? '' );
-		$content = Sanitizer::trim( $args['content'] ?? '' );
-		$title   = Sanitizer::text( $args['title'] ?? '' );
-		$status  = Sanitizer::text( $args['status'] ?? 'draft' );
-		$slug    = Sanitizer::slug( $args['slug'] ?? $title );
+		[ $content, $title, $status, $author, $slug, $fields ] = ( new Sanitizer(
+			$args,
+			[
+				'content' => 'text',
+				'title'   => 'text',
+				'status'  => 'text',
+				'author'  => 'absint:0',
+				'slug'    => 'slug:$title',
+				'fields'  => 'array',
+			]
+		) )->values();
 
-		Db::insert( $type, compact( 'author', 'title', 'content', 'status' ) );
-
-		$postId  = Sanitizer::absint( Db::id() );
-		$dbTable = Sanitizer::tablename( $type );
-
-		if ( $postId ) {
-			$slugId = Slug::add( $postId, $dbTable, $slug );
+		$user = User::current();
+		if ( ! $author && $user instanceof User ) {
+			$author = $user->ID;
 		}
 
-		return $postId;
+		// insert to DB
+		Db::insert( $type->table, compact( 'author', 'title', 'content', 'status' ) );
+
+		$post = self::get( $type->key, Db::id() );
+		if ( $post instanceof Post ) {
+			$post->type  = $type->key;
+			$post->table = $type->table;
+
+			/**
+			 * Add slug just if post type is public.
+			 *
+			 * @since 2025.1
+			 */
+			if ( $type->public === true ) {
+				$post->slug = Slug::add( $post->id, $type->table, $slug );
+			}
+
+			if ( $fields ) {
+				( new Field( $post ) )->import( $fields );
+			}
+		}
+
+		return $post;
+	}
+
+	public static function getBySlug( string $value ): Error|Post|null {
+		$slug = Slug::get( $value );
+		if ( ! empty( $slug['entity_table'] ) ) {
+			return self::get( Sanitizer::tablename( $slug['entity_table'] ), $slug['entity_id'] );
+		}
+		return null;
 	}
 
 	/**
-	 * Get post type by ID.
+	 * Get post by field.
 	 *
-	 * @param  string     $type
-	 * @param  string|int $value
-	 * @param  string     $by
-	 * @return array
+	 * @param string $type
+	 * @param int $id
+	 * @return Error|Post|null
+	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $type, string|int $value, string $by = 'ID' ): array {
-		if ( ! Post\Type::exist( $type ) ) {
-			return [];
+	public static function get( string $type, int $id ): Error|Post|null {
+		$type = Kind::get( $type );
+		if ( ! $type instanceof Kind ) {
+			return new Error( 'post-get', I18n::_t( 'Post type is not registered.' ) );
 		}
 
-		$post = Db::get( $type, '*', [ $by => $value ] );
+		$data = Db::get( $type->table, '*', [ 'id' => $id ] );
 
 		// add data for media files
 		$sizes = Registry::get( 'images' );
-
-		if ( $type === 'media' && is_array( $post ) && is_array( $sizes ) ) {
-			$file_path = sprintf( '%s%s', GRFM_PATH, $post['slug'] ?? '' );
+		if ( $type === 'media' && is_array( $data ) && is_array( $sizes ) ) {
+			$file_path = sprintf( '%s%s', GRFM_PATH, $data['slug'] ?? '' );
 			foreach ( $sizes as $index => $size ) {
 				$width  = intval( $size['width'] ?? 0 );
 				$height = intval( $size['height'] ?? 0 );
@@ -73,19 +126,28 @@ class Post {
 			}
 		}
 
-		return array_merge( $post, [ 'sizes' => $sizes ] );
+		foreach ( $data as $key => $value ) {
+			unset( $data[ $key ] );
+			$data[ Sanitizer::camelcase( $key ) ] = $value;
+		}
+
+		$data['slug']   = $type->public === true ? Slug::getByEntity( $data['id'], $type->table ) : '';
+		$data['fields'] = [];
+
+		return new Post( ...$data );
 	}
 
 	/**
-	 * Remove post type by field.
+	 * Remove post by field.
 	 *
-	 * @param $type
-	 * @param $value
+	 * @param string $type
+	 * @param mixed $value
 	 * @param string $by
-	 * @return \PDOStatement
+	 * @return bool
+	 *
 	 * @since 2025.1
 	 */
-	public static function delete( $type, $value, string $by = 'ID' ): \PDOStatement {
-		return Db::delete( $type, [ $by => $value ] );
+	public static function delete( string $type, mixed $value, string $by = 'id' ): bool {
+		return Db::delete( $type, [ $by => $value ] )->rowCount() > 0;
 	}
 }

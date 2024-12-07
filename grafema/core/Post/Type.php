@@ -122,7 +122,7 @@ class Type
 	 *                  posts of this type belonging to the user will be moved to Trash
 	 *                  when then user is deleted. If false, posts of this type belonging
 	 *                  to the user will *not* be trashed or deleted. If not set (the default),
-	 *                  posts are trashed if post_type_supports('author'). Otherwise posts
+	 *                  posts are trashed if post_type_supports('author'). Otherwise, posts
 	 *                  are not trashed or deleted. Default null.
 	 * @var bool        FOR INTERNAL USE ONLY! True if this post type is a native or
 	 *                  "built-in" post_type. Default false.
@@ -223,9 +223,7 @@ class Type
 		/**
 		 * DataBase table schema.
 		 *
-		 * @since 2025.1
-		 *
-		 * @var array
+		 * @var array $schema
 		 */
 		$schema = Db::schema();
 
@@ -262,7 +260,7 @@ class Type
 	 */
 	public static function supports( string $postType, string $feature ): bool
 	{
-		return  ! empty( self::$types[$postType] ) && in_array( $feature, self::$types[$postType]['supports'], true );
+		return in_array( $feature, self::$types[$postType]['supports'] ?? [], true );
 	}
 
 	/**
@@ -270,18 +268,31 @@ class Type
 	 * Not the records themselves, but the record type registration data.
 	 * You can filter the output by a variety of criteria.
 	 *
-	 * @param array $args Array of criteria by which posts types will be selected.
+	 * @param array $args      Array of criteria by which posts types will be selected.
 	 *                         For the value of each parameter, see the description of the "Type::register" method.
 	 * @param string $operator Optional. The logical operation to perform. 'or' means only one
 	 *                         element from the array needs to match; 'and' means all elements
 	 *                         must match; 'not' means no elements may match. Default 'and'.
 	 *
 	 * @return array
+	 *
 	 * @since 2025.1
 	 */
-	public static function fetch( $args = [], $operator = 'and' ): array
+	public static function fetch( array $args = [], string $operator = 'and' ): array
 	{
 		return Arr::filter( self::$types ?? [], $args, $operator );
+	}
+
+	/**
+	 * Get post type by key.
+	 *
+	 * @param string $type
+	 * @return array|null
+	 *
+	 * @since 2025.1
+	 */
+	public static function pluck( string $type ): ?array {
+		return self::$types[ $type ] ?? null;
 	}
 
 	/**
@@ -292,11 +303,9 @@ class Type
 	public static function get(): array
 	{
 		$types = [];
-
 		foreach ( self::$types as $key => $type ) {
 			$types[$key] = sprintf( '%s (%s)', $type['labels']['name_plural'] ?? '', $key );
 		}
-
 		return $types;
 	}
 

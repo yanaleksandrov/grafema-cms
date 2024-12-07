@@ -550,7 +550,9 @@ final class Sanitizer
 		$value = self::trim( $value );
 
 		// replacing spaces with hyphens
-		$str = preg_replace( ['/\s+/', '_'], '-', $value );
+		$str = preg_replace( '/\s+/', '-', $value );
+		$str = preg_replace( '/_/', '-', $str );
+
 		// insert underscores before each capital letter
 		$str = preg_replace( '/(.)(?=[A-Z])/u', '$1-', $str );
 
@@ -928,7 +930,7 @@ final class Sanitizer
 	 * @return string       The sanitized DB table name.
 	 */
 	public static function tablename( string $value ): string {
-		$value = preg_replace( '/[^a-zA-Z0-9_]/', '', $value );
+		$value = preg_replace( '/[^a-zA-Z0-9 _-]/', '', $value );
 
 		// replacing spaces and hyphens with underscores
 		$value = str_replace( [' ', '-'], '_', $value );

@@ -22,7 +22,7 @@ trait Cell {
 	 *
 	 * @var string
 	 */
-	public string $view = 'templates/table/cell';
+	public string $view = 'views/table/cell';
 
 	/**
 	 * Column is sortable.

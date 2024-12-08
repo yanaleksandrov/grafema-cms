@@ -32,7 +32,7 @@ return Dashboard\Form::enqueue(
 				<div class="dg g-1 p-7 sm:p-5 pb-4 sm:pb-4 bg-gray-lt">
 					<?php
 					View::print(
-						'templates/form/image',
+						'views/form/image',
 						[
 							'type'        => 'image',
 							'name'        => 'avatar',
@@ -537,7 +537,7 @@ return Dashboard\Form::enqueue(
 							'type'     => 'custom',
 							'callback' => function () {
 								Hook::add( 'grafema_dashboard_footer', function() {
-									View::print( 'templates/dialogs/api-keys-manager' );
+									View::print( 'views/dialogs/api-keys-manager' );
 								} );
 								?>
 								<div class="dg g-2 ga-4">

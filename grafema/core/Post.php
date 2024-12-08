@@ -6,24 +6,49 @@ use Grafema\Post\Type;
 
 class Post {
 
+	/**
+	 * Class representing an entry entity.
+	 *
+	 * @property int    $id          Unique identifier of the entry.
+	 * @property string $title       The title of the entry.
+	 * @property string $content     The content of the entry.
+	 * @property int    $author      The ID of the author of the entry.
+	 * @property int    $comments    The number of comments.
+	 * @property int    $views       The number of views.
+	 * @property string $status      The status of the entry.
+	 * @property string $discussion  Unique identifier for the discussion.
+	 * @property string $password    The password for protecting the entry.
+	 * @property int    $parent      The ID of the parent entry.
+	 * @property int    $position    The position of the entry (for sorting).
+	 * @property string $createdAt   The creation date and time of the entry.
+	 * @property string $updatedAt   The last update date and time of the entry.
+	 * @property string $type        The type of the entry (e.g., "article", "page", etc.).
+	 * @property string $table       The name of the database table.
+	 * @property string $uuid        The unique string ID slug for the post.
+	 * @property string $link        The full URL of the entry.
+	 * @property string $slug        The unique URL slug for the entry.
+	 * @property array  $fields      Additional custom fields.
+	 */
 	private function __construct(
-		public int $id = 0,
-		public string $title = '',
-		public string $content = '',
-		public int $author = 0,
-		public int $comments = 0,
-		public int $views = 0,
-		public string $status = '',
-		public string $discussion = '',
-		public string $password = '',
-		public int $parent = 0,
-		public int $position = 0,
-		public string $createdAt = '',
-		public string $updatedAt = '',
-		public string $type = '',
-		public string $table = '',
-		public string $slug = '',
-		public array $fields = []
+		public int    $id          = 0,
+		public string $title       = '',
+		public string $content     = '',
+		public int    $author      = 0,
+		public int    $comments    = 0,
+		public int    $views       = 0,
+		public string $status      = '',
+		public string $discussion  = '',
+		public string $password    = '',
+		public int    $parent      = 0,
+		public int    $position    = 0,
+		public string $createdAt   = '',
+		public string $updatedAt   = '',
+		public string $type        = '',
+		public string $table       = '',
+		public string $uuid        = '',
+		public string $link        = '',
+		public string $slug        = '',
+		public array  $fields      = []
 	) {}
 
 	/**
@@ -42,25 +67,29 @@ class Post {
 			return new Error( 'post-add', I18n::_t( 'Post type is not registered.' ) );
 		}
 
-		[ $content, $title, $status, $author, $slug, $fields ] = ( new Sanitizer(
+		$data = ( new Sanitizer(
 			$args,
 			[
-				'content' => 'text',
-				'title'   => 'text',
-				'status'  => 'text',
-				'author'  => 'absint:0',
-				'slug'    => 'slug:$title',
-				'fields'  => 'array',
+				'title'      => 'text',
+				'content'    => 'text',
+				'author'     => 'absint:0',
+				'comments'   => 'absint:0',
+				'views'      => 'absint:0',
+				'status'     => 'text:draft',
+				'discussion' => 'text:open',
+				'password'   => 'text',
+				'parent'     => 'absint:0',
+				'position'   => 'absint:0',
 			]
-		) )->values();
+		) )->apply();
 
 		$user = User::current();
-		if ( ! $author && $user instanceof User ) {
-			$author = $user->ID;
+		if ( ! $data['author'] && $user instanceof User ) {
+			$data['author'] = $user->id;
 		}
 
 		// insert to DB
-		Db::insert( $type->table, compact( 'author', 'title', 'content', 'status' ) );
+		Db::insert( $type->table, array_diff_key( $data, array_flip( [ 'slug', 'fields' ] ) ) );
 
 		$post = self::get( $type->key, Db::id() );
 		if ( $post instanceof Post ) {
@@ -73,9 +102,17 @@ class Post {
 			 * @since 2025.1
 			 */
 			if ( $type->public === true ) {
-				$post->slug = Slug::add( $post->id, $type->table, $slug );
+				$slug = Slug::add( $post->id, $type->table, Sanitizer::slug( $args['slug'] ?? $data['title'] ) );
+				if ( $slug ) {
+					$slug = Slug::get( $slug );
+
+					$post->slug = $slug['slug'];
+					$post->uuid = $slug['uuid'];
+					$post->link = '';
+				}
 			}
 
+			$fields = Sanitizer::array( $args['fields'] ?? [] );
 			if ( $fields ) {
 				( new Field( $post ) )->import( $fields );
 			}
@@ -150,5 +187,9 @@ class Post {
 	 */
 	public static function delete( string $type, mixed $value, string $by = 'id' ): bool {
 		return Db::delete( $type, [ $by => $value ] )->rowCount() > 0;
+	}
+
+	public static function update( int $id, string $type, array $args ) {
+
 	}
 }

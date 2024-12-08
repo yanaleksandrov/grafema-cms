@@ -15,7 +15,7 @@ trait Row {
 	 *
 	 * @var string
 	 */
-	public string $view = 'templates/table/row';
+	public string $view = 'views/table/row';
 
 	/**
 	 * Attributes list.

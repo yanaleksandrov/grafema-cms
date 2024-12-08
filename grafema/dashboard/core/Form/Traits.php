@@ -123,7 +123,7 @@ trait Traits {
 
 			if ( $type === 'tab' && ! isset( $startTab ) ) {
 				$startTab = true;
-				$content .= View::get( 'templates/form/layout-tab-menu', $fields );
+				$content .= View::get( 'views/form/layout-tab-menu', $fields );
 			}
 
 			// add required attributes & other manipulations
@@ -172,7 +172,7 @@ trait Traits {
 			}
 
 			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
-			$content .= View::get( GRFM_PATH . "dashboard/templates/form/{$prefix}{$type}", $field );
+			$content .= View::get( GRFM_PATH . "dashboard/views/form/{$prefix}{$type}", $field );
 		}
 		return $content;
 	}

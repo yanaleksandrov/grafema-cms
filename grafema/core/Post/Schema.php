@@ -24,7 +24,7 @@ final class Schema {
 		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName} (
-				id          int          UNSIGNED NOT NULL auto_increment,
+				id          int          UNSIGNED NOT NULL AUTO_INCREMENT,
 				title       text         NOT NULL DEFAULT '',
 				content     longtext     NOT NULL DEFAULT '',
 				author      smallint     UNSIGNED NOT NULL DEFAULT '0',

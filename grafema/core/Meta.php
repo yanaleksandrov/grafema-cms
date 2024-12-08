@@ -59,9 +59,9 @@ final class Meta {
 			$this->cacheGroup,
 		] = match ( true ) {
 			$object instanceof User => [
-				$object->ID,
+				$object->id,
 				$object::$table,
-				sprintf( 'user-fields-%d', $object->ID ),
+				sprintf( 'user-fields-%d', $object->id ),
 			],
 			default => [ null, null, null ],
 		};

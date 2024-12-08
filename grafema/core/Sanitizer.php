@@ -240,11 +240,7 @@ final class Sanitizer
 		$format   = 'Y-m-d H:i:s';
 		$datetime = \DateTime::createFromFormat( $format, $value );
 
-		if ( $datetime === false ) {
-			$datetime = new \DateTime( $value );
-		}
-
-		return $datetime ? $datetime->format( $format ) : '';
+		return $datetime instanceof \DateTime ? $datetime->format( $format ) : '';
 	}
 
 	/**

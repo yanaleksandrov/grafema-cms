@@ -30,10 +30,10 @@ class Schema {
 		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName} (
-				term_id    bigint(20) unsigned NOT NULL auto_increment,
+				term_id    bigint(20)   UNSIGNED NOT NULL AUTO_INCREMENT,
 				name       varchar(200) NOT NULL default '',
 				slug       varchar(200) NOT NULL default '',
-				term_group bigint(10) NOT NULL default 0,
+				term_group bigint(10)   NOT NULL default 0,
 				PRIMARY    KEY (term_id),
 				KEY slug (slug({$indexLength})),
 				KEY name (name({$indexLength}))

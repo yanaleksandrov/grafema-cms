@@ -66,10 +66,10 @@ final class Attr {
 			$this->cacheGroup,
 		] = match ( true ) {
 			$object instanceof User => [
-				$object->ID,
+				$object->id,
 				'user_id',
 				'users_attr',
-				sprintf( 'user-fields-%d', $object->ID ),
+				sprintf( 'user-fields-%d', $object->id ),
 			],
 			default => [ null, null, null, null ],
 		};

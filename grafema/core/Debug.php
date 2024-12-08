@@ -169,60 +169,82 @@ final class Debug {
 	}
 
 	/**
-	 * A readable display of a php fatal error.
+	 * Parse errors to array.
 	 *
-	 * @param mixed $error
-	 * @return string
 	 * @since 2025.1
 	 */
-	public static function print( mixed $error ): string {
-		$msg = $error->getMessage();
-		$msg = preg_replace( '/[a-z0-9_\-]*\.php/i','$1<u>$0</u>', $msg );
-		$msg = preg_replace( '/[0-9]/i','$1<em>$0</em>', $msg );
-		$msg = preg_replace( '/[\(\)#\[\]\':]/i','$1<ss>$0</ss>', $msg );
+	public static function parse( mixed $error ): array {
+		$title = I18n::_t( 'Fatal Error' );
 
-		ob_start();
-		?>
-		<pre>
-			<style>
-				h3 {
-					color: #c40000;
+		$description = I18n::_f( 'Find on line :lineNumber in file :filepath', $error->getLine(), $error->getFile() );
+		$description = preg_replace( '/[a-z0-9_\-]*\.php/i','$1<u>$0</u>', $description );
+		$description = preg_replace( '/[0-9]/i','$1<em>$0</em>', $description );
+		$description = preg_replace( '/[\(\)#\[\]\':]/i','$1<ss>$0</ss>', $description );
+
+		$traces     = [];
+		$tracesList = $error->getTrace();
+		if ( $tracesList ) {
+			foreach ( $tracesList as $trace ) {
+				if ( empty( $trace['file'] ) ) {
+					continue;
 				}
-				u {
-					color: #a5751f;
-					text-decoration:none;
-				}
-                em {
-	                color: #c333ac;
-	                font-style:normal;
-                }
-			</style>
-			<h3><?php I18n::t( 'Fatal Error' ); ?></h3>
-			<?php printf( 'Find on line %d in file %s', $error->getLine(), $error->getFile() ); ?><br>
-			<strong><?php I18n::t( 'Message text:' ); ?></strong><br>
-			<?php echo nl2br( $msg ); ?>
-			<?php
-			switch ( true ) {
-				case $error instanceof \TypeError:
-					$last = current( $error->getTrace() );
-					$args = $last['args'] ?? [];
-					if ( $args ) {
-						foreach ( $args as $key => $arg ) {
-							I18n::f( '<br><br><strong>Argument #%s with "%s" type and value:</strong><br>', $key, gettype( $arg ) );
-							if ( is_scalar( $arg ) ) {
-								printf( '"%s"', $arg );
-							} else {
-								print_r( $arg );
-							}
-						}
-					}
-					?>
-					<?php
-					break;
+
+				$traces[] = (object) [
+					'file' => $trace['file'] ?? '',
+					'line' => $trace['line'] ?? '',
+				];
 			}
-			?>
-		</pre>
-		<?php
-		return ob_get_clean();
+		}
+
+		$details = match( true ) {
+			$error instanceof \TypeError => self::parseTypeError( $error ),
+		};
+
+		$code = self::parseErrorCode( $error );
+
+		return compact( 'title', 'description', 'details', 'traces', 'code' );
+	}
+
+	private static function parseTypeError( \TypeError $error ): array {
+		$data = [];
+
+		$errorTrace     = current( $error->getTrace() );
+		$errorTraceArgs = $errorTrace['args'] ?? [];
+		if ( $errorTraceArgs ) {
+			foreach ( $errorTraceArgs as $key => $value ) {
+				$data[] = (object) [
+					'key'   => $key,
+					'type'  => gettype( $value ),
+					'value' => $value,
+				];
+			}
+		}
+		return $data;
+	}
+
+	private static function parseErrorCode( mixed $error ): string {
+		$trace = $error->getTrace();
+
+		$code = '';
+		if ( empty( $trace[0] ) ) {
+			return $code;
+		}
+
+		$className  = $trace[0]['class'] ?? null;
+		$methodName = $trace[0]['function'] ?? null;
+
+		if ( $className && $methodName ) {
+			try {
+				$reflection = new \ReflectionMethod( $className, $methodName );
+
+				$file      = $reflection->getFileName();
+				$startLine = $reflection->getStartLine();
+				$endLine   = $reflection->getEndLine();
+
+				$code  = preg_replace( '/^[\x09]+/m', '', trim( $reflection->getDocComment() ) . PHP_EOL ?: '' );
+				$code .= implode('', array_slice( file( $file ), $startLine - 1, $endLine - $startLine + 1 ) );
+			} catch ( \ReflectionException $e ) {}
+		}
+		return trim( $code );
 	}
 }

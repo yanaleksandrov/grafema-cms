@@ -1,5 +1,5 @@
 <?php
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 use Grafema\App\App;
 use Grafema\Comments;

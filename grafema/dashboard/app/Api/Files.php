@@ -7,7 +7,7 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 use Dashboard\Form;
 use Grafema\File;

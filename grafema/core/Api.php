@@ -28,12 +28,11 @@ final class Api {
 	{
 		self::scan( $dirpath );
 
-		$route = new Route();
-		$route->mount( $root, function () use ( $route ) {
-			$route->get( '/(.*)', fn ( $slug ) => self::run( $slug ) );
-			$route->post( '/(.*)', fn ( $slug ) => self::run( $slug ) );
+		Route::middleware( $root, function () {
+			Route::get( '/(.*)', fn ( $slug ) => self::run( $slug ) );
+			Route::post( '/(.*)', fn ( $slug ) => self::run( $slug ) );
 		} );
-		$route->run();
+		Route::run();
 	}
 
 	/**
@@ -103,8 +102,13 @@ final class Api {
 	 * Extract all API classes.
 	 *
 	 * @param string $path Path to directory with API controllers.
+	 * @throws \Exception
 	 */
 	private static function scan( string $path ): void {
+		if ( ! is_dir( $path ) ) {
+			throw new \Exception( I18n::_t( 'API path is not a directory' ) );
+		}
+
 		$files = array_diff( scandir( $path ), [ '.', '..' ] );
 
 		foreach ( $files as $file ) {

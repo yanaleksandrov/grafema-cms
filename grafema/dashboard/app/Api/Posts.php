@@ -1,5 +1,5 @@
 <?php
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 use Grafema\File\Csv;
 use Grafema\I18n;

@@ -246,6 +246,7 @@ textarea {
     transition: none;
 
     &:not([x-autocomplete]) {
+      cursor: initial;
       color: var(--grafema-text-muted) !important;
     }
   }

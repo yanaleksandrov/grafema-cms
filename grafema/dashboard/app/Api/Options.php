@@ -1,6 +1,6 @@
 <?php
 
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 use Grafema\Helpers\Arr;
 use Grafema\I18n;

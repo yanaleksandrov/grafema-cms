@@ -41,58 +41,42 @@ return new class extends Grafema\Plugin {
 		);
 
 		//Api::create( sprintf( '%s%sapi', __DIR__, DIRECTORY_SEPARATOR ), '/api/' );
-
 		Post\Type::register(
-			'documents',
-			[
-				'labels' => [
-					'name'        => I18n::_t( 'Documentation' ),
-					'name_plural' => I18n::_t( 'Documentation' ),
-					'add'         => I18n::_t( 'Add Document' ),
-					'edit'        => I18n::_t( 'Edit Document' ),
-					'update'      => I18n::_t( 'Update Document' ),
-					'view'        => I18n::_t( 'View Document' ),
-					'view_plural' => I18n::_t( 'View Documents' ),
-					'search'      => I18n::_t( 'Search Documents' ),
-					'all_items'   => I18n::_t( 'Documents' ),
-					'published'   => I18n::_t( 'Document published.' ),
-					'scheduled'   => I18n::_t( 'Document scheduled.' ),
-					'updated'     => I18n::_t( 'Document updated.' ),
-				],
-				'description'  => '',
-				'public'       => true,
-				'hierarchical' => true,
-				'searchable'   => 0,
-				'show_ui'      => true,
-				'show_in_menu' => true,
-				'show_in_bar'  => true,
-				'position'     => 200,
-				'menu_icon'    => 'ph ph-file-doc',
-				'capabilities' => ['types_edit'],
-				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
-				'taxonomies'   => [],
-				'can_export'   => true,
-			]
+			key: 'documents',
+			labelName: I18n::_t( 'Documentation' ),
+			labelNamePlural: I18n::_t( 'Documentation' ),
+			labelAllItems: I18n::_t( 'Documents' ),
+			labelAdd: I18n::_t( 'Add Document' ),
+			labelEdit: I18n::_t( 'Edit Document' ),
+			labelUpdate: I18n::_t( 'Update Document' ),
+			labelView: I18n::_t( 'View Document' ),
+			labelSearch: I18n::_t( 'Search Documents' ),
+			labelSave: I18n::_t( 'Save Document' ),
+			public: true,
+			hierarchical: false,
+			searchable: false,
+			showInMenu: true,
+			showInBar: true,
+			canExport: true,
+			canImport: true,
+			capabilities: ['types_edit'],
+			menuIcon: 'ph ph-file-doc',
+			menuPosition: 200,
 		);
 
-		Tree::attach(
-			'dashboard-main-menu',
-			function ( $tree ) {
-				$tree->addItems(
-					[
-						[
-							'id'           => 'docify',
-							'url'          => 'docify',
-							'title'        => I18n::_t( 'Import project' ),
-							'capabilities' => ['manage_options'],
-							'icon'         => '',
-							'position'     => 100,
-							'parent_id'    => 'documents',
-						],
-					]
-				);
-			}
-		);
+		Tree::attach( 'dashboard-main-menu', fn ( Tree $tree ) => $tree->addItems(
+			[
+				[
+					'id'           => 'docify',
+					'url'          => 'docify',
+					'title'        => I18n::_t( 'Import project' ),
+					'capabilities' => ['manage_options'],
+					'icon'         => '',
+					'position'     => 100,
+					'parent_id'    => 'documents',
+				],
+			]
+		) );
 
 		/**
 		 * Get all uploaded plugins.

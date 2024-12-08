@@ -11,7 +11,6 @@ use Grafema\{
 	Is,
 	Themes,
 	Plugins,
-	Post\Kind,
 	Post\Type,
 	Route,
 	Url,
@@ -282,7 +281,7 @@ try {
 		 *
 		 * @since 2025.1
 		 */
-		Kind::register(
+		Type::register(
 			key: 'pages',
 			labelName: I18n::_t( 'Page' ),
 			labelNamePlural: I18n::_t( 'Pages' ),
@@ -305,7 +304,7 @@ try {
 			menuPosition: 20,
 		);
 
-		Kind::register(
+		Type::register(
 			key: 'media',
 			labelName: I18n::_t( 'Storage' ),
 			labelNamePlural: I18n::_t( 'Storage' ),
@@ -328,7 +327,7 @@ try {
 			menuPosition: 30,
 		);
 
-		Kind::register(
+		Type::register(
 			key: 'api-keys',
 			labelName: I18n::_t( 'API Key' ),
 			labelNamePlural: I18n::_t( 'API Keys' ),

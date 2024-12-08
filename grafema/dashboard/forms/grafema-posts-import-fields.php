@@ -37,7 +37,7 @@ return Dashboard\Form::enqueue(
 					'validator'   => '',
 					'conditions'  => [],
 					'attributes'  => [],
-					'options'     => Type::get(),
+					'options'     => Type::options(),
 				],
 				[
 					'type'        => 'select',

@@ -6,6 +6,7 @@ use Grafema;
 use Grafema\Db;
 use Grafema\Error;
 use Grafema\I18n;
+use Grafema\Post\Type;
 use Grafema\User;
 use Grafema\Sanitizer;
 
@@ -58,13 +59,13 @@ class Post implements \Grafema\Api\Crud {
 		}
 
 		// TODO:: title make unique by user for "api-keys" post type
-		$user = User::current();
-		if ( $user instanceof User ) {
+//		$user = User::current();
+//		if ( $user instanceof User ) {
 //			$suffix = 1;
-//			while ( Grafema\Post::by( 'title' )->get( $title ) instanceof Grafema\Post ) {
+//			while ( Grafema\Post::getByTitle( $type, $title ) instanceof Grafema\Post ) {
 //				$title = sprintf( '%s %s', $title, $suffix++ );
 //			}
-		}
+//		}
 
 		$post = Grafema\Post::add( $type, compact( 'title', 'status', 'fields' ) );
 		echo '<pre>';

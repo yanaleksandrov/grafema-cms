@@ -2,7 +2,7 @@
 namespace Grafema;
 
 use Grafema\Patterns\Registry;
-use Grafema\Post\Kind;
+use Grafema\Post\Type;
 
 class Post {
 
@@ -37,8 +37,8 @@ class Post {
 	 * @since 2025.1
 	 */
 	public static function add( string $type, array $args ): Error|Post|null {
-		$type = Kind::get( $type );
-		if ( ! $type instanceof Kind ) {
+		$type = Type::get( $type );
+		if ( ! $type instanceof Type ) {
 			return new Error( 'post-add', I18n::_t( 'Post type is not registered.' ) );
 		}
 
@@ -96,18 +96,19 @@ class Post {
 	 * Get post by field.
 	 *
 	 * @param string $type
-	 * @param int $id
+	 * @param int|string $value
+	 * @param string $field
 	 * @return Error|Post|null
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $type, int $id ): Error|Post|null {
-		$type = Kind::get( $type );
-		if ( ! $type instanceof Kind ) {
+	public static function get( string $type, int|string $value, string $field = 'id' ): Error|Post|null {
+		$type = Type::get( $type );
+		if ( ! $type instanceof Type ) {
 			return new Error( 'post-get', I18n::_t( 'Post type is not registered.' ) );
 		}
 
-		$data = Db::get( $type->table, '*', [ 'id' => $id ] );
+		$data = Db::get( $type->table, '*', [ $field => $value ] );
 
 		// add data for media files
 		$sizes = Registry::get( 'images' );

@@ -158,7 +158,7 @@ trait Traits {
 				$field['attributes']['type'] = 'text';
 			}
 
-			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'hidden', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
+			if ( in_array( $type, [ 'color', 'date', 'datetime-local', 'email', 'month', 'range', 'search', 'tel', 'text', 'time', 'url', 'week' ], true ) ) {
 				$type = 'input';
 			}
 

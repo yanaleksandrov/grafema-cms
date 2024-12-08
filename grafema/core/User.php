@@ -233,9 +233,8 @@ final class User extends Schema {
 	 *
 	 * @param callable|null $callback
 	 * @return User|Error|null
-	 * @throws \JsonException
 	 *
-	 * @since   2025.1
+	 * @since 2025.1
 	 */
 	public static function current( ?callable $callback = null ): User|Error|null {
 		if ( self::$current ) {

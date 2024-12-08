@@ -16,15 +16,19 @@ final class Slug {
 	private static string $table = 'slugs';
 
 	/**
+	 * Add new slug.
+	 *
 	 * @param int $entityId
 	 * @param string $entityTable
 	 * @param string $slug
 	 * @param string $locale
-	 * @return bool
+	 * @return string
 	 *
 	 * @since 2025.1
 	 */
-	public static function add( int $entityId, string $entityTable, string $slug, string $locale = '' ): bool {
+	public static function add( int $entityId, string $entityTable, string $slug, string $locale = '' ): string {
+		$slug = Sanitizer::slug( $slug );
+
 		try {
 			return Db::insert(
 				self::$table,
@@ -58,7 +62,7 @@ final class Slug {
 			}
 		}
 
-		return Db::insert(
+		$isInsert = Db::insert(
 			self::$table,
 			[
 				'entity_id'    => $entityId,
@@ -67,16 +71,31 @@ final class Slug {
 				'locale'       => $locale,
 			]
 		)->rowCount() > 0;
+
+		return $isInsert ? $slug : '';
 	}
 
 	/**
+	 * Get entity slug.
+	 *
+	 * @param int $entityId
+	 * @param string $entityTable
+	 * @return string
+	 */
+	public static function getByEntity( int $entityId, string $entityTable ): string {
+		return Db::get( self::$table, 'slug', [ 'entity_id' => $entityId, 'entity_table' => $entityTable ] ) ?? '';
+	}
+
+	/**
+	 * Get data by slug.
+	 *
 	 * @param string $slug
 	 * @param string $locale
 	 * @return mixed
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string $slug, string $locale = '' ) {
+	public static function get( string $slug, string $locale = '' ): mixed {
 		return Db::get( self::$table, '*', [ 'slug' => $slug, 'locale' => $locale ] );
 	}
 

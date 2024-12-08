@@ -2,267 +2,175 @@
 namespace Grafema\Post;
 
 use Grafema\Db;
+use Grafema\Error;
 use Grafema\Helpers\Arr;
 use Grafema\I18n;
+use Grafema\Sanitizer;
 use Grafema\Tree;
 use Grafema\Field;
 
-/**
- * Core class used for interacting with post types.
- */
-class Type
-{
-	/**
-	 * Posts types list.
-	 *
-	 * @since 2025.1
-	 */
-	public static array $types = [];
+class Type {
+
+	private static array $items = [];
 
 	/**
-	 * Posts statuses list.
-	 *
-	 * @since 2025.1
+	 * @param string $key             Unique key. Must not exceed 20 characters and may contain only
+	 *                                lowercase alphanumeric characters, dashes, and underscores.
+	 * @param string $labelName       The name of the item displayed in the menu. Usually singular.
+	 * @param string $labelNamePlural The plural name of the item displayed in the menu.
+	 * @param string $labelAllItems   Text to display for "All Items".
+	 * @param string $labelAdd        Text to display for "Add Item".
+	 * @param string $labelEdit       Text to display for "Edit Item".
+	 * @param string $labelUpdate     Text to display for "Update Item".
+	 * @param string $labelView       Text to display for "View Item".
+	 * @param string $labelSearch     Text to display for "Search".
+	 * @param string $labelSave       Text to display for "Save".
+	 * @param string $table           The name of the database table where items are stored.
+	 * @param bool   $public          Whether the item is intended for public use via the admin interface or by front-end users.
+	 * @param bool   $hierarchical    Whether the structure is hierarchical (e.g., like pages). Default false.
+	 * @param bool   $searchable      Whether items of this type are available in front-end search.
+	 * @param bool   $showInMenu      Whether to display this item in the admin menu. If true, it is displayed
+	 *                                as a top-level menu item. If false, it is hidden from the menu.
+	 * @param bool   $showInBar       Whether to make this item available in the admin bar.
+	 * @param bool   $canExport       Whether items of this type can be exported. Default true.
+	 * @param bool   $canImport       Whether items of this type can be imported.
+	 * @param array  $capabilities    Array of user capabilities for this item type. Controls permissions for
+	 *                                actions such as editing and deleting items.
+	 * @param string $menuIcon        URL or class name for the icon used in the admin menu. Can be a base64-encoded
+	 *                                SVG or a Phosphor class name.
+	 * @param int    $menuPosition    The position in the menu order where this item should appear.
 	 */
-	public static array $statuses = ['publish', 'pending', 'draft', 'protected', 'private', 'trash', 'future'];
+	private function __construct(
+		public string $key,
+		public string $labelName,
+		public string $labelNamePlural,
+		public string $labelAllItems,
+		public string $labelAdd,
+		public string $labelEdit,
+		public string $labelUpdate,
+		public string $labelView,
+		public string $labelSearch,
+		public string $labelSave,
+		public string $table = '',
 
-	/**
-	 * Registers a post type.
-	 *
-	 * @param string $postType Post type key. Must not exceed 20 characters and may
-	 *                          only contain lowercase alphanumeric characters, dashes,
-	 *                          and underscores. See sanitize_key().
-	 * @param array  $args      {
-	 *                          Array or string of arguments for registering a post type
-	 *
-	 * @var string      $label Name of the post type shown in the menu. Usually plural.
-	 *                  Default is value of $labels['name'].
-	 * @var array       $labels An array of labels for this post type. If not set, post
-	 *                  labels are inherited for non-hierarchical types and page
-	 *                  labels for hierarchical ones. See get_post_type_labels() for a full
-	 *                  list of supported labels.
-	 * @var string      $description A short descriptive summary of what the post type is.
-	 *                  Default empty.
-	 * @var bool        $public Whether a post type is intended for use publicly either via
-	 *                  the admin interface or by front-end users. While the default
-	 *                  settings of $exclude_from_search, $publicly_queryable, $show_ui,
-	 *                  and $show_in_nav_menus are inherited from public, each does not
-	 *                  rely on this relationship and controls a very specific intention.
-	 *                  Default false.
-	 * @var bool        $hierarchical Whether the post type is hierarchical (e.g. page). Default false.
-	 * @var bool        $exclude_from_search Whether to exclude posts with this post type from front end search
-	 *                  results. Default is the opposite value of $public.
-	 * @var bool        $publicly_queryable Whether queries can be performed on the front end for the post type
-	 *                  as part of parse_request(). Endpoints would include:
-	 *                  * ?post_type={post_type_key}
-	 *                  * ?{post_type_key}={single_post_slug}
-	 *                  * ?{post_type_query_var}={single_post_slug}
-	 *                  If not set, the default is inherited from $public.
-	 * @var bool        $show_ui Whether to generate and allow a UI for managing this post type in the
-	 *                  admin. Default is value of $public.
-	 * @var bool|string $show_in_menu Where to show the post type in the admin menu. To work, $show_ui
-	 *                  must be true. If true, the post type is shown in its own top level
-	 *                  menu. If false, no menu is shown. If a string of an existing top
-	 *                  level menu (eg. 'tools.php' or 'edit.php?post_type=page'), the post
-	 *                  type will be placed as a sub-menu of that.
-	 *                  Default is value of $show_ui.
-	 * @var bool        $show_in_nav_menus Makes this post type available for selection in navigation menus.
-	 *                  Default is value of $public.
-	 * @var bool        $show_in_admin_bar Makes this post type available via the admin bar. Default is value
-	 *                  of $show_in_menu.
-	 * @var bool        $show_in_rest Whether to include the post type in the REST API. Set this to true
-	 *                  for the post type to be available in the block editor.
-	 * @var string      $rest_base To change the base url of REST API route. Default is $postType.
-	 * @var string      $rest_controller_class REST API Controller class name. Default is 'WP_REST_Posts_Controller'.
-	 * @var int         $menu_position The position in the menu order the post type should appear. To work,
-	 *                  $show_in_menu must be true. Default null (at the bottom).
-	 * @var string      $menu_icon The url to the icon to be used for this menu. Pass a base64-encoded
-	 *                  SVG using a data URI, which will be colored to match the color scheme
-	 *                  -- this should begin with 'data:image/svg+xml;base64,'. Pass the name
-	 *                  of a Dashicons helper class to use a font icon, e.g.
-	 *                  'dashicons-chart-pie'. Pass 'none' to leave div.wp-menu-image empty
-	 *                  so an icon can be added via CSS. Defaults to use the posts icon.
-	 * @var string      $capability_type The string to use to build the read, edit, and delete capabilities.
-	 *                  May be passed as an array to allow for alternative plurals when using
-	 *                  this argument as a base to construct the capabilities, e.g.
-	 *                  array('story', 'stories'). Default 'post'.
-	 * @var array       $capabilities Array of capabilities for this post type. $capability_type is used
-	 *                  as a base to construct capabilities by default.
-	 *                  See get_post_type_capabilities().
-	 * @var bool        $map_meta_cap Whether to use the internal default meta capability handling.
-	 *                  Default false.
-	 * @var array       $supports Core feature(s) the post type supports. Serves as an alias for calling
-	 *                  add_post_type_support() directly. Core features include 'title',
-	 *                  'editor', 'comments', 'revisions', 'trackbacks', 'author', 'excerpt',
-	 *                  'page-attributes', 'thumbnail', 'custom-fields', and 'post-formats'.
-	 *                  Additionally, the 'revisions' feature dictates whether the post type
-	 *                  will store revisions, and the 'comments' feature dictates whether the
-	 *                  comments count will show on the edit screen. A feature can also be
-	 *                  specified as an array of arguments to provide additional information
-	 *                  about supporting that feature.
-	 *                  Example: `array( 'my_feature', array( 'field' => 'value' ) )`.
-	 *                  Default is an array containing 'title' and 'editor'.
-	 * @var callable    $register_meta_box_cb Provide a callback function that sets up the meta boxes for the
-	 *                  edit form. Do remove_meta_box() and add_meta_box() calls in the
-	 *                  callback. Default null.
-	 * @var array       $taxonomies An array of taxonomy identifiers that will be registered for the
-	 *                  post type. Taxonomies can be registered later with register_taxonomy()
-	 *                  or register_taxonomy_for_object_type().
-	 *                  Default empty array.
-	 * @var bool|string $has_archive Whether there should be post type archives, or if a string, the
-	 *                  archive slug to use. Will generate the proper rewrite rules if
-	 *                  $rewrite is enabled. Default false.
-	 *                  }
-	 * @var string|bool Sets the query_var key for this post type. Defaults to $postType
-	 *                  key. If false, a post type cannot be loaded at
-	 *                  ?{query_var}={post_slug}. If specified as a string, the query
-	 *                  ?{query_var_string}={post_slug} will be valid.
-	 * @var bool        Whether to allow this post type to be exported. Default true.
-	 * @var bool        Whether to delete posts of this type when deleting a user. If true,
-	 *                  posts of this type belonging to the user will be moved to Trash
-	 *                  when then user is deleted. If false, posts of this type belonging
-	 *                  to the user will *not* be trashed or deleted. If not set (the default),
-	 *                  posts are trashed if post_type_supports('author'). Otherwise posts
-	 *                  are not trashed or deleted. Default null.
-	 * @var bool        FOR INTERNAL USE ONLY! True if this post type is a native or
-	 *                  "built-in" post_type. Default false.
-	 * @var string      FOR INTERNAL USE ONLY! URL segment to use for edit link of
-	 *                  this post type. Default 'post.php?post=%d'.
-	 *                  }
-	 *
-	 * @since 2025.1
-	 */
-	public static function register( string $postType, array $args = [] ) {
-		// TODO:: add sanitize
-		$postType = trim( $postType );
-
+		public bool $public = true,
+		public bool $hierarchical = false,
+		public bool $searchable = true,
+		public bool $showInMenu = true,
+		public bool $showInBar = true,
+		public bool $canExport = true,
+		public bool $canImport = true,
+		public array $capabilities = ['typesEdit'],
+		public string $menuIcon = 'ph ph-folders',
+		public int $menuPosition = 10,
+	) {
+		$postType = Sanitizer::kebabcase( $key );
 		if ( empty( $postType ) || strlen( $postType ) > 20 ) {
-			// TODO:: add error to Errors
-			return false;
+			Error::add( 'post-type-name-length', I18n::_t( 'Post type key is empty or exceeds 20 characters' ) );
 		}
 
-		if ( ! is_array( $args ) ) {
-			// TODO:: add error to Errors
-			return false;
-		}
+		$this->labelName       ??= I18n::_t( 'Page' );
+		$this->labelNamePlural ??= I18n::_t( 'Pages' );
+		$this->labelAllItems   ??= I18n::_t( 'All Pages' );
+		$this->labelAdd        ??= I18n::_t( 'Add Page' );
+		$this->labelEdit       ??= I18n::_t( 'Edit Page' );
+		$this->labelUpdate     ??= I18n::_t( 'Update Page' );
+		$this->labelView       ??= I18n::_t( 'View Page' );
+		$this->labelSearch     ??= I18n::_t( 'Search Page' );
+		$this->labelSave       ??= I18n::_t( 'Save' );
+		$this->table             = Sanitizer::tablename( $key );
 
-		$args = array_replace_recursive(
-			[
-				'labels' => [
-					'name'        => I18n::_t( 'Post' ),
-					'name_plural' => I18n::_t( 'Posts' ),
-					'add'         => I18n::_t( 'Add New' ),
-					'edit'        => I18n::_t( 'Edit Post' ),
-					'update'      => I18n::_t( 'Update Post' ),
-					'view'        => I18n::_t( 'View Post' ),
-					'view_plural' => I18n::_t( 'View Posts' ),
-					'search'      => I18n::_t( 'Search Posts' ),
-					'not_found'   => I18n::_t( 'Nothing found' ),
-					'all_items'   => I18n::_t( 'All Posts' ),
-					'published'   => I18n::_t( 'Post Published' ),
-					'scheduled'   => I18n::_t( 'Post Scheduled' ),
-					'updated'     => I18n::_t( 'Post Updated' ),
-				],
-				'description'  => '',
-				'public'       => true,
-				'hierarchical' => false,
-				'searchable'   => true,
-				'show_ui'      => true,
-				'show_in_menu' => true,
-				'position'     => 10,
-				'menu_icon'    => 'icon-megaphone',
-				'capabilities' => ['types_edit'],
-				'supports'     => ['title', 'editor', 'thumbnail', 'fields'],
-				'taxonomies'   => [],
-				'can_export'   => true,
-				'can_import'   => true,
-				'route'        => null,
-			],
-			$args
-		);
-
-		if ( ! isset( self::$types[$postType] ) ) {
-			self::$types[$postType] = $args;
-		}
-
-		$show_in_menu = (bool) ( $args['show_in_menu'] ?? true );
-
-		/*
+		/**
 		 * Show in dashboard menu.
-		 * TODO:: add items to menu only in dashboard
 		 *
 		 * @since 2025.1
 		 */
-		if ( $show_in_menu ) {
-			Tree::attach(
-				'dashboard-main-menu',
-				function ( $tree ) use ( $postType, $args ) {
-					$tree->addItems(
-						[
-							[
-								'id'           => $postType,
-								'url'          => $postType,
-								'title'        => $args['labels']['name_plural'],
-								'capabilities' => $args['capabilities'],
-								'icon'         => $args['menu_icon'],
-								'position'     => $args['position'],
-							],
-							[
-								'id'           => sprintf( 'type-%s', $postType ),
-								'url'          => $postType,
-								'title'        => $args['labels']['all_items'],
-								'capabilities' => $args['capabilities'],
-								'parent_id'    => $postType,
-							],
-						]
-					);
-				}
-			);
+		if ( $this->showInMenu ) {
+			Tree::attach( 'dashboard-main-menu', fn ( Tree $tree ) => $tree->addItems(
+				[
+					[
+						'id'           => $postType,
+						'url'          => $postType,
+						'title'        => $this->labelNamePlural,
+						'capabilities' => $this->capabilities,
+						'icon'         => $this->menuIcon,
+						'position'     => $this->menuPosition,
+					],
+					[
+						'id'           => sprintf( 'type-%s', $postType ),
+						'url'          => $postType,
+						'title'        => $this->labelAllItems,
+						'capabilities' => $this->capabilities,
+						'parent_id'    => $postType,
+					],
+				]
+			) );
 		}
 
 		/**
 		 * DataBase table schema.
 		 *
-		 * @since 2025.1
-		 *
-		 * @var array
+		 * @var array $schema
 		 */
 		$schema = Db::schema();
+		$type   = Sanitizer::snakecase( $key );
+		if ( empty( $schema[ $type ] ) ) {
+			Schema::migrate( $type );
 
-		$dbPostType = GRFM_DB_PREFIX . $postType;
-		if ( empty( $schema[ $dbPostType ] ) ) {
-			Schema::migrate( $postType );
-
-			Field\Schema::migrate( $dbPostType, 'post' );
+			Field\Schema::migrate( GRFM_DB_PREFIX . $type, 'post' );
 		}
+	}
+
+	/**
+	 * Registers a post type.
+	 *
+	 * @param mixed ...$args
+	 * @return Type
+	 *
+	 * @since 2025.1
+	 */
+	public static function register( ...$args ): self {
+		$type = new self( ...$args );
+		if ( empty( $items[ $type->key ] ) ) {
+			self::$items[ $type->key ] = $type;
+		}
+		return $type;
 	}
 
 	/**
 	 * Unregister post type.
 	 *
-	 * @param string $postType
+	 * @param string $key
+	 *
 	 * @since 2025.1
 	 */
-	public static function unregister( string $postType )
+	public static function unregister( string $key ): void
 	{
-		if ( isset( self::$types[$postType] ) ) {
-			unset( self::$types[$postType] );
+		if ( isset( self::$items[ $key ] ) ) {
+			unset( self::$items[ $key ] );
 		}
 	}
 
 	/**
-	 * Check a post type's support for a given feature.
+	 * Get registered type.
 	 *
-	 * @param string $postType the post type being checked
-	 * @param string $feature   the feature being checked
-	 *
-	 * @return bool whether the post type supports the given feature
-	 *
-	 * @since  2025.1
+	 * @since 2025.1
 	 */
-	public static function supports( string $postType, string $feature ): bool
+	public static function get( string $key ): ?self
 	{
-		return  ! empty( self::$types[$postType] ) && in_array( $feature, self::$types[$postType]['supports'], true );
+		return self::$items[ $key ] ?? null;
+	}
+
+	/**
+	 * Check if type registered.
+	 *
+	 * @param string $key
+	 * @return bool
+	 *
+	 * @since 2025.1
+	 */
+	public static function exist( string $key ): bool {
+		return isset( self::$items[ $key ] );
 	}
 
 	/**
@@ -270,18 +178,19 @@ class Type
 	 * Not the records themselves, but the record type registration data.
 	 * You can filter the output by a variety of criteria.
 	 *
-	 * @param array $args Array of criteria by which posts types will be selected.
+	 * @param array $args      Array of criteria by which posts types will be selected.
 	 *                         For the value of each parameter, see the description of the "Type::register" method.
 	 * @param string $operator Optional. The logical operation to perform. 'or' means only one
 	 *                         element from the array needs to match; 'and' means all elements
 	 *                         must match; 'not' means no elements may match. Default 'and'.
 	 *
 	 * @return array
+	 *
 	 * @since 2025.1
 	 */
-	public static function fetch( $args = [], $operator = 'and' ): array
+	public static function fetch( array $args = [], string $operator = 'and' ): array
 	{
-		return Arr::filter( self::$types ?? [], $args, $operator );
+		return Arr::filter( self::$items ?? [], $args, $operator );
 	}
 
 	/**
@@ -289,44 +198,12 @@ class Type
 	 *
 	 * @since 2025.1
 	 */
-	public static function get(): array
+	public static function options( array $filters = [] ): array
 	{
-		$types = [];
-
-		foreach ( self::$types as $key => $type ) {
-			$types[$key] = sprintf( '%s (%s)', $type['labels']['name_plural'] ?? '', $key );
+		$types = Arr::filter( self::$items ?? [], $filters, 'and' );
+		foreach ( $types as $type ) {
+			$types[ $type->key ] = sprintf( '%s (%s)', $type->labelName, $type->key );
 		}
-
 		return $types;
-	}
-
-	/**
-	 * Get white list of posts statuses.
-	 *
-	 * @return array
-	 */
-	public static function getStatuses(): array
-	{
-		return self::$statuses;
-	}
-
-	/**
-	 * Get white list of posts statuses for use in select.
-	 *
-	 * @return array
-	 */
-	public static function getStatusesOptions(): array
-	{
-		return self::$statuses;
-	}
-
-	/**
-	 * Check if type registered.
-	 *
-	 * @param string $type
-	 * @return bool
-	 */
-	public static function exist( string $type ): bool {
-		return isset( self::$types[ $type ] );
 	}
 }

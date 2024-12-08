@@ -82,8 +82,6 @@ final class Session
 	 * @param string $key Ключ, по которому необходимо получить значения
 	 *
 	 * @return mixed|null Значение сессии по ключу
-	 *
-	 * @throws JsonException
 	 */
 	public static function get( $key )
 	{

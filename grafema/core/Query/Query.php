@@ -219,7 +219,7 @@ class Query {
 		$user     = $nicename ? User::get( $nicename, 'nicename' ) : null;
 		if ( $user instanceof User ) {
 			$author__in         = (array) ( $args['author__in'] ?? [] );
-			$args['author__in'] = $author__in + [ (int) ( $user->ID ?? 0 ) ];
+			$args['author__in'] = $author__in + [ (int) ( $user->id ?? 0 ) ];
 		}
 
 		$fields = [

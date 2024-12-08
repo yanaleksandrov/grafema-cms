@@ -31,7 +31,7 @@ class Schema {
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName} (
 				`id`    BIGINT(20)   UNSIGNED NOT NULL AUTO_INCREMENT,
-				`key`   VARCHAR(191) NOT NULL default '',
+				`key`   VARCHAR(191) NOT NULL DEFAULT '',
 				`value` MEDIUMTEXT   NOT NULL,
 				PRIMARY KEY (id),
 				UNIQUE KEY `key` (`key`)

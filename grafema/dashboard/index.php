@@ -127,7 +127,7 @@ $start_time = microtime( true );
 				<div class="grafema-bar-menu" :class="showMenu && 'active'" @click="showMenu = !showMenu">
 					<i class="ph ph-list"></i>
 				</div>
-				<?php View::print( 'templates/menu-bar' ); ?>
+				<?php View::print( 'views/menu-bar' ); ?>
 
 				<details class="grafema-search" x-data="search" x-bind="wrapper">
 					<summary class="grafema-search-btn" x-bind="button">
@@ -160,7 +160,7 @@ $start_time = microtime( true );
 							<div class="grafema-search-results">
 								<?php
 								View::print(
-									GRFM_DASHBOARD . 'templates/global/state',
+									GRFM_DASHBOARD . 'views/global/state',
 									[
 										'icon'        => 'ufo',
 										'title'       => I18n::_t( 'Nothing found' ),
@@ -178,20 +178,20 @@ $start_time = microtime( true );
 					</div>
 				</details>
 
-				<?php View::print( 'templates/global/user-account' ); ?>
+				<?php View::print( 'views/global/user-account' ); ?>
 			</div>
 			<!-- interface panel start -->
 			<div class="grafema-panel">
 				<a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
 					<img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
 				</a>
-				<?php View::print( 'templates/menu-panel' ); ?>
+				<?php View::print( 'views/menu-panel' ); ?>
 			</div>
 			<!-- interface side bar start -->
 			<?php
-			View::print( 'templates/menu' );
+			View::print( 'views/menu' );
 
-			View::print( 'templates/' . $slug );
+			View::print( 'views/' . $slug );
 			?>
 			<!-- interface board start -->
 			<div class="grafema-board">
@@ -203,7 +203,7 @@ $start_time = microtime( true );
 	} else {
 		?>
 		<div class="df aic jcc p-6">
-			<?php View::print( 'templates/' . $slug ); ?>
+			<?php View::print( 'views/' . $slug ); ?>
 		</div>
 		<?php
 	}

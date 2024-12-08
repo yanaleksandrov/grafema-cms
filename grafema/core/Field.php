@@ -26,10 +26,10 @@ final class Field extends Field\Schema {
 			$this->cacheGroup,
 		] = match ( true ) {
 			$object instanceof User => [
-				$object->ID,
+				$object->id,
 				'user_id',
 				sprintf( '%s_fields', $object::$table ),
-				sprintf( 'user-fields-%d', $object->ID ),
+				sprintf( 'user-fields-%d', $object->id ),
 			],
 			$object instanceof Post => [
 				$object->id,
@@ -109,7 +109,7 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function add( string $key, mixed $value, bool $isUnique = true ): bool {
-		if ( ! $this->entityId ) {
+		if ( ! $this->entityId || $this->isEmpty( $value ) ) {
 			return false;
 		}
 
@@ -176,7 +176,7 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function delete( string $key = '', mixed $value = '' ): bool {
-		if ( ! $this->entityId ) {
+		if ( ! $this->entityId || $this->isEmpty( $value ) ) {
 			return false;
 		}
 
@@ -204,7 +204,7 @@ final class Field extends Field\Schema {
 	 * @since 2025.1
 	 */
 	public function mutate( string $key = '', mixed $value = '', bool $isUnique = true ): bool {
-		if ( ! $this->entityId ) {
+		if ( ! $this->entityId || $this->isEmpty( $value ) ) {
 			return false;
 		}
 
@@ -242,15 +242,8 @@ final class Field extends Field\Schema {
 		$existsFields = self::get();
 
 		foreach ( $fields as $key => $value ) {
-			if ( ! is_string( $key ) ) {
+			if ( ! is_string( $key ) || $this->isEmpty( $value ) ) {
 				continue;
-			}
-
-			if ( is_array( $value ) ) {
-				if ( empty( $value ) ) {
-					continue;
-				}
-				$value = Json::encode( $value );
 			}
 
 			$insertItem = [
@@ -291,7 +284,6 @@ final class Field extends Field\Schema {
 				$result['inserted'] += Db::insert( $this->table, $insertDataPart )->rowCount();
 			}
 		}
-		print_r( Db::debug() );
 
 		if ( $updateData ) {
 			$updateDataParts  = array_chunk( $updateData, $chunkSize, true );
@@ -313,5 +305,15 @@ final class Field extends Field\Schema {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Check value is empty.
+	 *
+	 * @param mixed $value
+	 * @return bool
+	 */
+	protected function isEmpty( mixed $value ): bool {
+		return $value === null || $value === '' || ( is_array( $value ) && empty( $value ) );
 	}
 }

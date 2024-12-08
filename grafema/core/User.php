@@ -13,13 +13,12 @@ use Grafema\Helpers\Hash;
  * user-related functionalities.
  *
  * @since 2025.1
- * @package Grafema
  */
 final class User extends Schema {
 
 	use Traits;
 
-	public int $ID = 0;
+	public int $id = 0;
 	public string $login = '';
 	public string $password = '';
 	public string $nicename = '';
@@ -31,6 +30,7 @@ final class User extends Schema {
 	public string $registered = '';
 	public string $visited = '';
 	public array $fields;
+	public array $roles = [];
 	public array $capabilities = [];
 
 	/**
@@ -43,13 +43,13 @@ final class User extends Schema {
 	 *
 	 * @since 2025.1
 	 */
-	public static function get( string|int $value, string $getBy = 'ID', ?callable $callback = null ): User|Error {
+	public static function get( string|int $value, string $getBy = 'id', ?callable $callback = null ): User|Error {
 		try  {
 			if ( empty( $value ) ) {
 				throw new \Exception( I18n::_f( 'You are trying to find a user with an empty :getByField.', $getBy ) );
 			}
 
-			if ( ! in_array( $getBy, [ 'ID', 'login', 'email', 'nicename' ], true ) ) {
+			if ( ! in_array( $getBy, [ 'id', 'login', 'email', 'nicename' ], true ) ) {
 				throw new \Exception( I18n::_t( 'To get a user, use an ID, login, email or nicename.' ) );
 			}
 
@@ -103,7 +103,7 @@ final class User extends Schema {
 			'unique',
 			function( $value ) {
 				$suffix = 1;
-				while ( Db::select( self::$table, 'ID', [ 'nicename' => $value . ( $suffix > 1 ? "-$suffix" : '' ) ] ) ) {
+				while ( Db::select( self::$table, 'id', [ 'nicename' => $value . ( $suffix > 1 ? "-$suffix" : '' ) ] ) ) {
 					$suffix++;
 				}
 				return sprintf( '%s%s', $value, $suffix > 1 ? "-$suffix" : '' );
@@ -160,13 +160,13 @@ final class User extends Schema {
 	 * @since 2025.1
 	 */
 	public static function update( array $userdata, ?callable $callback = null ): User|Error {
-		$userID = Sanitizer::absint( $userdata['ID'] ?? 0 );
+		$userID = Sanitizer::absint( $userdata['id'] ?? 0 );
 		if ( ! $userID ) {
 			return self::add( $userdata );
 		}
 
 		// remove unchanged parameters of the user
-		unset( $userdata['ID'] );
+		unset( $userdata['id'] );
 		unset( $userdata['login'] );
 
 		$user = self::get( $userID );
@@ -213,9 +213,10 @@ final class User extends Schema {
 	 *
 	 * @since 2025.1
 	 */
-	public static function delete( int $userID, int $reassign = 0 ) {
+	public static function delete( int $userID, int $reassign = 0 ): Error|int
+	{
 		$fields = [
-			'ID' => abs( $userID ),
+			'id' => abs( $userID ),
 		];
 
 		if ( ! self::exists( $fields ) ) {
@@ -277,7 +278,6 @@ final class User extends Schema {
 	 * @param integer $userID User ID.
 	 * @param string $capabilities Capability name.
 	 * @return   bool              Whether the user has the given capability.
-	 * @throws \JsonException
 	 *
 	 * @since 2025.1
 	 */
@@ -285,7 +285,7 @@ final class User extends Schema {
 	{
 		$roles = [];
 		$user  = self::current();
-		if ( (int) $user->ID === $userID ) {
+		if ( (int) $user->id === $userID ) {
 			$roles = $user->roles ?? [];
 		} else {
 			$user = self::get( $userID );
@@ -306,16 +306,15 @@ final class User extends Schema {
 	 * Checks whether the user is with the specified role.
 	 *
 	 * @param integer $userID User ID.
-	 * @param string $role     Role name.
-	 * @return   bool          The user has a role.
-	 * @throws \JsonException
+	 * @param string $role    Role name.
+	 * @return   bool         The user has a role.
 	 *
 	 * @since 2025.1
 	 */
 	public static function is( int $userID, string $role ): bool {
 		$roles = [];
 		$user  = self::current();
-		if ( $user->ID === $userID ) {
+		if ( $user->id === $userID ) {
 			$roles = $user->roles ?? [];
 		} else {
 			$user = self::get( $userID );
@@ -330,7 +329,6 @@ final class User extends Schema {
 	 * Проверяет, залогинен ли пользователь в этом сеансе.
 	 *
 	 * @return   bool
-	 * @throws \JsonException
 	 *
 	 * @since   2025.1
 	 */
@@ -384,7 +382,7 @@ final class User extends Schema {
 				} else {
 					Session::start( 1 );
 				}
-				Session::set( self::$session_id, $user->ID );
+				Session::set( self::$session_id, $user->id );
 
 				return self::$current = $user;
 			}
@@ -409,7 +407,7 @@ final class User extends Schema {
 		if ( $userID ) {
 			self::update(
 				[
-					'ID' => $userID,
+					'id' => $userID,
 				]
 			);
 		}

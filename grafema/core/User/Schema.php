@@ -42,7 +42,7 @@ class Schema {
 			'unique',
 			function( $value ) {
 				$suffix = 1;
-				while (Db::select(self::$table, 'ID', ['nicename' => $value . ($suffix > 1 ? "-$suffix" : '')])) {
+				while (Db::select(self::$table, 'id', ['nicename' => $value . ($suffix > 1 ? "-$suffix" : '')])) {
 					$suffix++;
 				}
 				return sprintf( '%s%s', $value, $suffix > 1 ? "-$suffix" : '' );
@@ -91,17 +91,17 @@ class Schema {
 		Db::query(
 			"
 			CREATE TABLE IF NOT EXISTS {$tableName} (
-				ID            bigint(20)   unsigned NOT NULL auto_increment,
-				login         varchar(60)  NOT NULL default '',
-				password      varchar(255) NOT NULL default '',
-				nicename      varchar(60)  NOT NULL default '',
-				firstname     varchar(60)  NOT NULL default '',
-				lastname      varchar(60)  NOT NULL default '',
-				showname      varchar(255) NOT NULL default '',
-				email         varchar(100) NOT NULL default '',
-				locale        varchar(100) NOT NULL default '',
-				registered    DATETIME     NOT NULL default NOW(),
-				visited       DATETIME     NOT NULL default NOW(),
+				ID            bigint(20)   UNSIGNED NOT NULL AUTO_INCREMENT,
+				login         varchar(60)  NOT NULL DEFAULT '',
+				password      varchar(255) NOT NULL DEFAULT '',
+				nicename      varchar(60)  NOT NULL DEFAULT '',
+				firstname     varchar(60)  NOT NULL DEFAULT '',
+				lastname      varchar(60)  NOT NULL DEFAULT '',
+				showname      varchar(255) NOT NULL DEFAULT '',
+				email         varchar(100) NOT NULL DEFAULT '',
+				locale        varchar(100) NOT NULL DEFAULT '',
+				registered    DATETIME     NOT NULL DEFAULT NOW(),
+				visited       DATETIME     NOT NULL DEFAULT NOW(),
 				PRIMARY KEY   (ID),
 				KEY login_key (login),
 				KEY nicename  (nicename),

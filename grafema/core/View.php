@@ -9,7 +9,7 @@ namespace Grafema;
 final class View {
 
 	/**
-	 * @param $location
+	 * @param string $location
 	 * @param int $status
 	 * @param string $x_redirect_by
 	 * @return bool|Error
@@ -133,6 +133,5 @@ final class View {
 		}
 
 		return $content;
-		return ( new Html() )->beautify( $content );
 	}
 }

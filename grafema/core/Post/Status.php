@@ -3,9 +3,6 @@ namespace Grafema\Post;
 
 use Grafema\I18n;
 
-/**
- *
- */
 class Status {
 
 	/**
@@ -54,7 +51,7 @@ class Status {
 	 * }
 	 * @return object
 	 */
-	public static function register( string $status, array $args = [] ) {
+	public static function register( ...$data ) {
 
 	}
 

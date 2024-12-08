@@ -374,7 +374,7 @@ return Dashboard\Form::enqueue(
 					'type'     => 'custom',
 					'callback' => function() {
 						View::print(
-							GRFM_PATH . 'dashboard/templates/global/state',
+							GRFM_PATH . 'dashboard/views/global/state',
 							[
 								'icon'        => 'success',
 								'title'       => I18n::_t( 'Woo-hoo, Grafema has been successfully installed!' ),

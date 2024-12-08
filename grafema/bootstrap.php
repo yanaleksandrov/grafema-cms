@@ -427,7 +427,7 @@ try {
 		 *
 		 * @since 2025.1
 		 */
-		Api::create( '/api', sprintf( '%sapi', GRFM_DASHBOARD ) );
+		Api::create( '/app/API', sprintf( '%sapp/api', GRFM_DASHBOARD ) );
 
 		$query     = new Grafema\Query();
 		$dashboard = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );

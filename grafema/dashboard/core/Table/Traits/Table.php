@@ -57,7 +57,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $dataTemplate = 'templates/table/data';
+	public string $dataTemplate = 'views/table/data';
 
 	/**
 	 * Rows settings.
@@ -89,7 +89,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $headerTemplate = 'templates/table/header';
+	public string $headerTemplate = 'views/table/header';
 
 	/**
 	 * Content after not found data.
@@ -121,7 +121,7 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $notFoundTemplate = 'templates/global/state';
+	public string $notFoundTemplate = 'views/global/state';
 
 	/**
 	 * Use table header or not.
@@ -137,5 +137,5 @@ trait Table {
 	 * @since 2025.1
 	 * @var string
 	 */
-	public string $views = 'templates/table';
+	public string $views = 'views/table';
 }

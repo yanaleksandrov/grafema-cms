@@ -56,8 +56,7 @@ final class Install extends \Grafema\App\App {
 	 * @since 2025.1
 	 */
 	private function route(): void {
-		$route = new Route();
-		$route->get( '(.*)', function( $slug ) use ( $route ) {
+		Route::get( '(.*)', function( $slug ) {
 			http_response_code( 200 );
 
 			/**
@@ -129,6 +128,6 @@ final class Install extends \Grafema\App\App {
 			}
 		} );
 
-		$route->run( fn() => die() );
+		Route::run( fn() => die() );
 	}
 }

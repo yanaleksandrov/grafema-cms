@@ -7,7 +7,7 @@
  * @license  https://github.com/grafema-team/grafema/LICENSE.md
  */
 
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 class Extensions extends \Grafema\Api\Handler
 {

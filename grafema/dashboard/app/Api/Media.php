@@ -1,6 +1,6 @@
 <?php
 
-namespace dashboard\app\API;
+namespace dashboard\app\Api;
 
 use Grafema\Error;
 use Grafema\File;

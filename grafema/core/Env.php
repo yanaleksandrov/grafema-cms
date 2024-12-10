@@ -17,18 +17,17 @@ class Env
 	 */
 	protected array $processors = [];
 
+	/**
+	 *
+	 *
+	 * @var string $path The directory where the .env file can be located.
+	 */
 	public function __construct(
-
-		/**
-		 * The directory where the .env file can be located.
-		 *
-		 * @var string
-		 */
 		protected string $path,
 		?array $processors = null
 	) {
-		if (!file_exists($path)) {
-			throw new \InvalidArgumentException(sprintf('%s does not exist', $path));
+		if (!is_file($this->path) || !is_readable($this->path)) {
+			throw new \InvalidArgumentException("File '{$this->path}' does not exist or is not readable");
 		}
 
 		$this->setProcessors($processors);
@@ -40,10 +39,6 @@ class Env
 	 */
 	public function load(): void
 	{
-		if (!is_readable($this->path)) {
-			throw new \RuntimeException(sprintf('%s file is not readable', $this->path));
-		}
-
 		$lines = file($this->path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 		foreach ($lines as $line) {
 
@@ -55,7 +50,7 @@ class Env
 			$name = trim($name);
 			$value = $this->processValue($value);
 
-			if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
+			if (!isset($_SERVER[$name], $_ENV[$name])) {
 				putenv(sprintf('%s=%s', $name, $value));
 				$_ENV[$name] = $value;
 				$_SERVER[$name] = $value;
@@ -65,9 +60,7 @@ class Env
 
 	private function setProcessors(?array $processors = null): void
 	{
-		/**
-		 * Fill with default processors
-		 */
+		// Fill with default processors
 		if ($processors === null) {
 			$this->processors = [
 				NullProcessor::class,
@@ -85,7 +78,6 @@ class Env
 		}
 	}
 
-
 	/**
 	 * Process the value with the configured processors
 	 *
@@ -94,9 +86,7 @@ class Env
 	 */
 	private function processValue(string $value)
 	{
-		/**
-		 * First trim spaces and quotes if configured
-		 */
+		// first trim spaces and quotes if configured
 		$trimmedValue = trim($value);
 
 		foreach ($this->processors as $processor) {
@@ -108,9 +98,7 @@ class Env
 			}
 		}
 
-		/**
-		 * Does not match any processor options, return as is
-		 */
+		// does not match any processor options, return as is
 		return $trimmedValue;
 	}
 }

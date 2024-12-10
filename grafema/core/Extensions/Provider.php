@@ -39,7 +39,7 @@ class Provider {
 
 		if ( is_array( $paths ) ) {
 			foreach ( $paths as $path ) {
-				if ( ! file_exists( $path ) ) {
+				if ( ! is_file( $path ) ) {
 					continue;
 				}
 

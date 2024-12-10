@@ -96,12 +96,12 @@ final class File extends File\Data {
 
 			// TODO: add a check that the name of the new file was not the same as the old one
 			$new_filepath = sprintf( '%s/%s.%s', $this->dirpath, $this->filename . $postfix, $this->extension );
-			if ( ! file_exists( $new_filepath ) ) {
+			if ( ! is_file( $new_filepath ) ) {
 				copy( $this->filepath, $new_filepath );
 			}
 
 			// rewrite path to file
-			if ( file_exists( $new_filepath ) ) {
+			if ( is_file( $new_filepath ) ) {
 				$this->filepath = $new_filepath;
 			}
 		}
@@ -203,7 +203,7 @@ final class File extends File\Data {
 		 *
 		 * @since 2025.1
 		 */
-		if ( file_exists( $filepath ) ) {
+		if ( is_file( $filepath ) ) {
 			$filename  = pathinfo( $basename, PATHINFO_FILENAME );
 			$extension = pathinfo( $basename, PATHINFO_EXTENSION );
 
@@ -215,7 +215,7 @@ final class File extends File\Data {
 			} else {
 				// make sure that the file name in the folder is unique
 				$suffix = 1;
-				while ( file_exists( $filepath ) ) {
+				while ( is_file( $filepath ) ) {
 					$suffix++;
 					$filepath = sprintf( '%s%s-%d.%s', $targetDir, $filename, $suffix, $extension );
 				}
@@ -394,11 +394,11 @@ final class File extends File\Data {
 		$filename = sprintf( '%s.%s', $filename, $this->extension );
 		$filename = str_replace( ' ', '-', $filename );
 		$filepath = sprintf( '%s%s', $this->dirpath, $filename );
-		if ( file_exists( $filepath ) ) {
+		if ( is_file( $filepath ) ) {
 			$i      = 1;
 			$prefix = '-' . $i;
 
-			while ( file_exists( $this->dirpath . $filename . $prefix . '.' . $this->extension ) ) {
+			while ( is_file( $this->dirpath . $filename . $prefix . '.' . $this->extension ) ) {
 				$prefix = '-' . ++$i;
 			}
 			$filename = sprintf( '%s%s.%s', $filename, $prefix, $this->extension );

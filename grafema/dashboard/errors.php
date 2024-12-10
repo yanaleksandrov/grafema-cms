@@ -48,9 +48,7 @@ use Grafema\I18n;
 				<?php endforeach; ?>
 			</ul>
 			<pre class="errors-source" x-highlight.php>
-				<code class="language-php">
-					<?php echo htmlspecialchars( $code ); ?>
-				</code>
+				<code class="language-php"><?php echo htmlspecialchars( $code ); ?></code>
 			</pre>
 		</div>
 	</div>

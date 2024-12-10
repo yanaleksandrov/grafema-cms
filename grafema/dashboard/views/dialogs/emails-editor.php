@@ -23,9 +23,9 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		<div class="email-preview">
 			<?php
 			View::print(
-				GRFM_DASHBOARD . 'views/mails/wrappers',
+				'views/mails/wrappers',
 				[
-					'body_template' => GRFM_DASHBOARD . 'views/mails/reset-password',
+					'body_template' => 'views/mails/reset-password',
 				]
 			);
 			?>

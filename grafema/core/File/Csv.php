@@ -153,7 +153,7 @@ class Csv {
 	 * @return array
 	 */
 	private function toArray( $filename ): array {
-		if ( ! file_exists( $filename ) ) {
+		if ( ! is_file( $filename ) ) {
 			return [];
 		}
 

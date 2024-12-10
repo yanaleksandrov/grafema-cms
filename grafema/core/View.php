@@ -97,41 +97,37 @@ final class View {
 	 * @param array $args
 	 * @return string
 	 */
-	public static function get( string $template, array $args = [] ): string {
-		static $fileCache = [];
+	public static function get( string $template, array $args = [] ) {
+		$filepath = match ( true ) {
+			str_starts_with( $template, GRFM_PATH ) => "{$template}.php",
+			Is::dashboard(), Is::install()          => GRFM_DASHBOARD . "{$template}.php",
+			default                                 => "{$template}.php",
+		};
+		$filepath = Sanitizer::path( $filepath );
 
-		$filepath = sprintf( '%s.php', $template );
-		$filepath = Sanitizer::path(
-			match ( true ) {
-				file_exists( $filepath )         => $filepath,
-				Is::dashboard() || Is::install() => sprintf( '%sdashboard/%s.php', GRFM_PATH, $template ),
-				default                          => GRFM_THEMES . ( $theme_domain ?? Option::get( 'theme' ) ) . $template,
-			}
-		);
+		/**
+		 * Override template file.
+		 *
+		 * @since 2025.1
+		 *
+		 * @param string $filepath Path to existing template part.
+		 */
+		$filepath = Hook::apply( 'grafema_view_part', $filepath, $template, $args );
 
-		if ( ! isset( $fileCache[ $filepath ] ) ) {
-			$fileCache[ $filepath ] = file_exists( $filepath );
-		}
+		extract( $args, EXTR_SKIP );
 
-		$content = '';
-		if ( $fileCache[ $filepath ] ) {
+//		try {
+//			ob_start();
+//			require $filepath;
+//			return ob_get_clean();
+//		} catch ( \Throwable $e ) {
+//			ob_end_clean();
+//			print_r( $e );
+//			throw new \Exception( I18n::_f( 'Failed opening required: :filepath', $filepath ) );
+//		}
 
-			/**
-			 * Override template file.
-			 *
-			 * @since 2025.1
-			 *
-			 * @param string $filepath Path to existing template part.
-			 */
-			$filepath = Hook::apply( 'grafema_view_part', $filepath, $template, $args );
-
-			extract( $args, EXTR_SKIP );
-
-			ob_start();
-			require $filepath;
-			$content = ob_get_clean();
-		}
-
-		return $content;
+		ob_start();
+		include $filepath;
+		return ob_get_clean();
 	}
 }

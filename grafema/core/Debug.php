@@ -37,7 +37,7 @@ final class Debug {
 	 *
 	 * @ver: 3.4.3
 	 */
-	public static function timer( string $phase = 'run', int $round = 2, string $txt = 's' ): float|int|string
+	public static function timer( string $phase = 'run', int $round = 3, string $txt = 's' ): float|int|string
 	{
 		static $prev_time, $collect;
 
@@ -196,8 +196,13 @@ final class Debug {
 			}
 		}
 
+		echo '<pre>';
+		print_r( $error );
+		echo '</pre>';
+
 		$details = match( true ) {
 			$error instanceof \TypeError => self::parseTypeError( $error ),
+			default => [],
 		};
 
 		$code = self::parseErrorCode( $error );
@@ -230,21 +235,15 @@ final class Debug {
 			return $code;
 		}
 
-		$className  = $trace[0]['class'] ?? null;
-		$methodName = $trace[0]['function'] ?? null;
+		try {
+			$file = $error->getFile();
+			$line = $error->getLine();
 
-		if ( $className && $methodName ) {
-			try {
-				$reflection = new \ReflectionMethod( $className, $methodName );
+			// get lines of code around the error so that the context is visible
+			$lines = file( $file );
+			$code  = implode('', array_slice( $lines, max( 0, $line - 10 ), 30 ) );
+		} catch ( \ReflectionException $e ) {}
 
-				$file      = $reflection->getFileName();
-				$startLine = $reflection->getStartLine();
-				$endLine   = $reflection->getEndLine();
-
-				$code  = preg_replace( '/^[\x09]+/m', '', trim( $reflection->getDocComment() ) . PHP_EOL ?: '' );
-				$code .= implode('', array_slice( file( $file ), $startLine - 1, $endLine - $startLine + 1 ) );
-			} catch ( \ReflectionException $e ) {}
-		}
 		return trim( $code );
 	}
 }

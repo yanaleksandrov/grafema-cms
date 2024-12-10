@@ -83,7 +83,7 @@ try {
 		 * @since 2025.1
 		 */
 		$content = View::get(
-			GRFM_DASHBOARD . 'index',
+			'index',
 			[
 				'slug' => $slug,
 			]
@@ -228,12 +228,13 @@ try {
 	 */
 	Route::run();
 
-} catch ( Error|\Exception $e ) {
+} catch ( \Error|\Exception $e ) {
 
 	/**
-	 * Load private administrative panel.
+	 * Refine the errors output.
 	 *
 	 * @since 2025.1
 	 */
 	View::print( GRFM_DASHBOARD . 'errors', Debug::parse( $e ) );
+	exit;
 }

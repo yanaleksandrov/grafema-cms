@@ -160,7 +160,7 @@ $start_time = microtime( true );
 							<div class="grafema-search-results">
 								<?php
 								View::print(
-									GRFM_DASHBOARD . 'views/global/state',
+									'views/global/state',
 									[
 										'icon'        => 'ufo',
 										'title'       => I18n::_t( 'Nothing found' ),
@@ -187,7 +187,7 @@ $start_time = microtime( true );
 				</a>
 				<?php View::print( 'views/menu-panel' ); ?>
 			</div>
-			<!-- interface side bar start -->
+			<!-- interface sidebar start -->
 			<?php
 			View::print( 'views/menu' );
 

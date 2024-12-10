@@ -50,9 +50,7 @@ final class Api {
 		$filepath = Sanitizer::path( $resource['filepath'] ?? '' );
 		$class    = Sanitizer::pascalcase( $resource['class'] ?? '' );
 
-		if ( file_exists( $filepath ) ) {
-			require_once $filepath;
-		}
+		require_once $filepath;
 
 		$csrf = new Csrf( new NativeHttpOnlyCookieProvider() );
 		try {

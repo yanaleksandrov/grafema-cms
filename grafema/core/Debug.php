@@ -12,6 +12,12 @@ namespace Grafema;
  */
 final class Debug {
 
+	private function __construct() {}
+
+	public static function configure() {
+
+	}
+
 	public static function launch(): void
 	{
 		if ( defined( 'GRFM_DEBUG' ) && GRFM_DEBUG ) {
@@ -116,36 +122,6 @@ final class Debug {
 	}
 
 	/**
-	 * Получает конфигурационную информацию кеша.
-	 *
-	 * @return mixed|void
-	 */
-	public static function opcache( string $field )
-	{
-		$directives = opcache_get_configuration();
-		if ( isset( $directives['directives']['opcache.' . $field] ) ) {
-			return $directives['directives']['opcache.' . $field];
-		}
-	}
-
-	/**
-	 * Generates an error ID to use when logging errors.
-	 * It is formed as a string that separates the name of the class, method, and line in the file with a slash.
-	 * This makes it convenient to search for the source of errors for subsequent debugging.
-	 *
-	 * @since 2025.1
-	 */
-	public static function get_backtrace(): string
-	{
-		$backtrace = self::backtrace();
-		if ( isset( $backtrace[1]['file'], $backtrace[1]['line'] ) ) {
-			return str_replace( GRFM_PATH, '', $backtrace[1]['file'] ) . '/' . $backtrace[1]['line'];
-		}
-
-		return '';
-	}
-
-	/**
 	 * TODO: output some debug code only for specified user.
 	 *
 	 * @param int $user_id User ID
@@ -196,10 +172,7 @@ final class Debug {
 			}
 		}
 
-		echo '<pre>';
-		print_r( $error );
-		echo '</pre>';
-
+		$context = $error->getMessage();
 		$details = match( true ) {
 			$error instanceof \TypeError => self::parseTypeError( $error ),
 			default => [],
@@ -207,7 +180,7 @@ final class Debug {
 
 		$code = self::parseErrorCode( $error );
 
-		return compact( 'title', 'description', 'details', 'traces', 'code' );
+		return compact( 'title', 'description', 'context', 'details', 'traces', 'code' );
 	}
 
 	private static function parseTypeError( \TypeError $error ): array {

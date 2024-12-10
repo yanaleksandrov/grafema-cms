@@ -24,7 +24,7 @@ final class Api {
 	 * @param string $root    Root of the API.
 	 * @param string $dirpath
 	 */
-	public static function create( string $root, string $dirpath ): void
+	public static function configure( string $root, string $dirpath ): void
 	{
 		self::scan( $dirpath );
 

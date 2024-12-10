@@ -18,15 +18,15 @@ try {
 	 */
 	Hook::apply( 'grafema_route_init' );
 
-	$dashboardSlug  = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );
-	$dashboardRoute = sprintf( '/%s/{slug}', $dashboardSlug );
-
 	/**
 	 * Load private administrative panel.
 	 *
 	 * TODO: The dashboard must to be connected only if the current user is logged in & Is::ajax query.
 	 * @since 2025.1
 	 */
+	$dashboardSlug  = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );
+	$dashboardRoute = sprintf( '/%s/{slug}', $dashboardSlug );
+
 	Route::any( $dashboardRoute, function( $slug ) use ( $dashboardSlug ) {
 		$query = new Grafema\Query();
 
@@ -109,16 +109,13 @@ try {
 	 */
 	Route::get('/{slug}', function( $slug ) {
 		$query = new Grafema\Query();
-
-		$dashboardSlug = trim( str_replace( GRFM_PATH, '/', GRFM_DASHBOARD ), '/' );
-//		var_dump( $slug );
-//		var_dump( $dashboardSlug );
+		var_dump( $slug );
 
 		$slug = Slug::get( $slug );
 
 		$entityId    = $slug['entity_id'] ?? 0;
 		$entityTable = $slug['entity_table'] ?? '';
-		if ( ! $entityId || ! $entityTable ) {
+		if ( ! $slug && ( ! $entityId || ! $entityTable ) ) {
 			Route::trigger404();
 		}
 
@@ -128,7 +125,6 @@ try {
 //		print_r( $entity );
 //		echo '</pre>';
 
-		$query->set( 'slug', $slug );
 		if ( empty( $slug ) ) {
 			$query->set( 'isHome', true );
 		}
@@ -215,11 +211,11 @@ try {
 		printf( '%dQ %s %s', Db::queries(), Debug::timer( 'getall' ), Debug::memory_peak() );
 	});
 
-	Route::set404( function() {
-		header( 'HTTP/1.1 404 Not Found' );
-
-		echo 'Page not found 404';
-	} );
+//	Route::set404( function() {
+//		header( 'HTTP/1.1 404 Not Found' );
+//
+//		echo 'Page not found 404';
+//	} );
 
 	/**
 	 * Launch routing.

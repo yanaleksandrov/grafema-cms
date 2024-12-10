@@ -184,7 +184,7 @@ final class Is
 	 */
 	public static function installed(): bool
 	{
-		if ( ! defined( 'GRFM_PATH' ) || ! file_exists( GRFM_PATH . 'config.php' ) ) {
+		if ( ! defined( 'GRFM_PATH' ) || ! file_exists( GRFM_PATH . 'env.php' ) ) {
 			return false;
 		}
 

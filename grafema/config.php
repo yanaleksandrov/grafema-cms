@@ -1,60 +1,75 @@
 <?php
-/**
- * Constants for database name, user, password, host, prefix & charset.
- *
- * Indexes have a maximum size of 767 bytes. Historically, we haven't had to worry about this.
- * Utf8mb4 uses 4 bytes for each character. This means that an index that used to have room for
- * floor(767/3) = 255 characters now only has room for floor(767/4) = 191 characters.
- *
- * @since 2025.1
- */
-const GRFM_DB_NAME             = 'alexandrov_cms';
-const GRFM_DB_USERNAME         = 'alexandrov_cms';
-const GRFM_DB_PASSWORD         = 'Wf9zh5BT';
-const GRFM_DB_HOST             = 'localhost';
-const GRFM_DB_PREFIX           = 'grafema_';
-const GRFM_DB_TYPE             = 'mysql';
-const GRFM_DB_CHARSET          = 'utf8mb4';
-const GRFM_DB_COLLATE          = '';
-const GRFM_DB_MAX_INDEX_LENGTH = 191;
+
+use Grafema\Db;
+use Grafema\Api;
+use Grafema\I18n;
 
 /**
- * Constants for paths to Grafema directories.
+ * Launch database connection.
+ * TODO: configure & launch db including
  *
- * @since 2025.1
+ * @since  2025.1
  */
-const GRFM_CORE      = __DIR__ . '/core/';
-const GRFM_DASHBOARD = __DIR__ . '/dashboard/';
-const GRFM_PLUGINS   = __DIR__ . '/plugins/';
-const GRFM_THEMES    = __DIR__ . '/themes/';
-const GRFM_UPLOADS   = __DIR__ . '/uploads/';
-const GRFM_I18N      = __DIR__ . '/i18n/';
+Db::init();
 
 /**
- * Authentication unique keys and salts.
- *
- * You can change these at any point in time to invalidate all existing cookies.
- * This will force all users to have to log in again.
+ * Create a single entry point to the website.
  *
  * @since 2025.1
  */
-const GRFM_AUTH_KEY  = 'authkey';
-const GRFM_NONCE_KEY = 'noncekey';
-const GRFM_HASH_KEY  = 'hashkey';
+// save as .htaccess
+if ( ! file_exists( GRFM_PATH . '.htaccess' ) ) {
+	file_put_contents(
+		GRFM_PATH . '.htaccess',
+		'Options +FollowSymLinks
+# Options +SymLinksIfOwnerMatch
+Options -Indexes
+DirectoryIndex index.php index.html
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # for 301-redirect http to https
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,QSA,L]
+
+    RewriteBase /
+    RewriteCond $1 !^(index\.php|uploads|robots\.txt|favicon\.ico)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.php/$1 [L,QSA]
+    # or for fastCGI
+    # RewriteRule . /index.php [L]
+</IfModule>
+
+# Denies access to system folders and files that start with . or ~.
+# For example: .htaccess & .env file, .svn directory
+<IfModule mod_rewrite.c>
+    RewriteRule (?:^|/)(?:\..*)$ - [F]
+</IfModule>'
+	);
+}
 
 /**
- * Debug mode.
+ * Setting up the priority rule for translations.
  *
  * @since 2025.1
  */
-const GRFM_DEBUG     = true;
-const GRFM_DEBUG_LOG = true;
+I18n::configure(
+	[
+		GRFM_CORE      => GRFM_DASHBOARD,
+		GRFM_DASHBOARD => GRFM_DASHBOARD,
+		GRFM_PLUGINS   => GRFM_PLUGINS . ':dirname',
+		GRFM_THEMES    => GRFM_THEMES . ':dirname',
+	],
+	'i18n/%s'
+);
 
 /**
- * Cron intervals.
+ * Add core API endpoints.
+ * Important! If current request is request to API, stop code execution after Api::create().
  *
  * @since 2025.1
  */
-const GRFM_HOUR_IN_SECONDS     = 3600;
-const GRFM_HALF_DAY_IN_SECONDS = 43200;
-const GRFM_DAY_IN_SECONDS      = 86400;
+Api::configure( '/api', sprintf( '%sapp/Api', GRFM_DASHBOARD ) );

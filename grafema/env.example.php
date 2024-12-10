@@ -1,12 +1,5 @@
 <?php
 /**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
-/**
  * Constants for database name, user, password, host, prefix & charset.
  *
  * Indexes have a maximum size of 767 bytes. Historically, we haven't had to worry about this.

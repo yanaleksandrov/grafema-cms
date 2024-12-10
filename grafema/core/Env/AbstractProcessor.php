@@ -12,24 +12,26 @@ namespace Grafema\Env;
  */
 abstract class AbstractProcessor
 {
-	/**
-	 * Constructor to initialize the processor with a value.
-	 *
-	 * @param string $value The value to be processed.
-	 */
-	public function __construct(protected string $value) {}
+    /**
+     * Constructor to initialize the processor with a value.
+     *
+     * @param string $value The value to be processed.
+     */
+    public function __construct(protected string $value)
+    {
+    }
 
-	/**
-	 * Determines if the value can be processed.
-	 *
-	 * @return bool True if the value can be processed, false otherwise.
-	 */
-	abstract public function canBeProcessed(): bool;
+    /**
+     * Determines if the value can be processed.
+     *
+     * @return bool True if the value can be processed, false otherwise.
+     */
+    abstract public function canBeProcessed(): bool;
 
-	/**
-	 * Executes the processing logic.
-	 *
-	 * @return mixed The result of the processing logic.
-	 */
-	abstract public function execute(): mixed;
+    /**
+     * Executes the processing logic.
+     *
+     * @return mixed The result of the processing logic.
+     */
+    abstract public function execute(): mixed;
 }

@@ -11,27 +11,27 @@ namespace Grafema\Env;
  */
 class NullProcessor extends AbstractProcessor
 {
-	/**
-	 * Checks if the value can be processed.
-	 *
-	 * The method determines if the current value is either the string "null" or "NULL".
-	 *
-	 * @return bool True if the value can be processed, false otherwise.
-	 */
-	public function canBeProcessed(): bool
-	{
-		return in_array($this->value, ['null', 'NULL'], true);
-	}
+    /**
+     * Checks if the value can be processed.
+     *
+     * The method determines if the current value is either the string "null" or "NULL".
+     *
+     * @return bool True if the value can be processed, false otherwise.
+     */
+    public function canBeProcessed(): bool
+    {
+        return in_array($this->value, ['null', 'NULL'], true);
+    }
 
-	/**
-	 * Executes the processing logic.
-	 *
-	 * This method returns `null` as the processed result.
-	 *
-	 * @return mixed Always returns null.
-	 */
-	public function execute(): mixed
-	{
-		return null;
-	}
+    /**
+     * Executes the processing logic.
+     *
+     * This method returns `null` as the processed result.
+     *
+     * @return mixed Always returns null.
+     */
+    public function execute(): mixed
+    {
+        return null;
+    }
 }

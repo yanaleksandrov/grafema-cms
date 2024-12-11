@@ -5,6 +5,7 @@ use Grafema\I18n;
 
 use Dashboard\Table\Row;
 use Dashboard\Table\Cell;
+use Grafema\Url;
 
 final class PagesTable {
 
@@ -125,7 +126,7 @@ final class PagesTable {
 	public function notFoundContent(): array {
 		return [
 			'title'       => I18n::_t( 'Pages not found' ),
-			'description' => I18n::_t( 'You don\'t have any pages yet. <a @click="$dialog.open(\'tmpl-post-editor\', postEditorDialog)">Add them manually</a> or <a href="/dashboard/import">import via CSV</a>' ),
+			'description' => I18n::_f( 'You don\'t have any pages yet. <a @click="$dialog.open(\'tmpl-post-editor\', postEditorDialog)">Add them manually</a> or [import via CSV](:importLink)', Url::site( '/dashboard/import' ) ),
 		];
 	}
 }

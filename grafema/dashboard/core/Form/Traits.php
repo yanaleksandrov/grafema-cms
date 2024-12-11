@@ -172,7 +172,7 @@ trait Traits {
 			}
 
 			$prefix   = in_array( $type, [ 'tab', 'step', 'group' ], true ) ? 'layout-' : '';
-			$content .= View::get( GRFM_PATH . "dashboard/views/form/{$prefix}{$type}", $field );
+			$content .= View::get( "views/form/{$prefix}{$type}", $field );
 		}
 		return $content;
 	}

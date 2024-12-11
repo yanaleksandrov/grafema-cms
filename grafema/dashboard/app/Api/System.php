@@ -97,13 +97,13 @@ class System extends \Grafema\Api\Handler
 
 		/**
 		 * The check for connection to the database should have already been passed by this point.
-		 * Therefore, just fill in the file config.php data and immediately connect it.
+		 * Therefore, just fill in the file env.php data and immediately connect it.
 		 *
 		 * @since 2025.1
 		 */
-		$config = GRFM_PATH . 'config.php';
+		$config = GRFM_PATH . 'env.php';
 		if ( ! file_exists( $config ) ) {
-			(new File( GRFM_PATH . 'config-sample.php' ))->copy( 'config' )->rewrite(
+			(new File( GRFM_PATH . 'env-sample.php' ))->copy( 'env' )->rewrite(
 				array_combine(
 					[
 						'db.name',

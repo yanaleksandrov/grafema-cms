@@ -20,11 +20,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</a>
 	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-user-sign-in.php' ); ?>
 	<div class="fs-14 t-center t-muted mt-3">
-		<?php
-		I18n::f(
-			"Don't have an account yet? %s",
-			sprintf( '<a href="%s">%s</a>', Url::site( 'dashboard/sign-up' ), I18n::_t( 'Sign Up' ) ),
-		);
-		?>
+		<?php I18n::f( "Don't have an account yet? [Sign Up](:signUpLink)", Url::site( 'dashboard/sign-up' ) ); ?>
 	</div>
 </div>

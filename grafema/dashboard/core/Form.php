@@ -18,7 +18,7 @@ class Form {
 	use Form\Traits;
 	use Patterns\Multiton;
 
-	public static function build( array $fields ) {
+	public static function build( array $fields ): string {
 		return self::init( 'test' )->parseFields( $fields );
 	}
 
@@ -93,9 +93,6 @@ class Form {
 	 */
 	public static function get( string $path, bool $without_form_wrapper = false ): string {
 		$content = '';
-		if ( ! file_exists( $path ) ) {
-			return $content;
-		}
 
 		$uid = require_once $path;
 		if ( ! empty( $uid ) ) {

@@ -12,6 +12,10 @@ namespace Grafema;
  */
 final class Debug {
 
+	public static function configure() {
+
+	}
+
 	public static function launch(): void
 	{
 		if ( defined( 'GRFM_DEBUG' ) && GRFM_DEBUG ) {
@@ -37,7 +41,7 @@ final class Debug {
 	 *
 	 * @ver: 3.4.3
 	 */
-	public static function timer( string $phase = 'run', int $round = 2, string $txt = 's' ): float|int|string
+	public static function timer( string $phase = 'run', int $round = 3, string $txt = 's' ): float|int|string
 	{
 		static $prev_time, $collect;
 
@@ -59,7 +63,7 @@ final class Debug {
 		return match ( $phase ) {
 			'getall',
 			'end',
-			'stop'    => round( $collect, $round ) . $txt,
+			'stop'    => round( $collect ?? 0, $round ) . $txt,
 			'get'     => round( $exectime, $round ) . $txt,
 			default   => 0,
 		};
@@ -116,36 +120,6 @@ final class Debug {
 	}
 
 	/**
-	 * Получает конфигурационную информацию кеша.
-	 *
-	 * @return mixed|void
-	 */
-	public static function opcache( string $field )
-	{
-		$directives = opcache_get_configuration();
-		if ( isset( $directives['directives']['opcache.' . $field] ) ) {
-			return $directives['directives']['opcache.' . $field];
-		}
-	}
-
-	/**
-	 * Generates an error ID to use when logging errors.
-	 * It is formed as a string that separates the name of the class, method, and line in the file with a slash.
-	 * This makes it convenient to search for the source of errors for subsequent debugging.
-	 *
-	 * @since 2025.1
-	 */
-	public static function get_backtrace(): string
-	{
-		$backtrace = self::backtrace();
-		if ( isset( $backtrace[1]['file'], $backtrace[1]['line'] ) ) {
-			return str_replace( GRFM_PATH, '', $backtrace[1]['file'] ) . '/' . $backtrace[1]['line'];
-		}
-
-		return '';
-	}
-
-	/**
 	 * TODO: output some debug code only for specified user.
 	 *
 	 * @param int $user_id User ID
@@ -196,13 +170,15 @@ final class Debug {
 			}
 		}
 
+		$context = $error->getMessage();
 		$details = match( true ) {
 			$error instanceof \TypeError => self::parseTypeError( $error ),
+			default => [],
 		};
 
 		$code = self::parseErrorCode( $error );
 
-		return compact( 'title', 'description', 'details', 'traces', 'code' );
+		return compact( 'title', 'description', 'context', 'details', 'traces', 'code' );
 	}
 
 	private static function parseTypeError( \TypeError $error ): array {
@@ -230,21 +206,15 @@ final class Debug {
 			return $code;
 		}
 
-		$className  = $trace[0]['class'] ?? null;
-		$methodName = $trace[0]['function'] ?? null;
+		try {
+			$file = $error->getFile();
+			$line = $error->getLine();
 
-		if ( $className && $methodName ) {
-			try {
-				$reflection = new \ReflectionMethod( $className, $methodName );
+			// get lines of code around the error so that the context is visible
+			$lines = file( $file );
+			$code  = implode('', array_slice( $lines, max( 0, $line - 10 ), 30 ) );
+		} catch ( \ReflectionException $e ) {}
 
-				$file      = $reflection->getFileName();
-				$startLine = $reflection->getStartLine();
-				$endLine   = $reflection->getEndLine();
-
-				$code  = preg_replace( '/^[\x09]+/m', '', trim( $reflection->getDocComment() ) . PHP_EOL ?: '' );
-				$code .= implode('', array_slice( file( $file ), $startLine - 1, $endLine - $startLine + 1 ) );
-			} catch ( \ReflectionException $e ) {}
-		}
 		return trim( $code );
 	}
 }

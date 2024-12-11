@@ -70,6 +70,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 			endif;
 			?>
 		</span>
-		<span class="plugins__text"><i class="ph ph-check"></i> <?php I18n::f( '%sCompatible%s with your Grafema version', '<strong>', '</strong>' ); ?></span>
+		<span class="plugins__text"><i class="ph ph-check"></i> <?php I18n::t( '**Compatible** with your Grafema version' ); ?></span>
 	</div>
 </div>

@@ -24,7 +24,7 @@ final class Api {
 	 * @param string $root    Root of the API.
 	 * @param string $dirpath
 	 */
-	public static function create( string $root, string $dirpath ): void
+	public static function configure( string $root, string $dirpath ): void
 	{
 		self::scan( $dirpath );
 
@@ -50,9 +50,7 @@ final class Api {
 		$filepath = Sanitizer::path( $resource['filepath'] ?? '' );
 		$class    = Sanitizer::pascalcase( $resource['class'] ?? '' );
 
-		if ( file_exists( $filepath ) ) {
-			require_once $filepath;
-		}
+		require_once $filepath;
 
 		$csrf = new Csrf( new NativeHttpOnlyCookieProvider() );
 		try {

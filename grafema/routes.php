@@ -1,4 +1,5 @@
 <?php
+use Grafema\Option;
 use Grafema\Route;
 use Grafema\Debug;
 use Grafema\Slug;
@@ -6,6 +7,7 @@ use Grafema\Post;
 use Grafema\Hook;
 use Grafema\View;
 use Grafema\User;
+use Grafema\I18n;
 use Grafema\Url;
 use Grafema\Is;
 use Grafema\Db;
@@ -109,7 +111,6 @@ try {
 	 */
 	Route::get('/{slug}', function( $slug ) {
 		$query = new Grafema\Query();
-		var_dump( $slug );
 
 		$slug = Slug::get( $slug );
 
@@ -120,10 +121,10 @@ try {
 		}
 
 		$entity = Post::get( $entityTable, $entityId );
-//		echo '<pre>';
-//		print_r( $slug );
-//		print_r( $entity );
-//		echo '</pre>';
+		echo '<pre>';
+		print_r( $slug );
+		print_r( $entity );
+		echo '</pre>';
 
 		if ( empty( $slug ) ) {
 			$query->set( 'isHome', true );

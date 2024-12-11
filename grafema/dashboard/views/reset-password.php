@@ -20,11 +20,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	</a>
 	<?php Dashboard\Form::print( GRFM_DASHBOARD . 'forms/grafema-user-reset-password.php' ); ?>
 	<div class="t-center t-muted mt-3">
-		<?php
-		I18n::f(
-			'I remembered the password, %s me to the sign in page',
-			sprintf( '<a href="%s">%s</a>', Url::site( 'dashboard/sign-in' ), I18n::_t( 'send' ) ),
-		);
-        ?>
+		<?php I18n::f( 'I remembered the password, [send](:signInLink) me to the sign in page', Url::site( 'dashboard/sign-in' ) ); ?>
 	</div>
 </div>

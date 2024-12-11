@@ -1,5 +1,6 @@
 <?php
 use Grafema\I18n;
+use Grafema\Url;
 
 /**
  * Sign In form
@@ -49,7 +50,7 @@ return Dashboard\Form::enqueue(
 			'reset'       => 0,
 			'before'      => '',
 			'after'       => '',
-			'instruction' => I18n::_f( 'Forgot your password? You can %sreset it here%s', '<a href="/dashboard/reset-password">', '</a>' ),
+			'instruction' => I18n::_f( 'Forgot your password? You can [reset it here](:resetPasswordLink)', Url::site( '/dashboard/reset-password' ) ),
 			'tooltip'     => '',
 			'copy'        => 0,
 			'sanitizer'   => '',

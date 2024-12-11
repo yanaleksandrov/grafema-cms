@@ -12,8 +12,6 @@ namespace Grafema;
  */
 final class Debug {
 
-	private function __construct() {}
-
 	public static function configure() {
 
 	}
@@ -65,7 +63,7 @@ final class Debug {
 		return match ( $phase ) {
 			'getall',
 			'end',
-			'stop'    => round( $collect, $round ) . $txt,
+			'stop'    => round( $collect ?? 0, $round ) . $txt,
 			'get'     => round( $exectime, $round ) . $txt,
 			default   => 0,
 		};

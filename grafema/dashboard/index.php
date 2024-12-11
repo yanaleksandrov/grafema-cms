@@ -6,7 +6,6 @@ use Grafema\Option;
 use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\User;
-use Grafema\Tree;
 
 /**
  * Remove the duplicate access to the console at two addresses:
@@ -15,9 +14,9 @@ use Grafema\Tree;
  * @since 2025.1
  */
 if ( ! defined( 'GRFM_PATH' ) ) {
-	$dashboard_url = trim( $_SERVER['SCRIPT_URI'] ?? '' );
-	if ( $dashboard_url ) {
-		header( 'Location: ' . $dashboard_url . 'profile' );
+	$dashboardUrl = trim( $_SERVER['SCRIPT_URI'] ?? '' );
+	if ( $dashboardUrl ) {
+		header( 'Location: ' . $dashboardUrl . 'profile' );
 	}
 	exit;
 }

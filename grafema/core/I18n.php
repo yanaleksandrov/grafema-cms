@@ -1,10 +1,15 @@
 <?php
 namespace Grafema;
 
+use Grafema\I18n\Markdown;
+
 /**
  * The I18n class provides methods for handling translations in the system, including
  * regular translations, translations with formatting, and conditional translations.
  * The class also offers methods for returning translations sanitized for use in HTML attributes.
+ *
+ * As text your can use base markdown syntax. For example links looks like this:
+ * I18n::f( 'Go to [documentation page](:pageLink) for resolve issue', 'https://google.com' )
  *
  * Main functionalities:
  * - `t|_t(_attr)`: translates a string and returns/outputs it (optionally sanitizes for HTML attributes).
@@ -40,7 +45,7 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function _t( string $string ): string {
-		return self::get( $string );
+		return self::get( Markdown::render( htmlentities( $string ) ) );
 	}
 
 	/**
@@ -98,24 +103,29 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function _f( string $string, mixed ...$args ): string {
-		return preg_replace_callback('/:(\w+)(?:\\\\([^:]+))?|%[sd]/u', function( $matches ) use ( &$args ) {
+		$string = preg_replace_callback('/(:{1,2})(\w+)(?:\\\\([^:]+))?|%[sd]/u', function( $matches ) use ( &$args ) {
 			if ( $matches[0] === '%s' || $matches[0] === '%d' ) {
 				return array_shift( $args );
 			}
 
-			$placeholder = $matches[1] ?? '';
-			$suffix      = $matches[2] ?? '';
+			$placeholder = $matches[2] ?? '';
+			$suffix      = $matches[3] ?? '';
 
 			$value = array_shift( $args );
 
-			$replacement = match (true) {
-				mb_strtolower( $placeholder ) === $placeholder => mb_strtolower( $value ),
-				mb_strtoupper( $placeholder ) === $placeholder => mb_strtoupper( $value ),
-				default => mb_convert_case( $value, MB_CASE_TITLE, 'UTF-8' ),
-			};
+			if ( $matches[1] === '::' ) {
+				$replacement = match ( true ) {
+					mb_strtolower( $placeholder ) === $placeholder => mb_strtolower( $value ),
+					mb_strtoupper( $placeholder ) === $placeholder => mb_strtoupper( $value ),
+					default => mb_convert_case( $value, MB_CASE_TITLE, 'UTF-8' ),
+				};
+				return $replacement . $suffix;
+			}
 
-			return $replacement . $suffix;
+			return $value . $suffix;
 		}, $string );
+
+		return Markdown::render( $string );
 	}
 
 	/**

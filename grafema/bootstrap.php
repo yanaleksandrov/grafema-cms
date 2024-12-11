@@ -76,12 +76,12 @@ if (! Is::installed()) {
         header(sprintf('%s 500 Internal Server Error', $serverProtocol), true, 500);
         header('Content-Type: text/html; charset=utf-8');
 
-        printf(
-            I18n::_t('Your server is running PHP version "%1$s" but Grafema %2$s requires at least %3$s.'),
-            $php_version,
-            GRFM_VERSION,
-            GRFM_REQUIRED_PHP_VERSION
-        );
+	    I18n::f(
+			'Your server is running PHP version ":phpVersion" but Grafema :grafemaVersion requires at least :phpRequiredVersion.',
+			$php_version,
+			GRFM_VERSION,
+			GRFM_REQUIRED_PHP_VERSION
+	    );
 
         exit;
     }
@@ -92,12 +92,12 @@ if (! Is::installed()) {
         header(sprintf('%s 500 Internal Server Error', $serverProtocol), true, 500);
         header('Content-Type: text/html; charset=utf-8');
 
-        printf(
-            I18n::_t('Your server is running DataBase version %1$s but Grafema %2$s requires at least %3$s.'),
-            $db_version,
-            GRFM_VERSION,
-            GRFM_REQUIRED_MYSQL_VERSION
-        );
+	    I18n::f(
+		    'Your server is running PHP version ":dbVersion" but Grafema :grafemaVersion requires at least :dbRequiredVersion.',
+		    $db_version,
+		    GRFM_VERSION,
+		    GRFM_REQUIRED_MYSQL_VERSION
+	    );
 
         exit;
     }

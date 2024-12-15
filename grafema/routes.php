@@ -106,6 +106,7 @@ try {
 				'slug' => $slug,
 			]
 		);
+		//$content = (new Grafema\Html())->beautify($content);
 
 		/**
 		 * Grafema dashboard is fully loaded.

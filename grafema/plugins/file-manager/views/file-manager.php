@@ -1,7 +1,10 @@
 <?php
 use Grafema\I18n;
+use Grafema\Dir;
+use Grafema\Tree;
+
 /**
- * Fields builder
+ * File manager table
  *
  * This template can be overridden by copying it to themes/yourtheme/file-manager/templates/file-manager.php
  *
@@ -11,6 +14,13 @@ use Grafema\I18n;
 if ( ! defined( 'GRFM_PATH' ) ) {
 	exit;
 }
+
+$directories = (new Dir( GRFM_PATH ))->getFoldersTree();
+$folders     = (new Dir( GRFM_PATH ))->getFolders();
+$files       = [
+	...(new Dir( GRFM_PATH ))->getFiles( '.[!.]*' ),
+	...(new Dir( GRFM_PATH ))->getFiles( '*.*' ),
+];
 ?>
 <div class="grafema-main">
 	<div class="fm">
@@ -45,9 +55,6 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<button class="btn btn--outline btn--xs"><i class="ph ph-copy"></i> <?php I18n::t( 'Copy' ); ?></button>
 				</li>
 				<li class="fm-header-item">
-					<button class="btn btn--outline btn--xs"><i class="ph ph-file-plus"></i> <?php I18n::t( 'Move' ); ?></button>
-				</li>
-				<li class="fm-header-item">
 					<button class="btn btn--outline btn--xs"><i class="ph ph-scissors"></i> <?php I18n::t( 'Cut' ); ?></button>
 				</li>
 				<li class="fm-header-item">
@@ -71,42 +78,28 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 		</div>
 
 		<div class="fm-top">
-			<code><i class="ph ph-folder-simple-dashed"></i> /public_html/dev/cody/com/list</code>
-			<div class="field field--xs field--outline">
-				<div class="field-item">
-					<input type="search" name="search" placeholder="Search">
+			<div class="df aic g-1">
+				<i class="ph ph-folder-simple-dashed"></i> <code>public_html</code>/<code>dev</code>/<code>cody</code>/<code>list</code>
+			</div>
+			<div class="df aic g-3">
+				<?php I18n::f( ':count items', count( [ ...$folders, ...$files ] ) ); ?>
+				<div class="field field--xs field--outline">
+					<label class="field-item">
+						<input type="search" name="search" placeholder="Search">
+					</label>
 				</div>
 			</div>
 		</div>
 		<div class="fm-main">
 			<div class="fm-folders">
-				<ul class="fm-folders-list">
-					<li class="fm-folder-item">
-						<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> folder</span>
-						<ul class="fm-folders-list">
-							<li class="fm-folder-item">
-								<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> scripts</span>
-							</li>
-							<li class="fm-folder-item">
-								<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> assets</span>
-							</li>
-							<li class="fm-folder-item">
-								<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> views</span>
-								<ul class="fm-folders-list">
-									<li class="fm-folder-item">
-										<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> scripts and superpuperclosedlinkand hello</span>
-									</li>
-									<li class="fm-folder-item">
-										<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> assets</span>
-									</li>
-									<li class="fm-folder-item">
-										<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> views</span>
-									</li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-				</ul>
+				<?php echo Tree::build( $directories, function ( int $depth, $directory ) { ?>
+					<ul class="fm-folders-list" data-depth="<?php echo $depth; ?>">
+						<li class="fm-folder-item">
+							<span class="fm-folder-item-name"><i class="ph ph-folder-simple"></i> <?php echo $directory; ?></span>
+							@nested
+						</li>
+					</ul>
+				<?php } ); ?>
 			</div>
 			<div class="fm-files">
 				<div class="fm-files-head">
@@ -115,18 +108,22 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 					<div>Permissions</div>
 					<div>Size</div>
 				</div>
-				<label class="fm-files-item">
-					<span><i class="ph ph-folder-simple"></i> logs</span>
-					<span>Sep 17, 2023 08:35 PM</span>
-					<span title="Read & Write">777</span>
-					<span>177 KB</span>
-				</label>
-				<label class="fm-files-item">
-					<span><i class="ph ph-file-xls"></i> type.xml</span>
-					<span>Sep 23, 2024 11:10 AM</span>
-					<span title="Read & Write">655</span>
-					<span>11 KB</span>
-				</label>
+				<?php foreach ( $folders as $folder ) : ?>
+					<label class="fm-files-item" data-type="folder">
+						<span><input name="file" type="checkbox" value=""> <i class="ph ph-folder-simple"></i> <?php echo basename( $folder ); ?></span>
+						<span>Sep 17, 2023 08:35 PM</span>
+						<span title="Read & Write"><?php echo substr( sprintf( '%o', fileperms( $folder ) ), -4 ); ?></span>
+						<span>177 KB</span>
+					</label>
+				<?php endforeach; ?>
+				<?php foreach ( $files as $file ) : ?>
+					<label class="fm-files-item" data-type="file">
+						<span><input name="file" type="checkbox" value=""><i class="ph ph-file-pdf"></i> <?php echo basename( $file ); ?></span>
+						<span><?php echo date( 'M d, Y h:i A', filemtime( $file ) ); ?></span>
+						<span title="Read & Write"><?php echo substr( sprintf( '%o', fileperms( $file ) ), -4 ); ?></span>
+						<span><?php echo Grafema\Helpers\Humanize::fromBytes( filesize( $file ) ); ?></span>
+					</label>
+				<?php endforeach; ?>
 			</div>
 		</div>
 	</div>

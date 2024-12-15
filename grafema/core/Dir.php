@@ -116,7 +116,7 @@ final class Dir {
 	 */
 	public function getFolders( int $depth = 0 ): array
 	{
-		$search = function ( $path, int $current_depth ) use ( &$search, $depth ) {
+		$search = function ( string $path, int $current_depth ) use ( &$search, $depth ) {
 			$flags   = GLOB_ONLYDIR | GLOB_NOSORT | GLOB_ERR;
 			$folders = glob( Sanitizer::path( $path . '/*' ), $flags );
 
@@ -131,7 +131,37 @@ final class Dir {
 			return $folders;
 		};
 
-		return $search( $this->path, 0 );
+		$folders = $search( $this->path, 0 );
+
+		sort( $folders );
+
+		return $folders;
+	}
+
+	/**
+	 * Get folders tree.
+	 *
+	 * @return array
+	 */
+	public function getFoldersTree(): array {
+		$search = function ( string $path ) use ( &$search ): array {
+			$path  = rtrim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+			$items = glob( $path . '*', GLOB_NOSORT );
+
+			$tree = [];
+			foreach ( $items as $item ) {
+				if ( is_dir( $item ) ) {
+					$tree[basename( $item )] = $search( $item );
+				}
+			}
+			return $tree;
+		};
+
+		$findFolders = $search( $this->path );
+
+		ksort( $findFolders );
+
+		return [ basename( $this->path ) => $findFolders ];
 	}
 
 	/**
@@ -158,7 +188,11 @@ final class Dir {
 			return array_filter( $files ?: [], 'file_exists' );
 		};
 
-		return $search( $this->path, 0 );
+		$files = $search( $this->path, 0 );
+
+		sort( $files );
+
+		return $files;
 	}
 
 	/**

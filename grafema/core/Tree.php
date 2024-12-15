@@ -1,11 +1,4 @@
 <?php
-/**
- * This file is part of Grafema CMS.
- *
- * @link     https://www.grafema.io
- * @contact  team@core.io
- * @license  https://github.com/grafema-team/grafema/LICENSE.md
- */
 namespace Grafema;
 
 use Grafema\Helpers\Arr;
@@ -99,6 +92,22 @@ final class Tree
 		ob_start();
 		self::view( $name, $function );
 		return ob_get_clean();
+	}
+
+	public static function build( array $items, callable $callback, int $depth = 0 ): string {
+		$content = '';
+		foreach ( $items as $key => $item ) {
+			ob_start();
+			$callback( $depth + 1, $key, $item );
+			$content .= ob_get_clean();
+
+			if ( is_array( $item ) ) {
+				$content = str_replace( '@nested', self::build( $item, $callback, $depth + 1 ), $content );
+				// remove empty string
+				$content = preg_replace( "/^\s*[\r\n]*\s*$/m", '', $content );
+			}
+		}
+		return $content;
 	}
 
 	/**

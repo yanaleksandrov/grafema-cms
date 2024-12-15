@@ -27,38 +27,36 @@ return new class extends Grafema\Plugin {
 
 		Asset::enqueue( 'toolkit-main', '/plugins/toolkit/assets/css/main.css' );
 
-		Tree::attach( 'dashboard-main-menu', function ( $tree ) {
-			$tree->addItems(
+		Tree::attach( 'dashboard-main-menu', fn ( $tree ) => $tree->addItems(
+			[
 				[
-					[
-						'id'           => 'toolkit',
-						'url'          => 'forms-builder',
-						'title'        => I18n::_t( 'Dev toolkit' ),
-						'capabilities' => ['manage_options'],
-						'icon'         => 'ph ph-brackets-curly',
-						'position'     => 800,
-					],
-					[
-						'id'           => 'fields-builder',
-						'url'          => 'fields-builder',
-						'title'        => I18n::_t( 'Fields builder' ),
-						'capabilities' => ['manage_options'],
-						'icon'         => '',
-						'position'     => 0,
-						'parent_id'    => 'toolkit',
-					],
-					[
-						'id'           => 'forms-builder',
-						'url'          => 'forms-builder',
-						'title'        => I18n::_t( 'Forms builder' ),
-						'capabilities' => ['manage_options'],
-						'icon'         => '',
-						'position'     => 0,
-						'parent_id'    => 'toolkit',
-					],
-				]
-			);
-		} );
+					'id'           => 'toolkit',
+					'url'          => 'forms-builder',
+					'title'        => I18n::_t( 'Dev toolkit' ),
+					'capabilities' => ['manage_options'],
+					'icon'         => 'ph ph-brackets-curly',
+					'position'     => 800,
+				],
+				[
+					'id'           => 'fields-builder',
+					'url'          => 'fields-builder',
+					'title'        => I18n::_t( 'Fields builder' ),
+					'capabilities' => ['manage_options'],
+					'icon'         => '',
+					'position'     => 0,
+					'parent_id'    => 'toolkit',
+				],
+				[
+					'id'           => 'forms-builder',
+					'url'          => 'forms-builder',
+					'title'        => I18n::_t( 'Forms builder' ),
+					'capabilities' => ['manage_options'],
+					'icon'         => '',
+					'position'     => 0,
+					'parent_id'    => 'toolkit',
+				],
+			]
+		) );
 
 		/*
 		 * Sign In form

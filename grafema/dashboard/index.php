@@ -6,6 +6,7 @@ use Grafema\Option;
 use Grafema\View;
 use Grafema\Sanitizer;
 use Grafema\User;
+use Grafema\Url;
 
 /**
  * Remove the duplicate access to the console at two addresses:
@@ -181,8 +182,8 @@ $start_time = microtime( true );
 			</div>
 			<!-- interface panel start -->
 			<div class="grafema-panel">
-				<a href="<?php echo Grafema\Url::site(); ?>" target="_blank">
-					<img src="<?php echo Grafema\Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
+				<a href="<?php echo Url::site(); ?>" target="_blank">
+					<img src="<?php echo Url::site( '/dashboard/assets/images/logo.svg' ); ?>" width="34" height="34" alt="Grafema Logo">
 				</a>
 				<?php View::print( 'views/menu-panel' ); ?>
 			</div>

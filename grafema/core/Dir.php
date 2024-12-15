@@ -185,7 +185,7 @@ final class Dir {
 				}
 			}
 
-			return array_filter( $files ?: [], 'file_exists' );
+			return $files ?: [];
 		};
 
 		$files = $search( $this->path, 0 );

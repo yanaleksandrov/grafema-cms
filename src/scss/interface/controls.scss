@@ -185,7 +185,7 @@
   }
 
   &__content {
-    max-width: 60rem;
+    max-width: 56rem;
     width: 100%;
     flex: 1;
 
@@ -876,42 +876,41 @@
   max-width: 100vw;
   overflow-y: auto;
   padding: 0.75rem 1.75rem 1.75rem;
-  direction: rtl;
-  transform: rotate(180deg);
+  transform: rotateZ(180deg) rotateY(180deg);
 
   &__wrapper {
-    transform: rotate(-180deg);
+    transform: rotateZ(-180deg) rotateY(180deg);
     display: flex;
-    direction: ltr;
-    gap: 1.75rem;
+    gap: 0.25rem;
   }
 
   &__col {
     overflow-y: auto;
-    max-width: 290px;
-    min-width: 250px;
+    max-width: 20rem;
+    min-width: 17.25rem;
     flex: 1;
   }
 
   &__title {
     align-items: center;
     display: flex;
-    font-size: 1rem;
-    font-weight: 500;
+    justify-content: space-between;
     height: 2rem;
     line-height: 0.8;
+    padding-inline: 1rem;
+    gap: 0.25rem;
   }
 
   &__item {
-    background-color: var(--grafema-bg-universal);
+    background-color: var(--grafema-bg);
     border: 1px solid var(--grafema-border);
     cursor: pointer;
     display: grid;
-    gap: 1rem;
+    gap: 0.75rem;
     grid-template-columns: repeat(1, 1fr) !important;
     padding: 1rem;
-    border-radius: 4px;
-    margin-block-start: 0.75rem;
+    border-radius: var(--grafema-border-radius-lg);
+    margin-block-start: 0.25rem;
     position: relative;
     top: 0;
     transition: box-shadow 0.35s;
@@ -928,6 +927,7 @@
   &__name {
     align-items: center;
     display: flex;
+    justify-content: space-between;
     font-weight: 500;
     line-height: 1;
     white-space: nowrap;
@@ -951,6 +951,9 @@
     align-items: center;
     display: flex;
     margin-inline-start: auto;
+    gap: 0.25rem;
+    color: var(--grafema-text-muted);
+    font-size: 0.75rem;
 
     span {
       display: inline-flex;

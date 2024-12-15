@@ -237,10 +237,11 @@ final class Sanitizer
 	 */
 	public static function datetime( mixed $value ): string
 	{
-		$format   = 'Y-m-d H:i:s';
-		$datetime = \DateTime::createFromFormat( $format, $value );
-
-		return $datetime instanceof \DateTime ? $datetime->format( $format ) : '';
+		$format = 'Y-m-d H:i:s';
+		if ( $value ) {
+			$datetime = \DateTime::createFromFormat( $format, $value );
+		}
+		return isset( $datetime ) && $datetime instanceof \DateTime ? $datetime->format( $format ) : '';
 	}
 
 	/**

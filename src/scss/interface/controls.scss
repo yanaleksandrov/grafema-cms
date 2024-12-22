@@ -889,6 +889,9 @@
     max-width: 20rem;
     min-width: 17.25rem;
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
   &__title {
@@ -899,6 +902,15 @@
     line-height: 0.8;
     padding-inline: 1rem;
     gap: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    overflow: hidden;
+    height: 100%;
   }
 
   &__item {
@@ -910,17 +922,16 @@
     grid-template-columns: repeat(1, 1fr) !important;
     padding: 1rem;
     border-radius: var(--grafema-border-radius-lg);
-    margin-block-start: 0.25rem;
     position: relative;
     top: 0;
-    transition: box-shadow 0.35s;
+    transition: box-shadow 0.25s;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 
     &:hover {
-      box-shadow: 0 8px 16px -8px rgb(99 99 99 / 10%);
+      box-shadow: var(--grafema-box-shadow);
     }
   }
 

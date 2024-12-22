@@ -16,6 +16,7 @@
         "ext-intl": "*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "3.*"
+        "squizlabs/php_codesniffer": "3.*",
+        "vimeo/psalm": "^5.26"
     }
 }

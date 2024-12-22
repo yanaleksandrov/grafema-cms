@@ -26,7 +26,7 @@ class Markdown {
 			'italic',
 			'image',
 			'link',
-			'code',
+			//'code',
 		]
 	) {}
 

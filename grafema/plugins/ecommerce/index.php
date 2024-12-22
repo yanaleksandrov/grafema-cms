@@ -32,8 +32,19 @@ return new class extends Grafema\Plugin {
 			if ( $filepath === GRFM_DASHBOARD . 'views/orders.php' ) {
 				$filepath = __DIR__ . '/views/orders.php';
 			}
+			if ( $filepath === GRFM_DASHBOARD . 'views/categories.php' ) {
+				$filepath = __DIR__ . '/views/categories.php';
+			}
+			if ( $filepath === GRFM_DASHBOARD . 'views/attributes.php' ) {
+				$filepath = __DIR__ . '/views/attributes.php';
+			}
+			if ( $filepath === GRFM_DASHBOARD . 'views/attribute-editor.php' ) {
+				$filepath = __DIR__ . '/views/attribute-editor.php';
+			}
 			return $filepath;
 		} );
+
+		Asset::enqueue( 'ecommerce', '/plugins/ecommerce/assets/css/main.css' );
 
 		Type::register(
 			key: 'orders',
@@ -84,17 +95,17 @@ return new class extends Grafema\Plugin {
 		Tree::attach( 'dashboard-main-menu', fn ( Tree $tree ) => $tree->addItems(
 			[
 				[
-					'id'       => 'divider-store',
-					'title'    => I18n::_t( 'Store' ),
+					'id'       => 'divider-ecommerce',
+					'title'    => I18n::_t( 'E-Commerce' ),
 					'position' => 250,
 				],
 				[
 					'id'           => 'ecommerce',
 					'url'          => 'ecommerce',
-					'title'        => I18n::_t( 'eCommerce' ),
+					'title'        => I18n::_t( 'Store' ),
 					'capabilities' => ['manage_options'],
 					'icon'         => 'ph ph-storefront',
-					'position'     => 260,
+					'position'     => 280,
 					'count'        => 5,
 				],
 				[

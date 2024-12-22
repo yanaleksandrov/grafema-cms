@@ -86,15 +86,15 @@ final class I18n extends I18n\Locale {
 	}
 
 	/**
-	 * Translate with formatting. Use instead php placeholders like %s and %d, human readable strings.
+	 * Translate with formatting. Use instead php placeholders like %s and %d, human-readable strings.
 	 * The function support converting to lowercase, uppercase & first letter to uppercase.
 	 * To write the placeholder and the suffix together, use the '\' slash.
 	 *
 	 * For example:
 	 *
-	 * I18n::_f( 'Hi, :Firstname :Lastname, you have :count\st none closed ':TASKNAME' task', 'yan', 'aleksandrov', 1, 'test' )
+	 * I18n::_f( 'Hi, :Firstname :Lastname, you have :count\st none closed ":TASKNAME" task', 'yan', 'aleksandrov', 1, 'test' )
 	 *
-	 * return 'Hi, Yan Aleksandrov, you have 1st none closed 'TEST' task'
+	 * return 'Hi, Yan Aleksandrov, you have 1st none closed "TEST" task'
 	 *
 	 * @param string $string
 	 * @param mixed ...$args
@@ -138,7 +138,7 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function f_attr( string $string, mixed ...$args ): void {
-		echo self::_f_attr( $string, $args );
+		echo Sanitizer::attribute( self::_f( $string, ...$args ) );
 	}
 
 	/**
@@ -151,7 +151,7 @@ final class I18n extends I18n\Locale {
 	 * @since 2025.1
 	 */
 	public static function _f_attr( string $string, mixed ...$args ): string {
-		return Sanitizer::attribute( self::_f( $string, $args ) );
+		return Sanitizer::attribute( self::_f( $string, ...$args ) );
 	}
 
 	/**

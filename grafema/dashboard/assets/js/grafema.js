@@ -928,18 +928,19 @@ var __webpack_modules__ = {
                     showSearch: false,
                     hideSelected: false,
                     closeOnSelect: true,
+                    isAddable: false,
                     placeholderText: el.getAttribute('placeholder')
                 };
                 if (el.hasAttribute('multiple')) {
                     settings.hideSelected = true;
                     settings.closeOnSelect = false;
                 }
-                let width = el.offsetWidth;
                 const custom = JSON.parse(expression || '{}');
                 if (typeof custom === 'object') {
                     Object.assign(settings, custom);
                 }
                 try {
+                    let width = el.offsetWidth;
                     let select = new SlimSelect({
                         settings,
                         select: el,
@@ -948,6 +949,11 @@ var __webpack_modules__ = {
                                 el.dispatchEvent(new Event('change', {
                                     bubbles: true
                                 }));
+                            },
+                            addable: value => {
+                                if (settings.isAddable) {
+                                    return value;
+                                }
                             }
                         },
                         data: Array.from(el.options).reduce(((acc, option) => {

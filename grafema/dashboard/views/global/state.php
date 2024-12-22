@@ -33,7 +33,7 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	endif;
 	if ( $title ) :
 		?>
-		<h5 class="mt-4 mw"><?php echo $title; ?></h5>
+		<h6 class="mt-4 mw"><?php echo $title; ?></h6>
 		<?php
 	endif;
 	if ( $description ) :

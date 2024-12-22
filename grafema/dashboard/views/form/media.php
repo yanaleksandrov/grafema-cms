@@ -29,6 +29,8 @@ if ( ! defined( 'GRFM_PATH' ) ) {
         ]
     )
 )->values();
+
+$attributes['type'] = 'file';
 ?>
 <div class="<?php echo $class; ?>" x-data="{<?php echo $name; ?>: []}">
 	<div class="dg g-1" x-media>

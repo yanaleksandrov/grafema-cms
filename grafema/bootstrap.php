@@ -117,18 +117,5 @@ Dashboard\Constants::init();
  */
 User::current();
 
-/**
- * Load installed and launch active plugins & themes.
- *
- * @since 2025.1
- */
-Plugins::register(function () {
-    return ( new Dir(GRFM_PLUGINS) )->getFiles('*/*.php');
-});
-
-Themes::register(function () {
-    return ( new Dir(GRFM_THEMES) )->getFiles('*/*.php');
-});
-
 require_once GRFM_PATH . 'migrations.php';
 require_once GRFM_PATH . 'routes.php';

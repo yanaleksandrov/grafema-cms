@@ -1,4 +1,6 @@
 <?php
+use Grafema\Plugins;
+use Grafema\Themes;
 use Grafema\Option;
 use Grafema\Route;
 use Grafema\Debug;
@@ -9,6 +11,7 @@ use Grafema\View;
 use Grafema\User;
 use Grafema\I18n;
 use Grafema\Url;
+use Grafema\Dir;
 use Grafema\Is;
 use Grafema\Db;
 
@@ -80,6 +83,19 @@ try {
 		require_once GRFM_DASHBOARD . 'core/Dashboard.php';
 
 		/**
+		 * Load installed and launch active plugins & themes.
+		 *
+		 * @since 2025.1
+		 */
+		Plugins::register(function () {
+			return ( new Dir(GRFM_PLUGINS) )->getFiles('*/*.php');
+		});
+
+		Themes::register(function () {
+			return ( new Dir(GRFM_THEMES) )->getFiles('*/*.php');
+		});
+
+		/**
 		 * The administrative panel also has a single entry point.
 		 *
 		 * @since 2025.1
@@ -90,6 +106,7 @@ try {
 				'slug' => $slug,
 			]
 		);
+		//$content = (new Grafema\Html())->beautify($content);
 
 		/**
 		 * Grafema dashboard is fully loaded.
@@ -122,8 +139,10 @@ try {
 
 		$entity = Post::get( $entityTable, $entityId );
 		echo '<pre>';
+		var_dump( $entityTable );
 		print_r( $slug );
 		print_r( $entity );
+		var_dump(\Grafema\Error::get());
 		echo '</pre>';
 
 		if ( empty( $slug ) ) {

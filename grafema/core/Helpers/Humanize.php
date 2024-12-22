@@ -18,10 +18,14 @@ final class Humanize {
 	 * @since 2025.1
 	 */
 	public static function fromBytes( string|int $bytes ): string {
+		if ( empty( $bytes ) ) {
+			return '';
+		}
+
 		$i     = floor( log( $bytes ) / log( 1024 ) );
 		$sizes = [ 'b', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb' ];
 
-		return sprintf( '%.02F', $bytes / pow( 1024, $i ) ) * 1 . $sizes[ $i ];
+		return sprintf( '%.02F', $bytes / pow( 1024, $i ) ) * 1 . ' ' . $sizes[ $i ];
 	}
 
 	/**

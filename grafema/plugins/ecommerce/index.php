@@ -29,6 +29,9 @@ return new class extends Grafema\Plugin {
 
 		// TODO: переделать подключение файлов плагинов
 		Hook::add( 'grafema_view_part', function( $filepath ) {
+			if ( $filepath === GRFM_DASHBOARD . 'views/order.php' ) {
+				$filepath = __DIR__ . '/views/order.php';
+			}
 			if ( $filepath === GRFM_DASHBOARD . 'views/orders.php' ) {
 				$filepath = __DIR__ . '/views/orders.php';
 			}
@@ -44,7 +47,10 @@ return new class extends Grafema\Plugin {
 			return $filepath;
 		} );
 
-		Asset::enqueue( 'ecommerce', '/plugins/ecommerce/assets/css/main.css' );
+		Asset::enqueue( 'ecommerce-main', '/plugins/ecommerce/assets/css/main.css' );
+		Asset::enqueue( 'ecommerce-order', '/plugins/ecommerce/assets/css/order.css' );
+		Asset::enqueue( 'ecommerce-notes', '/plugins/ecommerce/assets/css/notes.css' );
+		Asset::enqueue( 'ecommerce-product', '/plugins/ecommerce/assets/css/product.css' );
 
 		Type::register(
 			key: 'orders',

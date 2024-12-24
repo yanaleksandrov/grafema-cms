@@ -1,6 +1,7 @@
 <?php
 use Grafema\View;
 use Grafema\I18n;
+use Grafema\Url;
 
 /**
  * Orders list
@@ -32,7 +33,7 @@ use Grafema\I18n;
 				<div class="kanban__items">
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">
@@ -45,7 +46,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10246
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 230.00</span>
 						</div>
 						<div class="kanban__progress">
@@ -58,7 +59,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">
@@ -71,7 +72,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">
@@ -84,7 +85,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">
@@ -97,7 +98,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">
@@ -119,7 +120,7 @@ use Grafema\I18n;
 				<div class="kanban__items">
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10246
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--orange-lt">Unpaid: $ 230.00</span>
 						</div>
 						<div class="kanban__progress">
@@ -132,7 +133,7 @@ use Grafema\I18n;
 					</div>
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10246
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--orange-lt">Unpaid: $ 230.00</span>
 						</div>
 						<div class="kanban__progress">
@@ -162,7 +163,7 @@ use Grafema\I18n;
 				<div class="kanban__items">
 					<div class="kanban__item">
 						<div class="kanban__name">
-							#10245
+							<a class="kanban__label" href="<?php echo Url::dashboard( '/order' ); ?>">#10245</a>
 							<span class="badge badge--green-lt">Paid: $ 550.45</span>
 						</div>
 						<div class="kanban__progress">

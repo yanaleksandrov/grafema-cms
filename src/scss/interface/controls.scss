@@ -944,6 +944,10 @@
     white-space: nowrap;
   }
 
+  &__label {
+    color: var(--grafema-dark) !important;
+  }
+
   &__img {
     border-radius: 4px;
     overflow: hidden;

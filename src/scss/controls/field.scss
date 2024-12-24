@@ -153,7 +153,7 @@
         background-color: transparent;
         border: none;
         box-shadow: none;
-        padding-inline: 0.85em 2.25em;
+        padding-inline: 0;
       }
 
       &[multiple] + .ss-main {
@@ -370,7 +370,7 @@
 
     &:has(select),
     &:has(.ss-main) {
-      padding-inline: 0 !important;
+      //padding-inline: 0 !important;
     }
 
     &:has(.datepicker select) {

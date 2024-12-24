@@ -33,6 +33,5 @@ if ( ! defined( 'GRFM_PATH' ) ) {
 	<?php endif; ?>
 	<div class="<?php echo $content_class; ?>">
 		<?php echo $content; ?>
-
 	</div>
 </div>
